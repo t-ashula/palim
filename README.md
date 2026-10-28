@@ -90,6 +90,18 @@ The public API, internal architecture, and supported standards are subject to ch
 
 Features described in the roadmap should not be assumed to be implemented.
 
+## Development
+
+The project requires Node.js 24 and npm 12.
+The Node.js version is pinned in `.tool-versions` for asdf and/or nodenv users.
+
+```sh
+npm install
+npm run check
+```
+
+`npm run check` verifies formatting, lint rules, types, tests, and the package build.
+
 ## Name
 
 **Pronounced:** *pah-lim* (ぱりむ)
