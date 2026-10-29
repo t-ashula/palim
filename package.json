@@ -20,12 +20,14 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "lint": "eslint .",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "check": "npm run format && npm run lint && npm run typecheck && npm test && npm run build",
+    "conformance:sync": "sh tools/conformance/sync.sh",
+    "conformance:sync:force": "sh tools/conformance/sync.sh --force",
+    "conformance:test": "vitest run --project conformance",
+    "format": "prettier --check --write .",
+    "lint": "eslint . --fix",
+    "test": "vitest run --project project",
+    "test:watch": "vitest --project project",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
@@ -37,6 +39,7 @@
   },
   "homepage": "https://github.com/t-ashula/palim#readme",
   "devDependencies": {
+    "@types/node": "^24.19.2",
     "eslint": "^10.13.0",
     "prettier": "^3.9.10",
     "typescript": "^6.0.2",
