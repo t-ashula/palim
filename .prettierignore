@@ -3,3 +3,4 @@ dist/
 node_modules/
 **/*.md
 benchmark/corpus/*.html
+src/html/entities.json

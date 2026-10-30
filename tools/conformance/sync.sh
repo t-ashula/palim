@@ -18,21 +18,23 @@ while IFS="$(printf '\t')" read -r name repository revision; do
   if [ -e "$target" ]; then
     if [ "$force" != "--force" ]; then
       printf 'already exists: %s\n' "$name"
-      continue
+    else
+      rm -rf -- "$target"
     fi
-    rm -rf -- "$target"
   fi
 
-  mkdir -p -- "$(dirname -- "$target")"
-  git init --quiet "$target"
-  git -C "$target" remote add origin "$repository"
-  git -C "$target" fetch --quiet --depth 1 origin "$revision"
-  git -C "$target" checkout --quiet --detach FETCH_HEAD
+  if [ ! -e "$target" ]; then
+    mkdir -p -- "$(dirname -- "$target")"
+    git init --quiet "$target"
+    git -C "$target" remote add origin "$repository"
+    git -C "$target" fetch --quiet --depth 1 origin "$revision"
+    git -C "$target" checkout --quiet --detach FETCH_HEAD
+
+    printf 'checked out: %s at %s\n' "$name" "$revision"
+  fi
 
   post_checkout="$root/tools/conformance/$name/post-checkout.sh"
   if [ -f "$post_checkout" ]; then
     sh "$post_checkout" "$target"
   fi
-
-  printf 'checked out: %s at %s\n' "$name" "$revision"
 done
