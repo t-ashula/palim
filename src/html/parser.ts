@@ -1,18 +1,23 @@
-import type { Node } from "../dom.js";
+import type { AttributeData, Node } from "../dom.js";
 import {
-  type AttributeData,
   Comment,
   Document,
   DocumentFragment,
   DocumentType,
   Element,
-  HTML_NAMESPACE,
-  MATHML_NAMESPACE,
   ProcessingInstruction,
-  SVG_NAMESPACE,
   Text,
 } from "../dom.js";
-import { HTMLTokenizer, type Token } from "./tokenizer.js";
+import {
+  HTML_NAMESPACE,
+  MATHML_NAMESPACE,
+  SVG_NAMESPACE,
+  XLINK_NAMESPACE,
+  XML_NAMESPACE,
+  XMLNS_NAMESPACE,
+} from "../namespaces.js";
+import type { Token } from "./tokenizer.js";
+import { HTMLTokenizer } from "./tokenizer.js";
 
 type Mode =
   | "initial"
@@ -864,7 +869,7 @@ class TreeBuilder {
               name,
               value,
               localName: name,
-              namespaceURI: "http://www.w3.org/2000/xmlns/",
+              namespaceURI: XMLNS_NAMESPACE,
             };
           }
           if (colon < 0) {
@@ -874,11 +879,11 @@ class TreeBuilder {
           const local = name.slice(colon + 1);
           const namespaceURI =
             prefix === "xlink"
-              ? "http://www.w3.org/1999/xlink"
+              ? XLINK_NAMESPACE
               : prefix === "xml"
-                ? "http://www.w3.org/XML/1998/namespace"
+                ? XML_NAMESPACE
                 : prefix === "xmlns"
-                  ? "http://www.w3.org/2000/xmlns/"
+                  ? XMLNS_NAMESPACE
                   : null;
           return { name, value, prefix, localName: local, namespaceURI };
         },

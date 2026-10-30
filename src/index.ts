@@ -3,6 +3,7 @@ export {
   CharacterData,
   Comment,
   Document,
+  DocumentFragment,
   DocumentType,
   Element,
   HTMLCollection,
@@ -12,4 +13,5 @@ export {
   ProcessingInstruction,
   Text,
 } from "./dom.js";
+export { DOMException } from "./dom-exception.js";
 export { DOMParser } from "./dom-parser.js";

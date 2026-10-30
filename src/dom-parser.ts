@@ -1,4 +1,4 @@
-import { type Document } from "./dom.js";
+import type { Document } from "./dom.js";
 import { parseHTML } from "./html/parser.js";
 
 export class DOMParser {

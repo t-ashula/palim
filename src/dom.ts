@@ -1,6 +1,10 @@
-export const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
-export const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-export const MATHML_NAMESPACE = "http://www.w3.org/1998/Math/MathML";
+import {
+  closest as closestSelector,
+  matches as matchesSelector,
+  querySelector as selectFirst,
+  querySelectorAll as selectAll,
+} from "./selectors.js";
+import { HTML_NAMESPACE } from "./namespaces.js";
 
 function indexed<T extends object>(
   collection: T,
@@ -231,6 +235,18 @@ export class Document extends Node {
   override get textContent(): null {
     return null;
   }
+
+  querySelector(selectors: string): Element | null {
+    return selectFirst(this, selectorArgument(selectors, arguments.length));
+  }
+
+  querySelectorAll(selectors: string): NodeList<Element> {
+    const result = selectAll(
+      this,
+      selectorArgument(selectors, arguments.length),
+    );
+    return new NodeList(() => result);
+  }
 }
 
 export class DocumentType extends Node {
@@ -341,6 +357,26 @@ export class Element extends Node {
     return this.children.length;
   }
 
+  querySelector(selectors: string): Element | null {
+    return selectFirst(this, selectorArgument(selectors, arguments.length));
+  }
+
+  querySelectorAll(selectors: string): NodeList<Element> {
+    const result = selectAll(
+      this,
+      selectorArgument(selectors, arguments.length),
+    );
+    return new NodeList(() => result);
+  }
+
+  matches(selectors: string): boolean {
+    return matchesSelector(this, selectorArgument(selectors, arguments.length));
+  }
+
+  closest(selectors: string): Element | null {
+    return closestSelector(this, selectorArgument(selectors, arguments.length));
+  }
+
   _setAttributes(attributes: readonly AttributeData[]): void {
     const document = this.ownerDocument;
     if (document === null) {
@@ -375,6 +411,18 @@ export class DocumentFragment extends Node {
         (node): node is Element => node instanceof Element,
       ),
     );
+  }
+
+  querySelector(selectors: string): Element | null {
+    return selectFirst(this, selectorArgument(selectors, arguments.length));
+  }
+
+  querySelectorAll(selectors: string): NodeList<Element> {
+    const result = selectAll(
+      this,
+      selectorArgument(selectors, arguments.length),
+    );
+    return new NodeList(() => result);
   }
 }
 
@@ -431,4 +479,14 @@ function descendantText(node: Node): string {
     }
   }
   return result;
+}
+
+function selectorArgument(value: unknown, length: number): string {
+  if (length === 0) {
+    throw new TypeError("1 argument required, but only 0 present");
+  }
+  if (typeof value === "symbol") {
+    throw new TypeError("Cannot convert a Symbol value to a string");
+  }
+  return String(value);
 }
