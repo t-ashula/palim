@@ -7,3 +7,4 @@
 - [ADR-0004: メモリ使用量の継続計測](./0004-memory-measurement.md)
 - [ADR-0005: DOMParser の追加](./0005-dom-parser.md)
 - [ADR-0006: Selector API の追加](./0006-selector-api.md)
+- [ADR-0007: HTML element interface の追加](./0007-html-element-interfaces.md)
