@@ -1,0 +1,472 @@
+{
+  "schemaVersion": 1,
+  "domain": "speed",
+  "sourceRuns": [
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-speed-cold-start",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "speed",
+      "mode": "cold-start",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-speed-end-to-end",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "speed",
+      "mode": "end-to-end",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-speed-warm",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "speed",
+      "mode": "warm",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      },
+      "warmupOperations": 16,
+      "measuredOperations": 64
+    }
+  ],
+  "series": [
+    {
+      "mode": "cold-start",
+      "cases": [
+        {
+          "name": "document",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 128,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 64864853,
+            "p50": 68146002,
+            "p95": 76289826,
+            "maximum": 76289826,
+            "mean": 69077357.3,
+            "standardDeviation": 3370854.8416771097
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 1677.8121895310128,
+            "p50": 1858.8428166144824,
+            "p95": 1973.3336942889548,
+            "maximum": 1973.3336942889548,
+            "mean": 1857.242785671219,
+            "standardDeviation": 87.15131432540566
+          }
+        },
+        {
+          "name": "table",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 161,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 65123248,
+            "p50": 70550957,
+            "p95": 77706364,
+            "maximum": 77706364,
+            "mean": 71377437.4,
+            "standardDeviation": 3653514.4319217955
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 2071.9023734014886,
+            "p50": 2234.614850250964,
+            "p95": 2472.2354143024318,
+            "maximum": 2472.2354143024318,
+            "mean": 2261.4787791458953,
+            "standardDeviation": 114.77636192655991
+          }
+        },
+        {
+          "name": "list-1",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 37,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 66638673,
+            "p50": 70424432,
+            "p95": 76629420,
+            "maximum": 76629420,
+            "mean": 70291235.8,
+            "standardDeviation": 2581281.4148536692
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 482.8432735103567,
+            "p50": 525.2477583029,
+            "p95": 555.2331451738243,
+            "maximum": 555.2331451738243,
+            "mean": 527.0664464661465,
+            "standardDeviation": 18.67815855832245
+          }
+        },
+        {
+          "name": "list-16",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 232,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 64525864,
+            "p50": 68466312,
+            "p95": 80988335,
+            "maximum": 80988335,
+            "mean": 69693399.9,
+            "standardDeviation": 4210131.175886007
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 2864.6100700798456,
+            "p50": 3369.880706368248,
+            "p95": 3595.457474230798,
+            "maximum": 3595.457474230798,
+            "mean": 3339.9631911066404,
+            "standardDeviation": 184.19918888749365
+          }
+        },
+        {
+          "name": "list-64",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 856,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 66044425,
+            "p50": 69260031,
+            "p95": 80362571,
+            "maximum": 80362571,
+            "mean": 71015077,
+            "standardDeviation": 4545431.204186705
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 10651.72491805918,
+            "p50": 12272.896220561608,
+            "p95": 12960.97286031334,
+            "maximum": 12960.97286031334,
+            "mean": 12100.590062830901,
+            "standardDeviation": 732.2772707117426
+          }
+        }
+      ]
+    },
+    {
+      "mode": "warm",
+      "cases": [
+        {
+          "name": "document",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 128,
+          "sampleCount": 10,
+          "operationsPerSample": 64,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 62966.4375,
+            "p50": 66185.15625,
+            "p95": 76093.484375,
+            "maximum": 76093.484375,
+            "mean": 67819.5390625,
+            "standardDeviation": 3709.8383098942577
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 1682141.3955654467,
+            "p50": 1874108.0714302382,
+            "p95": 2032828.9971939418,
+            "maximum": 2032828.9971939418,
+            "mean": 1892806.868489507,
+            "standardDeviation": 99735.06549728577
+          }
+        },
+        {
+          "name": "table",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 161,
+          "sampleCount": 10,
+          "operationsPerSample": 64,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 70565.84375,
+            "p50": 74823.265625,
+            "p95": 92086.015625,
+            "maximum": 92086.015625,
+            "mean": 76895.7125,
+            "standardDeviation": 6031.939409930948
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 1748365.3615293445,
+            "p50": 2146906.404548508,
+            "p95": 2281557.0741333338,
+            "maximum": 2281557.0741333338,
+            "mean": 2105498.992606294,
+            "standardDeviation": 150396.0043294471
+          }
+        },
+        {
+          "name": "list-1",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 37,
+          "sampleCount": 10,
+          "operationsPerSample": 64,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 32959.453125,
+            "p50": 34857.078125,
+            "p95": 94343.8125,
+            "maximum": 94343.8125,
+            "mean": 41666.16875,
+            "standardDeviation": 17710.861613547448
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 392182.58219106845,
+            "p50": 1026816.4743337075,
+            "p95": 1122591.4416624594,
+            "maximum": 1122591.4416624594,
+            "mean": 973150.405455344,
+            "standardDeviation": 203850.4637365861
+          }
+        },
+        {
+          "name": "list-16",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 232,
+          "sampleCount": 10,
+          "operationsPerSample": 64,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 106228.21875,
+            "p50": 109665.0625,
+            "p95": 114622,
+            "maximum": 114622,
+            "mean": 110020.325,
+            "standardDeviation": 2474.360917201494
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 2024044.2497949782,
+            "p50": 2106666.1483238824,
+            "p95": 2183977.1270757564,
+            "maximum": 2183977.1270757564,
+            "mean": 2109764.3762366865,
+            "standardDeviation": 47282.40134108564
+          }
+        },
+        {
+          "name": "list-64",
+          "inputRepresentation": "utf8-string",
+          "inputBytes": 856,
+          "sampleCount": 10,
+          "operationsPerSample": 64,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 235242.90625,
+            "p50": 240215.171875,
+            "p95": 246792.296875,
+            "maximum": 246792.296875,
+            "mean": 240770.090625,
+            "standardDeviation": 4013.5409719273885
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 3468503.720898399,
+            "p50": 3542955.3915763106,
+            "p95": 3638791.977388266,
+            "maximum": 3638791.977388266,
+            "mean": 3556248.028731818,
+            "standardDeviation": 59344.00077088122
+          }
+        }
+      ]
+    },
+    {
+      "mode": "end-to-end",
+      "cases": [
+        {
+          "name": "document",
+          "inputRepresentation": "utf8-bytes",
+          "inputBytes": 128,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 1880710,
+            "p50": 1971037,
+            "p95": 3217950,
+            "maximum": 3217950,
+            "mean": 2103208.3,
+            "standardDeviation": 376005.6310174224
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 39776.8765829177,
+            "p50": 64200.27275084626,
+            "p95": 68059.40309776626,
+            "maximum": 68059.40309776626,
+            "mean": 62233.185874497474,
+            "standardDeviation": 7717.243729386368
+          }
+        },
+        {
+          "name": "table",
+          "inputRepresentation": "utf8-bytes",
+          "inputBytes": 161,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 1962585,
+            "p50": 1993470,
+            "p95": 2885246,
+            "maximum": 2885246,
+            "mean": 2090929.2,
+            "standardDeviation": 266961.8875486911
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 55801.13446132496,
+            "p50": 80655.70584012436,
+            "p95": 82034.66346680526,
+            "maximum": 82034.66346680526,
+            "mean": 77956.467589376,
+            "standardDeviation": 7507.6065084544
+          }
+        },
+        {
+          "name": "list-1",
+          "inputRepresentation": "utf8-bytes",
+          "inputBytes": 37,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 1538413,
+            "p50": 1659899,
+            "p95": 2503215,
+            "maximum": 2503215,
+            "mean": 1786030.2,
+            "standardDeviation": 287187.76243698125
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 14780.991644744858,
+            "p50": 22053.660728867526,
+            "p95": 24050.758801440184,
+            "maximum": 24050.758801440184,
+            "mean": 21163.002371500457,
+            "standardDeviation": 2802.453073965773
+          }
+        },
+        {
+          "name": "list-16",
+          "inputRepresentation": "utf8-bytes",
+          "inputBytes": 232,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 1893256,
+            "p50": 1992770,
+            "p95": 2199575,
+            "maximum": 2199575,
+            "mean": 2024452.3,
+            "standardDeviation": 77842.66182377117
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 105474.92129161315,
+            "p50": 115752.29009918772,
+            "p95": 122540.21643137536,
+            "maximum": 122540.21643137536,
+            "mean": 114764.69324712109,
+            "standardDeviation": 4318.208533433842
+          }
+        },
+        {
+          "name": "list-64",
+          "inputRepresentation": "utf8-bytes",
+          "inputBytes": 856,
+          "sampleCount": 10,
+          "operationsPerSample": 1,
+          "latencyNanoseconds": {
+            "count": 10,
+            "minimum": 2604850,
+            "p50": 2697059,
+            "p95": 2906093,
+            "maximum": 2906093,
+            "mean": 2706004.9,
+            "standardDeviation": 84520.72670824594
+          },
+          "throughputBytesPerSecond": {
+            "count": 10,
+            "minimum": 294553.5466346053,
+            "p50": 317371.9231885793,
+            "p95": 328617.7706969691,
+            "maximum": 328617.7706969691,
+            "mean": 316632.5574515738,
+            "standardDeviation": 9580.744292302736
+          }
+        }
+      ]
+    }
+  ],
+  "unsupported": [
+    {
+      "mode": "streaming",
+      "reason": "DOMParser does not expose a streaming input API."
+    }
+  ]
+}

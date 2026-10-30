@@ -1,0 +1,2022 @@
+{
+  "schemaVersion": 1,
+  "domain": "memory",
+  "sourceRuns": [
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-peak-concurrent",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "peak-concurrent",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-peak-scaling",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "peak-scaling",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-peak-sequential",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "peak-sequential",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-peak-single",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "peak-single",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-retained-concurrent",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "retained-concurrent",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-retained-scaling",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "retained-scaling",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-retained-sequential",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "retained-sequential",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    },
+    {
+      "runId": "2026-10-30T04-54-31Z-3158893-memory-retained-single",
+      "environmentId": "v24.22.1-linux-x86_64-6.18.54.1-microsoft-standard-wsl2",
+      "revision": "ed1998351ce64461e78805227dc90a499bcb977a",
+      "treeState": "dirty",
+      "sourceDigest": "9735bf37a54cd02d1603ca7403184d58fd00148047b0049290ae16311a4ca94d",
+      "corpusDigest": "aff3f2c93071f5be3ef28cb7f0a1656b463daf962d86e0dec3865174dea3b3fb",
+      "profile": "text/html",
+      "capabilities": ["html-parsing", "dom-tree"],
+      "schemaVersion": 1,
+      "domain": "memory",
+      "mode": "retained-single",
+      "sampleCount": 10,
+      "environment": {
+        "node": "24.22.1",
+        "v8": "13.6.233.17-node.58",
+        "platform": "Linux",
+        "architecture": "x86_64",
+        "kernel": "6.18.54.1-microsoft-standard-WSL2",
+        "cpu": "12th Gen Intel(R) Core(TM) i7-12700K"
+      }
+    }
+  ],
+  "noiseFloorBytes": 1048576,
+  "series": [
+    {
+      "mode": "peak",
+      "workload": "concurrent",
+      "cases": [
+        {
+          "name": "document-1",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 128,
+          "nodeCount": 12,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70787072,
+            "p50": 71122944,
+            "p95": 71307264,
+            "maximum": 71307264,
+            "mean": 71101644.8,
+            "standardDeviation": 165822.7545765659
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 70877184,
+            "p50": 71094272,
+            "p95": 71450624,
+            "maximum": 71450624,
+            "mean": 71115571.2,
+            "standardDeviation": 181917.7429305894
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -380928,
+            "p50": -24576,
+            "p95": 651264,
+            "maximum": 651264,
+            "mean": 13926.4,
+            "standardDeviation": 265180.4936850371
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -2976,
+            "p50": -192,
+            "p95": 5088,
+            "maximum": 5088,
+            "mean": 108.8,
+            "standardDeviation": 2071.722606914352
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "document-2",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 256,
+          "nodeCount": 24,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70983680,
+            "p50": 71225344,
+            "p95": 71516160,
+            "maximum": 71516160,
+            "mean": 71230668.8,
+            "standardDeviation": 176490.07620192133
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 70795264,
+            "p50": 71196672,
+            "p95": 71454720,
+            "maximum": 71454720,
+            "mean": 71155712,
+            "standardDeviation": 206366.87014731797
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -393216,
+            "p50": -221184,
+            "p95": 360448,
+            "maximum": 360448,
+            "mean": -74956.8,
+            "standardDeviation": 265824.0886770046
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -1536,
+            "p50": -864,
+            "p95": 1408,
+            "maximum": 1408,
+            "mean": -292.8,
+            "standardDeviation": 1038.3753463945493
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "document-4",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 512,
+          "nodeCount": 48,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70963200,
+            "p50": 71188480,
+            "p95": 71458816,
+            "maximum": 71458816,
+            "mean": 71197900.8,
+            "standardDeviation": 176509.0872566056
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 70860800,
+            "p50": 71266304,
+            "p95": 71442432,
+            "maximum": 71442432,
+            "mean": 71200358.4,
+            "standardDeviation": 196261.66829577292
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -577536,
+            "p50": -20480,
+            "p95": 475136,
+            "maximum": 475136,
+            "mean": 2457.6,
+            "standardDeviation": 328876.9180064786
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -1128,
+            "p50": -40,
+            "p95": 928,
+            "maximum": 928,
+            "mean": 4.8,
+            "standardDeviation": 642.3377304814035
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "document-8",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 1024,
+          "nodeCount": 96,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70635520,
+            "p50": 71278592,
+            "p95": 71462912,
+            "maximum": 71462912,
+            "mean": 71231488,
+            "standardDeviation": 224953.94586448133
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71340032,
+            "p50": 71516160,
+            "p95": 71831552,
+            "maximum": 71831552,
+            "mean": 71548928,
+            "standardDeviation": 134046.25446464366
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -8192,
+            "p50": 311296,
+            "p95": 843776,
+            "maximum": 843776,
+            "mean": 317440,
+            "standardDeviation": 228923.8973073803
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -8,
+            "p50": 304,
+            "p95": 824,
+            "maximum": 824,
+            "mean": 310,
+            "standardDeviation": 223.55849346423858
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "document-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 2048,
+          "nodeCount": 192,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71041024,
+            "p50": 71204864,
+            "p95": 71467008,
+            "maximum": 71467008,
+            "mean": 71245004.8,
+            "standardDeviation": 125029.35167455679
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71585792,
+            "p50": 72171520,
+            "p95": 72540160,
+            "maximum": 72540160,
+            "mean": 72148582.4,
+            "standardDeviation": 249501.20908532685
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 307200,
+            "p50": 925696,
+            "p95": 1335296,
+            "maximum": 1335296,
+            "mean": 903577.6,
+            "standardDeviation": 257606.81523406945
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 150,
+            "p50": 452,
+            "p95": 652,
+            "maximum": 652,
+            "mean": 441.2,
+            "standardDeviation": 125.78457775101047
+          },
+          "noiseSampleCount": 8
+        }
+      ]
+    },
+    {
+      "mode": "peak",
+      "workload": "scaling",
+      "cases": [
+        {
+          "name": "list-1",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 37,
+          "nodeCount": 8,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70758400,
+            "p50": 71143424,
+            "p95": 71450624,
+            "maximum": 71450624,
+            "mean": 71143424,
+            "standardDeviation": 182508.86182977527
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71069696,
+            "p50": 71131136,
+            "p95": 71516160,
+            "maximum": 71516160,
+            "mean": 71192576,
+            "standardDeviation": 136206.62778587537
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -266240,
+            "p50": 57344,
+            "p95": 540672,
+            "maximum": 540672,
+            "mean": 49152,
+            "standardDeviation": 211347.24951699752
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -7195.675675675676,
+            "p50": 1549.837837837838,
+            "p95": 14612.756756756757,
+            "maximum": 14612.756756756757,
+            "mean": 1328.4324324324327,
+            "standardDeviation": 5712.087824783715
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "list-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 232,
+          "nodeCount": 38,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70828032,
+            "p50": 71045120,
+            "p95": 71471104,
+            "maximum": 71471104,
+            "mean": 71099596.8,
+            "standardDeviation": 181596.98109208755
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71036928,
+            "p50": 71118848,
+            "p95": 71442432,
+            "maximum": 71442432,
+            "mean": 71201587.2,
+            "standardDeviation": 150181.94998654132
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -204800,
+            "p50": 81920,
+            "p95": 413696,
+            "maximum": 413696,
+            "mean": 101990.4,
+            "standardDeviation": 167169.49757369017
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -882.7586206896551,
+            "p50": 353.1034482758621,
+            "p95": 1783.1724137931035,
+            "maximum": 1783.1724137931035,
+            "mean": 439.6137931034483,
+            "standardDeviation": 720.5581791969404
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "list-64",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 856,
+          "nodeCount": 134,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71057408,
+            "p50": 71118848,
+            "p95": 71618560,
+            "maximum": 71618560,
+            "mean": 71199129.6,
+            "standardDeviation": 170987.27347448992
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71389184,
+            "p50": 71532544,
+            "p95": 72069120,
+            "maximum": 72069120,
+            "mean": 71630028.8,
+            "standardDeviation": 189921.94004737842
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 122880,
+            "p50": 421888,
+            "p95": 806912,
+            "maximum": 806912,
+            "mean": 430899.2,
+            "standardDeviation": 191470.36667474158
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 143.55140186915887,
+            "p50": 492.85981308411215,
+            "p95": 942.6542056074767,
+            "maximum": 942.6542056074767,
+            "mean": 503.3869158878505,
+            "standardDeviation": 223.6803349003991
+          },
+          "noiseSampleCount": 10
+        }
+      ]
+    },
+    {
+      "mode": "peak",
+      "workload": "sequential",
+      "cases": [
+        {
+          "name": "document-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 2048,
+          "nodeCount": 192,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70828032,
+            "p50": 71163904,
+            "p95": 71442432,
+            "maximum": 71442432,
+            "mean": 71178240,
+            "standardDeviation": 190323.01018216374
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71872512,
+            "p50": 72228864,
+            "p95": 72568832,
+            "maximum": 72568832,
+            "mean": 72211251.2,
+            "standardDeviation": 183645.65710998996
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 700416,
+            "p50": 913408,
+            "p95": 1601536,
+            "maximum": 1601536,
+            "mean": 1033011.2,
+            "standardDeviation": 253686.28163020563
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 342,
+            "p50": 446,
+            "p95": 782,
+            "maximum": 782,
+            "mean": 504.4,
+            "standardDeviation": 123.87025470224884
+          },
+          "noiseSampleCount": 6,
+          "progress": [
+            {
+              "completed": 1,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12303016,
+                "p50": 12303384,
+                "p95": 12389456,
+                "maximum": 12389456,
+                "mean": 12320418.4,
+                "standardDeviation": 34071.5253406712
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12548096,
+                "p50": 12585568,
+                "p95": 13049520,
+                "maximum": 13049520,
+                "mean": 12652188,
+                "standardDeviation": 156844.56318788993
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 158640,
+                "p50": 282016,
+                "p95": 746208,
+                "maximum": 746208,
+                "mean": 331769.6,
+                "standardDeviation": 171205.17879269892
+              }
+            },
+            {
+              "completed": 2,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12303656,
+                "p50": 12304024,
+                "p95": 12390096,
+                "maximum": 12390096,
+                "mean": 12321058.4,
+                "standardDeviation": 34071.5253406712
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12473600,
+                "p50": 12650744,
+                "p95": 12735016,
+                "maximum": 12735016,
+                "mean": 12657107.2,
+                "standardDeviation": 69173.86615883198
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 169648,
+                "p50": 346536,
+                "p95": 431200,
+                "maximum": 431200,
+                "mean": 336048.8,
+                "standardDeviation": 78599.6083817216
+              }
+            },
+            {
+              "completed": 4,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12304144,
+                "p50": 12304512,
+                "p95": 12390584,
+                "maximum": 12390584,
+                "mean": 12321546.4,
+                "standardDeviation": 34071.5253406712
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12607248,
+                "p50": 12784392,
+                "p95": 12868664,
+                "maximum": 12868664,
+                "mean": 12790755.2,
+                "standardDeviation": 69173.86615883198
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 302808,
+                "p50": 479696,
+                "p95": 564360,
+                "maximum": 564360,
+                "mean": 469208.8,
+                "standardDeviation": 78599.6083817216
+              }
+            },
+            {
+              "completed": 8,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12304632,
+                "p50": 12305000,
+                "p95": 12391072,
+                "maximum": 12391072,
+                "mean": 12322034.4,
+                "standardDeviation": 34071.5253406712
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 13254176,
+                "p50": 14066768,
+                "p95": 14849560,
+                "maximum": 14849560,
+                "mean": 14027611.2,
+                "standardDeviation": 369889.72026937973
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 863104,
+                "p50": 1678712,
+                "p95": 2544344,
+                "maximum": 2544344,
+                "mean": 1705576.8,
+                "standardDeviation": 388057.96470032673
+              }
+            },
+            {
+              "completed": 16,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 12305120,
+                "p50": 12305488,
+                "p95": 12391560,
+                "maximum": 12391560,
+                "mean": 12322522.4,
+                "standardDeviation": 34071.5253406712
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 11652592,
+                "p50": 11966776,
+                "p95": 12699408,
+                "maximum": 12699408,
+                "mean": 12156804.8,
+                "standardDeviation": 321263.9488062114
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": -652528,
+                "p50": -357464,
+                "p95": 393920,
+                "maximum": 393920,
+                "mean": -165717.6,
+                "standardDeviation": 333456.2478584559
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "peak",
+      "workload": "single",
+      "cases": [
+        {
+          "name": "document",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 128,
+          "nodeCount": 12,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70733824,
+            "p50": 71106560,
+            "p95": 71290880,
+            "maximum": 71290880,
+            "mean": 71059865.6,
+            "standardDeviation": 184321.8204354547
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 70979584,
+            "p50": 71131136,
+            "p95": 71565312,
+            "maximum": 71565312,
+            "mean": 71226572.8,
+            "standardDeviation": 183435.41692312312
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -180224,
+            "p50": 204800,
+            "p95": 524288,
+            "maximum": 524288,
+            "mean": 166707.2,
+            "standardDeviation": 212669.19538325243
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -1408,
+            "p50": 1600,
+            "p95": 4096,
+            "maximum": 4096,
+            "mean": 1302.4,
+            "standardDeviation": 1661.4780889316596
+          },
+          "noiseSampleCount": 10
+        },
+        {
+          "name": "table",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 161,
+          "nodeCount": 23,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 70873088,
+            "p50": 71057408,
+            "p95": 71475200,
+            "maximum": 71475200,
+            "mean": 71153254.4,
+            "standardDeviation": 228226.23837376805
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 70799360,
+            "p50": 71069696,
+            "p95": 71442432,
+            "maximum": 71442432,
+            "mean": 71117619.2,
+            "standardDeviation": 214616.72017473384
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -651264,
+            "p50": -49152,
+            "p95": 520192,
+            "maximum": 520192,
+            "mean": -35635.2,
+            "standardDeviation": 354482.9476419987
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -4045.11801242236,
+            "p50": -305.2919254658385,
+            "p95": 3231.0062111801244,
+            "maximum": 3231.0062111801244,
+            "mean": -221.33664596273292,
+            "standardDeviation": 2201.7574387701784
+          },
+          "noiseSampleCount": 10
+        }
+      ]
+    },
+    {
+      "mode": "retained",
+      "workload": "concurrent",
+      "cases": [
+        {
+          "name": "document-1",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 128,
+          "nodeCount": 12,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71622656,
+            "p50": 71864320,
+            "p95": 72024064,
+            "maximum": 72024064,
+            "mean": 71870464,
+            "standardDeviation": 124092.57715753993
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71565312,
+            "p50": 71925760,
+            "p95": 72056832,
+            "maximum": 72056832,
+            "mean": 71856537.6,
+            "standardDeviation": 160032.03570485505
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -360448,
+            "p50": -28672,
+            "p95": 262144,
+            "maximum": 262144,
+            "mean": -13926.4,
+            "standardDeviation": 182914.72121138856
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -2816,
+            "p50": -224,
+            "p95": 2048,
+            "maximum": 2048,
+            "mean": -108.8,
+            "standardDeviation": 1429.0212594639731
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 173424,
+            "p50": 173640,
+            "p95": 173800,
+            "maximum": 173800,
+            "mean": 173623.2,
+            "standardDeviation": 121.29699089425097
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 158088,
+            "p50": 158304,
+            "p95": 158464,
+            "maximum": 158464,
+            "mean": 158287.2,
+            "standardDeviation": 121.29699089425097
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 14452,
+            "p50": 14470,
+            "p95": 14483.333333333334,
+            "maximum": 14483.333333333334,
+            "mean": 14468.6,
+            "standardDeviation": 10.108082574521108
+          }
+        },
+        {
+          "name": "document-2",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 256,
+          "nodeCount": 24,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71704576,
+            "p50": 71761920,
+            "p95": 72859648,
+            "maximum": 72859648,
+            "mean": 71911424,
+            "standardDeviation": 330322.78280251875
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71610368,
+            "p50": 71675904,
+            "p95": 72376320,
+            "maximum": 72376320,
+            "mean": 71837286.4,
+            "standardDeviation": 224079.2786793103
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -1183744,
+            "p50": -49152,
+            "p95": 671744,
+            "maximum": 671744,
+            "mean": -74137.6,
+            "standardDeviation": 448613.7338502244
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -4624,
+            "p50": -192,
+            "p95": 2624,
+            "maximum": 2624,
+            "mean": -289.6,
+            "standardDeviation": 1752.397397852439
+          },
+          "noiseSampleCount": 9,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 219488,
+            "p50": 219632,
+            "p95": 219888,
+            "maximum": 219888,
+            "mean": 219699.2,
+            "standardDeviation": 144.5412051976875
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 192808,
+            "p50": 192952,
+            "p95": 193208,
+            "maximum": 193208,
+            "mean": 193019.2,
+            "standardDeviation": 144.5412051976875
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 9145.333333333334,
+            "p50": 9151.333333333334,
+            "p95": 9162,
+            "maximum": 9162,
+            "mean": 9154.133333333335,
+            "standardDeviation": 6.022550216569985
+          }
+        },
+        {
+          "name": "document-4",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 512,
+          "nodeCount": 48,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71467008,
+            "p50": 71737344,
+            "p95": 71876608,
+            "maximum": 71876608,
+            "mean": 71717273.6,
+            "standardDeviation": 134501.6886163144
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71446528,
+            "p50": 71610368,
+            "p95": 71979008,
+            "maximum": 71979008,
+            "mean": 71677132.8,
+            "standardDeviation": 173256.9266706529
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -327680,
+            "p50": -155648,
+            "p95": 311296,
+            "maximum": 311296,
+            "mean": -40140.8,
+            "standardDeviation": 223754.09917711007
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -640,
+            "p50": -304,
+            "p95": 608,
+            "maximum": 608,
+            "mean": -78.4,
+            "standardDeviation": 437.0197249552931
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 252712,
+            "p50": 253016,
+            "p95": 253208,
+            "maximum": 253208,
+            "mean": 253004,
+            "standardDeviation": 167.32244320472972
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 203344,
+            "p50": 203648,
+            "p95": 203840,
+            "maximum": 203840,
+            "mean": 203636,
+            "standardDeviation": 167.32244320472972
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 5264.833333333333,
+            "p50": 5271.166666666667,
+            "p95": 5275.166666666667,
+            "maximum": 5275.166666666667,
+            "mean": 5270.916666666666,
+            "standardDeviation": 3.4858842334321
+          }
+        },
+        {
+          "name": "document-8",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 1024,
+          "nodeCount": 96,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71569408,
+            "p50": 71815168,
+            "p95": 72015872,
+            "maximum": 72015872,
+            "mean": 71826636.8,
+            "standardDeviation": 109659.64316994652
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 72044544,
+            "p50": 72372224,
+            "p95": 73486336,
+            "maximum": 73486336,
+            "mean": 72505753.6,
+            "standardDeviation": 400127.8394881316
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 126976,
+            "p50": 544768,
+            "p95": 1671168,
+            "maximum": 1671168,
+            "mean": 679116.8,
+            "standardDeviation": 433506.2124281035
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 124,
+            "p50": 532,
+            "p95": 1632,
+            "maximum": 1632,
+            "mean": 663.2,
+            "standardDeviation": 423.3459105743198
+          },
+          "noiseSampleCount": 8,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 335864,
+            "p50": 338320,
+            "p95": 339832,
+            "maximum": 339832,
+            "mean": 338423.2,
+            "standardDeviation": 1388.0193658591368
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 203576,
+            "p50": 205280,
+            "p95": 207176,
+            "maximum": 207176,
+            "mean": 205358.4,
+            "standardDeviation": 820.5660485299157
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 3498.5833333333335,
+            "p50": 3524.1666666666665,
+            "p95": 3539.9166666666665,
+            "maximum": 3539.9166666666665,
+            "mean": 3525.2416666666663,
+            "standardDeviation": 14.458535061032652
+          }
+        },
+        {
+          "name": "document-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 2048,
+          "nodeCount": 192,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71528448,
+            "p50": 71847936,
+            "p95": 72163328,
+            "maximum": 72163328,
+            "mean": 71858995.2,
+            "standardDeviation": 188042.0916012157
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 72556544,
+            "p50": 72900608,
+            "p95": 73400320,
+            "maximum": 73400320,
+            "mean": 72903065.6,
+            "standardDeviation": 237307.97355807497
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 688128,
+            "p50": 1028096,
+            "p95": 1622016,
+            "maximum": 1622016,
+            "mean": 1044070.4,
+            "standardDeviation": 306508.0890662431
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 336,
+            "p50": 502,
+            "p95": 792,
+            "maximum": 792,
+            "mean": 509.8,
+            "standardDeviation": 149.6621528643765
+          },
+          "noiseSampleCount": 5,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 477080,
+            "p50": 477528,
+            "p95": 483032,
+            "maximum": 483032,
+            "mean": 478711.2,
+            "standardDeviation": 2042.8574497502266
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 245176,
+            "p50": 245552,
+            "p95": 247512,
+            "maximum": 247512,
+            "mean": 245722.4,
+            "standardDeviation": 616.1563437959558
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 2484.7916666666665,
+            "p50": 2487.125,
+            "p95": 2515.7916666666665,
+            "maximum": 2515.7916666666665,
+            "mean": 2493.2875,
+            "standardDeviation": 10.63988255078242
+          }
+        }
+      ]
+    },
+    {
+      "mode": "retained",
+      "workload": "scaling",
+      "cases": [
+        {
+          "name": "list-1",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 37,
+          "nodeCount": 8,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71725056,
+            "p50": 71811072,
+            "p95": 72777728,
+            "maximum": 72777728,
+            "mean": 71928217.6,
+            "standardDeviation": 295316.7711116997
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71491584,
+            "p50": 71581696,
+            "p95": 72032256,
+            "maximum": 72032256,
+            "mean": 71713177.6,
+            "standardDeviation": 193281.29525393812
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -937984,
+            "p50": -307200,
+            "p95": 303104,
+            "maximum": 303104,
+            "mean": -215040,
+            "standardDeviation": 343870.1168010969
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -25350.91891891892,
+            "p50": -8302.702702702703,
+            "p95": 8192,
+            "maximum": 8192,
+            "mean": -5811.891891891892,
+            "standardDeviation": 9293.786940570186
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 144704,
+            "p50": 144936,
+            "p95": 145024,
+            "maximum": 145024,
+            "mean": 144904,
+            "standardDeviation": 124.29641990017251
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 131600,
+            "p50": 131832,
+            "p95": 131920,
+            "maximum": 131920,
+            "mean": 131800,
+            "standardDeviation": 124.29641990017251
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 18088,
+            "p50": 18117,
+            "p95": 18128,
+            "maximum": 18128,
+            "mean": 18113,
+            "standardDeviation": 15.537052487521564
+          }
+        },
+        {
+          "name": "list-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 232,
+          "nodeCount": 38,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71454720,
+            "p50": 71729152,
+            "p95": 72019968,
+            "maximum": 72019968,
+            "mean": 71779532.8,
+            "standardDeviation": 189304.78374346488
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71536640,
+            "p50": 71786496,
+            "p95": 72146944,
+            "maximum": 72146944,
+            "mean": 71827865.6,
+            "standardDeviation": 214197.3034915239
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -368640,
+            "p50": -36864,
+            "p95": 688128,
+            "maximum": 688128,
+            "mean": 48332.8,
+            "standardDeviation": 284704.7071858138
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -1588.9655172413793,
+            "p50": -158.89655172413794,
+            "p95": 2966.0689655172414,
+            "maximum": 2966.0689655172414,
+            "mean": 208.3310344827586,
+            "standardDeviation": 1227.1754620078184
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 223008,
+            "p50": 224896,
+            "p95": 225112,
+            "maximum": 225112,
+            "mean": 224712,
+            "standardDeviation": 582.2769100694273
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 186744,
+            "p50": 188632,
+            "p95": 188848,
+            "maximum": 188848,
+            "mean": 188448,
+            "standardDeviation": 582.2769100694273
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 5868.631578947368,
+            "p50": 5918.315789473684,
+            "p95": 5924,
+            "maximum": 5924,
+            "mean": 5913.473684210526,
+            "standardDeviation": 15.323076580774455
+          }
+        },
+        {
+          "name": "list-64",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 856,
+          "nodeCount": 134,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71602176,
+            "p50": 71835648,
+            "p95": 72028160,
+            "maximum": 72028160,
+            "mean": 71834828.8,
+            "standardDeviation": 154672.68319700155
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71815168,
+            "p50": 72085504,
+            "p95": 72359936,
+            "maximum": 72359936,
+            "mean": 72110899.2,
+            "standardDeviation": 185044.93175269623
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -212992,
+            "p50": 229376,
+            "p95": 757760,
+            "maximum": 757760,
+            "mean": 276070.4,
+            "standardDeviation": 262426.7275363544
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -248.82242990654206,
+            "p50": 267.9626168224299,
+            "p95": 885.2336448598131,
+            "maximum": 885.2336448598131,
+            "mean": 322.5121495327103,
+            "standardDeviation": 306.57327983218977
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 307408,
+            "p50": 325744,
+            "p95": 366872,
+            "maximum": 366872,
+            "mean": 328050.4,
+            "standardDeviation": 14051.96984909945
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 191424,
+            "p50": 191496,
+            "p95": 191640,
+            "maximum": 191640,
+            "mean": 191532.8,
+            "standardDeviation": 66.56846100068711
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 2294.089552238806,
+            "p50": 2430.9253731343283,
+            "p95": 2737.8507462686566,
+            "maximum": 2737.8507462686566,
+            "mean": 2448.137313432836,
+            "standardDeviation": 104.8654466350705
+          }
+        }
+      ]
+    },
+    {
+      "mode": "retained",
+      "workload": "sequential",
+      "cases": [
+        {
+          "name": "document-16",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 2048,
+          "nodeCount": 192,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71548928,
+            "p50": 71770112,
+            "p95": 72204288,
+            "maximum": 72204288,
+            "mean": 71790182.4,
+            "standardDeviation": 169045.7459998328
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71704576,
+            "p50": 72151040,
+            "p95": 72585216,
+            "maximum": 72585216,
+            "mean": 72177664,
+            "standardDeviation": 314092.7003035887
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 303104,
+            "p95": 806912,
+            "maximum": 806912,
+            "mean": 387481.6,
+            "standardDeviation": 273649.58794604463
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 148,
+            "p95": 394,
+            "maximum": 394,
+            "mean": 189.2,
+            "standardDeviation": 133.6179628642796
+          },
+          "noiseSampleCount": 10,
+          "progress": [
+            {
+              "completed": 1,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10087360,
+                "p50": 10087456,
+                "p95": 10087664,
+                "maximum": 10087664,
+                "mean": 10087468,
+                "standardDeviation": 91.0208767261665
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10244264,
+                "p50": 10244360,
+                "p95": 10245448,
+                "maximum": 10245448,
+                "mean": 10244510.4,
+                "standardDeviation": 331.3931803764223
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 156672,
+                "p50": 156976,
+                "p95": 157992,
+                "maximum": 157992,
+                "mean": 157042.4,
+                "standardDeviation": 335.9057010531379
+              }
+            },
+            {
+              "completed": 2,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10096144,
+                "p50": 10096240,
+                "p95": 10096448,
+                "maximum": 10096448,
+                "mean": 10096252,
+                "standardDeviation": 91.0208767261665
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10288880,
+                "p50": 10288952,
+                "p95": 10289240,
+                "maximum": 10289240,
+                "mean": 10289010.4,
+                "standardDeviation": 115.76804394996054
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 192504,
+                "p50": 192792,
+                "p95": 192952,
+                "maximum": 192952,
+                "mean": 192758.4,
+                "standardDeviation": 116.74519262051007
+              }
+            },
+            {
+              "completed": 4,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10103688,
+                "p50": 10103784,
+                "p95": 10103992,
+                "maximum": 10103992,
+                "mean": 10103796,
+                "standardDeviation": 91.0208767261665
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10302640,
+                "p50": 10302712,
+                "p95": 10303000,
+                "maximum": 10303000,
+                "mean": 10302770.4,
+                "standardDeviation": 115.76804394996054
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 198720,
+                "p50": 199008,
+                "p95": 199168,
+                "maximum": 199168,
+                "mean": 198974.4,
+                "standardDeviation": 116.74519262051007
+              }
+            },
+            {
+              "completed": 8,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10103976,
+                "p50": 10104072,
+                "p95": 10104280,
+                "maximum": 10104280,
+                "mean": 10104084,
+                "standardDeviation": 91.0208767261665
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10311800,
+                "p50": 10313976,
+                "p95": 10314312,
+                "maximum": 10314312,
+                "mean": 10313637.6,
+                "standardDeviation": 890.3324322970606
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 207520,
+                "p50": 209976,
+                "p95": 210192,
+                "maximum": 210192,
+                "mean": 209553.6,
+                "standardDeviation": 950.3838382464213
+              }
+            },
+            {
+              "completed": 16,
+              "baselineHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10104160,
+                "p50": 10104256,
+                "p95": 10104464,
+                "maximum": 10104464,
+                "mean": 10104268,
+                "standardDeviation": 91.0208767261665
+              },
+              "parseHeapUsedBytes": {
+                "count": 10,
+                "minimum": 10364152,
+                "p50": 10364368,
+                "p95": 10373032,
+                "maximum": 10373032,
+                "mean": 10366876.8,
+                "standardDeviation": 3966.6210507181045
+              },
+              "incrementalHeapUsedBytes": {
+                "count": 10,
+                "minimum": 259920,
+                "p50": 260064,
+                "p95": 268736,
+                "maximum": 268736,
+                "mean": 262608.8,
+                "standardDeviation": 3939.522732514689
+              }
+            }
+          ],
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 237128,
+            "p50": 237256,
+            "p95": 237512,
+            "maximum": 237512,
+            "mean": 237287.2,
+            "standardDeviation": 135.83283844490626
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 237128,
+            "p50": 237256,
+            "p95": 237512,
+            "maximum": 237512,
+            "mean": 237287.2,
+            "standardDeviation": 135.83283844490626
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 1235.0416666666667,
+            "p50": 1235.7083333333333,
+            "p95": 1237.0416666666667,
+            "maximum": 1237.0416666666667,
+            "mean": 1235.8708333333332,
+            "standardDeviation": 0.7074627002338896
+          }
+        }
+      ]
+    },
+    {
+      "mode": "retained",
+      "workload": "single",
+      "cases": [
+        {
+          "name": "document",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 128,
+          "nodeCount": 12,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71524352,
+            "p50": 71778304,
+            "p95": 72138752,
+            "maximum": 72138752,
+            "mean": 71835648,
+            "standardDeviation": 174260.61218760826
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71524352,
+            "p50": 71786496,
+            "p95": 71950336,
+            "maximum": 71950336,
+            "mean": 71804108.8,
+            "standardDeviation": 113320.11691910661
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -393216,
+            "p50": -45056,
+            "p95": 245760,
+            "maximum": 245760,
+            "mean": -31539.2,
+            "standardDeviation": 196582.8250548862
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -3072,
+            "p50": -352,
+            "p95": 1920,
+            "maximum": 1920,
+            "mean": -246.4,
+            "standardDeviation": 1535.8033207412984
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 173328,
+            "p50": 173496,
+            "p95": 173728,
+            "maximum": 173728,
+            "mean": 173536,
+            "standardDeviation": 167.4275962916508
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 157992,
+            "p50": 158160,
+            "p95": 158392,
+            "maximum": 158392,
+            "mean": 158200,
+            "standardDeviation": 167.4275962916508
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 14444,
+            "p50": 14458,
+            "p95": 14477.333333333334,
+            "maximum": 14477.333333333334,
+            "mean": 14461.333333333332,
+            "standardDeviation": 13.952299690971353
+          }
+        },
+        {
+          "name": "table",
+          "inputRepresentation": "utf8-string",
+          "outputKind": "dom-tree",
+          "inputBytes": 161,
+          "nodeCount": 23,
+          "sampleCount": 10,
+          "baselinePeakRssBytes": {
+            "count": 10,
+            "minimum": 71520256,
+            "p50": 71811072,
+            "p95": 71999488,
+            "maximum": 71999488,
+            "mean": 71775436.8,
+            "standardDeviation": 150140.05191740143
+          },
+          "parsePeakRssBytes": {
+            "count": 10,
+            "minimum": 71499776,
+            "p50": 71831552,
+            "p95": 72167424,
+            "maximum": 72167424,
+            "mean": 71840153.6,
+            "standardDeviation": 195379.2
+          },
+          "incrementalPeakRssBytes": {
+            "count": 10,
+            "minimum": -499712,
+            "p50": 49152,
+            "p95": 536576,
+            "maximum": 536576,
+            "mean": 64716.8,
+            "standardDeviation": 278466.5532220342
+          },
+          "peakAmplification": {
+            "count": 10,
+            "minimum": -3103.801242236025,
+            "p50": 305.2919254658385,
+            "p95": 3332.7701863354037,
+            "maximum": 3332.7701863354037,
+            "mean": 401.96770186335397,
+            "standardDeviation": 1729.6059206337527
+          },
+          "noiseSampleCount": 10,
+          "retainedHeapBytes": {
+            "count": 10,
+            "minimum": 203960,
+            "p50": 204072,
+            "p95": 204288,
+            "maximum": 204288,
+            "mean": 204104.8,
+            "standardDeviation": 91.94433098348154
+          },
+          "retainedExternalBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "retainedArrayBuffersBytes": {
+            "count": 10,
+            "minimum": 0,
+            "p50": 0,
+            "p95": 0,
+            "maximum": 0,
+            "mean": 0,
+            "standardDeviation": 0
+          },
+          "releasedHeapBytes": {
+            "count": 10,
+            "minimum": 176600,
+            "p50": 176712,
+            "p95": 176928,
+            "maximum": 176928,
+            "mean": 176744.8,
+            "standardDeviation": 91.94433098348154
+          },
+          "bytesPerNode": {
+            "count": 10,
+            "minimum": 8867.826086956522,
+            "p50": 8872.695652173914,
+            "p95": 8882.08695652174,
+            "maximum": 8882.08695652174,
+            "mean": 8874.121739130434,
+            "standardDeviation": 3.9975796079774817
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "name": "document",
+      "file": "document.html",
+      "workload": "single",
+      "expected": {
+        "nodeCount": 12,
+        "elementCount": 7,
+        "textLength": 30
+      }
+    },
+    {
+      "name": "table",
+      "file": "table.html",
+      "workload": "single",
+      "expected": {
+        "nodeCount": 23,
+        "elementCount": 15,
+        "textLength": 20
+      }
+    },
+    {
+      "name": "list-1",
+      "file": "list-1.html",
+      "workload": "scaling",
+      "expected": {
+        "nodeCount": 8,
+        "elementCount": 5,
+        "textLength": 4
+      }
+    },
+    {
+      "name": "list-16",
+      "file": "list-16.html",
+      "workload": "scaling",
+      "expected": {
+        "nodeCount": 38,
+        "elementCount": 20,
+        "textLength": 64
+      }
+    },
+    {
+      "name": "list-64",
+      "file": "list-64.html",
+      "workload": "scaling",
+      "expected": {
+        "nodeCount": 134,
+        "elementCount": 68,
+        "textLength": 256
+      }
+    }
+  ]
+}

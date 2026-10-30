@@ -19,6 +19,9 @@
     }
   },
   "scripts": {
+    "benchmark": "sh benchmark/run.sh",
+    "benchmark:memory": "sh benchmark/run.sh memory",
+    "benchmark:speed": "sh benchmark/run.sh speed",
     "build": "tsc -p tsconfig.build.json",
     "check": "npm run format && npm run lint && npm run typecheck && npm test && npm run build",
     "conformance:sync": "sh tools/conformance/sync.sh",
@@ -42,6 +45,7 @@
     "@types/node": "^24.19.2",
     "eslint": "^10.13.0",
     "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
