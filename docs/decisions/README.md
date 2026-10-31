@@ -12,3 +12,4 @@
 - [ADR-0009: context element を使用する fragment parsing](./0009-context-element-fragment-parsing.md)
 - [ADR-0010: HTML parse error の保持と取得](./0010-html-parse-error-exposure.md)
 - [ADR-0011: HTML byte input と encoding detection](./0011-html-byte-input-encoding.md)
+- [ADR-0012: HTML serialization の追加](./0012-html-serialization.md)
