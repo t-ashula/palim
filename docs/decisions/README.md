@@ -8,3 +8,4 @@
 - [ADR-0005: DOMParser の追加](./0005-dom-parser.md)
 - [ADR-0006: Selector API の追加](./0006-selector-api.md)
 - [ADR-0007: HTML element interface の追加](./0007-html-element-interfaces.md)
+- [ADR-0008: tree construction 適合テストの実行方式](./0008-tree-construction-conformance-tests.md)
