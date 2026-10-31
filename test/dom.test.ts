@@ -206,6 +206,23 @@ describe("HTML fragment insertion", () => {
     ).toBe("run()");
   });
 
+  it("parses innerHTML with scripting enabled without executing scripts", () => {
+    const document = parse("<main id=target></main>");
+    const target = select(document, "#target");
+
+    target.innerHTML =
+      '<noscript><p id="fallback">fallback</p></noscript><script>globalThis.palimConformanceExecuted = true</script>';
+
+    expect(target.querySelector("#fallback")).toBeNull();
+    expect(target.querySelector("noscript")?.textContent).toBe(
+      '<p id="fallback">fallback</p>',
+    );
+    expect(target.querySelector("script")?.textContent).toBe(
+      "globalThis.palimConformanceExecuted = true",
+    );
+    expect("palimConformanceExecuted" in globalThis).toBe(false);
+  });
+
   it("sets outerHTML using the parent element as context", () => {
     const document = parse(
       "<table><tbody><tr id=old><td>old</td></tr></tbody></table>",
