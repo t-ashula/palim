@@ -1,31 +1,19 @@
 import type { Document, DocumentFragment } from "./dom.js";
-import type { HTMLFragmentContext, HTMLParserOptions } from "./html/parser.js";
+import type { HTMLFragmentContext } from "./html/parser.js";
 import { parseHTML, parseHTMLFragment } from "./html/parser.js";
 
 export class DOMParser {
-  parseFromString(
-    input: string,
-    type: "text/html",
-    options?: HTMLParserOptions,
-  ): Document;
-  parseFromString(
-    input: string,
-    type: string,
-    options: HTMLParserOptions = {},
-  ): Document {
+  parseFromString(input: string, type: "text/html"): Document;
+  parseFromString(input: string, type: string): Document {
     if (type !== "text/html") {
       throw new TypeError(`Unsupported type: ${type}`);
     }
-    return parseHTML(input, options);
+    return parseHTML(input);
   }
 
-  parseFragment(
-    input: string,
-    context: HTMLFragmentContext,
-    options: HTMLParserOptions = {},
-  ): DocumentFragment {
-    return parseHTMLFragment(input, context, options);
+  parseFragment(input: string, context: HTMLFragmentContext): DocumentFragment {
+    return parseHTMLFragment(input, context);
   }
 }
 
-export type { HTMLFragmentContext, HTMLParserOptions };
+export type { HTMLFragmentContext };

@@ -6,8 +6,7 @@
 - [x] fragment parsing
 - [x] `innerHTML` など、context element を使用する parse
 - [x] parser error の公開方法
-- [ ] byte input と encoding detection
-- [ ] scripting flag を含む parser option
+- [x] byte input と encoding detection
 - [ ] HTML serialization
 - [ ] XML/XHTML/SVG parsing
 

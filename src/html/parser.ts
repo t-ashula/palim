@@ -23,22 +23,14 @@ import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
 import type { PalimParseError } from "./parse-errors.js";
 
-export interface HTMLParserOptions {
-  readonly scripting?: boolean;
-}
-
 export interface HTMLFragmentContext {
   readonly namespaceURI: string;
   readonly localName: string;
 }
 
-interface TreeBuilderOptions extends HTMLParserOptions {
-  readonly context?: HTMLFragmentContext | Element;
-}
-
 const htmlFragmentParser: HTMLFragmentParser = {
   parse(input, context) {
-    return new TreeBuilder(input, { context }).parseFragment();
+    return new TreeBuilder(input, context).parseFragment();
   },
 };
 
@@ -315,7 +307,6 @@ class TreeBuilder {
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
-  readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
   readonly #templateModes: Mode[] = [];
@@ -329,9 +320,7 @@ class TreeBuilder {
   #pendingTableCharacters = "";
   #recordedTokenizerErrors = 0;
 
-  constructor(input: string, options: TreeBuilderOptions = {}) {
-    this.#scripting = options.scripting ?? false;
-    const context = options.context;
+  constructor(input: string, context?: HTMLFragmentContext | Element) {
     this.#context =
       context === undefined
         ? null
@@ -512,10 +501,7 @@ class TreeBuilder {
     if (["title", "textarea"].includes(name)) {
       return "RCDATA state";
     }
-    if (
-      ["style", "xmp", "iframe", "noembed", "noframes"].includes(name) ||
-      (name === "noscript" && this.#scripting)
-    ) {
+    if (["style", "xmp", "iframe", "noembed", "noframes"].includes(name)) {
       return "RAWTEXT state";
     }
     if (name === "script") {
@@ -841,12 +827,8 @@ class TreeBuilder {
       } else if (token.name === "script") {
         this.#startText(token, "Script data state", foster);
       } else if (token.name === "noscript") {
-        if (this.#scripting) {
-          this.#startText(token, "RAWTEXT state", foster);
-        } else {
-          this.#insert(token, true, foster);
-          this.#mode = "in-head-noscript";
-        }
+        this.#insert(token, true, foster);
+        this.#mode = "in-head-noscript";
       } else if (token.name === "template") {
         const template = this.#insert(token, true, foster);
         template._templateContents ??= new DocumentFragment(this.document);
@@ -1168,9 +1150,6 @@ class TreeBuilder {
           this.#closeParagraph();
           this.#reconstructFormatting(foster);
         }
-        this.#startText(token, "RAWTEXT state", foster);
-        this.#setFramesetNotOk();
-      } else if (name === "noscript" && this.#scripting) {
         this.#startText(token, "RAWTEXT state", foster);
         this.#setFramesetNotOk();
       } else if (name === "plaintext") {
@@ -3013,17 +2992,13 @@ class TreeBuilder {
   }
 }
 
-export function parseHTML(
-  input: string,
-  options: HTMLParserOptions = {},
-): Document {
-  return new TreeBuilder(input, options).parse();
+export function parseHTML(input: string): Document {
+  return new TreeBuilder(input).parse();
 }
 
 export function parseHTMLFragment(
   input: string,
   context: HTMLFragmentContext | Element,
-  options: HTMLParserOptions = {},
 ): DocumentFragment {
-  return new TreeBuilder(input, { ...options, context }).parseFragment();
+  return new TreeBuilder(input, context).parseFragment();
 }
