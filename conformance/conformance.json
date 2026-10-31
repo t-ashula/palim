@@ -5,6 +5,10 @@
       "repository": "https://github.com/html5lib/html5lib-tests.git",
       "revision": "c777c408b61078ea2eb4acefc2535f54dbc8b28a"
     },
+    "wpt/wpt": {
+      "repository": "https://github.com/web-platform-tests/wpt.git",
+      "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+    },
     "whatwg/html-build": {
       "repository": "https://github.com/whatwg/html-build.git",
       "revision": "283a3531a61106d07d9a7d9fb3e6f3b9bfd33d70"

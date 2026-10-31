@@ -17,22 +17,46 @@ import {
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
 import { createHTMLElement } from "../html-elements.js";
-import type { Token } from "./tokenizer.js";
+import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
+
+export interface HTMLParserOptions {
+  readonly scripting?: boolean;
+}
+
+export interface HTMLFragmentContext {
+  readonly namespaceURI: string;
+  readonly localName: string;
+}
+
+interface TreeBuilderOptions extends HTMLParserOptions {
+  readonly context?: HTMLFragmentContext;
+}
 
 type Mode =
   | "initial"
   | "before-html"
   | "before-head"
   | "in-head"
+  | "in-head-noscript"
   | "after-head"
   | "in-body"
+  | "text"
   | "in-table"
+  | "in-table-text"
+  | "in-caption"
+  | "in-column-group"
   | "in-table-body"
   | "in-row"
   | "in-cell"
   | "in-select"
-  | "after-body";
+  | "in-select-in-table"
+  | "in-template"
+  | "after-body"
+  | "in-frameset"
+  | "after-frameset"
+  | "after-after-body"
+  | "after-after-frameset";
 
 const VOID = new Set([
   "area",
@@ -43,6 +67,7 @@ const VOID = new Set([
   "hr",
   "img",
   "input",
+  "keygen",
   "link",
   "meta",
   "param",
@@ -93,6 +118,82 @@ const BLOCK = new Set([
   "summary",
   "ul",
 ]);
+const IMPLIED_END = new Set([
+  "dd",
+  "dt",
+  "li",
+  "optgroup",
+  "option",
+  "p",
+  "rb",
+  "rp",
+  "rt",
+  "rtc",
+]);
+const SPECIAL_HTML = new Set([
+  ...BLOCK,
+  "applet",
+  "area",
+  "base",
+  "basefont",
+  "bgsound",
+  "body",
+  "br",
+  "button",
+  "caption",
+  "col",
+  "colgroup",
+  "dd",
+  "dt",
+  "embed",
+  "form",
+  "frame",
+  "frameset",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "head",
+  "hr",
+  "html",
+  "iframe",
+  "img",
+  "input",
+  "li",
+  "link",
+  "listing",
+  "marquee",
+  "meta",
+  "noembed",
+  "noframes",
+  "noscript",
+  "object",
+  "ol",
+  "p",
+  "param",
+  "plaintext",
+  "pre",
+  "script",
+  "select",
+  "source",
+  "style",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "title",
+  "tr",
+  "track",
+  "ul",
+  "wbr",
+  "xmp",
+]);
 const SVG_NAMES: Readonly<Record<string, string>> = {
   altglyph: "altGlyph",
   altglyphdef: "altGlyphDef",
@@ -142,6 +243,7 @@ const SVG_ATTRIBUTES: Readonly<Record<string, string>> = {
   diffuseconstant: "diffuseConstant",
   edgemode: "edgeMode",
   filterunits: "filterUnits",
+  glyphref: "glyphRef",
   gradienttransform: "gradientTransform",
   gradientunits: "gradientUnits",
   kernelmatrix: "kernelMatrix",
@@ -150,6 +252,7 @@ const SVG_ATTRIBUTES: Readonly<Record<string, string>> = {
   keysplines: "keySplines",
   keytimes: "keyTimes",
   lengthadjust: "lengthAdjust",
+  limitingconeangle: "limitingConeAngle",
   markerheight: "markerHeight",
   markerunits: "markerUnits",
   markerwidth: "markerWidth",
@@ -201,14 +304,41 @@ function whitespace(data: string): boolean {
 class TreeBuilder {
   readonly document = new Document();
   readonly #tokenizer: HTMLTokenizer;
+  readonly #context: Element | null;
+  readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
+  readonly #templateModes: Mode[] = [];
   #mode: Mode = "initial";
+  #originalMode: Mode = "initial";
   #head: Element | null = null;
   #body: Element | null = null;
+  #form: Element | null = null;
+  #framesetOk = true;
+  #ignoreNextLineFeed = false;
+  #pendingTableCharacters = "";
 
-  constructor(input: string) {
-    this.#tokenizer = new HTMLTokenizer(input);
+  constructor(input: string, options: TreeBuilderOptions = {}) {
+    this.#scripting = options.scripting ?? false;
+    const context = options.context;
+    this.#context =
+      context === undefined
+        ? null
+        : context.namespaceURI === HTML_NAMESPACE
+          ? createHTMLElement(this.document, context.localName)
+          : new Element(this.document, context.localName, context.namespaceURI);
+    this.#tokenizer = new HTMLTokenizer(input, {
+      initialState: this.#initialTokenizerState(),
+    });
+    if (this.#context !== null) {
+      const html = new Element(this.document, "html");
+      this.document._append(html);
+      this.#stack.push(html);
+      if (this.#context.localName === "template") {
+        this.#templateModes.push("in-template");
+      }
+      this.#mode = this.#modeForContext();
+    }
   }
 
   parse(): Document {
@@ -223,11 +353,113 @@ class TreeBuilder {
       }
       this.#process(token);
     }
+    if (this.#mode === "in-table-text") {
+      this.#flushTableCharacters();
+    }
     this.#finish();
     return this.document;
   }
 
+  parseFragment(): DocumentFragment {
+    for (;;) {
+      const current = this.#adjustedCurrent();
+      this.#tokenizer.setAllowCdata(
+        current !== null && current.namespaceURI !== HTML_NAMESPACE,
+      );
+      const token = this.#tokenizer.nextToken();
+      if (token === null) {
+        break;
+      }
+      this.#process(token);
+    }
+    if (this.#mode === "in-table-text") {
+      this.#flushTableCharacters();
+    }
+    if (this.#context?.localName === "html") {
+      this.#finish();
+    }
+    const fragment = new DocumentFragment(this.document);
+    const root = this.document.documentElement;
+    while (root?.firstChild !== null && root?.firstChild !== undefined) {
+      fragment._append(root.firstChild);
+    }
+    return fragment;
+  }
+
+  #initialTokenizerState(): TokenizerState {
+    if (this.#context?.namespaceURI !== HTML_NAMESPACE) {
+      return "Data state";
+    }
+    const name = this.#context.localName;
+    if (["title", "textarea"].includes(name)) {
+      return "RCDATA state";
+    }
+    if (
+      ["style", "xmp", "iframe", "noembed", "noframes"].includes(name) ||
+      (name === "noscript" && this.#scripting)
+    ) {
+      return "RAWTEXT state";
+    }
+    if (name === "script") {
+      return "Script data state";
+    }
+    return name === "plaintext" ? "PLAINTEXT state" : "Data state";
+  }
+
+  #modeForContext(): Mode {
+    const name = this.#context?.localName;
+    if (name === "html") {
+      return "before-head";
+    }
+    if (name === "select") {
+      return "in-select";
+    }
+    if (name === "td" || name === "th") {
+      return "in-cell";
+    }
+    if (name === "tr") {
+      return "in-row";
+    }
+    if (["tbody", "thead", "tfoot"].includes(name ?? "")) {
+      return "in-table-body";
+    }
+    if (name === "caption") {
+      return "in-caption";
+    }
+    if (name === "colgroup") {
+      return "in-column-group";
+    }
+    if (name === "table") {
+      return "in-table";
+    }
+    if (name === "template") {
+      return "in-template";
+    }
+    if (name === "head") {
+      return "in-head";
+    }
+    if (name === "frameset") {
+      return "in-frameset";
+    }
+    return "in-body";
+  }
+
+  #adjustedCurrent(): Element | null {
+    return this.#context !== null && this.#stack.length === 1
+      ? this.#context
+      : this.#current();
+  }
+
   #process(token: Token): void {
+    if (this.#ignoreNextLineFeed) {
+      this.#ignoreNextLineFeed = false;
+      if (token.type === "Character" && token.data.startsWith("\n")) {
+        token = { ...token, data: token.data.slice(1) };
+        if (token.data === "") {
+          return;
+        }
+      }
+    }
     if (this.#foreign(token)) {
       return;
     }
@@ -258,7 +490,7 @@ class TreeBuilder {
                 token.systemId ?? "",
               ),
             );
-            this.document._quirks = token.forceQuirks || token.name !== "html";
+            this.document._quirks = this.#doctypeCausesQuirks(token);
             this.#mode = "before-html";
           } else {
             this.document._quirks = true;
@@ -304,6 +536,11 @@ class TreeBuilder {
           } else if (token.type === "StartTag" && token.name === "head") {
             this.#head = this.#insert(token);
             this.#mode = "in-head";
+          } else if (
+            token.type === "EndTag" &&
+            !["head", "body", "html", "br"].includes(token.name)
+          ) {
+            break;
           } else if (token.type !== "DOCTYPE") {
             this.#head = this.#insert(this.#start("head"));
             this.#mode = "in-head";
@@ -313,14 +550,37 @@ class TreeBuilder {
         case "in-head":
           repeat = this.#inHead(token);
           break;
+        case "in-head-noscript":
+          repeat = this.#inHeadNoscript(token);
+          break;
         case "after-head":
           repeat = this.#afterHead(token);
           break;
         case "in-body":
           this.#inBody(token);
           break;
+        case "text":
+          if (token.type === "Character") {
+            this.#text(token.data);
+          } else if (token.type === "EndTag") {
+            this.#stack.pop();
+            this.#mode = this.#originalMode;
+            if (this.#mode === "after-head" && this.#current() === this.#head) {
+              this.#stack.pop();
+            }
+          }
+          break;
         case "in-table":
           this.#inTable(token);
+          break;
+        case "in-table-text":
+          this.#inTableText(token);
+          break;
+        case "in-caption":
+          this.#inCaption(token);
+          break;
+        case "in-column-group":
+          this.#inColumnGroup(token);
           break;
         case "in-table-body":
           this.#inTableBody(token);
@@ -333,6 +593,12 @@ class TreeBuilder {
           break;
         case "in-select":
           this.#inSelect(token);
+          break;
+        case "in-select-in-table":
+          this.#inSelectInTable(token);
+          break;
+        case "in-template":
+          this.#inTemplate(token);
           break;
         case "after-body":
           if (token.type === "Character" && whitespace(token.data)) {
@@ -349,16 +615,65 @@ class TreeBuilder {
                 token.data,
               ),
             );
-          } else if (!(token.type === "EndTag" && token.name === "html")) {
+          } else if (token.type === "EndTag" && token.name === "html") {
+            this.#mode = "after-after-body";
+          } else {
             this.#mode = "in-body";
             repeat = true;
+          }
+          break;
+        case "in-frameset":
+          this.#inFrameset(token);
+          break;
+        case "after-frameset":
+          this.#afterFrameset(token);
+          break;
+        case "after-after-body":
+          if (token.type === "Comment") {
+            if (this.#context === null) {
+              this.document._append(new Comment(this.document, token.data));
+            } else {
+              this.document.documentElement?._append(
+                new Comment(this.document, token.data),
+              );
+            }
+          } else if (token.type === "ProcessingInstruction") {
+            const instruction = new ProcessingInstruction(
+              this.document,
+              token.target,
+              token.data,
+            );
+            if (this.#context === null) {
+              this.document._append(instruction);
+            } else {
+              this.document.documentElement?._append(instruction);
+            }
+          } else if (token.type === "Character" && whitespace(token.data)) {
+            this.#inBody(token);
+          } else if (token.type === "StartTag" && token.name === "html") {
+            this.#inBody(token);
+          } else if (token.type !== "DOCTYPE") {
+            this.#mode = "in-body";
+            repeat = true;
+          }
+          break;
+        case "after-after-frameset":
+          if (token.type === "Comment") {
+            this.document._append(new Comment(this.document, token.data));
+          } else if (
+            (token.type === "Character" && whitespace(token.data)) ||
+            (token.type === "StartTag" && token.name === "html")
+          ) {
+            this.#inBody(token);
+          } else if (token.type === "StartTag" && token.name === "noframes") {
+            this.#inHead(token);
           }
           break;
       }
     }
   }
 
-  #inHead(token: Token): boolean {
+  #inHead(token: Token, foster = false): boolean {
     if (
       token.type === "Character" &&
       (whitespace(token.data) || this.#current() !== this.#head)
@@ -372,21 +687,29 @@ class TreeBuilder {
       if (
         ["base", "basefont", "bgsound", "link", "meta"].includes(token.name)
       ) {
-        this.#insert(token, false);
+        this.#insert(token, false, foster);
       } else if (token.name === "title") {
-        this.#insert(token);
-        this.#tokenizer.setState("RCDATA state", token.name);
-      } else if (["style", "noframes", "noembed"].includes(token.name)) {
-        this.#insert(token);
-        this.#tokenizer.setState("RAWTEXT state", token.name);
+        this.#startText(token, "RCDATA state", foster);
+      } else if (["style", "noframes"].includes(token.name)) {
+        this.#startText(token, "RAWTEXT state", foster);
       } else if (token.name === "script") {
-        this.#insert(token);
-        this.#tokenizer.setState("Script data state", token.name);
+        this.#startText(token, "Script data state", foster);
+      } else if (token.name === "noscript") {
+        if (this.#scripting) {
+          this.#startText(token, "RAWTEXT state", foster);
+        } else {
+          this.#insert(token, true, foster);
+          this.#mode = "in-head-noscript";
+        }
       } else if (token.name === "template") {
-        const template = this.#insert(token);
+        const template = this.#insert(token, true, foster);
         template._templateContents ??= new DocumentFragment(this.document);
         this.#formatting.push(null);
-        this.#mode = "in-body";
+        if (this.#body !== null) {
+          this.#framesetOk = false;
+        }
+        this.#templateModes.push("in-template");
+        this.#mode = "in-template";
       } else if (token.name === "html") {
         this.#inBody(token);
       } else if (token.name !== "head") {
@@ -399,7 +722,13 @@ class TreeBuilder {
         this.#close("head");
         this.#mode = "after-head";
       } else if (token.name === "template") {
-        this.#closeTemplate();
+        if (this.#contains("template")) {
+          this.#generateImpliedEndTags();
+          this.#close("template");
+          this.#clearFormatting();
+          this.#templateModes.pop();
+          this.#resetMode();
+        }
       } else if (this.#current()?.localName === token.name) {
         this.#stack.pop();
       } else if (["body", "html", "br"].includes(token.name)) {
@@ -415,21 +744,59 @@ class TreeBuilder {
     return false;
   }
 
+  #inHeadNoscript(token: Token): boolean {
+    if (token.type === "EndTag" && token.name === "noscript") {
+      this.#stack.pop();
+      this.#mode = "in-head";
+    } else if (
+      (token.type === "Character" && whitespace(token.data)) ||
+      token.type === "Comment" ||
+      token.type === "ProcessingInstruction" ||
+      (token.type === "StartTag" &&
+        ["basefont", "bgsound", "link", "meta", "noframes", "style"].includes(
+          token.name,
+        ))
+    ) {
+      return this.#inHead(token);
+    } else if (token.type === "StartTag" && token.name === "html") {
+      this.#inBody(token);
+    } else if (
+      token.type === "DOCTYPE" ||
+      (token.type === "StartTag" && ["head", "noscript"].includes(token.name))
+    ) {
+      return false;
+    } else if (
+      (token.type === "Character" && !whitespace(token.data)) ||
+      token.type === "StartTag" ||
+      (token.type === "EndTag" && token.name === "br")
+    ) {
+      this.#stack.pop();
+      this.#mode = "in-head";
+      return true;
+    }
+    return false;
+  }
+
   #afterHead(token: Token): boolean {
-    if (token.type === "Comment") {
+    if (token.type === "Character" && whitespace(token.data)) {
+      this.#text(token.data);
+    } else if (token.type === "Comment") {
       this.#comment(token.data);
     } else if (token.type === "ProcessingInstruction") {
       this.#processingInstruction(token);
     } else if (token.type === "StartTag" && token.name === "body") {
       this.#body = this.#insert(token);
+      this.#setFramesetNotOk();
       this.#mode = "in-body";
     } else if (token.type === "StartTag" && token.name === "frameset") {
-      this.#body = this.#insert(token);
-      this.#mode = "in-body";
+      this.#insert(token);
+      this.#mode = "in-frameset";
     } else if (
       token.type === "StartTag" &&
       [
         "base",
+        "basefont",
+        "bgsound",
         "link",
         "meta",
         "noframes",
@@ -448,7 +815,11 @@ class TreeBuilder {
       }
     } else if (
       token.type !== "DOCTYPE" &&
-      !(token.type === "StartTag" && token.name === "head")
+      !(token.type === "StartTag" && token.name === "head") &&
+      !(
+        token.type === "EndTag" &&
+        !["body", "html", "br", "template"].includes(token.name)
+      )
     ) {
       this.#ensureBody();
       this.#mode = "in-body";
@@ -459,8 +830,15 @@ class TreeBuilder {
 
   #inBody(token: Token, foster = false): void {
     if (token.type === "Character") {
-      this.#reconstructFormatting();
-      this.#text(token.data, foster);
+      const data = token.data.replaceAll("\0", "");
+      if (data === "") {
+        return;
+      }
+      this.#reconstructFormatting(foster);
+      this.#text(data, foster);
+      if (!whitespace(data)) {
+        this.#setFramesetNotOk();
+      }
       return;
     }
     if (token.type === "Comment") {
@@ -477,12 +855,31 @@ class TreeBuilder {
     if (token.type === "StartTag") {
       const name = token.name;
       if (name === "html") {
-        this.#merge(this.document.documentElement, token);
+        if (!this.#inTemplateContext()) {
+          this.#merge(this.document.documentElement, token);
+        }
+      } else if (name === "head") {
+        return;
       } else if (name === "body") {
-        this.#merge(this.#body, token);
+        if (!this.#inTemplateContext()) {
+          this.#merge(this.#body, token);
+          this.#setFramesetNotOk();
+        }
+      } else if (name === "frameset") {
+        if (!this.#framesetOk || this.#body === null) {
+          return;
+        }
+        this.#body._remove();
+        while (this.#stack.length > 1) {
+          this.#stack.pop();
+        }
+        this.#insert(token);
+        this.#mode = "in-frameset";
       } else if (
         [
           "base",
+          "basefont",
+          "bgsound",
           "link",
           "meta",
           "noframes",
@@ -492,10 +889,32 @@ class TreeBuilder {
           "title",
         ].includes(name)
       ) {
-        this.#inHead(token);
+        this.#inHead(token, foster);
       } else if (BLOCK.has(name)) {
         this.#closeParagraph();
         this.#insert(token, true, foster);
+      } else if (name === "pre" || name === "listing") {
+        this.#closeParagraph();
+        this.#insert(token, true, foster);
+        this.#ignoreNextLineFeed = true;
+        this.#setFramesetNotOk();
+      } else if (name === "form") {
+        if (this.#form !== null && !this.#inTemplateContext()) {
+          return;
+        }
+        this.#closeParagraph();
+        const form = this.#insert(token, true, foster);
+        if (!this.#inTemplateContext()) {
+          this.#form = form;
+        }
+      } else if (name === "button") {
+        if (this.#hasInScope("button", "button")) {
+          this.#generateImpliedEndTags();
+          this.#close("button");
+        }
+        this.#reconstructFormatting(foster);
+        this.#insert(token, true, foster);
+        this.#setFramesetNotOk();
       } else if (/^h[1-6]$/.test(name)) {
         this.#closeParagraph();
         if (/^h[1-6]$/.test(this.#current()?.localName ?? "")) {
@@ -506,82 +925,223 @@ class TreeBuilder {
         this.#closeParagraph();
         this.#insert(token, true, foster);
       } else if (name === "li") {
-        this.#closeNearest(["li"]);
+        this.#closeListItem("li");
         this.#closeParagraph();
         this.#insert(token, true, foster);
+        this.#setFramesetNotOk();
       } else if (name === "dd" || name === "dt") {
-        this.#closeNearest(["dd", "dt"]);
+        this.#closeListItem(name);
         this.#closeParagraph();
         this.#insert(token, true, foster);
+        this.#setFramesetNotOk();
       } else if (FORMATTING.has(name)) {
         if (name === "a") {
-          this.#adopt("a");
+          const active = this.#activeFormatting("a");
+          if (active !== null) {
+            this.#adopt("a");
+            this.#removeFromStack(active);
+            this.#removeFromFormatting(active);
+          }
+        } else if (name === "nobr" && this.#hasInScope("nobr")) {
+          this.#adopt("nobr");
+          this.#reconstructFormatting(foster);
         }
-        this.#reconstructFormatting();
+        this.#reconstructFormatting(foster);
         const element = this.#insert(token, true, foster);
-        this.#formatting.push(element);
-      } else if (name === "table") {
-        this.#closeParagraph();
+        this.#pushFormatting(element);
+      } else if (["applet", "marquee", "object"].includes(name)) {
+        this.#reconstructFormatting(foster);
         this.#insert(token, true, foster);
+        this.#formatting.push(null);
+        this.#setFramesetNotOk();
+      } else if (name === "table") {
+        if (!this.document._quirks) {
+          this.#closeParagraph();
+        }
+        this.#insert(token, true, foster);
+        this.#setFramesetNotOk();
         this.#mode = "in-table";
       } else if (name === "select") {
+        this.#reconstructFormatting(foster);
         this.#insert(token, true, foster);
-        this.#mode = "in-select";
+        this.#setFramesetNotOk();
+        this.#mode = this.#inTableContext()
+          ? "in-select-in-table"
+          : "in-select";
+      } else if (name === "option") {
+        if (this.#current()?.localName === "option") {
+          this.#stack.pop();
+        }
+        this.#reconstructFormatting(foster);
+        this.#insert(token, true, foster);
+      } else if (name === "optgroup") {
+        if (this.#current()?.localName === "option") {
+          this.#stack.pop();
+        }
+        if (this.#current()?.localName === "optgroup") {
+          this.#stack.pop();
+        }
+        this.#reconstructFormatting(foster);
+        this.#insert(token, true, foster);
       } else if (name === "textarea") {
-        this.#insert(token, true, foster);
-        this.#tokenizer.setState("RCDATA state", name);
+        this.#startText(token, "RCDATA state", foster);
+        this.#ignoreNextLineFeed = true;
+        this.#setFramesetNotOk();
       } else if (["xmp", "iframe", "noembed"].includes(name)) {
-        this.#insert(token, true, foster);
-        this.#tokenizer.setState("RAWTEXT state", name);
+        if (name === "xmp") {
+          this.#closeParagraph();
+          this.#reconstructFormatting(foster);
+        }
+        this.#startText(token, "RAWTEXT state", foster);
+        this.#setFramesetNotOk();
+      } else if (name === "noscript" && this.#scripting) {
+        this.#startText(token, "RAWTEXT state", foster);
+        this.#setFramesetNotOk();
       } else if (name === "plaintext") {
+        this.#closeParagraph();
         this.#insert(token, true, foster);
         this.#tokenizer.setState("PLAINTEXT state", name);
+        this.#setFramesetNotOk();
+      } else if (name === "hr") {
+        this.#closeParagraph();
+        this.#insert(token, false, foster);
+        this.#setFramesetNotOk();
+      } else if (name === "input") {
+        this.#reconstructFormatting(foster);
+        this.#insert(token, false, foster);
+        if ((token.attributes.type ?? "").toLowerCase() !== "hidden") {
+          this.#setFramesetNotOk();
+        }
+      } else if (["param", "source", "track"].includes(name)) {
+        this.#insert(token, false, foster);
+      } else if (name === "image") {
+        this.#inBody({ ...token, name: "img" }, foster);
+      } else if (
+        [
+          "caption",
+          "col",
+          "colgroup",
+          "frame",
+          "tbody",
+          "td",
+          "tfoot",
+          "th",
+          "thead",
+          "tr",
+        ].includes(name)
+      ) {
+        return;
       } else if (name === "svg" || name === "math") {
+        this.#reconstructFormatting(foster);
         this.#insert(
           token,
           !token.selfClosing,
           foster,
           name === "svg" ? SVG_NAMESPACE : MATHML_NAMESPACE,
         );
-      } else if (VOID.has(name) || name === "image") {
-        this.#insert(
-          name === "image" ? { ...token, name: "img" } : token,
-          false,
-          foster,
-        );
+      } else if (["rb", "rtc"].includes(name)) {
+        if (this.#hasInScope("ruby")) {
+          this.#generateImpliedEndTags();
+        }
+        this.#insert(token, true, foster);
+      } else if (["rp", "rt"].includes(name)) {
+        if (this.#hasInScope("ruby")) {
+          this.#generateImpliedEndTags("rtc");
+        }
+        this.#insert(token, true, foster);
+      } else if (VOID.has(name)) {
+        this.#reconstructFormatting(foster);
+        this.#insert(token, false, foster);
+        this.#setFramesetNotOk();
       } else {
-        this.#insert(token, !token.selfClosing, foster);
+        this.#reconstructFormatting(foster);
+        this.#insert(token, true, foster);
       }
       return;
     }
     const name = token.name;
-    if (name === "body") {
-      this.#mode = "after-body";
-    } else if (name === "html") {
-      this.#mode = "after-body";
-    } else if (name === "template") {
-      this.#closeTemplate();
-    } else if (name === "p") {
-      if (!this.#contains("p")) {
-        this.#insert(this.#start("p"));
+    if (name === "template") {
+      this.#inHead(token);
+    } else if (name === "body") {
+      if (this.#hasInScope("body")) {
+        this.#mode = "after-body";
       }
+    } else if (name === "html") {
+      if (this.#hasInScope("body")) {
+        this.#mode = "after-body";
+        this.#process(token);
+      }
+    } else if (
+      (BLOCK.has(name) && name !== "p") ||
+      name === "pre" ||
+      name === "listing"
+    ) {
+      if (this.#hasInScope(name)) {
+        this.#generateImpliedEndTags();
+        this.#close(name);
+      }
+    } else if (name === "form") {
+      if (this.#inTemplateContext()) {
+        if (this.#hasInScope("form")) {
+          this.#generateImpliedEndTags();
+          this.#close("form");
+        }
+      } else if (this.#form !== null) {
+        const form = this.#form;
+        this.#form = null;
+        this.#removeFromStack(form);
+      }
+    } else if (name === "p") {
+      if (!this.#hasInScope("p", "button")) {
+        this.#insert(this.#start("p"), true, foster);
+      }
+      this.#generateImpliedEndTags("p");
       this.#close("p");
+    } else if (name === "li") {
+      if (this.#hasInScope("li", "list")) {
+        this.#generateImpliedEndTags("li");
+        this.#close("li");
+      }
+    } else if (name === "dd" || name === "dt") {
+      if (this.#hasInScope(name)) {
+        this.#generateImpliedEndTags(name);
+        this.#close(name);
+      }
+    } else if (name === "button") {
+      if (this.#hasInScope("button", "button")) {
+        this.#generateImpliedEndTags();
+        this.#close("button");
+      }
+    } else if (/^h[1-6]$/.test(name)) {
+      if (this.#hasHeadingInScope()) {
+        this.#generateImpliedEndTags();
+        this.#closeNearest(["h1", "h2", "h3", "h4", "h5", "h6"]);
+      }
     } else if (FORMATTING.has(name)) {
       this.#adopt(name);
+    } else if (["applet", "marquee", "object"].includes(name)) {
+      if (this.#hasInScope(name)) {
+        this.#generateImpliedEndTags();
+        this.#close(name);
+        this.#clearFormatting();
+      }
     } else if (name === "br") {
-      this.#insert(this.#start("br"), false);
+      this.#inBody(this.#start("br"), foster);
     } else {
-      this.#close(name);
+      this.#genericEndTag(name);
     }
   }
 
   #inTable(token: Token): void {
-    if (token.type === "Character") {
-      if (whitespace(token.data)) {
-        this.#text(token.data);
-      } else {
-        this.#inBody(token, true);
-      }
+    if (
+      token.type === "Character" &&
+      ["table", "tbody", "tfoot", "thead", "tr"].includes(
+        this.#current()?.localName ?? "",
+      )
+    ) {
+      this.#pendingTableCharacters = token.data;
+      this.#originalMode = this.#mode;
+      this.#mode = "in-table-text";
     } else if (token.type === "Comment") {
       this.#comment(token.data);
     } else if (token.type === "ProcessingInstruction") {
@@ -605,36 +1165,190 @@ class TreeBuilder {
       this.#clearTo(["table", "template", "html"]);
       this.#formatting.push(null);
       this.#insert(token);
-      this.#mode = "in-body";
+      this.#mode = "in-caption";
     } else if (token.type === "StartTag" && token.name === "colgroup") {
       this.#clearTo(["table", "template", "html"]);
       this.#insert(token);
+      this.#mode = "in-column-group";
     } else if (token.type === "StartTag" && token.name === "col") {
       this.#clearTo(["table", "template", "html"]);
       this.#insert(this.#start("colgroup"));
-      this.#insert(token, false);
+      this.#mode = "in-column-group";
+      this.#inColumnGroup(token);
+    } else if (token.type === "StartTag" && token.name === "table") {
+      if (this.#hasInScope("table", "table")) {
+        this.#close("table");
+        this.#resetMode();
+        this.#process(token);
+      }
     } else if (token.type === "EndTag" && token.name === "table") {
-      this.#close("table");
-      this.#resetMode();
+      if (this.#hasInScope("table", "table")) {
+        this.#close("table");
+        this.#resetMode();
+      }
+    } else if (
+      (token.type === "StartTag" &&
+        ["style", "script", "template"].includes(token.name)) ||
+      (token.type === "EndTag" && token.name === "template")
+    ) {
+      this.#inHead(token);
+    } else if (
+      token.type === "StartTag" &&
+      token.name === "input" &&
+      (token.attributes.type ?? "").toLowerCase() === "hidden"
+    ) {
+      this.#insert(token, false);
+    } else if (token.type === "StartTag" && token.name === "form") {
+      if (this.#inTemplateContext()) {
+        this.#inBody(token);
+      } else if (this.#form === null) {
+        this.#form = this.#insert(token, false);
+      }
+    } else if (
+      token.type === "EndTag" &&
+      [
+        "body",
+        "caption",
+        "col",
+        "colgroup",
+        "html",
+        "tbody",
+        "td",
+        "tfoot",
+        "th",
+        "thead",
+        "tr",
+      ].includes(token.name)
+    ) {
+      return;
     } else {
       this.#inBody(token, true);
     }
   }
 
+  #inTableText(token: Token): void {
+    if (token.type === "Character") {
+      this.#pendingTableCharacters += token.data;
+      return;
+    }
+    this.#flushTableCharacters();
+    this.#process(token);
+  }
+
+  #flushTableCharacters(): void {
+    const data = this.#pendingTableCharacters;
+    this.#pendingTableCharacters = "";
+    this.#mode = this.#originalMode;
+    if (whitespace(data)) {
+      this.#text(data);
+    } else {
+      this.#inBody({ type: "Character", data }, true);
+    }
+  }
+
+  #closeCaption(): boolean {
+    if (!this.#hasInScope("caption", "table")) {
+      return false;
+    }
+    this.#generateImpliedEndTags();
+    this.#close("caption");
+    this.#clearFormatting();
+    this.#mode = "in-table";
+    return true;
+  }
+
+  #inCaption(token: Token): void {
+    if (token.type === "EndTag" && token.name === "caption") {
+      this.#closeCaption();
+    } else if (
+      (token.type === "StartTag" &&
+        [
+          "caption",
+          "col",
+          "colgroup",
+          "tbody",
+          "td",
+          "tfoot",
+          "th",
+          "thead",
+          "tr",
+        ].includes(token.name)) ||
+      (token.type === "EndTag" && token.name === "table")
+    ) {
+      if (this.#closeCaption()) {
+        this.#process(token);
+      }
+    } else if (
+      token.type === "EndTag" &&
+      [
+        "body",
+        "col",
+        "colgroup",
+        "html",
+        "tbody",
+        "td",
+        "tfoot",
+        "th",
+        "thead",
+        "tr",
+      ].includes(token.name)
+    ) {
+      return;
+    } else {
+      this.#inBody(token);
+    }
+  }
+
+  #inColumnGroup(token: Token): void {
+    if (token.type === "Character" && whitespace(token.data)) {
+      this.#text(token.data);
+    } else if (token.type === "Comment") {
+      this.#comment(token.data);
+    } else if (token.type === "ProcessingInstruction") {
+      this.#processingInstruction(token);
+    } else if (token.type === "StartTag" && token.name === "html") {
+      this.#inBody(token);
+    } else if (token.type === "StartTag" && token.name === "col") {
+      this.#insert(token, false);
+    } else if (
+      (token.type === "StartTag" || token.type === "EndTag") &&
+      token.name === "template"
+    ) {
+      this.#inHead(token);
+    } else if (token.type === "EndTag" && token.name === "colgroup") {
+      if (this.#current()?.localName === "colgroup") {
+        this.#stack.pop();
+        this.#mode = "in-table";
+      }
+    } else if (token.type === "EndTag" && token.name === "col") {
+      return;
+    } else if (this.#current()?.localName === "colgroup") {
+      this.#stack.pop();
+      this.#mode = "in-table";
+      this.#process(token);
+    }
+  }
+
   #inTableBody(token: Token): void {
     if (token.type === "StartTag" && token.name === "tr") {
-      this.#clearTo(["tbody", "thead", "tfoot", "html"]);
+      this.#clearTo(["tbody", "thead", "tfoot", "template", "html"]);
       this.#insert(token);
       this.#mode = "in-row";
     } else if (token.type === "StartTag" && ["td", "th"].includes(token.name)) {
+      this.#clearTo(["tbody", "thead", "tfoot", "template", "html"]);
       this.#insert(this.#start("tr"));
       this.#mode = "in-row";
       this.#inRow(token);
     } else if (
       (token.type === "EndTag" && token.name === "table") ||
       (token.type === "StartTag" &&
-        ["tbody", "thead", "tfoot"].includes(token.name))
+        ["caption", "col", "colgroup", "tbody", "thead", "tfoot"].includes(
+          token.name,
+        ))
     ) {
+      if (!this.#hasAnyInScope(["tbody", "thead", "tfoot"], "table")) {
+        return;
+      }
       this.#closeNearest(["tbody", "thead", "tfoot"]);
       this.#mode = "in-table";
       this.#inTable(token);
@@ -642,8 +1356,10 @@ class TreeBuilder {
       token.type === "EndTag" &&
       ["tbody", "thead", "tfoot"].includes(token.name)
     ) {
-      this.#close(token.name);
-      this.#mode = "in-table";
+      if (this.#hasInScope(token.name, "table")) {
+        this.#close(token.name);
+        this.#mode = "in-table";
+      }
     } else {
       this.#inTable(token);
     }
@@ -651,15 +1367,26 @@ class TreeBuilder {
 
   #inRow(token: Token): void {
     if (token.type === "StartTag" && ["td", "th"].includes(token.name)) {
-      this.#clearTo(["tr", "html"]);
+      this.#clearTo(["tr", "template", "html"]);
       this.#insert(token);
       this.#formatting.push(null);
       this.#mode = "in-cell";
     } else if (
       (token.type === "EndTag" && ["tr", "table"].includes(token.name)) ||
       (token.type === "StartTag" &&
-        ["tr", "tbody", "thead", "tfoot"].includes(token.name))
+        [
+          "caption",
+          "col",
+          "colgroup",
+          "tr",
+          "tbody",
+          "thead",
+          "tfoot",
+        ].includes(token.name))
     ) {
+      if (!this.#hasInScope("tr", "table")) {
+        return;
+      }
       this.#close("tr");
       this.#mode = "in-table-body";
       if (!(token.type === "EndTag" && token.name === "tr")) {
@@ -672,15 +1399,34 @@ class TreeBuilder {
 
   #inCell(token: Token): void {
     if (token.type === "EndTag" && ["td", "th"].includes(token.name)) {
-      this.#close(token.name);
-      this.#clearFormatting();
-      this.#mode = "in-row";
+      if (this.#hasInScope(token.name, "table")) {
+        this.#generateImpliedEndTags();
+        this.#close(token.name);
+        this.#clearFormatting();
+        this.#mode = "in-row";
+      }
     } else if (
       (token.type === "EndTag" &&
         ["table", "tr", "tbody", "thead", "tfoot"].includes(token.name)) ||
       (token.type === "StartTag" &&
-        ["td", "th", "tr", "tbody", "thead", "tfoot"].includes(token.name))
+        [
+          "caption",
+          "col",
+          "colgroup",
+          "td",
+          "th",
+          "tr",
+          "tbody",
+          "thead",
+          "tfoot",
+        ].includes(token.name))
     ) {
+      if (token.type === "EndTag" && !this.#hasInScope(token.name, "table")) {
+        return;
+      }
+      if (!this.#hasAnyInScope(["td", "th"], "table")) {
+        return;
+      }
       this.#closeNearest(["td", "th"]);
       this.#clearFormatting();
       this.#mode = "in-row";
@@ -692,7 +1438,8 @@ class TreeBuilder {
 
   #inSelect(token: Token): void {
     if (token.type === "Character") {
-      this.#text(token.data);
+      this.#reconstructFormatting();
+      this.#text(token.data.replaceAll("\0", ""));
     } else if (token.type === "Comment") {
       this.#comment(token.data);
     } else if (token.type === "ProcessingInstruction") {
@@ -701,6 +1448,7 @@ class TreeBuilder {
       if (this.#current()?.localName === "option") {
         this.#stack.pop();
       }
+      this.#reconstructFormatting();
       this.#insert(token);
     } else if (token.type === "StartTag" && token.name === "optgroup") {
       if (this.#current()?.localName === "option") {
@@ -710,23 +1458,211 @@ class TreeBuilder {
         this.#stack.pop();
       }
       this.#insert(token);
-    } else if (
-      token.type === "EndTag" &&
-      ["option", "optgroup"].includes(token.name)
-    ) {
-      this.#close(token.name);
+    } else if (token.type === "StartTag" && token.name === "hr") {
+      if (this.#current()?.localName === "option") {
+        this.#stack.pop();
+      }
+      if (this.#current()?.localName === "optgroup") {
+        this.#stack.pop();
+      }
+      this.#insert(token, false);
+    } else if (token.type === "StartTag" && token.name === "input") {
+      if (this.#hasInScope("select")) {
+        this.#close("select");
+        this.#resetMode();
+        this.#process(token);
+      }
+    } else if (token.type === "StartTag" && token.name === "textarea") {
+      this.#inBody(token);
+    } else if (token.type === "EndTag" && token.name === "optgroup") {
+      if (
+        this.#current()?.localName === "option" &&
+        this.#stack.at(-2)?.localName === "optgroup"
+      ) {
+        this.#stack.pop();
+      }
+      if (this.#current()?.localName === "optgroup") {
+        this.#stack.pop();
+      }
+    } else if (token.type === "EndTag" && token.name === "option") {
+      if (this.#current()?.localName === "option") {
+        this.#stack.pop();
+      }
     } else if (token.type === "EndTag" && token.name === "select") {
-      this.#close("select");
-      this.#resetMode();
+      if (this.#hasInScope("select")) {
+        this.#close("select");
+        this.#resetMode();
+      }
+    } else if (token.type === "StartTag" && token.name === "select") {
+      if (this.#hasInScope("select")) {
+        this.#close("select");
+        this.#resetMode();
+      }
+    } else if (
+      (token.type === "StartTag" || token.type === "EndTag") &&
+      token.name === "template"
+    ) {
+      this.#inHead(token);
+    } else if (
+      (token.type === "StartTag" || token.type === "EndTag") &&
+      [
+        "caption",
+        "table",
+        "tbody",
+        "tfoot",
+        "thead",
+        "tr",
+        "td",
+        "th",
+      ].includes(token.name)
+    ) {
+      return;
+    } else if (token.type !== "DOCTYPE") {
+      if (token.type === "EndTag") {
+        const selectIndex = this.#stack.findLastIndex(
+          (element) => element.localName === "select",
+        );
+        const targetIndex = this.#stack.findLastIndex(
+          (element) =>
+            element.namespaceURI === HTML_NAMESPACE &&
+            element.localName === token.name,
+        );
+        if (targetIndex <= selectIndex) {
+          return;
+        }
+      }
+      this.#inBody(token);
+    }
+  }
+
+  #inSelectInTable(token: Token): void {
+    const tableNames = [
+      "caption",
+      "table",
+      "tbody",
+      "tfoot",
+      "thead",
+      "tr",
+      "td",
+      "th",
+    ];
+    if (
+      (token.type === "StartTag" && tableNames.includes(token.name)) ||
+      (token.type === "EndTag" && tableNames.includes(token.name))
+    ) {
+      if (this.#hasInScope("select")) {
+        this.#close("select");
+        this.#resetMode();
+        this.#process(token);
+      }
+      return;
+    }
+    this.#inSelect(token);
+  }
+
+  #replaceTemplateMode(mode: Mode): void {
+    if (this.#templateModes.length > 0) {
+      this.#templateModes.pop();
+    }
+    this.#templateModes.push(mode);
+    this.#mode = mode;
+  }
+
+  #inTemplate(token: Token): void {
+    if (
+      token.type === "Character" ||
+      token.type === "Comment" ||
+      token.type === "ProcessingInstruction" ||
+      token.type === "DOCTYPE"
+    ) {
+      this.#inBody(token);
+    } else if (
+      token.type === "StartTag" &&
+      [
+        "base",
+        "basefont",
+        "bgsound",
+        "link",
+        "meta",
+        "noframes",
+        "script",
+        "style",
+        "template",
+        "title",
+      ].includes(token.name)
+    ) {
+      this.#inHead(token);
+    } else if (token.type === "EndTag" && token.name === "template") {
+      this.#inHead(token);
+    } else if (
+      token.type === "StartTag" &&
+      ["caption", "colgroup", "tbody", "tfoot", "thead"].includes(token.name)
+    ) {
+      this.#replaceTemplateMode("in-table");
+      this.#process(token);
+    } else if (token.type === "StartTag" && token.name === "col") {
+      this.#replaceTemplateMode("in-column-group");
+      this.#process(token);
+    } else if (token.type === "StartTag" && token.name === "tr") {
+      this.#replaceTemplateMode("in-table-body");
+      this.#process(token);
+    } else if (token.type === "StartTag" && ["td", "th"].includes(token.name)) {
+      this.#replaceTemplateMode("in-row");
+      this.#process(token);
+    } else if (token.type !== "EndTag") {
+      this.#replaceTemplateMode("in-body");
+      this.#process(token);
+    }
+  }
+
+  #inFrameset(token: Token): void {
+    if (token.type === "Character" && whitespace(token.data)) {
+      this.#text(token.data);
+    } else if (token.type === "Comment") {
+      this.#comment(token.data);
+    } else if (token.type === "ProcessingInstruction") {
+      this.#processingInstruction(token);
+    } else if (token.type === "StartTag" && token.name === "html") {
+      this.#inBody(token);
+    } else if (token.type === "StartTag" && token.name === "frameset") {
+      this.#insert(token);
+    } else if (token.type === "StartTag" && token.name === "frame") {
+      this.#insert(token, false);
+    } else if (token.type === "StartTag" && token.name === "noframes") {
+      this.#inHead(token);
+    } else if (token.type === "EndTag" && token.name === "frameset") {
+      if (this.#current()?.localName !== "html") {
+        this.#stack.pop();
+        if (this.#current()?.localName !== "frameset") {
+          this.#mode = "after-frameset";
+        }
+      }
+    }
+  }
+
+  #afterFrameset(token: Token): void {
+    if (token.type === "Character" && whitespace(token.data)) {
+      this.#text(token.data);
+    } else if (token.type === "Comment") {
+      this.#comment(token.data);
+    } else if (token.type === "ProcessingInstruction") {
+      this.#processingInstruction(token);
+    } else if (token.type === "StartTag" && token.name === "html") {
+      this.#inBody(token);
+    } else if (token.type === "StartTag" && token.name === "noframes") {
+      this.#inHead(token);
+    } else if (token.type === "EndTag" && token.name === "html") {
+      this.#mode = "after-after-frameset";
     }
   }
 
   #foreign(token: Token): boolean {
-    const current = this.#current();
+    const current = this.#adjustedCurrent();
     if (
       current === null ||
       current.namespaceURI === HTML_NAMESPACE ||
-      this.#isHtmlIntegrationPoint(current) ||
+      (this.#isHtmlIntegrationPoint(current) &&
+        (token.type === "Character" || token.type === "StartTag")) ||
       (this.#isMathMlTextIntegrationPoint(current) &&
         (token.type === "Character" ||
           (token.type === "StartTag" &&
@@ -740,7 +1676,11 @@ class TreeBuilder {
       return false;
     }
     if (token.type === "Character") {
-      this.#text(token.data);
+      const data = token.data.replaceAll("\0", "\ufffd");
+      this.#text(data);
+      if (!whitespace(token.data.replaceAll("\0", ""))) {
+        this.#setFramesetNotOk();
+      }
     } else if (token.type === "Comment") {
       this.#comment(token.data);
     } else if (token.type === "ProcessingInstruction") {
@@ -792,7 +1732,13 @@ class TreeBuilder {
         "ul",
         "var",
       ];
-      if (htmlBreakout.includes(token.name)) {
+      if (
+        htmlBreakout.includes(token.name) ||
+        (token.name === "font" &&
+          ["color", "face", "size"].some((name) =>
+            Object.hasOwn(token.attributes, name),
+          ))
+      ) {
         let currentElement = this.#current();
         while (
           currentElement !== null &&
@@ -812,7 +1758,32 @@ class TreeBuilder {
         current.namespaceURI ?? HTML_NAMESPACE,
       );
     } else if (token.type === "EndTag") {
-      this.#close(token.name);
+      if (["p", "br"].includes(token.name)) {
+        let currentElement = this.#current();
+        while (
+          currentElement !== null &&
+          currentElement.namespaceURI !== HTML_NAMESPACE &&
+          !this.#isHtmlIntegrationPoint(currentElement) &&
+          !this.#isMathMlTextIntegrationPoint(currentElement)
+        ) {
+          this.#stack.pop();
+          currentElement = this.#current();
+        }
+        return false;
+      }
+      for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
+        const node = this.#stack[index];
+        if (node === undefined) {
+          continue;
+        }
+        if (node.namespaceURI === HTML_NAMESPACE) {
+          return false;
+        }
+        if (node.localName.toLowerCase() === token.name) {
+          this.#stack.length = index;
+          return true;
+        }
+      }
     }
     return token.type !== "DOCTYPE";
   }
@@ -882,13 +1853,25 @@ class TreeBuilder {
           const prefix = name.slice(0, colon);
           const local = name.slice(colon + 1);
           const namespaceURI =
-            prefix === "xlink"
+            prefix === "xlink" &&
+            [
+              "actuate",
+              "arcrole",
+              "href",
+              "role",
+              "show",
+              "title",
+              "type",
+            ].includes(local)
               ? XLINK_NAMESPACE
-              : prefix === "xml"
+              : prefix === "xml" && ["lang", "space"].includes(local)
                 ? XML_NAMESPACE
-                : prefix === "xmlns"
+                : prefix === "xmlns" && local === "xlink"
                   ? XMLNS_NAMESPACE
                   : null;
+          if (namespaceURI === null) {
+            return { name, value };
+          }
           return { name, value, prefix, localName: local, namespaceURI };
         },
       ),
@@ -911,14 +1894,9 @@ class TreeBuilder {
   }
 
   #insertNode(node: Node, foster: boolean): void {
-    if (foster) {
-      const table = [...this.#stack]
-        .reverse()
-        .find((element) => element.localName === "table");
-      if (table?.parentNode !== null && table?.parentNode !== undefined) {
-        table.parentNode._insertBefore(node, table);
-        return;
-      }
+    if (foster && this.#shouldFosterParent()) {
+      this.#insertAtFosterParent(node);
+      return;
     }
     const current = this.#current();
     if (current === null) {
@@ -933,12 +1911,79 @@ class TreeBuilder {
     }
   }
 
+  #fosterParentLocation(): { parent: Node; reference: Node | null } {
+    const templateIndex = this.#stack.findLastIndex(
+      (element) => element.localName === "template",
+    );
+    const tableIndex = this.#stack.findLastIndex(
+      (element) => element.localName === "table",
+    );
+    if (templateIndex > tableIndex) {
+      const template = this.#stack[templateIndex];
+      if (
+        template?._templateContents !== null &&
+        template?._templateContents !== undefined
+      ) {
+        return { parent: template._templateContents, reference: null };
+      }
+    }
+    if (tableIndex >= 0) {
+      const table = this.#stack[tableIndex];
+      if (table?.parentNode !== null && table?.parentNode !== undefined) {
+        return { parent: table.parentNode, reference: table };
+      }
+      const beforeTable = this.#stack[tableIndex - 1];
+      if (beforeTable !== undefined) {
+        return { parent: beforeTable, reference: null };
+      }
+    }
+    const first = this.#stack[0];
+    if (first !== undefined) {
+      return { parent: first, reference: null };
+    }
+    return { parent: this.document, reference: null };
+  }
+
+  #shouldFosterParent(): boolean {
+    const current = this.#current();
+    return (
+      current?.namespaceURI === HTML_NAMESPACE &&
+      ["table", "tbody", "tfoot", "thead", "tr"].includes(current.localName)
+    );
+  }
+
+  #insertAtFosterParent(node: Node): void {
+    const location = this.#fosterParentLocation();
+    if (location.reference !== null) {
+      location.parent._insertBefore(node, location.reference);
+    } else {
+      location.parent._append(node);
+    }
+  }
+
   #text(data: string, foster = false): void {
     if (data === "") {
       return;
     }
+    if (foster && this.#shouldFosterParent()) {
+      const location = this.#fosterParentLocation();
+      const previous =
+        location.reference?.previousSibling ?? location.parent.lastChild;
+      const text = new Text(
+        this.document,
+        (previous instanceof Text ? previous.data : "") + data,
+      );
+      if (previous instanceof Text) {
+        previous._remove();
+      }
+      if (location.reference !== null) {
+        location.parent._insertBefore(text, location.reference);
+      } else {
+        location.parent._append(text);
+      }
+      return;
+    }
     let parent: Node = this.#current() ?? this.document;
-    let table: Element | undefined;
     if (
       parent instanceof Element &&
       parent.localName === "template" &&
@@ -946,16 +1991,7 @@ class TreeBuilder {
     ) {
       parent = parent._templateContents;
     }
-    if (foster) {
-      table = [...this.#stack]
-        .reverse()
-        .find((element) => element.localName === "table");
-      if (table?.parentNode !== null && table?.parentNode !== undefined) {
-        parent = table.parentNode;
-      }
-    }
-    const reference = table;
-    const previous = reference?.previousSibling ?? parent.lastChild;
+    const previous = parent.lastChild;
     const text = new Text(
       this.document,
       (previous instanceof Text ? previous.data : "") + data,
@@ -963,11 +1999,7 @@ class TreeBuilder {
     if (previous instanceof Text) {
       previous._remove();
     }
-    if (reference !== undefined) {
-      parent._insertBefore(text, reference);
-    } else {
-      parent._append(text);
-    }
+    parent._append(text);
   }
 
   #comment(data: string, foster = false): void {
@@ -988,6 +2020,52 @@ class TreeBuilder {
     return { type: "StartTag", name, attributes: {}, selfClosing: false };
   }
 
+  #setFramesetNotOk(): void {
+    if (!this.#inTemplateContext()) {
+      this.#framesetOk = false;
+    }
+  }
+
+  #inTemplateContext(): boolean {
+    return (
+      this.#context?.localName === "template" || this.#contains("template")
+    );
+  }
+
+  #doctypeCausesQuirks(token: Extract<Token, { type: "DOCTYPE" }>): boolean {
+    if (token.forceQuirks || token.name !== "html") {
+      return true;
+    }
+    const publicId = token.publicId?.toLowerCase() ?? "";
+    const systemId = token.systemId?.toLowerCase() ?? "";
+    if (
+      publicId === "html" ||
+      systemId === "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"
+    ) {
+      return true;
+    }
+    return [
+      "+//silmaril//dtd html pro v0r11 19970101//",
+      "-//advasoft ltd//dtd html 3.0 aswedit + extensions//",
+      "-//as//dtd html 3.0 aswedit + extensions//",
+      "-//ietf//dtd html 2.0",
+      "-//ietf//dtd html 3.0",
+      "-//metrius//dtd metrius presentational//",
+      "-//microsoft//dtd internet explorer 2.0 html",
+      "-//microsoft//dtd internet explorer 3.0 html",
+      "-//netscape comm. corp.//dtd html//",
+      "-//o'reilly and associates//dtd html",
+      "-//softquad software//dtd hotmetal pro 6.0::19990601::extensions to html 4.0//",
+      "-//spyglass//dtd html 2.0 extended//",
+      "-//sq//dtd html 2.0 hotmetal + extensions//",
+      "-//sun microsystems corp.//dtd hotjava html//",
+      "-//w3c//dtd html 3",
+      "-//w3o//dtd w3 html strict 3.0//",
+      "-//webtechs//dtd mozilla html 2.0//",
+      "-//webtechs//dtd w3 html//",
+    ].some((prefix) => publicId.startsWith(prefix));
+  }
+
   #current(): Element | null {
     return this.#stack.at(-1) ?? null;
   }
@@ -998,7 +2076,8 @@ class TreeBuilder {
 
   #close(name: string): void {
     const index = this.#stack.findLastIndex(
-      (element) => element.localName === name,
+      (element) =>
+        element.localName === name && element.namespaceURI === HTML_NAMESPACE,
     );
     if (index >= 0) {
       this.#stack.length = index;
@@ -1007,7 +2086,10 @@ class TreeBuilder {
 
   #closeNearest(names: string[]): void {
     for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
-      if (names.includes(this.#stack[index]?.localName ?? "")) {
+      if (
+        this.#stack[index]?.namespaceURI === HTML_NAMESPACE &&
+        names.includes(this.#stack[index]?.localName ?? "")
+      ) {
         this.#stack.length = index;
         return;
       }
@@ -1015,9 +2097,182 @@ class TreeBuilder {
   }
 
   #closeParagraph(): void {
-    if (this.#contains("p")) {
+    if (this.#hasInScope("p", "button")) {
+      this.#generateImpliedEndTags("p");
       this.#close("p");
     }
+  }
+
+  #isSpecial(element: Element): boolean {
+    if (element.namespaceURI === HTML_NAMESPACE) {
+      return SPECIAL_HTML.has(element.localName);
+    }
+    if (element.namespaceURI === MATHML_NAMESPACE) {
+      return ["annotation-xml", "mi", "mo", "mn", "ms", "mtext"].includes(
+        element.localName,
+      );
+    }
+    return (
+      element.namespaceURI === SVG_NAMESPACE &&
+      ["foreignObject", "desc", "title"].includes(element.localName)
+    );
+  }
+
+  #hasInScope(
+    name: string,
+    type: "default" | "button" | "list" | "table" | "select" = "default",
+  ): boolean {
+    for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
+      const element = this.#stack[index];
+      if (element === undefined) {
+        continue;
+      }
+      if (
+        element.localName === name &&
+        element.namespaceURI === HTML_NAMESPACE
+      ) {
+        return true;
+      }
+      if (type === "select") {
+        if (
+          element.namespaceURI !== HTML_NAMESPACE ||
+          !["option", "optgroup"].includes(element.localName)
+        ) {
+          return false;
+        }
+        continue;
+      }
+      if (type === "table") {
+        if (
+          element.namespaceURI === HTML_NAMESPACE &&
+          ["html", "table", "template"].includes(element.localName)
+        ) {
+          return false;
+        }
+        continue;
+      }
+      if (
+        element.namespaceURI === HTML_NAMESPACE &&
+        [
+          "applet",
+          "caption",
+          "html",
+          "table",
+          "td",
+          "th",
+          "marquee",
+          "object",
+          "template",
+          ...(type === "button" ? ["button"] : []),
+          ...(type === "list" ? ["ol", "ul"] : []),
+        ].includes(element.localName)
+      ) {
+        return false;
+      }
+      if (
+        element.namespaceURI === MATHML_NAMESPACE &&
+        ["annotation-xml", "mi", "mo", "mn", "ms", "mtext"].includes(
+          element.localName,
+        )
+      ) {
+        return false;
+      }
+      if (
+        element.namespaceURI === SVG_NAMESPACE &&
+        ["foreignObject", "desc", "title"].includes(element.localName)
+      ) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  #hasHeadingInScope(): boolean {
+    return ["h1", "h2", "h3", "h4", "h5", "h6"].some((name) =>
+      this.#hasInScope(name),
+    );
+  }
+
+  #hasAnyInScope(
+    names: readonly string[],
+    type: "default" | "button" | "list" | "table" | "select" = "default",
+  ): boolean {
+    return names.some((name) => this.#hasInScope(name, type));
+  }
+
+  #generateImpliedEndTags(except?: string): void {
+    while (
+      this.#current() !== null &&
+      IMPLIED_END.has(this.#current()?.localName ?? "") &&
+      this.#current()?.localName !== except
+    ) {
+      this.#stack.pop();
+    }
+  }
+
+  #closeListItem(name: "li" | "dd" | "dt"): void {
+    for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
+      const element = this.#stack[index];
+      if (element === undefined) {
+        continue;
+      }
+      const matches =
+        name === "li"
+          ? element.localName === "li"
+          : element.localName === "dd" || element.localName === "dt";
+      if (matches) {
+        this.#generateImpliedEndTags(element.localName);
+        this.#stack.length = index;
+        return;
+      }
+      if (
+        this.#isSpecial(element) &&
+        !["address", "div", "p"].includes(element.localName)
+      ) {
+        return;
+      }
+    }
+  }
+
+  #genericEndTag(name: string): void {
+    for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
+      const element = this.#stack[index];
+      if (element === undefined) {
+        continue;
+      }
+      if (element.localName === name) {
+        this.#generateImpliedEndTags(name);
+        this.#stack.length = index;
+        return;
+      }
+      if (this.#isSpecial(element)) {
+        return;
+      }
+    }
+  }
+
+  #inTableContext(): boolean {
+    for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
+      const name = this.#stack[index]?.localName;
+      if (name === "template") {
+        return false;
+      }
+      if (name === "table") {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  #startText(
+    token: Extract<Token, { type: "StartTag" }>,
+    state: "RCDATA state" | "RAWTEXT state" | "Script data state",
+    foster = false,
+  ): void {
+    this.#insert(token, true, foster);
+    this.#tokenizer.setState(state, token.name);
+    this.#originalMode = this.#mode;
+    this.#mode = "text";
   }
 
   #clearTo(names: string[]): void {
@@ -1045,25 +2300,199 @@ class TreeBuilder {
     );
   }
 
-  #adopt(name: string): void {
-    const formattingIndex = this.#formatting.findLastIndex(
-      (element) => element?.localName === name,
-    );
-    if (formattingIndex < 0) {
-      this.#close(name);
-      return;
-    }
-    const element = this.#formatting[formattingIndex];
-    if (element !== null && element !== undefined) {
-      const stackIndex = this.#stack.lastIndexOf(element);
-      if (stackIndex >= 0) {
-        this.#stack.length = stackIndex;
+  #activeFormatting(name: string): Element | null {
+    for (let index = this.#formatting.length - 1; index >= 0; index -= 1) {
+      const element = this.#formatting[index];
+      if (element === null) {
+        return null;
+      }
+      if (element?.localName === name) {
+        return element;
       }
     }
-    this.#formatting.splice(formattingIndex, 1);
+    return null;
   }
 
-  #reconstructFormatting(): void {
+  #pushFormatting(element: Element): void {
+    const matching: number[] = [];
+    for (let index = this.#formatting.length - 1; index >= 0; index -= 1) {
+      const candidate = this.#formatting[index];
+      if (candidate === null) {
+        break;
+      }
+      if (candidate === undefined) {
+        continue;
+      }
+      if (
+        candidate.localName === element.localName &&
+        candidate.namespaceURI === element.namespaceURI &&
+        candidate._attributeNodes.length === element._attributeNodes.length &&
+        candidate._attributeNodes.every((attribute) =>
+          element._attributeNodes.some(
+            (other) =>
+              other.namespaceURI === attribute.namespaceURI &&
+              other.localName === attribute.localName &&
+              other.value === attribute.value,
+          ),
+        )
+      ) {
+        matching.push(index);
+      }
+    }
+    if (matching.length >= 3) {
+      const earliest = matching.at(-1);
+      if (earliest !== undefined) {
+        this.#formatting.splice(earliest, 1);
+      }
+    }
+    this.#formatting.push(element);
+  }
+
+  #removeFromStack(element: Element): void {
+    const index = this.#stack.indexOf(element);
+    if (index >= 0) {
+      this.#stack.splice(index, 1);
+    }
+  }
+
+  #removeFromFormatting(element: Element): void {
+    const index = this.#formatting.indexOf(element);
+    if (index >= 0) {
+      this.#formatting.splice(index, 1);
+    }
+  }
+
+  #cloneElement(element: Element): Element {
+    const clone =
+      element.namespaceURI === HTML_NAMESPACE
+        ? createHTMLElement(this.document, element.localName)
+        : new Element(
+            this.document,
+            element.localName,
+            element.namespaceURI,
+            element.prefix,
+          );
+    clone._setAttributes(
+      element._attributeNodes.map((attribute) => ({
+        name: attribute.name,
+        value: attribute.value,
+        namespaceURI: attribute.namespaceURI,
+        prefix: attribute.prefix,
+        localName: attribute.localName,
+      })),
+    );
+    return clone;
+  }
+
+  #appendToElement(parent: Element, node: Node): void {
+    if (parent.localName === "template" && parent._templateContents !== null) {
+      parent._templateContents._append(node);
+    } else {
+      parent._append(node);
+    }
+  }
+
+  #adopt(name: string): void {
+    for (let outer = 0; outer < 8; outer += 1) {
+      const formattingElement = this.#activeFormatting(name);
+      if (formattingElement === null) {
+        this.#genericEndTag(name);
+        return;
+      }
+      const formattingStackIndex = this.#stack.indexOf(formattingElement);
+      if (formattingStackIndex < 0) {
+        this.#removeFromFormatting(formattingElement);
+        return;
+      }
+      if (!this.#hasInScope(formattingElement.localName)) {
+        return;
+      }
+
+      let furthestBlock: Element | null = null;
+      for (
+        let index = formattingStackIndex + 1;
+        index < this.#stack.length;
+        index += 1
+      ) {
+        const candidate = this.#stack[index];
+        if (candidate !== undefined && this.#isSpecial(candidate)) {
+          furthestBlock = candidate;
+          break;
+        }
+      }
+      if (furthestBlock === null) {
+        this.#stack.length = formattingStackIndex;
+        this.#removeFromFormatting(formattingElement);
+        return;
+      }
+
+      const commonAncestor = this.#stack[formattingStackIndex - 1];
+      if (commonAncestor === undefined) {
+        return;
+      }
+      let bookmark = this.#formatting.indexOf(formattingElement);
+      let lastNode: Element = furthestBlock;
+      let nodeIndex = this.#stack.indexOf(furthestBlock);
+
+      for (let inner = 1; ; inner += 1) {
+        nodeIndex -= 1;
+        const node = this.#stack[nodeIndex];
+        if (node === undefined || node === formattingElement) {
+          break;
+        }
+        const formattingIndex = this.#formatting.indexOf(node);
+        if (inner > 3 && formattingIndex >= 0) {
+          this.#formatting.splice(formattingIndex, 1);
+        }
+        if (!this.#formatting.includes(node)) {
+          this.#stack.splice(nodeIndex, 1);
+          continue;
+        }
+
+        const replacement = this.#cloneElement(node);
+        const activeIndex = this.#formatting.indexOf(node);
+        if (activeIndex >= 0) {
+          this.#formatting[activeIndex] = replacement;
+        }
+        this.#stack[nodeIndex] = replacement;
+        if (lastNode === furthestBlock) {
+          bookmark = activeIndex + 1;
+        }
+        this.#appendToElement(replacement, lastNode);
+        lastNode = replacement;
+      }
+
+      if (
+        ["table", "tbody", "tfoot", "thead", "tr"].includes(
+          commonAncestor.localName,
+        )
+      ) {
+        this.#insertAtFosterParent(lastNode);
+      } else {
+        this.#appendToElement(commonAncestor, lastNode);
+      }
+
+      const replacement = this.#cloneElement(formattingElement);
+      for (const child of [...furthestBlock._childNodes]) {
+        this.#appendToElement(replacement, child);
+      }
+      this.#appendToElement(furthestBlock, replacement);
+
+      const oldFormattingIndex = this.#formatting.indexOf(formattingElement);
+      if (oldFormattingIndex >= 0) {
+        this.#formatting.splice(oldFormattingIndex, 1);
+        if (oldFormattingIndex < bookmark) {
+          bookmark -= 1;
+        }
+      }
+      this.#formatting.splice(bookmark, 0, replacement);
+      this.#removeFromStack(formattingElement);
+      const furthestIndex = this.#stack.indexOf(furthestBlock);
+      this.#stack.splice(furthestIndex + 1, 0, replacement);
+    }
+  }
+
+  #reconstructFormatting(foster = false): void {
     let index = this.#formatting.length - 1;
     const last = this.#formatting[index];
     if (last === undefined || last === null || this.#stack.includes(last)) {
@@ -1081,22 +2510,8 @@ class TreeBuilder {
       if (old === null || old === undefined) {
         continue;
       }
-      const clone = new Element(
-        this.document,
-        old.localName,
-        old.namespaceURI,
-        old.prefix,
-      );
-      clone._setAttributes(
-        old._attributeNodes.map((attribute) => ({
-          name: attribute.name,
-          value: attribute.value,
-          namespaceURI: attribute.namespaceURI,
-          prefix: attribute.prefix,
-          localName: attribute.localName,
-        })),
-      );
-      this.#insertNode(clone, false);
+      const clone = this.#cloneElement(old);
+      this.#insertNode(clone, foster);
       this.#stack.push(clone);
       this.#formatting[index] = clone;
     }
@@ -1118,7 +2533,11 @@ class TreeBuilder {
     for (let index = this.#stack.length - 1; index >= 0; index -= 1) {
       const name = this.#stack[index]?.localName;
       if (name === "select") {
-        this.#mode = "in-select";
+        this.#mode = this.#stack
+          .slice(0, index)
+          .some((element) => element.localName === "table")
+          ? "in-select-in-table"
+          : "in-select";
       } else if (name === "td" || name === "th") {
         this.#mode = "in-cell";
       } else if (name === "tr") {
@@ -1127,21 +2546,68 @@ class TreeBuilder {
         this.#mode = "in-table-body";
       } else if (name === "table") {
         this.#mode = "in-table";
+      } else if (name === "template") {
+        this.#mode = this.#templateModes.at(-1) ?? "in-template";
       } else if (name === "head") {
         this.#mode = "in-head";
       } else if (name === "body") {
         this.#mode = "in-body";
+      } else if (name === "frameset") {
+        this.#mode = "in-frameset";
       } else {
         continue;
       }
       return;
     }
-    this.#mode = "in-body";
+    this.#mode = this.#context === null ? "in-body" : this.#modeForContext();
   }
 
   #ensureBody(): void {
     if (this.#body === null) {
       this.#body = this.#insert(this.#start("body"));
+    }
+  }
+
+  #cloneSubtree(node: Node): Node {
+    let clone: Node;
+    if (node instanceof Text) {
+      clone = new Text(this.document, node.data);
+    } else if (node instanceof Comment) {
+      clone = new Comment(this.document, node.data);
+    } else if (node instanceof ProcessingInstruction) {
+      clone = new ProcessingInstruction(this.document, node.target, node.data);
+    } else if (node instanceof Element) {
+      clone = this.#cloneElement(node);
+    } else {
+      throw new TypeError(
+        `cannot clone selected option node: ${node.nodeName}`,
+      );
+    }
+    for (const child of node.childNodes) {
+      clone._append(this.#cloneSubtree(child));
+    }
+    return clone;
+  }
+
+  #syncSelectedContent(): void {
+    for (const select of this.document.querySelectorAll("select")) {
+      const selectedContent = select.querySelector("selectedcontent");
+      if (selectedContent === null) {
+        continue;
+      }
+      const options = [...select.querySelectorAll("option")];
+      const selected =
+        options.findLast((option) => option.hasAttribute("selected")) ??
+        options[0];
+      if (selected === undefined) {
+        continue;
+      }
+      while (selectedContent.firstChild !== null) {
+        selectedContent.firstChild._remove();
+      }
+      for (const child of selected.childNodes) {
+        selectedContent._append(this.#cloneSubtree(child));
+      }
     }
   }
 
@@ -1154,11 +2620,13 @@ class TreeBuilder {
     if (this.document.head === null) {
       const head = new Element(this.document, "head");
       const documentElement = this.document.documentElement;
-      const firstChild = documentElement?.firstChild;
-      if (firstChild === null || firstChild === undefined) {
+      const body = documentElement?._childNodes.find(
+        (node) => node instanceof Element && node.localName === "body",
+      );
+      if (body === undefined) {
         documentElement?._append(head);
       } else {
-        documentElement?._insertBefore(head, firstChild);
+        documentElement?._insertBefore(head, body);
       }
     }
     if (this.document.body === null) {
@@ -1166,9 +2634,21 @@ class TreeBuilder {
         new Element(this.document, "body"),
       );
     }
+    this.#syncSelectedContent();
   }
 }
 
-export function parseHTML(input: string): Document {
-  return new TreeBuilder(input).parse();
+export function parseHTML(
+  input: string,
+  options: HTMLParserOptions = {},
+): Document {
+  return new TreeBuilder(input, options).parse();
+}
+
+export function parseHTMLFragment(
+  input: string,
+  context: HTMLFragmentContext,
+  options: HTMLParserOptions = {},
+): DocumentFragment {
+  return new TreeBuilder(input, { ...options, context }).parseFragment();
 }

@@ -2,7 +2,7 @@
 
 ## 1. HTML parsing / DOM tree construction
 
-- [ ] html5lib tree-construction tests の実行基盤
+- [x] html5lib tree-construction tests の実行基盤
 - [ ] fragment parsing
 - [ ] `innerHTML` など、context element を使用する parse
 - [ ] parser error の公開方法
