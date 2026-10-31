@@ -17,6 +17,7 @@
     "benchmark/**/*.ts",
     "src/**/*.ts",
     "test/**/*.ts",
+    "tools/**/*.ts",
     "vitest.config.ts"
   ]
 }

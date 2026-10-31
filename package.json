@@ -26,7 +26,7 @@
     "check": "npm run format && npm run lint && npm run typecheck && npm test && npm run build",
     "conformance:sync": "sh tools/conformance/sync.sh",
     "conformance:sync:force": "sh tools/conformance/sync.sh --force",
-    "conformance:test": "vitest run --project conformance",
+    "conformance:test": "sh tools/conformance/run.sh",
     "format": "prettier --check --write .",
     "lint": "eslint . --fix",
     "test": "vitest run --project project",

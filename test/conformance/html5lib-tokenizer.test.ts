@@ -10,6 +10,7 @@ import type {
   Token,
   TokenizerState,
 } from "../../src/html/tokenizer.js";
+import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 
 type FixtureToken =
   | ["DOCTYPE", string | null, string | null, string | null, boolean]
@@ -40,7 +41,9 @@ type Fixture = Record<string, FixtureCase[]>;
 interface Exclusion {
   readonly caseId: string;
   readonly file: string;
+  readonly line: number;
   readonly description: string;
+  readonly classification: "skip";
   readonly reason: string;
 }
 
@@ -55,42 +58,54 @@ const exclusions: Exclusion[] = [
   {
     caseId: "bd0e46e6e8d7d619b48d216d4fb1a411d8c7ba0f3021e70e93c0f122c06d19be",
     file: "domjs.test",
+    line: 3,
     description: "CR in bogus comment state",
+    classification: "skip",
     reason:
       "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm.",
   },
   {
     caseId: "5faab453628218551d267c93d4e0d539f8afdf330d2dde8ee5883768c07221d6",
     file: "domjs.test",
+    line: 11,
     description: "CRLF in bogus comment state",
+    classification: "skip",
     reason:
       "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm.",
   },
   {
     caseId: "2dafa2280fcd2eabd9a92da056068b1431bf3036ce6857acdd5e66ddb816760f",
     file: "domjs.test",
+    line: 19,
     description: "CRLFLF in bogus comment state",
+    classification: "skip",
     reason:
       "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm.",
   },
   {
     caseId: "e86f73b07553153fb88073cf641e5fac0a8af79bd8f501eac6697f96544757e7",
     file: "xmlViolation.test",
+    line: 3,
     description: "Non-XML character",
+    classification: "skip",
     reason:
       "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves.",
   },
   {
     caseId: "cfa1eea9521bbb24d4f2d62f97697baf8f855b55abfe8f3e3d38312c79effe16",
     file: "xmlViolation.test",
+    line: 7,
     description: "Non-XML space",
+    classification: "skip",
     reason:
       "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves.",
   },
   {
     caseId: "609f416545ac5b8bf017df13ba41f431555c4dea933ac96ffb0a74636c5606a1",
     file: "xmlViolation.test",
+    line: 11,
     description: "Double hyphen in comment",
+    classification: "skip",
     reason:
       "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves.",
   },
@@ -205,21 +220,40 @@ describe("html5lib tokenizer", () => {
           const test = exclusion === undefined ? it : it.skip;
           const reason =
             exclusion === undefined ? "" : ` [excluded: ${exclusion.reason}]`;
+          const metadata: ConformanceCaseMetadata = {
+            caseId,
+            suite: "html5lib-tokenizer",
+            profile: state,
+            fixtureFile: file,
+            ...(exclusion === undefined
+              ? {}
+              : {
+                  fixtureLine: exclusion.line,
+                  excludedAs: exclusion.classification,
+                  reason: exclusion.reason,
+                }),
+          };
 
-          test(`${caseId} ${file}:${String(index)} ${fixture.description} [${state}]${reason}`, () => {
-            const actual = tokenize(input, {
-              initialState: state,
-              ...(fixture.lastStartTag === undefined
-                ? {}
-                : { lastStartTag: fixture.lastStartTag }),
-            });
+          test(
+            `${caseId} ${file}:${String(index)} ${fixture.description} [${state}]${reason}`,
+            { meta: { conformance: metadata } },
+            () => {
+              const actual = tokenize(input, {
+                initialState: state,
+                ...(fixture.lastStartTag === undefined
+                  ? {}
+                  : { lastStartTag: fixture.lastStartTag }),
+              });
 
-            expect(actual.tokens.map(toFixtureToken)).toEqual(output);
+              expect(actual.tokens.map(toFixtureToken)).toEqual(output);
 
-            if (fixture.errors !== undefined) {
-              expect(actual.errors.map(toFixtureError)).toEqual(fixture.errors);
-            }
-          });
+              if (fixture.errors !== undefined) {
+                expect(actual.errors.map(toFixtureError)).toEqual(
+                  fixture.errors,
+                );
+              }
+            },
+          );
         }
       }
     }

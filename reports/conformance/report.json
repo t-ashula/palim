@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "runStatus": "passed",
+  "unhandledErrorCount": 0,
+  "totals": {
+    "total": 10957,
+    "pass": 10945,
+    "fail": 0,
+    "unsupported": 6,
+    "skip": 6,
+    "error": 0,
+    "timeout": 0
+  },
+  "suites": [
+    {
+      "name": "html5lib-tokenizer",
+      "source": {
+        "name": "html5lib/html5lib-tests",
+        "revision": "c777c408b61078ea2eb4acefc2535f54dbc8b28a"
+      },
+      "totals": {
+        "total": 7053,
+        "pass": 7047,
+        "fail": 0,
+        "unsupported": 0,
+        "skip": 6,
+        "error": 0,
+        "timeout": 0
+      },
+      "profiles": [
+        {
+          "name": "CDATA section state",
+          "totals": {
+            "total": 56,
+            "pass": 56,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        },
+        {
+          "name": "Data state",
+          "totals": {
+            "total": 6711,
+            "pass": 6705,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 6,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "domjs.test",
+              "line": 3,
+              "classification": "skip",
+              "reason": "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm."
+            },
+            {
+              "file": "domjs.test",
+              "line": 11,
+              "classification": "skip",
+              "reason": "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm."
+            },
+            {
+              "file": "domjs.test",
+              "line": 19,
+              "classification": "skip",
+              "reason": "The fixture expects the parse error from before processing-instruction states were added and does not match the current HTML tokenizer algorithm."
+            },
+            {
+              "file": "xmlViolation.test",
+              "line": 3,
+              "classification": "skip",
+              "reason": "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves."
+            },
+            {
+              "file": "xmlViolation.test",
+              "line": 7,
+              "classification": "skip",
+              "reason": "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves."
+            },
+            {
+              "file": "xmlViolation.test",
+              "line": 11,
+              "classification": "skip",
+              "reason": "The fixture expects output after applying Coercing an HTML DOM into an infoset, not the tokenizer tokens themselves."
+            }
+          ]
+        },
+        {
+          "name": "PLAINTEXT state",
+          "totals": {
+            "total": 52,
+            "pass": 52,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        },
+        {
+          "name": "RAWTEXT state",
+          "totals": {
+            "total": 71,
+            "pass": 71,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        },
+        {
+          "name": "RCDATA state",
+          "totals": {
+            "total": 74,
+            "pass": 74,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        },
+        {
+          "name": "Script data state",
+          "totals": {
+            "total": 89,
+            "pass": 89,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        }
+      ]
+    },
+    {
+      "name": "html5lib-tree-construction",
+      "source": {
+        "name": "wpt/wpt",
+        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+      },
+      "totals": {
+        "total": 3904,
+        "pass": 3898,
+        "fail": 0,
+        "unsupported": 6,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0
+      },
+      "profiles": [
+        {
+          "name": "document",
+          "totals": {
+            "total": 3492,
+            "pass": 3486,
+            "fail": 0,
+            "unsupported": 6,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "scripted_adoption01.dat",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            },
+            {
+              "file": "scripted_ark.dat",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            },
+            {
+              "file": "scripted_foster01.dat",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            },
+            {
+              "file": "scripted_foster01.dat",
+              "line": 12,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            },
+            {
+              "file": "scripted_webkit01.dat",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            },
+            {
+              "file": "scripted_webkit01.dat",
+              "line": 14,
+              "classification": "unsupported",
+              "reason": "The fixture requires executing script during tree construction."
+            }
+          ]
+        },
+        {
+          "name": "fragment",
+          "totals": {
+            "total": 412,
+            "pass": 412,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": []
+        }
+      ]
+    }
+  ]
+}
