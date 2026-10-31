@@ -16,6 +16,7 @@ import {
   XML_NAMESPACE,
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
+import { createHTMLElement } from "../html-elements.js";
 import type { Token } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
 
@@ -383,7 +384,7 @@ class TreeBuilder {
         this.#tokenizer.setState("Script data state", token.name);
       } else if (token.name === "template") {
         const template = this.#insert(token);
-        template._templateContents = new DocumentFragment(this.document);
+        template._templateContents ??= new DocumentFragment(this.document);
         this.#formatting.push(null);
         this.#mode = "in-body";
       } else if (token.name === "html") {
@@ -850,7 +851,10 @@ class TreeBuilder {
       namespace === SVG_NAMESPACE
         ? (SVG_NAMES[token.name] ?? token.name)
         : token.name;
-    const element = new Element(this.document, localName, namespace);
+    const element =
+      namespace === HTML_NAMESPACE
+        ? createHTMLElement(this.document, localName)
+        : new Element(this.document, localName, namespace);
     element._setAttributes(
       Object.entries(token.attributes).map(
         ([sourceName, value]): AttributeData => {

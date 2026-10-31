@@ -4,7 +4,12 @@ import {
   querySelector as selectFirst,
   querySelectorAll as selectAll,
 } from "./selectors.js";
-import { HTML_NAMESPACE } from "./namespaces.js";
+import { DOMException } from "./dom-exception.js";
+import {
+  HTML_NAMESPACE,
+  XML_NAMESPACE,
+  XMLNS_NAMESPACE,
+} from "./namespaces.js";
 
 function indexed<T extends object>(
   collection: T,
@@ -21,6 +26,237 @@ function indexed<T extends object>(
         : value;
     },
   });
+}
+
+export interface EventInit {
+  readonly bubbles?: boolean;
+  readonly cancelable?: boolean;
+  readonly composed?: boolean;
+}
+
+export class Event {
+  static readonly NONE = 0;
+  static readonly CAPTURING_PHASE = 1;
+  static readonly AT_TARGET = 2;
+  static readonly BUBBLING_PHASE = 3;
+  readonly NONE = 0;
+  readonly CAPTURING_PHASE = 1;
+  readonly AT_TARGET = 2;
+  readonly BUBBLING_PHASE = 3;
+  readonly type: string;
+  readonly bubbles: boolean;
+  readonly cancelable: boolean;
+  readonly composed: boolean;
+  readonly isTrusted = false;
+  readonly timeStamp = Date.now();
+  _target: EventTarget | null = null;
+  _currentTarget: EventTarget | null = null;
+  _eventPhase = Event.NONE;
+  _defaultPrevented = false;
+  _stopPropagation = false;
+  _stopImmediatePropagation = false;
+  _path: EventTarget[] = [];
+
+  constructor(type: string, eventInit: EventInit = {}) {
+    this.type = domString(type);
+    this.bubbles = Boolean(eventInit.bubbles);
+    this.cancelable = Boolean(eventInit.cancelable);
+    this.composed = Boolean(eventInit.composed);
+  }
+
+  get target(): EventTarget | null {
+    return this._target;
+  }
+
+  get srcElement(): EventTarget | null {
+    return this._target;
+  }
+
+  get currentTarget(): EventTarget | null {
+    return this._currentTarget;
+  }
+
+  get eventPhase(): number {
+    return this._eventPhase;
+  }
+
+  get defaultPrevented(): boolean {
+    return this._defaultPrevented;
+  }
+
+  get cancelBubble(): boolean {
+    return this._stopPropagation;
+  }
+
+  set cancelBubble(value: boolean) {
+    if (value) {
+      this._stopPropagation = true;
+    }
+  }
+
+  get returnValue(): boolean {
+    return !this._defaultPrevented;
+  }
+
+  set returnValue(value: boolean) {
+    if (!value) {
+      this.preventDefault();
+    }
+  }
+
+  composedPath(): EventTarget[] {
+    return [...this._path];
+  }
+
+  stopPropagation(): void {
+    this._stopPropagation = true;
+  }
+
+  stopImmediatePropagation(): void {
+    this._stopPropagation = true;
+    this._stopImmediatePropagation = true;
+  }
+
+  preventDefault(): void {
+    if (this.cancelable) {
+      this._defaultPrevented = true;
+    }
+  }
+}
+
+export type EventListener = (event: Event) => void;
+
+export interface EventListenerObject {
+  handleEvent(event: Event): void;
+}
+
+export interface AddEventListenerOptions {
+  readonly capture?: boolean;
+  readonly once?: boolean;
+  readonly passive?: boolean;
+}
+
+interface RegisteredEventListener {
+  readonly callback: EventListener | EventListenerObject;
+  readonly capture: boolean;
+  readonly once: boolean;
+}
+
+export class EventTarget {
+  readonly #listeners = new Map<string, RegisteredEventListener[]>();
+
+  addEventListener(
+    type: string,
+    callback: EventListener | EventListenerObject | null,
+    options: boolean | AddEventListenerOptions = false,
+  ): void {
+    if (callback === null) {
+      return;
+    }
+    const convertedType = domString(type);
+    const capture =
+      typeof options === "boolean" ? options : Boolean(options.capture);
+    const listeners = this.#listeners.get(convertedType) ?? [];
+    if (
+      listeners.some(
+        (listener) =>
+          listener.callback === callback && listener.capture === capture,
+      )
+    ) {
+      return;
+    }
+    listeners.push({
+      callback,
+      capture,
+      once: typeof options === "object" && Boolean(options.once),
+    });
+    this.#listeners.set(convertedType, listeners);
+  }
+
+  removeEventListener(
+    type: string,
+    callback: EventListener | EventListenerObject | null,
+    options: boolean | { readonly capture?: boolean } = false,
+  ): void {
+    if (callback === null) {
+      return;
+    }
+    const capture =
+      typeof options === "boolean" ? options : Boolean(options.capture);
+    const convertedType = domString(type);
+    const listeners = this.#listeners.get(convertedType);
+    if (listeners === undefined) {
+      return;
+    }
+    const index = listeners.findIndex(
+      (listener) =>
+        listener.callback === callback && listener.capture === capture,
+    );
+    if (index >= 0) {
+      listeners.splice(index, 1);
+    }
+  }
+
+  dispatchEvent(event: Event): boolean {
+    if (!(event instanceof Event)) {
+      throw new TypeError("The event is not an Event");
+    }
+    if (event.type === "") {
+      throw new DOMException("The event has no type", "InvalidStateError");
+    }
+    const path: EventTarget[] = [this];
+    if (event.bubbles) {
+      let parent = this._eventParent();
+      while (parent !== null) {
+        path.push(parent);
+        parent = parent._eventParent();
+      }
+    }
+    event._target = this;
+    event._path = path;
+    for (const [index, target] of path.entries()) {
+      if (event._stopPropagation && index > 0) {
+        break;
+      }
+      event._currentTarget = target;
+      event._eventPhase = index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
+      target._invoke(event);
+    }
+    event._currentTarget = null;
+    event._eventPhase = Event.NONE;
+    return !event.defaultPrevented;
+  }
+
+  _eventParent(): EventTarget | null {
+    return null;
+  }
+
+  _invoke(event: Event): void {
+    const listeners = [...(this.#listeners.get(event.type) ?? [])];
+    for (const listener of listeners) {
+      if (listener.once) {
+        this.removeEventListener(
+          event.type,
+          listener.callback,
+          listener.capture,
+        );
+      }
+      if (typeof listener.callback === "function") {
+        listener.callback.call(this, event);
+      } else {
+        listener.callback.handleEvent(event);
+      }
+      if (event._stopImmediatePropagation) {
+        break;
+      }
+    }
+    if (!event._stopImmediatePropagation) {
+      const handler: unknown = Reflect.get(this, `on${event.type}`);
+      if (typeof handler === "function") {
+        handler.call(this, event);
+      }
+    }
+  }
 }
 
 export class NodeList<T extends Node = Node> implements Iterable<T> {
@@ -47,6 +283,7 @@ export class NodeList<T extends Node = Node> implements Iterable<T> {
 
 export class HTMLCollection<
   T extends Element = Element,
+  N = T,
 > implements Iterable<T> {
   readonly [index: number]: T | undefined;
   readonly #values: () => readonly T[];
@@ -62,6 +299,18 @@ export class HTMLCollection<
 
   item(index: number): T | null {
     return this.#values()[index] ?? null;
+  }
+
+  namedItem(name: string): N | null {
+    const converted = domString(name);
+    if (converted === "") {
+      return null;
+    }
+    return (this.#values().find(
+      (element) =>
+        element.getAttribute("id") === converted ||
+        element.getAttribute("name") === converted,
+    ) ?? null) as N | null;
   }
 
   [Symbol.iterator](): Iterator<T> {
@@ -91,7 +340,7 @@ export class NamedNodeMap implements Iterable<Attr> {
   }
 }
 
-export class Node {
+export class Node extends EventTarget {
   static readonly ELEMENT_NODE = 1;
   static readonly ATTRIBUTE_NODE = 2;
   static readonly TEXT_NODE = 3;
@@ -103,9 +352,9 @@ export class Node {
 
   readonly nodeType: number;
   readonly nodeName: string;
-  readonly ownerDocument: Document | null;
   readonly childNodes: NodeList;
   readonly _childNodes: Node[] = [];
+  _ownerDocument: Document | null;
   _parentNode: Node | null = null;
 
   constructor(
@@ -113,10 +362,19 @@ export class Node {
     nodeName: string,
     ownerDocument: Document | null,
   ) {
+    super();
     this.nodeType = nodeType;
     this.nodeName = nodeName;
-    this.ownerDocument = ownerDocument;
+    this._ownerDocument = ownerDocument;
     this.childNodes = new NodeList(() => this._childNodes);
+  }
+
+  override _eventParent(): EventTarget | null {
+    return this._parentNode;
+  }
+
+  get ownerDocument(): Document | null {
+    return this._ownerDocument;
   }
 
   get parentNode(): Node | null {
@@ -155,6 +413,64 @@ export class Node {
     return descendantText(this);
   }
 
+  appendChild<T extends Node>(node: T): T {
+    requireNodeArgument(node, arguments.length);
+    preInsert(node, this, null);
+    return node;
+  }
+
+  insertBefore<T extends Node>(node: T, child: Node | null): T {
+    requireNodeArgument(node, arguments.length);
+    if (child !== null && !(child instanceof Node)) {
+      throw new TypeError("The child is not a Node");
+    }
+    preInsert(node, this, child);
+    return node;
+  }
+
+  replaceChild<T extends Node>(node: Node, child: T): T {
+    if (arguments.length < 2) {
+      throw new TypeError("2 arguments required");
+    }
+    if (!(node instanceof Node) || !(child instanceof Node)) {
+      throw new TypeError("The argument is not a Node");
+    }
+    if (child._parentNode !== this) {
+      throw new DOMException(
+        "The node to be replaced is not a child of this node",
+        "NotFoundError",
+      );
+    }
+    if (node === child) {
+      return child;
+    }
+
+    let reference = child.nextSibling;
+    if (reference === node) {
+      reference = node.nextSibling;
+    }
+    ensurePreInsertionValidity(node, this, reference, child);
+    child._remove();
+    insertNodes(node, this, reference);
+    return child;
+  }
+
+  removeChild<T extends Node>(child: T): T {
+    requireNodeArgument(child, arguments.length);
+    if (child._parentNode !== this) {
+      throw new DOMException(
+        "The node to be removed is not a child of this node",
+        "NotFoundError",
+      );
+    }
+    child._remove();
+    return child;
+  }
+
+  remove(): void {
+    this._remove();
+  }
+
   _append(node: Node): void {
     node._remove();
     node._parentNode = this;
@@ -187,6 +503,7 @@ export class Node {
 export class Document extends Node {
   readonly contentType = "text/html";
   readonly characterSet = "UTF-8";
+  _templateContentsOwnerDocument: Document | null = null;
   _quirks = true;
 
   constructor() {
@@ -273,11 +590,11 @@ export class DocumentType extends Node {
 
 export class Attr extends Node {
   readonly namespaceURI: string | null;
-  readonly prefix: string | null;
   readonly localName: string;
-  readonly name: string;
-  readonly value: string;
-  readonly ownerElement: Element;
+  prefix: string | null;
+  name: string;
+  value: string;
+  _ownerElement: Element | null;
 
   constructor(
     document: Document,
@@ -294,7 +611,11 @@ export class Attr extends Node {
     this.localName = localName;
     this.name = name;
     this.value = value;
-    this.ownerElement = element;
+    this._ownerElement = element;
+  }
+
+  get ownerElement(): Element | null {
+    return this._ownerElement;
   }
 
   override get textContent(): string {
@@ -357,6 +678,144 @@ export class Element extends Node {
     return this.children.length;
   }
 
+  getAttribute(qualifiedName: string): string | null {
+    const name = this.#attributeName(domString(qualifiedName));
+    return (
+      this._attributeNodes.find((attribute) => attribute.name === name)
+        ?.value ?? null
+    );
+  }
+
+  getAttributeNS(namespace: string | null, localName: string): string | null {
+    const normalizedNamespace = normalizeNamespace(namespace);
+    const name = domString(localName);
+    return (
+      this._attributeNodes.find(
+        (attribute) =>
+          attribute.namespaceURI === normalizedNamespace &&
+          attribute.localName === name,
+      )?.value ?? null
+    );
+  }
+
+  getAttributeNames(): string[] {
+    return this._attributeNodes.map((attribute) => attribute.name);
+  }
+
+  hasAttribute(qualifiedName: string): boolean {
+    const name = this.#attributeName(domString(qualifiedName));
+    return this._attributeNodes.some((attribute) => attribute.name === name);
+  }
+
+  hasAttributeNS(namespace: string | null, localName: string): boolean {
+    const normalizedNamespace = normalizeNamespace(namespace);
+    const name = domString(localName);
+    return this._attributeNodes.some(
+      (attribute) =>
+        attribute.namespaceURI === normalizedNamespace &&
+        attribute.localName === name,
+    );
+  }
+
+  setAttribute(qualifiedName: string, value: string): void {
+    if (arguments.length < 2) {
+      throw new TypeError("2 arguments required");
+    }
+    const name = this.#attributeName(domString(qualifiedName));
+    validateName(name);
+    const convertedValue = domString(value);
+    const attribute = this._attributeNodes.find(
+      (candidate) => candidate.namespaceURI === null && candidate.name === name,
+    );
+    if (attribute !== undefined) {
+      attribute.value = convertedValue;
+      return;
+    }
+    this._attributeNodes.push(
+      new Attr(this.#document(), this, name, convertedValue),
+    );
+  }
+
+  setAttributeNS(
+    namespace: string | null,
+    qualifiedName: string,
+    value: string,
+  ): void {
+    if (arguments.length < 3) {
+      throw new TypeError("3 arguments required");
+    }
+    const normalizedNamespace = normalizeNamespace(namespace);
+    const extracted = validateAndExtract(
+      normalizedNamespace,
+      domString(qualifiedName),
+    );
+    const convertedValue = domString(value);
+    const attribute = this._attributeNodes.find(
+      (candidate) =>
+        candidate.namespaceURI === normalizedNamespace &&
+        candidate.localName === extracted.localName,
+    );
+    if (attribute !== undefined) {
+      attribute.prefix = extracted.prefix;
+      attribute.name = extracted.qualifiedName;
+      attribute.value = convertedValue;
+      return;
+    }
+    this._attributeNodes.push(
+      new Attr(
+        this.#document(),
+        this,
+        extracted.qualifiedName,
+        convertedValue,
+        normalizedNamespace,
+        extracted.prefix,
+        extracted.localName,
+      ),
+    );
+  }
+
+  removeAttribute(qualifiedName: string): void {
+    const name = this.#attributeName(domString(qualifiedName));
+    const index = this._attributeNodes.findIndex(
+      (attribute) => attribute.name === name,
+    );
+    this.#removeAttribute(index);
+  }
+
+  removeAttributeNS(namespace: string | null, localName: string): void {
+    const normalizedNamespace = normalizeNamespace(namespace);
+    const name = domString(localName);
+    const index = this._attributeNodes.findIndex(
+      (attribute) =>
+        attribute.namespaceURI === normalizedNamespace &&
+        attribute.localName === name,
+    );
+    this.#removeAttribute(index);
+  }
+
+  toggleAttribute(qualifiedName: string, force?: boolean): boolean {
+    if (arguments.length === 0) {
+      throw new TypeError("1 argument required");
+    }
+    const name = this.#attributeName(domString(qualifiedName));
+    validateName(name);
+    const index = this._attributeNodes.findIndex(
+      (attribute) => attribute.namespaceURI === null && attribute.name === name,
+    );
+    if (index < 0) {
+      if (arguments.length < 2 || Boolean(force)) {
+        this._attributeNodes.push(new Attr(this.#document(), this, name, ""));
+        return true;
+      }
+      return false;
+    }
+    if (arguments.length < 2 || !Boolean(force)) {
+      this.#removeAttribute(index);
+      return false;
+    }
+    return true;
+  }
+
   querySelector(selectors: string): Element | null {
     return selectFirst(this, selectorArgument(selectors, arguments.length));
   }
@@ -375,6 +834,31 @@ export class Element extends Node {
 
   closest(selectors: string): Element | null {
     return closestSelector(this, selectorArgument(selectors, arguments.length));
+  }
+
+  #attributeName(name: string): string {
+    return this.namespaceURI === HTML_NAMESPACE &&
+      this.ownerDocument?.contentType === "text/html"
+      ? asciiLowercase(name)
+      : name;
+  }
+
+  #document(): Document {
+    const document = this.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Element has no owner document");
+    }
+    return document;
+  }
+
+  #removeAttribute(index: number): void {
+    if (index < 0) {
+      return;
+    }
+    const [attribute] = this._attributeNodes.splice(index, 1);
+    if (attribute !== undefined) {
+      attribute._ownerElement = null;
+    }
   }
 
   _setAttributes(attributes: readonly AttributeData[]): void {
@@ -489,4 +973,268 @@ function selectorArgument(value: unknown, length: number): string {
     throw new TypeError("Cannot convert a Symbol value to a string");
   }
   return String(value);
+}
+
+function requireNodeArgument(
+  value: unknown,
+  argumentCount: number,
+): asserts value is Node {
+  if (argumentCount === 0) {
+    throw new TypeError("1 argument required");
+  }
+  if (!(value instanceof Node)) {
+    throw new TypeError("The argument is not a Node");
+  }
+}
+
+function preInsert(node: Node, parent: Node, child: Node | null): void {
+  if (child !== null && child._parentNode !== parent) {
+    throw new DOMException(
+      "The reference node is not a child of this node",
+      "NotFoundError",
+    );
+  }
+  let reference = child;
+  if (reference === node) {
+    reference = node.nextSibling;
+  }
+  ensurePreInsertionValidity(node, parent, reference);
+  insertNodes(node, parent, reference);
+}
+
+function ensurePreInsertionValidity(
+  node: Node,
+  parent: Node,
+  child: Node | null,
+  replacedChild: Node | null = null,
+): void {
+  if (
+    !(parent instanceof Document) &&
+    !(parent instanceof DocumentFragment) &&
+    !(parent instanceof Element)
+  ) {
+    throw new DOMException(
+      "This node type cannot have children",
+      "HierarchyRequestError",
+    );
+  }
+  if (isInclusiveAncestor(node, parent)) {
+    throw new DOMException(
+      "The new child is an ancestor of this node",
+      "HierarchyRequestError",
+    );
+  }
+  if (child !== null && child._parentNode !== parent) {
+    throw new DOMException(
+      "The reference node is not a child of this node",
+      "NotFoundError",
+    );
+  }
+  if (!isInsertableNode(node)) {
+    throw new DOMException(
+      "This node type cannot be inserted",
+      "HierarchyRequestError",
+    );
+  }
+  if (node instanceof Text && parent instanceof Document) {
+    throw new DOMException(
+      "Text nodes cannot be children of a document",
+      "HierarchyRequestError",
+    );
+  }
+  if (node instanceof DocumentType && !(parent instanceof Document)) {
+    throw new DOMException(
+      "DocumentType nodes can only be children of a document",
+      "HierarchyRequestError",
+    );
+  }
+  if (parent instanceof Document) {
+    validateDocumentInsertion(node, parent, child, replacedChild);
+  }
+}
+
+function isInsertableNode(node: Node): boolean {
+  return (
+    node instanceof DocumentFragment ||
+    node instanceof DocumentType ||
+    node instanceof Element ||
+    node instanceof CharacterData
+  );
+}
+
+function isInclusiveAncestor(ancestor: Node, node: Node): boolean {
+  let current: Node | null = node;
+  while (current !== null) {
+    if (current === ancestor) {
+      return true;
+    }
+    current = current._parentNode;
+  }
+  return false;
+}
+
+function insertionNodes(node: Node): Node[] {
+  return node instanceof DocumentFragment ? [...node._childNodes] : [node];
+}
+
+function validateDocumentInsertion(
+  node: Node,
+  document: Document,
+  child: Node | null,
+  replacedChild: Node | null,
+): void {
+  const inserted = insertionNodes(node);
+  if (inserted.some((candidate) => candidate instanceof Text)) {
+    throw new DOMException(
+      "Text nodes cannot be children of a document",
+      "HierarchyRequestError",
+    );
+  }
+
+  const children = document._childNodes.filter(
+    (candidate) => candidate !== replacedChild && !inserted.includes(candidate),
+  );
+  const referenceIndex =
+    child === null ? children.length : children.indexOf(child);
+  const index = referenceIndex < 0 ? children.length : referenceIndex;
+  children.splice(index, 0, ...inserted);
+
+  if (children.filter((candidate) => candidate instanceof Element).length > 1) {
+    throw new DOMException(
+      "A document cannot have more than one document element",
+      "HierarchyRequestError",
+    );
+  }
+  if (
+    children.filter((candidate) => candidate instanceof DocumentType).length > 1
+  ) {
+    throw new DOMException(
+      "A document cannot have more than one doctype",
+      "HierarchyRequestError",
+    );
+  }
+  const elementIndex = children.findIndex(
+    (candidate) => candidate instanceof Element,
+  );
+  const doctypeIndex = children.findIndex(
+    (candidate) => candidate instanceof DocumentType,
+  );
+  if (elementIndex >= 0 && doctypeIndex > elementIndex) {
+    throw new DOMException(
+      "A document type must precede the document element",
+      "HierarchyRequestError",
+    );
+  }
+}
+
+function insertNodes(node: Node, parent: Node, child: Node | null): void {
+  const nodes = insertionNodes(node);
+  const document = parent instanceof Document ? parent : parent.ownerDocument;
+  for (const inserted of nodes) {
+    inserted._remove();
+    if (document !== null && inserted.ownerDocument !== document) {
+      adopt(inserted, document);
+    }
+    const index = child === null ? -1 : parent._childNodes.indexOf(child);
+    inserted._parentNode = parent;
+    if (index < 0) {
+      parent._childNodes.push(inserted);
+    } else {
+      parent._childNodes.splice(index, 0, inserted);
+    }
+  }
+}
+
+function adopt(node: Node, document: Document): void {
+  node._ownerDocument = document;
+  if (node instanceof Element) {
+    for (const attribute of node._attributeNodes) {
+      attribute._ownerDocument = document;
+    }
+    if (node._templateContents !== null) {
+      adopt(node._templateContents, document);
+    }
+  }
+  for (const child of node._childNodes) {
+    adopt(child, document);
+  }
+}
+
+function domString(value: unknown): string {
+  if (typeof value === "symbol") {
+    throw new TypeError("Cannot convert a Symbol value to a string");
+  }
+  return String(value);
+}
+
+function asciiLowercase(value: string): string {
+  return value.replaceAll(/[A-Z]/g, (character) => character.toLowerCase());
+}
+
+function normalizeNamespace(namespace: unknown): string | null {
+  const converted = domString(namespace);
+  return converted === "" || namespace === null ? null : converted;
+}
+
+function validateName(name: string): void {
+  if (
+    !/^[\p{L}_:][\p{L}\p{N}_.:\-\u00B7\u0300-\u036F\u203F-\u2040]*$/u.test(name)
+  ) {
+    throw new DOMException(
+      `Invalid character in attribute name: ${name}`,
+      "InvalidCharacterError",
+    );
+  }
+}
+
+interface ExtractedQualifiedName {
+  readonly namespace: string | null;
+  readonly prefix: string | null;
+  readonly localName: string;
+  readonly qualifiedName: string;
+}
+
+function validateAndExtract(
+  namespace: string | null,
+  qualifiedName: string,
+): ExtractedQualifiedName {
+  validateName(qualifiedName);
+  const parts = qualifiedName.split(":");
+  if (parts.length > 2 || parts.some((part) => part === "")) {
+    throw new DOMException(
+      `Invalid qualified name: ${qualifiedName}`,
+      "NamespaceError",
+    );
+  }
+  const prefix = parts.length === 2 ? (parts[0] ?? null) : null;
+  const localName = parts.at(-1) ?? qualifiedName;
+  if (prefix !== null && namespace === null) {
+    throw new DOMException("A prefix requires a namespace", "NamespaceError");
+  }
+  if (prefix === "xml" && namespace !== XML_NAMESPACE) {
+    throw new DOMException(
+      "The xml prefix requires the XML namespace",
+      "NamespaceError",
+    );
+  }
+  if (
+    (qualifiedName === "xmlns" || prefix === "xmlns") &&
+    namespace !== XMLNS_NAMESPACE
+  ) {
+    throw new DOMException(
+      "The xmlns name requires the XMLNS namespace",
+      "NamespaceError",
+    );
+  }
+  if (
+    namespace === XMLNS_NAMESPACE &&
+    qualifiedName !== "xmlns" &&
+    prefix !== "xmlns"
+  ) {
+    throw new DOMException(
+      "The XMLNS namespace requires the xmlns name or prefix",
+      "NamespaceError",
+    );
+  }
+  return { namespace, prefix, localName, qualifiedName };
 }
