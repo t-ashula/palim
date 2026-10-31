@@ -5,7 +5,7 @@
 - [x] html5lib tree-construction tests の実行基盤
 - [x] fragment parsing
 - [x] `innerHTML` など、context element を使用する parse
-- [ ] parser error の公開方法
+- [x] parser error の公開方法
 - [ ] byte input と encoding detection
 - [ ] scripting flag を含む parser option
 - [ ] HTML serialization

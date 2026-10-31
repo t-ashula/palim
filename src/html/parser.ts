@@ -382,6 +382,9 @@ class TreeBuilder {
       );
       const token = this.#nextToken();
       if (token === null) {
+        if (this.#mode === "in-table-text") {
+          this.#flushTableCharacters();
+        }
         this.#endOfFile();
         break;
       }
@@ -455,11 +458,43 @@ class TreeBuilder {
   #endOfFile(): void {
     if (this.#mode === "initial") {
       this.#treeError("missing-doctype");
-    } else if (this.#mode === "text") {
+      return;
+    }
+
+    if (this.#mode === "text") {
       this.#treeError("unexpected-eof-in-text");
-    } else if (this.#contains("template")) {
+      this.#stack.pop();
+      this.#mode = this.#originalMode;
+    }
+
+    if (this.#mode === "in-head-noscript") {
+      this.#treeError("unexpected-eof-in-head-noscript");
+      this.#stack.pop();
+      this.#mode = "in-head";
+    }
+
+    while (this.#contains("template")) {
       this.#treeError("unexpected-eof-in-template");
-    } else if (this.#mode === "in-body" && this.#hasUnexpectedOpenElements()) {
+      this.#close("template");
+      this.#clearFormatting();
+      this.#templateModes.pop();
+      this.#resetMode();
+    }
+
+    if (
+      [
+        "in-body",
+        "in-table",
+        "in-caption",
+        "in-column-group",
+        "in-table-body",
+        "in-row",
+        "in-cell",
+        "in-select",
+        "in-select-in-table",
+      ].includes(this.#mode) &&
+      this.#hasUnexpectedOpenElements()
+    ) {
       this.#treeError("unexpected-open-elements-at-eof");
     } else if (
       this.#mode === "in-frameset" &&
@@ -1156,6 +1191,7 @@ class TreeBuilder {
       } else if (["param", "source", "track"].includes(name)) {
         this.#insert(token, false, foster);
       } else if (name === "image") {
+        this.#treeError("image-start-tag");
         this.#inBody({ ...token, name: "img" }, foster);
       } else if (
         [
@@ -1414,13 +1450,13 @@ class TreeBuilder {
       this.#treeError("hidden-input-in-table");
       this.#insert(token, false);
     } else if (token.type === "StartTag" && token.name === "form") {
-      if (this.#inTemplateContext()) {
-        this.#inBody(token);
-      } else if (this.#form === null) {
-        this.#treeError("form-in-table");
-        this.#form = this.#insert(token, false);
-      } else {
-        this.#treeError("form-in-table");
+      this.#treeError("form-in-table");
+      if (this.#form !== null && !this.#inTemplateContext()) {
+        return;
+      }
+      const form = this.#insert(token, false);
+      if (!this.#inTemplateContext()) {
+        this.#form = form;
       }
     } else if (
       token.type === "EndTag" &&
@@ -1669,6 +1705,10 @@ class TreeBuilder {
       if (!this.#hasAnyInScope(["td", "th"], "table")) {
         return;
       }
+      this.#generateImpliedEndTags();
+      if (!["td", "th"].includes(this.#current()?.localName ?? "")) {
+        this.#treeError("misnested-cell");
+      }
       this.#closeNearest(["td", "th"]);
       this.#clearFormatting();
       this.#mode = "in-row";
@@ -1743,6 +1783,10 @@ class TreeBuilder {
       }
     } else if (token.type === "EndTag" && token.name === "select") {
       if (this.#hasInScope("select")) {
+        this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== "select") {
+          this.#treeError("misnested-select-end-tag");
+        }
         this.#close("select");
         this.#resetMode();
       } else {

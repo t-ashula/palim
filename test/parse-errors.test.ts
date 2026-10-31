@@ -51,6 +51,62 @@ describe("parseErrors", () => {
     ).toBe(true);
   });
 
+  it("records an unexpected EOF outside the in-body insertion mode", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><table>",
+      "text/html",
+    );
+
+    expect(parseErrors(document)).toEqual([
+      {
+        source: "tree-construction",
+        code: "unexpected-open-elements-at-eof",
+        line: null,
+        column: null,
+      },
+    ]);
+  });
+
+  it("records an unexpected EOF for each open template", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><template><template><script>",
+      "text/html",
+    );
+
+    expect(parseErrors(document).map(({ code }) => code)).toEqual([
+      "unexpected-eof-in-text",
+      "unexpected-eof-in-template",
+      "unexpected-eof-in-template",
+    ]);
+  });
+
+  it.each([
+    {
+      input: "<!doctype html><image>",
+      codes: ["image-start-tag"],
+    },
+    {
+      input: "<!doctype html><template><table><form></table></template>",
+      codes: ["form-in-table"],
+    },
+    {
+      input: "<!doctype html><table><tr><td><span><th>",
+      codes: ["misnested-cell", "unexpected-open-elements-at-eof"],
+    },
+    {
+      input: "<!doctype html><head><noscript>",
+      codes: ["unexpected-eof-in-head-noscript"],
+    },
+    {
+      input: "<!doctype html><select><menuitem></select>",
+      codes: ["misnested-select-end-tag"],
+    },
+  ])("records $codes for $input", ({ input, codes }) => {
+    const document = new DOMParser().parseFromString(input, "text/html");
+
+    expect(parseErrors(document).map(({ code }) => code)).toEqual(codes);
+  });
+
   it("keeps errors associated with each document", () => {
     const parser = new DOMParser();
     const first = parser.parseFromString("\0", "text/html");

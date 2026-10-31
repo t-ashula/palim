@@ -22,6 +22,7 @@ export interface FragmentContext {
 export interface TreeConstructionCase {
   readonly description?: string;
   readonly data: string;
+  readonly expectedErrorCount: number;
   readonly fragment?: FragmentContext;
   readonly scriptingModes: readonly ScriptingMode[];
   readonly document: string;
@@ -120,6 +121,10 @@ function fragmentContext(value: string): FragmentContext {
   return { namespaceURI: HTML_NAMESPACE, localName: value };
 }
 
+function sectionLineCount(value: string | undefined): number {
+  return value === undefined || value === "" ? 0 : value.split("\n").length;
+}
+
 export function parseTreeConstructionFixture(
   source: string,
 ): TreeConstructionCase[] {
@@ -137,6 +142,9 @@ export function parseTreeConstructionFixture(
     return {
       ...(description === undefined ? {} : { description }),
       data: requiredSection(sections, "data", index),
+      expectedErrorCount:
+        sectionLineCount(sections.errors) +
+        sectionLineCount(sections["new-errors"]),
       ...(fragment === undefined
         ? {}
         : { fragment: fragmentContext(fragment) }),

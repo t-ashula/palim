@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, describe, expect, it } from "vitest";
 
-import { DOMParser } from "../../src/index.js";
+import { Document, DOMParser, parseErrors } from "../../src/index.js";
 import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 import {
   canonicalTree,
@@ -158,6 +158,12 @@ describe("html5lib tree construction", () => {
                 expect(canonicalTree(tree)).toBe(
                   `${root}\n${fixture.document}`,
                 );
+                if (
+                  tree instanceof Document &&
+                  fixture.expectedErrorCount > 0
+                ) {
+                  expect(parseErrors(tree).length).toBeGreaterThan(0);
+                }
               },
             );
           }
