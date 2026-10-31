@@ -11,3 +11,4 @@
 - [ADR-0008: tree construction 適合テストの実行方式](./0008-tree-construction-conformance-tests.md)
 - [ADR-0009: context element を使用する fragment parsing](./0009-context-element-fragment-parsing.md)
 - [ADR-0010: HTML parse error の保持と取得](./0010-html-parse-error-exposure.md)
+- [ADR-0011: HTML byte input と encoding detection](./0011-html-byte-input-encoding.md)
