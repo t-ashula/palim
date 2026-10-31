@@ -5070,7 +5070,9 @@ function domString(value: unknown): string {
 }
 
 function templateContentsOwnerDocument(document: Document): Document {
-  document._templateContentsOwnerDocument ??= new Document();
+  document._templateContentsOwnerDocument ??= new Document(
+    document._htmlFragmentParser,
+  );
   return document._templateContentsOwnerDocument;
 }
 

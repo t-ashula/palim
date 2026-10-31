@@ -1,4 +1,5 @@
 import type { AttributeData, Node } from "../dom.js";
+import type { HTMLFragmentParser } from "../dom/nodes.js";
 import {
   Comment,
   Document,
@@ -30,8 +31,14 @@ export interface HTMLFragmentContext {
 }
 
 interface TreeBuilderOptions extends HTMLParserOptions {
-  readonly context?: HTMLFragmentContext;
+  readonly context?: HTMLFragmentContext | Element;
 }
+
+const htmlFragmentParser: HTMLFragmentParser = {
+  parse(input, context) {
+    return new TreeBuilder(input, { context }).parseFragment();
+  },
+};
 
 type Mode =
   | "initial"
@@ -302,7 +309,7 @@ function whitespace(data: string): boolean {
 }
 
 class TreeBuilder {
-  readonly document = new Document();
+  readonly document = new Document(htmlFragmentParser);
   readonly #tokenizer: HTMLTokenizer;
   readonly #context: Element | null;
   readonly #scripting: boolean;
@@ -324,13 +331,35 @@ class TreeBuilder {
     this.#context =
       context === undefined
         ? null
-        : context.namespaceURI === HTML_NAMESPACE
-          ? createHTMLElement(this.document, context.localName)
-          : new Element(this.document, context.localName, context.namespaceURI);
+        : context instanceof Element
+          ? context
+          : context.namespaceURI === HTML_NAMESPACE
+            ? createHTMLElement(this.document, context.localName)
+            : new Element(
+                this.document,
+                context.localName,
+                context.namespaceURI,
+              );
     this.#tokenizer = new HTMLTokenizer(input, {
       initialState: this.#initialTokenizerState(),
     });
     if (this.#context !== null) {
+      if (context instanceof Element) {
+        this.document._quirks = context.ownerDocument?._quirks ?? true;
+        for (
+          let ancestor: Element | null = context;
+          ancestor !== null;
+          ancestor = ancestor.parentElement
+        ) {
+          if (
+            ancestor.namespaceURI === HTML_NAMESPACE &&
+            ancestor.localName === "form"
+          ) {
+            this.#form = ancestor;
+            break;
+          }
+        }
+      }
       const html = new Element(this.document, "html");
       this.document._append(html);
       this.#stack.push(html);
@@ -2647,7 +2676,7 @@ export function parseHTML(
 
 export function parseHTMLFragment(
   input: string,
-  context: HTMLFragmentContext,
+  context: HTMLFragmentContext | Element,
   options: HTMLParserOptions = {},
 ): DocumentFragment {
   return new TreeBuilder(input, { ...options, context }).parseFragment();
