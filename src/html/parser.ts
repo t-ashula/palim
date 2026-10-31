@@ -1,5 +1,6 @@
 import type { AttributeData, Node } from "../dom.js";
 import type { HTMLFragmentParser } from "../dom/nodes.js";
+import { setDocumentParseErrors } from "../dom/nodes.js";
 import {
   Comment,
   Document,
@@ -20,6 +21,7 @@ import {
 import { createHTMLElement } from "../html-elements.js";
 import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
+import type { PalimParseError } from "./parse-errors.js";
 
 export interface HTMLParserOptions {
   readonly scripting?: boolean;
@@ -311,6 +313,7 @@ function whitespace(data: string): boolean {
 class TreeBuilder {
   readonly document = new Document(htmlFragmentParser);
   readonly #tokenizer: HTMLTokenizer;
+  readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
@@ -324,6 +327,7 @@ class TreeBuilder {
   #framesetOk = true;
   #ignoreNextLineFeed = false;
   #pendingTableCharacters = "";
+  #recordedTokenizerErrors = 0;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.#scripting = options.scripting ?? false;
@@ -376,8 +380,9 @@ class TreeBuilder {
         this.#current() !== null &&
           this.#current()?.namespaceURI !== HTML_NAMESPACE,
       );
-      const token = this.#tokenizer.nextToken();
+      const token = this.#nextToken();
       if (token === null) {
+        this.#endOfFile();
         break;
       }
       this.#process(token);
@@ -386,6 +391,7 @@ class TreeBuilder {
       this.#flushTableCharacters();
     }
     this.#finish();
+    setDocumentParseErrors(this.document, this.#errors);
     return this.document;
   }
 
@@ -395,7 +401,7 @@ class TreeBuilder {
       this.#tokenizer.setAllowCdata(
         current !== null && current.namespaceURI !== HTML_NAMESPACE,
       );
-      const token = this.#tokenizer.nextToken();
+      const token = this.#nextToken();
       if (token === null) {
         break;
       }
@@ -413,6 +419,54 @@ class TreeBuilder {
       fragment._append(root.firstChild);
     }
     return fragment;
+  }
+
+  #nextToken(): Token | null {
+    const token = this.#tokenizer.nextToken();
+    const errors = this.#tokenizer.errors;
+    for (
+      let index = this.#recordedTokenizerErrors;
+      index < errors.length;
+      index++
+    ) {
+      const error = errors[index];
+      if (error !== undefined) {
+        this.#errors.push({
+          source: "tokenizer",
+          code: error.code,
+          line: error.line,
+          column: error.column,
+        });
+      }
+    }
+    this.#recordedTokenizerErrors = errors.length;
+    return token;
+  }
+
+  #treeError(code: string): void {
+    this.#errors.push({
+      source: "tree-construction",
+      code,
+      line: null,
+      column: null,
+    });
+  }
+
+  #endOfFile(): void {
+    if (this.#mode === "initial") {
+      this.#treeError("missing-doctype");
+    } else if (this.#mode === "text") {
+      this.#treeError("unexpected-eof-in-text");
+    } else if (this.#contains("template")) {
+      this.#treeError("unexpected-eof-in-template");
+    } else if (this.#mode === "in-body" && this.#hasUnexpectedOpenElements()) {
+      this.#treeError("unexpected-open-elements-at-eof");
+    } else if (
+      this.#mode === "in-frameset" &&
+      this.#current()?.localName !== "html"
+    ) {
+      this.#treeError("unexpected-eof-in-frameset");
+    }
   }
 
   #initialTokenizerState(): TokenizerState {
@@ -511,6 +565,14 @@ class TreeBuilder {
               ),
             );
           } else if (token.type === "DOCTYPE") {
+            if (
+              token.name !== "html" ||
+              token.publicId !== null ||
+              (token.systemId !== null &&
+                token.systemId !== "about:legacy-compat")
+            ) {
+              this.#treeError("invalid-doctype");
+            }
             this.document._append(
               new DocumentType(
                 this.document,
@@ -522,6 +584,7 @@ class TreeBuilder {
             this.document._quirks = this.#doctypeCausesQuirks(token);
             this.#mode = "before-html";
           } else {
+            this.#treeError("missing-doctype");
             this.document._quirks = true;
             this.#mode = "before-html";
             repeat = true;
@@ -546,7 +609,14 @@ class TreeBuilder {
             this.document._append(html);
             this.#stack.push(html);
             this.#mode = "before-head";
-          } else if (token.type !== "DOCTYPE") {
+          } else if (token.type === "DOCTYPE") {
+            this.#treeError("unexpected-doctype");
+          } else if (
+            token.type === "EndTag" &&
+            !["head", "body", "html", "br"].includes(token.name)
+          ) {
+            this.#treeError("unexpected-end-tag-before-html");
+          } else {
             const html = new Element(this.document, "html");
             this.document._append(html);
             this.#stack.push(html);
@@ -569,8 +639,10 @@ class TreeBuilder {
             token.type === "EndTag" &&
             !["head", "body", "html", "br"].includes(token.name)
           ) {
-            break;
-          } else if (token.type !== "DOCTYPE") {
+            this.#treeError("unexpected-end-tag-before-head");
+          } else if (token.type === "DOCTYPE") {
+            this.#treeError("unexpected-doctype");
+          } else {
             this.#head = this.#insert(this.#start("head"));
             this.#mode = "in-head";
             repeat = true;
@@ -646,7 +718,10 @@ class TreeBuilder {
             );
           } else if (token.type === "EndTag" && token.name === "html") {
             this.#mode = "after-after-body";
+          } else if (token.type === "DOCTYPE") {
+            this.#inBody(token);
           } else {
+            this.#treeError("unexpected-token-after-body");
             this.#mode = "in-body";
             repeat = true;
           }
@@ -681,7 +756,10 @@ class TreeBuilder {
             this.#inBody(token);
           } else if (token.type === "StartTag" && token.name === "html") {
             this.#inBody(token);
-          } else if (token.type !== "DOCTYPE") {
+          } else if (token.type === "DOCTYPE") {
+            this.#inBody(token);
+          } else {
+            this.#treeError("unexpected-token-after-after-body");
             this.#mode = "in-body";
             repeat = true;
           }
@@ -696,6 +774,8 @@ class TreeBuilder {
             this.#inBody(token);
           } else if (token.type === "StartTag" && token.name === "noframes") {
             this.#inHead(token);
+          } else {
+            this.#treeError("unexpected-token-after-after-frameset");
           }
           break;
       }
@@ -703,7 +783,9 @@ class TreeBuilder {
   }
 
   #inHead(token: Token, foster = false): boolean {
-    if (
+    if (token.type === "DOCTYPE") {
+      this.#treeError("unexpected-doctype");
+    } else if (
       token.type === "Character" &&
       (whitespace(token.data) || this.#current() !== this.#head)
     ) {
@@ -741,7 +823,9 @@ class TreeBuilder {
         this.#mode = "in-template";
       } else if (token.name === "html") {
         this.#inBody(token);
-      } else if (token.name !== "head") {
+      } else if (token.name === "head") {
+        this.#treeError("unexpected-head-start-tag");
+      } else {
         this.#close("head");
         this.#mode = "after-head";
         return true;
@@ -753,19 +837,27 @@ class TreeBuilder {
       } else if (token.name === "template") {
         if (this.#contains("template")) {
           this.#generateImpliedEndTags();
+          if (this.#current()?.localName !== "template") {
+            this.#treeError("misnested-template-end-tag");
+          }
           this.#close("template");
           this.#clearFormatting();
           this.#templateModes.pop();
           this.#resetMode();
+        } else {
+          this.#treeError("unexpected-template-end-tag");
         }
       } else if (this.#current()?.localName === token.name) {
+        this.#treeError("unexpected-end-tag-in-head");
         this.#stack.pop();
       } else if (["body", "html", "br"].includes(token.name)) {
         this.#close("head");
         this.#mode = "after-head";
         return true;
+      } else {
+        this.#treeError("unexpected-end-tag-in-head");
       }
-    } else if (token.type !== "DOCTYPE") {
+    } else {
       this.#close("head");
       this.#mode = "after-head";
       return true;
@@ -793,15 +885,19 @@ class TreeBuilder {
       token.type === "DOCTYPE" ||
       (token.type === "StartTag" && ["head", "noscript"].includes(token.name))
     ) {
+      this.#treeError("unexpected-token-in-head-noscript");
       return false;
     } else if (
       (token.type === "Character" && !whitespace(token.data)) ||
       token.type === "StartTag" ||
       (token.type === "EndTag" && token.name === "br")
     ) {
+      this.#treeError("unexpected-token-in-head-noscript");
       this.#stack.pop();
       this.#mode = "in-head";
       return true;
+    } else {
+      this.#treeError("unexpected-end-tag-in-head-noscript");
     }
     return false;
   }
@@ -835,6 +931,7 @@ class TreeBuilder {
         "title",
       ].includes(token.name)
     ) {
+      this.#treeError("head-content-after-head");
       if (this.#head !== null) {
         this.#stack.push(this.#head);
       }
@@ -843,13 +940,13 @@ class TreeBuilder {
         this.#stack.pop();
       }
     } else if (
-      token.type !== "DOCTYPE" &&
-      !(token.type === "StartTag" && token.name === "head") &&
-      !(
-        token.type === "EndTag" &&
-        !["body", "html", "br", "template"].includes(token.name)
-      )
+      token.type === "DOCTYPE" ||
+      (token.type === "StartTag" && token.name === "head") ||
+      (token.type === "EndTag" &&
+        !["body", "html", "br", "template"].includes(token.name))
     ) {
+      this.#treeError("unexpected-token-after-head");
+    } else {
       this.#ensureBody();
       this.#mode = "in-body";
       return true;
@@ -859,6 +956,11 @@ class TreeBuilder {
 
   #inBody(token: Token, foster = false): void {
     if (token.type === "Character") {
+      for (const character of token.data) {
+        if (character === "\0") {
+          this.#treeError("null-character-in-body");
+        }
+      }
       const data = token.data.replaceAll("\0", "");
       if (data === "") {
         return;
@@ -879,22 +981,27 @@ class TreeBuilder {
       return;
     }
     if (token.type === "DOCTYPE") {
+      this.#treeError("unexpected-doctype");
       return;
     }
     if (token.type === "StartTag") {
       const name = token.name;
       if (name === "html") {
+        this.#treeError("unexpected-html-start-tag");
         if (!this.#inTemplateContext()) {
           this.#merge(this.document.documentElement, token);
         }
       } else if (name === "head") {
+        this.#treeError("unexpected-head-start-tag");
         return;
       } else if (name === "body") {
+        this.#treeError("unexpected-body-start-tag");
         if (!this.#inTemplateContext()) {
           this.#merge(this.#body, token);
           this.#setFramesetNotOk();
         }
       } else if (name === "frameset") {
+        this.#treeError("unexpected-frameset-start-tag");
         if (!this.#framesetOk || this.#body === null) {
           return;
         }
@@ -929,6 +1036,7 @@ class TreeBuilder {
         this.#setFramesetNotOk();
       } else if (name === "form") {
         if (this.#form !== null && !this.#inTemplateContext()) {
+          this.#treeError("nested-form");
           return;
         }
         this.#closeParagraph();
@@ -938,6 +1046,7 @@ class TreeBuilder {
         }
       } else if (name === "button") {
         if (this.#hasInScope("button", "button")) {
+          this.#treeError("nested-button");
           this.#generateImpliedEndTags();
           this.#close("button");
         }
@@ -947,6 +1056,7 @@ class TreeBuilder {
       } else if (/^h[1-6]$/.test(name)) {
         this.#closeParagraph();
         if (/^h[1-6]$/.test(this.#current()?.localName ?? "")) {
+          this.#treeError("nested-heading");
           this.#stack.pop();
         }
         this.#insert(token, true, foster);
@@ -967,11 +1077,13 @@ class TreeBuilder {
         if (name === "a") {
           const active = this.#activeFormatting("a");
           if (active !== null) {
+            this.#treeError("nested-anchor");
             this.#adopt("a");
             this.#removeFromStack(active);
             this.#removeFromFormatting(active);
           }
         } else if (name === "nobr" && this.#hasInScope("nobr")) {
+          this.#treeError("nested-nobr");
           this.#adopt("nobr");
           this.#reconstructFormatting(foster);
         }
@@ -1059,6 +1171,7 @@ class TreeBuilder {
           "tr",
         ].includes(name)
       ) {
+        this.#treeError("unexpected-table-content-start-tag");
         return;
       } else if (name === "svg" || name === "math") {
         this.#reconstructFormatting(foster);
@@ -1071,11 +1184,17 @@ class TreeBuilder {
       } else if (["rb", "rtc"].includes(name)) {
         if (this.#hasInScope("ruby")) {
           this.#generateImpliedEndTags();
+          if (this.#current()?.localName !== "ruby") {
+            this.#treeError("misnested-ruby-content");
+          }
         }
         this.#insert(token, true, foster);
       } else if (["rp", "rt"].includes(name)) {
         if (this.#hasInScope("ruby")) {
           this.#generateImpliedEndTags("rtc");
+          if (!["rtc", "ruby"].includes(this.#current()?.localName ?? "")) {
+            this.#treeError("misnested-ruby-text");
+          }
         }
         this.#insert(token, true, foster);
       } else if (VOID.has(name)) {
@@ -1093,12 +1212,22 @@ class TreeBuilder {
       this.#inHead(token);
     } else if (name === "body") {
       if (this.#hasInScope("body")) {
+        if (this.#hasUnexpectedOpenElements()) {
+          this.#treeError("unexpected-open-elements-before-body-end-tag");
+        }
         this.#mode = "after-body";
+      } else {
+        this.#treeError("unexpected-body-end-tag");
       }
     } else if (name === "html") {
       if (this.#hasInScope("body")) {
+        if (this.#hasUnexpectedOpenElements()) {
+          this.#treeError("unexpected-open-elements-before-html-end-tag");
+        }
         this.#mode = "after-body";
         this.#process(token);
+      } else {
+        this.#treeError("unexpected-html-end-tag");
       }
     } else if (
       (BLOCK.has(name) && name !== "p") ||
@@ -1107,54 +1236,104 @@ class TreeBuilder {
     ) {
       if (this.#hasInScope(name)) {
         this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== name) {
+          this.#treeError("misnested-block-end-tag");
+        }
         this.#close(name);
+      } else {
+        this.#treeError("unexpected-block-end-tag");
       }
     } else if (name === "form") {
       if (this.#inTemplateContext()) {
         if (this.#hasInScope("form")) {
           this.#generateImpliedEndTags();
+          if (this.#current()?.localName !== "form") {
+            this.#treeError("misnested-form-end-tag");
+          }
           this.#close("form");
+        } else {
+          this.#treeError("unexpected-form-end-tag");
         }
       } else if (this.#form !== null) {
         const form = this.#form;
         this.#form = null;
-        this.#removeFromStack(form);
+        if (!this.#hasInScope("form")) {
+          this.#treeError("unexpected-form-end-tag");
+        } else {
+          this.#generateImpliedEndTags();
+          if (this.#current() !== form) {
+            this.#treeError("misnested-form-end-tag");
+          }
+          this.#removeFromStack(form);
+        }
+      } else {
+        this.#treeError("unexpected-form-end-tag");
       }
     } else if (name === "p") {
       if (!this.#hasInScope("p", "button")) {
+        this.#treeError("unexpected-paragraph-end-tag");
         this.#insert(this.#start("p"), true, foster);
       }
       this.#generateImpliedEndTags("p");
+      if (this.#current()?.localName !== "p") {
+        this.#treeError("misnested-paragraph-end-tag");
+      }
       this.#close("p");
     } else if (name === "li") {
       if (this.#hasInScope("li", "list")) {
         this.#generateImpliedEndTags("li");
+        if (this.#current()?.localName !== "li") {
+          this.#treeError("misnested-list-item-end-tag");
+        }
         this.#close("li");
+      } else {
+        this.#treeError("unexpected-list-item-end-tag");
       }
     } else if (name === "dd" || name === "dt") {
       if (this.#hasInScope(name)) {
         this.#generateImpliedEndTags(name);
+        if (this.#current()?.localName !== name) {
+          this.#treeError("misnested-description-item-end-tag");
+        }
         this.#close(name);
+      } else {
+        this.#treeError("unexpected-description-item-end-tag");
       }
     } else if (name === "button") {
       if (this.#hasInScope("button", "button")) {
         this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== "button") {
+          this.#treeError("misnested-button-end-tag");
+        }
         this.#close("button");
+      } else {
+        this.#treeError("unexpected-button-end-tag");
       }
     } else if (/^h[1-6]$/.test(name)) {
       if (this.#hasHeadingInScope()) {
         this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== name) {
+          this.#treeError("misnested-heading-end-tag");
+        }
         this.#closeNearest(["h1", "h2", "h3", "h4", "h5", "h6"]);
+      } else {
+        this.#treeError("unexpected-heading-end-tag");
       }
     } else if (FORMATTING.has(name)) {
       this.#adopt(name);
     } else if (["applet", "marquee", "object"].includes(name)) {
       if (this.#hasInScope(name)) {
         this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== name) {
+          this.#treeError("misnested-special-end-tag");
+        }
         this.#close(name);
         this.#clearFormatting();
+      } else {
+        this.#treeError("unexpected-special-end-tag");
       }
     } else if (name === "br") {
+      this.#treeError("unexpected-br-end-tag");
       this.#inBody(this.#start("br"), foster);
     } else {
       this.#genericEndTag(name);
@@ -1186,6 +1365,9 @@ class TreeBuilder {
       token.type === "StartTag" &&
       ["tr", "td", "th"].includes(token.name)
     ) {
+      if (["td", "th"].includes(token.name)) {
+        this.#treeError("cell-start-tag-before-row");
+      }
       this.#clearTo(["table", "template", "html"]);
       this.#insert(this.#start("tbody"));
       this.#mode = "in-table-body";
@@ -1205,6 +1387,7 @@ class TreeBuilder {
       this.#mode = "in-column-group";
       this.#inColumnGroup(token);
     } else if (token.type === "StartTag" && token.name === "table") {
+      this.#treeError("nested-table");
       if (this.#hasInScope("table", "table")) {
         this.#close("table");
         this.#resetMode();
@@ -1214,6 +1397,8 @@ class TreeBuilder {
       if (this.#hasInScope("table", "table")) {
         this.#close("table");
         this.#resetMode();
+      } else {
+        this.#treeError("unexpected-table-end-tag");
       }
     } else if (
       (token.type === "StartTag" &&
@@ -1226,12 +1411,16 @@ class TreeBuilder {
       token.name === "input" &&
       (token.attributes.type ?? "").toLowerCase() === "hidden"
     ) {
+      this.#treeError("hidden-input-in-table");
       this.#insert(token, false);
     } else if (token.type === "StartTag" && token.name === "form") {
       if (this.#inTemplateContext()) {
         this.#inBody(token);
       } else if (this.#form === null) {
+        this.#treeError("form-in-table");
         this.#form = this.#insert(token, false);
+      } else {
+        this.#treeError("form-in-table");
       }
     } else if (
       token.type === "EndTag" &&
@@ -1249,8 +1438,10 @@ class TreeBuilder {
         "tr",
       ].includes(token.name)
     ) {
+      this.#treeError("unexpected-end-tag-in-table");
       return;
     } else {
+      this.#treeError("unexpected-token-in-table");
       this.#inBody(token, true);
     }
   }
@@ -1271,15 +1462,20 @@ class TreeBuilder {
     if (whitespace(data)) {
       this.#text(data);
     } else {
+      this.#treeError("non-whitespace-in-table");
       this.#inBody({ type: "Character", data }, true);
     }
   }
 
   #closeCaption(): boolean {
     if (!this.#hasInScope("caption", "table")) {
+      this.#treeError("unexpected-caption-end-tag");
       return false;
     }
     this.#generateImpliedEndTags();
+    if (this.#current()?.localName !== "caption") {
+      this.#treeError("misnested-caption-end-tag");
+    }
     this.#close("caption");
     this.#clearFormatting();
     this.#mode = "in-table";
@@ -1322,6 +1518,7 @@ class TreeBuilder {
         "tr",
       ].includes(token.name)
     ) {
+      this.#treeError("unexpected-end-tag-in-caption");
       return;
     } else {
       this.#inBody(token);
@@ -1348,13 +1545,18 @@ class TreeBuilder {
       if (this.#current()?.localName === "colgroup") {
         this.#stack.pop();
         this.#mode = "in-table";
+      } else {
+        this.#treeError("unexpected-colgroup-end-tag");
       }
     } else if (token.type === "EndTag" && token.name === "col") {
+      this.#treeError("unexpected-col-end-tag");
       return;
     } else if (this.#current()?.localName === "colgroup") {
       this.#stack.pop();
       this.#mode = "in-table";
       this.#process(token);
+    } else {
+      this.#treeError("unexpected-token-in-column-group");
     }
   }
 
@@ -1364,6 +1566,7 @@ class TreeBuilder {
       this.#insert(token);
       this.#mode = "in-row";
     } else if (token.type === "StartTag" && ["td", "th"].includes(token.name)) {
+      this.#treeError("cell-start-tag-before-row");
       this.#clearTo(["tbody", "thead", "tfoot", "template", "html"]);
       this.#insert(this.#start("tr"));
       this.#mode = "in-row";
@@ -1376,6 +1579,7 @@ class TreeBuilder {
         ))
     ) {
       if (!this.#hasAnyInScope(["tbody", "thead", "tfoot"], "table")) {
+        this.#treeError("unexpected-table-body-boundary");
         return;
       }
       this.#closeNearest(["tbody", "thead", "tfoot"]);
@@ -1388,6 +1592,8 @@ class TreeBuilder {
       if (this.#hasInScope(token.name, "table")) {
         this.#close(token.name);
         this.#mode = "in-table";
+      } else {
+        this.#treeError("unexpected-table-body-end-tag");
       }
     } else {
       this.#inTable(token);
@@ -1414,6 +1620,7 @@ class TreeBuilder {
         ].includes(token.name))
     ) {
       if (!this.#hasInScope("tr", "table")) {
+        this.#treeError("unexpected-row-boundary");
         return;
       }
       this.#close("tr");
@@ -1430,9 +1637,14 @@ class TreeBuilder {
     if (token.type === "EndTag" && ["td", "th"].includes(token.name)) {
       if (this.#hasInScope(token.name, "table")) {
         this.#generateImpliedEndTags();
+        if (this.#current()?.localName !== token.name) {
+          this.#treeError("misnested-cell-end-tag");
+        }
         this.#close(token.name);
         this.#clearFormatting();
         this.#mode = "in-row";
+      } else {
+        this.#treeError("unexpected-cell-end-tag");
       }
     } else if (
       (token.type === "EndTag" &&
@@ -1451,6 +1663,7 @@ class TreeBuilder {
         ].includes(token.name))
     ) {
       if (token.type === "EndTag" && !this.#hasInScope(token.name, "table")) {
+        this.#treeError("unexpected-table-end-tag-in-cell");
         return;
       }
       if (!this.#hasAnyInScope(["td", "th"], "table")) {
@@ -1467,6 +1680,11 @@ class TreeBuilder {
 
   #inSelect(token: Token): void {
     if (token.type === "Character") {
+      for (const character of token.data) {
+        if (character === "\0") {
+          this.#treeError("null-character-in-select");
+        }
+      }
       this.#reconstructFormatting();
       this.#text(token.data.replaceAll("\0", ""));
     } else if (token.type === "Comment") {
@@ -1496,12 +1714,14 @@ class TreeBuilder {
       }
       this.#insert(token, false);
     } else if (token.type === "StartTag" && token.name === "input") {
+      this.#treeError("input-in-select");
       if (this.#hasInScope("select")) {
         this.#close("select");
         this.#resetMode();
         this.#process(token);
       }
     } else if (token.type === "StartTag" && token.name === "textarea") {
+      this.#treeError("textarea-in-select");
       this.#inBody(token);
     } else if (token.type === "EndTag" && token.name === "optgroup") {
       if (
@@ -1512,17 +1732,24 @@ class TreeBuilder {
       }
       if (this.#current()?.localName === "optgroup") {
         this.#stack.pop();
+      } else {
+        this.#treeError("unexpected-optgroup-end-tag");
       }
     } else if (token.type === "EndTag" && token.name === "option") {
       if (this.#current()?.localName === "option") {
         this.#stack.pop();
+      } else {
+        this.#treeError("unexpected-option-end-tag");
       }
     } else if (token.type === "EndTag" && token.name === "select") {
       if (this.#hasInScope("select")) {
         this.#close("select");
         this.#resetMode();
+      } else {
+        this.#treeError("unexpected-select-end-tag");
       }
     } else if (token.type === "StartTag" && token.name === "select") {
+      this.#treeError("nested-select");
       if (this.#hasInScope("select")) {
         this.#close("select");
         this.#resetMode();
@@ -1545,8 +1772,11 @@ class TreeBuilder {
         "th",
       ].includes(token.name)
     ) {
+      this.#treeError("table-token-in-select");
       return;
-    } else if (token.type !== "DOCTYPE") {
+    } else if (token.type === "DOCTYPE") {
+      this.#treeError("unexpected-doctype");
+    } else {
       if (token.type === "EndTag") {
         const selectIndex = this.#stack.findLastIndex(
           (element) => element.localName === "select",
@@ -1557,6 +1787,7 @@ class TreeBuilder {
             element.localName === token.name,
         );
         if (targetIndex <= selectIndex) {
+          this.#treeError("unexpected-end-tag-in-select");
           return;
         }
       }
@@ -1579,6 +1810,7 @@ class TreeBuilder {
       (token.type === "StartTag" && tableNames.includes(token.name)) ||
       (token.type === "EndTag" && tableNames.includes(token.name))
     ) {
+      this.#treeError("table-token-in-select-in-table");
       if (this.#hasInScope("select")) {
         this.#close("select");
         this.#resetMode();
@@ -1641,6 +1873,8 @@ class TreeBuilder {
     } else if (token.type !== "EndTag") {
       this.#replaceTemplateMode("in-body");
       this.#process(token);
+    } else {
+      this.#treeError("unexpected-end-tag-in-template");
     }
   }
 
@@ -1665,7 +1899,13 @@ class TreeBuilder {
         if (this.#current()?.localName !== "frameset") {
           this.#mode = "after-frameset";
         }
+      } else {
+        this.#treeError("unexpected-frameset-end-tag");
       }
+    } else if (token.type === "DOCTYPE") {
+      this.#treeError("unexpected-doctype");
+    } else {
+      this.#treeError("unexpected-token-in-frameset");
     }
   }
 
@@ -1682,6 +1922,10 @@ class TreeBuilder {
       this.#inHead(token);
     } else if (token.type === "EndTag" && token.name === "html") {
       this.#mode = "after-after-frameset";
+    } else if (token.type === "DOCTYPE") {
+      this.#treeError("unexpected-doctype");
+    } else {
+      this.#treeError("unexpected-token-after-frameset");
     }
   }
 
@@ -1705,6 +1949,11 @@ class TreeBuilder {
       return false;
     }
     if (token.type === "Character") {
+      for (const character of token.data) {
+        if (character === "\0") {
+          this.#treeError("null-character-in-foreign-content");
+        }
+      }
       const data = token.data.replaceAll("\0", "\ufffd");
       this.#text(data);
       if (!whitespace(token.data.replaceAll("\0", ""))) {
@@ -1768,6 +2017,7 @@ class TreeBuilder {
             Object.hasOwn(token.attributes, name),
           ))
       ) {
+        this.#treeError("html-start-tag-in-foreign-content");
         let currentElement = this.#current();
         while (
           currentElement !== null &&
@@ -1787,6 +2037,9 @@ class TreeBuilder {
         current.namespaceURI ?? HTML_NAMESPACE,
       );
     } else if (token.type === "EndTag") {
+      if (current.localName.toLowerCase() !== token.name) {
+        this.#treeError("misnested-end-tag-in-foreign-content");
+      }
       if (["p", "br"].includes(token.name)) {
         let currentElement = this.#current();
         while (
@@ -1813,8 +2066,11 @@ class TreeBuilder {
           return true;
         }
       }
+    } else {
+      this.#treeError("unexpected-doctype-in-foreign-content");
+      return false;
     }
-    return token.type !== "DOCTYPE";
+    return true;
   }
 
   #isHtmlIntegrationPoint(element: Element): boolean {
@@ -1914,6 +2170,9 @@ class TreeBuilder {
     foster = false,
     namespace = HTML_NAMESPACE,
   ): Element {
+    if (namespace === HTML_NAMESPACE && push && token.selfClosing) {
+      this.#treeError("self-closing-non-void-html-element");
+    }
     const element = this.#element(token, namespace);
     this.#insertNode(element, foster);
     if (push) {
@@ -2128,8 +2387,39 @@ class TreeBuilder {
   #closeParagraph(): void {
     if (this.#hasInScope("p", "button")) {
       this.#generateImpliedEndTags("p");
+      if (this.#current()?.localName !== "p") {
+        this.#treeError("misnested-paragraph");
+      }
       this.#close("p");
     }
+  }
+
+  #hasUnexpectedOpenElements(): boolean {
+    const allowed = new Set([
+      "dd",
+      "dt",
+      "li",
+      "optgroup",
+      "option",
+      "p",
+      "rb",
+      "rp",
+      "rt",
+      "rtc",
+      "tbody",
+      "td",
+      "tfoot",
+      "th",
+      "thead",
+      "tr",
+      "body",
+      "html",
+    ]);
+    return this.#stack.some(
+      (element) =>
+        element.namespaceURI !== HTML_NAMESPACE ||
+        !allowed.has(element.localName),
+    );
   }
 
   #isSpecial(element: Element): boolean {
@@ -2251,6 +2541,9 @@ class TreeBuilder {
           : element.localName === "dd" || element.localName === "dt";
       if (matches) {
         this.#generateImpliedEndTags(element.localName);
+        if (this.#current() !== element) {
+          this.#treeError("misnested-list-item");
+        }
         this.#stack.length = index;
         return;
       }
@@ -2271,10 +2564,14 @@ class TreeBuilder {
       }
       if (element.localName === name) {
         this.#generateImpliedEndTags(name);
+        if (this.#current() !== element) {
+          this.#treeError("misnested-end-tag");
+        }
         this.#stack.length = index;
         return;
       }
       if (this.#isSpecial(element)) {
+        this.#treeError("unexpected-end-tag");
         return;
       }
     }
@@ -2430,11 +2727,16 @@ class TreeBuilder {
       }
       const formattingStackIndex = this.#stack.indexOf(formattingElement);
       if (formattingStackIndex < 0) {
+        this.#treeError("formatting-element-not-open");
         this.#removeFromFormatting(formattingElement);
         return;
       }
       if (!this.#hasInScope(formattingElement.localName)) {
+        this.#treeError("formatting-element-not-in-scope");
         return;
+      }
+      if (formattingElement !== this.#current()) {
+        this.#treeError("misnested-formatting-end-tag");
       }
 
       let furthestBlock: Element | null = null;

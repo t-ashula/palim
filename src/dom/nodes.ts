@@ -15,6 +15,13 @@ import {
   validateName,
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
+import { GET_PARSE_ERRORS } from "../html/parse-errors.js";
+import type {
+  PalimParseError,
+  ParseErrorSource,
+} from "../html/parse-errors.js";
+
+const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 
 export interface HTMLFragmentParser {
   parse(input: string, context: Element): DocumentFragment;
@@ -180,12 +187,13 @@ export class Node extends EventTarget {
   }
 }
 
-export class Document extends Node {
+export class Document extends Node implements ParseErrorSource {
   readonly contentType = "text/html";
   readonly characterSet = "UTF-8";
   readonly _htmlFragmentParser: HTMLFragmentParser | null;
   _templateContentsOwnerDocument: Document | null = null;
   _quirks = true;
+  [DOCUMENT_PARSE_ERRORS]: readonly PalimParseError[] = [];
 
   constructor(htmlFragmentParser: HTMLFragmentParser | null = null) {
     super(Node.DOCUMENT_NODE, "#document", null);
@@ -246,6 +254,19 @@ export class Document extends Node {
     );
     return new NodeList(() => result);
   }
+
+  [GET_PARSE_ERRORS](): readonly PalimParseError[] {
+    return this[DOCUMENT_PARSE_ERRORS];
+  }
+}
+
+export function setDocumentParseErrors(
+  document: Document,
+  errors: readonly PalimParseError[],
+): void {
+  document[DOCUMENT_PARSE_ERRORS] = Object.freeze(
+    errors.map((error) => Object.freeze({ ...error })),
+  );
 }
 
 export class DocumentType extends Node {
