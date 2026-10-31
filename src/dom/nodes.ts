@@ -20,6 +20,10 @@ import type {
   PalimParseError,
   ParseErrorSource,
 } from "../html/parse-errors.js";
+import {
+  serializeHTMLFragment,
+  serializeHTMLElement,
+} from "../html/serializer.js";
 
 const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 
@@ -381,6 +385,10 @@ export class Element extends Node {
     return this.children.length;
   }
 
+  get innerHTML(): string {
+    return serializeHTMLFragment(this);
+  }
+
   set innerHTML(value: string) {
     const fragment = this.#parseHTMLFragment(domString(value), this);
     const target = this._templateContents ?? this;
@@ -388,6 +396,10 @@ export class Element extends Node {
       target.removeChild(target.firstChild);
     }
     target.appendChild(fragment);
+  }
+
+  get outerHTML(): string {
+    return serializeHTMLElement(this);
   }
 
   set outerHTML(value: string) {

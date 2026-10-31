@@ -7,7 +7,7 @@
 - [x] `innerHTML` など、context element を使用する parse
 - [x] parser error の公開方法
 - [x] byte input と encoding detection
-- [ ] HTML serialization
+- [x] HTML serialization
 - [ ] XML/XHTML/SVG parsing
 
 ## 2. Standard DOM interfaces
