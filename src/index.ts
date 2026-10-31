@@ -27,6 +27,7 @@ export { DOMParser } from "./dom-parser.js";
 export type { HTMLFragmentContext, HTMLParserOptions } from "./dom-parser.js";
 export { parseErrors } from "./html/parse-errors.js";
 export type { PalimParseError, ParseErrorSource } from "./html/parse-errors.js";
+export { decodeHTMLBytes } from "./html-byte-input.js";
 export {
   AudioTrack,
   AudioTrackList,

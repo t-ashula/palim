@@ -9,7 +9,7 @@ import {
   canonicalTree,
   parseTreeConstructionFixture,
   treeConstructionCaseId,
-} from "./html5lib-tree-construction.js";
+} from "./parser.js";
 
 const fixtureDirectory = fileURLToPath(
   new URL(
