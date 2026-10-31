@@ -9,3 +9,4 @@
 - [ADR-0006: Selector API の追加](./0006-selector-api.md)
 - [ADR-0007: HTML element interface の追加](./0007-html-element-interfaces.md)
 - [ADR-0008: tree construction 適合テストの実行方式](./0008-tree-construction-conformance-tests.md)
+- [ADR-0009: context element を使用する fragment parsing](./0009-context-element-fragment-parsing.md)
