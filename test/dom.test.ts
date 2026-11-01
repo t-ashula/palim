@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  Comment,
   DOMException,
   DOMParser,
   Document,
+  DocumentFragment,
   Element,
   HTMLElement,
   HTMLSpanElement,
   HTMLTemplateElement,
   HTMLUnknownElement,
+  Text,
 } from "../src/index.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
@@ -173,6 +176,60 @@ describe("Document element creation", () => {
       document,
     ) as unknown as (...arguments_: unknown[]) => Element;
     expect(() => createElementNS("urn:example")).toThrow(TypeError);
+  });
+});
+
+describe("Document node creation", () => {
+  it("creates text and comment nodes associated with the document", () => {
+    const document = parse("");
+    const text = document.createTextNode("content");
+    const comment = document.createComment("note");
+
+    expect(text).toBeInstanceOf(Text);
+    expect(text.nodeType).toBe(3);
+    expect(text.nodeName).toBe("#text");
+    expect(text.data).toBe("content");
+    expect(text.textContent).toBe("content");
+    expect(text.ownerDocument).toBe(document);
+    expect(text.parentNode).toBeNull();
+
+    expect(comment).toBeInstanceOf(Comment);
+    expect(comment.nodeType).toBe(8);
+    expect(comment.nodeName).toBe("#comment");
+    expect(comment.data).toBe("note");
+    expect(comment.textContent).toBe("note");
+    expect(comment.ownerDocument).toBe(document);
+    expect(comment.parentNode).toBeNull();
+  });
+
+  it("converts character data and rejects omitted required arguments", () => {
+    const document = parse("");
+    const createTextNode = document.createTextNode.bind(
+      document,
+    ) as unknown as (data?: unknown) => Text;
+    const createComment = document.createComment.bind(document) as unknown as (
+      data?: unknown,
+    ) => Comment;
+
+    expect(createTextNode(null).data).toBe("null");
+    expect(createTextNode(undefined).data).toBe("undefined");
+    expect(createComment(null).data).toBe("null");
+    expect(createComment(undefined).data).toBe("undefined");
+    expect(() => createTextNode()).toThrow(TypeError);
+    expect(() => createComment()).toThrow(TypeError);
+  });
+
+  it("creates an empty document fragment associated with the document", () => {
+    const document = parse("");
+    const fragment = document.createDocumentFragment();
+
+    expect(fragment).toBeInstanceOf(DocumentFragment);
+    expect(fragment.nodeType).toBe(11);
+    expect(fragment.nodeName).toBe("#document-fragment");
+    expect(fragment.ownerDocument).toBe(document);
+    expect(fragment.parentNode).toBeNull();
+    expect(fragment.childNodes.length).toBe(0);
+    expect(fragment.children.length).toBe(0);
   });
 });
 

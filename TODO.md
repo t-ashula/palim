@@ -13,7 +13,7 @@
 ## 2. Standard DOM interfaces
 
 - [x] `Document.createElement` / `createElementNS`
-- [ ] `createTextNode` / `createComment` / `createDocumentFragment`
+- [x] `createTextNode` / `createComment` / `createDocumentFragment`
 - [ ] `cloneNode` / `importNode` / `adoptNode`
 - [ ] `Node.normalize`
 - [ ] `compareDocumentPosition`

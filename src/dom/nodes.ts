@@ -53,6 +53,8 @@ type CreateElementNSArguments = [
   options?: string | ElementCreationOptions,
 ];
 
+type CreateCharacterDataArguments = [data?: string];
+
 export type ElementFactory = (
   document: Document,
   localName: string,
@@ -325,6 +327,28 @@ export class Document extends Node implements ParseErrorSource {
       extracted.namespace,
       extracted.prefix,
     );
+  }
+
+  createDocumentFragment(): DocumentFragment {
+    return new DocumentFragment(this);
+  }
+
+  createTextNode(data: string): Text;
+  createTextNode(...parameters: CreateCharacterDataArguments): Text {
+    if (parameters.length < 1) {
+      throw new TypeError("1 argument required");
+    }
+    const [data] = parameters;
+    return new Text(this, domString(data));
+  }
+
+  createComment(data: string): Comment;
+  createComment(...parameters: CreateCharacterDataArguments): Comment {
+    if (parameters.length < 1) {
+      throw new TypeError("1 argument required");
+    }
+    const [data] = parameters;
+    return new Comment(this, domString(data));
   }
 
   _createElement(
