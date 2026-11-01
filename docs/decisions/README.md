@@ -17,3 +17,4 @@
 - [ADR-0014: Document element creation API の追加](./0014-document-element-creation.md)
 - [ADR-0015: Document node creation API の追加](./0015-document-node-creation.md)
 - [ADR-0016: node cloning と adoption API の追加](./0016-node-cloning-and-adoption.md)
+- [ADR-0017: Node normalization API の追加](./0017-node-normalization.md)
