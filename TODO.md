@@ -1,67 +1,65 @@
 # TODO
 
-## 1. HTML parsing / DOM tree construction
+## 1. Parsing and serialization
 
-- [x] html5lib tree-construction tests の実行基盤
 - [x] fragment parsing
 - [x] `innerHTML` など、context element を使用する parse
 - [x] parser error の公開方法
 - [x] byte input と encoding detection
 - [x] HTML serialization
 - [x] XML/XHTML/SVG parsing
+- [x] `DOMParser` の HTML 以外の MIME type
 
-## 2. Standard DOM interfaces
+## 2. Core DOM
+
+### Node creation and ownership
 
 - [x] `Document.createElement` / `createElementNS`
 - [x] `createTextNode` / `createComment` / `createDocumentFragment`
 - [ ] `cloneNode` / `importNode` / `adoptNode`
+
+### Node content mutation
+
 - [ ] `Node.normalize`
-- [ ] `compareDocumentPosition`
-- [ ] `contains`
-- [ ] `isEqualNode` / `isSameNode`
+
+### Node relationships and comparison
+
 - [ ] `getRootNode`
+- [ ] `contains`
+- [ ] `compareDocumentPosition`
+- [ ] `isEqualNode` / `isSameNode`
+
+### Attributes and collections
+
 - [ ] `Element.classList`
-- [ ] `Element.id` / `className` / `slot`
+- [ ] `Element.id` / `className`
 - [ ] `NamedNodeMap` の取得・設定・削除 API
+
+### Lookup
+
 - [ ] `getElementsByTagName` / `getElementsByClassName`
 - [ ] `Document.getElementById`
+
+### Traversal and ranges
+
 - [ ] `NodeIterator` / `TreeWalker`
 - [ ] `Range`
+
+### Observation
+
 - [ ] `MutationObserver`
-- [ ] Shadow DOM
-- [ ] Custom Elements
-- [ ] Web IDL の argument conversion・例外・property descriptor の網羅
 
-## 3. HTML element behavior
+## 3. Dynamic markup and serialization APIs
 
-- [ ] form submission / reset / constraint validation
-- [ ] form-associated element の完全な owner 解決
-- [ ] input type ごとの value sanitization
-- [ ] selection API の type 別制約
-- [ ] table mutation algorithm の全境界条件
-- [ ] dialog / popover の top layer と event
-- [ ] focus management
-- [ ] editing API と `contenteditable`
-- [ ] media loading・再生状態・track
-- [ ] canvas rendering context
-- [ ] iframe/object/embed の browsing context
-- [ ] stylesheet と `LinkStyle`
-- [ ] image loading と intrinsic size
-- [ ] custom element 用 `[HTMLConstructor]`
-- [ ] `ElementInternals`
-
-## 4. HTML manipulation and serialization
-
-- [ ] `innerHTML`
-- [ ] `outerHTML`
-- [ ] `insertAdjacentHTML`
+- [x] `innerHTML`
+- [x] `outerHTML`
+- [x] `insertAdjacentHTML`
 - [ ] `setHTML` / `setHTMLUnsafe`
 - [ ] `Document.write`
-- [ ] `DOMParser` の HTML 以外の MIME type
 - [ ] `XMLSerializer`
-- [ ] template・shadow root を含む serialization
+- [ ] shadow root を含む serialization
 
-## 5. Querying
+## 4. Selectors
 
 - [ ] Selectors Level 4 の未対応構文
 - [ ] namespace selector
@@ -69,8 +67,33 @@
 - [ ] `:scope` の全 context
 - [ ] forgiving selector list
 - [ ] selector syntax の仕様テスト
-- [ ] Selector API の適合度計測方法
-- [ ] WPT から palim 単体で実行可能なケースの整理
+
+## 5. HTML element behavior
+
+### Forms and controls
+
+- [ ] form submission / reset / constraint validation
+- [ ] form-associated element の完全な owner 解決
+- [ ] input type ごとの value sanitization
+- [ ] selection API の type 別制約
+
+### Structured elements
+
+- [ ] table mutation algorithm の全境界条件
+
+### User interaction and editing
+
+- [ ] dialog / popover の top layer と event
+- [ ] focus management
+- [ ] editing API と `contenteditable`
+
+### Loading, rendering, and embedded content
+
+- [ ] media loading・再生状態・track
+- [ ] canvas rendering context
+- [ ] iframe/object/embed の browsing context
+- [ ] stylesheet と `LinkStyle`
+- [ ] image loading と intrinsic size
 
 ## 6. Events
 
@@ -81,9 +104,18 @@
 - [ ] default action
 - [ ] UI event / mouse event / pointer event / keyboard event
 - [ ] form・media・dialog・popover の仕様イベント
-- [ ] microtask と event loop の連携
 
-## 7. Window environment
+## 7. Component model
+
+- [ ] Shadow DOM
+- [ ] `Element.slot`
+- [ ] Custom Elements
+- [ ] custom element 用 `[HTMLConstructor]`
+- [ ] `ElementInternals`
+
+## 8. Window and platform services
+
+### Window and browsing context
 
 - [ ] `Window`
 - [ ] `Document.defaultView`
@@ -92,15 +124,25 @@
 - [ ] `Navigator`
 - [ ] browsing context
 - [ ] origin と URL
-- [ ] timers
-- [ ] task queue / microtask queue
+
+### Networking and resource loading
+
 - [ ] resource loading
+- [ ] `fetch`
+
+### Storage and state
+
 - [ ] cookie
 - [ ] storage
-- [ ] `fetch`
-- [ ] Window 用 WPT execution adapter
 
-## 8. Optional JavaScript execution
+## 9. Runtime scheduling
+
+- [ ] timers
+- [ ] task queue / microtask queue
+- [ ] event dispatch と microtask の連携
+- [ ] JavaScript execution と event loop の統合
+
+## 10. Optional JavaScript execution
 
 - [ ] JavaScript realm
 - [ ] `<script>` の実行
@@ -108,21 +150,30 @@
 - [ ] external script loading
 - [ ] parser-blocking script
 - [ ] `document.currentScript`
-- [ ] event loop との統合
-- [ ] JavaScript execution を無効化した軽量構成の維持
 
-## 9. Standards compliance measurement
+## 11. Web IDL bindings
 
-- [ ] tree-construction 適合度レポート
+- [ ] argument conversion の網羅
+- [ ] 例外変換の網羅
+- [ ] property descriptor の網羅
+
+## 12. Standards compliance measurement
+
+- [x] html5lib tree-construction tests の実行基盤
+- [x] tree-construction 適合度レポート
 - [ ] DOM API 適合度レポート
+- [ ] Selector API の適合度計測方法
 - [ ] Selector API 適合度レポート
 - [ ] HTML element interface 適合度レポート
 - [ ] WPT の実行可能条件と対象範囲の明示
+- [ ] WPT から palim 単体で実行可能なケースの整理
+- [ ] Window 用 WPT execution adapter
 - [ ] 除外ケースごとのファイル名・内容・理由
 - [ ] Living Standard 更新時の差分検出
 - [ ] report 更新タイミングの規約化
+- [ ] commit 済み revision のみで report を更新する運用
 
-## 10. Performance and memory
+## 13. Performance and memory
 
 - [ ] jsdom / parse5 との同一 workload 比較
 - [ ] capability を揃えた比較条件
@@ -134,12 +185,12 @@
 - [ ] 多数 document の生成・破棄 workload
 - [ ] regression threshold
 - [ ] CI での継続計測
-- [ ] commit 済み revision のみで report を更新する運用
 
-## 11. Incremental capability architecture
+## 14. Incremental capability architecture
 
 - [ ] parser、DOM、Window、JavaScript execution の依存方向を分離
 - [ ] parser 利用時に Window 関連コードを読み込まない構成
 - [ ] capability 単位の package export
 - [ ] optional layer ごとの性能・メモリ計測
 - [ ] 対応能力を機械可読な metadata として公開
+- [ ] JavaScript execution を無効化した軽量構成の維持
