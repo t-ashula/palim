@@ -19,6 +19,7 @@ export {
 export type {
   AddEventListenerOptions,
   AttributeData,
+  ElementCreationOptions,
   EventInit,
   EventListener,
   EventListenerObject,

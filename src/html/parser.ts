@@ -18,7 +18,7 @@ import {
   XML_NAMESPACE,
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
-import { createHTMLElement } from "../html-elements.js";
+import { createElementForDocument } from "../html-elements.js";
 import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
 import type { PalimParseError } from "./parse-errors.js";
@@ -313,7 +313,11 @@ function whitespace(data: string): boolean {
 }
 
 class TreeBuilder {
-  readonly document = new Document(htmlFragmentParser);
+  readonly document = new Document(
+    htmlFragmentParser,
+    "text/html",
+    createElementForDocument,
+  );
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
@@ -339,13 +343,10 @@ class TreeBuilder {
         ? null
         : context instanceof Element
           ? context
-          : context.namespaceURI === HTML_NAMESPACE
-            ? createHTMLElement(this.document, context.localName)
-            : new Element(
-                this.document,
-                context.localName,
-                context.namespaceURI,
-              );
+          : this.document._createElement(
+              context.localName,
+              context.namespaceURI,
+            );
     this.#tokenizer = new HTMLTokenizer(input, {
       initialState: this.#initialTokenizerState(),
     });
@@ -366,7 +367,7 @@ class TreeBuilder {
           }
         }
       }
-      const html = new Element(this.document, "html");
+      const html = this.document._createElement("html", HTML_NAMESPACE);
       this.document._append(html);
       this.#stack.push(html);
       if (this.#context.localName === "template") {
@@ -654,7 +655,7 @@ class TreeBuilder {
           ) {
             this.#treeError("unexpected-end-tag-before-html");
           } else {
-            const html = new Element(this.document, "html");
+            const html = this.document._createElement("html", HTML_NAMESPACE);
             this.document._append(html);
             this.#stack.push(html);
             this.#mode = "before-head";
@@ -2153,10 +2154,7 @@ class TreeBuilder {
       namespace === SVG_NAMESPACE
         ? (SVG_NAMES[token.name] ?? token.name)
         : token.name;
-    const element =
-      namespace === HTML_NAMESPACE
-        ? createHTMLElement(this.document, localName)
-        : new Element(this.document, localName, namespace);
+    const element = this.document._createElement(localName, namespace);
     element._setAttributes(
       Object.entries(token.attributes).map(
         ([sourceName, value]): AttributeData => {
@@ -2735,15 +2733,11 @@ class TreeBuilder {
   }
 
   #cloneElement(element: Element): Element {
-    const clone =
-      element.namespaceURI === HTML_NAMESPACE
-        ? createHTMLElement(this.document, element.localName)
-        : new Element(
-            this.document,
-            element.localName,
-            element.namespaceURI,
-            element.prefix,
-          );
+    const clone = this.document._createElement(
+      element.localName,
+      element.namespaceURI,
+      element.prefix,
+    );
     clone._setAttributes(
       element._attributeNodes.map((attribute) => ({
         name: attribute.name,
@@ -2990,12 +2984,12 @@ class TreeBuilder {
 
   #finish(): void {
     if (this.document.documentElement === null) {
-      const html = new Element(this.document, "html");
+      const html = this.document._createElement("html", HTML_NAMESPACE);
       this.document._append(html);
       this.#stack.push(html);
     }
     if (this.document.head === null) {
-      const head = new Element(this.document, "head");
+      const head = this.document._createElement("head", HTML_NAMESPACE);
       const documentElement = this.document.documentElement;
       const body = documentElement?._childNodes.find(
         (node) => node instanceof Element && node.localName === "body",
@@ -3008,7 +3002,7 @@ class TreeBuilder {
     }
     if (this.document.body === null) {
       this.document.documentElement?._append(
-        new Element(this.document, "body"),
+        this.document._createElement("body", HTML_NAMESPACE),
       );
     }
     this.#syncSelectedContent();

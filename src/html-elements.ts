@@ -404,7 +404,12 @@ export class HTMLElement extends Element {
 
   constructor() {
     const construction = currentHTMLConstruction();
-    super(construction.document, construction.localName, HTML_NAMESPACE);
+    super(
+      construction.document,
+      construction.localName,
+      HTML_NAMESPACE,
+      construction.prefix,
+    );
   }
 
   get title(): string {
@@ -4804,7 +4809,9 @@ installStringReflectors(HTMLParamElement, {
 export function createHTMLElement(
   document: Document,
   localName: string,
+  prefix: string | null = null,
 ): Element {
+  htmlConstructionPrefixStack.push(prefix);
   switch (localName) {
     case "html":
       return constructHTMLElement(HTMLHtmlElement, document, localName);
@@ -4972,26 +4979,45 @@ export function createHTMLElement(
     return constructHTMLElement(HTMLUnknownElement, document, localName);
   }
   if (SPECIALIZED_HTML_ELEMENT_NAMES.has(localName)) {
-    return new Element(document, localName, HTML_NAMESPACE);
+    htmlConstructionPrefixStack.pop();
+    return new Element(document, localName, HTML_NAMESPACE, prefix);
   }
   return constructHTMLElement(HTMLUnknownElement, document, localName);
+}
+
+export function createElementForDocument(
+  document: Document,
+  localName: string,
+  namespaceURI: string | null,
+  prefix: string | null,
+): Element {
+  return namespaceURI === HTML_NAMESPACE
+    ? createHTMLElement(document, localName, prefix)
+    : new Element(document, localName, namespaceURI, prefix);
 }
 
 interface HTMLConstruction {
   readonly document: Document;
   readonly localName: string;
+  readonly prefix: string | null;
 }
 
 type HTMLInterfaceConstructor<T extends HTMLElement> = new () => T;
 
 const htmlConstructionStack: HTMLConstruction[] = [];
+const htmlConstructionPrefixStack: (string | null)[] = [];
 
 function constructHTMLElement<T extends HTMLElement>(
   Interface: HTMLInterfaceConstructor<T>,
   document: Document,
   localName: string,
 ): T {
-  htmlConstructionStack.push({ document, localName });
+  const prefix = htmlConstructionPrefixStack.pop() ?? null;
+  htmlConstructionStack.push({
+    document,
+    localName,
+    prefix,
+  });
   try {
     return new Interface();
   } finally {
@@ -5073,6 +5099,7 @@ function templateContentsOwnerDocument(document: Document): Document {
   document._templateContentsOwnerDocument ??= new Document(
     document._fragmentParser,
     document.contentType,
+    document._elementFactory,
   );
   return document._templateContentsOwnerDocument;
 }

@@ -1,8 +1,19 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMException, DOMParser, HTMLTemplateElement } from "../src/index.js";
-import type { Document, Element } from "../src/index.js";
+import {
+  DOMException,
+  DOMParser,
+  Document,
+  Element,
+  HTMLElement,
+  HTMLSpanElement,
+  HTMLTemplateElement,
+  HTMLUnknownElement,
+} from "../src/index.js";
 
+const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
+const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
+const XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";
 const XLINK_NAMESPACE = "http://www.w3.org/1999/xlink";
 
 function parse(input: string): Document {
@@ -27,6 +38,143 @@ function expectDOMException(operation: () => unknown, name: string): void {
   }
   throw new Error(`expected ${name}`);
 }
+
+describe("Document element creation", () => {
+  it("creates HTML elements with normalized names and matching interfaces", () => {
+    const document = parse("");
+    const element = document.createElement("SpAn");
+    const unknown = document.createElement("unregistered");
+    const custom = document.createElement("palim-widget");
+    const parsed = parse("<span></span>").querySelector("span");
+
+    expect(element).toBeInstanceOf(HTMLSpanElement);
+    expect(element.localName).toBe("span");
+    expect(element.tagName).toBe("SPAN");
+    expect(element.prefix).toBeNull();
+    expect(element.namespaceURI).toBe(HTML_NAMESPACE);
+    expect(element.ownerDocument).toBe(document);
+    expect(element.parentNode).toBeNull();
+    expect(unknown).toBeInstanceOf(HTMLUnknownElement);
+    expect(custom).toBeInstanceOf(HTMLElement);
+    expect(custom).not.toBeInstanceOf(HTMLUnknownElement);
+    expect(element.constructor).toBe(parsed?.constructor);
+  });
+
+  it("uses the document type when createElement selects a namespace", () => {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString("<root />", "application/xml");
+    const xhtml = parser.parseFromString(
+      `<html xmlns="${HTML_NAMESPACE}" />`,
+      "application/xhtml+xml",
+    );
+    const standalone = new Document();
+
+    const xmlElement = xml.createElement("MixedCase");
+    const xhtmlElement = xhtml.createElement("span");
+    const standaloneElement = standalone.createElement("MixedCase");
+
+    expect(xmlElement).toBeInstanceOf(Element);
+    expect(xmlElement).not.toBeInstanceOf(HTMLElement);
+    expect(xmlElement.localName).toBe("MixedCase");
+    expect(xmlElement.tagName).toBe("MixedCase");
+    expect(xmlElement.namespaceURI).toBeNull();
+
+    expect(xhtmlElement).toBeInstanceOf(HTMLSpanElement);
+    expect(xhtmlElement.localName).toBe("span");
+    expect(xhtmlElement.tagName).toBe("span");
+    expect(xhtmlElement.namespaceURI).toBe(HTML_NAMESPACE);
+
+    expect(standalone.contentType).toBe("application/xml");
+    expect(standaloneElement.namespaceURI).toBeNull();
+    expect(standaloneElement.localName).toBe("MixedCase");
+  });
+
+  it("converts and validates createElement local names", () => {
+    const document = parse("");
+    const createElement = document.createElement.bind(document) as unknown as (
+      localName?: unknown,
+    ) => Element;
+
+    expect(createElement(null).localName).toBe("null");
+    expect(createElement(undefined).localName).toBe("undefined");
+    expect(createElement("article<draft").localName).toBe("article<draft");
+
+    for (const invalidName of ["", "1article", "article draft", "a/b", "a>b"]) {
+      expectDOMException(
+        () => document.createElement(invalidName),
+        "InvalidCharacterError",
+      );
+    }
+    expect(() => createElement()).toThrow(TypeError);
+  });
+
+  it("creates namespaced elements and preserves qualified names", () => {
+    const document = parse("");
+    const html = document.createElementNS(HTML_NAMESPACE, "html:span");
+    const foreign = document.createElementNS("urn:example", "p:item:part");
+    const noNamespace = document.createElementNS("", "item");
+    const createElementNS = document.createElementNS.bind(
+      document,
+    ) as unknown as (namespace?: unknown, qualifiedName?: unknown) => Element;
+
+    expect(html).toBeInstanceOf(HTMLSpanElement);
+    expect(html.prefix).toBe("html");
+    expect(html.localName).toBe("span");
+    expect(html.tagName).toBe("HTML:SPAN");
+    expect(html.namespaceURI).toBe(HTML_NAMESPACE);
+
+    expect(foreign).toBeInstanceOf(Element);
+    expect(foreign).not.toBeInstanceOf(HTMLElement);
+    expect(foreign.prefix).toBe("p");
+    expect(foreign.localName).toBe("item:part");
+    expect(foreign.tagName).toBe("p:item:part");
+    expect(foreign.namespaceURI).toBe("urn:example");
+
+    expect(noNamespace.namespaceURI).toBeNull();
+    expect(createElementNS(undefined, "item").namespaceURI).toBeNull();
+  });
+
+  it("reports element name and namespace errors", () => {
+    const document = parse("");
+
+    expectDOMException(
+      () => document.createElementNS("urn:example", "bad prefix:item"),
+      "InvalidCharacterError",
+    );
+    expectDOMException(
+      () => document.createElementNS("urn:example", "p:1item"),
+      "InvalidCharacterError",
+    );
+    expectDOMException(
+      () => document.createElementNS(null, "p:item"),
+      "NamespaceError",
+    );
+    expectDOMException(
+      () => document.createElementNS("urn:example", "xml:item"),
+      "NamespaceError",
+    );
+    expectDOMException(
+      () => document.createElementNS("urn:example", "xmlns"),
+      "NamespaceError",
+    );
+    expectDOMException(
+      () => document.createElementNS(XMLNS_NAMESPACE, "item"),
+      "NamespaceError",
+    );
+
+    expect(
+      document.createElementNS(XML_NAMESPACE, "xml:item").namespaceURI,
+    ).toBe(XML_NAMESPACE);
+    expect(
+      document.createElementNS(XMLNS_NAMESPACE, "xmlns").namespaceURI,
+    ).toBe(XMLNS_NAMESPACE);
+
+    const createElementNS = document.createElementNS.bind(
+      document,
+    ) as unknown as (...arguments_: unknown[]) => Element;
+    expect(() => createElementNS("urn:example")).toThrow(TypeError);
+  });
+});
 
 describe("Element attributes", () => {
   it("gets, sets, toggles, and removes attributes", () => {

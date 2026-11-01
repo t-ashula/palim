@@ -12,6 +12,8 @@ import {
   domString,
   normalizeNamespace,
   validateAndExtract,
+  validateAndExtractElement,
+  validateElementLocalName,
   validateName,
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
@@ -34,6 +36,29 @@ const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 export interface FragmentParser {
   parse(input: string, context: Element): DocumentFragment;
 }
+
+export interface ElementCreationOptions {
+  readonly customElementRegistry?: unknown;
+  readonly is?: string;
+}
+
+type CreateElementArguments = [
+  localName?: string,
+  options?: string | ElementCreationOptions,
+];
+
+type CreateElementNSArguments = [
+  namespace?: string | null,
+  qualifiedName?: string,
+  options?: string | ElementCreationOptions,
+];
+
+export type ElementFactory = (
+  document: Document,
+  localName: string,
+  namespaceURI: string | null,
+  prefix: string | null,
+) => Element;
 
 export class Node extends EventTarget {
   static readonly ELEMENT_NODE = 1;
@@ -200,17 +225,20 @@ export class Document extends Node implements ParseErrorSource {
   readonly contentType: string;
   readonly characterSet = "UTF-8";
   readonly _fragmentParser: FragmentParser | null;
+  readonly _elementFactory: ElementFactory;
   _templateContentsOwnerDocument: Document | null = null;
   _quirks = true;
   [DOCUMENT_PARSE_ERRORS]: readonly PalimParseError[] = [];
 
   constructor(
     fragmentParser: FragmentParser | null = null,
-    contentType = "text/html",
+    contentType = "application/xml",
+    elementFactory: ElementFactory = defaultElementFactory,
   ) {
     super(Node.DOCUMENT_NODE, "#document", null);
     this._fragmentParser = fragmentParser;
     this.contentType = contentType;
+    this._elementFactory = elementFactory;
   }
 
   get doctype(): DocumentType | null {
@@ -250,6 +278,61 @@ export class Document extends Node implements ParseErrorSource {
 
   get compatMode(): "BackCompat" | "CSS1Compat" {
     return this._quirks ? "BackCompat" : "CSS1Compat";
+  }
+
+  createElement(
+    localName: string,
+    options?: string | ElementCreationOptions,
+  ): Element;
+  createElement(...parameters: CreateElementArguments): Element {
+    if (parameters.length < 1) {
+      throw new TypeError("1 argument required");
+    }
+    const [localName, options] = parameters;
+    let convertedName = domString(localName);
+    convertElementCreationOptions(options);
+    validateElementLocalName(convertedName);
+    if (this.contentType === "text/html") {
+      convertedName = asciiLowercase(convertedName);
+    }
+    const namespaceURI =
+      this.contentType === "text/html" ||
+      this.contentType === "application/xhtml+xml"
+        ? HTML_NAMESPACE
+        : null;
+    return this._createElement(convertedName, namespaceURI, null);
+  }
+
+  createElementNS(
+    namespace: string | null,
+    qualifiedName: string,
+    options?: string | ElementCreationOptions,
+  ): Element;
+  createElementNS(...parameters: CreateElementNSArguments): Element {
+    if (parameters.length < 2) {
+      throw new TypeError("2 arguments required");
+    }
+    const [namespace, qualifiedName, options] = parameters;
+    const convertedNamespace = normalizeNamespace(namespace);
+    const convertedName = domString(qualifiedName);
+    convertElementCreationOptions(options);
+    const extracted = validateAndExtractElement(
+      convertedNamespace,
+      convertedName,
+    );
+    return this._createElement(
+      extracted.localName,
+      extracted.namespace,
+      extracted.prefix,
+    );
+  }
+
+  _createElement(
+    localName: string,
+    namespaceURI: string | null,
+    prefix: string | null = null,
+  ): Element {
+    return this._elementFactory(this, localName, namespaceURI, prefix);
   }
 
   override get textContent(): null {
@@ -656,7 +739,7 @@ export class Element extends Node {
   }
 
   #bodyFragmentContext(): Element {
-    return new Element(this.#document(), "body");
+    return this.#document()._createElement("body", HTML_NAMESPACE);
   }
 
   #isHTMLDocument(): boolean {
@@ -776,6 +859,29 @@ export class ProcessingInstruction extends CharacterData {
   constructor(document: Document, target: string, data: string) {
     super(Node.PROCESSING_INSTRUCTION_NODE, target, document, data);
     this.target = target;
+  }
+}
+
+function defaultElementFactory(
+  document: Document,
+  localName: string,
+  namespaceURI: string | null,
+  prefix: string | null,
+): Element {
+  return new Element(document, localName, namespaceURI, prefix);
+}
+
+function convertElementCreationOptions(options: unknown): void {
+  if (options === undefined) {
+    return;
+  }
+  if (typeof options !== "object" || options === null) {
+    domString(options);
+    return;
+  }
+  const isValue: unknown = (options as ElementCreationOptions).is;
+  if (isValue !== undefined) {
+    domString(isValue);
   }
 }
 

@@ -1,15 +1,15 @@
 import { DOMException } from "../dom-exception.js";
-import type { FragmentParser, Node } from "../dom/nodes.js";
+import type { Element, FragmentParser, Node } from "../dom/nodes.js";
 import {
   CDATASection,
   Comment,
   Document,
   DocumentFragment,
   DocumentType,
-  Element,
   ProcessingInstruction,
   Text,
 } from "../dom/nodes.js";
+import { createElementForDocument } from "../html-elements.js";
 import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
 import { parseInternalSubset } from "./dtd.js";
 
@@ -454,8 +454,7 @@ class XMLParserCore {
         `Unbound namespace prefix: ${elementName.prefix}`,
       );
     }
-    const element = new Element(
-      this.#document,
+    const element = this.#document._createElement(
       elementName.localName,
       namespaceURI ?? null,
       elementName.prefix,
@@ -828,15 +827,23 @@ const xmlFragmentParser: FragmentParser = {
 };
 
 function parserErrorDocument(type: XMLMIMEType, message: string): Document {
-  const document = new Document(xmlFragmentParser, type);
-  const error = new Element(document, "parsererror", PARSER_ERROR_NAMESPACE);
+  const document = new Document(
+    xmlFragmentParser,
+    type,
+    createElementForDocument,
+  );
+  const error = document._createElement("parsererror", PARSER_ERROR_NAMESPACE);
   error._append(new Text(document, message));
   document._append(error);
   return document;
 }
 
 export function parseXML(input: string, type: XMLMIMEType): Document {
-  const document = new Document(xmlFragmentParser, type);
+  const document = new Document(
+    xmlFragmentParser,
+    type,
+    createElementForDocument,
+  );
   try {
     new XMLParserCore(
       input,

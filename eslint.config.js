@@ -18,6 +18,14 @@ export default defineConfig(
       },
     },
     rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_",
+          reportUsedIgnorePattern: true,
+        },
+      ],
       "@typescript-eslint/consistent-type-imports": [
         "error",
         {
