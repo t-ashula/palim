@@ -24,3 +24,4 @@
 - [ADR-0021: NodeIterator と TreeWalker の内部構成](./0021-dom-traversal.md)
 - [ADR-0022: Range の生成と live mutation 連携](./0022-live-range.md)
 - [ADR-0023: XMLSerializer と XML serialization の共有](./0023-xml-serializer.md)
+- [ADR-0024: table mutation と collection ordering の共有](./0024-table-mutation.md)

@@ -63,13 +63,6 @@
 
 ## 5. HTML element behavior
 
-### Forms and controls
-
-- [ ] form submission / reset / constraint validation
-- [ ] form-associated element の完全な owner 解決
-- [ ] input type ごとの value sanitization
-- [ ] selection API の type 別制約
-
 ### Structured elements
 
 - [ ] table mutation algorithm の全境界条件
@@ -87,6 +80,13 @@
 - [ ] iframe/object/embed の browsing context
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
+
+### Forms and controls
+
+- [ ] form submission / reset / constraint validation
+- [ ] form-associated element の完全な owner 解決
+- [ ] input type ごとの value sanitization
+- [ ] selection API の type 別制約
 
 ## 6. Events
 
