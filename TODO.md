@@ -20,7 +20,7 @@
 
 ### Node content mutation
 
-- [ ] `Node.normalize`
+- [x] `Node.normalize`
 
 ### Node relationships and comparison
 

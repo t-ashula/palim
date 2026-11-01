@@ -141,6 +141,10 @@ export class Node extends EventTarget {
     return descendantText(this);
   }
 
+  normalize(): void {
+    normalizeDescendantText(this);
+  }
+
   cloneNode(subtree = false): Node {
     const document = this instanceof Document ? this : this.ownerDocument;
     if (document === null) {
@@ -886,7 +890,7 @@ export class DocumentFragment extends Node {
 }
 
 export class CharacterData extends Node {
-  readonly data: string;
+  _data: string;
 
   constructor(
     nodeType: number,
@@ -895,7 +899,11 @@ export class CharacterData extends Node {
     data: string,
   ) {
     super(nodeType, nodeName, document);
-    this.data = data;
+    this._data = data;
+  }
+
+  get data(): string {
+    return this._data;
   }
 
   get length(): number {
@@ -904,6 +912,22 @@ export class CharacterData extends Node {
 
   override get textContent(): string {
     return this.data;
+  }
+
+  _replaceData(offset: number, count: number, data: string): void {
+    if (offset > this.length) {
+      throw new DOMException(
+        "The offset exceeds the data length",
+        "IndexSizeError",
+      );
+    }
+    const removed = Math.min(count, this.length - offset);
+    this._data =
+      this._data.slice(0, offset) + data + this._data.slice(offset + removed);
+  }
+
+  _appendData(data: string): void {
+    this._replaceData(this.length, 0, data);
   }
 }
 
@@ -1076,6 +1100,36 @@ function descendantText(node: Node): string {
     }
   }
   return result;
+}
+
+function normalizeDescendantText(node: Node): void {
+  let index = 0;
+  while (index < node._childNodes.length) {
+    const child = node._childNodes[index];
+    if (child === undefined) {
+      break;
+    }
+    if (child instanceof Text) {
+      if (child.length === 0) {
+        child._remove();
+        continue;
+      }
+
+      let data = "";
+      let sibling = child.nextSibling;
+      while (sibling instanceof Text) {
+        data += sibling.data;
+        sibling = sibling.nextSibling;
+      }
+      child._appendData(data);
+      while (child.nextSibling instanceof Text) {
+        child.nextSibling._remove();
+      }
+    } else {
+      normalizeDescendantText(child);
+    }
+    index += 1;
+  }
 }
 
 function selectorArgument(value: unknown, length: number): string {

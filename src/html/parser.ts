@@ -2301,13 +2301,11 @@ class TreeBuilder {
       const location = this.#fosterParentLocation();
       const previous =
         location.reference?.previousSibling ?? location.parent.lastChild;
-      const text = new Text(
-        this.document,
-        (previous instanceof Text ? previous.data : "") + data,
-      );
       if (previous instanceof Text) {
-        previous._remove();
+        previous._appendData(data);
+        return;
       }
+      const text = new Text(this.document, data);
       if (location.reference !== null) {
         location.parent._insertBefore(text, location.reference);
       } else {
@@ -2324,14 +2322,11 @@ class TreeBuilder {
       parent = parent._templateContents;
     }
     const previous = parent.lastChild;
-    const text = new Text(
-      this.document,
-      (previous instanceof Text ? previous.data : "") + data,
-    );
     if (previous instanceof Text) {
-      previous._remove();
+      previous._appendData(data);
+      return;
     }
-    parent._append(text);
+    parent._append(new Text(this.document, data));
   }
 
   #comment(data: string, foster = false): void {

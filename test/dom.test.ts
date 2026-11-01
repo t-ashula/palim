@@ -428,6 +428,80 @@ describe("Node cloning and adoption", () => {
   });
 });
 
+describe("Node normalization", () => {
+  it("removes empty text nodes and merges adjacent text recursively", () => {
+    const document = parse("");
+    const parent = document.createElement("div");
+    const first = document.createTextNode("first");
+    const empty = document.createTextNode("");
+    const second = document.createTextNode("second");
+    const comment = document.createComment("boundary");
+    const trailingEmpty = document.createTextNode("");
+    const third = document.createTextNode("third");
+    const nested = document.createElement("span");
+    const nestedEmpty = document.createTextNode("");
+    const nestedFirst = document.createTextNode("nested");
+    const nestedSecond = document.createTextNode(" text");
+
+    parent.appendChild(first);
+    parent.appendChild(empty);
+    parent.appendChild(second);
+    parent.appendChild(comment);
+    parent.appendChild(trailingEmpty);
+    parent.appendChild(third);
+    nested.appendChild(nestedEmpty);
+    nested.appendChild(nestedFirst);
+    nested.appendChild(nestedSecond);
+    parent.appendChild(nested);
+
+    parent.normalize();
+
+    expect(Array.from(parent.childNodes)).toEqual([
+      first,
+      comment,
+      third,
+      nested,
+    ]);
+    expect(first.data).toBe("firstsecond");
+    expect(first.parentNode).toBe(parent);
+    expect(empty.parentNode).toBeNull();
+    expect(second.parentNode).toBeNull();
+    expect(third.data).toBe("third");
+    expect(Array.from(nested.childNodes)).toEqual([nestedFirst]);
+    expect(nestedFirst.data).toBe("nested text");
+    expect(nestedEmpty.parentNode).toBeNull();
+    expect(nestedSecond.parentNode).toBeNull();
+
+    parent.normalize();
+    expect(Array.from(parent.childNodes)).toEqual([
+      first,
+      comment,
+      third,
+      nested,
+    ]);
+  });
+
+  it("keeps CDATA sections as boundaries between text nodes", () => {
+    const document = new DOMParser().parseFromString(
+      "<root>left<![CDATA[middle]]>right</root>",
+      "application/xml",
+    );
+    const root = document.documentElement;
+    if (root === null) {
+      throw new Error("missing root element");
+    }
+    const children = Array.from(root.childNodes);
+
+    root.normalize();
+
+    expect(Array.from(root.childNodes)).toEqual(children);
+    expect(root.childNodes.item(0)).toBeInstanceOf(Text);
+    expect(root.childNodes.item(1)).toBeInstanceOf(CDATASection);
+    expect(root.childNodes.item(2)).toBeInstanceOf(Text);
+    expect(root.textContent).toBe("leftmiddleright");
+  });
+});
+
 describe("Element attributes", () => {
   it("gets, sets, toggles, and removes attributes", () => {
     const document = parse('<main id="root" data-value="initial"></main>');
