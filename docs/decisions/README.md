@@ -20,3 +20,4 @@
 - [ADR-0017: Node normalization API の追加](./0017-node-normalization.md)
 - [ADR-0018: Node の関係・比較 API の追加](./0018-node-relationships-and-comparison.md)
 - [ADR-0019: Element attribute reflection と collection API の追加](./0019-element-attributes-and-collections.md)
+- [ADR-0020: DOM tree lookup API の追加](./0020-dom-tree-lookup.md)
