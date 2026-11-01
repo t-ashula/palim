@@ -1,16 +1,21 @@
 import { describe, expect, it } from "vitest";
 
+import type { Node } from "../src/index.js";
 import {
+  Attr,
+  CDATASection,
   Comment,
   DOMException,
   DOMParser,
   Document,
   DocumentFragment,
+  DocumentType,
   Element,
   HTMLElement,
   HTMLSpanElement,
   HTMLTemplateElement,
   HTMLUnknownElement,
+  ProcessingInstruction,
   Text,
 } from "../src/index.js";
 
@@ -230,6 +235,196 @@ describe("Document node creation", () => {
     expect(fragment.parentNode).toBeNull();
     expect(fragment.childNodes.length).toBe(0);
     expect(fragment.children.length).toBe(0);
+  });
+});
+
+describe("Node cloning and adoption", () => {
+  it("clones elements shallowly or with their subtree", () => {
+    const document = parse(
+      '<main data-value="source"><span>text</span><!--note--></main>',
+    );
+    const source = select(document, "main");
+    const shallow = source.cloneNode();
+    const deep = source.cloneNode(true);
+
+    expect(shallow).toBeInstanceOf(source.constructor);
+    expect(shallow).toBeInstanceOf(Element);
+    expect(shallow).not.toBe(source);
+    expect(shallow.ownerDocument).toBe(document);
+    expect(shallow.parentNode).toBeNull();
+    expect((shallow as Element).getAttribute("data-value")).toBe("source");
+    expect(shallow.childNodes.length).toBe(0);
+
+    expect(deep).toBeInstanceOf(Element);
+    expect((deep as Element).querySelector("span")?.textContent).toBe("text");
+    expect(deep.lastChild).toBeInstanceOf(Comment);
+    expect(deep.firstChild).not.toBe(source.firstChild);
+    expect(deep.ownerDocument).toBe(document);
+  });
+
+  it("clones document fragments with their descendants", () => {
+    const document = parse("");
+    const source = document.createDocumentFragment();
+    const element = document.createElement("span");
+    element.appendChild(document.createTextNode("content"));
+    source.appendChild(element);
+
+    const shallow = source.cloneNode();
+    const deep = source.cloneNode(true);
+
+    expect(shallow).toBeInstanceOf(DocumentFragment);
+    expect(shallow.childNodes.length).toBe(0);
+    expect(deep).toBeInstanceOf(DocumentFragment);
+    expect((deep as DocumentFragment).querySelector("span")?.textContent).toBe(
+      "content",
+    );
+    expect(deep.firstChild).not.toBe(source.firstChild);
+  });
+
+  it("clones documents, doctypes, attributes, CDATA, and instructions", () => {
+    const parser = new DOMParser();
+    const document = parser.parseFromString(
+      '<!DOCTYPE root PUBLIC "public-id" "system-id"><root key="value"><![CDATA[data]]><?target content?></root>',
+      "application/xml",
+    );
+    const clone = document.cloneNode(true);
+
+    expect(clone).toBeInstanceOf(Document);
+    expect(clone).not.toBe(document);
+    expect(clone.ownerDocument).toBeNull();
+    expect((clone as Document).contentType).toBe("application/xml");
+    expect((clone as Document).doctype).toBeInstanceOf(DocumentType);
+    expect((clone as Document).doctype?.publicId).toBe("public-id");
+    expect((clone as Document).doctype?.systemId).toBe("system-id");
+
+    const root = (clone as Document).documentElement;
+    expect(root?.firstChild).toBeInstanceOf(CDATASection);
+    expect(root?.lastChild).toBeInstanceOf(ProcessingInstruction);
+    expect((root?.lastChild as ProcessingInstruction).target).toBe("target");
+    expect((root?.lastChild as ProcessingInstruction).data).toBe("content");
+
+    const attribute = document.documentElement?.attributes.item(0);
+    if (attribute === null || attribute === undefined) {
+      throw new Error("missing test attribute");
+    }
+    const attributeClone = attribute.cloneNode();
+    expect(attributeClone).toBeInstanceOf(Attr);
+    expect((attributeClone as Attr).ownerElement).toBeNull();
+    expect((attributeClone as Attr).value).toBe("value");
+    expect(attributeClone.ownerDocument).toBe(document);
+  });
+
+  it("clones template contents only as part of a subtree clone", () => {
+    const document = parse(
+      '<template id="template"><section><span>content</span></section></template>',
+    );
+    const source = select(document, "template");
+    if (!(source instanceof HTMLTemplateElement)) {
+      throw new Error("missing template element");
+    }
+
+    const shallow = source.cloneNode();
+    const deep = source.cloneNode(true);
+    expect(shallow).toBeInstanceOf(HTMLTemplateElement);
+    expect(deep).toBeInstanceOf(HTMLTemplateElement);
+    expect((shallow as HTMLTemplateElement).content.childNodes.length).toBe(0);
+    expect(
+      (deep as HTMLTemplateElement).content.querySelector("span")?.textContent,
+    ).toBe("content");
+    expect((deep as HTMLTemplateElement).content.firstChild).not.toBe(
+      source.content.firstChild,
+    );
+  });
+
+  it("imports shallow and deep copies into the target document", () => {
+    const sourceDocument = parse(
+      '<main data-value="source"><span>content</span></main>',
+    );
+    const targetDocument = parse("");
+    const source = select(sourceDocument, "main");
+
+    const shallow = targetDocument.importNode(source);
+    const deep = targetDocument.importNode(source, true);
+    const dictionaryDeep = targetDocument.importNode(source, {});
+    const dictionaryShallow = targetDocument.importNode(source, {
+      selfOnly: true,
+    });
+
+    expect(shallow.ownerDocument).toBe(targetDocument);
+    expect(shallow.childNodes.length).toBe(0);
+    expect(shallow.attributes.item(0)?.ownerDocument).toBe(targetDocument);
+    expect(deep.querySelector("span")?.ownerDocument).toBe(targetDocument);
+    expect(dictionaryDeep.querySelector("span")?.textContent).toBe("content");
+    expect(dictionaryShallow.childNodes.length).toBe(0);
+    expect(source.ownerDocument).toBe(sourceDocument);
+    expect(source.parentNode).not.toBeNull();
+  });
+
+  it("imports template contents into the target template owner document", () => {
+    const sourceDocument = parse(
+      '<template id="source"><span>content</span></template>',
+    );
+    const targetDocument = parse("");
+    const source = select(sourceDocument, "template");
+    if (!(source instanceof HTMLTemplateElement)) {
+      throw new Error("missing template element");
+    }
+
+    const imported = targetDocument.importNode(source, true);
+    expect(imported).toBeInstanceOf(HTMLTemplateElement);
+    const content = imported.content;
+    expect(content.ownerDocument).not.toBe(source.content.ownerDocument);
+    expect(content.ownerDocument).not.toBe(targetDocument);
+    expect(content.querySelector("span")?.ownerDocument).toBe(
+      content.ownerDocument,
+    );
+  });
+
+  it("adopts a node, attributes, descendants, and template contents", () => {
+    const sourceDocument = parse(
+      '<main data-value="source"><span></span><template><b>content</b></template></main>',
+    );
+    const targetDocument = parse("");
+    const source = select(sourceDocument, "main");
+    const template = source.querySelector("template");
+    if (!(template instanceof HTMLTemplateElement)) {
+      throw new Error("missing template element");
+    }
+    const oldTemplateDocument = template.content.ownerDocument;
+
+    const adopted = targetDocument.adoptNode(source);
+
+    expect(adopted).toBe(source);
+    expect(adopted.parentNode).toBeNull();
+    expect(adopted.ownerDocument).toBe(targetDocument);
+    expect(adopted.attributes.item(0)?.ownerDocument).toBe(targetDocument);
+    expect(adopted.querySelector("span")?.ownerDocument).toBe(targetDocument);
+    expect(sourceDocument.querySelector("main")).toBeNull();
+    expect(template.content.ownerDocument).not.toBe(oldTemplateDocument);
+    expect(template.content.ownerDocument).not.toBe(targetDocument);
+    expect(template.content.querySelector("b")?.ownerDocument).toBe(
+      template.content.ownerDocument,
+    );
+  });
+
+  it("rejects invalid import and adoption inputs", () => {
+    const document = parse("");
+    const importNode = document.importNode.bind(document) as unknown as (
+      node?: unknown,
+    ) => Node;
+    const adoptNode = document.adoptNode.bind(document) as unknown as (
+      node?: unknown,
+    ) => Node;
+
+    expect(() => importNode()).toThrow(TypeError);
+    expect(() => importNode(null)).toThrow(TypeError);
+    expect(() => adoptNode()).toThrow(TypeError);
+    expect(() => adoptNode(null)).toThrow(TypeError);
+    expectDOMException(
+      () => document.importNode(document),
+      "NotSupportedError",
+    );
+    expectDOMException(() => document.adoptNode(document), "NotSupportedError");
   });
 });
 

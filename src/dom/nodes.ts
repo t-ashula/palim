@@ -42,6 +42,11 @@ export interface ElementCreationOptions {
   readonly is?: string;
 }
 
+export interface ImportNodeOptions {
+  readonly customElementRegistry?: unknown;
+  readonly selfOnly?: boolean;
+}
+
 type CreateElementArguments = [
   localName?: string,
   options?: string | ElementCreationOptions,
@@ -134,6 +139,14 @@ export class Node extends EventTarget {
 
   get textContent(): string | null {
     return descendantText(this);
+  }
+
+  cloneNode(subtree = false): Node {
+    const document = this instanceof Document ? this : this.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Node has no owner document");
+    }
+    return cloneNodeIntoDocument(this, document, subtree);
   }
 
   appendChild<T extends Node>(node: T): T {
@@ -351,12 +364,47 @@ export class Document extends Node implements ParseErrorSource {
     return new Comment(this, domString(data));
   }
 
+  importNode<T extends Node>(
+    node: T,
+    options: boolean | ImportNodeOptions = false,
+  ): T {
+    requireNode(node);
+    if (node instanceof Document) {
+      throw new DOMException(
+        "A document cannot be imported",
+        "NotSupportedError",
+      );
+    }
+    return cloneNodeIntoDocument(node, this, importNodeSubtree(options)) as T;
+  }
+
+  adoptNode<T extends Node>(node: T): T {
+    requireNode(node);
+    if (node instanceof Document) {
+      throw new DOMException(
+        "A document cannot be adopted",
+        "NotSupportedError",
+      );
+    }
+    adopt(node, this);
+    return node;
+  }
+
   _createElement(
     localName: string,
     namespaceURI: string | null,
     prefix: string | null = null,
   ): Element {
     return this._elementFactory(this, localName, namespaceURI, prefix);
+  }
+
+  _templateContentsDocument(): Document {
+    this._templateContentsOwnerDocument ??= new Document(
+      this._fragmentParser,
+      this.contentType,
+      this._elementFactory,
+    );
+    return this._templateContentsOwnerDocument;
   }
 
   override get textContent(): null {
@@ -421,7 +469,7 @@ export class Attr extends Node {
 
   constructor(
     document: Document,
-    element: Element,
+    element: Element | null,
     name: string,
     value: string,
     namespaceURI: string | null = null,
@@ -886,6 +934,102 @@ export class ProcessingInstruction extends CharacterData {
   }
 }
 
+export function cloneNodeIntoDocument(
+  node: Node,
+  document: Document,
+  subtree: boolean,
+): Node {
+  const copy = cloneSingleNode(node, document);
+  const childDocument = copy instanceof Document ? copy : document;
+
+  if (
+    subtree &&
+    node instanceof Element &&
+    copy instanceof Element &&
+    node._templateContents !== null &&
+    copy._templateContents !== null
+  ) {
+    const templateDocument = copy._templateContents.ownerDocument;
+    if (templateDocument === null) {
+      throw new TypeError("Template contents have no owner document");
+    }
+    for (const child of node._templateContents._childNodes) {
+      copy._templateContents._append(
+        cloneNodeIntoDocument(child, templateDocument, true),
+      );
+    }
+  }
+
+  if (subtree) {
+    for (const child of node._childNodes) {
+      copy._append(cloneNodeIntoDocument(child, childDocument, true));
+    }
+  }
+  return copy;
+}
+
+function cloneSingleNode(node: Node, document: Document): Node {
+  if (node instanceof Element) {
+    const copy = document._createElement(
+      node.localName,
+      node.namespaceURI,
+      node.prefix,
+    );
+    copy._setAttributes(
+      node._attributeNodes.map((attribute) => ({
+        name: attribute.name,
+        value: attribute.value,
+        namespaceURI: attribute.namespaceURI,
+        prefix: attribute.prefix,
+        localName: attribute.localName,
+      })),
+    );
+    return copy;
+  }
+  if (node instanceof Document) {
+    const copy = new Document(
+      node._fragmentParser,
+      node.contentType,
+      node._elementFactory,
+    );
+    copy._quirks = node._quirks;
+    return copy;
+  }
+  if (node instanceof DocumentType) {
+    return new DocumentType(document, node.name, node.publicId, node.systemId);
+  }
+  if (node instanceof Attr) {
+    return new Attr(
+      document,
+      null,
+      node.name,
+      node.value,
+      node.namespaceURI,
+      node.prefix,
+      node.localName,
+    );
+  }
+  if (node instanceof Text) {
+    return new Text(document, node.data);
+  }
+  if (node instanceof CDATASection) {
+    return new CDATASection(document, node.data);
+  }
+  if (node instanceof Comment) {
+    return new Comment(document, node.data);
+  }
+  if (node instanceof ProcessingInstruction) {
+    return new ProcessingInstruction(document, node.target, node.data);
+  }
+  if (node instanceof DocumentFragment) {
+    return new DocumentFragment(document);
+  }
+  if (node instanceof CharacterData) {
+    return new CharacterData(node.nodeType, node.nodeName, document, node.data);
+  }
+  return new Node(node.nodeType, node.nodeName, document);
+}
+
 function defaultElementFactory(
   document: Document,
   localName: string,
@@ -907,6 +1051,16 @@ function convertElementCreationOptions(options: unknown): void {
   if (isValue !== undefined) {
     domString(isValue);
   }
+}
+
+function importNodeSubtree(options: unknown): boolean {
+  if (
+    (typeof options === "object" && options !== null) ||
+    typeof options === "function"
+  ) {
+    return !Boolean((options as ImportNodeOptions).selfOnly);
+  }
+  return Boolean(options);
 }
 
 function descendantText(node: Node): string {
@@ -941,6 +1095,12 @@ function requireNodeArgument(
   if (argumentCount === 0) {
     throw new TypeError("1 argument required");
   }
+  if (!(value instanceof Node)) {
+    throw new TypeError("The argument is not a Node");
+  }
+}
+
+function requireNode(value: unknown): asserts value is Node {
   if (!(value instanceof Node)) {
     throw new TypeError("The argument is not a Node");
   }
@@ -1090,8 +1250,9 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
   const nodes = insertionNodes(node);
   const document = parent instanceof Document ? parent : parent.ownerDocument;
   for (const inserted of nodes) {
-    inserted._remove();
-    if (document !== null && inserted.ownerDocument !== document) {
+    if (document === null) {
+      inserted._remove();
+    } else {
       adopt(inserted, document);
     }
     const index = child === null ? -1 : parent._childNodes.indexOf(child);
@@ -1105,16 +1266,27 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
 }
 
 function adopt(node: Node, document: Document): void {
+  node._remove();
+  if (node._ownerDocument === document) {
+    return;
+  }
+  updateNodeDocument(node, document);
+}
+
+function updateNodeDocument(node: Node, document: Document): void {
   node._ownerDocument = document;
   if (node instanceof Element) {
     for (const attribute of node._attributeNodes) {
       attribute._ownerDocument = document;
     }
     if (node._templateContents !== null) {
-      adopt(node._templateContents, document);
+      updateNodeDocument(
+        node._templateContents,
+        document._templateContentsDocument(),
+      );
     }
   }
   for (const child of node._childNodes) {
-    adopt(child, document);
+    updateNodeDocument(child, document);
   }
 }

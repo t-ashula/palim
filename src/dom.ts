@@ -19,4 +19,8 @@ export {
   ProcessingInstruction,
   Text,
 } from "./dom/nodes.js";
-export type { AttributeData, ElementCreationOptions } from "./dom/nodes.js";
+export type {
+  AttributeData,
+  ElementCreationOptions,
+  ImportNodeOptions,
+} from "./dom/nodes.js";

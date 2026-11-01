@@ -1,6 +1,5 @@
-import type { Node } from "./dom.js";
+import type { Node, Document } from "./dom.js";
 import {
-  Document,
   DocumentFragment,
   Element,
   Event,
@@ -5096,12 +5095,7 @@ function domString(value: unknown): string {
 }
 
 function templateContentsOwnerDocument(document: Document): Document {
-  document._templateContentsOwnerDocument ??= new Document(
-    document._fragmentParser,
-    document.contentType,
-    document._elementFactory,
-  );
-  return document._templateContentsOwnerDocument;
+  return document._templateContentsDocument();
 }
 
 function reflectedString(element: Element, name: string): string {

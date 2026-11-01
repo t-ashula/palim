@@ -16,7 +16,7 @@
 
 - [x] `Document.createElement` / `createElementNS`
 - [x] `createTextNode` / `createComment` / `createDocumentFragment`
-- [ ] `cloneNode` / `importNode` / `adoptNode`
+- [x] `cloneNode` / `importNode` / `adoptNode`
 
 ### Node content mutation
 

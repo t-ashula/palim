@@ -1,6 +1,6 @@
 import type { AttributeData, Node } from "../dom.js";
 import type { FragmentParser } from "../dom/nodes.js";
-import { setDocumentParseErrors } from "../dom/nodes.js";
+import { cloneNodeIntoDocument, setDocumentParseErrors } from "../dom/nodes.js";
 import {
   Comment,
   Document,
@@ -2733,20 +2733,10 @@ class TreeBuilder {
   }
 
   #cloneElement(element: Element): Element {
-    const clone = this.document._createElement(
-      element.localName,
-      element.namespaceURI,
-      element.prefix,
-    );
-    clone._setAttributes(
-      element._attributeNodes.map((attribute) => ({
-        name: attribute.name,
-        value: attribute.value,
-        namespaceURI: attribute.namespaceURI,
-        prefix: attribute.prefix,
-        localName: attribute.localName,
-      })),
-    );
+    const clone = cloneNodeIntoDocument(element, this.document, false);
+    if (!(clone instanceof Element)) {
+      throw new TypeError("Element clone has an unexpected interface");
+    }
     return clone;
   }
 
@@ -2940,24 +2930,7 @@ class TreeBuilder {
   }
 
   #cloneSubtree(node: Node): Node {
-    let clone: Node;
-    if (node instanceof Text) {
-      clone = new Text(this.document, node.data);
-    } else if (node instanceof Comment) {
-      clone = new Comment(this.document, node.data);
-    } else if (node instanceof ProcessingInstruction) {
-      clone = new ProcessingInstruction(this.document, node.target, node.data);
-    } else if (node instanceof Element) {
-      clone = this.#cloneElement(node);
-    } else {
-      throw new TypeError(
-        `cannot clone selected option node: ${node.nodeName}`,
-      );
-    }
-    for (const child of node.childNodes) {
-      clone._append(this.#cloneSubtree(child));
-    }
-    return clone;
+    return cloneNodeIntoDocument(node, this.document, true);
   }
 
   #syncSelectedContent(): void {
