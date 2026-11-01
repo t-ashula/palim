@@ -37,8 +37,8 @@
 
 ### Lookup
 
-- [ ] `getElementsByTagName` / `getElementsByClassName`
-- [ ] `Document.getElementById`
+- [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName`
+- [x] `Document` / `DocumentFragment.getElementById`
 
 ### Traversal and ranges
 

@@ -18,6 +18,7 @@ import {
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
 import { DOMTokenList } from "./token-list.js";
+import { descendantElements } from "./traversal.js";
 import { GET_PARSE_ERRORS } from "../html/parse-errors.js";
 import type {
   PalimParseError,
@@ -31,6 +32,7 @@ import {
   serializeXMLFragment,
   serializeXMLElement,
 } from "../xml/serializer.js";
+import { requireArguments } from "../web-idl.js";
 
 const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 
@@ -204,9 +206,7 @@ export class Node extends EventTarget {
   }
 
   replaceChild<T extends Node>(node: Node, child: T): T {
-    if (arguments.length < 2) {
-      throw new TypeError("2 arguments required");
-    }
+    requireArguments(arguments.length, 2);
     if (!(node instanceof Node) || !(child instanceof Node)) {
       throw new TypeError("The argument is not a Node");
     }
@@ -339,9 +339,7 @@ export class Document extends Node implements ParseErrorSource {
     options?: string | ElementCreationOptions,
   ): Element;
   createElement(...parameters: CreateElementArguments): Element {
-    if (parameters.length < 1) {
-      throw new TypeError("1 argument required");
-    }
+    requireArguments(parameters.length, 1);
     const [localName, options] = parameters;
     let convertedName = domString(localName);
     convertElementCreationOptions(options);
@@ -363,9 +361,7 @@ export class Document extends Node implements ParseErrorSource {
     options?: string | ElementCreationOptions,
   ): Element;
   createElementNS(...parameters: CreateElementNSArguments): Element {
-    if (parameters.length < 2) {
-      throw new TypeError("2 arguments required");
-    }
+    requireArguments(parameters.length, 2);
     const [namespace, qualifiedName, options] = parameters;
     const convertedNamespace = normalizeNamespace(namespace);
     const convertedName = domString(qualifiedName);
@@ -387,18 +383,14 @@ export class Document extends Node implements ParseErrorSource {
 
   createTextNode(data: string): Text;
   createTextNode(...parameters: CreateCharacterDataArguments): Text {
-    if (parameters.length < 1) {
-      throw new TypeError("1 argument required");
-    }
+    requireArguments(parameters.length, 1);
     const [data] = parameters;
     return new Text(this, domString(data));
   }
 
   createComment(data: string): Comment;
   createComment(...parameters: CreateCharacterDataArguments): Comment {
-    if (parameters.length < 1) {
-      throw new TypeError("1 argument required");
-    }
+    requireArguments(parameters.length, 1);
     const [data] = parameters;
     return new Comment(this, domString(data));
   }
@@ -460,6 +452,39 @@ export class Document extends Node implements ParseErrorSource {
       selectorArgument(selectors, arguments.length),
     );
     return new NodeList(() => result);
+  }
+
+  getElementById(elementId: string): Element | null {
+    return findElementById(
+      this,
+      requiredDOMString(elementId, arguments.length),
+    );
+  }
+
+  getElementsByTagName(qualifiedName: string): HTMLCollection {
+    return elementsByTagName(
+      this,
+      requiredDOMString(qualifiedName, arguments.length),
+    );
+  }
+
+  getElementsByTagNameNS(
+    namespace: string | null,
+    localName: string,
+  ): HTMLCollection {
+    requireArguments(arguments.length, 2);
+    return elementsByTagNameNS(
+      this,
+      normalizeNamespace(namespace),
+      domString(localName),
+    );
+  }
+
+  getElementsByClassName(classNames: string): HTMLCollection {
+    return elementsByClassName(
+      this,
+      requiredDOMString(classNames, arguments.length),
+    );
   }
 
   [GET_PARSE_ERRORS](): readonly PalimParseError[] {
@@ -729,9 +754,7 @@ export class Element extends Node {
   }
 
   setAttribute(qualifiedName: string, value: string): void {
-    if (arguments.length < 2) {
-      throw new TypeError("2 arguments required");
-    }
+    requireArguments(arguments.length, 2);
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
     const convertedValue = domString(value);
@@ -750,9 +773,7 @@ export class Element extends Node {
     qualifiedName: string,
     value: string,
   ): void {
-    if (arguments.length < 3) {
-      throw new TypeError("3 arguments required");
-    }
+    requireArguments(arguments.length, 3);
     const normalizedNamespace = normalizeNamespace(namespace);
     const extracted = validateAndExtract(
       normalizedNamespace,
@@ -794,9 +815,7 @@ export class Element extends Node {
   }
 
   toggleAttribute(qualifiedName: string, force?: boolean): boolean {
-    if (arguments.length === 0) {
-      throw new TypeError("1 argument required");
-    }
+    requireArguments(arguments.length, 1);
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
     const attribute = this._getAttributeByName(name);
@@ -832,6 +851,32 @@ export class Element extends Node {
 
   closest(selectors: string): Element | null {
     return closestSelector(this, selectorArgument(selectors, arguments.length));
+  }
+
+  getElementsByTagName(qualifiedName: string): HTMLCollection {
+    return elementsByTagName(
+      this,
+      requiredDOMString(qualifiedName, arguments.length),
+    );
+  }
+
+  getElementsByTagNameNS(
+    namespace: string | null,
+    localName: string,
+  ): HTMLCollection {
+    requireArguments(arguments.length, 2);
+    return elementsByTagNameNS(
+      this,
+      normalizeNamespace(namespace),
+      domString(localName),
+    );
+  }
+
+  getElementsByClassName(classNames: string): HTMLCollection {
+    return elementsByClassName(
+      this,
+      requiredDOMString(classNames, arguments.length),
+    );
   }
 
   #attributeName(name: string): string {
@@ -987,6 +1032,13 @@ export class DocumentFragment extends Node {
       selectorArgument(selectors, arguments.length),
     );
     return new NodeList(() => result);
+  }
+
+  getElementById(elementId: string): Element | null {
+    return findElementById(
+      this,
+      requiredDOMString(elementId, arguments.length),
+    );
   }
 }
 
@@ -1233,23 +1285,110 @@ function normalizeDescendantText(node: Node): void {
   }
 }
 
+type CollectionLookupRoot = Document | Element;
+
+function findElementById(root: Node, elementId: string): Element | null {
+  return (
+    descendantElements(root).find(
+      (element) =>
+        element._getAttributeByNamespace(null, "id")?.value === elementId,
+    ) ?? null
+  );
+}
+
+function elementsByTagName(
+  root: CollectionLookupRoot,
+  qualifiedName: string,
+): HTMLCollection {
+  const document = lookupDocument(root);
+  const htmlName = asciiLowercase(qualifiedName);
+  return new HTMLCollection(() =>
+    descendantElements(root).filter((element) => {
+      if (qualifiedName === "*") {
+        return true;
+      }
+      const name = elementQualifiedName(element);
+      return document.contentType === "text/html" &&
+        element.namespaceURI === HTML_NAMESPACE
+        ? name === htmlName
+        : name === qualifiedName;
+    }),
+  );
+}
+
+function elementsByTagNameNS(
+  root: CollectionLookupRoot,
+  namespace: string | null,
+  localName: string,
+): HTMLCollection {
+  return new HTMLCollection(() =>
+    descendantElements(root).filter(
+      (element) =>
+        (namespace === "*" || element.namespaceURI === namespace) &&
+        (localName === "*" || element.localName === localName),
+    ),
+  );
+}
+
+function elementsByClassName(
+  root: CollectionLookupRoot,
+  classNames: string,
+): HTMLCollection {
+  const document = lookupDocument(root);
+  const classes = orderedSet(classNames);
+  const quirks = document.contentType === "text/html" && document._quirks;
+  const requiredClasses = quirks ? classes.map(asciiLowercase) : classes;
+  return new HTMLCollection(() => {
+    if (requiredClasses.length === 0) {
+      return [];
+    }
+    return descendantElements(root).filter((element) => {
+      const elementClasses = orderedSet(
+        element._getAttributeByNamespace(null, "class")?.value ?? "",
+      );
+      const comparedClasses = quirks
+        ? elementClasses.map(asciiLowercase)
+        : elementClasses;
+      return requiredClasses.every((name) => comparedClasses.includes(name));
+    });
+  });
+}
+
+function lookupDocument(root: CollectionLookupRoot): Document {
+  if (root instanceof Document) {
+    return root;
+  }
+  const document = root.ownerDocument;
+  if (document === null) {
+    throw new TypeError("Element has no owner document");
+  }
+  return document;
+}
+
+function elementQualifiedName(element: Element): string {
+  return element.prefix === null
+    ? element.localName
+    : `${element.prefix}:${element.localName}`;
+}
+
+function orderedSet(value: string): string[] {
+  return [...new Set(value.split(/[\t\n\f\r ]+/).filter(Boolean))];
+}
+
+function requiredDOMString(value: unknown, length: number): string {
+  requireArguments(length, 1);
+  return domString(value);
+}
+
 function selectorArgument(value: unknown, length: number): string {
-  if (length === 0) {
-    throw new TypeError("1 argument required, but only 0 present");
-  }
-  if (typeof value === "symbol") {
-    throw new TypeError("Cannot convert a Symbol value to a string");
-  }
-  return String(value);
+  return requiredDOMString(value, length);
 }
 
 function requireNodeArgument(
   value: unknown,
   argumentCount: number,
 ): asserts value is Node {
-  if (argumentCount === 0) {
-    throw new TypeError("1 argument required");
-  }
+  requireArguments(argumentCount, 1);
   if (!(value instanceof Node)) {
     throw new TypeError("The argument is not a Node");
   }

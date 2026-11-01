@@ -641,6 +641,130 @@ describe("Node relationships and comparison", () => {
   });
 });
 
+describe("DOM tree lookup", () => {
+  it("finds descendant elements by qualified name with live results", () => {
+    const document = parse(
+      "<!doctype html><main><section><span></span></section></main>",
+    );
+    const main = select(document, "main");
+    const documentSpans = document.getElementsByTagName("SPAN");
+    const descendants = main.getElementsByTagName("*");
+
+    expect([...documentSpans].map((element) => element.localName)).toEqual([
+      "span",
+    ]);
+    expect([...descendants].map((element) => element.localName)).toEqual([
+      "section",
+      "span",
+    ]);
+
+    const added = document.createElement("span");
+    main.appendChild(added);
+    expect(Array.from(documentSpans)).toEqual([
+      select(document, "section span"),
+      added,
+    ]);
+    expect(descendants.item(descendants.length - 1)).toBe(added);
+  });
+
+  it("finds elements by namespace and preserves foreign name case", () => {
+    const document = parse("<!doctype html><main></main>");
+    const main = select(document, "main");
+    const foreign = document.createElementNS("urn:example", "p:MixedCase");
+    main.appendChild(foreign);
+
+    expect(document.getElementsByTagName("p:MixedCase").item(0)).toBe(foreign);
+    expect(document.getElementsByTagName("p:mixedcase").length).toBe(0);
+    expect(
+      document.getElementsByTagNameNS("urn:example", "MixedCase").item(0),
+    ).toBe(foreign);
+    expect(document.getElementsByTagNameNS("*", "MixedCase").item(0)).toBe(
+      foreign,
+    );
+    expect(document.getElementsByTagNameNS("urn:example", "*").item(0)).toBe(
+      foreign,
+    );
+    expect(document.getElementsByTagNameNS("*", "*").length).toBe(5);
+  });
+
+  it("finds all requested classes and keeps the collection live", () => {
+    const document = parse(
+      '<!doctype html><main><p id="first" class="alpha beta"></p><p id="second" class="alpha"></p></main>',
+    );
+    const collection = document.getElementsByClassName(" beta  alpha alpha ");
+    const first = select(document, "#first");
+    const second = select(document, "#second");
+
+    expect(Array.from(collection)).toEqual([first]);
+    second.className = "alpha beta";
+    expect(Array.from(collection)).toEqual([first, second]);
+    first.classList.remove("beta");
+    expect(Array.from(collection)).toEqual([second]);
+    expect(document.getElementsByClassName(" ").length).toBe(0);
+  });
+
+  it("uses document mode for class name comparison", () => {
+    const quirks = parse('<main><p class="Mixed"></p></main>');
+    const standards = parse(
+      '<!doctype html><main><p class="Mixed"></p></main>',
+    );
+
+    expect(quirks.getElementsByClassName("mixed").length).toBe(1);
+    expect(standards.getElementsByClassName("mixed").length).toBe(0);
+    expect(standards.getElementsByClassName("Mixed").length).toBe(1);
+  });
+
+  it("finds the first ID in tree order in documents and fragments", () => {
+    const document = parse(
+      '<!doctype html><main><p id="a:b"></p><section id="duplicate"></section><aside id="duplicate"></aside></main>',
+    );
+    const section = select(document, "section");
+    const aside = select(document, "aside");
+
+    expect(document.getElementById("a:b")?.localName).toBe("p");
+    expect(document.getElementById("duplicate")).toBe(section);
+    section.remove();
+    expect(document.getElementById("duplicate")).toBe(aside);
+
+    const fragment = document.createDocumentFragment();
+    const nested = document.createElement("div");
+    nested.id = "fragment-id";
+    fragment.appendChild(nested);
+    expect(fragment.getElementById("fragment-id")).toBe(nested);
+    expect(document.getElementById("fragment-id")).toBeNull();
+  });
+
+  it("keeps XML qualified-name lookup case-sensitive", () => {
+    const document = new DOMParser().parseFromString(
+      '<Root><Item class="Mixed" /></Root>',
+      "application/xml",
+    );
+
+    expect(document.getElementsByTagName("Item").length).toBe(1);
+    expect(document.getElementsByTagName("item").length).toBe(0);
+    expect(document.getElementsByClassName("Mixed").length).toBe(1);
+    expect(document.getElementsByClassName("mixed").length).toBe(0);
+  });
+
+  it("requires lookup arguments", () => {
+    const document = parse("");
+    const getElementById = document.getElementById.bind(
+      document,
+    ) as unknown as (id?: unknown) => Element | null;
+    const getElementsByTagName = document.getElementsByTagName.bind(
+      document,
+    ) as unknown as (name?: unknown) => unknown;
+    const getElementsByTagNameNS = document.getElementsByTagNameNS.bind(
+      document,
+    ) as unknown as (namespace?: unknown, localName?: unknown) => unknown;
+
+    expect(() => getElementById()).toThrow(TypeError);
+    expect(() => getElementsByTagName()).toThrow(TypeError);
+    expect(() => getElementsByTagNameNS("urn:example")).toThrow(TypeError);
+    expect(() => getElementById(Symbol("id"))).toThrow(TypeError);
+  });
+});
+
 describe("Element attributes", () => {
   it("reflects id and class attributes", () => {
     const element = select(

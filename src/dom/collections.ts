@@ -1,5 +1,6 @@
 import type { Attr, Element, Node } from "./nodes.js";
 import { DOMException } from "../dom-exception.js";
+import { requireArguments } from "../web-idl.js";
 import { domString, normalizeNamespace } from "./conversions.js";
 
 function indexed<T extends object>(
@@ -143,11 +144,5 @@ export class NamedNodeMap implements Iterable<Attr> {
 
   [Symbol.iterator](): Iterator<Attr> {
     return this.#element._attributeNodes[Symbol.iterator]();
-  }
-}
-
-function requireArguments(actual: number, required: number): void {
-  if (actual < required) {
-    throw new TypeError(`${String(required)} arguments required`);
   }
 }

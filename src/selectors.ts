@@ -3,6 +3,7 @@ import { DOMException } from "./dom-exception.js";
 import { tokenizeCSS } from "./css-syntax.js";
 import type { CSSToken } from "./css-syntax.js";
 import { HTML_NAMESPACE, SVG_NAMESPACE } from "./namespaces.js";
+import { descendantElements } from "./dom/traversal.js";
 
 const ASCII_WHITESPACE = /[\t\n\f\r ]+/;
 
@@ -1034,7 +1035,7 @@ function matchesRelativeSelector(
   selector: ComplexSelector,
 ): boolean {
   const root = treeRoot(anchor);
-  const candidates = [anchor, ...descendantElements(root as SelectorRoot)];
+  const candidates = [anchor, ...descendantElements(root)];
   const matchAt = (candidate: Element, index: number): boolean => {
     const compound = selector.compounds[index];
     if (
@@ -1482,21 +1483,6 @@ function sameType(left: Element, right: Element): boolean {
     left.namespaceURI === right.namespaceURI &&
     left.localName === right.localName
   );
-}
-
-function descendantElements(root: SelectorRoot): Element[] {
-  const result: Element[] = [];
-  const visit = (node: Node): void => {
-    for (const child of node._childNodes) {
-      if (child.nodeType === 1) {
-        const element = child as Element;
-        result.push(element);
-        visit(element);
-      }
-    }
-  };
-  visit(root);
-  return result;
 }
 
 function elementChildren(node: Node): Element[] {

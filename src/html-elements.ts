@@ -11,6 +11,7 @@ import {
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
 import { HTML_NAMESPACE } from "./namespaces.js";
+import { requireArguments } from "./web-idl.js";
 
 interface URLValue {
   href: string;
@@ -2238,7 +2239,7 @@ class TrackList<T extends { readonly id: string }>
         }
         const value: unknown = Reflect.get(target, property, target);
         return typeof value === "function"
-          ? (value as (...arguments_: unknown[]) => unknown).bind(target)
+          ? (value as (...args: unknown[]) => unknown).bind(target)
           : value;
       },
     });
@@ -5100,14 +5101,6 @@ function finiteDouble(value: unknown): number {
     throw new TypeError("The value must be a finite number");
   }
   return number;
-}
-
-function requireArguments(actual: number, required: number): void {
-  if (actual < required) {
-    throw new TypeError(
-      `${String(required)} argument${required === 1 ? "" : "s"} required, but only ${String(actual)} present`,
-    );
-  }
 }
 
 function descendants(root: Node): Element[] {
