@@ -18,7 +18,19 @@ import {
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
 import { DOMTokenList } from "./token-list.js";
-import { descendantElements } from "./traversal.js";
+import {
+  createNodeIterator,
+  createTreeWalker,
+  descendantElements,
+  preRemoveNodeIterators,
+  transferNodeIterators,
+} from "./traversal.js";
+import { NodeFilter } from "./traversal.js";
+import type {
+  NodeFilter as NodeFilterCallback,
+  NodeIterator,
+  TreeWalker,
+} from "./traversal.js";
 import { GET_PARSE_ERRORS } from "../html/parse-errors.js";
 import type {
   PalimParseError,
@@ -267,6 +279,7 @@ export class Node extends EventTarget {
     if (this._parentNode === null) {
       return;
     }
+    preRemoveNodeIterators(this);
     const index = this._parentNode._childNodes.indexOf(this);
     if (index >= 0) {
       this._parentNode._childNodes.splice(index, 1);
@@ -419,6 +432,24 @@ export class Document extends Node implements ParseErrorSource {
     }
     adopt(node, this);
     return node;
+  }
+
+  createNodeIterator(
+    root: Node,
+    whatToShow: number = NodeFilter.SHOW_ALL,
+    filter: NodeFilterCallback | null = null,
+  ): NodeIterator {
+    requireNodeArgument(root, arguments.length);
+    return createNodeIterator(root, whatToShow, filter);
+  }
+
+  createTreeWalker(
+    root: Node,
+    whatToShow: number = NodeFilter.SHOW_ALL,
+    filter: NodeFilterCallback | null = null,
+  ): TreeWalker {
+    requireNodeArgument(root, arguments.length);
+    return createTreeWalker(root, whatToShow, filter);
   }
 
   _createElement(
@@ -1796,6 +1827,7 @@ function adopt(node: Node, document: Document): void {
 }
 
 function updateNodeDocument(node: Node, document: Document): void {
+  transferNodeIterators(node, document);
   node._ownerDocument = document;
   if (node instanceof Element) {
     for (const attribute of node._attributeNodes) {

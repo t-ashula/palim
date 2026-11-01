@@ -13,6 +13,7 @@ export {
   HTMLCollection,
   NamedNodeMap,
   Node,
+  NodeFilter,
   NodeList,
   ProcessingInstruction,
   Text,
@@ -26,6 +27,8 @@ export type {
   EventListenerObject,
   GetRootNodeOptions,
   ImportNodeOptions,
+  NodeIterator,
+  TreeWalker,
 } from "./dom.js";
 export { DOMException } from "./dom-exception.js";
 export { DOMParser } from "./dom-parser.js";
