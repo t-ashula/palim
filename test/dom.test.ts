@@ -642,6 +642,26 @@ describe("Node relationships and comparison", () => {
 });
 
 describe("Element attributes", () => {
+  it("reflects id and class attributes", () => {
+    const element = select(
+      parse('<main id="initial" class="first second"></main>'),
+      "main",
+    );
+
+    expect(element.id).toBe("initial");
+    expect(element.className).toBe("first second");
+
+    element.id = "updated";
+    element.className = "third";
+    expect(element.getAttribute("id")).toBe("updated");
+    expect(element.getAttribute("class")).toBe("third");
+
+    element.removeAttribute("id");
+    element.removeAttribute("class");
+    expect(element.id).toBe("");
+    expect(element.className).toBe("");
+  });
+
   it("gets, sets, toggles, and removes attributes", () => {
     const document = parse('<main id="root" data-value="initial"></main>');
     const element = select(document, "main");
@@ -703,6 +723,62 @@ describe("Element attributes", () => {
     element.removeAttributeNS(XLINK_NAMESPACE, "href");
     expect(element.getAttributeNS(XLINK_NAMESPACE, "href")).toBeNull();
     expect(attribute?.ownerElement).toBeNull();
+  });
+
+  it("gets, replaces, and removes attributes through NamedNodeMap", () => {
+    const document = parse(
+      '<main id="target" data-value="old"></main><aside data-value="new" title="in-use"></aside>',
+    );
+    const target = select(document, "main");
+    const donor = select(document, "aside");
+    const attributes = target.attributes;
+    const oldAttribute = attributes.getNamedItem("DATA-VALUE");
+    const replacement = donor.attributes.removeNamedItem("data-value");
+
+    expect(oldAttribute?.value).toBe("old");
+    expect(attributes.setNamedItem(replacement)).toBe(oldAttribute);
+    expect(oldAttribute?.ownerElement).toBeNull();
+    expect(replacement.ownerElement).toBe(target);
+    expect(attributes.getNamedItem("data-value")).toBe(replacement);
+    expect(attributes.setNamedItem(replacement)).toBe(replacement);
+
+    const removed = attributes.removeNamedItem("DATA-VALUE");
+    expect(removed).toBe(replacement);
+    expect(removed.ownerElement).toBeNull();
+    expect(attributes.getNamedItem("data-value")).toBeNull();
+
+    const inUse = donor.attributes.getNamedItem("title");
+    if (inUse === null) {
+      throw new Error("missing in-use attribute");
+    }
+    expectDOMException(
+      () => attributes.setNamedItem(inUse),
+      "InUseAttributeError",
+    );
+    expectDOMException(
+      () => attributes.removeNamedItem("missing"),
+      "NotFoundError",
+    );
+  });
+
+  it("uses namespace and local name through NamedNodeMap", () => {
+    const element = select(
+      parse('<svg><a id="link" xlink:href="value"></a></svg>'),
+      "#link",
+    );
+    const attributes = element.attributes;
+    const attribute = attributes.getNamedItemNS(XLINK_NAMESPACE, "href");
+    if (attribute === null) {
+      throw new Error("missing namespaced attribute");
+    }
+
+    expect(attributes.removeNamedItemNS(XLINK_NAMESPACE, "href")).toBe(
+      attribute,
+    );
+    expect(attribute.ownerElement).toBeNull();
+    expect(attributes.setNamedItemNS(attribute)).toBeNull();
+    expect(attribute.ownerElement).toBe(element);
+    expect(attributes.getNamedItemNS(XLINK_NAMESPACE, "href")).toBe(attribute);
   });
 });
 

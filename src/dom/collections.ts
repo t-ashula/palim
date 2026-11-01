@@ -1,5 +1,6 @@
 import type { Attr, Element, Node } from "./nodes.js";
-import { domString } from "./conversions.js";
+import { DOMException } from "../dom-exception.js";
+import { domString, normalizeNamespace } from "./conversions.js";
 
 function indexed<T extends object>(
   collection: T,
@@ -79,22 +80,74 @@ export class HTMLCollection<
 
 export class NamedNodeMap implements Iterable<Attr> {
   readonly [index: number]: Attr | undefined;
-  readonly #values: () => readonly Attr[];
+  readonly #element: Element;
 
-  constructor(values: () => readonly Attr[]) {
-    this.#values = values;
-    return indexed(this, values);
+  constructor(element: Element) {
+    this.#element = element;
+    return indexed(this, () => this.#element._attributeNodes);
   }
 
   get length(): number {
-    return this.#values().length;
+    return this.#element._attributeNodes.length;
   }
 
   item(index: number): Attr | null {
-    return this.#values()[index] ?? null;
+    return this.#element._attributeNodes[index] ?? null;
+  }
+
+  getNamedItem(qualifiedName: string): Attr | null {
+    requireArguments(arguments.length, 1);
+    return this.#element._getAttributeByName(domString(qualifiedName));
+  }
+
+  getNamedItemNS(namespace: string | null, localName: string): Attr | null {
+    requireArguments(arguments.length, 2);
+    return this.#element._getAttributeByNamespace(
+      normalizeNamespace(namespace),
+      domString(localName),
+    );
+  }
+
+  setNamedItem(attribute: Attr): Attr | null {
+    requireArguments(arguments.length, 1);
+    return this.#element._setAttributeNode(attribute);
+  }
+
+  setNamedItemNS(attribute: Attr): Attr | null {
+    requireArguments(arguments.length, 1);
+    return this.#element._setAttributeNode(attribute);
+  }
+
+  removeNamedItem(qualifiedName: string): Attr {
+    requireArguments(arguments.length, 1);
+    const attribute = this.#element._removeAttributeByName(
+      domString(qualifiedName),
+    );
+    if (attribute === null) {
+      throw new DOMException("The attribute was not found", "NotFoundError");
+    }
+    return attribute;
+  }
+
+  removeNamedItemNS(namespace: string | null, localName: string): Attr {
+    requireArguments(arguments.length, 2);
+    const attribute = this.#element._removeAttributeByNamespace(
+      normalizeNamespace(namespace),
+      domString(localName),
+    );
+    if (attribute === null) {
+      throw new DOMException("The attribute was not found", "NotFoundError");
+    }
+    return attribute;
   }
 
   [Symbol.iterator](): Iterator<Attr> {
-    return this.#values()[Symbol.iterator]();
+    return this.#element._attributeNodes[Symbol.iterator]();
+  }
+}
+
+function requireArguments(actual: number, required: number): void {
+  if (actual < required) {
+    throw new TypeError(`${String(required)} arguments required`);
   }
 }

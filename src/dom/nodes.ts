@@ -17,6 +17,7 @@ import {
   validateName,
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
+import { DOMTokenList } from "./token-list.js";
 import { GET_PARSE_ERRORS } from "../html/parse-errors.js";
 import type {
   PalimParseError,
@@ -549,6 +550,7 @@ export class Element extends Node {
   readonly children: HTMLCollection;
   readonly _attributeNodes: Attr[] = [];
   _templateContents: DocumentFragment | null = null;
+  #classList: DOMTokenList | null = null;
 
   constructor(
     document: Document,
@@ -567,7 +569,7 @@ export class Element extends Node {
     this.prefix = prefix;
     this.localName = localName;
     this.tagName = tagName;
-    this.attributes = new NamedNodeMap(() => this._attributeNodes);
+    this.attributes = new NamedNodeMap(this);
     this.children = new HTMLCollection(() =>
       this._childNodes.filter(
         (node): node is Element => node instanceof Element,
@@ -585,6 +587,27 @@ export class Element extends Node {
 
   get childElementCount(): number {
     return this.children.length;
+  }
+
+  get id(): string {
+    return this.getAttribute("id") ?? "";
+  }
+
+  set id(value: string) {
+    this.setAttribute("id", domString(value));
+  }
+
+  get className(): string {
+    return this.getAttribute("class") ?? "";
+  }
+
+  set className(value: string) {
+    this.setAttribute("class", domString(value));
+  }
+
+  get classList(): DOMTokenList {
+    this.#classList ??= new DOMTokenList(this, "class");
+    return this.#classList;
   }
 
   get innerHTML(): string {
@@ -676,21 +699,14 @@ export class Element extends Node {
   }
 
   getAttribute(qualifiedName: string): string | null {
-    const name = this.#attributeName(domString(qualifiedName));
-    return (
-      this._attributeNodes.find((attribute) => attribute.name === name)
-        ?.value ?? null
-    );
+    return this._getAttributeByName(domString(qualifiedName))?.value ?? null;
   }
 
   getAttributeNS(namespace: string | null, localName: string): string | null {
-    const normalizedNamespace = normalizeNamespace(namespace);
-    const name = domString(localName);
     return (
-      this._attributeNodes.find(
-        (attribute) =>
-          attribute.namespaceURI === normalizedNamespace &&
-          attribute.localName === name,
+      this._getAttributeByNamespace(
+        normalizeNamespace(namespace),
+        domString(localName),
       )?.value ?? null
     );
   }
@@ -700,17 +716,15 @@ export class Element extends Node {
   }
 
   hasAttribute(qualifiedName: string): boolean {
-    const name = this.#attributeName(domString(qualifiedName));
-    return this._attributeNodes.some((attribute) => attribute.name === name);
+    return this._getAttributeByName(domString(qualifiedName)) !== null;
   }
 
   hasAttributeNS(namespace: string | null, localName: string): boolean {
-    const normalizedNamespace = normalizeNamespace(namespace);
-    const name = domString(localName);
-    return this._attributeNodes.some(
-      (attribute) =>
-        attribute.namespaceURI === normalizedNamespace &&
-        attribute.localName === name,
+    return (
+      this._getAttributeByNamespace(
+        normalizeNamespace(namespace),
+        domString(localName),
+      ) !== null
     );
   }
 
@@ -721,14 +735,12 @@ export class Element extends Node {
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
     const convertedValue = domString(value);
-    const attribute = this._attributeNodes.find(
-      (candidate) => candidate.namespaceURI === null && candidate.name === name,
-    );
-    if (attribute !== undefined) {
+    const attribute = this._getAttributeByName(name);
+    if (attribute !== null) {
       attribute.value = convertedValue;
       return;
     }
-    this._attributeNodes.push(
+    this._setAttributeNode(
       new Attr(this.#document(), this, name, convertedValue),
     );
   }
@@ -747,18 +759,17 @@ export class Element extends Node {
       domString(qualifiedName),
     );
     const convertedValue = domString(value);
-    const attribute = this._attributeNodes.find(
-      (candidate) =>
-        candidate.namespaceURI === normalizedNamespace &&
-        candidate.localName === extracted.localName,
+    const attribute = this._getAttributeByNamespace(
+      normalizedNamespace,
+      extracted.localName,
     );
-    if (attribute !== undefined) {
+    if (attribute !== null) {
       attribute.prefix = extracted.prefix;
       attribute.name = extracted.qualifiedName;
       attribute.value = convertedValue;
       return;
     }
-    this._attributeNodes.push(
+    this._setAttributeNode(
       new Attr(
         this.#document(),
         this,
@@ -772,22 +783,14 @@ export class Element extends Node {
   }
 
   removeAttribute(qualifiedName: string): void {
-    const name = this.#attributeName(domString(qualifiedName));
-    const index = this._attributeNodes.findIndex(
-      (attribute) => attribute.name === name,
-    );
-    this.#removeAttribute(index);
+    this._removeAttributeByName(domString(qualifiedName));
   }
 
   removeAttributeNS(namespace: string | null, localName: string): void {
-    const normalizedNamespace = normalizeNamespace(namespace);
-    const name = domString(localName);
-    const index = this._attributeNodes.findIndex(
-      (attribute) =>
-        attribute.namespaceURI === normalizedNamespace &&
-        attribute.localName === name,
+    this._removeAttributeByNamespace(
+      normalizeNamespace(namespace),
+      domString(localName),
     );
-    this.#removeAttribute(index);
   }
 
   toggleAttribute(qualifiedName: string, force?: boolean): boolean {
@@ -796,18 +799,16 @@ export class Element extends Node {
     }
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
-    const index = this._attributeNodes.findIndex(
-      (attribute) => attribute.namespaceURI === null && attribute.name === name,
-    );
-    if (index < 0) {
+    const attribute = this._getAttributeByName(name);
+    if (attribute === null) {
       if (arguments.length < 2 || Boolean(force)) {
-        this._attributeNodes.push(new Attr(this.#document(), this, name, ""));
+        this._setAttributeNode(new Attr(this.#document(), this, name, ""));
         return true;
       }
       return false;
     }
     if (arguments.length < 2 || !Boolean(force)) {
-      this.#removeAttribute(index);
+      this._removeAttribute(attribute);
       return false;
     }
     return true;
@@ -864,14 +865,80 @@ export class Element extends Node {
     return parser.parse(input, context);
   }
 
-  #removeAttribute(index: number): void {
+  _getAttributeByName(qualifiedName: string): Attr | null {
+    const name = this.#attributeName(qualifiedName);
+    return (
+      this._attributeNodes.find((attribute) => attribute.name === name) ?? null
+    );
+  }
+
+  _getAttributeByNamespace(
+    namespace: string | null,
+    localName: string,
+  ): Attr | null {
+    return (
+      this._attributeNodes.find(
+        (attribute) =>
+          attribute.namespaceURI === namespace &&
+          attribute.localName === localName,
+      ) ?? null
+    );
+  }
+
+  _setAttributeNode(value: unknown): Attr | null {
+    if (!(value instanceof Attr)) {
+      throw new TypeError("The argument is not an Attr");
+    }
+    if (value._ownerElement !== null && value._ownerElement !== this) {
+      throw new DOMException(
+        "The attribute is already in use",
+        "InUseAttributeError",
+      );
+    }
+    const oldAttribute = this._getAttributeByNamespace(
+      value.namespaceURI,
+      value.localName,
+    );
+    if (oldAttribute === value) {
+      return value;
+    }
+    value._ownerElement = this;
+    if (oldAttribute === null) {
+      this._attributeNodes.push(value);
+      return null;
+    }
+    const index = this._attributeNodes.indexOf(oldAttribute);
+    this._attributeNodes[index] = value;
+    oldAttribute._ownerElement = null;
+    return oldAttribute;
+  }
+
+  _removeAttributeByName(qualifiedName: string): Attr | null {
+    const attribute = this._getAttributeByName(qualifiedName);
+    if (attribute !== null) {
+      this._removeAttribute(attribute);
+    }
+    return attribute;
+  }
+
+  _removeAttributeByNamespace(
+    namespace: string | null,
+    localName: string,
+  ): Attr | null {
+    const attribute = this._getAttributeByNamespace(namespace, localName);
+    if (attribute !== null) {
+      this._removeAttribute(attribute);
+    }
+    return attribute;
+  }
+
+  _removeAttribute(attribute: Attr): void {
+    const index = this._attributeNodes.indexOf(attribute);
     if (index < 0) {
       return;
     }
-    const [attribute] = this._attributeNodes.splice(index, 1);
-    if (attribute !== undefined) {
-      attribute._ownerElement = null;
-    }
+    this._attributeNodes.splice(index, 1);
+    attribute._ownerElement = null;
   }
 
   _setAttributes(attributes: readonly AttributeData[]): void {
@@ -883,7 +950,7 @@ export class Element extends Node {
       if (this._attributeNodes.some((item) => item.name === attribute.name)) {
         continue;
       }
-      this._attributeNodes.push(
+      this._setAttributeNode(
         new Attr(
           document,
           this,

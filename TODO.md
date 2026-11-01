@@ -31,9 +31,9 @@
 
 ### Attributes and collections
 
-- [ ] `Element.classList`
-- [ ] `Element.id` / `className`
-- [ ] `NamedNodeMap` の取得・設定・削除 API
+- [x] `Element.classList`
+- [x] `Element.id` / `className`
+- [x] `NamedNodeMap` の取得・設定・削除 API
 
 ### Lookup
 

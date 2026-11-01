@@ -6,6 +6,7 @@ export type {
   EventListenerObject,
 } from "./dom/events.js";
 export { HTMLCollection, NamedNodeMap, NodeList } from "./dom/collections.js";
+export { DOMTokenList } from "./dom/token-list.js";
 export {
   Attr,
   CDATASection,
