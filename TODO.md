@@ -65,7 +65,7 @@
 
 ### Structured elements
 
-- [ ] table mutation algorithm の全境界条件
+- [x] table mutation algorithm の全境界条件
 
 ### User interaction and editing
 

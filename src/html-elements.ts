@@ -10,6 +10,23 @@ import {
   Text,
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
+import {
+  deleteTableItem,
+  insertTableRow as insertTableRowAt,
+  insertTableRowCell,
+  insertTableSectionRow,
+  placeTableBody,
+  placeTableCaption,
+  placeTableFoot,
+  placeTableHead,
+  tableBodies,
+  tableCaption,
+  tableFoot,
+  tableHead,
+  tableRowCells,
+  tableRows,
+  tableSectionRows,
+} from "./html-table.js";
 import { HTML_NAMESPACE } from "./namespaces.js";
 import { requireArguments } from "./web-idl.js";
 
@@ -2549,12 +2566,7 @@ export class HTMLTableElement extends HTMLElement {
   #rows: HTMLCollection<HTMLTableRowElement> | null = null;
 
   get caption(): HTMLTableCaptionElement | null {
-    return (
-      directChildren(this).find(
-        (element): element is HTMLTableCaptionElement =>
-          element instanceof HTMLTableCaptionElement,
-      ) ?? null
-    );
+    return tableElement(tableCaption(this), HTMLTableCaptionElement);
   }
 
   set caption(value: HTMLTableCaptionElement | null) {
@@ -2563,7 +2575,7 @@ export class HTMLTableElement extends HTMLElement {
     }
     this.deleteCaption();
     if (value !== null) {
-      this.insertBefore(value, this.firstChild);
+      placeTableCaption(this, value);
     }
   }
 
@@ -2573,7 +2585,7 @@ export class HTMLTableElement extends HTMLElement {
       return existing;
     }
     const caption = createChild(this, "caption", HTMLTableCaptionElement);
-    this.insertBefore(caption, this.firstChild);
+    placeTableCaption(this, caption);
     return caption;
   }
 
@@ -2582,13 +2594,7 @@ export class HTMLTableElement extends HTMLElement {
   }
 
   get tHead(): HTMLTableSectionElement | null {
-    return (
-      directChildren(this).find(
-        (element): element is HTMLTableSectionElement =>
-          element instanceof HTMLTableSectionElement &&
-          element.localName === "thead",
-      ) ?? null
-    );
+    return tableElement(tableHead(this), HTMLTableSectionElement);
   }
 
   set tHead(value: HTMLTableSectionElement | null) {
@@ -2601,8 +2607,7 @@ export class HTMLTableElement extends HTMLElement {
       return existing;
     }
     const head = createChild(this, "thead", HTMLTableSectionElement);
-    const firstBody = this.tBodies.item(0);
-    this.insertBefore(head, firstBody ?? this.tFoot);
+    placeTableHead(this, head);
     return head;
   }
 
@@ -2611,13 +2616,7 @@ export class HTMLTableElement extends HTMLElement {
   }
 
   get tFoot(): HTMLTableSectionElement | null {
-    return (
-      directChildren(this).find(
-        (element): element is HTMLTableSectionElement =>
-          element instanceof HTMLTableSectionElement &&
-          element.localName === "tfoot",
-      ) ?? null
-    );
+    return tableElement(tableFoot(this), HTMLTableSectionElement);
   }
 
   set tFoot(value: HTMLTableSectionElement | null) {
@@ -2630,7 +2629,7 @@ export class HTMLTableElement extends HTMLElement {
       return existing;
     }
     const foot = createChild(this, "tfoot", HTMLTableSectionElement);
-    this.appendChild(foot);
+    placeTableFoot(this, foot);
     return foot;
   }
 
@@ -2640,51 +2639,35 @@ export class HTMLTableElement extends HTMLElement {
 
   get tBodies(): HTMLCollection<HTMLTableSectionElement> {
     this.#tBodies ??= new HTMLCollection(() =>
-      directChildren(this).filter(
-        (element): element is HTMLTableSectionElement =>
-          element instanceof HTMLTableSectionElement &&
-          element.localName === "tbody",
-      ),
+      tableElements(tableBodies(this), HTMLTableSectionElement),
     );
     return this.#tBodies;
   }
 
   createTBody(): HTMLTableSectionElement {
     const body = createChild(this, "tbody", HTMLTableSectionElement);
-    this.appendChild(body);
+    placeTableBody(this, body);
     return body;
   }
 
   get rows(): HTMLCollection<HTMLTableRowElement> {
-    this.#rows ??= new HTMLCollection(() => tableRows(this));
+    this.#rows ??= new HTMLCollection(() =>
+      tableElements(tableRows(this), HTMLTableRowElement),
+    );
     return this.#rows;
   }
 
   insertRow(index = -1): HTMLTableRowElement {
-    const normalized = tableInsertionIndex(index, this.rows.length);
-    if (normalized < this.rows.length) {
-      const reference = this.rows.item(normalized);
-      const parent = reference?.parentNode;
-      if (parent === null || parent === undefined) {
-        throw new DOMException(
-          "The row reference is missing",
-          "InvalidStateError",
-        );
-      }
-      const row = createChild(this, "tr", HTMLTableRowElement);
-      parent.insertBefore(row, reference);
-      return row;
-    }
-    const parent = this.tBodies.item(this.tBodies.length - 1) ?? this;
-    const row = createChild(this, "tr", HTMLTableRowElement);
-    parent.appendChild(row);
-    return row;
+    return requiredTableElement(
+      insertTableRowAt(this, toLong(index), tableElementCreator(this)),
+      HTMLTableRowElement,
+    );
   }
 
   deleteRow(index: number): void {
     requireArguments(arguments.length, 1);
-    const row = indexedDelete(this.rows, index);
-    row.remove();
+    const converted = toLong(index);
+    deleteTableItem(tableRows(this), converted);
   }
 
   declare align: string;
@@ -2723,25 +2706,22 @@ export class HTMLTableSectionElement extends HTMLElement {
 
   get rows(): HTMLCollection<HTMLTableRowElement> {
     this.#rows ??= new HTMLCollection(() =>
-      directChildren(this).filter(
-        (element): element is HTMLTableRowElement =>
-          element instanceof HTMLTableRowElement,
-      ),
+      tableElements(tableSectionRows(this), HTMLTableRowElement),
     );
     return this.#rows;
   }
 
   insertRow(index = -1): HTMLTableRowElement {
-    const normalized = tableInsertionIndex(index, this.rows.length);
-    const row = createChild(this, "tr", HTMLTableRowElement);
-    const reference = this.rows.item(normalized);
-    this.insertBefore(row, reference);
-    return row;
+    return requiredTableElement(
+      insertTableSectionRow(this, toLong(index), tableElementCreator(this)),
+      HTMLTableRowElement,
+    );
   }
 
   deleteRow(index: number): void {
     requireArguments(arguments.length, 1);
-    indexedDelete(this.rows, index).remove();
+    const converted = toLong(index);
+    deleteTableItem(tableSectionRows(this), converted);
   }
 
   declare align: string;
@@ -2771,24 +2751,22 @@ export class HTMLTableRowElement extends HTMLElement {
 
   get cells(): HTMLCollection<HTMLTableCellElement> {
     this.#cells ??= new HTMLCollection(() =>
-      directChildren(this).filter(
-        (element): element is HTMLTableCellElement =>
-          element instanceof HTMLTableCellElement,
-      ),
+      tableElements(tableRowCells(this), HTMLTableCellElement),
     );
     return this.#cells;
   }
 
   insertCell(index = -1): HTMLTableCellElement {
-    const normalized = tableInsertionIndex(index, this.cells.length);
-    const cell = createChild(this, "td", HTMLTableCellElement);
-    this.insertBefore(cell, this.cells.item(normalized));
-    return cell;
+    return requiredTableElement(
+      insertTableRowCell(this, toLong(index), tableElementCreator(this)),
+      HTMLTableCellElement,
+    );
   }
 
   deleteCell(index: number): void {
     requireArguments(arguments.length, 1);
-    indexedDelete(this.cells, index).remove();
+    const converted = toLong(index);
+    deleteTableItem(tableRowCells(this), converted);
   }
 
   declare align: string;
@@ -5114,12 +5092,6 @@ function descendants(root: Node): Element[] {
   return result;
 }
 
-function directChildren(element: Element): Element[] {
-  return element._childNodes.filter(
-    (child): child is Element => child instanceof Element,
-  );
-}
-
 function createChild<T extends HTMLElement>(
   parent: Element,
   localName: string,
@@ -5141,60 +5113,63 @@ function setTableSection(
   localName: "thead" | "tfoot",
   value: HTMLTableSectionElement | null,
 ): void {
-  if (
-    value !== null &&
-    (!(value instanceof HTMLTableSectionElement) ||
-      value.localName !== localName)
-  ) {
-    throw new TypeError(`The value must be a ${localName} element or null`);
+  if (value !== null && !(value instanceof HTMLTableSectionElement)) {
+    throw new TypeError("The value must be a table section element or null");
+  }
+  if (value !== null && value.localName !== localName) {
+    throw new DOMException(
+      `The value is not a ${localName} element`,
+      "HierarchyRequestError",
+    );
   }
   const current = localName === "thead" ? table.tHead : table.tFoot;
   current?.remove();
   if (value !== null) {
-    table.appendChild(value);
-  }
-}
-
-function tableRows(table: HTMLTableElement): HTMLTableRowElement[] {
-  const rows: HTMLTableRowElement[] = [];
-  for (const child of directChildren(table)) {
-    if (child instanceof HTMLTableRowElement) {
-      rows.push(child);
-    } else if (child instanceof HTMLTableSectionElement) {
-      rows.push(...child.rows);
+    if (localName === "thead") {
+      placeTableHead(table, value);
+    } else {
+      placeTableFoot(table, value);
     }
   }
-  return rows;
 }
 
-function tableInsertionIndex(index: unknown, length: number): number {
-  const converted = toLong(index);
-  if (converted === -1) {
-    return length;
+function tableElement<T extends HTMLElement>(
+  element: Element | null,
+  Interface: new () => T,
+): T | null {
+  if (element === null) {
+    return null;
   }
-  if (converted < 0 || converted > length) {
-    throw new DOMException(
-      "The index is outside the permitted range",
-      "IndexSizeError",
-    );
-  }
-  return converted;
+  return requiredTableElement(element, Interface);
 }
 
-function indexedDelete<T extends Element>(
-  collection: HTMLCollection<T>,
-  index: unknown,
+function tableElements<T extends HTMLElement>(
+  elements: readonly Element[],
+  Interface: new () => T,
+): T[] {
+  return elements.map((element) => requiredTableElement(element, Interface));
+}
+
+function requiredTableElement<T extends HTMLElement>(
+  element: Element,
+  Interface: new () => T,
 ): T {
-  const converted = toLong(index);
-  const normalized = converted === -1 ? collection.length - 1 : converted;
-  const item = collection.item(normalized);
-  if (item === null) {
-    throw new DOMException(
-      "The index is outside the permitted range",
-      "IndexSizeError",
-    );
+  if (!(element instanceof Interface)) {
+    throw new TypeError("Unexpected table element interface");
   }
-  return item;
+  return element;
+}
+
+function tableElementCreator(
+  parent: Element,
+): (localName: "tbody" | "tr" | "td") => Element {
+  return (localName) => {
+    const document = parent.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Element has no owner document");
+    }
+    return createHTMLElement(document, localName);
+  };
 }
 
 function nearestAncestor<T extends HTMLElement>(

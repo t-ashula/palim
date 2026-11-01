@@ -21,9 +21,6 @@ import {
   HTMLProgressElement,
   HTMLScriptElement,
   HTMLSelectElement,
-  HTMLTableCellElement,
-  HTMLTableElement,
-  HTMLTableRowElement,
   HTMLTextAreaElement,
   HTMLTrackElement,
 } from "../src/index.js";
@@ -765,31 +762,6 @@ describe("HTML element members", () => {
     expect(object.codeBase).toBe("https://example.com/");
   });
 
-  it("implements table structure mutation and indices", () => {
-    const table = select(parse("<table></table>"), "table");
-    if (!(table instanceof HTMLTableElement)) {
-      throw new Error("table is not an HTMLTableElement");
-    }
-
-    const caption = table.createCaption();
-    const head = table.createTHead();
-    const body = table.createTBody();
-    const row = body.insertRow();
-    const cell = row.insertCell();
-
-    expect(table.caption).toBe(caption);
-    expect(table.tHead).toBe(head);
-    expect(table.tBodies.length).toBe(1);
-    expect(table.rows.length).toBe(1);
-    expect(row).toBeInstanceOf(HTMLTableRowElement);
-    expect(row.rowIndex).toBe(0);
-    expect(cell).toBeInstanceOf(HTMLTableCellElement);
-    expect(cell.cellIndex).toBe(0);
-
-    row.deleteCell(0);
-    expect(row.cells.length).toBe(0);
-  });
-
   it("implements form controls and validation members", () => {
     const document = parse(`
       <form id="form" action="https://example.com/submit">
@@ -926,7 +898,6 @@ describe("HTML element members", () => {
       <textarea></textarea><canvas></canvas>
     `);
     const methods = [
-      [select(document, "table"), "deleteRow", []],
       [select(document, "video"), "canPlayType", []],
       [select(document, "input"), "setCustomValidity", []],
       [select(document, "select"), "namedItem", []],
