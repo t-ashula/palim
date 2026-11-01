@@ -9,6 +9,8 @@ import {
   Element,
   ProcessingInstruction,
   Text,
+  childNodes,
+  templateContents,
 } from "../dom/nodes.js";
 import type { Node } from "../dom/nodes.js";
 import {
@@ -212,8 +214,8 @@ function serializeElement(
     declaration(prefix, namespace, namespaces, requireWellFormed),
   );
   const start = `<${qualifiedName}${serializedDeclarations.join("")}${attributes.join("")}`;
-  const children =
-    element._templateContents?._childNodes ?? element._childNodes;
+  const contents = templateContents(element);
+  const children = childNodes(contents ?? element);
   if (children.length === 0) {
     if (
       element.namespaceURI === HTML_NAMESPACE &&
@@ -386,10 +388,8 @@ export function serializeXML(node: Node, requireWellFormed = false): string {
 
 export function serializeXMLFragment(element: Element): string {
   try {
-    return serializeNodes(
-      element._templateContents?._childNodes ?? element._childNodes,
-      true,
-    );
+    const contents = templateContents(element);
+    return serializeNodes(childNodes(contents ?? element), true);
   } catch (error: unknown) {
     if (error instanceof XMLSerializationFailure) {
       throw new DOMException(error.message, "InvalidStateError");

@@ -10,6 +10,13 @@ import {
   Text,
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
+import { bindDOMInterface, implementationFor } from "./dom/binding.js";
+import { EventTargetImplementation } from "./dom/event-implementation.js";
+import {
+  childNodes,
+  setTemplateContents,
+  templateContentsDocument,
+} from "./dom/nodes.js";
 import {
   deleteTableItem,
   insertTableRow as insertTableRowAt,
@@ -49,6 +56,8 @@ type URLConstructor = new (input: string, base?: string) => URLValue;
 const platform = globalThis as typeof globalThis & {
   readonly URL: URLConstructor;
 };
+
+const FORM_CONTROL_RESETTERS = new WeakMap<Element, () => void>();
 
 const DIRECT_HTML_ELEMENT_NAMES = new Set([
   "abbr",
@@ -212,23 +221,23 @@ const RESERVED_CUSTOM_ELEMENT_NAMES = new Set([
 
 export class DOMStringMap {
   [name: string]: string | undefined;
-  readonly #element: Element;
 
   constructor(element: Element) {
-    this.#element = element;
-    return new Proxy(this, {
+    const implementation = new DOMStringMapImplementation(element);
+    bindDOMInterface(this, implementation);
+    const proxy = new Proxy(this, {
       get(target, property): unknown {
         if (typeof property !== "string" || property in target) {
           return Reflect.get(target, property, target);
         }
         const attributeName = datasetAttributeName(property);
-        return target.#element.getAttribute(attributeName) ?? undefined;
+        return datasetElement(target).getAttribute(attributeName) ?? undefined;
       },
       set(target, property, value): boolean {
         if (typeof property !== "string") {
           return Reflect.set(target, property, value, target);
         }
-        target.#element.setAttribute(
+        datasetElement(target).setAttribute(
           datasetAttributeName(property),
           domString(value),
         );
@@ -236,12 +245,14 @@ export class DOMStringMap {
       },
       deleteProperty(target, property): boolean {
         if (typeof property === "string") {
-          target.#element.removeAttribute(datasetAttributeName(property));
+          datasetElement(target).removeAttribute(
+            datasetAttributeName(property),
+          );
         }
         return true;
       },
       ownKeys(target): string[] {
-        return target.#element
+        return datasetElement(target)
           .getAttributeNames()
           .filter(isDatasetAttribute)
           .map(datasetPropertyName);
@@ -252,14 +263,24 @@ export class DOMStringMap {
       ): PropertyDescriptor | undefined {
         if (
           typeof property === "string" &&
-          target.#element.hasAttribute(datasetAttributeName(property))
+          datasetElement(target).hasAttribute(datasetAttributeName(property))
         ) {
           return { configurable: true, enumerable: true, writable: true };
         }
         return undefined;
       },
     });
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
+}
+
+class DOMStringMapImplementation {
+  constructor(readonly element: Element) {}
+}
+
+function datasetElement(dataset: DOMStringMap): Element {
+  return (implementationFor(dataset) as DOMStringMapImplementation).element;
 }
 
 export type EventHandler = ((event: Event) => unknown) | null;
@@ -603,7 +624,7 @@ export class HTMLTitleElement extends HTMLElement {
 
   set text(value: string) {
     const converted = domString(value);
-    for (const child of [...this._childNodes]) {
+    for (const child of childNodes(this)) {
       this.removeChild(child);
     }
     if (converted !== "") {
@@ -831,7 +852,7 @@ export class HTMLTemplateElement extends HTMLElement {
     }
     const ownerDocument = templateContentsOwnerDocument(document);
     this.#content = new DocumentFragment(ownerDocument);
-    this._templateContents = this.#content;
+    setTemplateContents(this, this.#content);
   }
 
   get content(): DocumentFragment {
@@ -2196,7 +2217,7 @@ export class HTMLMediaElement extends HTMLElement {
       domString(label),
       domString(language),
     );
-    this.#textTracks._add(track);
+    addTrack(this.#textTracks, track);
     return track;
   }
 }
@@ -2245,14 +2266,15 @@ class TrackList<T extends { readonly id: string }>
   implements Iterable<T>
 {
   readonly [index: number]: T | undefined;
-  readonly _tracks: T[] = [];
 
   constructor() {
     super();
-    return new Proxy(this, {
+    const implementation = new TrackListImplementation<T>();
+    bindDOMInterface(this, implementation);
+    const proxy = new Proxy(this, {
       get(target, property): unknown {
         if (typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)) {
-          return target._tracks[Number(property)];
+          return tracks(target)[Number(property)];
         }
         const value: unknown = Reflect.get(target, property, target);
         return typeof value === "function"
@@ -2260,28 +2282,49 @@ class TrackList<T extends { readonly id: string }>
           : value;
       },
     });
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
 
   get length(): number {
-    return this._tracks.length;
+    return tracks(this).length;
   }
 
   item(index: number): T | null {
-    return this._tracks[toUnsignedLong(index)] ?? null;
+    return tracks(this)[toUnsignedLong(index)] ?? null;
   }
 
   getTrackById(id: string): T | null {
     const converted = domString(id);
-    return this._tracks.find((track) => track.id === converted) ?? null;
-  }
-
-  _add(track: T): void {
-    this._tracks.push(track);
+    return tracks(this).find((track) => track.id === converted) ?? null;
   }
 
   [Symbol.iterator](): Iterator<T> {
-    return this._tracks[Symbol.iterator]();
+    return tracks(this)[Symbol.iterator]();
   }
+}
+
+class TrackListImplementation<
+  T extends { readonly id: string },
+> extends EventTargetImplementation {
+  readonly tracks: T[] = [];
+}
+
+function trackListImplementation<T extends { readonly id: string }>(
+  list: TrackList<T>,
+): TrackListImplementation<T> {
+  return implementationFor(list) as TrackListImplementation<T>;
+}
+
+function tracks<T extends { readonly id: string }>(list: TrackList<T>): T[] {
+  return trackListImplementation(list).tracks;
+}
+
+function addTrack<T extends { readonly id: string }>(
+  list: TrackList<T>,
+  track: T,
+): void {
+  tracks(list).push(track);
 }
 
 export class AudioTrack {
@@ -2318,7 +2361,7 @@ export class AudioTrackList extends TrackList<AudioTrack> {}
 
 export class VideoTrackList extends TrackList<VideoTrack> {
   get selectedIndex(): number {
-    return this._tracks.findIndex((track) => track.selected);
+    return tracks(this).findIndex((track) => track.selected);
   }
 }
 
@@ -3126,6 +3169,14 @@ export class HTMLInputElement extends HTMLElement {
   declare hspace: number;
   declare vspace: number;
 
+  constructor() {
+    super();
+    FORM_CONTROL_RESETTERS.set(this, () => {
+      this.#value = null;
+      this.#checked = null;
+    });
+  }
+
   get popoverTargetElement(): Element | null {
     return elementReference(this, "popovertarget");
   }
@@ -3357,11 +3408,6 @@ export class HTMLInputElement extends HTMLElement {
 
   showPicker(): void {
     this.focus();
-  }
-
-  _reset(): void {
-    this.#value = null;
-    this.#checked = null;
   }
 }
 
@@ -3612,6 +3658,13 @@ export class HTMLOptionElement extends HTMLElement {
   declare disabled: boolean;
   declare name: string;
 
+  constructor() {
+    super();
+    FORM_CONTROL_RESETTERS.set(this, () => {
+      this.#selected = null;
+    });
+  }
+
   get form(): HTMLFormElement | null {
     return formOwner(this);
   }
@@ -3673,10 +3726,6 @@ export class HTMLOptionElement extends HTMLElement {
     const select = nearestAncestor(this, HTMLSelectElement);
     return select === null ? 0 : collectionIndex(select.options, this);
   }
-
-  _reset(): void {
-    this.#selected = null;
-  }
 }
 
 export class HTMLTextAreaElement extends HTMLElement {
@@ -3694,6 +3743,13 @@ export class HTMLTextAreaElement extends HTMLElement {
   declare readOnly: boolean;
   declare required: boolean;
   declare wrap: string;
+
+  constructor() {
+    super();
+    FORM_CONTROL_RESETTERS.set(this, () => {
+      this.#value = null;
+    });
+  }
 
   get cols(): number {
     return reflectedPositiveUnsignedLong(this, "cols", 20);
@@ -3830,10 +3886,6 @@ export class HTMLTextAreaElement extends HTMLElement {
       Math.min(toUnsignedLong(end), this.value.length),
     );
     this.#selectionDirection = domString(direction);
-  }
-
-  _reset(): void {
-    this.#value = null;
   }
 }
 
@@ -4129,9 +4181,7 @@ export class HTMLSlotElement extends HTMLElement {
 
   assignedNodes(options: { flatten?: boolean } = {}): Node[] {
     Reflect.get(options, "flatten");
-    return this.#assigned === null
-      ? [...this._childNodes]
-      : [...this.#assigned];
+    return this.#assigned === null ? childNodes(this) : [...this.#assigned];
   }
 
   assignedElements(options: { flatten?: boolean } = {}): Element[] {
@@ -4924,7 +4974,7 @@ function domString(value: unknown): string {
 }
 
 function templateContentsOwnerDocument(document: Document): Document {
-  return document._templateContentsDocument();
+  return templateContentsDocument(document);
 }
 
 function reflectedString(element: Element, name: string): string {
@@ -4992,7 +5042,7 @@ function datasetPropertyName(name: string): string {
 }
 
 function replaceText(element: Element, value: string): void {
-  for (const child of [...element._childNodes]) {
+  for (const child of childNodes(element)) {
     element.removeChild(child);
   }
   if (value === "") {
@@ -5083,7 +5133,7 @@ function finiteDouble(value: unknown): number {
 
 function descendants(root: Node): Element[] {
   const result: Element[] = [];
-  for (const child of root._childNodes) {
+  for (const child of childNodes(root)) {
     if (child instanceof Element) {
       result.push(child);
     }
@@ -5313,9 +5363,9 @@ function resetFormControl(element: Element): void {
     element instanceof HTMLInputElement ||
     element instanceof HTMLTextAreaElement
   ) {
-    element._reset();
+    FORM_CONTROL_RESETTERS.get(element)?.();
   } else if (element instanceof HTMLOptionElement) {
-    element._reset();
+    FORM_CONTROL_RESETTERS.get(element)?.();
   }
 }
 

@@ -8,6 +8,9 @@ import {
   DocumentType,
   ProcessingInstruction,
   Text,
+  appendNode,
+  createElementForDocument as createDOMElement,
+  setAttributes,
 } from "../dom/nodes.js";
 import { createElementForDocument } from "../html-elements.js";
 import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
@@ -413,7 +416,8 @@ class XMLParserCore {
         `Unbound namespace prefix: ${elementName.prefix}`,
       );
     }
-    const element = this.#document._createElement(
+    const element = createDOMElement(
+      this.#document,
       elementName.localName,
       namespaceURI ?? null,
       elementName.prefix,
@@ -441,7 +445,7 @@ class XMLParserCore {
         );
       }
       expandedNames.add(expandedName);
-      element._setAttributes([
+      setAttributes(element, [
         {
           name: attribute.name,
           value: attribute.value,
@@ -741,7 +745,7 @@ class XMLParserCore {
   #append(node: Node): void {
     const parent =
       this.#frames.at(-1)?.element ?? this.#fragment ?? this.#document;
-    parent._append(node);
+    appendNode(parent, node);
   }
 
   #requireWhitespace(): void {
@@ -791,9 +795,13 @@ function parserErrorDocument(type: XMLMIMEType, message: string): Document {
     type,
     createElementForDocument,
   );
-  const error = document._createElement("parsererror", PARSER_ERROR_NAMESPACE);
-  error._append(new Text(document, message));
-  document._append(error);
+  const error = createDOMElement(
+    document,
+    "parsererror",
+    PARSER_ERROR_NAMESPACE,
+  );
+  appendNode(error, new Text(document, message));
+  appendNode(document, error);
   return document;
 }
 

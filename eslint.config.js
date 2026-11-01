@@ -33,6 +33,14 @@ export default defineConfig(
           prefer: "type-imports",
         },
       ],
+      "@typescript-eslint/naming-convention": [
+        "error",
+        {
+          selector: ["classProperty", "classMethod"],
+          format: null,
+          leadingUnderscore: "forbid",
+        },
+      ],
       curly: ["error", "all"],
     },
   },

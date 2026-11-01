@@ -1,7 +1,16 @@
+import {
+  attributeNodes,
+  findAttributeByName,
+  findAttributeByNamespace,
+  removeAttributeByName,
+  removeAttributeByNamespace,
+  setAttributeNode,
+} from "./nodes.js";
 import type { Attr, Element, Node } from "./nodes.js";
 import { DOMException } from "../dom-exception.js";
 import { requireArguments } from "../web-idl.js";
 import { domString, normalizeNamespace } from "./conversions.js";
+import { bindDOMInterface, implementationFor } from "./binding.js";
 
 function indexed<T extends object>(
   collection: T,
@@ -22,23 +31,25 @@ function indexed<T extends object>(
 
 export class NodeList<T extends Node = Node> implements Iterable<T> {
   readonly [index: number]: T | undefined;
-  readonly #values: () => readonly T[];
 
   constructor(values: () => readonly T[]) {
-    this.#values = values;
-    return indexed(this, values);
+    const implementation = new CollectionImplementation(values);
+    bindDOMInterface(this, implementation);
+    const proxy = indexed(this, values);
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
 
   get length(): number {
-    return this.#values().length;
+    return nodeListValues(this).length;
   }
 
   item(index: number): T | null {
-    return this.#values()[index] ?? null;
+    return nodeListValues(this)[index] ?? null;
   }
 
   [Symbol.iterator](): Iterator<T> {
-    return this.#values()[Symbol.iterator]();
+    return nodeListValues(this)[Symbol.iterator]();
   }
 }
 
@@ -47,19 +58,21 @@ export class HTMLCollection<
   N = T,
 > implements Iterable<T> {
   readonly [index: number]: T | undefined;
-  readonly #values: () => readonly T[];
 
   constructor(values: () => readonly T[]) {
-    this.#values = values;
-    return indexed(this, values);
+    const implementation = new CollectionImplementation(values);
+    bindDOMInterface(this, implementation);
+    const proxy = indexed(this, values);
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
 
   get length(): number {
-    return this.#values().length;
+    return htmlCollectionValues(this).length;
   }
 
   item(index: number): T | null {
-    return this.#values()[index] ?? null;
+    return htmlCollectionValues(this)[index] ?? null;
   }
 
   namedItem(name: string): N | null {
@@ -67,7 +80,7 @@ export class HTMLCollection<
     if (converted === "") {
       return null;
     }
-    return (this.#values().find(
+    return (htmlCollectionValues(this).find(
       (element) =>
         element.getAttribute("id") === converted ||
         element.getAttribute("name") === converted,
@@ -75,35 +88,41 @@ export class HTMLCollection<
   }
 
   [Symbol.iterator](): Iterator<T> {
-    return this.#values()[Symbol.iterator]();
+    return htmlCollectionValues(this)[Symbol.iterator]();
   }
 }
 
 export class NamedNodeMap implements Iterable<Attr> {
   readonly [index: number]: Attr | undefined;
-  readonly #element: Element;
 
   constructor(element: Element) {
-    this.#element = element;
-    return indexed(this, () => this.#element._attributeNodes);
+    const implementation = new NamedNodeMapImplementation(element);
+    bindDOMInterface(this, implementation);
+    const proxy = indexed(this, () => attributeNodes(element));
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
 
   get length(): number {
-    return this.#element._attributeNodes.length;
+    return attributeNodes(namedNodeMapElement(this)).length;
   }
 
   item(index: number): Attr | null {
-    return this.#element._attributeNodes[index] ?? null;
+    return attributeNodes(namedNodeMapElement(this))[index] ?? null;
   }
 
   getNamedItem(qualifiedName: string): Attr | null {
     requireArguments(arguments.length, 1);
-    return this.#element._getAttributeByName(domString(qualifiedName));
+    return findAttributeByName(
+      namedNodeMapElement(this),
+      domString(qualifiedName),
+    );
   }
 
   getNamedItemNS(namespace: string | null, localName: string): Attr | null {
     requireArguments(arguments.length, 2);
-    return this.#element._getAttributeByNamespace(
+    return findAttributeByNamespace(
+      namedNodeMapElement(this),
       normalizeNamespace(namespace),
       domString(localName),
     );
@@ -111,17 +130,18 @@ export class NamedNodeMap implements Iterable<Attr> {
 
   setNamedItem(attribute: Attr): Attr | null {
     requireArguments(arguments.length, 1);
-    return this.#element._setAttributeNode(attribute);
+    return setAttributeNode(namedNodeMapElement(this), attribute);
   }
 
   setNamedItemNS(attribute: Attr): Attr | null {
     requireArguments(arguments.length, 1);
-    return this.#element._setAttributeNode(attribute);
+    return setAttributeNode(namedNodeMapElement(this), attribute);
   }
 
   removeNamedItem(qualifiedName: string): Attr {
     requireArguments(arguments.length, 1);
-    const attribute = this.#element._removeAttributeByName(
+    const attribute = removeAttributeByName(
+      namedNodeMapElement(this),
       domString(qualifiedName),
     );
     if (attribute === null) {
@@ -132,7 +152,8 @@ export class NamedNodeMap implements Iterable<Attr> {
 
   removeNamedItemNS(namespace: string | null, localName: string): Attr {
     requireArguments(arguments.length, 2);
-    const attribute = this.#element._removeAttributeByNamespace(
+    const attribute = removeAttributeByNamespace(
+      namedNodeMapElement(this),
       normalizeNamespace(namespace),
       domString(localName),
     );
@@ -143,6 +164,34 @@ export class NamedNodeMap implements Iterable<Attr> {
   }
 
   [Symbol.iterator](): Iterator<Attr> {
-    return this.#element._attributeNodes[Symbol.iterator]();
+    return attributeNodes(namedNodeMapElement(this))[Symbol.iterator]();
   }
+}
+
+class CollectionImplementation<T> {
+  constructor(readonly values: () => readonly T[]) {}
+}
+
+function collectionValues(collection: object): readonly unknown[] {
+  return (
+    implementationFor(collection) as CollectionImplementation<unknown>
+  ).values();
+}
+
+function nodeListValues<T extends Node>(collection: NodeList<T>): readonly T[] {
+  return collectionValues(collection) as readonly T[];
+}
+
+function htmlCollectionValues<T extends Element>(
+  collection: HTMLCollection<T, unknown>,
+): readonly T[] {
+  return collectionValues(collection) as readonly T[];
+}
+
+class NamedNodeMapImplementation {
+  constructor(readonly element: Element) {}
+}
+
+function namedNodeMapElement(collection: NamedNodeMap): Element {
+  return (implementationFor(collection) as NamedNodeMapImplementation).element;
 }

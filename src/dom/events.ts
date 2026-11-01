@@ -1,5 +1,14 @@
 import { DOMException } from "../dom-exception.js";
 import { domString } from "./conversions.js";
+import {
+  EventImplementation,
+  EventTargetImplementation,
+  bindEvent,
+  bindEventTarget,
+  eventImplementation,
+  eventTargetImplementation,
+  eventTargetInterface,
+} from "./event-implementation.js";
 
 export interface EventInit {
   readonly bubbles?: boolean;
@@ -16,59 +25,75 @@ export class Event {
   readonly CAPTURING_PHASE = 1;
   readonly AT_TARGET = 2;
   readonly BUBBLING_PHASE = 3;
-  readonly type: string;
-  readonly bubbles: boolean;
-  readonly cancelable: boolean;
-  readonly composed: boolean;
   readonly isTrusted = false;
   readonly timeStamp = Date.now();
-  _target: EventTarget | null = null;
-  _currentTarget: EventTarget | null = null;
-  _eventPhase = Event.NONE;
-  _defaultPrevented = false;
-  _stopPropagation = false;
-  _stopImmediatePropagation = false;
-  _path: EventTarget[] = [];
 
   constructor(type: string, eventInit: EventInit = {}) {
-    this.type = domString(type);
-    this.bubbles = Boolean(eventInit.bubbles);
-    this.cancelable = Boolean(eventInit.cancelable);
-    this.composed = Boolean(eventInit.composed);
+    bindEvent(
+      this,
+      new EventImplementation(
+        domString(type),
+        Boolean(eventInit.bubbles),
+        Boolean(eventInit.cancelable),
+        Boolean(eventInit.composed),
+      ),
+    );
+  }
+
+  get type(): string {
+    return eventImplementation(this).type;
+  }
+
+  get bubbles(): boolean {
+    return eventImplementation(this).bubbles;
+  }
+
+  get cancelable(): boolean {
+    return eventImplementation(this).cancelable;
+  }
+
+  get composed(): boolean {
+    return eventImplementation(this).composed;
   }
 
   get target(): EventTarget | null {
-    return this._target;
+    const implementation = eventImplementation(this).target;
+    return implementation === null
+      ? null
+      : eventTargetInterface(implementation);
   }
 
   get srcElement(): EventTarget | null {
-    return this._target;
+    return this.target;
   }
 
   get currentTarget(): EventTarget | null {
-    return this._currentTarget;
+    const implementation = eventImplementation(this).currentTarget;
+    return implementation === null
+      ? null
+      : eventTargetInterface(implementation);
   }
 
   get eventPhase(): number {
-    return this._eventPhase;
+    return eventImplementation(this).eventPhase;
   }
 
   get defaultPrevented(): boolean {
-    return this._defaultPrevented;
+    return eventImplementation(this).defaultPrevented;
   }
 
   get cancelBubble(): boolean {
-    return this._stopPropagation;
+    return eventImplementation(this).stopPropagation;
   }
 
   set cancelBubble(value: boolean) {
     if (value) {
-      this._stopPropagation = true;
+      eventImplementation(this).stopPropagation = true;
     }
   }
 
   get returnValue(): boolean {
-    return !this._defaultPrevented;
+    return !this.defaultPrevented;
   }
 
   set returnValue(value: boolean) {
@@ -78,21 +103,22 @@ export class Event {
   }
 
   composedPath(): EventTarget[] {
-    return [...this._path];
+    return eventImplementation(this).path.map(eventTargetInterface);
   }
 
   stopPropagation(): void {
-    this._stopPropagation = true;
+    eventImplementation(this).stopPropagation = true;
   }
 
   stopImmediatePropagation(): void {
-    this._stopPropagation = true;
-    this._stopImmediatePropagation = true;
+    const implementation = eventImplementation(this);
+    implementation.stopPropagation = true;
+    implementation.stopImmediatePropagation = true;
   }
 
   preventDefault(): void {
     if (this.cancelable) {
-      this._defaultPrevented = true;
+      eventImplementation(this).defaultPrevented = true;
     }
   }
 }
@@ -109,14 +135,10 @@ export interface AddEventListenerOptions {
   readonly passive?: boolean;
 }
 
-interface RegisteredEventListener {
-  readonly callback: EventListener | EventListenerObject;
-  readonly capture: boolean;
-  readonly once: boolean;
-}
-
 export class EventTarget {
-  readonly #listeners = new Map<string, RegisteredEventListener[]>();
+  constructor() {
+    bindEventTarget(this, new EventTargetImplementation());
+  }
 
   addEventListener(
     type: string,
@@ -129,7 +151,8 @@ export class EventTarget {
     const convertedType = domString(type);
     const capture =
       typeof options === "boolean" ? options : Boolean(options.capture);
-    const listeners = this.#listeners.get(convertedType) ?? [];
+    const implementation = eventTargetImplementation(this);
+    const listeners = implementation.listeners.get(convertedType) ?? [];
     if (
       listeners.some(
         (listener) =>
@@ -143,7 +166,7 @@ export class EventTarget {
       capture,
       once: typeof options === "object" && Boolean(options.once),
     });
-    this.#listeners.set(convertedType, listeners);
+    implementation.listeners.set(convertedType, listeners);
   }
 
   removeEventListener(
@@ -157,7 +180,8 @@ export class EventTarget {
     const capture =
       typeof options === "boolean" ? options : Boolean(options.capture);
     const convertedType = domString(type);
-    const listeners = this.#listeners.get(convertedType);
+    const listeners =
+      eventTargetImplementation(this).listeners.get(convertedType);
     if (listeners === undefined) {
       return;
     }
@@ -177,57 +201,61 @@ export class EventTarget {
     if (event.type === "") {
       throw new DOMException("The event has no type", "InvalidStateError");
     }
-    const path: EventTarget[] = [this];
+    const implementation = eventImplementation(event);
+    const targetImplementation = eventTargetImplementation(this);
+    const path: EventTargetImplementation[] = [targetImplementation];
     if (event.bubbles) {
-      let parent = this._eventParent();
+      let parent = targetImplementation.parent;
       while (parent !== null) {
         path.push(parent);
-        parent = parent._eventParent();
+        parent = parent.parent;
       }
     }
-    event._target = this;
-    event._path = path;
+    implementation.target = targetImplementation;
+    implementation.path = path;
     for (const [index, target] of path.entries()) {
-      if (event._stopPropagation && index > 0) {
+      if (implementation.stopPropagation && index > 0) {
         break;
       }
-      event._currentTarget = target;
-      event._eventPhase = index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
-      target._invoke(event);
+      implementation.currentTarget = target;
+      implementation.eventPhase =
+        index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
+      invokeEventListeners(target, event);
     }
-    event._currentTarget = null;
-    event._eventPhase = Event.NONE;
+    implementation.currentTarget = null;
+    implementation.eventPhase = Event.NONE;
     return !event.defaultPrevented;
   }
+}
 
-  _eventParent(): EventTarget | null {
-    return null;
-  }
-
-  _invoke(event: Event): void {
-    const listeners = [...(this.#listeners.get(event.type) ?? [])];
-    for (const listener of listeners) {
-      if (listener.once) {
-        this.removeEventListener(
-          event.type,
-          listener.callback,
-          listener.capture,
-        );
-      }
-      if (typeof listener.callback === "function") {
-        listener.callback.call(this, event);
-      } else {
-        listener.callback.handleEvent(event);
-      }
-      if (event._stopImmediatePropagation) {
-        break;
-      }
+function invokeEventListeners(
+  targetImplementation: EventTargetImplementation,
+  event: Event,
+): void {
+  const target = eventTargetInterface(targetImplementation);
+  const listeners = [...(targetImplementation.listeners.get(event.type) ?? [])];
+  const implementation = eventImplementation(event);
+  for (const listener of listeners) {
+    if (listener.once) {
+      target.removeEventListener(
+        event.type,
+        listener.callback,
+        listener.capture,
+      );
     }
-    if (!event._stopImmediatePropagation) {
-      const handler: unknown = Reflect.get(this, `on${event.type}`);
-      if (typeof handler === "function") {
-        handler.call(this, event);
-      }
+    if (typeof listener.callback === "function") {
+      listener.callback.call(target, event);
+    } else {
+      listener.callback.handleEvent(event);
+    }
+    if (implementation.stopImmediatePropagation) {
+      break;
+    }
+  }
+  if (!implementation.stopImmediatePropagation) {
+    const handler: unknown = Reflect.get(target, `on${event.type}`);
+    if (typeof handler === "function") {
+      handler.call(target, event);
     }
   }
 }

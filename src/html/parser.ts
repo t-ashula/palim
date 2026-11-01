@@ -1,6 +1,21 @@
 import type { AttributeData, Node } from "../dom.js";
 import type { FragmentParser } from "../dom/nodes.js";
-import { cloneNodeIntoDocument, setDocumentParseErrors } from "../dom/nodes.js";
+import {
+  appendCharacterData,
+  appendNode,
+  attributeNodes,
+  childNodes,
+  cloneNodeIntoDocument,
+  createElementForDocument as createDOMElement,
+  documentIsQuirks,
+  insertNodeBefore,
+  removeNode,
+  setAttributes,
+  setDocumentParseErrors,
+  setDocumentQuirks,
+  setTemplateContents,
+  templateContents,
+} from "../dom/nodes.js";
 import {
   Comment,
   Document,
@@ -343,7 +358,8 @@ class TreeBuilder {
         ? null
         : context instanceof Element
           ? context
-          : this.document._createElement(
+          : createDOMElement(
+              this.document,
               context.localName,
               context.namespaceURI,
             );
@@ -352,7 +368,12 @@ class TreeBuilder {
     });
     if (this.#context !== null) {
       if (context instanceof Element) {
-        this.document._quirks = context.ownerDocument?._quirks ?? true;
+        setDocumentQuirks(
+          this.document,
+          context.ownerDocument === null
+            ? true
+            : documentIsQuirks(context.ownerDocument),
+        );
         for (
           let ancestor: Element | null = context;
           ancestor !== null;
@@ -367,8 +388,8 @@ class TreeBuilder {
           }
         }
       }
-      const html = this.document._createElement("html", HTML_NAMESPACE);
-      this.document._append(html);
+      const html = createDOMElement(this.document, "html", HTML_NAMESPACE);
+      appendNode(this.document, html);
       this.#stack.push(html);
       if (this.#context.localName === "template") {
         this.#templateModes.push("in-template");
@@ -422,7 +443,7 @@ class TreeBuilder {
     const fragment = new DocumentFragment(this.document);
     const root = this.document.documentElement;
     while (root?.firstChild !== null && root?.firstChild !== undefined) {
-      fragment._append(root.firstChild);
+      appendNode(fragment, root.firstChild);
     }
     return fragment;
   }
@@ -593,9 +614,10 @@ class TreeBuilder {
             break;
           }
           if (token.type === "Comment") {
-            this.document._append(new Comment(this.document, token.data));
+            appendNode(this.document, new Comment(this.document, token.data));
           } else if (token.type === "ProcessingInstruction") {
-            this.document._append(
+            appendNode(
+              this.document,
               new ProcessingInstruction(
                 this.document,
                 token.target,
@@ -611,7 +633,8 @@ class TreeBuilder {
             ) {
               this.#treeError("invalid-doctype");
             }
-            this.document._append(
+            appendNode(
+              this.document,
               new DocumentType(
                 this.document,
                 token.name ?? "",
@@ -619,11 +642,11 @@ class TreeBuilder {
                 token.systemId ?? "",
               ),
             );
-            this.document._quirks = this.#doctypeCausesQuirks(token);
+            setDocumentQuirks(this.document, this.#doctypeCausesQuirks(token));
             this.#mode = "before-html";
           } else {
             this.#treeError("missing-doctype");
-            this.document._quirks = true;
+            setDocumentQuirks(this.document, true);
             this.#mode = "before-html";
             repeat = true;
           }
@@ -633,9 +656,10 @@ class TreeBuilder {
             break;
           }
           if (token.type === "Comment") {
-            this.document._append(new Comment(this.document, token.data));
+            appendNode(this.document, new Comment(this.document, token.data));
           } else if (token.type === "ProcessingInstruction") {
-            this.document._append(
+            appendNode(
+              this.document,
               new ProcessingInstruction(
                 this.document,
                 token.target,
@@ -644,7 +668,7 @@ class TreeBuilder {
             );
           } else if (token.type === "StartTag" && token.name === "html") {
             const html = this.#element(token, HTML_NAMESPACE);
-            this.document._append(html);
+            appendNode(this.document, html);
             this.#stack.push(html);
             this.#mode = "before-head";
           } else if (token.type === "DOCTYPE") {
@@ -655,8 +679,12 @@ class TreeBuilder {
           ) {
             this.#treeError("unexpected-end-tag-before-html");
           } else {
-            const html = this.document._createElement("html", HTML_NAMESPACE);
-            this.document._append(html);
+            const html = createDOMElement(
+              this.document,
+              "html",
+              HTML_NAMESPACE,
+            );
+            appendNode(this.document, html);
             this.#stack.push(html);
             this.#mode = "before-head";
             repeat = true;
@@ -743,11 +771,13 @@ class TreeBuilder {
           if (token.type === "Character" && whitespace(token.data)) {
             this.#inBody(token);
           } else if (token.type === "Comment") {
-            this.document.documentElement?._append(
+            appendToDocumentElement(
+              this.document,
               new Comment(this.document, token.data),
             );
           } else if (token.type === "ProcessingInstruction") {
-            this.document.documentElement?._append(
+            appendToDocumentElement(
+              this.document,
               new ProcessingInstruction(
                 this.document,
                 token.target,
@@ -773,9 +803,10 @@ class TreeBuilder {
         case "after-after-body":
           if (token.type === "Comment") {
             if (this.#context === null) {
-              this.document._append(new Comment(this.document, token.data));
+              appendNode(this.document, new Comment(this.document, token.data));
             } else {
-              this.document.documentElement?._append(
+              appendToDocumentElement(
+                this.document,
                 new Comment(this.document, token.data),
               );
             }
@@ -786,9 +817,9 @@ class TreeBuilder {
               token.data,
             );
             if (this.#context === null) {
-              this.document._append(instruction);
+              appendNode(this.document, instruction);
             } else {
-              this.document.documentElement?._append(instruction);
+              appendToDocumentElement(this.document, instruction);
             }
           } else if (token.type === "Character" && whitespace(token.data)) {
             this.#inBody(token);
@@ -804,7 +835,7 @@ class TreeBuilder {
           break;
         case "after-after-frameset":
           if (token.type === "Comment") {
-            this.document._append(new Comment(this.document, token.data));
+            appendNode(this.document, new Comment(this.document, token.data));
           } else if (
             (token.type === "Character" && whitespace(token.data)) ||
             (token.type === "StartTag" && token.name === "html")
@@ -852,7 +883,9 @@ class TreeBuilder {
         }
       } else if (token.name === "template") {
         const template = this.#insert(token, true, foster);
-        template._templateContents ??= new DocumentFragment(this.document);
+        if (templateContents(template) === null) {
+          setTemplateContents(template, new DocumentFragment(this.document));
+        }
         this.#formatting.push(null);
         if (this.#body !== null) {
           this.#framesetOk = false;
@@ -1043,7 +1076,7 @@ class TreeBuilder {
         if (!this.#framesetOk || this.#body === null) {
           return;
         }
-        this.#body._remove();
+        removeNode(this.#body);
         while (this.#stack.length > 1) {
           this.#stack.pop();
         }
@@ -1134,7 +1167,7 @@ class TreeBuilder {
         this.#formatting.push(null);
         this.#setFramesetNotOk();
       } else if (name === "table") {
-        if (!this.document._quirks) {
+        if (!documentIsQuirks(this.document)) {
           this.#closeParagraph();
         }
         this.#insert(token, true, foster);
@@ -2133,7 +2166,7 @@ class TreeBuilder {
     ) {
       return false;
     }
-    const encoding = element._attributeNodes
+    const encoding = attributeNodes(element)
       .find((attribute) => attribute.name === "encoding")
       ?.value.toLowerCase();
     return encoding === "text/html" || encoding === "application/xhtml+xml";
@@ -2154,8 +2187,9 @@ class TreeBuilder {
       namespace === SVG_NAMESPACE
         ? (SVG_NAMES[token.name] ?? token.name)
         : token.name;
-    const element = this.document._createElement(localName, namespace);
-    element._setAttributes(
+    const element = createDOMElement(this.document, localName, namespace);
+    setAttributes(
+      element,
       Object.entries(token.attributes).map(
         ([sourceName, value]): AttributeData => {
           const name =
@@ -2232,14 +2266,12 @@ class TreeBuilder {
     }
     const current = this.#current();
     if (current === null) {
-      this.document._append(node);
-    } else if (
-      current.localName === "template" &&
-      current._templateContents !== null
-    ) {
-      current._templateContents._append(node);
+      appendNode(this.document, node);
+    } else if (current.localName === "template") {
+      const contents = templateContents(current);
+      appendNode(contents ?? current, node);
     } else {
-      current._append(node);
+      appendNode(current, node);
     }
   }
 
@@ -2252,11 +2284,11 @@ class TreeBuilder {
     );
     if (templateIndex > tableIndex) {
       const template = this.#stack[templateIndex];
-      if (
-        template?._templateContents !== null &&
-        template?._templateContents !== undefined
-      ) {
-        return { parent: template._templateContents, reference: null };
+      if (template !== undefined) {
+        const contents = templateContents(template);
+        if (contents !== null) {
+          return { parent: contents, reference: null };
+        }
       }
     }
     if (tableIndex >= 0) {
@@ -2287,9 +2319,9 @@ class TreeBuilder {
   #insertAtFosterParent(node: Node): void {
     const location = this.#fosterParentLocation();
     if (location.reference !== null) {
-      location.parent._insertBefore(node, location.reference);
+      insertNodeBefore(location.parent, node, location.reference);
     } else {
-      location.parent._append(node);
+      appendNode(location.parent, node);
     }
   }
 
@@ -2302,31 +2334,27 @@ class TreeBuilder {
       const previous =
         location.reference?.previousSibling ?? location.parent.lastChild;
       if (previous instanceof Text) {
-        previous._appendData(data);
+        appendCharacterData(previous, data);
         return;
       }
       const text = new Text(this.document, data);
       if (location.reference !== null) {
-        location.parent._insertBefore(text, location.reference);
+        insertNodeBefore(location.parent, text, location.reference);
       } else {
-        location.parent._append(text);
+        appendNode(location.parent, text);
       }
       return;
     }
     let parent: Node = this.#current() ?? this.document;
-    if (
-      parent instanceof Element &&
-      parent.localName === "template" &&
-      parent._templateContents !== null
-    ) {
-      parent = parent._templateContents;
+    if (parent instanceof Element && parent.localName === "template") {
+      parent = templateContents(parent) ?? parent;
     }
     const previous = parent.lastChild;
     if (previous instanceof Text) {
-      previous._appendData(data);
+      appendCharacterData(previous, data);
       return;
     }
-    parent._append(new Text(this.document, data));
+    appendNode(parent, new Text(this.document, data));
   }
 
   #comment(data: string, foster = false): void {
@@ -2656,9 +2684,10 @@ class TreeBuilder {
       return;
     }
     const existing = new Set(
-      element._attributeNodes.map((attribute) => attribute.name),
+      attributeNodes(element).map((attribute) => attribute.name),
     );
-    element._setAttributes(
+    setAttributes(
+      element,
       Object.entries(token.attributes)
         .filter(([name]) => !existing.has(name))
         .map(([name, value]) => ({ name, value })),
@@ -2691,9 +2720,9 @@ class TreeBuilder {
       if (
         candidate.localName === element.localName &&
         candidate.namespaceURI === element.namespaceURI &&
-        candidate._attributeNodes.length === element._attributeNodes.length &&
-        candidate._attributeNodes.every((attribute) =>
-          element._attributeNodes.some(
+        attributeNodes(candidate).length === attributeNodes(element).length &&
+        attributeNodes(candidate).every((attribute) =>
+          attributeNodes(element).some(
             (other) =>
               other.namespaceURI === attribute.namespaceURI &&
               other.localName === attribute.localName &&
@@ -2736,10 +2765,10 @@ class TreeBuilder {
   }
 
   #appendToElement(parent: Element, node: Node): void {
-    if (parent.localName === "template" && parent._templateContents !== null) {
-      parent._templateContents._append(node);
+    if (parent.localName === "template") {
+      appendNode(templateContents(parent) ?? parent, node);
     } else {
-      parent._append(node);
+      appendNode(parent, node);
     }
   }
 
@@ -2829,7 +2858,7 @@ class TreeBuilder {
       }
 
       const replacement = this.#cloneElement(formattingElement);
-      for (const child of [...furthestBlock._childNodes]) {
+      for (const child of childNodes(furthestBlock)) {
         this.#appendToElement(replacement, child);
       }
       this.#appendToElement(furthestBlock, replacement);
@@ -2942,38 +2971,49 @@ class TreeBuilder {
         continue;
       }
       while (selectedContent.firstChild !== null) {
-        selectedContent.firstChild._remove();
+        removeNode(selectedContent.firstChild);
       }
       for (const child of selected.childNodes) {
-        selectedContent._append(this.#cloneSubtree(child));
+        appendNode(selectedContent, this.#cloneSubtree(child));
       }
     }
   }
 
   #finish(): void {
     if (this.document.documentElement === null) {
-      const html = this.document._createElement("html", HTML_NAMESPACE);
-      this.document._append(html);
+      const html = createDOMElement(this.document, "html", HTML_NAMESPACE);
+      appendNode(this.document, html);
       this.#stack.push(html);
     }
     if (this.document.head === null) {
-      const head = this.document._createElement("head", HTML_NAMESPACE);
+      const head = createDOMElement(this.document, "head", HTML_NAMESPACE);
       const documentElement = this.document.documentElement;
-      const body = documentElement?._childNodes.find(
-        (node) => node instanceof Element && node.localName === "body",
-      );
+      const body = (
+        documentElement === null ? [] : childNodes(documentElement)
+      ).find((node) => node instanceof Element && node.localName === "body");
+      if (documentElement === null) {
+        throw new TypeError("Document has no document element");
+      }
       if (body === undefined) {
-        documentElement?._append(head);
+        appendNode(documentElement, head);
       } else {
-        documentElement?._insertBefore(head, body);
+        insertNodeBefore(documentElement, head, body);
       }
     }
     if (this.document.body === null) {
-      this.document.documentElement?._append(
-        this.document._createElement("body", HTML_NAMESPACE),
+      appendToDocumentElement(
+        this.document,
+        createDOMElement(this.document, "body", HTML_NAMESPACE),
       );
     }
     this.#syncSelectedContent();
+  }
+}
+
+function appendToDocumentElement(document: Document, node: Node): void {
+  const documentElement = document.documentElement;
+  if (documentElement !== null) {
+    appendNode(documentElement, node);
   }
 }
 

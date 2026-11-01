@@ -4,6 +4,7 @@ import { tokenizeCSS } from "./css-syntax.js";
 import type { CSSToken } from "./css-syntax.js";
 import { HTML_NAMESPACE, SVG_NAMESPACE } from "./namespaces.js";
 import { descendantElements } from "./dom/traversal.js";
+import { attributeNodes, childNodes, documentIsQuirks } from "./dom/nodes.js";
 
 const ASCII_WHITESPACE = /[\t\n\f\r ]+/;
 
@@ -925,7 +926,7 @@ function matchesComplex(
     }
     const combinator = selector.combinators[index - 1];
     if (combinator === "child") {
-      const parent = candidate._parentNode;
+      const parent = candidate.parentNode;
       if (parent?.nodeType === 1) {
         return matchAt(parent as Element, index - 1);
       }
@@ -936,7 +937,7 @@ function matchesComplex(
       );
     }
     if (combinator === "descendant") {
-      let parent = candidate._parentNode;
+      let parent = candidate.parentNode;
       while (parent !== null) {
         if (parent.nodeType === 1 && matchAt(parent as Element, index - 1)) {
           return true;
@@ -948,7 +949,7 @@ function matchesComplex(
         ) {
           return true;
         }
-        parent = parent._parentNode;
+        parent = parent.parentNode;
       }
       return false;
     }
@@ -1208,7 +1209,7 @@ function matchesPlainPseudoClass(
         ? (scope as Document).documentElement === element
         : scope.nodeType === 1 && scope === element;
     case "empty":
-      return !element._childNodes.some(
+      return !childNodes(element).some(
         (child) =>
           child.nodeType === 1 ||
           (child.nodeType === 3 &&
@@ -1409,7 +1410,7 @@ function languageOf(element: Element): string | null {
     if (language !== null) {
       return language === "" ? null : language;
     }
-    const xmlLanguage = current._attributeNodes.find(
+    const xmlLanguage = attributeNodes(current).find(
       (attribute) =>
         attribute.prefix === "xml" && attribute.localName === "lang",
     );
@@ -1438,7 +1439,7 @@ function findAttribute(
   name: string,
   namespace: NamespaceConstraint,
 ): Attr | null {
-  for (const attribute of element._attributeNodes) {
+  for (const attribute of attributeNodes(element)) {
     const namespaceMatches =
       namespace === "any" ||
       namespace === "unspecified" ||
@@ -1484,7 +1485,8 @@ function identifierEquals(
   if (actual === null) {
     return false;
   }
-  return element.ownerDocument?._quirks === true
+  return element.ownerDocument !== null &&
+    documentIsQuirks(element.ownerDocument)
     ? asciiLower(actual) === asciiLower(expected)
     : actual === expected;
 }
@@ -1663,19 +1665,19 @@ function sameType(left: Element, right: Element): boolean {
 }
 
 function elementChildren(node: Node): Element[] {
-  return node._childNodes.filter(
+  return childNodes(node).filter(
     (child): child is Element => child.nodeType === 1,
   );
 }
 
 function elementSiblings(element: Element): Element[] {
-  const parent = element._parentNode;
+  const parent = element.parentNode;
   return parent === null ? [element] : elementChildren(parent);
 }
 
 function parentElement(element: Element): Element | null {
-  return element._parentNode?.nodeType === 1
-    ? (element._parentNode as Element)
+  return element.parentNode?.nodeType === 1
+    ? (element.parentNode as Element)
     : null;
 }
 
@@ -1704,8 +1706,8 @@ function isDescendant(element: Element, ancestor: Element): boolean {
 
 function treeRoot(node: Node): Node {
   let root = node;
-  while (root._parentNode !== null) {
-    root = root._parentNode;
+  while (root.parentNode !== null) {
+    root = root.parentNode;
   }
   return root;
 }

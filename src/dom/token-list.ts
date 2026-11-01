@@ -1,26 +1,26 @@
 import { DOMException } from "../dom-exception.js";
+import { bindDOMInterface, implementationFor } from "./binding.js";
 import { asciiLowercase, domString } from "./conversions.js";
 import type { Element } from "./nodes.js";
 
 export class DOMTokenList implements Iterable<string> {
   readonly [index: number]: string | undefined;
-  readonly _element: Element;
-  readonly _attributeName: string;
-  readonly _supportedTokens: ReadonlySet<string> | null;
 
   constructor(
     element: Element,
     attributeName: string,
     supportedTokens: readonly string[] | null = null,
   ) {
-    this._element = element;
-    this._attributeName = attributeName;
-    this._supportedTokens =
-      supportedTokens === null ? null : new Set(supportedTokens);
-    return new Proxy(this, {
+    const implementation = new DOMTokenListImplementation(
+      element,
+      attributeName,
+      supportedTokens,
+    );
+    bindDOMInterface(this, implementation);
+    const proxy = new Proxy(this, {
       get(target, property): unknown {
         if (typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)) {
-          return target._tokens()[Number(property)];
+          return tokenValues(target)[Number(property)];
         }
         const value: unknown = Reflect.get(target, property, target);
         return typeof value === "function"
@@ -28,62 +28,72 @@ export class DOMTokenList implements Iterable<string> {
           : value;
       },
     });
+    bindDOMInterface(proxy, implementation);
+    return proxy;
   }
 
   get length(): number {
-    return this._tokens().length;
+    return tokenValues(this).length;
   }
 
   get value(): string {
-    return this._element.getAttribute(this._attributeName) ?? "";
+    const implementation = tokenListImplementation(this);
+    return (
+      implementation.element.getAttribute(implementation.attributeName) ?? ""
+    );
   }
 
   set value(value: string) {
-    this._element.setAttribute(this._attributeName, domString(value));
+    const implementation = tokenListImplementation(this);
+    implementation.element.setAttribute(
+      implementation.attributeName,
+      domString(value),
+    );
   }
 
   item(index: number): string | null {
-    return this._tokens()[toUnsignedLong(index)] ?? null;
+    return tokenValues(this)[toUnsignedLong(index)] ?? null;
   }
 
   contains(token: string): boolean {
     const converted = validateToken(token);
-    return this._tokens().includes(converted);
+    return tokenValues(this).includes(converted);
   }
 
   add(...tokens: string[]): void {
     const converted = tokens.map(validateToken);
-    const values = this._tokens();
+    const values = tokenValues(this);
     for (const token of converted) {
       if (!values.includes(token)) {
         values.push(token);
       }
     }
-    this._setTokens(values);
+    setTokens(this, values);
   }
 
   remove(...tokens: string[]): void {
     const converted = tokens.map(validateToken);
-    this._setTokens(
-      this._tokens().filter((token) => !converted.includes(token)),
+    setTokens(
+      this,
+      tokenValues(this).filter((token) => !converted.includes(token)),
     );
   }
 
   toggle(token: string, force?: boolean): boolean {
     const converted = validateToken(token);
-    const values = this._tokens();
+    const values = tokenValues(this);
     const index = values.indexOf(converted);
     if (index >= 0) {
       if (arguments.length < 2 || !Boolean(force)) {
         values.splice(index, 1);
-        this._setTokens(values);
+        setTokens(this, values);
         return false;
       }
       return true;
     }
     if (arguments.length < 2 || Boolean(force)) {
       values.push(converted);
-      this._setTokens(values);
+      setTokens(this, values);
       return true;
     }
     return false;
@@ -92,7 +102,7 @@ export class DOMTokenList implements Iterable<string> {
   replace(token: string, newToken: string): boolean {
     const converted = validateToken(token);
     const replacement = validateToken(newToken);
-    const values = this._tokens();
+    const values = tokenValues(this);
     const index = values.indexOf(converted);
     if (index < 0) {
       return false;
@@ -103,34 +113,35 @@ export class DOMTokenList implements Iterable<string> {
     } else {
       values[index] = replacement;
     }
-    this._setTokens(values);
+    setTokens(this, values);
     return true;
   }
 
   supports(token: string): boolean {
-    if (this._supportedTokens === null) {
+    const supportedTokens = tokenListImplementation(this).supportedTokens;
+    if (supportedTokens === null) {
       throw new TypeError("This DOMTokenList has no supported tokens");
     }
-    return this._supportedTokens.has(asciiLowercase(domString(token)));
+    return supportedTokens.has(asciiLowercase(domString(token)));
   }
 
   entries(): IterableIterator<[number, string]> {
-    return this._tokens().entries();
+    return tokenValues(this).entries();
   }
 
   keys(): IterableIterator<number> {
-    return this._tokens().keys();
+    return tokenValues(this).keys();
   }
 
   values(): IterableIterator<string> {
-    return this._tokens().values();
+    return tokenValues(this).values();
   }
 
   forEach(
     callback: (value: string, key: number, parent: DOMTokenList) => void,
     thisArgument?: unknown,
   ): void {
-    for (const [index, token] of this._tokens().entries()) {
+    for (const [index, token] of tokenValues(this).entries()) {
       callback.call(thisArgument, token, index, this);
     }
   }
@@ -142,21 +153,46 @@ export class DOMTokenList implements Iterable<string> {
   toString(): string {
     return this.value;
   }
+}
 
-  _tokens(): string[] {
-    const value = this._element.getAttribute(this._attributeName) ?? "";
-    return [...new Set(value.split(/[\t\n\f\r ]+/).filter(Boolean))];
-  }
+class DOMTokenListImplementation {
+  readonly supportedTokens: ReadonlySet<string> | null;
 
-  _setTokens(tokens: readonly string[]): void {
-    if (
-      tokens.length === 0 &&
-      !this._element.hasAttribute(this._attributeName)
-    ) {
-      return;
-    }
-    this._element.setAttribute(this._attributeName, tokens.join(" "));
+  constructor(
+    readonly element: Element,
+    readonly attributeName: string,
+    supportedTokens: readonly string[] | null,
+  ) {
+    this.supportedTokens =
+      supportedTokens === null ? null : new Set(supportedTokens);
   }
+}
+
+function tokenListImplementation(
+  tokenList: DOMTokenList,
+): DOMTokenListImplementation {
+  return implementationFor(tokenList) as DOMTokenListImplementation;
+}
+
+function tokenValues(tokenList: DOMTokenList): string[] {
+  const implementation = tokenListImplementation(tokenList);
+  const value =
+    implementation.element.getAttribute(implementation.attributeName) ?? "";
+  return [...new Set(value.split(/[\t\n\f\r ]+/).filter(Boolean))];
+}
+
+function setTokens(tokenList: DOMTokenList, values: readonly string[]): void {
+  const implementation = tokenListImplementation(tokenList);
+  if (
+    values.length === 0 &&
+    !implementation.element.hasAttribute(implementation.attributeName)
+  ) {
+    return;
+  }
+  implementation.element.setAttribute(
+    implementation.attributeName,
+    values.join(" "),
+  );
 }
 
 function toUnsignedLong(value: unknown): number {

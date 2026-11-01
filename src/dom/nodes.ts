@@ -17,6 +17,25 @@ import {
   validateName,
 } from "./conversions.js";
 import { EventTarget } from "./events.js";
+import {
+  AttrImplementation,
+  CharacterDataImplementation,
+  DocumentImplementation,
+  DocumentTypeImplementation,
+  ElementImplementation,
+  NodeImplementation,
+  attrImplementation,
+  attrInterface,
+  bindNode,
+  characterDataImplementation,
+  documentImplementation,
+  documentInterface,
+  documentTypeImplementation,
+  elementImplementation,
+  elementInterface,
+  nodeImplementation,
+  nodeInterface,
+} from "./node-implementation.js";
 import { DOMTokenList } from "./token-list.js";
 import {
   adjustLiveRangesForData,
@@ -54,8 +73,6 @@ import {
   serializeXMLElement,
 } from "../xml/serializer.js";
 import { requireArguments } from "../web-idl.js";
-
-const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 
 export interface FragmentParser {
   parse(input: string, context: Element): DocumentFragment;
@@ -113,63 +130,76 @@ export class Node extends EventTarget {
   static readonly DOCUMENT_POSITION_CONTAINED_BY = 0x10;
   static readonly DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
 
-  readonly nodeType: number;
-  readonly nodeName: string;
-  readonly childNodes: NodeList;
-  readonly _childNodes: Node[] = [];
-  _ownerDocument: Document | null;
-  _parentNode: Node | null = null;
-
   constructor(
     nodeType: number,
     nodeName: string,
     ownerDocument: Document | null,
   ) {
     super();
-    this.nodeType = nodeType;
-    this.nodeName = nodeName;
-    this._ownerDocument = ownerDocument;
-    this.childNodes = new NodeList(() => this._childNodes);
+    bindNode(
+      this,
+      new NodeImplementation(
+        nodeType,
+        nodeName,
+        ownerDocument === null ? null : documentImplementation(ownerDocument),
+      ),
+    );
   }
 
-  override _eventParent(): EventTarget | null {
-    return this._parentNode;
+  get childNodes(): NodeList {
+    const implementation = nodeImplementation(this);
+    implementation.childNodes ??= new NodeList(() => childNodes(this));
+    return implementation.childNodes;
+  }
+
+  get nodeType(): number {
+    return nodeImplementation(this).nodeType;
+  }
+
+  get nodeName(): string {
+    return nodeImplementation(this).nodeName;
   }
 
   get ownerDocument(): Document | null {
-    return this._ownerDocument;
+    const implementation = nodeImplementation(this).ownerDocument;
+    return implementation === null ? null : documentInterface(implementation);
   }
 
   get parentNode(): Node | null {
-    return this._parentNode;
+    const implementation = nodeImplementation(this).parent;
+    return implementation === null ? null : nodeInterface(implementation);
   }
 
   get parentElement(): Element | null {
-    return this._parentNode instanceof Element ? this._parentNode : null;
+    return this.parentNode instanceof Element ? this.parentNode : null;
   }
 
   get firstChild(): Node | null {
-    return this._childNodes[0] ?? null;
+    return childNodes(this)[0] ?? null;
   }
 
   get lastChild(): Node | null {
-    return this._childNodes.at(-1) ?? null;
+    return childNodes(this).at(-1) ?? null;
   }
 
   get previousSibling(): Node | null {
-    if (this._parentNode === null) {
+    const parent = this.parentNode;
+    if (parent === null) {
       return null;
     }
-    const index = this._parentNode._childNodes.indexOf(this);
-    return index > 0 ? (this._parentNode._childNodes[index - 1] ?? null) : null;
+    const siblings = childNodes(parent);
+    const index = siblings.indexOf(this);
+    return index > 0 ? (siblings[index - 1] ?? null) : null;
   }
 
   get nextSibling(): Node | null {
-    if (this._parentNode === null) {
+    const parent = this.parentNode;
+    if (parent === null) {
       return null;
     }
-    const index = this._parentNode._childNodes.indexOf(this);
-    return index < 0 ? null : (this._parentNode._childNodes[index + 1] ?? null);
+    const siblings = childNodes(parent);
+    const index = siblings.indexOf(this);
+    return index < 0 ? null : (siblings[index + 1] ?? null);
   }
 
   get textContent(): string | null {
@@ -231,7 +261,7 @@ export class Node extends EventTarget {
     if (!(node instanceof Node) || !(child instanceof Node)) {
       throw new TypeError("The argument is not a Node");
     }
-    if (child._parentNode !== this) {
+    if (child.parentNode !== this) {
       throw new DOMException(
         "The node to be replaced is not a child of this node",
         "NotFoundError",
@@ -246,69 +276,82 @@ export class Node extends EventTarget {
       reference = node.nextSibling;
     }
     ensurePreInsertionValidity(node, this, reference, child);
-    child._remove();
+    removeNode(child);
     insertNodes(node, this, reference);
     return child;
   }
 
   removeChild<T extends Node>(child: T): T {
     requireNodeArgument(child, arguments.length);
-    if (child._parentNode !== this) {
+    if (child.parentNode !== this) {
       throw new DOMException(
         "The node to be removed is not a child of this node",
         "NotFoundError",
       );
     }
-    child._remove();
+    removeNode(child);
     return child;
   }
 
   remove(): void {
-    this._remove();
-  }
-
-  _append(node: Node): void {
-    node._remove();
-    node._parentNode = this;
-    adjustLiveRangesForInsertion(this, this._childNodes.length, 1);
-    this._childNodes.push(node);
-  }
-
-  _insertBefore(node: Node, reference: Node): void {
-    node._remove();
-    const index = this._childNodes.indexOf(reference);
-    node._parentNode = this;
-    if (index < 0) {
-      adjustLiveRangesForInsertion(this, this._childNodes.length, 1);
-      this._childNodes.push(node);
-    } else {
-      adjustLiveRangesForInsertion(this, index, 1);
-      this._childNodes.splice(index, 0, node);
-    }
-  }
-
-  _remove(): void {
-    if (this._parentNode === null) {
-      return;
-    }
-    preRemoveLiveRanges(this);
-    preRemoveNodeIterators(this);
-    const index = this._parentNode._childNodes.indexOf(this);
-    if (index >= 0) {
-      this._parentNode._childNodes.splice(index, 1);
-    }
-    this._parentNode = null;
+    removeNode(this);
   }
 }
 
+export function childNodes(node: Node): Node[] {
+  return nodeImplementation(node).children.map(nodeInterface);
+}
+
+export function appendNode(parent: Node, node: Node): void {
+  removeNode(node);
+  const parentImplementation = nodeImplementation(parent);
+  const childImplementation = nodeImplementation(node);
+  childImplementation.parent = parentImplementation;
+  adjustLiveRangesForInsertion(parent, parentImplementation.children.length, 1);
+  parentImplementation.children.push(childImplementation);
+}
+
+export function insertNodeBefore(
+  parent: Node,
+  node: Node,
+  reference: Node,
+): void {
+  removeNode(node);
+  const parentImplementation = nodeImplementation(parent);
+  const childImplementation = nodeImplementation(node);
+  const index = parentImplementation.children.indexOf(
+    nodeImplementation(reference),
+  );
+  childImplementation.parent = parentImplementation;
+  if (index < 0) {
+    adjustLiveRangesForInsertion(
+      parent,
+      parentImplementation.children.length,
+      1,
+    );
+    parentImplementation.children.push(childImplementation);
+  } else {
+    adjustLiveRangesForInsertion(parent, index, 1);
+    parentImplementation.children.splice(index, 0, childImplementation);
+  }
+}
+
+export function removeNode(node: Node): void {
+  const implementation = nodeImplementation(node);
+  if (implementation.parent === null) {
+    return;
+  }
+  preRemoveLiveRanges(node);
+  preRemoveNodeIterators(node);
+  const index = implementation.parent.children.indexOf(implementation);
+  if (index >= 0) {
+    implementation.parent.children.splice(index, 1);
+  }
+  implementation.parent = null;
+}
+
 export class Document extends Node implements ParseErrorSource {
-  readonly contentType: string;
   readonly characterSet = "UTF-8";
-  readonly _fragmentParser: FragmentParser | null;
-  readonly _elementFactory: ElementFactory;
-  _templateContentsOwnerDocument: Document | null = null;
-  _quirks = true;
-  [DOCUMENT_PARSE_ERRORS]: readonly PalimParseError[] = [];
 
   constructor(
     fragmentParser: FragmentParser | null = null,
@@ -316,14 +359,19 @@ export class Document extends Node implements ParseErrorSource {
     elementFactory: ElementFactory = defaultElementFactory,
   ) {
     super(Node.DOCUMENT_NODE, "#document", null);
-    this._fragmentParser = fragmentParser;
-    this.contentType = contentType;
-    this._elementFactory = elementFactory;
+    bindNode(
+      this,
+      new DocumentImplementation(fragmentParser, contentType, elementFactory),
+    );
+  }
+
+  get contentType(): string {
+    return documentImplementation(this).contentType;
   }
 
   get doctype(): DocumentType | null {
     return (
-      this._childNodes.find(
+      childNodes(this).find(
         (node): node is DocumentType => node instanceof DocumentType,
       ) ?? null
     );
@@ -331,7 +379,7 @@ export class Document extends Node implements ParseErrorSource {
 
   get documentElement(): Element | null {
     return (
-      this._childNodes.find(
+      childNodes(this).find(
         (node): node is Element => node instanceof Element,
       ) ?? null
     );
@@ -339,7 +387,10 @@ export class Document extends Node implements ParseErrorSource {
 
   get head(): Element | null {
     return (
-      this.documentElement?._childNodes.find(
+      (this.documentElement === null
+        ? []
+        : childNodes(this.documentElement)
+      ).find(
         (node): node is Element =>
           node instanceof Element && node.localName === "head",
       ) ?? null
@@ -348,7 +399,10 @@ export class Document extends Node implements ParseErrorSource {
 
   get body(): Element | null {
     return (
-      this.documentElement?._childNodes.find(
+      (this.documentElement === null
+        ? []
+        : childNodes(this.documentElement)
+      ).find(
         (node): node is Element =>
           node instanceof Element &&
           (node.localName === "body" || node.localName === "frameset"),
@@ -357,7 +411,7 @@ export class Document extends Node implements ParseErrorSource {
   }
 
   get compatMode(): "BackCompat" | "CSS1Compat" {
-    return this._quirks ? "BackCompat" : "CSS1Compat";
+    return documentImplementation(this).quirks ? "BackCompat" : "CSS1Compat";
   }
 
   createElement(
@@ -378,7 +432,7 @@ export class Document extends Node implements ParseErrorSource {
       this.contentType === "application/xhtml+xml"
         ? HTML_NAMESPACE
         : null;
-    return this._createElement(convertedName, namespaceURI, null);
+    return createElementForDocument(this, convertedName, namespaceURI, null);
   }
 
   createElementNS(
@@ -396,7 +450,8 @@ export class Document extends Node implements ParseErrorSource {
       convertedNamespace,
       convertedName,
     );
-    return this._createElement(
+    return createElementForDocument(
+      this,
       extracted.localName,
       extracted.namespace,
       extracted.prefix,
@@ -469,23 +524,6 @@ export class Document extends Node implements ParseErrorSource {
     return createRange(this);
   }
 
-  _createElement(
-    localName: string,
-    namespaceURI: string | null,
-    prefix: string | null = null,
-  ): Element {
-    return this._elementFactory(this, localName, namespaceURI, prefix);
-  }
-
-  _templateContentsDocument(): Document {
-    this._templateContentsOwnerDocument ??= new Document(
-      this._fragmentParser,
-      this.contentType,
-      this._elementFactory,
-    );
-    return this._templateContentsOwnerDocument;
-  }
-
   override get textContent(): null {
     return null;
   }
@@ -536,24 +574,58 @@ export class Document extends Node implements ParseErrorSource {
   }
 
   [GET_PARSE_ERRORS](): readonly PalimParseError[] {
-    return this[DOCUMENT_PARSE_ERRORS];
+    return documentImplementation(this).parseErrors;
   }
+}
+
+export function createElementForDocument(
+  document: Document,
+  localName: string,
+  namespaceURI: string | null,
+  prefix: string | null = null,
+): Element {
+  return documentImplementation(document).elementFactory(
+    document,
+    localName,
+    namespaceURI,
+    prefix,
+  );
+}
+
+export function templateContentsDocument(document: Document): Document {
+  const implementation = documentImplementation(document);
+  implementation.templateContentsOwnerDocument ??= new Document(
+    implementation.fragmentParser,
+    implementation.contentType,
+    implementation.elementFactory,
+  );
+  return implementation.templateContentsOwnerDocument;
+}
+
+export function fragmentParserForDocument(
+  document: Document,
+): FragmentParser | null {
+  return documentImplementation(document).fragmentParser;
+}
+
+export function documentIsQuirks(document: Document): boolean {
+  return documentImplementation(document).quirks;
+}
+
+export function setDocumentQuirks(document: Document, quirks: boolean): void {
+  documentImplementation(document).quirks = quirks;
 }
 
 export function setDocumentParseErrors(
   document: Document,
   errors: readonly PalimParseError[],
 ): void {
-  document[DOCUMENT_PARSE_ERRORS] = Object.freeze(
+  documentImplementation(document).parseErrors = Object.freeze(
     errors.map((error) => Object.freeze({ ...error })),
   );
 }
 
 export class DocumentType extends Node {
-  readonly name: string;
-  readonly publicId: string;
-  readonly systemId: string;
-
   constructor(
     document: Document,
     name: string,
@@ -561,9 +633,27 @@ export class DocumentType extends Node {
     systemId: string,
   ) {
     super(Node.DOCUMENT_TYPE_NODE, name, document);
-    this.name = name;
-    this.publicId = publicId;
-    this.systemId = systemId;
+    bindNode(
+      this,
+      new DocumentTypeImplementation(
+        documentImplementation(document),
+        name,
+        publicId,
+        systemId,
+      ),
+    );
+  }
+
+  get name(): string {
+    return documentTypeImplementation(this).name;
+  }
+
+  get publicId(): string {
+    return documentTypeImplementation(this).publicId;
+  }
+
+  get systemId(): string {
+    return documentTypeImplementation(this).systemId;
   }
 
   override get textContent(): null {
@@ -572,13 +662,6 @@ export class DocumentType extends Node {
 }
 
 export class Attr extends Node {
-  readonly namespaceURI: string | null;
-  readonly localName: string;
-  prefix: string | null;
-  name: string;
-  value: string;
-  _ownerElement: Element | null;
-
   constructor(
     document: Document,
     element: Element | null,
@@ -589,16 +672,55 @@ export class Attr extends Node {
     localName = name,
   ) {
     super(Node.ATTRIBUTE_NODE, name, document);
-    this.namespaceURI = namespaceURI;
-    this.prefix = prefix;
-    this.localName = localName;
-    this.name = name;
-    this.value = value;
-    this._ownerElement = element;
+    bindNode(
+      this,
+      new AttrImplementation(
+        documentImplementation(document),
+        element === null ? null : elementImplementation(element),
+        name,
+        value,
+        namespaceURI,
+        prefix,
+        localName,
+      ),
+    );
+  }
+
+  get namespaceURI(): string | null {
+    return attrImplementation(this).namespaceURI;
+  }
+
+  get localName(): string {
+    return attrImplementation(this).localName;
+  }
+
+  get prefix(): string | null {
+    return attrImplementation(this).prefix;
+  }
+
+  set prefix(value: string | null) {
+    attrImplementation(this).prefix = value;
+  }
+
+  get name(): string {
+    return attrImplementation(this).name;
+  }
+
+  set name(value: string) {
+    attrImplementation(this).name = value;
+  }
+
+  get value(): string {
+    return attrImplementation(this).value;
+  }
+
+  set value(value: string) {
+    attrImplementation(this).value = value;
   }
 
   get ownerElement(): Element | null {
-    return this._ownerElement;
+    const implementation = attrImplementation(this).ownerElement;
+    return implementation === null ? null : elementInterface(implementation);
   }
 
   override get textContent(): string {
@@ -615,16 +737,6 @@ export interface AttributeData {
 }
 
 export class Element extends Node {
-  readonly namespaceURI: string | null;
-  readonly prefix: string | null;
-  readonly localName: string;
-  readonly tagName: string;
-  readonly attributes: NamedNodeMap;
-  readonly children: HTMLCollection;
-  readonly _attributeNodes: Attr[] = [];
-  _templateContents: DocumentFragment | null = null;
-  #classList: DOMTokenList | null = null;
-
   constructor(
     document: Document,
     localName: string,
@@ -638,16 +750,48 @@ export class Element extends Node {
         ? qualifiedName.toUpperCase()
         : qualifiedName;
     super(Node.ELEMENT_NODE, tagName, document);
-    this.namespaceURI = namespaceURI;
-    this.prefix = prefix;
-    this.localName = localName;
-    this.tagName = tagName;
-    this.attributes = new NamedNodeMap(this);
-    this.children = new HTMLCollection(() =>
-      this._childNodes.filter(
+    bindNode(
+      this,
+      new ElementImplementation(
+        documentImplementation(document),
+        namespaceURI,
+        prefix,
+        localName,
+        tagName,
+      ),
+    );
+  }
+
+  get namespaceURI(): string | null {
+    return elementImplementation(this).namespaceURI;
+  }
+
+  get prefix(): string | null {
+    return elementImplementation(this).prefix;
+  }
+
+  get localName(): string {
+    return elementImplementation(this).localName;
+  }
+
+  get tagName(): string {
+    return elementImplementation(this).tagName;
+  }
+
+  get attributes(): NamedNodeMap {
+    const implementation = elementImplementation(this);
+    implementation.attributeMap ??= new NamedNodeMap(this);
+    return implementation.attributeMap;
+  }
+
+  get children(): HTMLCollection {
+    const implementation = elementImplementation(this);
+    implementation.elementChildren ??= new HTMLCollection(() =>
+      childNodes(this).filter(
         (node): node is Element => node instanceof Element,
       ),
     );
+    return implementation.elementChildren;
   }
 
   get firstElementChild(): Element | null {
@@ -679,8 +823,9 @@ export class Element extends Node {
   }
 
   get classList(): DOMTokenList {
-    this.#classList ??= new DOMTokenList(this, "class");
-    return this.#classList;
+    const implementation = elementImplementation(this);
+    implementation.classList ??= new DOMTokenList(this, "class");
+    return implementation.classList;
   }
 
   get innerHTML(): string {
@@ -691,7 +836,7 @@ export class Element extends Node {
 
   set innerHTML(value: string) {
     const fragment = this.#parseFragment(domString(value), this);
-    const target = this._templateContents ?? this;
+    const target = templateContents(this) ?? this;
     while (target.firstChild !== null) {
       target.removeChild(target.firstChild);
     }
@@ -772,12 +917,13 @@ export class Element extends Node {
   }
 
   getAttribute(qualifiedName: string): string | null {
-    return this._getAttributeByName(domString(qualifiedName))?.value ?? null;
+    return findAttributeByName(this, domString(qualifiedName))?.value ?? null;
   }
 
   getAttributeNS(namespace: string | null, localName: string): string | null {
     return (
-      this._getAttributeByNamespace(
+      findAttributeByNamespace(
+        this,
         normalizeNamespace(namespace),
         domString(localName),
       )?.value ?? null
@@ -785,16 +931,17 @@ export class Element extends Node {
   }
 
   getAttributeNames(): string[] {
-    return this._attributeNodes.map((attribute) => attribute.name);
+    return attributeNodes(this).map((attribute) => attribute.name);
   }
 
   hasAttribute(qualifiedName: string): boolean {
-    return this._getAttributeByName(domString(qualifiedName)) !== null;
+    return findAttributeByName(this, domString(qualifiedName)) !== null;
   }
 
   hasAttributeNS(namespace: string | null, localName: string): boolean {
     return (
-      this._getAttributeByNamespace(
+      findAttributeByNamespace(
+        this,
         normalizeNamespace(namespace),
         domString(localName),
       ) !== null
@@ -806,12 +953,13 @@ export class Element extends Node {
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
     const convertedValue = domString(value);
-    const attribute = this._getAttributeByName(name);
+    const attribute = findAttributeByName(this, name);
     if (attribute !== null) {
       attribute.value = convertedValue;
       return;
     }
-    this._setAttributeNode(
+    setAttributeNode(
+      this,
       new Attr(this.#document(), this, name, convertedValue),
     );
   }
@@ -828,7 +976,8 @@ export class Element extends Node {
       domString(qualifiedName),
     );
     const convertedValue = domString(value);
-    const attribute = this._getAttributeByNamespace(
+    const attribute = findAttributeByNamespace(
+      this,
       normalizedNamespace,
       extracted.localName,
     );
@@ -838,7 +987,8 @@ export class Element extends Node {
       attribute.value = convertedValue;
       return;
     }
-    this._setAttributeNode(
+    setAttributeNode(
+      this,
       new Attr(
         this.#document(),
         this,
@@ -852,11 +1002,12 @@ export class Element extends Node {
   }
 
   removeAttribute(qualifiedName: string): void {
-    this._removeAttributeByName(domString(qualifiedName));
+    removeAttributeByName(this, domString(qualifiedName));
   }
 
   removeAttributeNS(namespace: string | null, localName: string): void {
-    this._removeAttributeByNamespace(
+    removeAttributeByNamespace(
+      this,
       normalizeNamespace(namespace),
       domString(localName),
     );
@@ -866,16 +1017,16 @@ export class Element extends Node {
     requireArguments(arguments.length, 1);
     const name = this.#attributeName(domString(qualifiedName));
     validateName(name);
-    const attribute = this._getAttributeByName(name);
+    const attribute = findAttributeByName(this, name);
     if (attribute === null) {
       if (arguments.length < 2 || Boolean(force)) {
-        this._setAttributeNode(new Attr(this.#document(), this, name, ""));
+        setAttributeNode(this, new Attr(this.#document(), this, name, ""));
         return true;
       }
       return false;
     }
     if (arguments.length < 2 || !Boolean(force)) {
-      this._removeAttribute(attribute);
+      removeAttributeNode(this, attribute);
       return false;
     }
     return true;
@@ -943,7 +1094,7 @@ export class Element extends Node {
   }
 
   #bodyFragmentContext(): Element {
-    return this.#document()._createElement("body", HTML_NAMESPACE);
+    return createElementForDocument(this.#document(), "body", HTML_NAMESPACE);
   }
 
   #isHTMLDocument(): boolean {
@@ -951,123 +1102,171 @@ export class Element extends Node {
   }
 
   #parseFragment(input: string, context: Element): DocumentFragment {
-    const parser = this.#document()._fragmentParser;
+    const parser = fragmentParserForDocument(this.#document());
     if (parser === null) {
       throw new TypeError("Document has no fragment parser");
     }
     return parser.parse(input, context);
   }
+}
 
-  _getAttributeByName(qualifiedName: string): Attr | null {
-    const name = this.#attributeName(qualifiedName);
-    return (
-      this._attributeNodes.find((attribute) => attribute.name === name) ?? null
+export function attributeNodes(element: Element): Attr[] {
+  return elementImplementation(element).attributes.map(attrInterface);
+}
+
+export function templateContents(element: Element): DocumentFragment | null {
+  return elementImplementation(element).templateContents;
+}
+
+export function setTemplateContents(
+  element: Element,
+  contents: DocumentFragment | null,
+): void {
+  elementImplementation(element).templateContents = contents;
+}
+
+export function findAttributeByName(
+  element: Element,
+  qualifiedName: string,
+): Attr | null {
+  const name = attributeName(element, qualifiedName);
+  const implementation = elementImplementation(element).attributes.find(
+    (attribute) => attribute.name === name,
+  );
+  return implementation === undefined ? null : attrInterface(implementation);
+}
+
+export function findAttributeByNamespace(
+  element: Element,
+  namespace: string | null,
+  localName: string,
+): Attr | null {
+  const implementation = elementImplementation(element).attributes.find(
+    (attribute) =>
+      attribute.namespaceURI === namespace && attribute.localName === localName,
+  );
+  return implementation === undefined ? null : attrInterface(implementation);
+}
+
+export function setAttributeNode(
+  element: Element,
+  value: unknown,
+): Attr | null {
+  if (!(value instanceof Attr)) {
+    throw new TypeError("The argument is not an Attr");
+  }
+  const valueImplementation = attrImplementation(value);
+  const implementation = elementImplementation(element);
+  if (
+    valueImplementation.ownerElement !== null &&
+    valueImplementation.ownerElement !== implementation
+  ) {
+    throw new DOMException(
+      "The attribute is already in use",
+      "InUseAttributeError",
     );
   }
+  const oldAttribute = findAttributeByNamespace(
+    element,
+    value.namespaceURI,
+    value.localName,
+  );
+  if (oldAttribute === value) {
+    return value;
+  }
+  valueImplementation.ownerElement = implementation;
+  if (oldAttribute === null) {
+    implementation.attributes.push(valueImplementation);
+    return null;
+  }
+  const oldImplementation = attrImplementation(oldAttribute);
+  const index = implementation.attributes.indexOf(oldImplementation);
+  implementation.attributes[index] = valueImplementation;
+  oldImplementation.ownerElement = null;
+  return oldAttribute;
+}
 
-  _getAttributeByNamespace(
-    namespace: string | null,
-    localName: string,
-  ): Attr | null {
-    return (
-      this._attributeNodes.find(
-        (attribute) =>
-          attribute.namespaceURI === namespace &&
-          attribute.localName === localName,
-      ) ?? null
+export function removeAttributeByName(
+  element: Element,
+  qualifiedName: string,
+): Attr | null {
+  const attribute = findAttributeByName(element, qualifiedName);
+  if (attribute !== null) {
+    removeAttributeNode(element, attribute);
+  }
+  return attribute;
+}
+
+export function removeAttributeByNamespace(
+  element: Element,
+  namespace: string | null,
+  localName: string,
+): Attr | null {
+  const attribute = findAttributeByNamespace(element, namespace, localName);
+  if (attribute !== null) {
+    removeAttributeNode(element, attribute);
+  }
+  return attribute;
+}
+
+export function removeAttributeNode(element: Element, attribute: Attr): void {
+  const implementation = elementImplementation(element);
+  const attributeImplementation = attrImplementation(attribute);
+  const index = implementation.attributes.indexOf(attributeImplementation);
+  if (index < 0) {
+    return;
+  }
+  implementation.attributes.splice(index, 1);
+  attributeImplementation.ownerElement = null;
+}
+
+export function setAttributes(
+  element: Element,
+  attributes: readonly AttributeData[],
+): void {
+  const document = element.ownerDocument;
+  if (document === null) {
+    throw new TypeError("Element has no owner document");
+  }
+  for (const attribute of attributes) {
+    if (attributeNodes(element).some((item) => item.name === attribute.name)) {
+      continue;
+    }
+    setAttributeNode(
+      element,
+      new Attr(
+        document,
+        element,
+        attribute.name,
+        attribute.value,
+        attribute.namespaceURI ?? null,
+        attribute.prefix ?? null,
+        attribute.localName ?? attribute.name,
+      ),
     );
-  }
-
-  _setAttributeNode(value: unknown): Attr | null {
-    if (!(value instanceof Attr)) {
-      throw new TypeError("The argument is not an Attr");
-    }
-    if (value._ownerElement !== null && value._ownerElement !== this) {
-      throw new DOMException(
-        "The attribute is already in use",
-        "InUseAttributeError",
-      );
-    }
-    const oldAttribute = this._getAttributeByNamespace(
-      value.namespaceURI,
-      value.localName,
-    );
-    if (oldAttribute === value) {
-      return value;
-    }
-    value._ownerElement = this;
-    if (oldAttribute === null) {
-      this._attributeNodes.push(value);
-      return null;
-    }
-    const index = this._attributeNodes.indexOf(oldAttribute);
-    this._attributeNodes[index] = value;
-    oldAttribute._ownerElement = null;
-    return oldAttribute;
-  }
-
-  _removeAttributeByName(qualifiedName: string): Attr | null {
-    const attribute = this._getAttributeByName(qualifiedName);
-    if (attribute !== null) {
-      this._removeAttribute(attribute);
-    }
-    return attribute;
-  }
-
-  _removeAttributeByNamespace(
-    namespace: string | null,
-    localName: string,
-  ): Attr | null {
-    const attribute = this._getAttributeByNamespace(namespace, localName);
-    if (attribute !== null) {
-      this._removeAttribute(attribute);
-    }
-    return attribute;
-  }
-
-  _removeAttribute(attribute: Attr): void {
-    const index = this._attributeNodes.indexOf(attribute);
-    if (index < 0) {
-      return;
-    }
-    this._attributeNodes.splice(index, 1);
-    attribute._ownerElement = null;
-  }
-
-  _setAttributes(attributes: readonly AttributeData[]): void {
-    const document = this.ownerDocument;
-    if (document === null) {
-      throw new TypeError("Element has no owner document");
-    }
-    for (const attribute of attributes) {
-      if (this._attributeNodes.some((item) => item.name === attribute.name)) {
-        continue;
-      }
-      this._setAttributeNode(
-        new Attr(
-          document,
-          this,
-          attribute.name,
-          attribute.value,
-          attribute.namespaceURI ?? null,
-          attribute.prefix ?? null,
-          attribute.localName ?? attribute.name,
-        ),
-      );
-    }
   }
 }
 
-export class DocumentFragment extends Node {
-  readonly children: HTMLCollection;
+function attributeName(element: Element, name: string): string {
+  return element.namespaceURI === HTML_NAMESPACE &&
+    element.ownerDocument?.contentType === "text/html"
+    ? asciiLowercase(name)
+    : name;
+}
 
+export class DocumentFragment extends Node {
   constructor(document: Document) {
     super(Node.DOCUMENT_FRAGMENT_NODE, "#document-fragment", document);
-    this.children = new HTMLCollection(() =>
-      this._childNodes.filter(
+  }
+
+  get children(): HTMLCollection {
+    const implementation = nodeImplementation(this);
+    implementation.elementChildren ??= new HTMLCollection(() =>
+      childNodes(this).filter(
         (node): node is Element => node instanceof Element,
       ),
     );
+    return implementation.elementChildren;
   }
 
   querySelector(selectors: string): Element | null {
@@ -1091,8 +1290,6 @@ export class DocumentFragment extends Node {
 }
 
 export class CharacterData extends Node {
-  _data: string;
-
   constructor(
     nodeType: number,
     nodeName: string,
@@ -1100,11 +1297,19 @@ export class CharacterData extends Node {
     data: string,
   ) {
     super(nodeType, nodeName, document);
-    this._data = data;
+    bindNode(
+      this,
+      new CharacterDataImplementation(
+        nodeType,
+        nodeName,
+        documentImplementation(document),
+        data,
+      ),
+    );
   }
 
   get data(): string {
-    return this._data;
+    return characterDataImplementation(this).data;
   }
 
   get length(): number {
@@ -1114,23 +1319,31 @@ export class CharacterData extends Node {
   override get textContent(): string {
     return this.data;
   }
+}
 
-  _replaceData(offset: number, count: number, data: string): void {
-    if (offset > this.length) {
-      throw new DOMException(
-        "The offset exceeds the data length",
-        "IndexSizeError",
-      );
-    }
-    const removed = Math.min(count, this.length - offset);
-    adjustLiveRangesForData(this, offset, removed, data.length);
-    this._data =
-      this._data.slice(0, offset) + data + this._data.slice(offset + removed);
+export function replaceCharacterData(
+  node: CharacterData,
+  offset: number,
+  count: number,
+  data: string,
+): void {
+  if (offset > node.length) {
+    throw new DOMException(
+      "The offset exceeds the data length",
+      "IndexSizeError",
+    );
   }
+  const removed = Math.min(count, node.length - offset);
+  adjustLiveRangesForData(node, offset, removed, data.length);
+  const implementation = characterDataImplementation(node);
+  implementation.data =
+    implementation.data.slice(0, offset) +
+    data +
+    implementation.data.slice(offset + removed);
+}
 
-  _appendData(data: string): void {
-    this._replaceData(this.length, 0, data);
-  }
+export function appendCharacterData(node: CharacterData, data: string): void {
+  replaceCharacterData(node, node.length, 0, data);
 }
 
 export class Text extends CharacterData {
@@ -1172,23 +1385,29 @@ export function cloneNodeIntoDocument(
     subtree &&
     node instanceof Element &&
     copy instanceof Element &&
-    node._templateContents !== null &&
-    copy._templateContents !== null
+    templateContents(node) !== null &&
+    templateContents(copy) !== null
   ) {
-    const templateDocument = copy._templateContents.ownerDocument;
+    const sourceContents = templateContents(node);
+    const copyContents = templateContents(copy);
+    if (sourceContents === null || copyContents === null) {
+      throw new TypeError("Template contents are missing");
+    }
+    const templateDocument = copyContents.ownerDocument;
     if (templateDocument === null) {
       throw new TypeError("Template contents have no owner document");
     }
-    for (const child of node._templateContents._childNodes) {
-      copy._templateContents._append(
+    for (const child of childNodes(sourceContents)) {
+      appendNode(
+        copyContents,
         cloneNodeIntoDocument(child, templateDocument, true),
       );
     }
   }
 
   if (subtree) {
-    for (const child of node._childNodes) {
-      copy._append(cloneNodeIntoDocument(child, childDocument, true));
+    for (const child of childNodes(node)) {
+      appendNode(copy, cloneNodeIntoDocument(child, childDocument, true));
     }
   }
   return copy;
@@ -1196,13 +1415,15 @@ export function cloneNodeIntoDocument(
 
 function cloneSingleNode(node: Node, document: Document): Node {
   if (node instanceof Element) {
-    const copy = document._createElement(
+    const copy = createElementForDocument(
+      document,
       node.localName,
       node.namespaceURI,
       node.prefix,
     );
-    copy._setAttributes(
-      node._attributeNodes.map((attribute) => ({
+    setAttributes(
+      copy,
+      attributeNodes(node).map((attribute) => ({
         name: attribute.name,
         value: attribute.value,
         namespaceURI: attribute.namespaceURI,
@@ -1213,12 +1434,13 @@ function cloneSingleNode(node: Node, document: Document): Node {
     return copy;
   }
   if (node instanceof Document) {
+    const implementation = documentImplementation(node);
     const copy = new Document(
-      node._fragmentParser,
+      implementation.fragmentParser,
       node.contentType,
-      node._elementFactory,
+      implementation.elementFactory,
     );
-    copy._quirks = node._quirks;
+    setDocumentQuirks(copy, implementation.quirks);
     return copy;
   }
   if (node instanceof DocumentType) {
@@ -1291,7 +1513,7 @@ function importNodeSubtree(options: unknown): boolean {
 
 function descendantText(node: Node): string {
   let result = "";
-  for (const child of node._childNodes) {
+  for (const child of childNodes(node)) {
     if (
       child.nodeType === Node.TEXT_NODE ||
       child.nodeType === Node.CDATA_SECTION_NODE
@@ -1306,23 +1528,23 @@ function descendantText(node: Node): string {
 
 function normalizeDescendantText(node: Node): void {
   let index = 0;
-  while (index < node._childNodes.length) {
-    const child = node._childNodes[index];
+  while (index < childNodes(node).length) {
+    const child = childNodes(node)[index];
     if (child === undefined) {
       break;
     }
     if (child instanceof Text) {
       if (child.length === 0) {
-        child._remove();
+        removeNode(child);
         continue;
       }
 
       while (child.nextSibling instanceof Text) {
         const sibling = child.nextSibling;
         const length = child.length;
-        child._appendData(sibling.data);
+        appendCharacterData(child, sibling.data);
         adjustLiveRangesForTextMerge(sibling, child, length);
-        sibling._remove();
+        removeNode(sibling);
       }
     } else {
       normalizeDescendantText(child);
@@ -1337,7 +1559,7 @@ function findElementById(root: Node, elementId: string): Element | null {
   return (
     descendantElements(root).find(
       (element) =>
-        element._getAttributeByNamespace(null, "id")?.value === elementId,
+        findAttributeByNamespace(element, null, "id")?.value === elementId,
     ) ?? null
   );
 }
@@ -1382,7 +1604,8 @@ function elementsByClassName(
 ): HTMLCollection {
   const document = lookupDocument(root);
   const classes = orderedSet(classNames);
-  const quirks = document.contentType === "text/html" && document._quirks;
+  const quirks =
+    document.contentType === "text/html" && documentIsQuirks(document);
   const requiredClasses = quirks ? classes.map(asciiLowercase) : classes;
   return new HTMLCollection(() => {
     if (requiredClasses.length === 0) {
@@ -1390,7 +1613,7 @@ function elementsByClassName(
     }
     return descendantElements(root).filter((element) => {
       const elementClasses = orderedSet(
-        element._getAttributeByNamespace(null, "class")?.value ?? "",
+        findAttributeByNamespace(element, null, "class")?.value ?? "",
       );
       const comparedClasses = quirks
         ? elementClasses.map(asciiLowercase)
@@ -1455,7 +1678,7 @@ function nullableNode(value: unknown): Node | null {
 }
 
 function preInsert(node: Node, parent: Node, child: Node | null): void {
-  if (child !== null && child._parentNode !== parent) {
+  if (child !== null && child.parentNode !== parent) {
     throw new DOMException(
       "The reference node is not a child of this node",
       "NotFoundError",
@@ -1491,7 +1714,7 @@ function ensurePreInsertionValidity(
       "HierarchyRequestError",
     );
   }
-  if (child !== null && child._parentNode !== parent) {
+  if (child !== null && child.parentNode !== parent) {
     throw new DOMException(
       "The reference node is not a child of this node",
       "NotFoundError",
@@ -1543,15 +1766,15 @@ function isInclusiveAncestor(ancestor: Node, node: Node): boolean {
     if (current === ancestor) {
       return true;
     }
-    current = current._parentNode;
+    current = current.parentNode;
   }
   return false;
 }
 
 function nodeRoot(node: Node): Node {
   let root = node;
-  while (root._parentNode !== null) {
-    root = root._parentNode;
+  while (root.parentNode !== null) {
+    root = root.parentNode;
   }
   return root;
 }
@@ -1581,17 +1804,17 @@ function compareNodePosition(node: Node, other: Node): number {
   const attribute2 = node2 instanceof Attr ? node2 : null;
 
   if (attribute1 !== null) {
-    node1 = attribute1._ownerElement;
+    node1 = attribute1.ownerElement;
   }
   if (attribute2 !== null) {
-    const ownerElement = attribute2._ownerElement;
+    const ownerElement = attribute2.ownerElement;
     node2 = ownerElement;
     if (
       attribute1 !== null &&
       ownerElement !== null &&
       node1 === ownerElement
     ) {
-      for (const attribute of ownerElement._attributeNodes) {
+      for (const attribute of attributeNodes(ownerElement)) {
         if (attribute === attribute1) {
           return (
             Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC |
@@ -1665,7 +1888,7 @@ function treePrecedes(node1: Node, node2: Node): boolean {
     throw new TypeError("Cannot compare nodes from different trees");
   }
   return (
-    parent._childNodes.indexOf(child1) < parent._childNodes.indexOf(child2)
+    childNodes(parent).indexOf(child1) < childNodes(parent).indexOf(child2)
   );
 }
 
@@ -1674,7 +1897,7 @@ function ancestorPath(node: Node): Node[] {
   let current: Node | null = node;
   while (current !== null) {
     path.push(current);
-    current = current._parentNode;
+    current = current.parentNode;
   }
   path.reverse();
   return path;
@@ -1684,11 +1907,13 @@ function equalNodes(node: Node, other: Node): boolean {
   if (!sameNodeInterface(node, other) || !sameNodeData(node, other)) {
     return false;
   }
-  if (node._childNodes.length !== other._childNodes.length) {
+  const children = childNodes(node);
+  const otherChildren = childNodes(other);
+  if (children.length !== otherChildren.length) {
     return false;
   }
-  return node._childNodes.every((child, index) => {
-    const otherChild = other._childNodes[index];
+  return children.every((child, index) => {
+    const otherChild = otherChildren[index];
     return otherChild !== undefined && equalNodes(child, otherChild);
   });
 }
@@ -1760,16 +1985,18 @@ function sameNodeData(node: Node, other: Node): boolean {
 }
 
 function equalAttributes(node: Element, other: Element): boolean {
-  if (node._attributeNodes.length !== other._attributeNodes.length) {
+  const attributes = attributeNodes(node);
+  const otherAttributes = attributeNodes(other);
+  if (attributes.length !== otherAttributes.length) {
     return false;
   }
-  return node._attributeNodes.every((attribute) =>
-    other._attributeNodes.some((candidate) => equalNodes(attribute, candidate)),
+  return attributes.every((attribute) =>
+    otherAttributes.some((candidate) => equalNodes(attribute, candidate)),
   );
 }
 
 function insertionNodes(node: Node): Node[] {
-  return node instanceof DocumentFragment ? [...node._childNodes] : [node];
+  return node instanceof DocumentFragment ? childNodes(node) : [node];
 }
 
 function validateDocumentInsertion(
@@ -1786,7 +2013,7 @@ function validateDocumentInsertion(
     );
   }
 
-  const children = document._childNodes.filter(
+  const children = childNodes(document).filter(
     (candidate) => candidate !== replacedChild && !inserted.includes(candidate),
   );
   const referenceIndex =
@@ -1827,25 +2054,34 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
   const document = parent instanceof Document ? parent : parent.ownerDocument;
   for (const inserted of nodes) {
     if (document === null) {
-      inserted._remove();
+      removeNode(inserted);
     } else {
       adopt(inserted, document);
     }
-    const index = child === null ? -1 : parent._childNodes.indexOf(child);
-    inserted._parentNode = parent;
+    const parentImplementation = nodeImplementation(parent);
+    const insertedImplementation = nodeImplementation(inserted);
+    const index =
+      child === null
+        ? -1
+        : parentImplementation.children.indexOf(nodeImplementation(child));
+    insertedImplementation.parent = parentImplementation;
     if (index < 0) {
-      adjustLiveRangesForInsertion(parent, parent._childNodes.length, 1);
-      parent._childNodes.push(inserted);
+      adjustLiveRangesForInsertion(
+        parent,
+        parentImplementation.children.length,
+        1,
+      );
+      parentImplementation.children.push(insertedImplementation);
     } else {
       adjustLiveRangesForInsertion(parent, index, 1);
-      parent._childNodes.splice(index, 0, inserted);
+      parentImplementation.children.splice(index, 0, insertedImplementation);
     }
   }
 }
 
 function adopt(node: Node, document: Document): void {
-  node._remove();
-  if (node._ownerDocument === document) {
+  removeNode(node);
+  if (node.ownerDocument === document) {
     return;
   }
   updateNodeDocument(node, document);
@@ -1854,19 +2090,18 @@ function adopt(node: Node, document: Document): void {
 function updateNodeDocument(node: Node, document: Document): void {
   transferLiveRanges(node, document);
   transferNodeIterators(node, document);
-  node._ownerDocument = document;
+  nodeImplementation(node).ownerDocument = documentImplementation(document);
   if (node instanceof Element) {
-    for (const attribute of node._attributeNodes) {
-      attribute._ownerDocument = document;
+    for (const attribute of attributeNodes(node)) {
+      nodeImplementation(attribute).ownerDocument =
+        documentImplementation(document);
     }
-    if (node._templateContents !== null) {
-      updateNodeDocument(
-        node._templateContents,
-        document._templateContentsDocument(),
-      );
+    const contents = templateContents(node);
+    if (contents !== null) {
+      updateNodeDocument(contents, templateContentsDocument(document));
     }
   }
-  for (const child of node._childNodes) {
+  for (const child of childNodes(node)) {
     updateNodeDocument(child, document);
   }
 }

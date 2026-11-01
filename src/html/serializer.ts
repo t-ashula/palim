@@ -6,6 +6,7 @@ import type {
   Node,
   ProcessingInstruction,
 } from "../dom/nodes.js";
+import { attributeNodes, childNodes, templateContents } from "../dom/nodes.js";
 import {
   HTML_NAMESPACE,
   MATHML_NAMESPACE,
@@ -114,7 +115,7 @@ function attributeName(attribute: Attr): string {
 function serializeElement(element: Element): string {
   const name = elementName(element);
   let result = `<${name}`;
-  for (const attribute of element._attributeNodes) {
+  for (const attribute of attributeNodes(element)) {
     result += ` ${attributeName(attribute)}="${escape(attribute.value, true)}"`;
   }
   result += ">";
@@ -159,11 +160,12 @@ export function serializeHTMLFragment(element: Element): string {
   if (serializesAsVoid(element)) {
     return "";
   }
+  const contents = templateContents(element);
   const node =
-    isHTMLElement(element, "template") && element._templateContents !== null
-      ? element._templateContents
+    isHTMLElement(element, "template") && contents !== null
+      ? contents
       : element;
-  return node._childNodes.map(serializeNode).join("");
+  return childNodes(node).map(serializeNode).join("");
 }
 
 export function serializeHTMLElement(element: Element): string {

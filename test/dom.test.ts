@@ -47,6 +47,39 @@ function expectDOMException(operation: () => unknown, name: string): void {
   throw new Error(`expected ${name}`);
 }
 
+describe("DOM interface binding", () => {
+  it("does not expose implementation members on DOM objects", () => {
+    const document = parse('<main id="root">content</main>');
+    const element = select(document, "main");
+    const attribute = element.attributes.item(0);
+    const text = element.firstChild;
+
+    for (const object of [document, element, attribute, text]) {
+      if (object === null) {
+        throw new Error("missing DOM object");
+      }
+      expect(
+        implementationMemberNames(object),
+        object.constructor.name,
+      ).toEqual([]);
+    }
+  });
+});
+
+function implementationMemberNames(value: object): string[] {
+  const names = new Set<string>();
+  let current: object | null = value;
+  while (current !== null && current !== Object.prototype) {
+    for (const name of Object.getOwnPropertyNames(current)) {
+      if (name.startsWith("_")) {
+        names.add(name);
+      }
+    }
+    current = Object.getPrototypeOf(current) as object | null;
+  }
+  return [...names];
+}
+
 describe("Document element creation", () => {
   it("creates HTML elements with normalized names and matching interfaces", () => {
     const document = parse("");

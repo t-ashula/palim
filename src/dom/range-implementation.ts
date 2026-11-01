@@ -10,7 +10,11 @@ import {
   Node,
   ProcessingInstruction,
   Text,
+  appendNode,
+  childNodes,
   cloneNodeIntoDocument,
+  removeNode,
+  replaceCharacterData,
   validatePreInsertion,
 } from "./nodes.js";
 
@@ -179,7 +183,8 @@ class RangeImplementation implements Range {
       originalStart.node === originalEnd.node &&
       originalStart.node instanceof CharacterData
     ) {
-      originalStart.node._replaceData(
+      replaceCharacterData(
+        originalStart.node,
         originalStart.offset,
         originalEnd.offset - originalStart.offset,
         "",
@@ -192,17 +197,18 @@ class RangeImplementation implements Range {
     this.#start = collapse;
     this.#end = collapse;
     if (originalStart.node instanceof CharacterData) {
-      originalStart.node._replaceData(
+      replaceCharacterData(
+        originalStart.node,
         originalStart.offset,
         originalStart.node.length - originalStart.offset,
         "",
       );
     }
     for (const node of nodes) {
-      node._remove();
+      removeNode(node);
     }
     if (originalEnd.node instanceof CharacterData) {
-      originalEnd.node._replaceData(0, originalEnd.offset, "");
+      replaceCharacterData(originalEnd.node, 0, originalEnd.offset, "");
     }
   }
 
@@ -249,7 +255,7 @@ class RangeImplementation implements Range {
       reference = reference.nextSibling;
     }
     if (inserted.parentNode !== null) {
-      inserted._remove();
+      removeNode(inserted);
     }
     let newOffset =
       reference === null ? nodeLength(parent) : nodeIndex(reference);
@@ -288,7 +294,7 @@ class RangeImplementation implements Range {
 
     const fragment = this.extractContents();
     while (parent.firstChild !== null) {
-      parent.firstChild._remove();
+      removeNode(parent.firstChild);
     }
     this.insertNode(parent);
     parent.appendChild(fragment);
@@ -593,7 +599,8 @@ function extractRange(range: RangeImplementation): DocumentFragment {
     originalStart.node === originalEnd.node &&
     originalStart.node instanceof CharacterData
   ) {
-    fragment._append(
+    appendNode(
+      fragment,
       cloneCharacterData(
         originalStart.node,
         originalStart.offset,
@@ -601,7 +608,8 @@ function extractRange(range: RangeImplementation): DocumentFragment {
         document,
       ),
     );
-    originalStart.node._replaceData(
+    replaceCharacterData(
+      originalStart.node,
       originalStart.offset,
       originalEnd.offset - originalStart.offset,
       "",
@@ -632,7 +640,8 @@ function extractRange(range: RangeImplementation): DocumentFragment {
   range.setPoints(collapse, collapse);
 
   if (firstPartial instanceof CharacterData) {
-    fragment._append(
+    appendNode(
+      fragment,
       cloneCharacterData(
         firstPartial,
         originalStart.offset,
@@ -640,14 +649,15 @@ function extractRange(range: RangeImplementation): DocumentFragment {
         document,
       ),
     );
-    firstPartial._replaceData(
+    replaceCharacterData(
+      firstPartial,
       originalStart.offset,
       firstPartial.length - originalStart.offset,
       "",
     );
   } else if (firstPartial !== null) {
     const clone = cloneNodeIntoDocument(firstPartial, document, false);
-    fragment._append(clone);
+    appendNode(fragment, clone);
     const subrange = new RangeImplementation(document, originalStart, {
       node: firstPartial,
       offset: nodeLength(firstPartial),
@@ -656,17 +666,18 @@ function extractRange(range: RangeImplementation): DocumentFragment {
   }
 
   for (const node of contained) {
-    fragment._append(node);
+    appendNode(fragment, node);
   }
 
   if (lastPartial instanceof CharacterData) {
-    fragment._append(
+    appendNode(
+      fragment,
       cloneCharacterData(lastPartial, 0, originalEnd.offset, document),
     );
-    lastPartial._replaceData(0, originalEnd.offset, "");
+    replaceCharacterData(lastPartial, 0, originalEnd.offset, "");
   } else if (lastPartial !== null) {
     const clone = cloneNodeIntoDocument(lastPartial, document, false);
-    fragment._append(clone);
+    appendNode(fragment, clone);
     const subrange = new RangeImplementation(
       document,
       { node: lastPartial, offset: 0 },
@@ -692,7 +703,8 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
     offset: range.endOffset,
   };
   if (start.node === end.node && start.node instanceof CharacterData) {
-    fragment._append(
+    appendNode(
+      fragment,
       cloneCharacterData(start.node, start.offset, end.offset, document),
     );
     return fragment;
@@ -710,7 +722,8 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
   }
 
   if (firstPartial instanceof CharacterData) {
-    fragment._append(
+    appendNode(
+      fragment,
       cloneCharacterData(
         firstPartial,
         start.offset,
@@ -720,7 +733,7 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
     );
   } else if (firstPartial !== null) {
     const clone = cloneNodeIntoDocument(firstPartial, document, false);
-    fragment._append(clone);
+    appendNode(fragment, clone);
     const subrange = new RangeImplementation(document, start, {
       node: firstPartial,
       offset: nodeLength(firstPartial),
@@ -729,14 +742,17 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
   }
 
   for (const node of contained) {
-    fragment._append(cloneNodeIntoDocument(node, document, true));
+    appendNode(fragment, cloneNodeIntoDocument(node, document, true));
   }
 
   if (lastPartial instanceof CharacterData) {
-    fragment._append(cloneCharacterData(lastPartial, 0, end.offset, document));
+    appendNode(
+      fragment,
+      cloneCharacterData(lastPartial, 0, end.offset, document),
+    );
   } else if (lastPartial !== null) {
     const clone = cloneNodeIntoDocument(lastPartial, document, false);
-    fragment._append(clone);
+    appendNode(fragment, clone);
     const subrange = new RangeImplementation(
       document,
       { node: lastPartial, offset: 0 },
@@ -758,7 +774,7 @@ function splitTextNode(node: Text, offset: number): Text {
       range.adjustForTextSplit(node, split, offset, parent, insertionOffset);
     });
   }
-  node._replaceData(offset, node.length - offset, "");
+  replaceCharacterData(node, offset, node.length - offset, "");
   return split;
 }
 
@@ -772,13 +788,13 @@ function cloneCharacterData(
   if (!(clone instanceof CharacterData)) {
     throw new TypeError("CharacterData clone has an invalid type");
   }
-  clone._replaceData(0, clone.length, node.data.slice(start, end));
+  replaceCharacterData(clone, 0, clone.length, node.data.slice(start, end));
   return clone;
 }
 
 function appendFragment(parent: Node, fragment: DocumentFragment): void {
   while (fragment.firstChild !== null) {
-    parent._append(fragment.firstChild);
+    appendNode(parent, fragment.firstChild);
   }
 }
 
@@ -966,7 +982,7 @@ function nodeLength(node: Node): number {
 
 function nodeIndex(node: Node): number {
   const parent = node.parentNode;
-  return parent === null ? 0 : parent._childNodes.indexOf(node);
+  return parent === null ? 0 : childNodes(parent).indexOf(node);
 }
 
 function nodeRoot(node: Node): Node {
