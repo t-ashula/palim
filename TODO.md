@@ -45,18 +45,14 @@
 - [x] `NodeIterator` / `TreeWalker`
 - [x] `Range`
 
-### Observation
-
-- [ ] `MutationObserver`
-
 ## 3. Dynamic markup and serialization APIs
 
 - [x] `innerHTML`
 - [x] `outerHTML`
 - [x] `insertAdjacentHTML`
+- [ ] `XMLSerializer`
 - [ ] `setHTML` / `setHTMLUnsafe`
 - [ ] `Document.write`
-- [ ] `XMLSerializer`
 - [ ] shadow root を含む serialization
 
 ## 4. Selectors
@@ -140,6 +136,7 @@
 - [ ] timers
 - [ ] task queue / microtask queue
 - [ ] event dispatch と microtask の連携
+- [ ] `MutationObserver`
 - [ ] JavaScript execution と event loop の統合
 
 ## 10. Optional JavaScript execution
