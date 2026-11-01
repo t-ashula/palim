@@ -8,7 +8,7 @@
 - [x] parser error の公開方法
 - [x] byte input と encoding detection
 - [x] HTML serialization
-- [ ] XML/XHTML/SVG parsing
+- [x] XML/XHTML/SVG parsing
 
 ## 2. Standard DOM interfaces
 

@@ -1,5 +1,6 @@
 export {
   Attr,
+  CDATASection,
   CharacterData,
   Comment,
   Document,
@@ -24,7 +25,10 @@ export type {
 } from "./dom.js";
 export { DOMException } from "./dom-exception.js";
 export { DOMParser } from "./dom-parser.js";
-export type { HTMLFragmentContext } from "./dom-parser.js";
+export type {
+  DOMParserSupportedType,
+  HTMLFragmentContext,
+} from "./dom-parser.js";
 export { parseErrors } from "./html/parse-errors.js";
 export type { PalimParseError, ParseErrorSource } from "./html/parse-errors.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";

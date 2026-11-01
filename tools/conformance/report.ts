@@ -81,6 +81,7 @@ export type CaseState = "passed" | "failed" | "skipped" | "pending";
 const suiteSources: Readonly<Record<string, string>> = {
   "html5lib-tokenizer": "html5lib/html5lib-tests",
   "html5lib-tree-construction": "wpt/wpt",
+  "w3c-xml-parser": "w3c/xml-test-suite",
 };
 
 function isTimeout(error: RawError): boolean {

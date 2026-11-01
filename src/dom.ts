@@ -8,6 +8,7 @@ export type {
 export { HTMLCollection, NamedNodeMap, NodeList } from "./dom/collections.js";
 export {
   Attr,
+  CDATASection,
   CharacterData,
   Comment,
   Document,

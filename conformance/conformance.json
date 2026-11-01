@@ -12,6 +12,13 @@
     "whatwg/html-build": {
       "repository": "https://github.com/whatwg/html-build.git",
       "revision": "283a3531a61106d07d9a7d9fb3e6f3b9bfd33d70"
+    },
+    "w3c/xml-test-suite": {
+      "type": "archive",
+      "repository": "https://www.w3.org/XML/Test/xmlts20130923.tar.gz",
+      "revision": "20130923",
+      "sha256": "9b61db9f5dbffa545f4b8d78422167083a8568c59bd1129f94138f936cf6fc1f",
+      "stripComponents": 1
     }
   }
 }

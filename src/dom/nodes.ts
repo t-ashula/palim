@@ -24,10 +24,14 @@ import {
   serializeHTMLFragment,
   serializeHTMLElement,
 } from "../html/serializer.js";
+import {
+  serializeXMLFragment,
+  serializeXMLElement,
+} from "../xml/serializer.js";
 
 const DOCUMENT_PARSE_ERRORS = Symbol("document parse errors");
 
-export interface HTMLFragmentParser {
+export interface FragmentParser {
   parse(input: string, context: Element): DocumentFragment;
 }
 
@@ -35,6 +39,7 @@ export class Node extends EventTarget {
   static readonly ELEMENT_NODE = 1;
   static readonly ATTRIBUTE_NODE = 2;
   static readonly TEXT_NODE = 3;
+  static readonly CDATA_SECTION_NODE = 4;
   static readonly COMMENT_NODE = 8;
   static readonly PROCESSING_INSTRUCTION_NODE = 7;
   static readonly DOCUMENT_NODE = 9;
@@ -192,16 +197,20 @@ export class Node extends EventTarget {
 }
 
 export class Document extends Node implements ParseErrorSource {
-  readonly contentType = "text/html";
+  readonly contentType: string;
   readonly characterSet = "UTF-8";
-  readonly _htmlFragmentParser: HTMLFragmentParser | null;
+  readonly _fragmentParser: FragmentParser | null;
   _templateContentsOwnerDocument: Document | null = null;
   _quirks = true;
   [DOCUMENT_PARSE_ERRORS]: readonly PalimParseError[] = [];
 
-  constructor(htmlFragmentParser: HTMLFragmentParser | null = null) {
+  constructor(
+    fragmentParser: FragmentParser | null = null,
+    contentType = "text/html",
+  ) {
     super(Node.DOCUMENT_NODE, "#document", null);
-    this._htmlFragmentParser = htmlFragmentParser;
+    this._fragmentParser = fragmentParser;
+    this.contentType = contentType;
   }
 
   get doctype(): DocumentType | null {
@@ -357,7 +366,7 @@ export class Element extends Node {
     const qualifiedName =
       prefix === null ? localName : `${prefix}:${localName}`;
     const tagName =
-      namespaceURI === HTML_NAMESPACE
+      namespaceURI === HTML_NAMESPACE && document.contentType === "text/html"
         ? qualifiedName.toUpperCase()
         : qualifiedName;
     super(Node.ELEMENT_NODE, tagName, document);
@@ -386,11 +395,13 @@ export class Element extends Node {
   }
 
   get innerHTML(): string {
-    return serializeHTMLFragment(this);
+    return this.#isHTMLDocument()
+      ? serializeHTMLFragment(this)
+      : serializeXMLFragment(this);
   }
 
   set innerHTML(value: string) {
-    const fragment = this.#parseHTMLFragment(domString(value), this);
+    const fragment = this.#parseFragment(domString(value), this);
     const target = this._templateContents ?? this;
     while (target.firstChild !== null) {
       target.removeChild(target.firstChild);
@@ -399,7 +410,9 @@ export class Element extends Node {
   }
 
   get outerHTML(): string {
-    return serializeHTMLElement(this);
+    return this.#isHTMLDocument()
+      ? serializeHTMLElement(this)
+      : serializeXMLElement(this);
   }
 
   set outerHTML(value: string) {
@@ -415,7 +428,7 @@ export class Element extends Node {
     }
     const context =
       parent instanceof Element ? parent : this.#bodyFragmentContext();
-    const fragment = this.#parseHTMLFragment(domString(value), context);
+    const fragment = this.#parseFragment(domString(value), context);
     parent.replaceChild(fragment, this);
   }
 
@@ -450,7 +463,7 @@ export class Element extends Node {
         !(parent.namespaceURI === HTML_NAMESPACE && parent.localName === "html")
           ? parent
           : this.#bodyFragmentContext();
-      const fragment = this.#parseHTMLFragment(input, context);
+      const fragment = this.#parseFragment(input, context);
       parent.insertBefore(
         fragment,
         normalizedPosition === "beforebegin" ? this : this.nextSibling,
@@ -462,7 +475,7 @@ export class Element extends Node {
       this.namespaceURI === HTML_NAMESPACE && this.localName === "html"
         ? this.#bodyFragmentContext()
         : this;
-    const fragment = this.#parseHTMLFragment(input, context);
+    const fragment = this.#parseFragment(input, context);
     this.insertBefore(
       fragment,
       normalizedPosition === "afterbegin" ? this.firstChild : null,
@@ -646,10 +659,14 @@ export class Element extends Node {
     return new Element(this.#document(), "body");
   }
 
-  #parseHTMLFragment(input: string, context: Element): DocumentFragment {
-    const parser = this.#document()._htmlFragmentParser;
+  #isHTMLDocument(): boolean {
+    return this.#document().contentType === "text/html";
+  }
+
+  #parseFragment(input: string, context: Element): DocumentFragment {
+    const parser = this.#document()._fragmentParser;
     if (parser === null) {
-      throw new TypeError("Document has no HTML fragment parser");
+      throw new TypeError("Document has no fragment parser");
     }
     return parser.parse(input, context);
   }
@@ -741,6 +758,12 @@ export class Text extends CharacterData {
   }
 }
 
+export class CDATASection extends CharacterData {
+  constructor(document: Document, data: string) {
+    super(Node.CDATA_SECTION_NODE, "#cdata-section", document, data);
+  }
+}
+
 export class Comment extends CharacterData {
   constructor(document: Document, data: string) {
     super(Node.COMMENT_NODE, "#comment", document, data);
@@ -759,7 +782,10 @@ export class ProcessingInstruction extends CharacterData {
 function descendantText(node: Node): string {
   let result = "";
   for (const child of node._childNodes) {
-    if (child.nodeType === Node.TEXT_NODE) {
+    if (
+      child.nodeType === Node.TEXT_NODE ||
+      child.nodeType === Node.CDATA_SECTION_NODE
+    ) {
       result += (child as CharacterData).data;
     } else {
       result += descendantText(child);

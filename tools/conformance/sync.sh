@@ -11,8 +11,8 @@ if [ "$#" -gt 1 ] || { [ -n "$force" ] && [ "$force" != "--force" ]; }; then
   exit 2
 fi
 
-jq -r '.fixtures | to_entries[] | [.key, .value.repository, .value.revision] | @tsv' "$manifest" |
-while IFS="$(printf '\t')" read -r name repository revision; do
+jq -r '.fixtures | to_entries[] | [.key, (.value.type // "git"), .value.repository, .value.revision, (.value.sha256 // ""), (.value.stripComponents // 0)] | @tsv' "$manifest" |
+while IFS="$(printf '\t')" read -r name type repository revision sha256 strip_components; do
   target="$root/conformance/$name"
 
   if [ -e "$target" ]; then
@@ -25,12 +25,30 @@ while IFS="$(printf '\t')" read -r name repository revision; do
 
   if [ ! -e "$target" ]; then
     mkdir -p -- "$(dirname -- "$target")"
-    git init --quiet "$target"
-    git -C "$target" remote add origin "$repository"
-    git -C "$target" fetch --quiet --depth 1 origin "$revision"
-    git -C "$target" checkout --quiet --detach FETCH_HEAD
-
-    printf 'checked out: %s at %s\n' "$name" "$revision"
+    if [ "$type" = "git" ]; then
+      git init --quiet "$target"
+      git -C "$target" remote add origin "$repository"
+      git -C "$target" fetch --quiet --depth 1 origin "$revision"
+      git -C "$target" checkout --quiet --detach FETCH_HEAD
+      printf 'checked out: %s at %s\n' "$name" "$revision"
+    elif [ "$type" = "archive" ]; then
+      temporary=$(mktemp -d)
+      archive="$temporary/archive"
+      curl -fsSL "$repository" -o "$archive"
+      actual_sha256=$(sha256sum "$archive" | cut -d ' ' -f 1)
+      if [ "$actual_sha256" != "$sha256" ]; then
+        rm -rf -- "$temporary"
+        printf 'checksum mismatch: %s\n' "$name" >&2
+        exit 1
+      fi
+      mkdir -p -- "$target"
+      tar -xzf "$archive" -C "$target" --strip-components="$strip_components"
+      rm -rf -- "$temporary"
+      printf 'extracted: %s at %s\n' "$name" "$revision"
+    else
+      printf 'unsupported fixture type: %s\n' "$type" >&2
+      exit 1
+    fi
   fi
 
   post_checkout="$root/tools/conformance/$name/post-checkout.sh"

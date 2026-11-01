@@ -3,11 +3,11 @@
   "runStatus": "passed",
   "unhandledErrorCount": 0,
   "totals": {
-    "total": 10957,
-    "pass": 10945,
+    "total": 13384,
+    "pass": 12664,
     "fail": 0,
-    "unsupported": 6,
-    "skip": 6,
+    "unsupported": 320,
+    "skip": 400,
     "error": 0,
     "timeout": 0
   },
@@ -223,6 +223,4328 @@
             "timeout": 0
           },
           "nonPassingCases": []
+        }
+      ]
+    },
+    {
+      "name": "w3c-xml-parser",
+      "source": {
+        "name": "w3c/xml-test-suite",
+        "revision": "20130923"
+      },
+      "totals": {
+        "total": 2427,
+        "pass": 1719,
+        "fail": 0,
+        "unsupported": 314,
+        "skip": 394,
+        "error": 0,
+        "timeout": 0
+      },
+      "profiles": [
+        {
+          "name": "namespaces-1.0-third-edition",
+          "totals": {
+            "total": 51,
+            "pass": 48,
+            "fail": 0,
+            "unsupported": 0,
+            "skip": 3,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "eduni/namespaces/1.0/004.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/namespaces/1.0/005.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/namespaces/1.0/006.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            }
+          ]
+        },
+        {
+          "name": "namespaces-1.1",
+          "totals": {
+            "total": 8,
+            "pass": 0,
+            "fail": 0,
+            "unsupported": 8,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "eduni/namespaces/1.1/001.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/002.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/003.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/004.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/005.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/006.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/007.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/namespaces/1.1/008.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / NS1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            }
+          ]
+        },
+        {
+          "name": "xml-1.0-fifth-edition",
+          "totals": {
+            "total": 2102,
+            "pass": 1671,
+            "fail": 0,
+            "unsupported": 40,
+            "skip": 391,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "eduni/errata-2e/E27.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-2e/E34.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/errata-2e/E38.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "eduni/errata-2e/E50.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.0-errata2e is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/errata-2e/E55.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/errata-2e/E57.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/errata-4e/008.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "eduni/errata-4e/ibm04an21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04an22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04an23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04an24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04n21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04n22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04n23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04n24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "eduni/errata-4e/ibm04v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "eduni/errata-4e/ibm05v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "eduni/errata-4e/ibm05v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "eduni/errata-4e/ibm05v03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "eduni/errata-4e/ibm05v05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "eduni/errata-4e/incl8bomboom.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/errata-4e/inclbomboom_be.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/errata-4e/inclbomboom_le.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "eduni/misc/007.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture tests byte encoding and its XML declaration, which is not observable through DOMParser string input."
+            },
+            {
+              "file": "eduni/misc/008.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture tests byte encoding and its XML declaration, which is not observable through DOMParser string input."
+            },
+            {
+              "file": "eduni/misc/009.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-16be: The encoded data was not valid for encoding utf-16be"
+            },
+            {
+              "file": "ibm/invalid/P58/ibm58i01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode raw: The \"raw\" encoding is not supported"
+            },
+            {
+              "file": "ibm/invalid/P58/ibm58i02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode raw: The \"raw\" encoding is not supported"
+            },
+            {
+              "file": "ibm/invalid/P68/ibm68i01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P68/ibm68i02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P68/ibm68i03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P68/ibm68i04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P69/ibm69i01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P69/ibm69i02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P69/ibm69i03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/invalid/P69/ibm69i04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/not-wf/P02/ibm02n30.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "ibm/not-wf/P02/ibm02n31.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "ibm/not-wf/P30/ibm30n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P31/ibm31n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P32/ibm32n09.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P61/ibm61n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n07.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P62/ibm62n08.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P63/ibm63n07.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P64/ibm64n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P64/ibm64n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P64/ibm64n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P65/ibm65n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P65/ibm65n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P68/ibm68n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P69/ibm69n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "ibm/not-wf/P77/ibm77n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P77/ibm77n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P77/ibm77n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P77/ibm77n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P78/ibm78n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P78/ibm78n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P79/ibm79n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P79/ibm79n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode _UTF-8: The \"_UTF-8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode -UTF-8: The \"-UTF-8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode .UTF-8: The \".UTF-8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode 8-UTF: The \"8-UTF\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode UTF~8: The \"UTF~8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode UTF#8: The \"UTF#8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode UTF:8: The \"UTF:8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode UTF/8: The \"UTF/8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P81/ibm81n09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode UTF;8: The \"UTF;8\" encoding is not supported"
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n07.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n08.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n09.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n10.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n100.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n101.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n102.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n103.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n104.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n105.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n106.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n107.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n108.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n109.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n11.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n110.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n111.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n112.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n113.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n114.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n115.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n116.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n117.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n118.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n119.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n12.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n120.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n121.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n122.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n123.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n124.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n125.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n126.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n127.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n128.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n129.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n13.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n130.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n131.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n132.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n133.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n134.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n135.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n136.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n137.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n138.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n139.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n14.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n140.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n141.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n142.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n143.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n144.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n145.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n146.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n147.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n148.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n149.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n15.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n150.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n151.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n152.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n153.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n154.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n155.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n156.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n157.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n158.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n159.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n16.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n160.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n161.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n162.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n163.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n164.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n165.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n166.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n167.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n168.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n169.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n17.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n170.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n171.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n172.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n173.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n174.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n175.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n176.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n177.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n178.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n179.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n18.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n180.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n181.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n182.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n183.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n184.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n185.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n186.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n187.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n188.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n189.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n19.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n190.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n191.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n192.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n193.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n194.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n195.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n196.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n197.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n198.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n20.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n21.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n22.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n23.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n24.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n25.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n26.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n27.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n28.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n29.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n30.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n31.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n32.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n33.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n34.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n35.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n36.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n37.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n38.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n39.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n40.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n41.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n42.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n43.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n44.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n45.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n46.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n47.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n48.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n49.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n50.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n51.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n52.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n53.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n54.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n55.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n56.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n57.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n58.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n59.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n60.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n61.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n62.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n63.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n64.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n65.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n66.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n67.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n68.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n69.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n70.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n71.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n72.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n73.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n74.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n75.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n76.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n77.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n78.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n79.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n80.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n81.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n82.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n83.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n84.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n85.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n86.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n87.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n88.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n89.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n90.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n91.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n92.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n93.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n94.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n95.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n96.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n97.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n98.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P85/ibm85n99.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P86/ibm86n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P86/ibm86n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P86/ibm86n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P86/ibm86n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n02.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n07.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n08.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n09.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n10.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n11.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n12.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n13.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n14.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n15.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n16.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n17.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n18.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n19.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n20.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n21.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n22.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n23.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n24.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n25.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n26.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n27.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n28.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n29.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n30.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n31.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n32.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n33.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n34.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n35.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n36.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n37.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n38.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n39.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n40.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n41.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n42.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n43.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n44.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n45.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n46.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n47.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n48.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n49.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n50.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n51.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n52.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n53.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n54.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n55.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n56.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n57.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n58.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n59.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n60.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n61.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n62.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n63.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n64.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n66.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n67.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n68.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n69.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n70.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n71.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n72.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n73.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n74.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n75.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n76.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n77.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n78.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n79.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n80.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n81.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n82.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n83.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n84.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P87/ibm87n85.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n08.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n09.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n10.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n11.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n12.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n13.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n14.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n15.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P88/ibm88n16.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n03.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n04.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n05.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n06.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n07.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n08.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n09.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n10.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n11.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/P89/ibm89n12.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "ibm/not-wf/p28a/ibm28an01.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "ibm/valid/P58/ibm58v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode base64: The \"base64\" encoding is not supported"
+            },
+            {
+              "file": "japanese/pr-xml-euc-jp.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "japanese/pr-xml-iso-2022-jp.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "japanese/pr-xml-little-endian.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture tests byte encoding and its XML declaration, which is not observable through DOMParser string input."
+            },
+            {
+              "file": "japanese/pr-xml-shift_jis.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "japanese/pr-xml-utf-16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The fixture tests byte encoding and its XML declaration, which is not observable through DOMParser string input."
+            },
+            {
+              "file": "japanese/weekly-euc-jp.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "japanese/weekly-iso-2022-jp.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "japanese/weekly-shift_jis.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "oasis/p04pass1.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "oasis/p05pass1.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            },
+            {
+              "file": "oasis/p09fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p09fail2.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p11pass1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "oasis/p30fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p31fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p61fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p62fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p62fail2.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p63fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p63fail2.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p64fail1.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "oasis/p64fail2.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/ext-sa/001.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/ext-sa/002.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/ext-sa/003.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/001.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/003.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/004.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/005.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The XML recommendation does not prescribe whether this optional error is accepted."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/006.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/007.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/008.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/not-sa/009.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/sa/082.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/not-wf/sa/140.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "xmltest/not-wf/sa/141.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The fixture does not apply to XML 1.0 Fifth Edition."
+            },
+            {
+              "file": "xmltest/not-wf/sa/168.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "xmltest/not-wf/sa/169.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "xmltest/not-wf/sa/170.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The DOMParser string adapter cannot decode utf-8: The encoded data was not valid for encoding utf-8"
+            },
+            {
+              "file": "xmltest/not-wf/sa/185.xml",
+              "line": 1,
+              "classification": "skip",
+              "reason": "The W3C matrix does not prescribe one result when the error depends on external entities that this processor does not read."
+            },
+            {
+              "file": "xmltest/valid/sa/012.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "The XML-only fixture permits a name that is not namespace-well-formed, while DOMParser always performs namespace processing."
+            }
+          ]
+        },
+        {
+          "name": "xml-1.1",
+          "totals": {
+            "total": 266,
+            "pass": 0,
+            "fail": 0,
+            "unsupported": 266,
+            "skip": 0,
+            "error": 0,
+            "timeout": 0
+          },
+          "nonPassingCases": [
+            {
+              "file": "eduni/xml-1.1/001.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/002.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/003.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/004.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/005.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/006.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/007.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/008.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/009.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/010.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/011.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/012.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/013.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/014.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.0 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/015.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/016.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.0 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/017.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/018.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/019.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.0 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/020.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/021.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/022.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/023.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/024.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/025.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/026.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/027.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/028.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/029.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/030.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/031.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/032.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/033.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/034.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/035.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/036.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/037.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/038.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/039.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/040.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/041.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/042.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/043.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/044.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/045.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/046.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/047.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/048.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/049.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/050.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/051.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/052.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/053.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/054.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/055.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/056.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "eduni/xml-1.1/057.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/invalid/P46/ibm46i01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/invalid/P46/ibm46i02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n10.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n11.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n12.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n13.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n14.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n15.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n17.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n18.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n19.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n20.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n25.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n26.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n27.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n28.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n29.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n30.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n31.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n32.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n33.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n34.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n35.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n36.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n37.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n38.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n39.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n40.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n41.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n42.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n43.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n44.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n45.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n46.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n47.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n48.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n49.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n50.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n51.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n52.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n53.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n54.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n55.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n56.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n57.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n58.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n59.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n60.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n61.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n62.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n63.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n64.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n65.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n66.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n67.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n68.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n69.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n70.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P02/ibm02n71.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n10.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n11.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n12.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n13.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n14.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n15.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n17.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n18.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n19.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n20.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n25.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n26.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n27.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04/ibm04n28.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an10.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an11.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an12.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an13.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an14.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an15.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an17.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an18.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an19.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an20.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an25.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an26.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an27.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P04a/ibm04an28.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P05/ibm05n06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n10.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n11.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n12.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n13.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n14.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n15.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n17.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n18.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n19.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n20.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/not-wf/P77/ibm77n21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P02/ibm02v06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P03/ibm03v09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P04/ibm04v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P04a/ibm04av01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P05/ibm05v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P05/ibm05v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P05/ibm05v03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P05/ibm05v04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P05/ibm05v05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P07/ibm07v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v01.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v02.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v03.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v04.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v05.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v06.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v07.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v08.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v09.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v10.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v11.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v12.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v13.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v14.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v15.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v16.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v17.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v18.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v19.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v20.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v21.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v22.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v23.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v24.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v25.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v26.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v27.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v28.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v29.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            },
+            {
+              "file": "ibm/xml-1.1/valid/P77/ibm77v30.xml",
+              "line": 1,
+              "classification": "unsupported",
+              "reason": "XML 1.1 / XML1.1 is outside the XML 1.0 and Namespaces in XML 1.0 profile."
+            }
+          ]
         }
       ]
     }

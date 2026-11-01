@@ -1,5 +1,5 @@
 import type { AttributeData, Node } from "../dom.js";
-import type { HTMLFragmentParser } from "../dom/nodes.js";
+import type { FragmentParser } from "../dom/nodes.js";
 import { setDocumentParseErrors } from "../dom/nodes.js";
 import {
   Comment,
@@ -35,7 +35,7 @@ interface TreeBuilderOptions {
   readonly scriptingMode?: ParserScriptingMode;
 }
 
-const htmlFragmentParser: HTMLFragmentParser = {
+const htmlFragmentParser: FragmentParser = {
   parse(input, context) {
     return new TreeBuilder(input, {
       context,
