@@ -28,6 +28,7 @@ export type {
   GetRootNodeOptions,
   ImportNodeOptions,
   NodeIterator,
+  Range,
   TreeWalker,
 } from "./dom.js";
 export { DOMException } from "./dom-exception.js";

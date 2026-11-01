@@ -19,6 +19,15 @@ import {
 import { EventTarget } from "./events.js";
 import { DOMTokenList } from "./token-list.js";
 import {
+  adjustLiveRangesForData,
+  adjustLiveRangesForInsertion,
+  adjustLiveRangesForTextMerge,
+  createRange,
+  preRemoveLiveRanges,
+  transferLiveRanges,
+} from "./range-implementation.js";
+import type { Range } from "./range.js";
+import {
   createNodeIterator,
   createTreeWalker,
   descendantElements,
@@ -261,6 +270,7 @@ export class Node extends EventTarget {
   _append(node: Node): void {
     node._remove();
     node._parentNode = this;
+    adjustLiveRangesForInsertion(this, this._childNodes.length, 1);
     this._childNodes.push(node);
   }
 
@@ -269,8 +279,10 @@ export class Node extends EventTarget {
     const index = this._childNodes.indexOf(reference);
     node._parentNode = this;
     if (index < 0) {
+      adjustLiveRangesForInsertion(this, this._childNodes.length, 1);
       this._childNodes.push(node);
     } else {
+      adjustLiveRangesForInsertion(this, index, 1);
       this._childNodes.splice(index, 0, node);
     }
   }
@@ -279,6 +291,7 @@ export class Node extends EventTarget {
     if (this._parentNode === null) {
       return;
     }
+    preRemoveLiveRanges(this);
     preRemoveNodeIterators(this);
     const index = this._parentNode._childNodes.indexOf(this);
     if (index >= 0) {
@@ -450,6 +463,10 @@ export class Document extends Node implements ParseErrorSource {
   ): TreeWalker {
     requireNodeArgument(root, arguments.length);
     return createTreeWalker(root, whatToShow, filter);
+  }
+
+  createRange(): Range {
+    return createRange(this);
   }
 
   _createElement(
@@ -1106,6 +1123,7 @@ export class CharacterData extends Node {
       );
     }
     const removed = Math.min(count, this.length - offset);
+    adjustLiveRangesForData(this, offset, removed, data.length);
     this._data =
       this._data.slice(0, offset) + data + this._data.slice(offset + removed);
   }
@@ -1299,15 +1317,12 @@ function normalizeDescendantText(node: Node): void {
         continue;
       }
 
-      let data = "";
-      let sibling = child.nextSibling;
-      while (sibling instanceof Text) {
-        data += sibling.data;
-        sibling = sibling.nextSibling;
-      }
-      child._appendData(data);
       while (child.nextSibling instanceof Text) {
-        child.nextSibling._remove();
+        const sibling = child.nextSibling;
+        const length = child.length;
+        child._appendData(sibling.data);
+        adjustLiveRangesForTextMerge(sibling, child, length);
+        sibling._remove();
       }
     } else {
       normalizeDescendantText(child);
@@ -1503,6 +1518,14 @@ function ensurePreInsertionValidity(
   if (parent instanceof Document) {
     validateDocumentInsertion(node, parent, child, replacedChild);
   }
+}
+
+export function validatePreInsertion(
+  node: Node,
+  parent: Node,
+  child: Node | null,
+): void {
+  ensurePreInsertionValidity(node, parent, child);
 }
 
 function isInsertableNode(node: Node): boolean {
@@ -1811,8 +1834,10 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
     const index = child === null ? -1 : parent._childNodes.indexOf(child);
     inserted._parentNode = parent;
     if (index < 0) {
+      adjustLiveRangesForInsertion(parent, parent._childNodes.length, 1);
       parent._childNodes.push(inserted);
     } else {
+      adjustLiveRangesForInsertion(parent, index, 1);
       parent._childNodes.splice(index, 0, inserted);
     }
   }
@@ -1827,6 +1852,7 @@ function adopt(node: Node, document: Document): void {
 }
 
 function updateNodeDocument(node: Node, document: Document): void {
+  transferLiveRanges(node, document);
   transferNodeIterators(node, document);
   node._ownerDocument = document;
   if (node instanceof Element) {

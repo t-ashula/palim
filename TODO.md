@@ -43,7 +43,7 @@
 ### Traversal and ranges
 
 - [x] `NodeIterator` / `TreeWalker`
-- [ ] `Range`
+- [x] `Range`
 
 ### Observation
 

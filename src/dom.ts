@@ -9,6 +9,7 @@ export { HTMLCollection, NamedNodeMap, NodeList } from "./dom/collections.js";
 export { DOMTokenList } from "./dom/token-list.js";
 export { NodeFilter } from "./dom/traversal.js";
 export type { NodeIterator, TreeWalker } from "./dom/traversal.js";
+export type { Range } from "./dom/range.js";
 export {
   Attr,
   CDATASection,
