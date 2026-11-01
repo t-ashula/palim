@@ -15,3 +15,4 @@
 - [ADR-0012: HTML serialization の追加](./0012-html-serialization.md)
 - [ADR-0013: XML parsing の実装境界と適合テスト](./0013-xml-parsing.md)
 - [ADR-0014: Document element creation API の追加](./0014-document-element-creation.md)
+- [ADR-0015: Document node creation API の追加](./0015-document-node-creation.md)
