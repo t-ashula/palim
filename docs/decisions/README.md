@@ -18,3 +18,4 @@
 - [ADR-0015: Document node creation API の追加](./0015-document-node-creation.md)
 - [ADR-0016: node cloning と adoption API の追加](./0016-node-cloning-and-adoption.md)
 - [ADR-0017: Node normalization API の追加](./0017-node-normalization.md)
+- [ADR-0018: Node の関係・比較 API の追加](./0018-node-relationships-and-comparison.md)
