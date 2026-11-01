@@ -69,7 +69,6 @@
 
 ### User interaction and editing
 
-- [ ] dialog / popover の top layer と event
 - [ ] focus management
 - [ ] editing API と `contenteditable`
 
@@ -120,6 +119,7 @@
 - [ ] browsing context
 - [ ] `Document.write`
 - [ ] origin と URL
+- [ ] dialog / popover の top layer と event
 
 ### Networking and resource loading
 
