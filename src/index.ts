@@ -23,6 +23,7 @@ export type {
   EventInit,
   EventListener,
   EventListenerObject,
+  GetRootNodeOptions,
   ImportNodeOptions,
 } from "./dom.js";
 export { DOMException } from "./dom-exception.js";

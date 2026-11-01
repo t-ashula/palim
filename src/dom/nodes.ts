@@ -47,6 +47,10 @@ export interface ImportNodeOptions {
   readonly selfOnly?: boolean;
 }
 
+export interface GetRootNodeOptions {
+  readonly composed?: boolean;
+}
+
 type CreateElementArguments = [
   localName?: string,
   options?: string | ElementCreationOptions,
@@ -77,6 +81,13 @@ export class Node extends EventTarget {
   static readonly DOCUMENT_NODE = 9;
   static readonly DOCUMENT_TYPE_NODE = 10;
   static readonly DOCUMENT_FRAGMENT_NODE = 11;
+
+  static readonly DOCUMENT_POSITION_DISCONNECTED = 0x01;
+  static readonly DOCUMENT_POSITION_PRECEDING = 0x02;
+  static readonly DOCUMENT_POSITION_FOLLOWING = 0x04;
+  static readonly DOCUMENT_POSITION_CONTAINS = 0x08;
+  static readonly DOCUMENT_POSITION_CONTAINED_BY = 0x10;
+  static readonly DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
 
   readonly nodeType: number;
   readonly nodeName: string;
@@ -143,6 +154,29 @@ export class Node extends EventTarget {
 
   normalize(): void {
     normalizeDescendantText(this);
+  }
+
+  getRootNode(_options: GetRootNodeOptions = {}): Node {
+    return nodeRoot(this);
+  }
+
+  contains(other: Node | null): boolean {
+    const node = nullableNode(other);
+    return node !== null && isInclusiveAncestor(this, node);
+  }
+
+  compareDocumentPosition(other: Node): number {
+    requireNodeArgument(other, arguments.length);
+    return compareNodePosition(this, other);
+  }
+
+  isEqualNode(otherNode: Node | null): boolean {
+    const node = nullableNode(otherNode);
+    return node !== null && equalNodes(this, node);
+  }
+
+  isSameNode(otherNode: Node | null): boolean {
+    return nullableNode(otherNode) === this;
   }
 
   cloneNode(subtree = false): Node {
@@ -1160,6 +1194,14 @@ function requireNode(value: unknown): asserts value is Node {
   }
 }
 
+function nullableNode(value: unknown): Node | null {
+  if (value === null || value === undefined) {
+    return null;
+  }
+  requireNode(value);
+  return value;
+}
+
 function preInsert(node: Node, parent: Node, child: Node | null): void {
   if (child !== null && child._parentNode !== parent) {
     throw new DOMException(
@@ -1244,6 +1286,226 @@ function isInclusiveAncestor(ancestor: Node, node: Node): boolean {
     current = current._parentNode;
   }
   return false;
+}
+
+function nodeRoot(node: Node): Node {
+  let root = node;
+  while (root._parentNode !== null) {
+    root = root._parentNode;
+  }
+  return root;
+}
+
+const disconnectedNodeIds = new WeakMap<Node, number>();
+let nextDisconnectedNodeId = 1;
+
+function disconnectedNodeId(node: Node): number {
+  const existing = disconnectedNodeIds.get(node);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const id = nextDisconnectedNodeId;
+  nextDisconnectedNodeId += 1;
+  disconnectedNodeIds.set(node, id);
+  return id;
+}
+
+function compareNodePosition(node: Node, other: Node): number {
+  if (node === other) {
+    return 0;
+  }
+
+  let node1: Node | null = other;
+  let node2: Node | null = node;
+  const attribute1 = node1 instanceof Attr ? node1 : null;
+  const attribute2 = node2 instanceof Attr ? node2 : null;
+
+  if (attribute1 !== null) {
+    node1 = attribute1._ownerElement;
+  }
+  if (attribute2 !== null) {
+    const ownerElement = attribute2._ownerElement;
+    node2 = ownerElement;
+    if (
+      attribute1 !== null &&
+      ownerElement !== null &&
+      node1 === ownerElement
+    ) {
+      for (const attribute of ownerElement._attributeNodes) {
+        if (attribute === attribute1) {
+          return (
+            Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC |
+            Node.DOCUMENT_POSITION_PRECEDING
+          );
+        }
+        if (attribute === attribute2) {
+          return (
+            Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC |
+            Node.DOCUMENT_POSITION_FOLLOWING
+          );
+        }
+      }
+    }
+  }
+
+  if (node1 === null || node2 === null || nodeRoot(node1) !== nodeRoot(node2)) {
+    const relativePosition =
+      disconnectedNodeId(other) < disconnectedNodeId(node)
+        ? Node.DOCUMENT_POSITION_PRECEDING
+        : Node.DOCUMENT_POSITION_FOLLOWING;
+    return (
+      Node.DOCUMENT_POSITION_DISCONNECTED |
+      Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC |
+      relativePosition
+    );
+  }
+
+  if (
+    (attribute1 === null && isInclusiveAncestor(node1, node2)) ||
+    (node1 === node2 && attribute2 !== null)
+  ) {
+    return Node.DOCUMENT_POSITION_CONTAINS | Node.DOCUMENT_POSITION_PRECEDING;
+  }
+
+  if (
+    (attribute2 === null && isInclusiveAncestor(node2, node1)) ||
+    (node1 === node2 && attribute1 !== null)
+  ) {
+    return (
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING
+    );
+  }
+
+  return treePrecedes(node1, node2)
+    ? Node.DOCUMENT_POSITION_PRECEDING
+    : Node.DOCUMENT_POSITION_FOLLOWING;
+}
+
+function treePrecedes(node1: Node, node2: Node): boolean {
+  if (isInclusiveAncestor(node1, node2)) {
+    return true;
+  }
+  if (isInclusiveAncestor(node2, node1)) {
+    return false;
+  }
+
+  const ancestors1 = ancestorPath(node1);
+  const ancestors2 = ancestorPath(node2);
+  let index = 0;
+  while (
+    ancestors1[index] !== undefined &&
+    ancestors1[index] === ancestors2[index]
+  ) {
+    index += 1;
+  }
+  const parent = ancestors1[index - 1];
+  const child1 = ancestors1[index];
+  const child2 = ancestors2[index];
+  if (parent === undefined || child1 === undefined || child2 === undefined) {
+    throw new TypeError("Cannot compare nodes from different trees");
+  }
+  return (
+    parent._childNodes.indexOf(child1) < parent._childNodes.indexOf(child2)
+  );
+}
+
+function ancestorPath(node: Node): Node[] {
+  const path: Node[] = [];
+  let current: Node | null = node;
+  while (current !== null) {
+    path.push(current);
+    current = current._parentNode;
+  }
+  path.reverse();
+  return path;
+}
+
+function equalNodes(node: Node, other: Node): boolean {
+  if (!sameNodeInterface(node, other) || !sameNodeData(node, other)) {
+    return false;
+  }
+  if (node._childNodes.length !== other._childNodes.length) {
+    return false;
+  }
+  return node._childNodes.every((child, index) => {
+    const otherChild = other._childNodes[index];
+    return otherChild !== undefined && equalNodes(child, otherChild);
+  });
+}
+
+function sameNodeInterface(node: Node, other: Node): boolean {
+  if (node instanceof Document) {
+    return other instanceof Document;
+  }
+  if (node instanceof DocumentType) {
+    return other instanceof DocumentType;
+  }
+  if (node instanceof Attr) {
+    return other instanceof Attr;
+  }
+  if (node instanceof Element) {
+    return other instanceof Element;
+  }
+  if (node instanceof DocumentFragment) {
+    return other instanceof DocumentFragment;
+  }
+  if (node instanceof CDATASection) {
+    return other instanceof CDATASection;
+  }
+  if (node instanceof Text) {
+    return other instanceof Text;
+  }
+  if (node instanceof Comment) {
+    return other instanceof Comment;
+  }
+  if (node instanceof ProcessingInstruction) {
+    return other instanceof ProcessingInstruction;
+  }
+  return node.constructor === other.constructor;
+}
+
+function sameNodeData(node: Node, other: Node): boolean {
+  if (node instanceof DocumentType && other instanceof DocumentType) {
+    return (
+      node.name === other.name &&
+      node.publicId === other.publicId &&
+      node.systemId === other.systemId
+    );
+  }
+  if (node instanceof Element && other instanceof Element) {
+    return (
+      node.namespaceURI === other.namespaceURI &&
+      node.prefix === other.prefix &&
+      node.localName === other.localName &&
+      equalAttributes(node, other)
+    );
+  }
+  if (node instanceof Attr && other instanceof Attr) {
+    return (
+      node.namespaceURI === other.namespaceURI &&
+      node.localName === other.localName &&
+      node.value === other.value
+    );
+  }
+  if (
+    node instanceof ProcessingInstruction &&
+    other instanceof ProcessingInstruction
+  ) {
+    return node.target === other.target && node.data === other.data;
+  }
+  if (node instanceof CharacterData && other instanceof CharacterData) {
+    return node.data === other.data;
+  }
+  return true;
+}
+
+function equalAttributes(node: Element, other: Element): boolean {
+  if (node._attributeNodes.length !== other._attributeNodes.length) {
+    return false;
+  }
+  return node._attributeNodes.every((attribute) =>
+    other._attributeNodes.some((candidate) => equalNodes(attribute, candidate)),
+  );
 }
 
 function insertionNodes(node: Node): Node[] {

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 
-import type { Node } from "../src/index.js";
 import {
   Attr,
   CDATASection,
@@ -15,6 +14,7 @@ import {
   HTMLSpanElement,
   HTMLTemplateElement,
   HTMLUnknownElement,
+  Node,
   ProcessingInstruction,
   Text,
 } from "../src/index.js";
@@ -499,6 +499,145 @@ describe("Node normalization", () => {
     expect(root.childNodes.item(1)).toBeInstanceOf(CDATASection);
     expect(root.childNodes.item(2)).toBeInstanceOf(Text);
     expect(root.textContent).toBe("leftmiddleright");
+  });
+});
+
+describe("Node relationships and comparison", () => {
+  it("finds roots and inclusive descendants", () => {
+    const document = parse('<main id="root"><span></span></main>');
+    const main = select(document, "main");
+    const span = select(document, "span");
+    const detached = document.createElement("section");
+    const detachedChild = document.createElement("b");
+    detached.appendChild(detachedChild);
+    const attribute = main.attributes.item(0);
+    if (attribute === null) {
+      throw new Error("missing attribute");
+    }
+
+    expect(span.getRootNode()).toBe(document);
+    expect(span.getRootNode({ composed: true })).toBe(document);
+    expect(detachedChild.getRootNode()).toBe(detached);
+    expect(attribute.getRootNode()).toBe(attribute);
+    expect(main.contains(main)).toBe(true);
+    expect(main.contains(span)).toBe(true);
+    expect(span.contains(main)).toBe(false);
+    expect(main.contains(null)).toBe(false);
+    expect(main.contains(attribute)).toBe(false);
+  });
+
+  it("compares connected nodes and attributes", () => {
+    const document = parse(
+      '<main first="1" second="2"><span></span><b></b></main>',
+    );
+    const main = select(document, "main");
+    const span = select(document, "span");
+    const bold = select(document, "b");
+    const first = main.attributes.item(0);
+    const second = main.attributes.item(1);
+    if (first === null || second === null) {
+      throw new Error("missing attributes");
+    }
+
+    expect(main.compareDocumentPosition(main)).toBe(0);
+    expect(main.compareDocumentPosition(span)).toBe(
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(span.compareDocumentPosition(main)).toBe(
+      Node.DOCUMENT_POSITION_CONTAINS | Node.DOCUMENT_POSITION_PRECEDING,
+    );
+    expect(span.compareDocumentPosition(bold)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(bold.compareDocumentPosition(span)).toBe(
+      Node.DOCUMENT_POSITION_PRECEDING,
+    );
+    expect(first.compareDocumentPosition(second)).toBe(
+      Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC |
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(main.compareDocumentPosition(first)).toBe(
+      Node.DOCUMENT_POSITION_CONTAINED_BY | Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(first.compareDocumentPosition(span)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
+  it("keeps a consistent order for disconnected nodes", () => {
+    const document = parse("");
+    const first = document.createElement("div");
+    const second = document.createElement("div");
+
+    const forward = first.compareDocumentPosition(second);
+    const repeated = first.compareDocumentPosition(second);
+    const reverse = second.compareDocumentPosition(first);
+
+    expect(forward).toBe(repeated);
+    expect(forward & Node.DOCUMENT_POSITION_DISCONNECTED).not.toBe(0);
+    expect(forward & Node.DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC).not.toBe(
+      0,
+    );
+    expect(Boolean(forward & Node.DOCUMENT_POSITION_PRECEDING)).toBe(
+      Boolean(reverse & Node.DOCUMENT_POSITION_FOLLOWING),
+    );
+    expect(Boolean(forward & Node.DOCUMENT_POSITION_FOLLOWING)).toBe(
+      Boolean(reverse & Node.DOCUMENT_POSITION_PRECEDING),
+    );
+  });
+
+  it("compares node identity and structure", () => {
+    const document = new DOMParser().parseFromString(
+      '<!DOCTYPE root PUBLIC "public-id" "system-id"><root first="1" second="2"><![CDATA[data]]><?target content?><!--comment--></root>',
+      "application/xml",
+    );
+    const clone = document.cloneNode(true);
+
+    expect(document.isSameNode(document)).toBe(true);
+    expect(document.isSameNode(clone)).toBe(false);
+    expect(document.isSameNode(null)).toBe(false);
+    expect(document.isEqualNode(clone)).toBe(true);
+
+    const cloneRoot = (clone as Document).documentElement;
+    if (cloneRoot === null) {
+      throw new Error("missing cloned root");
+    }
+    cloneRoot.setAttribute("first", "changed");
+    expect(document.isEqualNode(clone)).toBe(false);
+
+    const first = document.createElement("item");
+    first.setAttribute("first", "1");
+    first.setAttribute("second", "2");
+    const second = document.createElement("item");
+    second.setAttribute("second", "2");
+    second.setAttribute("first", "1");
+    expect(first.isEqualNode(second)).toBe(true);
+  });
+
+  it("converts nullable arguments and rejects non-node arguments", () => {
+    const document = parse("");
+    const element = document.createElement("div");
+    const contains = element.contains.bind(element) as unknown as (
+      other?: unknown,
+    ) => boolean;
+    const isEqualNode = element.isEqualNode.bind(element) as unknown as (
+      other?: unknown,
+    ) => boolean;
+    const isSameNode = element.isSameNode.bind(element) as unknown as (
+      other?: unknown,
+    ) => boolean;
+    const compareDocumentPosition = element.compareDocumentPosition.bind(
+      element,
+    ) as unknown as (other?: unknown) => number;
+
+    expect(contains()).toBe(false);
+    expect(isEqualNode()).toBe(false);
+    expect(isSameNode()).toBe(false);
+    expect(() => contains("div")).toThrow(TypeError);
+    expect(() => isEqualNode("div")).toThrow(TypeError);
+    expect(() => isSameNode("div")).toThrow(TypeError);
+    expect(() => compareDocumentPosition()).toThrow(TypeError);
+    expect(() => compareDocumentPosition(null)).toThrow(TypeError);
   });
 });
 

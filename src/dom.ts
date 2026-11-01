@@ -22,5 +22,6 @@ export {
 export type {
   AttributeData,
   ElementCreationOptions,
+  GetRootNodeOptions,
   ImportNodeOptions,
 } from "./dom/nodes.js";

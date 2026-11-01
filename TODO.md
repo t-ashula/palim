@@ -24,10 +24,10 @@
 
 ### Node relationships and comparison
 
-- [ ] `getRootNode`
-- [ ] `contains`
-- [ ] `compareDocumentPosition`
-- [ ] `isEqualNode` / `isSameNode`
+- [x] `getRootNode`
+- [x] `contains`
+- [x] `compareDocumentPosition`
+- [x] `isEqualNode` / `isSameNode`
 
 ### Attributes and collections
 
