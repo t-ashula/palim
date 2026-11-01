@@ -12,6 +12,11 @@ import {
 import { createElementForDocument } from "../html-elements.js";
 import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
 import { parseInternalSubset } from "./dtd.js";
+import {
+  isXMLCharacter,
+  isXMLNameCharacter,
+  isXMLNameStart,
+} from "./syntax.js";
 
 export type XMLMIMEType =
   "text/xml" | "application/xml" | "application/xhtml+xml" | "image/svg+xml";
@@ -39,52 +44,6 @@ interface ElementFrame {
 
 class XMLParseFailure extends Error {}
 
-function isXMLCharacter(codePoint: number): boolean {
-  return (
-    codePoint === 0x9 ||
-    codePoint === 0xa ||
-    codePoint === 0xd ||
-    (codePoint >= 0x20 && codePoint <= 0xd7ff) ||
-    (codePoint >= 0xe000 && codePoint <= 0xfffd) ||
-    (codePoint >= 0x10000 && codePoint <= 0x10ffff)
-  );
-}
-
-function isNameStart(character: string, allowColon = true): boolean {
-  const value = character.codePointAt(0) ?? -1;
-  return (
-    character === "_" ||
-    (allowColon && character === ":") ||
-    (value >= 0x41 && value <= 0x5a) ||
-    (value >= 0x61 && value <= 0x7a) ||
-    (value >= 0xc0 && value <= 0xd6) ||
-    (value >= 0xd8 && value <= 0xf6) ||
-    (value >= 0xf8 && value <= 0x2ff) ||
-    (value >= 0x370 && value <= 0x37d) ||
-    (value >= 0x37f && value <= 0x1fff) ||
-    (value >= 0x200c && value <= 0x200d) ||
-    (value >= 0x2070 && value <= 0x218f) ||
-    (value >= 0x2c00 && value <= 0x2fef) ||
-    (value >= 0x3001 && value <= 0xd7ff) ||
-    (value >= 0xf900 && value <= 0xfdcf) ||
-    (value >= 0xfdf0 && value <= 0xfffd) ||
-    (value >= 0x10000 && value <= 0xeffff)
-  );
-}
-
-function isNameCharacter(character: string, allowColon = true): boolean {
-  const value = character.codePointAt(0) ?? -1;
-  return (
-    isNameStart(character, allowColon) ||
-    character === "-" ||
-    character === "." ||
-    (value >= 0x30 && value <= 0x39) ||
-    value === 0xb7 ||
-    (value >= 0x300 && value <= 0x36f) ||
-    (value >= 0x203f && value <= 0x2040)
-  );
-}
-
 function isWhitespace(character: string | undefined): boolean {
   return (
     character === " " ||
@@ -104,9 +63,9 @@ function splitQualifiedName(name: string): {
     parts.some(
       (part) =>
         part === "" ||
-        !isNameStart(Array.from(part)[0] ?? "", false) ||
+        !isXMLNameStart(Array.from(part)[0] ?? "", false) ||
         !Array.from(part).every((character) =>
-          isNameCharacter(character, false),
+          isXMLNameCharacter(character, false),
         ),
     )
   ) {
@@ -763,14 +722,14 @@ class XMLParserCore {
 
   #parseName(): string {
     const first = this.#currentCharacter();
-    if (!isNameStart(first)) {
+    if (!isXMLNameStart(first)) {
       throw new XMLParseFailure("Expected an XML name");
     }
     let result = first;
     this.#position += first.length;
     while (!this.#atEnd()) {
       const character = this.#currentCharacter();
-      if (!isNameCharacter(character)) {
+      if (!isXMLNameCharacter(character)) {
         break;
       }
       result += character;

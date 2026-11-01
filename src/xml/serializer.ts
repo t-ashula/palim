@@ -1,19 +1,59 @@
+import { DOMException } from "../dom-exception.js";
 import {
+  Attr,
   CDATASection,
   Comment,
+  Document,
+  DocumentFragment,
   DocumentType,
   Element,
   ProcessingInstruction,
   Text,
 } from "../dom/nodes.js";
-import type { Attr, Node } from "../dom/nodes.js";
-import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
+import type { Node } from "../dom/nodes.js";
+import {
+  HTML_NAMESPACE,
+  XML_NAMESPACE,
+  XMLNS_NAMESPACE,
+} from "../namespaces.js";
+import { containsOnlyXMLCharacters, isXMLName } from "./syntax.js";
 
 interface SerializationState {
   nextPrefix: number;
 }
 
-function escapeText(value: string): string {
+class XMLSerializationFailure extends Error {}
+
+const HTML_VOID_ELEMENTS = new Set([
+  "area",
+  "base",
+  "basefont",
+  "bgsound",
+  "br",
+  "col",
+  "embed",
+  "frame",
+  "hr",
+  "img",
+  "input",
+  "keygen",
+  "link",
+  "menuitem",
+  "meta",
+  "param",
+  "source",
+  "track",
+  "wbr",
+]);
+
+function requireXMLCharacters(value: string, requireWellFormed: boolean): void {
+  if (requireWellFormed && !containsOnlyXMLCharacters(value)) {
+    throw new XMLSerializationFailure("Invalid XML character");
+  }
+}
+
+function escapeText(value: string, requireWellFormed: boolean): string {
+  requireXMLCharacters(value, requireWellFormed);
   return value
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -21,10 +61,12 @@ function escapeText(value: string): string {
     .replaceAll("\r", "&#xD;");
 }
 
-function escapeAttribute(value: string): string {
+function escapeAttribute(value: string, requireWellFormed: boolean): string {
+  requireXMLCharacters(value, requireWellFormed);
   return value
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
     .replaceAll("\t", "&#x9;")
     .replaceAll("\n", "&#xA;")
     .replaceAll("\r", "&#xD;");
@@ -34,10 +76,11 @@ function declaration(
   prefix: string,
   namespace: string,
   namespaces: Map<string, string>,
+  requireWellFormed: boolean,
 ): string {
   namespaces.set(prefix, namespace);
   const name = prefix === "" ? "xmlns" : `xmlns:${prefix}`;
-  return ` ${name}="${escapeAttribute(namespace)}"`;
+  return ` ${name}="${escapeAttribute(namespace, requireWellFormed)}"`;
 }
 
 function explicitNamespaceDeclaration(attribute: Attr): {
@@ -57,12 +100,13 @@ function findPrefix(
   namespaces: ReadonlyMap<string, string>,
   namespace: string,
 ): string | null {
+  let result: string | null = null;
   for (const [prefix, value] of namespaces) {
     if (prefix !== "" && prefix !== "xmlns" && value === namespace) {
-      return prefix;
+      result = prefix;
     }
   }
-  return null;
+  return result;
 }
 
 function generatedPrefix(
@@ -81,48 +125,77 @@ function serializeElement(
   element: Element,
   inheritedNamespaces: ReadonlyMap<string, string>,
   state: SerializationState,
+  requireWellFormed: boolean,
 ): string {
+  validateElement(element, requireWellFormed);
   const namespaces = new Map(inheritedNamespaces);
   namespaces.set("xml", XML_NAMESPACE);
-  const declarations: string[] = [];
+  const declarations = new Map<string, string>();
+  const localPrefixes = new Set<string>();
   const attributes: string[] = [];
 
   for (const attribute of element.attributes) {
     const item = explicitNamespaceDeclaration(attribute);
     if (item !== null) {
-      declarations.push(declaration(item.prefix, item.namespace, namespaces));
+      localPrefixes.add(item.prefix);
+      if (item.namespace !== XML_NAMESPACE) {
+        declarations.set(item.prefix, item.namespace);
+        namespaces.set(item.prefix, item.namespace);
+      }
     }
   }
 
-  const elementPrefix = element.prefix ?? "";
+  let elementPrefix = element.prefix ?? "";
   const elementNamespace = element.namespaceURI ?? "";
+  if (element.namespaceURI === XML_NAMESPACE) {
+    elementPrefix = "xml";
+  } else if (
+    elementPrefix !== "" &&
+    namespaces.get(elementPrefix) !== elementNamespace &&
+    localPrefixes.has(elementPrefix)
+  ) {
+    elementPrefix = findPrefix(namespaces, elementNamespace) ?? "";
+    if (elementPrefix === "") {
+      elementPrefix = generatedPrefix(namespaces, state);
+    }
+  }
   if (namespaces.get(elementPrefix) !== elementNamespace) {
-    declarations.push(declaration(elementPrefix, elementNamespace, namespaces));
+    declarations.set(elementPrefix, elementNamespace);
+    namespaces.set(elementPrefix, elementNamespace);
   }
   const qualifiedName =
-    element.prefix === null
+    elementPrefix === ""
       ? element.localName
-      : `${element.prefix}:${element.localName}`;
+      : `${elementPrefix}:${element.localName}`;
 
   for (const attribute of element.attributes) {
     if (explicitNamespaceDeclaration(attribute) !== null) {
       continue;
     }
 
-    let prefix = attribute.prefix;
+    let prefix: string | null = null;
     if (attribute.namespaceURI !== null) {
       if (attribute.namespaceURI === XML_NAMESPACE) {
         prefix = "xml";
-      } else if (
-        prefix === null ||
-        namespaces.get(prefix) !== attribute.namespaceURI
-      ) {
-        prefix = findPrefix(namespaces, attribute.namespaceURI);
-        if (prefix === null) {
-          prefix = generatedPrefix(namespaces, state);
-          declarations.push(
-            declaration(prefix, attribute.namespaceURI, namespaces),
-          );
+      } else {
+        const preferred = attribute.prefix;
+        if (
+          preferred !== null &&
+          (!localPrefixes.has(preferred) ||
+            namespaces.get(preferred) === attribute.namespaceURI)
+        ) {
+          prefix = preferred;
+        }
+        if (
+          prefix === null ||
+          namespaces.get(prefix) !== attribute.namespaceURI
+        ) {
+          prefix = findPrefix(namespaces, attribute.namespaceURI);
+        }
+        prefix ??= generatedPrefix(namespaces, state);
+        if (namespaces.get(prefix) !== attribute.namespaceURI) {
+          declarations.set(prefix, attribute.namespaceURI);
+          namespaces.set(prefix, attribute.namespaceURI);
         }
       }
     }
@@ -130,66 +203,201 @@ function serializeElement(
       prefix === null
         ? attribute.localName
         : `${prefix}:${attribute.localName}`;
-    attributes.push(` ${name}="${escapeAttribute(attribute.value)}"`);
+    attributes.push(
+      ` ${name}="${escapeAttribute(attribute.value, requireWellFormed)}"`,
+    );
   }
 
-  const start = `<${qualifiedName}${declarations.join("")}${attributes.join("")}`;
-  if (element.childNodes.length === 0) {
+  const serializedDeclarations = [...declarations].map(([prefix, namespace]) =>
+    declaration(prefix, namespace, namespaces, requireWellFormed),
+  );
+  const start = `<${qualifiedName}${serializedDeclarations.join("")}${attributes.join("")}`;
+  const children =
+    element._templateContents?._childNodes ?? element._childNodes;
+  if (children.length === 0) {
+    if (
+      element.namespaceURI === HTML_NAMESPACE &&
+      !HTML_VOID_ELEMENTS.has(element.localName)
+    ) {
+      return `${start}></${qualifiedName}>`;
+    }
     return `${start} />`;
   }
-  const children = [...element.childNodes]
-    .map((child) => serializeNode(child, namespaces, state))
+  const serializedChildren = children
+    .map((child) => serializeNode(child, namespaces, state, requireWellFormed))
     .join("");
-  return `${start}>${children}</${qualifiedName}>`;
+  return `${start}>${serializedChildren}</${qualifiedName}>`;
 }
 
 function serializeNode(
   node: Node,
   namespaces: ReadonlyMap<string, string>,
   state: SerializationState,
+  requireWellFormed: boolean,
 ): string {
   if (node instanceof Element) {
-    return serializeElement(node, namespaces, state);
+    return serializeElement(node, namespaces, state, requireWellFormed);
+  }
+  if (node instanceof Document) {
+    if (requireWellFormed && node.documentElement === null) {
+      throw new XMLSerializationFailure("Document has no document element");
+    }
+    return serializeChildren(
+      node.childNodes,
+      namespaces,
+      state,
+      requireWellFormed,
+    );
+  }
+  if (node instanceof DocumentFragment) {
+    return serializeChildren(
+      node.childNodes,
+      namespaces,
+      state,
+      requireWellFormed,
+    );
+  }
+  if (node instanceof Attr) {
+    return "";
   }
   if (node instanceof Text) {
-    return escapeText(node.data);
+    return escapeText(node.data, requireWellFormed);
   }
   if (node instanceof CDATASection) {
     return `<![CDATA[${node.data}]]>`;
   }
   if (node instanceof Comment) {
+    requireXMLCharacters(node.data, requireWellFormed);
+    if (
+      requireWellFormed &&
+      (node.data.includes("--") || node.data.endsWith("-"))
+    ) {
+      throw new XMLSerializationFailure("Invalid XML comment");
+    }
     return `<!--${node.data}-->`;
   }
   if (node instanceof ProcessingInstruction) {
-    return `<?${node.target}${node.data === "" ? "" : ` ${node.data}`}?>`;
+    requireXMLCharacters(node.data, requireWellFormed);
+    if (
+      requireWellFormed &&
+      (node.target.includes(":") ||
+        node.target.toLowerCase() === "xml" ||
+        node.data.includes("?>"))
+    ) {
+      throw new XMLSerializationFailure("Invalid processing instruction");
+    }
+    return `<?${node.target} ${node.data}?>`;
   }
   if (node instanceof DocumentType) {
+    if (
+      requireWellFormed &&
+      (!isPublicIdentifier(node.publicId) ||
+        !containsOnlyXMLCharacters(node.systemId) ||
+        (node.systemId.includes('"') && node.systemId.includes("'")))
+    ) {
+      throw new XMLSerializationFailure("Invalid document type identifier");
+    }
     const identifiers =
       node.publicId !== ""
-        ? ` PUBLIC "${node.publicId}" "${node.systemId}"`
+        ? ` PUBLIC ${serializeIdentifier(node.publicId)}${
+            node.systemId === "" ? "" : ` ${serializeIdentifier(node.systemId)}`
+          }`
         : node.systemId !== ""
-          ? ` SYSTEM "${node.systemId}"`
+          ? ` SYSTEM ${serializeIdentifier(node.systemId)}`
           : "";
     return `<!DOCTYPE ${node.name}${identifiers}>`;
   }
-  return "";
+  throw new XMLSerializationFailure("Unsupported node type");
 }
 
-function serializeNodes(nodes: Iterable<Node>): string {
+function serializeChildren(
+  nodes: Iterable<Node>,
+  namespaces: ReadonlyMap<string, string>,
+  state: SerializationState,
+  requireWellFormed: boolean,
+): string {
+  return [...nodes]
+    .map((node) => serializeNode(node, namespaces, state, requireWellFormed))
+    .join("");
+}
+
+function serializeNodes(
+  nodes: Iterable<Node>,
+  requireWellFormed: boolean,
+): string {
   const namespaces = new Map<string, string>([
     ["", ""],
     ["xml", XML_NAMESPACE],
   ]);
   const state: SerializationState = { nextPrefix: 1 };
-  return [...nodes]
-    .map((node) => serializeNode(node, namespaces, state))
-    .join("");
+  return serializeChildren(nodes, namespaces, state, requireWellFormed);
+}
+
+function validateElement(element: Element, requireWellFormed: boolean): void {
+  if (!requireWellFormed) {
+    return;
+  }
+  if (!isXMLName(element.localName, false) || element.prefix === "xmlns") {
+    throw new XMLSerializationFailure("Invalid XML element name");
+  }
+  const names = new Set<string>();
+  for (const attribute of element.attributes) {
+    if (
+      !isXMLName(attribute.localName, false) ||
+      (attribute.namespaceURI === null && attribute.localName === "xmlns")
+    ) {
+      throw new XMLSerializationFailure("Invalid XML attribute name");
+    }
+    requireXMLCharacters(attribute.value, true);
+    const key = `${attribute.namespaceURI ?? ""}\0${attribute.localName}`;
+    if (names.has(key)) {
+      throw new XMLSerializationFailure("Duplicate XML attribute");
+    }
+    names.add(key);
+    if (
+      attribute.namespaceURI === XMLNS_NAMESPACE &&
+      (attribute.value === XMLNS_NAMESPACE ||
+        (attribute.prefix !== null && attribute.value === ""))
+    ) {
+      throw new XMLSerializationFailure("Invalid namespace declaration");
+    }
+  }
+}
+
+function isPublicIdentifier(value: string): boolean {
+  return /^[\u000A\u000D\u0020a-zA-Z0-9\-'()+,./:=?;!*#@$_%]*$/u.test(value);
+}
+
+function serializeIdentifier(value: string): string {
+  const quote = value.includes('"') ? "'" : '"';
+  return `${quote}${value}${quote}`;
+}
+
+export function serializeXML(node: Node, requireWellFormed = false): string {
+  try {
+    return serializeNodes([node], requireWellFormed);
+  } catch (error: unknown) {
+    if (error instanceof XMLSerializationFailure) {
+      throw new DOMException(error.message, "InvalidStateError");
+    }
+    throw error;
+  }
 }
 
 export function serializeXMLFragment(element: Element): string {
-  return serializeNodes(element.childNodes);
+  try {
+    return serializeNodes(
+      element._templateContents?._childNodes ?? element._childNodes,
+      true,
+    );
+  } catch (error: unknown) {
+    if (error instanceof XMLSerializationFailure) {
+      throw new DOMException(error.message, "InvalidStateError");
+    }
+    throw error;
+  }
 }
 
 export function serializeXMLElement(element: Element): string {
-  return serializeNodes([element]);
+  return serializeXML(element, true);
 }

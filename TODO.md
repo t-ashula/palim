@@ -50,7 +50,7 @@
 - [x] `innerHTML`
 - [x] `outerHTML`
 - [x] `insertAdjacentHTML`
-- [ ] `XMLSerializer`
+- [x] `XMLSerializer`
 - [ ] `setHTML` / `setHTMLUnsafe`
 - [ ] `Document.write`
 - [ ] shadow root を含む serialization

@@ -37,6 +37,7 @@ export type {
   DOMParserSupportedType,
   HTMLFragmentContext,
 } from "./dom-parser.js";
+export { XMLSerializer } from "./xml-serializer.js";
 export { parseErrors } from "./html/parse-errors.js";
 export type { PalimParseError, ParseErrorSource } from "./html/parse-errors.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";
