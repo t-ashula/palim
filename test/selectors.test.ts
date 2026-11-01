@@ -6,6 +6,7 @@ import {
   DOMException,
   DOMParser,
   Element,
+  HTMLInputElement,
 } from "../src/index.js";
 
 const FIXTURE = `<!doctype html>
@@ -23,8 +24,15 @@ const FIXTURE = `<!doctype html>
     </section>
     <p id="empty"></p>
     <p id="nonempty">text</p>
+    <p id="white-space-empty"> \n\t</p>
     <a id="link" href="/target"></a>
     <div id="language" lang="en-US" dir="rtl"><span id="language-child"></span></div>
+    <div id="script-language" lang="sr-Cyrl-RS"></div>
+    <input id="checked" type="checkbox" checked>
+    <input id="unchecked" type="checkbox">
+    <input id="indeterminate" type="checkbox">
+    <details id="open-details" open></details>
+    <div id="open-div" open></div>
     <svg>
       <linearGradient id="paint"></linearGradient>
       <use id="paint-use" xlink:href="#paint"></use>
@@ -148,6 +156,9 @@ describe("Selector API", () => {
       byId(document, "only-em"),
     );
     expect(document.querySelector("p:empty")).toBe(byId(document, "empty"));
+    expect(document.querySelector("#white-space-empty:empty")).toBe(
+      byId(document, "white-space-empty"),
+    );
     expect(document.querySelector("section:not(.featured)")).toBe(
       byId(document, "second"),
     );
@@ -247,6 +258,9 @@ describe("Selector API", () => {
 
   it("matches host-language pseudo-classes without a browsing context", () => {
     const document = parse();
+    const checked = byId(document, "checked");
+    const unchecked = byId(document, "unchecked");
+    const indeterminate = byId(document, "indeterminate");
 
     expect(document.querySelector("#language-child:lang(en)")).toBe(
       byId(document, "language-child"),
@@ -254,6 +268,10 @@ describe("Selector API", () => {
     expect(document.querySelector("#language-child:dir(rtl)")).toBe(
       byId(document, "language-child"),
     );
+    expect(document.querySelector(':lang("*-Cyrl")')).toBe(
+      byId(document, "script-language"),
+    );
+    expect(document.querySelector(':lang("åå")')).toBeNull();
     expect(document.querySelector("a:any-link")).toBe(byId(document, "link"));
     expect(document.querySelector("input:required")).toBe(
       byId(document, "control"),
@@ -261,9 +279,30 @@ describe("Selector API", () => {
     expect(document.querySelector("input:enabled")).toBe(
       byId(document, "control"),
     );
+    expect(document.querySelector("input:checked")).toBe(checked);
+    expect(document.querySelector("input:unchecked")).toBe(unchecked);
+    expect(indeterminate).toBeInstanceOf(HTMLInputElement);
+    (indeterminate as HTMLInputElement).indeterminate = true;
+    expect(document.querySelector("input:indeterminate")).toBe(indeterminate);
+    expect(document.querySelector("details:open")).toBe(
+      byId(document, "open-details"),
+    );
+    expect(document.querySelector("div:open")).toBeNull();
     expect(document.querySelector(":hover")).toBeNull();
     expect(document.querySelector(":visited")).toBeNull();
     expect(document.querySelector("main::before")).toBeNull();
+  });
+
+  it("parses pseudo-compound selectors without returning pseudo-elements", () => {
+    const document = parse();
+
+    expect(document.querySelector("main::before:hover")).toBeNull();
+    expect(document.querySelector("main::before::marker")).toBeNull();
+    expect(document.querySelector("main::before:is(.item)")).toBeNull();
+    expect(document.querySelector(":is(::before, #first)")).toBe(
+      byId(document, "first"),
+    );
+    expect(document.querySelector("main:host(.panel)")).toBeNull();
   });
 
   it("applies Web IDL string conversion and required argument rules", () => {
@@ -306,7 +345,26 @@ describe("Selector API", () => {
     "main::before > span",
     ":not()",
     ":not(:unknown, .item)",
+    ":not(::before)",
     ":has(:has(.item))",
+    ":has(::before)",
+    ":nth-child(1 of ::before)",
+    "main::before.item",
+    "main::before:empty",
+    "main::before:not(.item)",
+    "main::before::after",
+    "div || span",
+    ":blank",
+    ":closed",
+    ":current",
+    ":future",
+    ":local-link",
+    ":past",
+    ":target-within",
+    ":current(p)",
+    ":nth-col(1)",
+    ":nth-last-col(1)",
+    ":state(selected)",
     "svg|linearGradient",
   ])("throws SyntaxError DOMException for invalid selector %j", (selector) => {
     const document = parse();

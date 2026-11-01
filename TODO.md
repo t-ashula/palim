@@ -51,18 +51,15 @@
 - [x] `outerHTML`
 - [x] `insertAdjacentHTML`
 - [x] `XMLSerializer`
-- [ ] `setHTML` / `setHTMLUnsafe`
-- [ ] `Document.write`
-- [ ] shadow root を含む serialization
 
 ## 4. Selectors
 
-- [ ] Selectors Level 4 の未対応構文
-- [ ] namespace selector
-- [ ] pseudo-class の追加
-- [ ] `:scope` の全 context
-- [ ] forgiving selector list
-- [ ] selector syntax の仕様テスト
+- [x] Selectors Level 4 の未対応構文
+- [x] namespace selector
+- [x] pseudo-class の構文と DOM tree / static state による matching
+- [x] `:scope` の全 context
+- [x] forgiving selector list
+- [x] selector syntax の仕様テスト
 
 ## 5. HTML element behavior
 
@@ -108,6 +105,8 @@
 - [ ] Custom Elements
 - [ ] custom element 用 `[HTMLConstructor]`
 - [ ] `ElementInternals`
+- [ ] `setHTML` / `setHTMLUnsafe`
+- [ ] shadow root を含む serialization
 
 ## 8. Window and platform services
 
@@ -119,6 +118,7 @@
 - [ ] `History`
 - [ ] `Navigator`
 - [ ] browsing context
+- [ ] `Document.write`
 - [ ] origin と URL
 
 ### Networking and resource loading

@@ -9,7 +9,7 @@ const ASCII_WHITESPACE = /[\t\n\f\r ]+/;
 
 type SelectorRoot = Document | DocumentFragment | Element;
 type NamespaceConstraint = "unspecified" | "any" | "none";
-type Combinator = "descendant" | "child" | "adjacent" | "sibling" | "column";
+type Combinator = "descendant" | "child" | "adjacent" | "sibling";
 
 interface ComplexSelector {
   readonly compounds: readonly CompoundSelector[];
@@ -87,11 +87,6 @@ interface DirectionPseudoClass {
   readonly direction: "ltr" | "rtl";
 }
 
-interface OpaqueFunctionalPseudoClass {
-  readonly kind: "opaque-functional-pseudo-class";
-  readonly name: string;
-}
-
 interface PseudoElementSelector {
   readonly kind: "pseudo-element";
   readonly name: string;
@@ -109,18 +104,14 @@ type SimpleSelector =
   | NthPseudoClass
   | LanguagePseudoClass
   | DirectionPseudoClass
-  | OpaqueFunctionalPseudoClass
   | PseudoElementSelector;
 
 const SIMPLE_PSEUDO_CLASSES = new Set([
   "active",
   "any-link",
   "autofill",
-  "blank",
   "buffering",
   "checked",
-  "closed",
-  "current",
   "default",
   "defined",
   "disabled",
@@ -132,7 +123,6 @@ const SIMPLE_PSEUDO_CLASSES = new Set([
   "focus-visible",
   "focus-within",
   "fullscreen",
-  "future",
   "host",
   "hover",
   "in-range",
@@ -141,7 +131,6 @@ const SIMPLE_PSEUDO_CLASSES = new Set([
   "last-child",
   "last-of-type",
   "link",
-  "local-link",
   "modal",
   "muted",
   "only-child",
@@ -149,7 +138,6 @@ const SIMPLE_PSEUDO_CLASSES = new Set([
   "open",
   "optional",
   "out-of-range",
-  "past",
   "paused",
   "picture-in-picture",
   "placeholder-shown",
@@ -163,7 +151,7 @@ const SIMPLE_PSEUDO_CLASSES = new Set([
   "seeking",
   "stalled",
   "target",
-  "target-within",
+  "unchecked",
   "user-invalid",
   "user-valid",
   "valid",
@@ -194,13 +182,6 @@ const LEGACY_PSEUDO_ELEMENTS = new Set([
   "before",
   "first-letter",
   "first-line",
-]);
-
-const OPAQUE_FUNCTIONAL_PSEUDO_CLASSES = new Set([
-  "current",
-  "nth-col",
-  "nth-last-col",
-  "state",
 ]);
 
 const FUNCTIONAL_PSEUDO_ELEMENTS = new Set([
@@ -284,34 +265,49 @@ function parseSelectors(input: string): readonly ComplexSelector[] {
   if (tokens.some((token) => token.type === "bad-string")) {
     throw selectorSyntaxError();
   }
-  return parseSelectorList(tokens, false, false, false);
+  return parseSelectorList(tokens, {
+    grammar: "complex",
+    errorHandling: "strict",
+    hasContext: "outside",
+  });
+}
+
+type SelectorListGrammar = "complex" | "complex-real" | "relative-real";
+type SelectorListErrorHandling = "strict" | "forgiving";
+type HasContext = "outside" | "inside";
+
+interface SelectorListParseOptions {
+  readonly grammar: SelectorListGrammar;
+  readonly errorHandling: SelectorListErrorHandling;
+  readonly hasContext: HasContext;
 }
 
 function parseSelectorList(
   tokens: readonly CSSToken[],
-  forgiving: boolean,
-  relative: boolean,
-  insideHas: boolean,
+  options: SelectorListParseOptions,
 ): readonly ComplexSelector[] {
   const selectors: ComplexSelector[] = [];
   for (const part of splitSelectorList(tokens)) {
     if (onlyWhitespace(part)) {
-      if (forgiving) {
+      if (options.errorHandling === "forgiving") {
         continue;
       }
       throw selectorSyntaxError();
     }
     try {
-      const parser = new SelectorParser(part, insideHas);
-      selectors.push(parser.parseComplex(relative));
+      const parser = new SelectorParser(part, options);
+      selectors.push(parser.parseComplex());
       parser.finish();
     } catch (error) {
-      if (!forgiving || !(error instanceof DOMException)) {
+      if (
+        options.errorHandling === "strict" ||
+        !(error instanceof DOMException)
+      ) {
         throw error;
       }
     }
   }
-  if (!forgiving && selectors.length === 0) {
+  if (options.errorHandling === "strict" && selectors.length === 0) {
     throw selectorSyntaxError();
   }
   return selectors;
@@ -319,19 +315,19 @@ function parseSelectorList(
 
 class SelectorParser {
   readonly #tokens: readonly CSSToken[];
-  readonly #insideHas: boolean;
+  readonly #options: SelectorListParseOptions;
   #position = 0;
 
-  constructor(tokens: readonly CSSToken[], insideHas: boolean) {
+  constructor(tokens: readonly CSSToken[], options: SelectorListParseOptions) {
     this.#tokens = tokens;
-    this.#insideHas = insideHas;
+    this.#options = options;
   }
 
-  parseComplex(relative: boolean): ComplexSelector {
+  parseComplex(): ComplexSelector {
     this.#skipWhitespace();
     let leading: Combinator | null = null;
     if (this.#isCombinator()) {
-      if (!relative) {
+      if (this.#options.grammar !== "relative-real") {
         throw selectorSyntaxError();
       }
       leading = this.#consumeCombinator();
@@ -380,7 +376,7 @@ class SelectorParser {
       selectors.push(type);
     }
 
-    let hasPseudoElement = false;
+    let pseudoElementName: string | null = null;
     for (;;) {
       const token = this.#peek();
       let selector: SimpleSelector | null = null;
@@ -401,11 +397,25 @@ class SelectorParser {
       if (selector === null) {
         break;
       }
-      if (hasPseudoElement) {
-        throw selectorSyntaxError();
-      }
       if (selector.kind === "pseudo-element") {
-        hasPseudoElement = true;
+        if (this.#options.grammar !== "complex") {
+          throw selectorSyntaxError();
+        }
+        if (
+          pseudoElementName !== null &&
+          !(
+            selector.name === "marker" &&
+            ["before", "after"].includes(pseudoElementName)
+          )
+        ) {
+          throw selectorSyntaxError();
+        }
+        pseudoElementName = selector.name;
+      } else if (
+        pseudoElementName !== null &&
+        !isPseudoElementPseudoClass(selector)
+      ) {
+        throw selectorSyntaxError();
       }
       selectors.push(selector);
     }
@@ -508,24 +518,36 @@ class SelectorParser {
       return {
         kind: "selector-pseudo-class",
         name,
-        selectors: parseSelectorList(contents, true, false, this.#insideHas),
+        selectors: parseSelectorList(contents, {
+          grammar: "complex-real",
+          errorHandling: "forgiving",
+          hasContext: this.#options.hasContext,
+        }),
       };
     }
     if (name === "not") {
       return {
         kind: "selector-pseudo-class",
         name,
-        selectors: parseSelectorList(contents, false, false, this.#insideHas),
+        selectors: parseSelectorList(contents, {
+          grammar: "complex-real",
+          errorHandling: "strict",
+          hasContext: this.#options.hasContext,
+        }),
       };
     }
     if (name === "has") {
-      if (this.#insideHas) {
+      if (this.#options.hasContext === "inside") {
         throw selectorSyntaxError();
       }
       return {
         kind: "relative-pseudo-class",
         name,
-        selectors: parseSelectorList(contents, false, true, true),
+        selectors: parseSelectorList(contents, {
+          grammar: "relative-real",
+          errorHandling: "strict",
+          hasContext: "inside",
+        }),
       };
     }
     if (
@@ -534,7 +556,7 @@ class SelectorParser {
       name === "nth-of-type" ||
       name === "nth-last-of-type"
     ) {
-      const nth = parseNth(contents, name, this.#insideHas);
+      const nth = parseNth(contents, name, this.#options.hasContext);
       return { kind: "nth-pseudo-class", name, ...nth };
     }
     if (name === "lang") {
@@ -561,14 +583,12 @@ class SelectorParser {
       return {
         kind: "selector-pseudo-class",
         name,
-        selectors: parseSelectorList(contents, false, false, this.#insideHas),
+        selectors: parseSelectorList(contents, {
+          grammar: "complex-real",
+          errorHandling: "strict",
+          hasContext: this.#options.hasContext,
+        }),
       };
-    }
-    if (OPAQUE_FUNCTIONAL_PSEUDO_CLASSES.has(name)) {
-      if (onlyWhitespace(contents)) {
-        throw selectorSyntaxError();
-      }
-      return { kind: "opaque-functional-pseudo-class", name };
     }
     throw selectorSyntaxError();
   }
@@ -611,12 +631,7 @@ class SelectorParser {
 
   #isCombinator(): boolean {
     const token = this.#peek();
-    return (
-      isDelim(token, ">") ||
-      isDelim(token, "+") ||
-      isDelim(token, "~") ||
-      (isDelim(token, "|") && isDelim(this.#peek(1), "|"))
-    );
+    return isDelim(token, ">") || isDelim(token, "+") || isDelim(token, "~");
   }
 
   #consumeCombinator(): Combinator {
@@ -629,10 +644,6 @@ class SelectorParser {
     }
     if (isDelim(token, "~")) {
       return "sibling";
-    }
-    if (isDelim(token, "|") && isDelim(this.#peek(), "|")) {
-      this.#position += 1;
-      return "column";
     }
     throw selectorSyntaxError();
   }
@@ -757,7 +768,7 @@ function parseAttributeSelector(
 function parseNth(
   source: readonly CSSToken[],
   name: NthPseudoClass["name"],
-  insideHas: boolean,
+  hasContext: HasContext,
 ): Pick<NthPseudoClass, "a" | "b" | "of"> {
   const tokens = trimTokens(source);
   let ofIndex = -1;
@@ -815,7 +826,11 @@ function parseNth(
     if (name === "nth-of-type" || name === "nth-last-of-type") {
       throw selectorSyntaxError();
     }
-    of = parseSelectorList(tokens.slice(ofIndex + 1), false, false, insideHas);
+    of = parseSelectorList(tokens.slice(ofIndex + 1), {
+      grammar: "complex-real",
+      errorHandling: "strict",
+      hasContext,
+    });
   }
   return { a, b, of };
 }
@@ -983,6 +998,34 @@ function hasPseudoElement(compound: CompoundSelector | undefined): boolean {
   );
 }
 
+function isPseudoElementPseudoClass(selector: SimpleSelector): boolean {
+  if (selector.kind === "selector-pseudo-class") {
+    if (selector.name === "is" || selector.name === "where") {
+      return true;
+    }
+    return (
+      selector.name === "not" &&
+      selector.selectors.every(isPseudoElementComplexSelector)
+    );
+  }
+  return (
+    selector.kind === "pseudo-class" &&
+    ["active", "focus", "focus-visible", "focus-within", "hover"].includes(
+      selector.name,
+    )
+  );
+}
+
+function isPseudoElementComplexSelector(selector: ComplexSelector): boolean {
+  return (
+    selector.leading === null &&
+    selector.combinators.length === 0 &&
+    selector.compounds.length === 1 &&
+    (selector.compounds[0]?.selectors.every(isPseudoElementPseudoClass) ??
+      false)
+  );
+}
+
 function matchesSimpleSelector(
   element: Element,
   selector: SimpleSelector,
@@ -1011,6 +1054,9 @@ function matchesSimpleSelector(
     case "pseudo-class":
       return matchesPlainPseudoClass(element, selector.name, scope);
     case "selector-pseudo-class": {
+      if (selector.name === "host" || selector.name === "host-context") {
+        return false;
+      }
       const matched = matchesSelectorList(element, selector.selectors, scope);
       return selector.name === "not" ? !matched : matched;
     }
@@ -1024,7 +1070,6 @@ function matchesSimpleSelector(
       return matchesLanguage(element, selector.languages);
     case "direction-pseudo-class":
       return directionOf(element) === selector.direction;
-    case "opaque-functional-pseudo-class":
     case "pseudo-element":
       return false;
   }
@@ -1097,14 +1142,12 @@ function matchesLeadingRelation(
   if (relation === "adjacent") {
     return nextElementSibling(anchor) === candidate;
   }
-  if (relation === "sibling") {
-    let sibling = nextElementSibling(anchor);
-    while (sibling !== null) {
-      if (sibling === candidate) {
-        return true;
-      }
-      sibling = nextElementSibling(sibling);
+  let sibling = nextElementSibling(anchor);
+  while (sibling !== null) {
+    if (sibling === candidate) {
+      return true;
     }
+    sibling = nextElementSibling(sibling);
   }
   return false;
 }
@@ -1168,7 +1211,8 @@ function matchesPlainPseudoClass(
       return !element._childNodes.some(
         (child) =>
           child.nodeType === 1 ||
-          (child.nodeType === 3 && child.textContent !== ""),
+          (child.nodeType === 3 &&
+            !/^[\t\n\f\r ]*$/.test(child.textContent ?? "")),
       );
     case "first-child":
       return siblings[0] === element;
@@ -1192,7 +1236,11 @@ function matchesPlainPseudoClass(
     case "disabled":
       return supportsDisabled(element) && isDisabled(element);
     case "checked":
-      return isChecked(element);
+      return selectedOptionState(element) === "checked";
+    case "unchecked":
+      return selectedOptionState(element) === "unchecked";
+    case "indeterminate":
+      return selectedOptionState(element) === "indeterminate";
     case "required":
       return supportsRequired(element) && hasAttribute(element, "required");
     case "optional":
@@ -1208,12 +1256,13 @@ function matchesPlainPseudoClass(
         (attributeValue(element, "value") ?? "") === ""
       );
     case "default":
-      return isChecked(element) || hasAttribute(element, "selected");
+      return isDefaultOption(element);
     case "open":
-    case "popover-open":
-      return hasAttribute(element, "open");
-    case "closed":
-      return !hasAttribute(element, "open");
+      return (
+        element.namespaceURI === HTML_NAMESPACE &&
+        ["details", "dialog"].includes(asciiLower(element.localName)) &&
+        hasAttribute(element, "open")
+      );
     case "defined":
       return (
         element.namespaceURI !== HTML_NAMESPACE ||
@@ -1221,31 +1270,25 @@ function matchesPlainPseudoClass(
       );
     case "active":
     case "autofill":
-    case "blank":
     case "buffering":
-    case "current":
     case "focus":
     case "focus-visible":
     case "focus-within":
     case "fullscreen":
-    case "future":
     case "host":
     case "hover":
     case "in-range":
-    case "indeterminate":
     case "invalid":
-    case "local-link":
     case "modal":
     case "muted":
     case "out-of-range":
-    case "past":
     case "paused":
     case "picture-in-picture":
     case "playing":
+    case "popover-open":
     case "seeking":
     case "stalled":
     case "target":
-    case "target-within":
     case "user-invalid":
     case "user-valid":
     case "valid":
@@ -1288,18 +1331,75 @@ function matchesNth(
 
 function matchesLanguage(element: Element, ranges: readonly string[]): boolean {
   const language = languageOf(element);
+  return ranges.some((range) => matchesLanguageRange(language, range));
+}
+
+function matchesLanguageRange(language: string | null, range: string): boolean {
+  if (range === "") {
+    return language === null;
+  }
   if (language === null) {
     return false;
   }
-  const normalized = asciiLower(language);
-  return ranges.some((range) => {
-    const expected = asciiLower(range);
-    return (
-      expected === "*" ||
-      normalized === expected ||
-      normalized.startsWith(`${expected}-`)
-    );
-  });
+  const tag = canonicalLanguageTag(language);
+  const normalizedRange = canonicalLanguageRange(range);
+  if (tag === null || normalizedRange === null) {
+    return false;
+  }
+
+  const tagSubtags = asciiLower(tag).split("-");
+  const rangeSubtags = asciiLower(normalizedRange).split("-");
+  if (rangeSubtags[0] !== "*" && rangeSubtags[0] !== tagSubtags[0]) {
+    return false;
+  }
+
+  let rangeIndex = 1;
+  let tagIndex = 1;
+  while (rangeIndex < rangeSubtags.length) {
+    const rangeSubtag = rangeSubtags[rangeIndex];
+    if (rangeSubtag === "*") {
+      rangeIndex += 1;
+      continue;
+    }
+    const tagSubtag = tagSubtags[tagIndex];
+    if (tagSubtag === undefined) {
+      return false;
+    }
+    if (rangeSubtag === tagSubtag) {
+      rangeIndex += 1;
+      tagIndex += 1;
+      continue;
+    }
+    if (tagSubtag.length === 1) {
+      return false;
+    }
+    tagIndex += 1;
+  }
+  return true;
+}
+
+function canonicalLanguageTag(language: string): string | null {
+  try {
+    return Intl.getCanonicalLocales(language)[0] ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function canonicalLanguageRange(range: string): string | null {
+  if (!range.includes("*")) {
+    return canonicalLanguageTag(range);
+  }
+  if (range !== "*" && !range.startsWith("*-")) {
+    return null;
+  }
+  const canonical = canonicalLanguageTag(`und${range.slice(1)}`);
+  if (canonical === null) {
+    return null;
+  }
+  const subtags = canonical.split("-");
+  subtags[0] = "*";
+  return subtags.join("-");
 }
 
 function languageOf(element: Element): string | null {
@@ -1447,7 +1547,42 @@ function supportsRequired(element: Element): boolean {
   );
 }
 
-function isChecked(element: Element): boolean {
+type SelectedOptionState = "checked" | "unchecked" | "indeterminate";
+
+function selectedOptionState(element: Element): SelectedOptionState | null {
+  if (element.namespaceURI !== HTML_NAMESPACE) {
+    return null;
+  }
+  const name = asciiLower(element.localName);
+  if (name === "option") {
+    if (!hasAncestor(element, "select")) {
+      return null;
+    }
+    return booleanProperty(element, "selected") ? "checked" : "unchecked";
+  }
+  if (name === "progress") {
+    return hasAttribute(element, "value") ? null : "indeterminate";
+  }
+  if (name !== "input") {
+    return null;
+  }
+  const type = asciiLower(attributeValue(element, "type") ?? "text");
+  if (type !== "checkbox" && type !== "radio") {
+    return null;
+  }
+  if (type === "checkbox" && booleanProperty(element, "indeterminate")) {
+    return "indeterminate";
+  }
+  if (booleanProperty(element, "checked")) {
+    return "checked";
+  }
+  if (type === "checkbox" || radioGroupHasCheckedElement(element)) {
+    return "unchecked";
+  }
+  return "indeterminate";
+}
+
+function isDefaultOption(element: Element): boolean {
   const name = asciiLower(element.localName);
   if (name === "option") {
     return hasAttribute(element, "selected");
@@ -1459,6 +1594,48 @@ function isChecked(element: Element): boolean {
   return (
     ["checkbox", "radio"].includes(type) && hasAttribute(element, "checked")
   );
+}
+
+function radioGroupHasCheckedElement(element: Element): boolean {
+  const root = treeRoot(element);
+  const name = attributeValue(element, "name") ?? "";
+  const form = objectProperty(element, "form");
+  const candidates = [
+    ...(root.nodeType === 1 ? [root as Element] : []),
+    ...descendantElements(root),
+  ];
+  return candidates.some(
+    (candidate) =>
+      candidate !== element &&
+      candidate.namespaceURI === HTML_NAMESPACE &&
+      asciiLower(candidate.localName) === "input" &&
+      asciiLower(attributeValue(candidate, "type") ?? "text") === "radio" &&
+      (attributeValue(candidate, "name") ?? "") === name &&
+      objectProperty(candidate, "form") === form &&
+      booleanProperty(candidate, "checked"),
+  );
+}
+
+function hasAncestor(element: Element, localName: string): boolean {
+  let ancestor = parentElement(element);
+  while (ancestor !== null) {
+    if (
+      ancestor.namespaceURI === HTML_NAMESPACE &&
+      asciiLower(ancestor.localName) === localName
+    ) {
+      return true;
+    }
+    ancestor = parentElement(ancestor);
+  }
+  return false;
+}
+
+function booleanProperty(element: Element, name: string): boolean {
+  return objectProperty(element, name) === true;
+}
+
+function objectProperty(element: Element, name: string): unknown {
+  return (element as unknown as Record<string, unknown>)[name];
 }
 
 function isReadWrite(element: Element): boolean {
