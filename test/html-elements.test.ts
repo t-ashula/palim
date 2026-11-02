@@ -350,7 +350,7 @@ describe("HTML element interfaces", () => {
   it("uses picture and source interfaces with reflected members", () => {
     const document = parse(`
       <picture id="picture">
-        <source id="source" src="https://example.com/image.png"
+        <source id="source" src="https://example.test/image.png"
           type="image/png" srcset="one.png 1x" sizes="100vw"
           media="screen" width="320" height="240">
       </picture>
@@ -364,7 +364,7 @@ describe("HTML element interfaces", () => {
       throw new Error("source is not an HTMLSourceElement");
     }
 
-    expect(source.src).toBe("https://example.com/image.png");
+    expect(source.src).toBe("https://example.test/image.png");
     expect(source.type).toBe("image/png");
     expect(source.srcset).toBe("one.png 1x");
     expect(source.sizes).toBe("100vw");
@@ -372,7 +372,7 @@ describe("HTML element interfaces", () => {
     expect(source.width).toBe(320);
     expect(source.height).toBe(240);
 
-    source.src = "https://example.com/next.png";
+    source.src = "https://example.test/next.png";
     source.type = "image/webp";
     source.srcset = "two.png 2x";
     source.sizes = "50vw";
@@ -380,7 +380,7 @@ describe("HTML element interfaces", () => {
     source.width = 640;
     source.height = 480;
 
-    expect(source.getAttribute("src")).toBe("https://example.com/next.png");
+    expect(source.getAttribute("src")).toBe("https://example.test/next.png");
     expect(source.getAttribute("type")).toBe("image/webp");
     expect(source.getAttribute("srcset")).toBe("two.png 2x");
     expect(source.getAttribute("sizes")).toBe("50vw");
@@ -627,8 +627,8 @@ describe("HTML element members", () => {
 
   it("implements metadata element members", () => {
     const document = parse(`
-      <base href="https://example.com/path" target="_blank">
-      <link href="https://example.com/style.css" rel="stylesheet preload" disabled>
+      <base href="https://example.test/path" target="_blank">
+      <link href="https://example.test/style.css" rel="stylesheet preload" disabled>
       <meta name="description" http-equiv="refresh" content="value" media="screen">
       <style media="print" blocking="render"></style>
     `);
@@ -636,12 +636,12 @@ describe("HTML element members", () => {
     const meta = select(document, "meta");
 
     expect(select(document, "base")).toMatchObject({
-      href: "https://example.com/path",
+      href: "https://example.test/path",
       target: "_blank",
     });
     expect(link).toBeInstanceOf(HTMLLinkElement);
     expect(link).toMatchObject({
-      href: "https://example.com/style.css",
+      href: "https://example.test/style.css",
       rel: "stylesheet preload",
       disabled: true,
     });
@@ -658,7 +658,7 @@ describe("HTML element members", () => {
   it("implements hyperlink members and URL decomposition", () => {
     const anchor = select(
       parse(
-        '<a href="https://user:pass@example.com:8443/path?q=1#part" download="file" rel="next">text</a>',
+        '<a href="https://user:pass@example.test:8443/path?q=1#part" download="file" rel="next">text</a>',
       ),
       "a",
     );
@@ -666,20 +666,20 @@ describe("HTML element members", () => {
       throw new Error("a is not an HTMLAnchorElement");
     }
 
-    expect(anchor.origin).toBe("https://example.com:8443");
+    expect(anchor.origin).toBe("https://example.test:8443");
     expect(anchor.protocol).toBe("https:");
     expect(anchor.username).toBe("user");
     expect(anchor.password).toBe("pass");
-    expect(anchor.host).toBe("example.com:8443");
+    expect(anchor.host).toBe("example.test:8443");
     expect(anchor.pathname).toBe("/path");
     expect(anchor.search).toBe("?q=1");
     expect(anchor.hash).toBe("#part");
     expect(anchor.text).toBe("text");
 
-    anchor.hostname = "example.org";
+    anchor.hostname = "other.example.test";
     anchor.text = "next";
 
-    expect(anchor.href).toContain("example.org");
+    expect(anchor.href).toContain("other.example.test");
     expect(anchor.textContent).toBe("next");
   });
 
@@ -690,12 +690,12 @@ describe("HTML element members", () => {
     vi.stubGlobal("URL", RejectHostURL);
     try {
       const anchor = select(
-        parse('<a href="https://faß.de/path">link</a>'),
+        parse('<a href="https://faß.example.test/path">link</a>'),
         "a",
       );
       expect(anchor).toBeInstanceOf(HTMLAnchorElement);
       expect((anchor as HTMLAnchorElement).href).toBe(
-        "https://xn--fa-hia.de/path",
+        "https://xn--fa-hia.example.test/path",
       );
     } finally {
       vi.unstubAllGlobals();
@@ -704,7 +704,7 @@ describe("HTML element members", () => {
 
   it("implements image, media, and track members", () => {
     const document = parse(`
-      <img src="https://example.com/a.png" alt="a" width="320" height="240" ismap>
+      <img src="https://example.test/a.png" alt="a" width="320" height="240" ismap>
       <video src="movie.mp4" controls autoplay loop muted></video>
       <track kind="captions" src="captions.vtt" srclang="en" label="English" default>
     `);
@@ -774,7 +774,7 @@ describe("HTML element members", () => {
   it("implements the complete HTMLObjectElement member surface", () => {
     const object = select(
       parse(
-        '<object archive="one.jar two.jar" code="Main" declare hspace="4" vspace="5" codebase="https://example.com/"></object>',
+        '<object archive="one.jar two.jar" code="Main" declare hspace="4" vspace="5" codebase="https://example.test/"></object>',
       ),
       "object",
     );
@@ -787,12 +787,12 @@ describe("HTML element members", () => {
     expect(object.declare).toBe(true);
     expect(object.hspace).toBe(4);
     expect(object.vspace).toBe(5);
-    expect(object.codeBase).toBe("https://example.com/");
+    expect(object.codeBase).toBe("https://example.test/");
   });
 
   it("implements form controls and validation members", () => {
     const document = parse(`
-      <form id="form" action="https://example.com/submit">
+      <form id="form" action="https://example.test/submit">
         <input id="input" name="field" required value="before">
         <button id="button" name="submitter" value="go">Go</button>
         <select id="select" name="choice">

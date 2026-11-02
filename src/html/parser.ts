@@ -51,7 +51,7 @@ export interface HTMLFragmentContext {
 interface TreeBuilderOptions {
   readonly context?: HTMLFragmentContext | Element;
   readonly document?: Document;
-  readonly onScript?: (element: Element) => void;
+  readonly onScript?: (element: Element) => Promise<void> | void;
   readonly scriptingMode?: ParserScriptingMode;
 }
 
@@ -337,7 +337,7 @@ class TreeBuilder {
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
-  readonly #onScript: ((element: Element) => void) | undefined;
+  readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
@@ -350,6 +350,7 @@ class TreeBuilder {
   #framesetOk = true;
   #ignoreNextLineFeed = false;
   #pendingTableCharacters = "";
+  #pendingScript: Promise<void> | null = null;
   #recordedTokenizerErrors = 0;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
@@ -405,21 +406,45 @@ class TreeBuilder {
   }
 
   parse(): Document {
-    for (;;) {
-      this.#tokenizer.setAllowCdata(
-        this.#current() !== null &&
-          this.#current()?.namespaceURI !== HTML_NAMESPACE,
-      );
-      const token = this.#nextToken();
-      if (token === null) {
-        if (this.#mode === "in-table-text") {
-          this.#flushTableCharacters();
-        }
-        this.#endOfFile();
-        break;
+    while (this.#processNextDocumentToken()) {
+      if (this.#pendingScript !== null) {
+        throw new TypeError(
+          "The synchronous parser cannot await script processing",
+        );
       }
-      this.#process(token);
     }
+    return this.#finishDocument();
+  }
+
+  async parseAsync(): Promise<Document> {
+    while (this.#processNextDocumentToken()) {
+      const pendingScript = this.#pendingScript;
+      this.#pendingScript = null;
+      if (pendingScript !== null) {
+        await pendingScript;
+      }
+    }
+    return this.#finishDocument();
+  }
+
+  #processNextDocumentToken(): boolean {
+    this.#tokenizer.setAllowCdata(
+      this.#current() !== null &&
+        this.#current()?.namespaceURI !== HTML_NAMESPACE,
+    );
+    const token = this.#nextToken();
+    if (token === null) {
+      if (this.#mode === "in-table-text") {
+        this.#flushTableCharacters();
+      }
+      this.#endOfFile();
+      return false;
+    }
+    this.#process(token);
+    return true;
+  }
+
+  #finishDocument(): Document {
     if (this.#mode === "in-table-text") {
       this.#flushTableCharacters();
     }
@@ -2682,7 +2707,10 @@ class TreeBuilder {
       element?.namespaceURI === HTML_NAMESPACE &&
       element.localName === "script"
     ) {
-      this.#onScript?.(element);
+      const pendingScript = this.#onScript?.(element);
+      if (pendingScript !== undefined) {
+        this.#pendingScript = pendingScript;
+      }
     }
   }
 
@@ -3055,6 +3083,21 @@ export function parseHTMLIntoDocument(
     onScript,
     scriptingMode: "enabled",
   }).parse();
+}
+
+export async function parseHTMLIntoDocumentAsync(
+  input: string,
+  document: Document,
+  onScript: (element: Element) => Promise<void> | void,
+): Promise<Document> {
+  while (document.firstChild !== null) {
+    removeNode(document.firstChild);
+  }
+  return new TreeBuilder(input, {
+    document,
+    onScript,
+    scriptingMode: "enabled",
+  }).parseAsync();
 }
 
 export function parseHTMLFragment(

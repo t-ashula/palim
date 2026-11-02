@@ -107,7 +107,7 @@ describe("Engine262Adapter", () => {
     const compilation = engine.compileScript(
       realm,
       'globalThis.compiledValue = "ready"; compiledValue',
-      "https://example.com/script.js",
+      "https://example.test/script.js",
     );
 
     expect(compilation.type).toBe("normal");

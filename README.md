@@ -76,7 +76,7 @@ Eventually, palim may also provide a browser-like environment:
 import { Window } from "palim/window";
 
 const window = new Window({
-  url: "https://example.com/",
+  url: "https://example.test/",
 });
 ```
 

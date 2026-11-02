@@ -21,17 +21,17 @@ class TrackingEngine262Adapter extends Engine262Adapter {
 describe("Window classic script execution", () => {
   it("provides Window environment settings from the active Document", () => {
     const environment = new WindowExecutionEnvironment({
-      url: "https://example.com:443/path/page.html",
+      url: "https://example.test:443/path/page.html",
     });
 
     expect(environment.settings.creationURL.href).toBe(
-      "https://example.com/path/page.html",
+      "https://example.test/path/page.html",
     );
     expect(environment.settings.topLevelCreationURL.href).toBe(
-      "https://example.com/path/page.html",
+      "https://example.test/path/page.html",
     );
     expect(environment.settings.apiBaseURL.href).toBe(
-      "https://example.com/path/page.html",
+      "https://example.test/path/page.html",
     );
     expect(environment.settings.creationURL).toBeInstanceOf(URL);
     expect(environment.settings.topLevelCreationURL).toBeInstanceOf(URL);
@@ -39,7 +39,7 @@ describe("Window classic script execution", () => {
     expect(environment.settings.origin).toEqual({
       type: "tuple",
       scheme: "https",
-      host: "example.com",
+      host: "example.test",
       port: null,
     });
     expect(environment.settings.topLevelOrigin).toBe(
@@ -65,7 +65,7 @@ describe("Window classic script execution", () => {
 
   it("keeps global and DOM state across classic scripts", () => {
     const environment = new WindowExecutionEnvironment({
-      url: "https://example.com/",
+      url: "https://example.test/",
     });
     const first = environment.createClassicScript(
       `

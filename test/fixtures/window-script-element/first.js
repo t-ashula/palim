@@ -1,6 +1,7 @@
 if (
   document.defaultView !== window ||
   window.document !== document ||
+  "resourceLoader" in window ||
   document.querySelector("#before") === null ||
   document.querySelector("#after") !== null
 ) {
