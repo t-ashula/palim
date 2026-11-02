@@ -101,6 +101,39 @@ describe("Engine262Adapter", () => {
     }
   });
 
+  it("compiles and runs scripts as separate operations", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const compilation = engine.compileScript(
+      realm,
+      'globalThis.compiledValue = "ready"; compiledValue',
+      "https://example.com/script.js",
+    );
+
+    expect(compilation.type).toBe("normal");
+    if (compilation.type === "normal") {
+      const result = engine.runScript(realm, compilation.value);
+      expect(result.type).toBe("normal");
+      if (result.type === "normal") {
+        expect(engine.toString(realm, result.value)).toEqual(normal("ready"));
+      }
+    }
+  });
+
+  it("returns script parse errors without evaluating source", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+
+    const compilation = engine.compileScript(realm, "const = 1");
+
+    expect(compilation.type).toBe("throw");
+    if (compilation.type === "throw") {
+      expect(engine.exceptionMessage(realm, compilation.value)).toMatch(
+        /^SyntaxError:/,
+      );
+    }
+  });
+
   it("performs Promise jobs only at an explicit checkpoint", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();

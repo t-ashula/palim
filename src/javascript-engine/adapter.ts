@@ -14,6 +14,10 @@ export abstract class EngineCallable extends EngineObject {
   declare private readonly engineCallable: never;
 }
 
+export abstract class EngineScript {
+  declare private readonly engineScript: never;
+}
+
 export type EnginePrimitive =
   undefined | null | boolean | string | number | bigint;
 
@@ -82,6 +86,15 @@ export interface JavaScriptEngineAdapter {
     setter: EngineCallable | null,
     attributes: EnginePropertyAttributes,
   ): void;
+  compileScript(
+    realm: EngineRealm,
+    source: string,
+    sourceURL?: string,
+  ): EngineResult<EngineScript>;
+  runScript(
+    realm: EngineRealm,
+    script: EngineScript,
+  ): EngineResult<EngineValue>;
   evaluate(realm: EngineRealm, source: string): EngineResult<EngineValue>;
   call(
     realm: EngineRealm,

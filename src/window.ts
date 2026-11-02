@@ -1,3 +1,5 @@
+import { URL } from "node:url";
+
 import {
   bindEventTarget,
   eventTargetImplementation,
@@ -6,6 +8,11 @@ import { EventTarget } from "./dom/events.js";
 import { documentImplementation } from "./dom/node-implementation.js";
 import type { Document, Element } from "./dom/nodes.js";
 import { parseHTML } from "./html/parser.js";
+import { originFromURL } from "./origin.js";
+
+export interface WindowOptions {
+  readonly url?: string | URL;
+}
 
 class BrowsingContext {
   readonly parent: BrowsingContext | null = null;
@@ -14,6 +21,7 @@ class BrowsingContext {
     readonly window: Window,
     readonly windowProxy: Window,
     readonly activeDocument: Document,
+    readonly creationURL: URL,
   ) {}
 
   get top(): this {
@@ -28,18 +36,22 @@ interface WindowEnvironment {
 const WINDOW_ENVIRONMENTS = new WeakMap<object, WindowEnvironment>();
 
 export class Window extends EventTarget {
-  constructor() {
+  constructor(options: WindowOptions = {}) {
     super();
     const proxy = new Proxy(this, {});
     bindEventTarget(proxy, eventTargetImplementation(this));
 
     const document = parseHTML("");
+    const url = new URL(options.url ?? "about:blank");
+    const implementation = documentImplementation(document);
+    implementation.url = url;
+    implementation.origin = originFromURL(url);
     const environment = {
-      browsingContext: new BrowsingContext(this, proxy, document),
+      browsingContext: new BrowsingContext(this, proxy, document, url),
     };
     WINDOW_ENVIRONMENTS.set(this, environment);
     WINDOW_ENVIRONMENTS.set(proxy, environment);
-    documentImplementation(document).defaultView = proxy;
+    implementation.defaultView = proxy;
     return proxy;
   }
 

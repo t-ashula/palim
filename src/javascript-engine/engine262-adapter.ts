@@ -24,6 +24,7 @@ import type {
   FunctionObject,
   NativeSteps,
   ProxyObject,
+  ScriptRecord,
   Value as Engine262Value,
 } from "@engine262/engine262";
 
@@ -31,6 +32,7 @@ import {
   EngineCallable,
   EngineObject,
   EngineRealm,
+  EngineScript,
   EngineValue,
   normal,
   thrown,
@@ -77,6 +79,16 @@ class Engine262Callable extends EngineCallable {
   constructor(
     readonly owner: Engine262Adapter,
     readonly value: FunctionObject,
+  ) {
+    super();
+  }
+}
+
+class Engine262Script extends EngineScript {
+  constructor(
+    readonly owner: Engine262Adapter,
+    readonly realm: Engine262Realm,
+    readonly record: ScriptRecord,
   ) {
     super();
   }
@@ -270,13 +282,53 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     }
   }
 
-  evaluate(realm: EngineRealm, source: string): EngineResult<EngineValue> {
+  compileScript(
+    realm: EngineRealm,
+    source: string,
+    sourceURL?: string,
+  ): EngineResult<EngineScript> {
     const realmHandle = this.#realm(realm);
     this.#activate();
-    const completion = realmHandle.realm.evaluateScriptSkipDebugger(source);
+    const completion = realmHandle.realm.compileScript(source, {
+      specifier: sourceURL,
+    });
+    return completion instanceof ThrowCompletion
+      ? thrown(this.#wrap(completion.Value))
+      : normal(
+          new Engine262Script(
+            this,
+            realmHandle,
+            ValueOfNormalCompletion(completion),
+          ),
+        );
+  }
+
+  runScript(
+    realm: EngineRealm,
+    script: EngineScript,
+  ): EngineResult<EngineValue> {
+    const realmHandle = this.#realm(realm);
+    if (
+      !(script instanceof Engine262Script) ||
+      script.owner !== this ||
+      script.realm !== realmHandle
+    ) {
+      throw new TypeError("The script belongs to another engine realm");
+    }
+    this.#activate();
+    const completion = realmHandle.realm.evaluateScriptSkipDebugger(
+      script.record,
+    );
     return completion instanceof ThrowCompletion
       ? thrown(this.#wrap(completion.Value))
       : normal(this.#wrap(ValueOfNormalCompletion(completion)));
+  }
+
+  evaluate(realm: EngineRealm, source: string): EngineResult<EngineValue> {
+    const compilation = this.compileScript(realm, source);
+    return compilation.type === "throw"
+      ? compilation
+      : this.runScript(realm, compilation.value);
   }
 
   call(
