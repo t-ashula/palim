@@ -26,3 +26,4 @@
 - [ADR-0023: XMLSerializer と XML serialization の共有](./0023-xml-serializer.md)
 - [ADR-0024: table mutation と collection ordering の共有](./0024-table-mutation.md)
 - [ADR-0025: DOM interface、binding、implementation の分離](./0025-dom-interface-binding-implementation.md)
+- [ADR-0026: JavaScript engine との接続境界](./0026-javascript-engine-connection.md)
