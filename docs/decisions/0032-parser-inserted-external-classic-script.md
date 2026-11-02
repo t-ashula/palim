@@ -2,7 +2,7 @@
 
 ## ステータス
 
-proposed
+accepted
 
 ## コンテキスト
 
