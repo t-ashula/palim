@@ -9,6 +9,7 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import { DOMRealmBinding } from "./dom-realm-binding.js";
+import { URLRealmBinding } from "./url-realm-binding.js";
 
 const INTERFACE_PROPERTY = {
   configurable: true,
@@ -29,6 +30,7 @@ export class WindowRealmBinding {
   readonly #globalThis: EngineObject;
   readonly #windowPrototype: EngineObject;
   readonly dom: DOMRealmBinding;
+  readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
 
   constructor(engine: JavaScriptEngineAdapter, window: Window) {
@@ -38,6 +40,7 @@ export class WindowRealmBinding {
     this.#globalObject = this.#engine.globalObject(this.realm);
     this.#globalThis = this.#engine.globalThis(this.realm);
     this.dom = new DOMRealmBinding(this.#engine, this.realm);
+    this.url = new URLRealmBinding(this.#engine, this.realm);
     this.#windowPrototype = this.#engine.createObject(
       this.realm,
       this.dom.eventTargetPrototype,

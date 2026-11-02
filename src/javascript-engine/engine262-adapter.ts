@@ -2,10 +2,14 @@ import {
   Agent,
   Call,
   Construct,
+  CreateArrayFromList,
   CreateBuiltinFunction,
   DefinePropertyOrThrow,
   Descriptor,
+  EnumerableOwnProperties,
+  Get,
   IsCallable,
+  JSStringValue,
   ManagedRealm,
   markBuiltinFunctionAsConstructor,
   ObjectValue,
@@ -18,11 +22,13 @@ import {
   ToString,
   Value,
   ValueOfNormalCompletion,
+  wellKnownSymbols,
   X,
 } from "@engine262/engine262";
 import type {
   FunctionObject,
   NativeSteps,
+  PropertyKeyValue,
   ProxyObject,
   ScriptRecord,
   Value as Engine262Value,
@@ -41,9 +47,11 @@ import type {
   EngineDataPropertyAttributes,
   EngineHostFunction,
   EnginePrimitive,
+  EnginePropertyKey,
   EnginePropertyAttributes,
   EngineRealmOptions,
   EngineResult,
+  EngineWellKnownSymbol,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 
@@ -139,8 +147,18 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     );
   }
 
+  iteratorPrototype(realm: EngineRealm): EngineObject {
+    return this.#wrapObject(
+      this.#realm(realm).realm.Intrinsics["%Iterator.prototype%"],
+    );
+  }
+
   fromPrimitive(value: EnginePrimitive): EngineValue {
     return new Engine262Primitive(this, Value(value));
+  }
+
+  wellKnownSymbol(name: EngineWellKnownSymbol): EngineValue {
+    return new Engine262Primitive(this, wellKnownSymbols[name]);
   }
 
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string> {
@@ -192,6 +210,53 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     );
   }
 
+  createArray(
+    realm: EngineRealm,
+    values: readonly EngineValue[],
+  ): EngineObject {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () =>
+      this.#wrapObject(
+        CreateArrayFromList(values.map((value) => this.#value(value))),
+      ),
+    );
+  }
+
+  get(
+    realm: EngineRealm,
+    object: EngineObject,
+    key: EnginePropertyKey,
+  ): EngineResult<EngineValue> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        Get(this.#object(object), this.#propertyKey(key)),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(this.#wrap(ValueOfNormalCompletion(completion)));
+    });
+  }
+
+  ownEnumerablePropertyNames(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<readonly string[]> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        EnumerableOwnProperties(this.#object(object), "key"),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(
+            ValueOfNormalCompletion(completion).map((key: JSStringValue) =>
+              key.stringValue(),
+            ),
+          );
+    });
+  }
+
   setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void {
     this.#activate();
     const completion = skipDebugger(
@@ -235,7 +300,7 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
 
   defineDataProperty(
     object: EngineObject,
-    name: string,
+    name: EnginePropertyKey,
     value: EngineValue,
     attributes: EngineDataPropertyAttributes,
   ): void {
@@ -243,7 +308,7 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     const completion = skipDebugger(
       DefinePropertyOrThrow(
         this.#object(object),
-        name,
+        this.#propertyKey(name),
         Descriptor({
           Value: this.#value(value),
           Writable: attributes.writable,
@@ -253,7 +318,7 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       ),
     );
     if (completion instanceof ThrowCompletion) {
-      throw new TypeError(`Cannot define property ${name}`);
+      throw new TypeError("Cannot define data property");
     }
   }
 
@@ -451,6 +516,17 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       throw new TypeError("The handle does not contain an object");
     }
     return value;
+  }
+
+  #propertyKey(key: EnginePropertyKey): PropertyKeyValue | string {
+    if (typeof key === "string") {
+      return key;
+    }
+    const value = this.#value(key);
+    if (value instanceof JSStringValue || value.type === "Symbol") {
+      return value;
+    }
+    throw new TypeError("The value is not a property key");
   }
 
   #callable(callable: EngineCallable): FunctionObject {

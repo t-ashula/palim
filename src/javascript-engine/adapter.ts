@@ -38,6 +38,10 @@ export interface EngineRealmOptions {
   readonly forwardingGlobalThis?: boolean;
 }
 
+export type EngineWellKnownSymbol = "iterator" | "toStringTag";
+
+export type EnginePropertyKey = string | EngineValue;
+
 export type EngineHostFunction = (
   thisValue: EngineValue,
   argumentsList: readonly EngineValue[],
@@ -48,7 +52,9 @@ export interface JavaScriptEngineAdapter {
   globalObject(realm: EngineRealm): EngineObject;
   globalThis(realm: EngineRealm): EngineObject;
   objectPrototype(realm: EngineRealm): EngineObject;
+  iteratorPrototype(realm: EngineRealm): EngineObject;
   fromPrimitive(value: EnginePrimitive): EngineValue;
+  wellKnownSymbol(name: EngineWellKnownSymbol): EngineValue;
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
   toBoolean(value: EngineValue): boolean;
   asObject(value: EngineValue): EngineObject | null;
@@ -59,6 +65,16 @@ export interface JavaScriptEngineAdapter {
     realm: EngineRealm,
     prototype: EngineObject | null,
   ): EngineObject;
+  createArray(realm: EngineRealm, values: readonly EngineValue[]): EngineObject;
+  get(
+    realm: EngineRealm,
+    object: EngineObject,
+    key: EnginePropertyKey,
+  ): EngineResult<EngineValue>;
+  ownEnumerablePropertyNames(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<readonly string[]>;
   setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void;
   setForwardingTarget(object: EngineObject, target: EngineObject): void;
   createFunction(
@@ -75,7 +91,7 @@ export interface JavaScriptEngineAdapter {
   ): EngineCallable;
   defineDataProperty(
     object: EngineObject,
-    name: string,
+    name: EnginePropertyKey,
     value: EngineValue,
     attributes: EngineDataPropertyAttributes,
   ): void;
