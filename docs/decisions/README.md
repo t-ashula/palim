@@ -30,3 +30,4 @@
 - [ADR-0027: Window 環境と JavaScript engine の接続](./0027-window-execution-environment.md)
 - [ADR-0028: Window environment settings と classic script の実行境界](./0028-window-classic-script-execution.md)
 - [ADR-0029: URL Standard の実装境界と適合テスト](./0029-url-standard-implementation.md)
+- [ADR-0030: parser-inserted script element と classic script の接続](./0030-script-element-classic-script-execution.md)
