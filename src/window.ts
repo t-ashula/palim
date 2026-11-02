@@ -4,13 +4,30 @@ import {
 } from "./dom/event-implementation.js";
 import { EventTarget } from "./dom/events.js";
 import { documentImplementation } from "./dom/node-implementation.js";
-import type { Document, Element } from "./dom/nodes.js";
 import { parseHTML } from "./html/parser.js";
 import { originFromURL } from "./origin.js";
+import type { Document, Element } from "./public-dom-interfaces.js";
 import { URL } from "./url/index.js";
 
 export interface WindowOptions {
   readonly url?: string | URL;
+}
+
+export interface Window extends EventTarget {
+  readonly window: Window;
+  readonly self: Window;
+  readonly frames: Window;
+  readonly document: Document;
+  readonly top: Window;
+  readonly parent: Window;
+  readonly frameElement: Element | null;
+}
+
+interface WindowInterface {
+  readonly length: number;
+  readonly name: string;
+  readonly prototype: Window;
+  [Symbol.hasInstance](value: unknown): value is Window;
 }
 
 class BrowsingContext {
@@ -34,14 +51,17 @@ interface WindowEnvironment {
 
 const WINDOW_ENVIRONMENTS = new WeakMap<object, WindowEnvironment>();
 
-export class Window extends EventTarget {
-  constructor(options: WindowOptions = {}) {
+class WindowPlatform extends EventTarget implements Window {
+  constructor(construction?: unknown) {
     super();
+    if (!(construction instanceof WindowConstruction)) {
+      throw new TypeError("Illegal constructor");
+    }
     const proxy = new Proxy(this, {});
     bindEventTarget(proxy, eventTargetImplementation(this));
 
     const document = parseHTML("");
-    const url = new URL(options.url ?? "about:blank");
+    const url = new URL(construction.options.url ?? "about:blank");
     const implementation = documentImplementation(document);
     implementation.url = url;
     implementation.origin = originFromURL(url);
@@ -80,6 +100,21 @@ export class Window extends EventTarget {
   }
 
   readonly frameElement: Element | null = null;
+}
+
+class WindowConstruction {
+  constructor(readonly options: WindowOptions) {}
+}
+
+Object.defineProperties(WindowPlatform, {
+  length: { configurable: true, value: 0 },
+  name: { configurable: true, value: "Window" },
+});
+
+export const Window = WindowPlatform as unknown as WindowInterface;
+
+export function createWindow(options: WindowOptions = {}): Window {
+  return new WindowPlatform(new WindowConstruction(options));
 }
 
 function windowEnvironment(window: Window): WindowEnvironment {

@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import { Document, DOMParser, parseErrors } from "../src/index.js";
-import type { ParseErrorSource } from "../src/index.js";
 
 describe("parseErrors", () => {
   it("returns no errors for a conforming document", () => {
@@ -125,8 +124,8 @@ describe("parseErrors", () => {
     expect(parseErrors(document)).not.toBe(errors);
   });
 
-  it("accepts the internal parse-error source interface", () => {
-    const source: ParseErrorSource = new Document();
+  it("accepts a standalone Document", () => {
+    const source = new Document();
 
     expect(parseErrors(source)).toEqual([]);
   });

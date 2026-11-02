@@ -117,7 +117,9 @@ export class DOMRealmBinding {
     );
     this.#installInterface("Node", this.#nodePrototype);
     this.#installInterface("Element", this.#elementPrototype);
-    this.#installInterface("Document", this.#documentPrototype);
+    this.#installInterface("Document", this.#documentPrototype, 0, () =>
+      normal(this.#wrap(new Document())),
+    );
     this.#installInterface(
       "Event",
       this.#eventPrototype,

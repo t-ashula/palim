@@ -1,6 +1,5 @@
-import type { Document, DocumentFragment } from "./dom.js";
-import type { HTMLFragmentContext } from "./html/parser.js";
-import { parseHTML, parseHTMLFragment } from "./html/parser.js";
+import type { Document } from "./dom.js";
+import { parseHTML } from "./html/parser.js";
 import { parseXML } from "./xml/parser.js";
 import type { XMLMIMEType } from "./xml/parser.js";
 
@@ -22,10 +21,4 @@ export class DOMParser {
     }
     throw new TypeError(`Unsupported type: ${type}`);
   }
-
-  parseFragment(input: string, context: HTMLFragmentContext): DocumentFragment {
-    return parseHTMLFragment(input, context);
-  }
 }
-
-export type { HTMLFragmentContext };

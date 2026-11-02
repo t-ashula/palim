@@ -1,4 +1,9 @@
-import type { AttributeData, Node } from "../dom.js";
+import type {
+  AttributeData,
+  Document,
+  DocumentFragment,
+  Node,
+} from "../dom.js";
 import type { FragmentParser } from "../dom/nodes.js";
 import {
   appendCharacterData,
@@ -6,7 +11,13 @@ import {
   attributeNodes,
   childNodes,
   cloneNodeIntoDocument,
+  createComment,
+  createDocument,
+  createDocumentFragment,
+  createDocumentType,
   createElementForDocument as createDOMElement,
+  createProcessingInstruction,
+  createText,
   documentIsQuirks,
   insertNodeBefore,
   removeNode,
@@ -16,15 +27,7 @@ import {
   setTemplateContents,
   templateContents,
 } from "../dom/nodes.js";
-import {
-  Comment,
-  Document,
-  DocumentFragment,
-  DocumentType,
-  Element,
-  ProcessingInstruction,
-  Text,
-} from "../dom.js";
+import { Element, Text } from "../dom.js";
 import {
   HTML_NAMESPACE,
   MATHML_NAMESPACE,
@@ -352,7 +355,7 @@ class TreeBuilder {
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
       options.document ??
-      new Document(htmlFragmentParser, "text/html", createElementForDocument);
+      createDocument(htmlFragmentParser, "text/html", createElementForDocument);
     this.#onScript = options.onScript;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
@@ -443,7 +446,7 @@ class TreeBuilder {
     if (this.#context?.localName === "html") {
       this.#finish();
     }
-    const fragment = new DocumentFragment(this.document);
+    const fragment = createDocumentFragment(this.document);
     const root = this.document.documentElement;
     while (root?.firstChild !== null && root?.firstChild !== undefined) {
       appendNode(fragment, root.firstChild);
@@ -616,11 +619,11 @@ class TreeBuilder {
             break;
           }
           if (token.type === "Comment") {
-            appendNode(this.document, new Comment(this.document, token.data));
+            appendNode(this.document, createComment(this.document, token.data));
           } else if (token.type === "ProcessingInstruction") {
             appendNode(
               this.document,
-              new ProcessingInstruction(
+              createProcessingInstruction(
                 this.document,
                 token.target,
                 token.data,
@@ -637,7 +640,7 @@ class TreeBuilder {
             }
             appendNode(
               this.document,
-              new DocumentType(
+              createDocumentType(
                 this.document,
                 token.name ?? "",
                 token.publicId ?? "",
@@ -658,11 +661,11 @@ class TreeBuilder {
             break;
           }
           if (token.type === "Comment") {
-            appendNode(this.document, new Comment(this.document, token.data));
+            appendNode(this.document, createComment(this.document, token.data));
           } else if (token.type === "ProcessingInstruction") {
             appendNode(
               this.document,
-              new ProcessingInstruction(
+              createProcessingInstruction(
                 this.document,
                 token.target,
                 token.data,
@@ -771,12 +774,12 @@ class TreeBuilder {
           } else if (token.type === "Comment") {
             appendToDocumentElement(
               this.document,
-              new Comment(this.document, token.data),
+              createComment(this.document, token.data),
             );
           } else if (token.type === "ProcessingInstruction") {
             appendToDocumentElement(
               this.document,
-              new ProcessingInstruction(
+              createProcessingInstruction(
                 this.document,
                 token.target,
                 token.data,
@@ -801,15 +804,18 @@ class TreeBuilder {
         case "after-after-body":
           if (token.type === "Comment") {
             if (this.#context === null) {
-              appendNode(this.document, new Comment(this.document, token.data));
+              appendNode(
+                this.document,
+                createComment(this.document, token.data),
+              );
             } else {
               appendToDocumentElement(
                 this.document,
-                new Comment(this.document, token.data),
+                createComment(this.document, token.data),
               );
             }
           } else if (token.type === "ProcessingInstruction") {
-            const instruction = new ProcessingInstruction(
+            const instruction = createProcessingInstruction(
               this.document,
               token.target,
               token.data,
@@ -833,7 +839,7 @@ class TreeBuilder {
           break;
         case "after-after-frameset":
           if (token.type === "Comment") {
-            appendNode(this.document, new Comment(this.document, token.data));
+            appendNode(this.document, createComment(this.document, token.data));
           } else if (
             (token.type === "Character" && whitespace(token.data)) ||
             (token.type === "StartTag" && token.name === "html")
@@ -882,7 +888,7 @@ class TreeBuilder {
       } else if (token.name === "template") {
         const template = this.#insert(token, true, foster);
         if (templateContents(template) === null) {
-          setTemplateContents(template, new DocumentFragment(this.document));
+          setTemplateContents(template, createDocumentFragment(this.document));
         }
         this.#formatting.push(null);
         if (this.#body !== null) {
@@ -2335,7 +2341,7 @@ class TreeBuilder {
         appendCharacterData(previous, data);
         return;
       }
-      const text = new Text(this.document, data);
+      const text = createText(this.document, data);
       if (location.reference !== null) {
         insertNodeBefore(location.parent, text, location.reference);
       } else {
@@ -2352,11 +2358,11 @@ class TreeBuilder {
       appendCharacterData(previous, data);
       return;
     }
-    appendNode(parent, new Text(this.document, data));
+    appendNode(parent, createText(this.document, data));
   }
 
   #comment(data: string, foster = false): void {
-    this.#insertNode(new Comment(this.document, data), foster);
+    this.#insertNode(createComment(this.document, data), foster);
   }
 
   #processingInstruction(
@@ -2364,7 +2370,7 @@ class TreeBuilder {
     foster = false,
   ): void {
     this.#insertNode(
-      new ProcessingInstruction(this.document, token.target, token.data),
+      createProcessingInstruction(this.document, token.target, token.data),
       foster,
     );
   }

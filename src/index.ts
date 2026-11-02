@@ -17,10 +17,9 @@ export {
   NodeList,
   ProcessingInstruction,
   Text,
-} from "./dom.js";
+} from "./public-dom-interfaces.js";
 export type {
   AddEventListenerOptions,
-  AttributeData,
   ElementCreationOptions,
   EventInit,
   EventListener,
@@ -30,16 +29,13 @@ export type {
   NodeIterator,
   Range,
   TreeWalker,
-} from "./dom.js";
+} from "./public-dom-interfaces.js";
 export { DOMException } from "./dom-exception.js";
 export { DOMParser } from "./dom-parser.js";
-export type {
-  DOMParserSupportedType,
-  HTMLFragmentContext,
-} from "./dom-parser.js";
+export type { DOMParserSupportedType } from "./dom-parser.js";
 export { XMLSerializer } from "./xml-serializer.js";
 export { parseErrors } from "./html/parse-errors.js";
-export type { PalimParseError, ParseErrorSource } from "./html/parse-errors.js";
+export type { PalimParseError } from "./html/parse-errors.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";
 export {
   AudioTrack,
@@ -126,5 +122,5 @@ export {
   ValidityState,
   VideoTrack,
   VideoTrackList,
-} from "./html-elements.js";
-export type { EventHandler } from "./html-elements.js";
+} from "./public-html-interfaces.js";
+export type { EventHandler } from "./public-html-interfaces.js";

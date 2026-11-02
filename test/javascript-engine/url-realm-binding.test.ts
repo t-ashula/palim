@@ -9,7 +9,7 @@ import type {
 } from "../../src/javascript-engine/adapter.js";
 import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
 import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
-import { Window } from "../../src/window.js";
+import { createWindow } from "../../src/window.js";
 
 const fixtureDirectory = resolve(
   import.meta.dirname,
@@ -41,29 +41,29 @@ function evaluate(
 describe("URLRealmBinding", () => {
   it("exposes URL as a platform object in the Window realm", () => {
     const engine = new Engine262Adapter();
-    const binding = new WindowRealmBinding(engine, new Window());
+    const binding = new WindowRealmBinding(engine, createWindow());
 
     evaluate(engine, binding.realm, fixture("url-platform-object.js"));
   });
 
   it("converts URLSearchParams inputs and results inside the realm", () => {
     const engine = new Engine262Adapter();
-    const binding = new WindowRealmBinding(engine, new Window());
+    const binding = new WindowRealmBinding(engine, createWindow());
 
     evaluate(engine, binding.realm, fixture("url-search-params.js"));
   });
 
   it("creates URL errors and brand checks in the Window realm", () => {
     const engine = new Engine262Adapter();
-    const binding = new WindowRealmBinding(engine, new Window());
+    const binding = new WindowRealmBinding(engine, createWindow());
 
     evaluate(engine, binding.realm, fixture("url-errors.js"));
   });
 
   it("keeps URL constructors, prototypes, and instances realm-local", () => {
     const engine = new Engine262Adapter();
-    const first = new WindowRealmBinding(engine, new Window());
-    const second = new WindowRealmBinding(engine, new Window());
+    const first = new WindowRealmBinding(engine, createWindow());
+    const second = new WindowRealmBinding(engine, createWindow());
 
     const firstConstructor = engine.get(
       first.realm,

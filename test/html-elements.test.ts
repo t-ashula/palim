@@ -95,10 +95,16 @@ describe("HTML element interfaces", () => {
 
     for (const Interface of interfaces) {
       expect(() => {
-        Reflect.construct(Interface, []);
+        Reflect.construct(
+          Interface as unknown as new (...arguments_: unknown[]) => unknown,
+          [],
+        );
       }).toThrow(TypeError);
       expect(() => {
-        Reflect.construct(Interface, [document, "main"]);
+        Reflect.construct(
+          Interface as unknown as new (...arguments_: unknown[]) => unknown,
+          [document, "main"],
+        );
       }).toThrow(TypeError);
     }
   });
@@ -471,7 +477,10 @@ describe("HTML element interface mapping", () => {
 
     for (const Interface of interfaces) {
       expect(() => {
-        Reflect.construct(Interface, []);
+        Reflect.construct(
+          Interface as unknown as new (...arguments_: unknown[]) => unknown,
+          [],
+        );
       }).toThrow(TypeError);
     }
   });

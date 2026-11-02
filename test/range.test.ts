@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  DOMException,
-  DOMParser,
-  Document,
-  DocumentType,
-  Text,
-} from "../src/index.js";
+import { DOMException, DOMParser, Document, Text } from "../src/index.js";
 import type { Node, Range, Element } from "../src/index.js";
 
 function parse(input: string): Document {
@@ -91,18 +85,19 @@ describe("Range boundaries", () => {
   });
 
   it("validates boundary nodes and offsets", () => {
-    const document = new Document();
-    const doctype = new DocumentType(document, "html", "", "");
-    const element = document.createElement("root");
-    document.appendChild(doctype);
-    document.appendChild(element);
+    const document = parse("<!doctype html><root></root>");
+    const doctype = document.doctype;
+    if (doctype === null) {
+      throw new Error("missing document type");
+    }
+    const root = element(document, "root");
     const range = document.createRange();
 
     expectDOMException(() => {
       range.setStart(doctype, 0);
     }, "InvalidNodeTypeError");
     expectDOMException(() => {
-      range.setStart(element, 1);
+      range.setStart(root, 1);
     }, "IndexSizeError");
     expectDOMException(() => {
       range.setStartBefore(document);
@@ -337,7 +332,10 @@ describe("live Range mutation", () => {
 
     target.adoptNode(root);
     target.appendChild(root);
-    root.firstChild?.remove();
+    const child = root.firstChild;
+    if (child !== null) {
+      root.removeChild(child);
+    }
 
     expect(range.startContainer).toBe(root);
     expect(range.startOffset).toBe(0);

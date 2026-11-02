@@ -1,15 +1,21 @@
 import { DOMException } from "../dom-exception.js";
-import type { Element, FragmentParser, Node } from "../dom/nodes.js";
-import {
-  CDATASection,
-  Comment,
+import type {
   Document,
   DocumentFragment,
-  DocumentType,
-  ProcessingInstruction,
-  Text,
+  Element,
+  FragmentParser,
+  Node,
+} from "../dom/nodes.js";
+import {
   appendNode,
+  createCDATASection,
+  createComment,
+  createDocument,
+  createDocumentFragment,
+  createDocumentType,
   createElementForDocument as createDOMElement,
+  createProcessingInstruction,
+  createText,
   setAttributes,
 } from "../dom/nodes.js";
 import { createElementForDocument } from "../html-elements.js";
@@ -202,7 +208,7 @@ class XMLParserCore {
     if (data.includes("--") || data.endsWith("-")) {
       throw new XMLParseFailure("Invalid comment");
     }
-    this.#append(new Comment(this.#document, data));
+    this.#append(createComment(this.#document, data));
     this.#position = end + 3;
   }
 
@@ -221,7 +227,7 @@ class XMLParserCore {
       throw new XMLParseFailure("Invalid processing instruction");
     }
     this.#append(
-      new ProcessingInstruction(this.#document, target, raw.trimStart()),
+      createProcessingInstruction(this.#document, target, raw.trimStart()),
     );
     this.#position = end + 2;
   }
@@ -235,7 +241,7 @@ class XMLParserCore {
       throw new XMLParseFailure("Unclosed CDATA section");
     }
     const data = this.#source.slice(this.#position + 9, end);
-    this.#append(new CDATASection(this.#document, data));
+    this.#append(createCDATASection(this.#document, data));
     this.#position = end + 3;
   }
 
@@ -309,7 +315,7 @@ class XMLParserCore {
     }
     this.#position += 1;
     this.#doctypeSeen = true;
-    this.#append(new DocumentType(this.#document, name, publicId, systemId));
+    this.#append(createDocumentType(this.#document, name, publicId, systemId));
   }
 
   #findSubsetEnd(): number {
@@ -546,7 +552,7 @@ class XMLParserCore {
       }
       return;
     }
-    this.#append(new Text(this.#document, value));
+    this.#append(createText(this.#document, value));
   }
 
   #parseAttributeValue(): string {
@@ -790,7 +796,7 @@ const xmlFragmentParser: FragmentParser = {
 };
 
 function parserErrorDocument(type: XMLMIMEType, message: string): Document {
-  const document = new Document(
+  const document = createDocument(
     xmlFragmentParser,
     type,
     createElementForDocument,
@@ -800,13 +806,13 @@ function parserErrorDocument(type: XMLMIMEType, message: string): Document {
     "parsererror",
     PARSER_ERROR_NAMESPACE,
   );
-  appendNode(error, new Text(document, message));
+  appendNode(error, createText(document, message));
   appendNode(document, error);
   return document;
 }
 
 export function parseXML(input: string, type: XMLMIMEType): Document {
-  const document = new Document(
+  const document = createDocument(
     xmlFragmentParser,
     type,
     createElementForDocument,
@@ -835,7 +841,7 @@ export function parseXMLFragment(
   if (document === null) {
     throw new TypeError("The context element has no owner document");
   }
-  const fragment = new DocumentFragment(document);
+  const fragment = createDocumentFragment(document);
   try {
     new XMLParserCore(
       input,

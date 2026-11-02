@@ -47,8 +47,8 @@ describe("capability import boundaries", () => {
     const entry = new URL("../src/window.ts", import.meta.url).href;
 
     importWithoutEngine(`
-      const { Window } = await import(${JSON.stringify(entry)});
-      const window = new Window();
+      const { createWindow } = await import(${JSON.stringify(entry)});
+      const window = createWindow();
       if (window.document.defaultView !== window) {
         throw new Error("Window entry point did not work");
       }

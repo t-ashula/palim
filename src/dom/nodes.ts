@@ -6,7 +6,12 @@ import {
 } from "../selectors.js";
 import { DOMException } from "../dom-exception.js";
 import { HTML_NAMESPACE } from "../namespaces.js";
-import { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
+import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
+import {
+  createHTMLCollection,
+  createNamedNodeMap,
+  createNodeList,
+} from "./collections.js";
 import {
   asciiLowercase,
   domString,
@@ -36,7 +41,8 @@ import {
   nodeImplementation,
   nodeInterface,
 } from "./node-implementation.js";
-import { DOMTokenList } from "./token-list.js";
+import type { DOMTokenList } from "./token-list.js";
+import { createDOMTokenList } from "./token-list.js";
 import {
   adjustLiveRangesForData,
   adjustLiveRangesForInsertion,
@@ -59,11 +65,7 @@ import type {
   NodeIterator,
   TreeWalker,
 } from "./traversal.js";
-import { GET_PARSE_ERRORS } from "../html/parse-errors.js";
-import type {
-  PalimParseError,
-  ParseErrorSource,
-} from "../html/parse-errors.js";
+import type { PalimParseError } from "../html/parse-errors.js";
 import type { Window } from "../window.js";
 import {
   serializeHTMLFragment,
@@ -113,6 +115,8 @@ export type ElementFactory = (
   prefix: string | null,
 ) => Element;
 
+let documentElementFactory: ElementFactory = defaultElementFactory;
+
 export class Node extends EventTarget {
   static readonly ELEMENT_NODE = 1;
   static readonly ATTRIBUTE_NODE = 2;
@@ -131,25 +135,17 @@ export class Node extends EventTarget {
   static readonly DOCUMENT_POSITION_CONTAINED_BY = 0x10;
   static readonly DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC = 0x20;
 
-  constructor(
-    nodeType: number,
-    nodeName: string,
-    ownerDocument: Document | null,
-  ) {
+  constructor(implementation?: unknown) {
     super();
-    bindNode(
-      this,
-      new NodeImplementation(
-        nodeType,
-        nodeName,
-        ownerDocument === null ? null : documentImplementation(ownerDocument),
-      ),
-    );
+    if (!(implementation instanceof NodeImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    bindNode(this, implementation);
   }
 
   get childNodes(): NodeList {
     const implementation = nodeImplementation(this);
-    implementation.childNodes ??= new NodeList(() => childNodes(this));
+    implementation.childNodes ??= createNodeList(() => childNodes(this));
     return implementation.childNodes;
   }
 
@@ -293,10 +289,6 @@ export class Node extends EventTarget {
     removeNode(child);
     return child;
   }
-
-  remove(): void {
-    removeNode(this);
-  }
 }
 
 export function childNodes(node: Node): Node[] {
@@ -351,24 +343,36 @@ export function removeNode(node: Node): void {
   implementation.parent = null;
 }
 
-export class Document extends Node implements ParseErrorSource {
+export class Document extends Node {
   readonly characterSet = "UTF-8";
+  readonly charset = "UTF-8";
+  readonly inputEncoding = "UTF-8";
 
-  constructor(
-    fragmentParser: FragmentParser | null = null,
-    contentType = "application/xml",
-    elementFactory: ElementFactory = defaultElementFactory,
-  ) {
-    super(Node.DOCUMENT_NODE, "#document", null);
-    bindNode(
-      this,
-      new DocumentImplementation(fragmentParser, contentType, elementFactory),
+  constructor(implementation?: unknown) {
+    super(
+      implementation instanceof DocumentImplementation
+        ? implementation
+        : new DocumentImplementation(
+            null,
+            "application/xml",
+            documentElementFactory,
+          ),
     );
   }
 
   get contentType(): string {
     return documentImplementation(this).contentType;
   }
+
+  get URL(): string {
+    return documentImplementation(this).url.href;
+  }
+
+  get documentURI(): string {
+    return this.URL;
+  }
+
+  readonly location = null;
 
   get defaultView(): Window | null {
     return documentImplementation(this).defaultView;
@@ -464,21 +468,21 @@ export class Document extends Node implements ParseErrorSource {
   }
 
   createDocumentFragment(): DocumentFragment {
-    return new DocumentFragment(this);
+    return createDocumentFragment(this);
   }
 
   createTextNode(data: string): Text;
   createTextNode(...parameters: CreateCharacterDataArguments): Text {
     requireArguments(parameters.length, 1);
     const [data] = parameters;
-    return new Text(this, domString(data));
+    return createText(this, domString(data));
   }
 
   createComment(data: string): Comment;
   createComment(...parameters: CreateCharacterDataArguments): Comment {
     requireArguments(parameters.length, 1);
     const [data] = parameters;
-    return new Comment(this, domString(data));
+    return createComment(this, domString(data));
   }
 
   importNode<T extends Node>(
@@ -542,7 +546,7 @@ export class Document extends Node implements ParseErrorSource {
       this,
       selectorArgument(selectors, arguments.length),
     );
-    return new NodeList(() => result);
+    return createNodeList(() => result);
   }
 
   getElementById(elementId: string): Element | null {
@@ -577,10 +581,6 @@ export class Document extends Node implements ParseErrorSource {
       requiredDOMString(classNames, arguments.length),
     );
   }
-
-  [GET_PARSE_ERRORS](): readonly PalimParseError[] {
-    return documentImplementation(this).parseErrors;
-  }
 }
 
 export function createElementForDocument(
@@ -597,9 +597,149 @@ export function createElementForDocument(
   );
 }
 
+export function createDocument(
+  fragmentParser: FragmentParser | null,
+  contentType: string,
+  elementFactory: ElementFactory,
+): Document {
+  return new Document(
+    new DocumentImplementation(fragmentParser, contentType, elementFactory),
+  );
+}
+
+export function createDocumentType(
+  document: Document,
+  name: string,
+  publicId: string,
+  systemId: string,
+): DocumentType {
+  return new DocumentType(
+    new DocumentTypeImplementation(
+      documentImplementation(document),
+      name,
+      publicId,
+      systemId,
+    ),
+  );
+}
+
+export function createAttr(
+  document: Document,
+  element: Element | null,
+  name: string,
+  value: string,
+  namespaceURI: string | null = null,
+  prefix: string | null = null,
+  localName = name,
+): Attr {
+  return new Attr(
+    new AttrImplementation(
+      documentImplementation(document),
+      element === null ? null : elementImplementation(element),
+      name,
+      value,
+      namespaceURI,
+      prefix,
+      localName,
+    ),
+  );
+}
+
+export function createElementInterface(
+  document: Document,
+  localName: string,
+  namespaceURI: string | null = HTML_NAMESPACE,
+  prefix: string | null = null,
+): Element {
+  return new Element(
+    createElementImplementation(document, localName, namespaceURI, prefix),
+  );
+}
+
+export function createElementImplementation(
+  document: Document,
+  localName: string,
+  namespaceURI: string | null,
+  prefix: string | null,
+): ElementImplementation {
+  const qualifiedName = prefix === null ? localName : `${prefix}:${localName}`;
+  const tagName =
+    namespaceURI === HTML_NAMESPACE && document.contentType === "text/html"
+      ? qualifiedName.toUpperCase()
+      : qualifiedName;
+  return new ElementImplementation(
+    documentImplementation(document),
+    namespaceURI,
+    prefix,
+    localName,
+    tagName,
+  );
+}
+
+export function createDocumentFragment(document: Document): DocumentFragment {
+  return new DocumentFragment(
+    new NodeImplementation(
+      Node.DOCUMENT_FRAGMENT_NODE,
+      "#document-fragment",
+      documentImplementation(document),
+    ),
+  );
+}
+
+export function createText(document: Document, data: string): Text {
+  return new Text(
+    new CharacterDataImplementation(
+      Node.TEXT_NODE,
+      "#text",
+      documentImplementation(document),
+      data,
+    ),
+  );
+}
+
+export function createCDATASection(
+  document: Document,
+  data: string,
+): CDATASection {
+  return new CDATASection(
+    new CharacterDataImplementation(
+      Node.CDATA_SECTION_NODE,
+      "#cdata-section",
+      documentImplementation(document),
+      data,
+    ),
+  );
+}
+
+export function createComment(document: Document, data: string): Comment {
+  return new Comment(
+    new CharacterDataImplementation(
+      Node.COMMENT_NODE,
+      "#comment",
+      documentImplementation(document),
+      data,
+    ),
+  );
+}
+
+export function createProcessingInstruction(
+  document: Document,
+  target: string,
+  data: string,
+): ProcessingInstruction {
+  return new ProcessingInstruction(
+    new CharacterDataImplementation(
+      Node.PROCESSING_INSTRUCTION_NODE,
+      target,
+      documentImplementation(document),
+      data,
+    ),
+  );
+}
+
 export function templateContentsDocument(document: Document): Document {
   const implementation = documentImplementation(document);
-  implementation.templateContentsOwnerDocument ??= new Document(
+  implementation.templateContentsOwnerDocument ??= createDocument(
     implementation.fragmentParser,
     implementation.contentType,
     implementation.elementFactory,
@@ -631,22 +771,12 @@ export function setDocumentParseErrors(
 }
 
 export class DocumentType extends Node {
-  constructor(
-    document: Document,
-    name: string,
-    publicId: string,
-    systemId: string,
-  ) {
-    super(Node.DOCUMENT_TYPE_NODE, name, document);
-    bindNode(
-      this,
-      new DocumentTypeImplementation(
-        documentImplementation(document),
-        name,
-        publicId,
-        systemId,
-      ),
-    );
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof DocumentTypeImplementation)) {
+      super();
+      return;
+    }
+    super(implementation);
   }
 
   get name(): string {
@@ -664,31 +794,19 @@ export class DocumentType extends Node {
   override get textContent(): null {
     return null;
   }
+
+  remove(): void {
+    removeNode(this);
+  }
 }
 
 export class Attr extends Node {
-  constructor(
-    document: Document,
-    element: Element | null,
-    name: string,
-    value: string,
-    namespaceURI: string | null = null,
-    prefix: string | null = null,
-    localName = name,
-  ) {
-    super(Node.ATTRIBUTE_NODE, name, document);
-    bindNode(
-      this,
-      new AttrImplementation(
-        documentImplementation(document),
-        element === null ? null : elementImplementation(element),
-        name,
-        value,
-        namespaceURI,
-        prefix,
-        localName,
-      ),
-    );
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof AttrImplementation)) {
+      super();
+      return;
+    }
+    super(implementation);
   }
 
   get namespaceURI(): string | null {
@@ -703,16 +821,8 @@ export class Attr extends Node {
     return attrImplementation(this).prefix;
   }
 
-  set prefix(value: string | null) {
-    attrImplementation(this).prefix = value;
-  }
-
   get name(): string {
     return attrImplementation(this).name;
-  }
-
-  set name(value: string) {
-    attrImplementation(this).name = value;
   }
 
   get value(): string {
@@ -742,29 +852,12 @@ export interface AttributeData {
 }
 
 export class Element extends Node {
-  constructor(
-    document: Document,
-    localName: string,
-    namespaceURI: string | null = HTML_NAMESPACE,
-    prefix: string | null = null,
-  ) {
-    const qualifiedName =
-      prefix === null ? localName : `${prefix}:${localName}`;
-    const tagName =
-      namespaceURI === HTML_NAMESPACE && document.contentType === "text/html"
-        ? qualifiedName.toUpperCase()
-        : qualifiedName;
-    super(Node.ELEMENT_NODE, tagName, document);
-    bindNode(
-      this,
-      new ElementImplementation(
-        documentImplementation(document),
-        namespaceURI,
-        prefix,
-        localName,
-        tagName,
-      ),
-    );
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof ElementImplementation)) {
+      super();
+      return;
+    }
+    super(implementation);
   }
 
   get namespaceURI(): string | null {
@@ -785,13 +878,13 @@ export class Element extends Node {
 
   get attributes(): NamedNodeMap {
     const implementation = elementImplementation(this);
-    implementation.attributeMap ??= new NamedNodeMap(this);
+    implementation.attributeMap ??= createNamedNodeMap(this);
     return implementation.attributeMap;
   }
 
   get children(): HTMLCollection {
     const implementation = elementImplementation(this);
-    implementation.elementChildren ??= new HTMLCollection(() =>
+    implementation.elementChildren ??= createHTMLCollection(() =>
       childNodes(this).filter(
         (node): node is Element => node instanceof Element,
       ),
@@ -829,8 +922,12 @@ export class Element extends Node {
 
   get classList(): DOMTokenList {
     const implementation = elementImplementation(this);
-    implementation.classList ??= new DOMTokenList(this, "class");
+    implementation.classList ??= createDOMTokenList(this, "class");
     return implementation.classList;
+  }
+
+  remove(): void {
+    removeNode(this);
   }
 
   get innerHTML(): string {
@@ -965,7 +1062,7 @@ export class Element extends Node {
     }
     setAttributeNode(
       this,
-      new Attr(this.#document(), this, name, convertedValue),
+      createAttr(this.#document(), this, name, convertedValue),
     );
   }
 
@@ -987,14 +1084,15 @@ export class Element extends Node {
       extracted.localName,
     );
     if (attribute !== null) {
-      attribute.prefix = extracted.prefix;
-      attribute.name = extracted.qualifiedName;
+      const implementation = attrImplementation(attribute);
+      implementation.prefix = extracted.prefix;
+      implementation.name = extracted.qualifiedName;
       attribute.value = convertedValue;
       return;
     }
     setAttributeNode(
       this,
-      new Attr(
+      createAttr(
         this.#document(),
         this,
         extracted.qualifiedName,
@@ -1025,7 +1123,7 @@ export class Element extends Node {
     const attribute = findAttributeByName(this, name);
     if (attribute === null) {
       if (arguments.length < 2 || Boolean(force)) {
-        setAttributeNode(this, new Attr(this.#document(), this, name, ""));
+        setAttributeNode(this, createAttr(this.#document(), this, name, ""));
         return true;
       }
       return false;
@@ -1046,7 +1144,7 @@ export class Element extends Node {
       this,
       selectorArgument(selectors, arguments.length),
     );
-    return new NodeList(() => result);
+    return createNodeList(() => result);
   }
 
   matches(selectors: string): boolean {
@@ -1239,7 +1337,7 @@ export function setAttributes(
     }
     setAttributeNode(
       element,
-      new Attr(
+      createAttr(
         document,
         element,
         attribute.name,
@@ -1260,13 +1358,24 @@ function attributeName(element: Element, name: string): string {
 }
 
 export class DocumentFragment extends Node {
-  constructor(document: Document) {
-    super(Node.DOCUMENT_FRAGMENT_NODE, "#document-fragment", document);
+  constructor(implementation?: unknown) {
+    if (implementation instanceof NodeImplementation) {
+      super(implementation);
+      return;
+    }
+    const document = new Document();
+    super(
+      new NodeImplementation(
+        Node.DOCUMENT_FRAGMENT_NODE,
+        "#document-fragment",
+        documentImplementation(document),
+      ),
+    );
   }
 
   get children(): HTMLCollection {
     const implementation = nodeImplementation(this);
-    implementation.elementChildren ??= new HTMLCollection(() =>
+    implementation.elementChildren ??= createHTMLCollection(() =>
       childNodes(this).filter(
         (node): node is Element => node instanceof Element,
       ),
@@ -1283,7 +1392,7 @@ export class DocumentFragment extends Node {
       this,
       selectorArgument(selectors, arguments.length),
     );
-    return new NodeList(() => result);
+    return createNodeList(() => result);
   }
 
   getElementById(elementId: string): Element | null {
@@ -1295,22 +1404,12 @@ export class DocumentFragment extends Node {
 }
 
 export class CharacterData extends Node {
-  constructor(
-    nodeType: number,
-    nodeName: string,
-    document: Document,
-    data: string,
-  ) {
-    super(nodeType, nodeName, document);
-    bindNode(
-      this,
-      new CharacterDataImplementation(
-        nodeType,
-        nodeName,
-        documentImplementation(document),
-        data,
-      ),
-    );
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof CharacterDataImplementation)) {
+      super();
+      return;
+    }
+    super(implementation);
   }
 
   get data(): string {
@@ -1323,6 +1422,10 @@ export class CharacterData extends Node {
 
   override get textContent(): string {
     return this.data;
+  }
+
+  remove(): void {
+    removeNode(this);
   }
 }
 
@@ -1352,29 +1455,79 @@ export function appendCharacterData(node: CharacterData, data: string): void {
 }
 
 export class Text extends CharacterData {
-  constructor(document: Document, data: string) {
-    super(Node.TEXT_NODE, "#text", document, data);
+  constructor(dataOrImplementation: unknown = "") {
+    if (dataOrImplementation instanceof CharacterDataImplementation) {
+      super(dataOrImplementation);
+      return;
+    }
+    const document = new Document();
+    super(
+      new CharacterDataImplementation(
+        Node.TEXT_NODE,
+        "#text",
+        documentImplementation(document),
+        domString(dataOrImplementation),
+      ),
+    );
   }
 }
 
-export class CDATASection extends CharacterData {
-  constructor(document: Document, data: string) {
-    super(Node.CDATA_SECTION_NODE, "#cdata-section", document, data);
+export class CDATASection extends Text {
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof CharacterDataImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    super(implementation);
   }
 }
 
 export class Comment extends CharacterData {
-  constructor(document: Document, data: string) {
-    super(Node.COMMENT_NODE, "#comment", document, data);
+  constructor(dataOrImplementation: unknown = "") {
+    if (dataOrImplementation instanceof CharacterDataImplementation) {
+      super(dataOrImplementation);
+      return;
+    }
+    const document = new Document();
+    super(
+      new CharacterDataImplementation(
+        Node.COMMENT_NODE,
+        "#comment",
+        documentImplementation(document),
+        domString(dataOrImplementation),
+      ),
+    );
   }
 }
 
 export class ProcessingInstruction extends CharacterData {
-  readonly target: string;
+  constructor(targetOrImplementation?: unknown, data = "") {
+    if (targetOrImplementation instanceof CharacterDataImplementation) {
+      super(targetOrImplementation);
+      return;
+    }
+    requireArguments(arguments.length, 1);
+    const target = domString(targetOrImplementation);
+    validateName(target);
+    const convertedData = domString(data);
+    if (convertedData.includes("?>")) {
+      throw new DOMException(
+        "Processing instruction data cannot contain ?>",
+        "InvalidCharacterError",
+      );
+    }
+    const document = new Document();
+    super(
+      new CharacterDataImplementation(
+        Node.PROCESSING_INSTRUCTION_NODE,
+        target,
+        documentImplementation(document),
+        convertedData,
+      ),
+    );
+  }
 
-  constructor(document: Document, target: string, data: string) {
-    super(Node.PROCESSING_INSTRUCTION_NODE, target, document, data);
-    this.target = target;
+  get target(): string {
+    return this.nodeName;
   }
 }
 
@@ -1440,7 +1593,7 @@ function cloneSingleNode(node: Node, document: Document): Node {
   }
   if (node instanceof Document) {
     const implementation = documentImplementation(node);
-    const copy = new Document(
+    const copy = createDocument(
       implementation.fragmentParser,
       node.contentType,
       implementation.elementFactory,
@@ -1449,10 +1602,15 @@ function cloneSingleNode(node: Node, document: Document): Node {
     return copy;
   }
   if (node instanceof DocumentType) {
-    return new DocumentType(document, node.name, node.publicId, node.systemId);
+    return createDocumentType(
+      document,
+      node.name,
+      node.publicId,
+      node.systemId,
+    );
   }
   if (node instanceof Attr) {
-    return new Attr(
+    return createAttr(
       document,
       null,
       node.name,
@@ -1462,25 +1620,38 @@ function cloneSingleNode(node: Node, document: Document): Node {
       node.localName,
     );
   }
-  if (node instanceof Text) {
-    return new Text(document, node.data);
-  }
   if (node instanceof CDATASection) {
-    return new CDATASection(document, node.data);
+    return createCDATASection(document, node.data);
+  }
+  if (node instanceof Text) {
+    return createText(document, node.data);
   }
   if (node instanceof Comment) {
-    return new Comment(document, node.data);
+    return createComment(document, node.data);
   }
   if (node instanceof ProcessingInstruction) {
-    return new ProcessingInstruction(document, node.target, node.data);
+    return createProcessingInstruction(document, node.target, node.data);
   }
   if (node instanceof DocumentFragment) {
-    return new DocumentFragment(document);
+    return createDocumentFragment(document);
   }
   if (node instanceof CharacterData) {
-    return new CharacterData(node.nodeType, node.nodeName, document, node.data);
+    return new CharacterData(
+      new CharacterDataImplementation(
+        node.nodeType,
+        node.nodeName,
+        documentImplementation(document),
+        node.data,
+      ),
+    );
   }
-  return new Node(node.nodeType, node.nodeName, document);
+  return new Node(
+    new NodeImplementation(
+      node.nodeType,
+      node.nodeName,
+      documentImplementation(document),
+    ),
+  );
 }
 
 function defaultElementFactory(
@@ -1489,7 +1660,11 @@ function defaultElementFactory(
   namespaceURI: string | null,
   prefix: string | null,
 ): Element {
-  return new Element(document, localName, namespaceURI, prefix);
+  return createElementInterface(document, localName, namespaceURI, prefix);
+}
+
+export function setDocumentElementFactory(factory: ElementFactory): void {
+  documentElementFactory = factory;
 }
 
 function convertElementCreationOptions(options: unknown): void {
@@ -1538,17 +1713,18 @@ function normalizeDescendantText(node: Node): void {
     if (child === undefined) {
       break;
     }
-    if (child instanceof Text) {
-      if (child.length === 0) {
-        removeNode(child);
+    if (child.nodeType === Node.TEXT_NODE) {
+      const text = child as Text;
+      if (text.length === 0) {
+        removeNode(text);
         continue;
       }
 
-      while (child.nextSibling instanceof Text) {
-        const sibling = child.nextSibling;
-        const length = child.length;
-        appendCharacterData(child, sibling.data);
-        adjustLiveRangesForTextMerge(sibling, child, length);
+      while (text.nextSibling?.nodeType === Node.TEXT_NODE) {
+        const sibling = text.nextSibling as Text;
+        const length = text.length;
+        appendCharacterData(text, sibling.data);
+        adjustLiveRangesForTextMerge(sibling, text, length);
         removeNode(sibling);
       }
     } else {
@@ -1575,7 +1751,7 @@ function elementsByTagName(
 ): HTMLCollection {
   const document = lookupDocument(root);
   const htmlName = asciiLowercase(qualifiedName);
-  return new HTMLCollection(() =>
+  return createHTMLCollection(() =>
     descendantElements(root).filter((element) => {
       if (qualifiedName === "*") {
         return true;
@@ -1594,7 +1770,7 @@ function elementsByTagNameNS(
   namespace: string | null,
   localName: string,
 ): HTMLCollection {
-  return new HTMLCollection(() =>
+  return createHTMLCollection(() =>
     descendantElements(root).filter(
       (element) =>
         (namespace === "*" || element.namespaceURI === namespace) &&
@@ -1612,7 +1788,7 @@ function elementsByClassName(
   const quirks =
     document.contentType === "text/html" && documentIsQuirks(document);
   const requiredClasses = quirks ? classes.map(asciiLowercase) : classes;
-  return new HTMLCollection(() => {
+  return createHTMLCollection(() => {
     if (requiredClasses.length === 0) {
       return [];
     }

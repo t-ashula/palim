@@ -196,7 +196,7 @@ describe("Selector API", () => {
     expect(root.querySelector(":scope > section")).toBe(first);
     expect(root.querySelector(":scope")).toBeNull();
 
-    const fragment = new DocumentFragment(document);
+    const fragment = new DocumentFragment();
     expect(fragment.querySelector("*")).toBeNull();
     expect(fragment.querySelectorAll("*")).toHaveLength(0);
     expect(fragment.querySelector(":scope")).toBeNull();

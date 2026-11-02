@@ -1,3 +1,6 @@
+import { documentImplementation } from "../dom/node-implementation.js";
+import type { Document } from "../dom/nodes.js";
+
 export interface PalimParseError {
   readonly source: "tokenizer" | "tree-construction";
   readonly code: string;
@@ -5,14 +8,6 @@ export interface PalimParseError {
   readonly column: number | null;
 }
 
-export const GET_PARSE_ERRORS = Symbol("get palim parse errors");
-
-export interface ParseErrorSource {
-  [GET_PARSE_ERRORS](): readonly PalimParseError[];
-}
-
-export function parseErrors(
-  source: ParseErrorSource,
-): readonly PalimParseError[] {
-  return Object.freeze([...source[GET_PARSE_ERRORS]()]);
+export function parseErrors(document: Document): readonly PalimParseError[] {
+  return Object.freeze([...documentImplementation(document).parseErrors]);
 }

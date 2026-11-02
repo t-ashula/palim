@@ -5,7 +5,7 @@ import type { EngineResult, EngineValue } from "./javascript-engine/adapter.js";
 import { Engine262Adapter } from "./javascript-engine/engine262-adapter.js";
 import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
-import { Window } from "./window.js";
+import { createWindow } from "./window.js";
 import type { WindowOptions } from "./window.js";
 
 export {
@@ -25,7 +25,7 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   readonly scriptResults: ParserInsertedScriptResult[] = [];
 
   constructor(options: WindowExecutionOptions = {}) {
-    super(new Engine262Adapter(), new Window(options));
+    super(new Engine262Adapter(), createWindow(options));
   }
 
   loadHTML(source: string): Document {

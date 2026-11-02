@@ -6,7 +6,7 @@ import type { WindowEnvironmentSettings } from "../../src/javascript-engine/wind
 import { WindowScriptEnvironment } from "../../src/javascript-engine/window-classic-script.js";
 import { OpaqueOrigin } from "../../src/origin.js";
 import { URL } from "../../src/url/index.js";
-import { Window } from "../../src/window.js";
+import { createWindow } from "../../src/window.js";
 import { WindowExecutionEnvironment } from "../../src/window-javascript.js";
 
 class TrackingEngine262Adapter extends Engine262Adapter {
@@ -135,7 +135,7 @@ describe("Window classic script execution", () => {
 
   it("sets and restores current settings for normal and abrupt completion", () => {
     const engine = new TrackingEngine262Adapter();
-    const environment = new WindowScriptEnvironment(engine, new Window());
+    const environment = new WindowScriptEnvironment(engine, createWindow());
     const observed: WindowEnvironmentSettings[] = [];
     const recordSettings = engine.createFunction(
       environment.settings.realm,
@@ -170,7 +170,7 @@ describe("Window classic script execution", () => {
 
   it("runs one checkpoint after the outermost reentrant script", () => {
     const engine = new TrackingEngine262Adapter();
-    const environment = new WindowScriptEnvironment(engine, new Window());
+    const environment = new WindowScriptEnvironment(engine, createWindow());
     const nested = environment.createClassicScript(`
       Promise.resolve().then(() => {
         document.body.setAttribute("data-promise", "complete");

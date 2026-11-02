@@ -6,16 +6,10 @@ import type { Element } from "./nodes.js";
 export class DOMTokenList implements Iterable<string> {
   readonly [index: number]: string | undefined;
 
-  constructor(
-    element: Element,
-    attributeName: string,
-    supportedTokens: readonly string[] | null = null,
-  ) {
-    const implementation = new DOMTokenListImplementation(
-      element,
-      attributeName,
-      supportedTokens,
-    );
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof DOMTokenListImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
     const proxy = new Proxy(this, {
       get(target, property): unknown {
@@ -166,6 +160,16 @@ class DOMTokenListImplementation {
     this.supportedTokens =
       supportedTokens === null ? null : new Set(supportedTokens);
   }
+}
+
+export function createDOMTokenList(
+  element: Element,
+  attributeName: string,
+  supportedTokens: readonly string[] | null = null,
+): DOMTokenList {
+  return new DOMTokenList(
+    new DOMTokenListImplementation(element, attributeName, supportedTokens),
+  );
 }
 
 function tokenListImplementation(

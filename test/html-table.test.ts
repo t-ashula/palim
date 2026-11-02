@@ -12,7 +12,9 @@ import {
   HTMLTableSectionElement,
 } from "../src/index.js";
 
-type ElementInterface<T extends Element> = new () => T;
+interface ElementInterface<T extends Element> {
+  [Symbol.hasInstance](value: unknown): value is T;
+}
 
 function parse(input = "<table></table>"): Document {
   return new DOMParser().parseFromString(input, "text/html");

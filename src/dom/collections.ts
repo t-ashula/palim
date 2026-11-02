@@ -32,10 +32,12 @@ function indexed<T extends object>(
 export class NodeList<T extends Node = Node> implements Iterable<T> {
   readonly [index: number]: T | undefined;
 
-  constructor(values: () => readonly T[]) {
-    const implementation = new CollectionImplementation(values);
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof CollectionImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, values);
+    const proxy = indexed(this, implementation.values);
     bindDOMInterface(proxy, implementation);
     return proxy;
   }
@@ -59,10 +61,12 @@ export class HTMLCollection<
 > implements Iterable<T> {
   readonly [index: number]: T | undefined;
 
-  constructor(values: () => readonly T[]) {
-    const implementation = new CollectionImplementation(values);
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof CollectionImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, values);
+    const proxy = indexed(this, implementation.values);
     bindDOMInterface(proxy, implementation);
     return proxy;
   }
@@ -95,10 +99,12 @@ export class HTMLCollection<
 export class NamedNodeMap implements Iterable<Attr> {
   readonly [index: number]: Attr | undefined;
 
-  constructor(element: Element) {
-    const implementation = new NamedNodeMapImplementation(element);
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof NamedNodeMapImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, () => attributeNodes(element));
+    const proxy = indexed(this, () => attributeNodes(implementation.element));
     bindDOMInterface(proxy, implementation);
     return proxy;
   }
@@ -170,6 +176,28 @@ export class NamedNodeMap implements Iterable<Attr> {
 
 class CollectionImplementation<T> {
   constructor(readonly values: () => readonly T[]) {}
+}
+
+export function createCollectionImplementation(
+  values: () => readonly unknown[],
+): object {
+  return new CollectionImplementation(values);
+}
+
+export function createNodeList<T extends Node>(
+  values: () => readonly T[],
+): NodeList<T> {
+  return new NodeList<T>(createCollectionImplementation(values));
+}
+
+export function createHTMLCollection<T extends Element = Element, N = T>(
+  values: () => readonly T[],
+): HTMLCollection<T, N> {
+  return new HTMLCollection<T, N>(createCollectionImplementation(values));
+}
+
+export function createNamedNodeMap(element: Element): NamedNodeMap {
+  return new NamedNodeMap(new NamedNodeMapImplementation(element));
 }
 
 function collectionValues(collection: object): readonly unknown[] {

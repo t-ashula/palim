@@ -1,7 +1,5 @@
-import type { Node, Document } from "./dom.js";
+import type { Node, Document, DocumentFragment, DOMTokenList } from "./dom.js";
 import {
-  DocumentFragment,
-  DOMTokenList,
   Element,
   Event,
   EventTarget,
@@ -11,12 +9,23 @@ import {
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
+import {
+  createCollectionImplementation,
+  createHTMLCollection,
+  createNodeList,
+} from "./dom/collections.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
 import {
   childNodes,
+  createDocumentFragment,
+  createElementImplementation,
+  createElementInterface,
+  createText,
+  setDocumentElementFactory,
   setTemplateContents,
   templateContentsDocument,
 } from "./dom/nodes.js";
+import { createDOMTokenList } from "./dom/token-list.js";
 import {
   deleteTableItem,
   insertTableRow as insertTableRowAt,
@@ -217,8 +226,10 @@ const RESERVED_CUSTOM_ELEMENT_NAMES = new Set([
 export class DOMStringMap {
   [name: string]: string | undefined;
 
-  constructor(element: Element) {
-    const implementation = new DOMStringMapImplementation(element);
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof DOMStringMapImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
     const proxy = new Proxy(this, {
       get(target, property): unknown {
@@ -274,6 +285,10 @@ class DOMStringMapImplementation {
   constructor(readonly element: Element) {}
 }
 
+function createDOMStringMap(element: Element): DOMStringMap {
+  return new DOMStringMap(new DOMStringMapImplementation(element));
+}
+
 function datasetElement(dataset: DOMStringMap): Element {
   return (implementationFor(dataset) as DOMStringMapImplementation).element;
 }
@@ -281,17 +296,18 @@ function datasetElement(dataset: DOMStringMap): Element {
 export type EventHandler = ((event: Event) => unknown) | null;
 
 export class HTMLElement extends Element {
-  [eventHandler: `on${string}`]: EventHandler;
   #dataset: DOMStringMap | null = null;
   #popoverVisible = false;
 
   constructor() {
     const construction = currentHTMLConstruction();
     super(
-      construction.document,
-      construction.localName,
-      HTML_NAMESPACE,
-      construction.prefix,
+      createElementImplementation(
+        construction.document,
+        construction.localName,
+        HTML_NAMESPACE,
+        construction.prefix,
+      ),
     );
   }
 
@@ -433,7 +449,7 @@ export class HTMLElement extends Element {
     if (document === null) {
       throw new TypeError("Element has no owner document");
     }
-    parent.replaceChild(new Text(document, domString(value)), this);
+    parent.replaceChild(createText(document, domString(value)), this);
   }
 
   attachInternals(): never {
@@ -508,7 +524,7 @@ export class HTMLElement extends Element {
   }
 
   get dataset(): DOMStringMap {
-    this.#dataset ??= new DOMStringMap(this);
+    this.#dataset ??= createDOMStringMap(this);
     return this.#dataset;
   }
 
@@ -627,7 +643,7 @@ export class HTMLTitleElement extends HTMLElement {
       if (document === null) {
         throw new TypeError("Element has no owner document");
       }
-      this.appendChild(new Text(document, converted));
+      this.appendChild(createText(document, converted));
     }
   }
 }
@@ -846,7 +862,7 @@ export class HTMLTemplateElement extends HTMLElement {
       throw new TypeError("Element has no owner document");
     }
     const ownerDocument = templateContentsOwnerDocument(document);
-    this.#content = new DocumentFragment(ownerDocument);
+    this.#content = createDocumentFragment(ownerDocument);
     setTemplateContents(this, this.#content);
   }
 
@@ -980,7 +996,7 @@ export class HTMLLinkElement extends HTMLElement {
   }
 
   get relList(): DOMTokenList {
-    this.#relList ??= new DOMTokenList(this, "rel", [
+    this.#relList ??= createDOMTokenList(this, "rel", [
       "alternate",
       "author",
       "bookmark",
@@ -1045,7 +1061,7 @@ export class HTMLLinkElement extends HTMLElement {
   }
 
   get sizes(): DOMTokenList {
-    this.#sizes ??= new DOMTokenList(this, "sizes");
+    this.#sizes ??= createDOMTokenList(this, "sizes");
     return this.#sizes;
   }
 
@@ -1074,7 +1090,7 @@ export class HTMLLinkElement extends HTMLElement {
   }
 
   get blocking(): DOMTokenList {
-    this.#blocking ??= new DOMTokenList(this, "blocking", ["render"]);
+    this.#blocking ??= createDOMTokenList(this, "blocking", ["render"]);
     return this.#blocking;
   }
 
@@ -1183,7 +1199,7 @@ export class HTMLStyleElement extends HTMLElement {
   }
 
   get blocking(): DOMTokenList {
-    this.#blocking ??= new DOMTokenList(this, "blocking", ["render"]);
+    this.#blocking ??= createDOMTokenList(this, "blocking", ["render"]);
     return this.#blocking;
   }
 
@@ -1284,7 +1300,7 @@ export class HTMLAnchorElement extends HTMLElement {
   }
 
   get relList(): DOMTokenList {
-    this.#relList ??= new DOMTokenList(this, "rel");
+    this.#relList ??= createDOMTokenList(this, "rel");
     return this.#relList;
   }
 
@@ -1688,7 +1704,7 @@ export class HTMLIFrameElement extends HTMLElement {
   }
 
   get sandbox(): DOMTokenList {
-    this.#sandbox ??= new DOMTokenList(this, "sandbox");
+    this.#sandbox ??= createDOMTokenList(this, "sandbox");
     return this.#sandbox;
   }
 
@@ -1942,8 +1958,11 @@ export class HTMLObjectElement extends HTMLElement {
 export class TimeRanges {
   readonly #ranges: readonly (readonly [number, number])[];
 
-  constructor(ranges: readonly (readonly [number, number])[] = []) {
-    this.#ranges = ranges;
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof TimeRangesImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    this.#ranges = implementation.ranges;
   }
 
   get length(): number {
@@ -1968,6 +1987,16 @@ export class TimeRanges {
     }
     return range;
   }
+}
+
+class TimeRangesImplementation {
+  constructor(readonly ranges: readonly (readonly [number, number])[]) {}
+}
+
+function createTimeRanges(
+  ranges: readonly (readonly [number, number])[] = [],
+): TimeRanges {
+  return new TimeRanges(new TimeRangesImplementation(ranges));
 }
 
 export class HTMLMediaElement extends HTMLElement {
@@ -1997,9 +2026,9 @@ export class HTMLMediaElement extends HTMLElement {
   #volume = 1;
   #muted = false;
   #srcObject: unknown = null;
-  readonly #audioTracks = new AudioTrackList();
-  readonly #videoTracks = new VideoTrackList();
-  readonly #textTracks = new TextTrackList();
+  readonly #audioTracks = createAudioTrackList();
+  readonly #videoTracks = createVideoTrackList();
+  readonly #textTracks = createTextTrackList();
 
   readonly error = null;
 
@@ -2044,7 +2073,7 @@ export class HTMLMediaElement extends HTMLElement {
   }
 
   get buffered(): TimeRanges {
-    return new TimeRanges();
+    return createTimeRanges();
   }
 
   load(): void {
@@ -2113,11 +2142,11 @@ export class HTMLMediaElement extends HTMLElement {
   }
 
   get played(): TimeRanges {
-    return new TimeRanges();
+    return createTimeRanges();
   }
 
   get seekable(): TimeRanges {
-    return new TimeRanges();
+    return createTimeRanges();
   }
 
   readonly ended = false;
@@ -2207,7 +2236,7 @@ export class HTMLMediaElement extends HTMLElement {
   }
 
   addTextTrack(kind: string, label = "", language = ""): TextTrack {
-    const track = new TextTrack(
+    const track = createTextTrack(
       asciiLowercase(domString(kind)),
       domString(label),
       domString(language),
@@ -2262,9 +2291,11 @@ class TrackList<T extends { readonly id: string }>
 {
   readonly [index: number]: T | undefined;
 
-  constructor() {
+  constructor(implementation?: unknown) {
     super();
-    const implementation = new TrackListImplementation<T>();
+    if (!(implementation instanceof TrackListImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
     bindDOMInterface(this, implementation);
     const proxy = new Proxy(this, {
       get(target, property): unknown {
@@ -2329,11 +2360,14 @@ export class AudioTrack {
   readonly language: string;
   enabled = false;
 
-  constructor(id = "", kind = "", label = "", language = "") {
-    this.id = id;
-    this.kind = kind;
-    this.label = label;
-    this.language = language;
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof TrackImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    this.id = implementation.id;
+    this.kind = implementation.kind;
+    this.label = implementation.label;
+    this.language = implementation.language;
   }
 }
 
@@ -2344,11 +2378,14 @@ export class VideoTrack {
   readonly language: string;
   selected = false;
 
-  constructor(id = "", kind = "", label = "", language = "") {
-    this.id = id;
-    this.kind = kind;
-    this.label = label;
-    this.language = language;
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof TrackImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    this.id = implementation.id;
+    this.kind = implementation.kind;
+    this.label = implementation.label;
+    this.language = implementation.language;
   }
 }
 
@@ -2369,11 +2406,14 @@ export class TextTrack extends EventTarget {
   mode: "disabled" | "hidden" | "showing" = "disabled";
   readonly #cues: unknown[] = [];
 
-  constructor(kind = "subtitles", label = "", language = "") {
+  constructor(implementation?: unknown) {
     super();
-    this.kind = kind;
-    this.label = label;
-    this.language = language;
+    if (!(implementation instanceof TextTrackImplementation)) {
+      throw new TypeError("Illegal constructor");
+    }
+    this.kind = implementation.kind;
+    this.label = implementation.label;
+    this.language = implementation.language;
   }
 
   get cues(): readonly unknown[] {
@@ -2399,6 +2439,43 @@ export class TextTrack extends EventTarget {
 }
 
 export class TextTrackList extends TrackList<TextTrack> {}
+
+class TrackImplementation {
+  constructor(
+    readonly id: string,
+    readonly kind: string,
+    readonly label: string,
+    readonly language: string,
+  ) {}
+}
+
+class TextTrackImplementation {
+  constructor(
+    readonly kind: string,
+    readonly label: string,
+    readonly language: string,
+  ) {}
+}
+
+function createAudioTrackList(): AudioTrackList {
+  return new AudioTrackList(new TrackListImplementation<AudioTrack>());
+}
+
+function createVideoTrackList(): VideoTrackList {
+  return new VideoTrackList(new TrackListImplementation<VideoTrack>());
+}
+
+function createTextTrackList(): TextTrackList {
+  return new TextTrackList(new TrackListImplementation<TextTrack>());
+}
+
+function createTextTrack(
+  kind = "subtitles",
+  label = "",
+  language = "",
+): TextTrack {
+  return new TextTrack(new TextTrackImplementation(kind, label, language));
+}
 
 export class HTMLTrackElement extends HTMLElement {
   static readonly NONE = 0;
@@ -2456,7 +2533,7 @@ export class HTMLTrackElement extends HTMLElement {
   }
 
   get track(): TextTrack {
-    this.#track ??= new TextTrack(this.kind, this.label, this.srclang);
+    this.#track ??= createTextTrack(this.kind, this.label, this.srclang);
     return this.#track;
   }
 }
@@ -2473,7 +2550,7 @@ export class HTMLMapElement extends HTMLElement {
   }
 
   get areas(): HTMLCollection<HTMLAreaElement> {
-    this.#areas ??= new HTMLCollection(() =>
+    this.#areas ??= createHTMLCollection(() =>
       descendants(this).filter(
         (element): element is HTMLAreaElement =>
           element instanceof HTMLAreaElement,
@@ -2506,7 +2583,7 @@ export class HTMLAreaElement extends HTMLElement {
   declare type: string;
 
   get relList(): DOMTokenList {
-    this.#relList ??= new DOMTokenList(this, "rel");
+    this.#relList ??= createDOMTokenList(this, "rel");
     return this.#relList;
   }
 
@@ -2676,7 +2753,7 @@ export class HTMLTableElement extends HTMLElement {
   }
 
   get tBodies(): HTMLCollection<HTMLTableSectionElement> {
-    this.#tBodies ??= new HTMLCollection(() =>
+    this.#tBodies ??= createHTMLCollection(() =>
       tableElements(tableBodies(this), HTMLTableSectionElement),
     );
     return this.#tBodies;
@@ -2689,7 +2766,7 @@ export class HTMLTableElement extends HTMLElement {
   }
 
   get rows(): HTMLCollection<HTMLTableRowElement> {
-    this.#rows ??= new HTMLCollection(() =>
+    this.#rows ??= createHTMLCollection(() =>
       tableElements(tableRows(this), HTMLTableRowElement),
     );
     return this.#rows;
@@ -2743,7 +2820,7 @@ export class HTMLTableSectionElement extends HTMLElement {
   #rows: HTMLCollection<HTMLTableRowElement> | null = null;
 
   get rows(): HTMLCollection<HTMLTableRowElement> {
-    this.#rows ??= new HTMLCollection(() =>
+    this.#rows ??= createHTMLCollection(() =>
       tableElements(tableSectionRows(this), HTMLTableRowElement),
     );
     return this.#rows;
@@ -2788,7 +2865,7 @@ export class HTMLTableRowElement extends HTMLElement {
   }
 
   get cells(): HTMLCollection<HTMLTableCellElement> {
-    this.#cells ??= new HTMLCollection(() =>
+    this.#cells ??= createHTMLCollection(() =>
       tableElements(tableRowCells(this), HTMLTableCellElement),
     );
     return this.#cells;
@@ -2875,7 +2952,10 @@ export class HTMLTableCellElement extends HTMLElement {
 export class ValidityState {
   readonly #validation: ValidationState;
 
-  constructor(validation: ValidationState) {
+  constructor(validation?: unknown) {
+    if (!(validation instanceof ValidationState)) {
+      throw new TypeError("Illegal constructor");
+    }
     this.#validation = validation;
   }
 
@@ -2948,6 +3028,10 @@ export class RadioNodeList extends NodeList<Element> {
   }
 }
 
+function createRadioNodeList(values: () => readonly Element[]): RadioNodeList {
+  return new RadioNodeList(createCollectionImplementation(values));
+}
+
 export class HTMLFormControlsCollection extends HTMLCollection<
   Element,
   RadioNodeList | Element
@@ -2965,16 +3049,25 @@ export class HTMLFormControlsCollection extends HTMLCollection<
     }
     return matches.length === 1
       ? (matches[0] ?? null)
-      : new RadioNodeList(() => matches);
+      : createRadioNodeList(() => matches);
   }
+}
+
+function createHTMLFormControlsCollection(
+  values: () => readonly Element[],
+): HTMLFormControlsCollection {
+  return new HTMLFormControlsCollection(createCollectionImplementation(values));
 }
 
 export class HTMLOptionsCollection extends HTMLCollection<HTMLOptionElement> {
   readonly #select: HTMLSelectElement;
 
-  constructor(select: HTMLSelectElement) {
-    super(() => optionDescendants(select));
-    this.#select = select;
+  constructor(construction?: unknown) {
+    if (!(construction instanceof HTMLOptionsCollectionConstruction)) {
+      throw new TypeError("Illegal constructor");
+    }
+    super(construction.implementation);
+    this.#select = construction.select;
   }
 
   override get length(): number {
@@ -3013,6 +3106,24 @@ export class HTMLOptionsCollection extends HTMLCollection<HTMLOptionElement> {
   }
 }
 
+class HTMLOptionsCollectionConstruction {
+  readonly implementation: object;
+
+  constructor(readonly select: HTMLSelectElement) {
+    this.implementation = createCollectionImplementation(() =>
+      optionDescendants(select),
+    );
+  }
+}
+
+function createHTMLOptionsCollection(
+  select: HTMLSelectElement,
+): HTMLOptionsCollection {
+  return new HTMLOptionsCollection(
+    new HTMLOptionsCollectionConstruction(select),
+  );
+}
+
 export class HTMLFormElement extends HTMLElement {
   #elements: HTMLFormControlsCollection | null = null;
   #relList: DOMTokenList | null = null;
@@ -3036,12 +3147,14 @@ export class HTMLFormElement extends HTMLElement {
   }
 
   get relList(): DOMTokenList {
-    this.#relList ??= new DOMTokenList(this, "rel");
+    this.#relList ??= createDOMTokenList(this, "rel");
     return this.#relList;
   }
 
   get elements(): HTMLFormControlsCollection {
-    this.#elements ??= new HTMLFormControlsCollection(() => formControls(this));
+    this.#elements ??= createHTMLFormControlsCollection(() =>
+      formControls(this),
+    );
     return this.#elements;
   }
 
@@ -3515,7 +3628,7 @@ export class HTMLSelectElement extends HTMLElement {
   }
 
   get options(): HTMLOptionsCollection {
-    this.#options ??= new HTMLOptionsCollection(this);
+    this.#options ??= createHTMLOptionsCollection(this);
     return this.#options;
   }
 
@@ -3567,7 +3680,7 @@ export class HTMLSelectElement extends HTMLElement {
   }
 
   get selectedOptions(): HTMLCollection<HTMLOptionElement> {
-    this.#selectedOptions ??= new HTMLCollection(() =>
+    this.#selectedOptions ??= createHTMLCollection(() =>
       optionDescendants(this).filter((option) => option.selected),
     );
     return this.#selectedOptions;
@@ -3637,7 +3750,7 @@ export class HTMLDataListElement extends HTMLElement {
   #options: HTMLCollection<HTMLOptionElement> | null = null;
 
   get options(): HTMLCollection<HTMLOptionElement> {
-    this.#options ??= new HTMLCollection(() => optionDescendants(this));
+    this.#options ??= createHTMLCollection(() => optionDescendants(this));
     return this.#options;
   }
 }
@@ -3892,7 +4005,7 @@ export class HTMLOutputElement extends HTMLElement {
   declare name: string;
 
   get htmlFor(): DOMTokenList {
-    this.#htmlFor ??= new DOMTokenList(this, "for");
+    this.#htmlFor ??= createDOMTokenList(this, "for");
     return this.#htmlFor;
   }
 
@@ -4000,7 +4113,7 @@ export class HTMLFieldSetElement extends HTMLElement {
   readonly type = "fieldset";
 
   get elements(): HTMLCollection {
-    this.#elements ??= new HTMLCollection(() => formControls(this));
+    this.#elements ??= createHTMLCollection(() => formControls(this));
     return this.#elements;
   }
 
@@ -4110,7 +4223,7 @@ export class HTMLScriptElement extends HTMLElement {
   }
 
   get blocking(): DOMTokenList {
-    this.#blocking ??= new DOMTokenList(this, "blocking", ["render"]);
+    this.#blocking ??= createDOMTokenList(this, "blocking", ["render"]);
     return this.#blocking;
   }
 
@@ -4317,7 +4430,7 @@ export class HTMLParamElement extends HTMLElement {
   declare valueType: string;
 }
 
-installEventHandlerProperties(HTMLElement, [
+const GLOBAL_EVENT_HANDLER_NAMES = [
   "abort",
   "animationcancel",
   "animationend",
@@ -4402,8 +4515,19 @@ installEventHandlerProperties(HTMLElement, [
   "webkitanimationstart",
   "webkittransitionend",
   "wheel",
-]);
-installEventHandlerProperties(HTMLBodyElement, [
+] as const;
+
+type EventHandlerProperties<Names extends readonly string[]> = {
+  [Name in Names[number] as `on${Name}`]: EventHandler;
+};
+
+export type GlobalEventHandlers = EventHandlerProperties<
+  typeof GLOBAL_EVENT_HANDLER_NAMES
+>;
+
+installEventHandlerProperties(HTMLElement, GLOBAL_EVENT_HANDLER_NAMES);
+
+const WINDOW_EVENT_HANDLER_NAMES = [
   "afterprint",
   "beforeprint",
   "beforeunload",
@@ -4422,27 +4546,14 @@ installEventHandlerProperties(HTMLBodyElement, [
   "storage",
   "unhandledrejection",
   "unload",
-]);
-installEventHandlerProperties(HTMLFrameSetElement, [
-  "afterprint",
-  "beforeprint",
-  "beforeunload",
-  "hashchange",
-  "languagechange",
-  "message",
-  "messageerror",
-  "offline",
-  "online",
-  "pagehide",
-  "pagereveal",
-  "pageshow",
-  "pageswap",
-  "popstate",
-  "rejectionhandled",
-  "storage",
-  "unhandledrejection",
-  "unload",
-]);
+] as const;
+
+export type WindowEventHandlers = EventHandlerProperties<
+  typeof WINDOW_EVENT_HANDLER_NAMES
+>;
+
+installEventHandlerProperties(HTMLBodyElement, WINDOW_EVENT_HANDLER_NAMES);
+installEventHandlerProperties(HTMLFrameSetElement, WINDOW_EVENT_HANDLER_NAMES);
 
 installStringReflectors(HTMLTableElement, {
   align: "align",
@@ -4853,7 +4964,7 @@ export function createHTMLElement(
   }
   if (SPECIALIZED_HTML_ELEMENT_NAMES.has(localName)) {
     htmlConstructionPrefixStack.pop();
-    return new Element(document, localName, HTML_NAMESPACE, prefix);
+    return createElementInterface(document, localName, HTML_NAMESPACE, prefix);
   }
   return constructHTMLElement(HTMLUnknownElement, document, localName);
 }
@@ -4866,8 +4977,10 @@ export function createElementForDocument(
 ): Element {
   return namespaceURI === HTML_NAMESPACE
     ? createHTMLElement(document, localName, prefix)
-    : new Element(document, localName, namespaceURI, prefix);
+    : createElementInterface(document, localName, namespaceURI, prefix);
 }
+
+setDocumentElementFactory(createElementForDocument);
 
 interface HTMLConstruction {
   readonly document: Document;
@@ -5047,7 +5160,7 @@ function replaceText(element: Element, value: string): void {
   if (document === null) {
     throw new TypeError("Element has no owner document");
   }
-  element.appendChild(new Text(document, value));
+  element.appendChild(createText(document, value));
 }
 
 function defaultTabIndex(element: HTMLElement): number {
@@ -5377,7 +5490,7 @@ function isLabelableElement(element: Element): element is HTMLElement {
 }
 
 function labelsFor(element: HTMLElement): NodeList<HTMLLabelElement> {
-  return new NodeList(() => {
+  return createNodeList(() => {
     const document = element.ownerDocument;
     if (document === null) {
       return [];

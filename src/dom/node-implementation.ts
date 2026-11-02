@@ -43,7 +43,7 @@ export class DocumentImplementation extends NodeImplementation {
   defaultView: Window | null = null;
   url = new URL("about:blank");
   origin: Origin = originFromURL(this.url);
-  quirks = true;
+  quirks = false;
   parseErrors: readonly PalimParseError[] = [];
 
   constructor(

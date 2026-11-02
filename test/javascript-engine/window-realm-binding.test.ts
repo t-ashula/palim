@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 
-import { Event } from "../../src/index.js";
+import { Document, Event } from "../../src/index.js";
+import { normal } from "../../src/javascript-engine/adapter.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
 } from "../../src/javascript-engine/adapter.js";
 import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
 import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
-import { Window } from "../../src/window.js";
+import { createWindow } from "../../src/window.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,
@@ -21,8 +23,50 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("constructs realm-local Document platform objects", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+    const documents: Document[] = [];
+    const record = engine.createFunction(
+      binding.realm,
+      "recordConstructedDocument",
+      1,
+      (_thisValue, argumentsList) => {
+        const document = binding.dom.interfaceObject(
+          argumentsList[0] ?? engine.fromPrimitive(undefined),
+        );
+        if (document instanceof Document) {
+          documents.push(document);
+        }
+        return normal(engine.fromPrimitive(undefined));
+      },
+    );
+    engine.defineDataProperty(
+      engine.globalObject(binding.realm),
+      "recordConstructedDocument",
+      record,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/document-constructor.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+
+    expect(documents).toHaveLength(1);
+    expect(documents[0]?.documentElement?.localName).toBe("root");
+  });
+
   it("uses Window and WindowProxy as the realm globals", () => {
-    const window = new Window();
+    const window = createWindow();
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
@@ -62,7 +106,7 @@ describe("WindowRealmBinding", () => {
   });
 
   it("defines global interface members with Window descriptors", () => {
-    const window = new Window();
+    const window = createWindow();
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
@@ -116,7 +160,7 @@ describe("WindowRealmBinding", () => {
   });
 
   it("shares DOM state between the host and engine realm", () => {
-    const window = new Window();
+    const window = createWindow();
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
     window.document.body?.setAttribute("data-host", "before");
@@ -140,7 +184,7 @@ describe("WindowRealmBinding", () => {
   });
 
   it("invokes Window event callbacks with WindowProxy identity", () => {
-    const window = new Window();
+    const window = createWindow();
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
@@ -163,8 +207,8 @@ describe("WindowRealmBinding", () => {
 
   it("keeps separate Window realms isolated", () => {
     const engine = new Engine262Adapter();
-    const firstWindow = new Window();
-    const secondWindow = new Window();
+    const firstWindow = createWindow();
+    const secondWindow = createWindow();
     const first = new WindowRealmBinding(engine, firstWindow);
     const second = new WindowRealmBinding(engine, secondWindow);
 

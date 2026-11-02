@@ -13,6 +13,8 @@ import {
   appendNode,
   childNodes,
   cloneNodeIntoDocument,
+  createDocumentFragment,
+  createText,
   removeNode,
   replaceCharacterData,
   validatePreInsertion,
@@ -583,7 +585,7 @@ export function transferLiveRanges(node: Node, document: Document): void {
 
 function extractRange(range: RangeImplementation): DocumentFragment {
   const document = nodeDocument(range.startContainer);
-  const fragment = new DocumentFragment(document);
+  const fragment = createDocumentFragment(document);
   if (range.collapsed) {
     return fragment;
   }
@@ -690,7 +692,7 @@ function extractRange(range: RangeImplementation): DocumentFragment {
 
 function cloneRangeContents(range: RangeImplementation): DocumentFragment {
   const document = nodeDocument(range.startContainer);
-  const fragment = new DocumentFragment(document);
+  const fragment = createDocumentFragment(document);
   if (range.collapsed) {
     return fragment;
   }
@@ -765,7 +767,7 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
 
 function splitTextNode(node: Text, offset: number): Text {
   const document = nodeDocument(node);
-  const split = new Text(document, node.data.slice(offset));
+  const split = createText(document, node.data.slice(offset));
   const parent = node.parentNode;
   if (parent !== null) {
     const insertionOffset = nodeIndex(node) + 1;

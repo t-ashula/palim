@@ -262,11 +262,11 @@ function serializeNode(
   if (node instanceof Attr) {
     return "";
   }
-  if (node instanceof Text) {
-    return escapeText(node.data, requireWellFormed);
-  }
   if (node instanceof CDATASection) {
     return `<![CDATA[${node.data}]]>`;
+  }
+  if (node instanceof Text) {
+    return escapeText(node.data, requireWellFormed);
   }
   if (node instanceof Comment) {
     requireXMLCharacters(node.data, requireWellFormed);

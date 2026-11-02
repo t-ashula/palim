@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import type { EventTarget } from "../src/index.js";
 import { DOMParser, Event } from "../src/index.js";
-import { Window } from "../src/window.js";
+import { createWindow, type Window } from "../src/window.js";
 
 describe("Window", () => {
   it("creates a top-level Window environment", () => {
-    const window = new Window();
+    const window = createWindow();
 
     expect(window.window).toBe(window);
     expect(window.self).toBe(window);
@@ -30,7 +30,7 @@ describe("Window", () => {
   });
 
   it("uses the WindowProxy identity for event callbacks", () => {
-    const window = new Window();
+    const window = createWindow();
     let receiverMatches = false;
     let currentTarget: EventTarget | null = null;
     window.addEventListener("ready", function (this: Window, event) {
@@ -45,8 +45,8 @@ describe("Window", () => {
   });
 
   it("does not share state between Window environments", () => {
-    const first = new Window();
-    const second = new Window();
+    const first = createWindow();
+    const second = createWindow();
 
     first.document.body?.setAttribute("data-window", "first");
 
