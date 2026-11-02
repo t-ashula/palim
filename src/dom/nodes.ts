@@ -64,6 +64,7 @@ import type {
   PalimParseError,
   ParseErrorSource,
 } from "../html/parse-errors.js";
+import type { Window } from "../window.js";
 import {
   serializeHTMLFragment,
   serializeHTMLElement,
@@ -367,6 +368,10 @@ export class Document extends Node implements ParseErrorSource {
 
   get contentType(): string {
     return documentImplementation(this).contentType;
+  }
+
+  get defaultView(): Window | null {
+    return documentImplementation(this).defaultView;
   }
 
   get doctype(): DocumentType | null {

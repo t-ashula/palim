@@ -80,6 +80,37 @@ export class DOMRealmBinding {
     );
   }
 
+  get eventTargetPrototype(): EngineObject {
+    return this.#eventTargetPrototype;
+  }
+
+  platformObject(interfaceObject: object): EngineObject {
+    return this.#wrap(interfaceObject);
+  }
+
+  bindPlatformObject(
+    interfaceObject: object,
+    platformObject: EngineObject,
+  ): void {
+    const implementation = implementationFor(interfaceObject);
+    this.#platformObjects.set(implementation, platformObject);
+    this.#implementations.set(platformObject, implementation);
+  }
+
+  associatePlatformObject(
+    interfaceObject: object,
+    platformObject: EngineObject,
+  ): void {
+    this.#implementations.set(
+      platformObject,
+      implementationFor(interfaceObject),
+    );
+  }
+
+  interfaceObject(value: EngineValue): object | null {
+    return this.#interfaceObject(value);
+  }
+
   #installInterfaces(): void {
     this.#installInterface("EventTarget", this.#eventTargetPrototype, 0, () =>
       normal(this.#wrap(new EventTarget())),
@@ -377,6 +408,12 @@ export class DOMRealmBinding {
   }
 
   #installDocumentMembers(): void {
+    this.#attribute(this.#documentPrototype, "defaultView", (thisValue) => {
+      const document = this.#document(thisValue);
+      return document === null
+        ? this.#typeError("Invalid Document receiver")
+        : this.#platformValue(document.defaultView);
+    });
     this.#attribute(this.#documentPrototype, "body", (thisValue) => {
       const document = this.#document(thisValue);
       return document === null

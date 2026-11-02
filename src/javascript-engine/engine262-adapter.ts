@@ -10,6 +10,7 @@ import {
   markBuiltinFunctionAsConstructor,
   ObjectValue,
   OrdinaryObjectCreate,
+  ProxyCreate,
   setSurroundingAgent,
   skipDebugger,
   ThrowCompletion,
@@ -17,10 +18,12 @@ import {
   ToString,
   Value,
   ValueOfNormalCompletion,
+  X,
 } from "@engine262/engine262";
 import type {
   FunctionObject,
   NativeSteps,
+  ProxyObject,
   Value as Engine262Value,
 } from "@engine262/engine262";
 
@@ -37,6 +40,7 @@ import type {
   EngineHostFunction,
   EnginePrimitive,
   EnginePropertyAttributes,
+  EngineRealmOptions,
   EngineResult,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
@@ -45,6 +49,7 @@ class Engine262Realm extends EngineRealm {
   constructor(
     readonly owner: Engine262Adapter,
     readonly realm: ManagedRealm,
+    readonly globalThisValue: ObjectValue,
   ) {
     super();
   }
@@ -82,14 +87,38 @@ type Engine262ObjectHandle = Engine262Object | Engine262Callable;
 export class Engine262Adapter implements JavaScriptEngineAdapter {
   readonly #agent = new Agent({ startEventLoop: false });
   readonly #objects = new WeakMap<ObjectValue, Engine262ObjectHandle>();
+  readonly #forwardingObjects = new WeakSet<ObjectValue>();
 
-  createRealm(): EngineRealm {
+  createRealm(options: EngineRealmOptions = {}): EngineRealm {
     this.#activate();
-    return new Engine262Realm(this, new ManagedRealm());
+    let forwardingGlobalThis: ObjectValue | undefined;
+    const realm = new ManagedRealm({}, (record) => {
+      if (!options.forwardingGlobalThis) {
+        return [undefined, undefined];
+      }
+      const globalObject = OrdinaryObjectCreate(
+        record.Intrinsics["%Object.prototype%"],
+      );
+      const handler = OrdinaryObjectCreate(
+        record.Intrinsics["%Object.prototype%"],
+      );
+      forwardingGlobalThis = X(ProxyCreate(globalObject, handler));
+      this.#forwardingObjects.add(forwardingGlobalThis);
+      return [globalObject, forwardingGlobalThis];
+    });
+    return new Engine262Realm(
+      this,
+      realm,
+      forwardingGlobalThis ?? realm.GlobalObject,
+    );
   }
 
   globalObject(realm: EngineRealm): EngineObject {
     return this.#wrapObject(this.#realm(realm).realm.GlobalObject);
+  }
+
+  globalThis(realm: EngineRealm): EngineObject {
+    return this.#wrapObject(this.#realm(realm).globalThisValue);
   }
 
   objectPrototype(realm: EngineRealm): EngineObject {
@@ -149,6 +178,29 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
         ),
       ),
     );
+  }
+
+  setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void {
+    this.#activate();
+    const completion = skipDebugger(
+      this.#object(object).SetPrototypeOf(
+        prototype === null ? Value.null : this.#object(prototype),
+      ),
+    );
+    if (completion instanceof ThrowCompletion) {
+      throw new TypeError("Cannot set the object prototype");
+    }
+    if (!ValueOfNormalCompletion(completion)) {
+      throw new TypeError("The object prototype was rejected");
+    }
+  }
+
+  setForwardingTarget(object: EngineObject, target: EngineObject): void {
+    const forwardingObject = this.#object(object);
+    if (!this.#forwardingObjects.has(forwardingObject)) {
+      throw new TypeError("The object is not a forwarding global this");
+    }
+    (forwardingObject as ProxyObject).ProxyTarget = this.#object(target);
   }
 
   createFunction(

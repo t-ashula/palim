@@ -18,6 +18,7 @@ import type {
 import type { PalimParseError } from "../html/parse-errors.js";
 import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
 import type { DOMTokenList } from "./token-list.js";
+import type { Window } from "../window.js";
 
 export class NodeImplementation extends EventTargetImplementation {
   readonly children: NodeImplementation[] = [];
@@ -36,6 +37,7 @@ export class NodeImplementation extends EventTargetImplementation {
 
 export class DocumentImplementation extends NodeImplementation {
   templateContentsOwnerDocument: Document | null = null;
+  defaultView: Window | null = null;
   quirks = true;
   parseErrors: readonly PalimParseError[] = [];
 

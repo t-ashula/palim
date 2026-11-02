@@ -122,6 +122,33 @@ describe("Engine262Adapter", () => {
     expect(calls).toBe(1);
   });
 
+  it("keeps forwarding global this identity while changing its target", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm({ forwardingGlobalThis: true });
+    const globalThis = engine.globalThis(realm);
+    const replacement = engine.createObject(
+      realm,
+      engine.objectPrototype(realm),
+    );
+    engine.defineDataProperty(
+      replacement,
+      "marker",
+      engine.fromPrimitive("replacement"),
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    engine.setForwardingTarget(globalThis, replacement);
+    const result = engine.evaluate(realm, "globalThis.marker");
+
+    expect(engine.globalThis(realm)).toBe(globalThis);
+    expect(result.type).toBe("normal");
+    if (result.type === "normal") {
+      expect(engine.toString(realm, result.value)).toEqual(
+        normal("replacement"),
+      );
+    }
+  });
+
   it("rejects handles from another adapter instance", () => {
     const first = new Engine262Adapter();
     const second = new Engine262Adapter();

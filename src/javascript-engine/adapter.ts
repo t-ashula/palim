@@ -30,14 +30,19 @@ export interface EngineDataPropertyAttributes extends EnginePropertyAttributes {
   readonly writable: boolean;
 }
 
+export interface EngineRealmOptions {
+  readonly forwardingGlobalThis?: boolean;
+}
+
 export type EngineHostFunction = (
   thisValue: EngineValue,
   argumentsList: readonly EngineValue[],
 ) => EngineResult<EngineValue>;
 
 export interface JavaScriptEngineAdapter {
-  createRealm(): EngineRealm;
+  createRealm(options?: EngineRealmOptions): EngineRealm;
   globalObject(realm: EngineRealm): EngineObject;
+  globalThis(realm: EngineRealm): EngineObject;
   objectPrototype(realm: EngineRealm): EngineObject;
   fromPrimitive(value: EnginePrimitive): EngineValue;
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
@@ -50,6 +55,8 @@ export interface JavaScriptEngineAdapter {
     realm: EngineRealm,
     prototype: EngineObject | null,
   ): EngineObject;
+  setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void;
+  setForwardingTarget(object: EngineObject, target: EngineObject): void;
   createFunction(
     realm: EngineRealm,
     name: string,

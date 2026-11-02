@@ -73,7 +73,7 @@ console.log(document.querySelector("h1")?.textContent);
 Eventually, palim may also provide a browser-like environment:
 
 ```js
-import { Window } from "palim";
+import { Window } from "palim/window";
 
 const window = new Window({
   url: "https://example.com/",

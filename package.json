@@ -16,6 +16,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./window": {
+      "types": "./dist/window.d.ts",
+      "import": "./dist/window.js"
     }
   },
   "scripts": {
