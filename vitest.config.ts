@@ -7,7 +7,8 @@ export default defineConfig({
         extends: true,
         test: {
           name: "project",
-          include: ["test/*.test.ts"],
+          include: ["test/**/*.test.ts"],
+          exclude: ["test/conformance/**/*.test.ts"],
         },
       },
       {

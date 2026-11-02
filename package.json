@@ -49,5 +49,8 @@
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@engine262/engine262": "0.0.1-d553e7b52501fbc47eae981c8d0fa7a5c26d0171"
   }
 }
