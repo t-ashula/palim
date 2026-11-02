@@ -1,9 +1,8 @@
-import { URL } from "node:url";
-
 import { documentImplementation } from "../dom/node-implementation.js";
 import type { Document } from "../dom/nodes.js";
 import type { Origin } from "../origin.js";
 import type { Window } from "../window.js";
+import { URL } from "../url/index.js";
 import { thrown } from "./adapter.js";
 import type {
   EngineResult,

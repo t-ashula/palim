@@ -1,5 +1,3 @@
-import { URL } from "node:url";
-
 import {
   bindEventTarget,
   eventTargetImplementation,
@@ -9,6 +7,7 @@ import { documentImplementation } from "./dom/node-implementation.js";
 import type { Document, Element } from "./dom/nodes.js";
 import { parseHTML } from "./html/parser.js";
 import { originFromURL } from "./origin.js";
+import { URL } from "./url/index.js";
 
 export interface WindowOptions {
   readonly url?: string | URL;

@@ -9,6 +9,38 @@
       "repository": "https://github.com/web-platform-tests/wpt.git",
       "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
     },
+    "unicode/idna": {
+      "type": "files",
+      "repository": "https://www.unicode.org/Public/18.0.0/",
+      "revision": "18.0.0",
+      "files": [
+        {
+          "path": "IdnaMappingTable.txt",
+          "repository": "https://www.unicode.org/Public/18.0.0/idna/IdnaMappingTable.txt",
+          "sha256": "a03b1eb38032268c696406a83f0972d6a815acd2c8d4151d42ec0fda70ffced1"
+        },
+        {
+          "path": "DerivedCombiningClass.txt",
+          "repository": "https://www.unicode.org/Public/18.0.0/ucd/extracted/DerivedCombiningClass.txt",
+          "sha256": "ef6b2611cfb660dba3f6b458b9eb4b05f44ed2417302ee7749d7f0f348793121"
+        },
+        {
+          "path": "DerivedJoiningType.txt",
+          "repository": "https://www.unicode.org/Public/18.0.0/ucd/extracted/DerivedJoiningType.txt",
+          "sha256": "e2408ff2c92b175b0f7bf62c989bbb54c7b077528fe31f8d69b96fa09e7d61ed"
+        },
+        {
+          "path": "DerivedBidiClass.txt",
+          "repository": "https://www.unicode.org/Public/18.0.0/ucd/extracted/DerivedBidiClass.txt",
+          "sha256": "d9e23222522551348ea1ccfbb4f62efbf98982afb95840f8959c08ed992c5607"
+        },
+        {
+          "path": "LICENSE.txt",
+          "repository": "https://www.unicode.org/license.txt",
+          "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96"
+        }
+      ]
+    },
     "whatwg/html-build": {
       "repository": "https://github.com/whatwg/html-build.git",
       "revision": "283a3531a61106d07d9a7d9fb3e6f3b9bfd33d70"

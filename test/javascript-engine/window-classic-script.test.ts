@@ -5,6 +5,7 @@ import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.
 import type { WindowEnvironmentSettings } from "../../src/javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "../../src/javascript-engine/window-classic-script.js";
 import { OpaqueOrigin } from "../../src/origin.js";
+import { URL } from "../../src/url/index.js";
 import { Window } from "../../src/window.js";
 import { WindowExecutionEnvironment } from "../../src/window-javascript.js";
 
@@ -32,6 +33,9 @@ describe("Window classic script execution", () => {
     expect(environment.settings.apiBaseURL.href).toBe(
       "https://example.com/path/page.html",
     );
+    expect(environment.settings.creationURL).toBeInstanceOf(URL);
+    expect(environment.settings.topLevelCreationURL).toBeInstanceOf(URL);
+    expect(environment.settings.apiBaseURL).toBeInstanceOf(URL);
     expect(environment.settings.origin).toEqual({
       type: "tuple",
       scheme: "https",

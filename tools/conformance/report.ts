@@ -39,6 +39,7 @@ export type ClassificationTotals = Record<Classification, number> & {
 };
 
 export interface FinalCaseResult {
+  readonly caseId: string;
   readonly file: string;
   readonly line?: number;
   readonly classification: Classification;
@@ -81,6 +82,10 @@ export type CaseState = "passed" | "failed" | "skipped" | "pending";
 const suiteSources: Readonly<Record<string, string>> = {
   "html5lib-tokenizer": "html5lib/html5lib-tests",
   "html5lib-tree-construction": "wpt/wpt",
+  "wpt-url-constructor": "wpt/wpt",
+  "wpt-url-idna": "wpt/wpt",
+  "wpt-url-origin": "wpt/wpt",
+  "wpt-url-setters": "wpt/wpt",
   "w3c-xml-parser": "w3c/xml-test-suite",
 };
 
@@ -143,6 +148,7 @@ function compareText(left: string, right: string): number {
 
 function finalCase(result: RawCaseResult): FinalCaseResult {
   return {
+    caseId: result.caseId,
     file: result.fixtureFile,
     ...(result.fixtureLine === undefined ? {} : { line: result.fixtureLine }),
     classification: result.classification,
@@ -275,14 +281,14 @@ export function renderMarkdown(report: ConformanceReport): string {
     lines.push("None.");
   } else {
     lines.push(
-      "| Suite | Profile | File | Line | Classification | Reason |",
-      "| --- | --- | --- | ---: | --- | --- |",
+      "| Suite | Profile | Case ID | File | Line | Classification | Reason |",
+      "| --- | --- | --- | --- | ---: | --- | --- |",
     );
     for (const { suite, profile, result } of nonPassing) {
       const reason = (result.reason ?? "").replaceAll("|", "\\|");
       const line = result.line === undefined ? "" : String(result.line);
       lines.push(
-        `| ${suite} | ${profile} | ${result.file} | ${line} | ${result.classification} | ${reason} |`,
+        `| ${suite} | ${profile} | ${result.caseId} | ${result.file} | ${line} | ${result.classification} | ${reason} |`,
       );
     }
   }

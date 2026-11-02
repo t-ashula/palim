@@ -36,6 +36,7 @@ import {
 } from "./html-table.js";
 import { HTML_NAMESPACE } from "./namespaces.js";
 import { requireArguments } from "./web-idl.js";
+import { URL } from "./url/index.js";
 
 interface URLValue {
   href: string;
@@ -50,12 +51,6 @@ interface URLValue {
   search: string;
   hash: string;
 }
-
-type URLConstructor = new (input: string, base?: string) => URLValue;
-
-const platform = globalThis as typeof globalThis & {
-  readonly URL: URLConstructor;
-};
 
 const FORM_CONTROL_RESETTERS = new WeakMap<Element, () => void>();
 
@@ -4987,7 +4982,7 @@ function reflectedURL(element: Element, name: string): string {
     return "";
   }
   try {
-    return new platform.URL(value).href;
+    return new URL(value).href;
   } catch {
     return value;
   }
@@ -5097,7 +5092,7 @@ function hyperlinkURL(element: Element): URLValue | null {
     return null;
   }
   try {
-    return new platform.URL(value);
+    return new URL(value);
   } catch {
     return null;
   }

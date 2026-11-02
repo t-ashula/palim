@@ -4,3 +4,5 @@ node_modules/
 **/*.md
 benchmark/corpus/*.html
 src/html/entities.json
+src/url/idna-mapping.json
+src/url/idna-properties.json

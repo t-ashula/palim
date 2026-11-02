@@ -1,4 +1,4 @@
-import type { URL } from "node:url";
+import type { URL } from "./url/index.js";
 
 export interface TupleOrigin {
   readonly type: "tuple";

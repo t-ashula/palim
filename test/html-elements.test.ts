@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import * as Palim from "../src/index.js";
 import {
@@ -672,6 +672,25 @@ describe("HTML element members", () => {
 
     expect(anchor.href).toContain("example.org");
     expect(anchor.textContent).toBe("next");
+  });
+
+  it("resolves hyperlinks without the host URL implementation", () => {
+    function RejectHostURL(): never {
+      throw new TypeError("host URL implementation was used");
+    }
+    vi.stubGlobal("URL", RejectHostURL);
+    try {
+      const anchor = select(
+        parse('<a href="https://faß.de/path">link</a>'),
+        "a",
+      );
+      expect(anchor).toBeInstanceOf(HTMLAnchorElement);
+      expect((anchor as HTMLAnchorElement).href).toBe(
+        "https://xn--fa-hia.de/path",
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("implements image, media, and track members", () => {

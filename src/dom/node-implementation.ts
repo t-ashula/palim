@@ -1,5 +1,3 @@
-import { URL } from "node:url";
-
 import {
   bindDOMInterface,
   implementationFor,
@@ -23,6 +21,7 @@ import type { DOMTokenList } from "./token-list.js";
 import type { Window } from "../window.js";
 import { originFromURL } from "../origin.js";
 import type { Origin } from "../origin.js";
+import { URL } from "../url/index.js";
 
 export class NodeImplementation extends EventTargetImplementation {
   readonly children: NodeImplementation[] = [];

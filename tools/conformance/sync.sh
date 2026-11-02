@@ -11,7 +11,7 @@ if [ "$#" -gt 1 ] || { [ -n "$force" ] && [ "$force" != "--force" ]; }; then
   exit 2
 fi
 
-jq -r '.fixtures | to_entries[] | [.key, (.value.type // "git"), .value.repository, .value.revision, (.value.sha256 // ""), (.value.stripComponents // 0)] | @tsv' "$manifest" |
+jq -r '.fixtures | to_entries[] | [.key, (.value.type // "git"), (.value.repository // ""), .value.revision, (.value.sha256 // ""), (.value.stripComponents // 0)] | @tsv' "$manifest" |
 while IFS="$(printf '\t')" read -r name type repository revision sha256 strip_components; do
   target="$root/conformance/$name"
 
@@ -45,6 +45,25 @@ while IFS="$(printf '\t')" read -r name type repository revision sha256 strip_co
       tar -xzf "$archive" -C "$target" --strip-components="$strip_components"
       rm -rf -- "$temporary"
       printf 'extracted: %s at %s\n' "$name" "$revision"
+    elif [ "$type" = "files" ]; then
+      temporary=$(mktemp -d)
+      jq -r --arg name "$name" '.fixtures[$name].files[] | [.path, .repository, .sha256] | @tsv' "$manifest" |
+      while IFS="$(printf '\t')" read -r path file_repository file_sha256; do
+        destination="$temporary/$path"
+        downloaded=$(mktemp)
+        mkdir -p -- "$(dirname -- "$destination")"
+        curl -fsSL "$file_repository" -o "$downloaded"
+        actual_sha256=$(sha256sum "$downloaded" | cut -d ' ' -f 1)
+        if [ "$actual_sha256" != "$file_sha256" ]; then
+          rm -f -- "$downloaded"
+          rm -rf -- "$temporary"
+          printf 'checksum mismatch: %s/%s\n' "$name" "$path" >&2
+          exit 1
+        fi
+        mv "$downloaded" "$destination"
+      done
+      mv "$temporary" "$target"
+      printf 'downloaded: %s at %s\n' "$name" "$revision"
     else
       printf 'unsupported fixture type: %s\n' "$type" >&2
       exit 1

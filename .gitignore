@@ -2,6 +2,8 @@ coverage/
 dist/
 node_modules/
 /src/html/entities.json
+/src/url/idna-mapping.json
+/src/url/idna-properties.json
 
 conformance/*/*/
 
