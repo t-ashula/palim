@@ -31,3 +31,5 @@
 - [ADR-0028: Window environment settings と classic script の実行境界](./0028-window-classic-script-execution.md)
 - [ADR-0029: URL Standard の実装境界と適合テスト](./0029-url-standard-implementation.md)
 - [ADR-0030: parser-inserted script element と classic script の接続](./0030-script-element-classic-script-execution.md)
+- [ADR-0031: Standard interface と内部実装の公開境界](./0031-document-constructor-boundary.md)
+- [ADR-0032: parser-inserted external classic script の resource loading 境界](./0032-parser-inserted-external-classic-script.md)
