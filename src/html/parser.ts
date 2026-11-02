@@ -47,6 +47,8 @@ export interface HTMLFragmentContext {
 
 interface TreeBuilderOptions {
   readonly context?: HTMLFragmentContext | Element;
+  readonly document?: Document;
+  readonly onScript?: (element: Element) => void;
   readonly scriptingMode?: ParserScriptingMode;
 }
 
@@ -328,14 +330,11 @@ function whitespace(data: string): boolean {
 }
 
 class TreeBuilder {
-  readonly document = new Document(
-    htmlFragmentParser,
-    "text/html",
-    createElementForDocument,
-  );
+  readonly document: Document;
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
+  readonly #onScript: ((element: Element) => void) | undefined;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
@@ -351,6 +350,10 @@ class TreeBuilder {
   #recordedTokenizerErrors = 0;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
+    this.document =
+      options.document ??
+      new Document(htmlFragmentParser, "text/html", createElementForDocument);
+    this.#onScript = options.onScript;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
     this.#context =
@@ -487,8 +490,7 @@ class TreeBuilder {
 
     if (this.#mode === "text") {
       this.#treeError("unexpected-eof-in-text");
-      this.#stack.pop();
-      this.#mode = this.#originalMode;
+      this.#finishTextElement();
     }
 
     if (this.#mode === "in-head-noscript") {
@@ -730,11 +732,7 @@ class TreeBuilder {
           if (token.type === "Character") {
             this.#text(token.data);
           } else if (token.type === "EndTag") {
-            this.#stack.pop();
-            this.#mode = this.#originalMode;
-            if (this.#mode === "after-head" && this.#current() === this.#head) {
-              this.#stack.pop();
-            }
+            this.#finishTextElement();
           }
           break;
         case "in-table":
@@ -2668,6 +2666,20 @@ class TreeBuilder {
     this.#mode = "text";
   }
 
+  #finishTextElement(): void {
+    const element = this.#stack.pop();
+    this.#mode = this.#originalMode;
+    if (this.#mode === "after-head" && this.#current() === this.#head) {
+      this.#stack.pop();
+    }
+    if (
+      element?.namespaceURI === HTML_NAMESPACE &&
+      element.localName === "script"
+    ) {
+      this.#onScript?.(element);
+    }
+  }
+
   #clearTo(names: string[]): void {
     let current = this.#current();
     while (current !== null && !names.includes(current.localName)) {
@@ -3022,6 +3034,21 @@ export function parseHTML(
   scriptingMode: ParserScriptingMode = "disabled",
 ): Document {
   return new TreeBuilder(input, { scriptingMode }).parse();
+}
+
+export function parseHTMLIntoDocument(
+  input: string,
+  document: Document,
+  onScript: (element: Element) => void,
+): Document {
+  while (document.firstChild !== null) {
+    removeNode(document.firstChild);
+  }
+  return new TreeBuilder(input, {
+    document,
+    onScript,
+    scriptingMode: "enabled",
+  }).parse();
 }
 
 export function parseHTMLFragment(
