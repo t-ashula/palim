@@ -36,3 +36,5 @@
 - [ADR-0033: wptrunner との接続](./0033-wptrunner-product-integration.md)
 - [ADR-0034: host execution entry point の整備](./0034-window-host-execution-entry-point.md)
 - [ADR-0035: WPT document の resource loading](./0035-wpt-document-resource-loading.md)
+- [ADR-0036: Window environment の処理失敗の観測](./0036-window-error-reporting.md)
+- [ADR-0037: Window console への host 介入](./0037-window-console-host-intervention.md)
