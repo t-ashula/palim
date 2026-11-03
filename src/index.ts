@@ -37,6 +37,8 @@ export { XMLSerializer } from "./xml-serializer.js";
 export { parseErrors } from "./html/parse-errors.js";
 export type { PalimParseError } from "./html/parse-errors.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";
+export { open } from "./open.js";
+export type { OpenHTMLOptions, OpenResult } from "./open.js";
 export {
   AudioTrack,
   AudioTrackList,

@@ -16,10 +16,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./window": {
-      "types": "./dist/window.d.ts",
-      "import": "./dist/window.js"
     }
   },
   "scripts": {
@@ -35,7 +31,8 @@
     "lint": "eslint . --fix",
     "test": "vitest run --project project",
     "test:watch": "vitest --project project",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "wpt:test": "sh tools/wpt/run.sh"
   },
   "repository": {
     "type": "git",

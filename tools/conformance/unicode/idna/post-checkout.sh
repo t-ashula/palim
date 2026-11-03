@@ -3,7 +3,7 @@
 set -eu
 
 unicode_data=${1:?Unicode IDNA data path is required}
-root=$(git rev-parse --show-toplevel)
+root=${PALIM_REPOSITORY_ROOT:-$(git rev-parse --show-toplevel)}
 
 node "$root/tools/url/generate-idna-mapping.mjs" \
   "$unicode_data/IdnaMappingTable.txt" \

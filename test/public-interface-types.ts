@@ -9,7 +9,9 @@ import {
   Node,
   ProcessingInstruction,
   Text,
+  open,
 } from "../src/index.js";
+import type { OpenResult } from "../src/index.js";
 import { Window, createWindow } from "../src/window.js";
 
 type Assert<T extends true> = T;
@@ -24,6 +26,16 @@ export function verifyPublicConstructorTypes(): void {
   new Comment();
   new ProcessingInstruction("target");
   createWindow();
+  const openedFromURL: Promise<OpenResult> = open("https://example.test/");
+  const openedFromHTML: Promise<OpenResult> = open({
+    html: "<p></p>",
+    baseURL: "https://example.test/",
+  });
+  void openedFromURL;
+  void openedFromHTML;
+
+  // @ts-expect-error URL loading does not accept HTML options as a second argument.
+  void open("https://example.test/", { html: "<p></p>" });
 
   // @ts-expect-error Attr has no Web IDL constructor.
   new Attr();

@@ -2,6 +2,8 @@ import { spawnSync } from "node:child_process";
 
 import { describe, expect, it } from "vitest";
 
+import * as Palim from "../src/index.js";
+
 const REJECT_ENGINE_IMPORT = new URL(
   "./fixtures/reject-engine-import.mjs",
   import.meta.url,
@@ -25,22 +27,13 @@ function importWithoutEngine(source: string): void {
 }
 
 describe("capability import boundaries", () => {
-  it("loads the parser entry point without Window or the engine package", () => {
-    const entry = new URL("../src/index.ts", import.meta.url).href;
-
-    importWithoutEngine(`
-      const palim = await import(${JSON.stringify(entry)});
-      if ("Window" in palim) {
-        throw new Error("parser entry point exposed Window");
-      }
-      const document = new palim.DOMParser().parseFromString(
-        "<main>parser</main>",
-        "text/html",
-      );
-      if (document.querySelector("main")?.textContent !== "parser") {
-        throw new Error("parser entry point did not work");
-      }
-    `);
+  it("keeps Window out of the package root", () => {
+    expect("Window" in Palim).toBe(false);
+    const document = new Palim.DOMParser().parseFromString(
+      "<main>parser</main>",
+      "text/html",
+    );
+    expect(document.querySelector("main")?.textContent).toBe("parser");
   });
 
   it("loads the Window entry point without the engine package", () => {

@@ -86,6 +86,7 @@ const suiteSources: Readonly<Record<string, string>> = {
   "wpt-url-idna": "wpt/wpt",
   "wpt-url-origin": "wpt/wpt",
   "wpt-url-setters": "wpt/wpt",
+  "wpt-window": "wpt/wpt",
   "w3c-xml-parser": "w3c/xml-test-suite",
 };
 

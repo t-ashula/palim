@@ -2,7 +2,7 @@
 
 set -eu
 
-root=$(git rev-parse --show-toplevel)
+root=${PALIM_REPOSITORY_ROOT:-$(git rev-parse --show-toplevel)}
 manifest="$root/conformance/conformance.json"
 force=${1-}
 
