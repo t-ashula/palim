@@ -33,3 +33,5 @@
 - [ADR-0030: parser-inserted script element と classic script の接続](./0030-script-element-classic-script-execution.md)
 - [ADR-0031: Standard interface と内部実装の公開境界](./0031-document-constructor-boundary.md)
 - [ADR-0032: parser-inserted external classic script の resource loading 境界](./0032-parser-inserted-external-classic-script.md)
+- [ADR-0033: wptrunner との接続](./0033-wptrunner-product-integration.md)
+- [ADR-0034: host execution entry point の整備](./0034-window-host-execution-entry-point.md)

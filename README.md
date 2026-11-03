@@ -70,14 +70,23 @@ const document = new DOMParser().parseFromString(
 console.log(document.querySelector("h1")?.textContent);
 ```
 
-Eventually, palim may also provide a browser-like environment:
+Eventually, palim may also provide a browser-like environment through a host object outside the page realm:
 
 ```js
-import { Window } from "palim/window";
+import { open } from "palim";
 
-const window = new Window({
-  url: "https://example.test/",
+const context = await open({
+  html: "<h1>Hello, world!</h1>",
+  baseURL: "https://example.test/",
 });
+
+console.log(context.window.document.querySelector("h1")?.textContent);
+```
+
+Passing a URL directly loads the initial document from that URL:
+
+```js
+const context = await open("https://example.test/");
 ```
 
 The goal is to make these capabilities coexist without requiring applications that only need HTML parsing to pay the cost of a full browser environment.
