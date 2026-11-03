@@ -35,3 +35,4 @@
 - [ADR-0032: parser-inserted external classic script の resource loading 境界](./0032-parser-inserted-external-classic-script.md)
 - [ADR-0033: wptrunner との接続](./0033-wptrunner-product-integration.md)
 - [ADR-0034: host execution entry point の整備](./0034-window-host-execution-entry-point.md)
+- [ADR-0035: WPT document の resource loading](./0035-wpt-document-resource-loading.md)
