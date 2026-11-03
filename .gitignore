@@ -1,6 +1,7 @@
 coverage/
 dist/
 node_modules/
+/vendor/engine262/
 /src/html/entities.json
 /src/url/idna-mapping.json
 /src/url/idna-properties.json

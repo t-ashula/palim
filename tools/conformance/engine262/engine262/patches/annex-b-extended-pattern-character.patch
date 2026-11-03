@@ -1,0 +1,37 @@
+diff --git a/src/parser/RegExpParser.mts b/src/parser/RegExpParser.mts
+index 1d8c8f7..235b93e 100644
+--- a/src/parser/RegExpParser.mts
++++ b/src/parser/RegExpParser.mts
+@@ -246,7 +246,15 @@ export class RegExpParser {
+       type: 'Alternative',
+       Term,
+     };
+-    while (this.position < this.source.length && !isClosingSyntaxCharacter(this.peek())) {
++    while (this.position < this.source.length) {
++      const character = this.peek();
++      const extendedPatternCharacter =
++        !this.inUnicodeMode
++        && !this.inUnicodeSetMode
++        && (character === ']' || character === '}');
++      if (isClosingSyntaxCharacter(character) && !extendedPatternCharacter) {
++        break;
++      }
+       Term.push(this.parseTerm());
+     }
+     return node;
+@@ -473,8 +481,13 @@ export class RegExpParser {
+         CharacterClass: this.parseCharacterClass(),
+       };
+     }
+-    if (isSyntaxCharacter(this.peek())) {
+-      this.raise(Throw.SyntaxError('Expected a character but got $1', this.peek()));
++    const character = this.peek();
++    const extendedPatternCharacter =
++      !this.inUnicodeMode
++      && !this.inUnicodeSetMode
++      && (character === ']' || character === '{' || character === '}');
++    if (isSyntaxCharacter(character) && !extendedPatternCharacter) {
++      this.raise(Throw.SyntaxError('Expected a character but got $1', character));
+     }
+     return {
+       type: 'Atom',

@@ -52,6 +52,6 @@
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "@engine262/engine262": "0.0.1-d553e7b52501fbc47eae981c8d0fa7a5c26d0171"
+    "@engine262/engine262": "file:vendor/engine262"
   }
 }

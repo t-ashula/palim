@@ -72,6 +72,6 @@ while IFS="$(printf '\t')" read -r name type repository revision sha256 strip_co
 
   post_checkout="$root/tools/conformance/$name/post-checkout.sh"
   if [ -f "$post_checkout" ]; then
-    sh "$post_checkout" "$target"
+    sh "$post_checkout" "$target" </dev/null
   fi
 done

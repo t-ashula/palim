@@ -15,9 +15,6 @@ RUN ln -s /usr/bin/python3 /usr/local/bin/python
 
 WORKDIR /workspace
 
-COPY package.json package-lock.json ./
-RUN npm ci
-
 COPY conformance/conformance.json conformance/conformance.json
 COPY tools/conformance tools/conformance
 COPY tools/url tools/url
@@ -25,9 +22,12 @@ COPY src/html src/html
 COPY src/url src/url
 
 ENV PALIM_REPOSITORY_ROOT=/workspace
-RUN npm run conformance:sync \
+RUN sh tools/conformance/sync.sh \
   && cd conformance/wpt/wpt \
   && ./wpt make-hosts-file > /opt/wpt-hosts
+
+COPY package.json package-lock.json .npmrc ./
+RUN npm ci
 
 COPY . .
 

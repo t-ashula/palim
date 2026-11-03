@@ -3,7 +3,13 @@ import tseslint from "typescript-eslint";
 
 export default defineConfig(
   {
-    ignores: ["coverage/**", "dist/**", "node_modules/**", "conformance/**"],
+    ignores: [
+      "coverage/**",
+      "dist/**",
+      "node_modules/**",
+      "conformance/**",
+      "vendor/**",
+    ],
   },
   {
     files: ["**/*.ts"],

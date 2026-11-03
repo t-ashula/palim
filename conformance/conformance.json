@@ -1,6 +1,10 @@
 {
   "schemaVersion": 1,
   "fixtures": {
+    "engine262/engine262": {
+      "repository": "https://github.com/engine262/engine262.git",
+      "revision": "d553e7b52501fbc47eae981c8d0fa7a5c26d0171"
+    },
     "html5lib/html5lib-tests": {
       "repository": "https://github.com/html5lib/html5lib-tests.git",
       "revision": "c777c408b61078ea2eb4acefc2535f54dbc8b28a"
