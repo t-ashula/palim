@@ -43,6 +43,22 @@ describe("parser-inserted classic scripts", () => {
     ).toEqual(["normal", "normal"]);
   });
 
+  it("dispatches Window load after parsing and subresource loading", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      [
+        "<body><script>",
+        'addEventListener("load", function () {',
+        '  document.body.setAttribute("data-load", "complete");',
+        "});",
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(document.body?.getAttribute("data-load")).toBe("complete");
+  });
+
   it("continues parsing and running scripts after script failures", async () => {
     const environment = new WindowExecutionEnvironment();
 

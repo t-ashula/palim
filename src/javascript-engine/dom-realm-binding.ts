@@ -1,4 +1,13 @@
-import { Document, Element, Event, EventTarget, Node } from "../dom.js";
+import {
+  Document,
+  Element,
+  Event,
+  EventTarget,
+  HTMLCollection,
+  Node,
+  NodeList,
+} from "../dom.js";
+import { HTMLAnchorElement } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
 import { normal, thrown } from "./adapter.js";
 import type {
@@ -34,8 +43,12 @@ export class DOMRealmBinding {
   readonly #eventTargetPrototype: EngineObject;
   readonly #nodePrototype: EngineObject;
   readonly #elementPrototype: EngineObject;
+  readonly #htmlAnchorElementPrototype: EngineObject;
   readonly #documentPrototype: EngineObject;
+  readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
+  readonly #htmlCollectionPrototype: EngineObject;
+  readonly #nodeListPrototype: EngineObject;
 
   constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
     this.#engine = engine;
@@ -54,11 +67,27 @@ export class DOMRealmBinding {
       this.#realm,
       this.#nodePrototype,
     );
+    this.#htmlAnchorElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#elementPrototype,
+    );
     this.#documentPrototype = this.#engine.createObject(
       this.#realm,
       this.#nodePrototype,
     );
+    this.#xmlDocumentPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#documentPrototype,
+    );
     this.#eventPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#htmlCollectionPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#nodeListPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
     );
@@ -67,8 +96,11 @@ export class DOMRealmBinding {
     this.#installEventTargetMembers();
     this.#installNodeMembers();
     this.#installElementMembers();
+    this.#installHTMLAnchorElementMembers();
     this.#installDocumentMembers();
     this.#installEventMembers();
+    this.#installHTMLCollectionMembers();
+    this.#installNodeListMembers();
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -117,9 +149,16 @@ export class DOMRealmBinding {
     );
     this.#installInterface("Node", this.#nodePrototype);
     this.#installInterface("Element", this.#elementPrototype);
+    this.#installInterface(
+      "HTMLAnchorElement",
+      this.#htmlAnchorElementPrototype,
+    );
     this.#installInterface("Document", this.#documentPrototype, 0, () =>
       normal(this.#wrap(new Document())),
     );
+    this.#installInterface("XMLDocument", this.#xmlDocumentPrototype);
+    this.#installInterface("HTMLCollection", this.#htmlCollectionPrototype);
+    this.#installInterface("NodeList", this.#nodeListPrototype);
     this.#installInterface(
       "Event",
       this.#eventPrototype,
@@ -279,6 +318,20 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Node receiver")
         : this.#platformValue(node.parentNode);
     });
+    for (const name of ["firstChild", "lastChild"] as const) {
+      this.#attribute(this.#nodePrototype, name, (thisValue) => {
+        const node = this.#node(thisValue);
+        return node === null
+          ? this.#typeError("Invalid Node receiver")
+          : this.#platformValue(node[name]);
+      });
+    }
+    this.#attribute(this.#nodePrototype, "childNodes", (thisValue) => {
+      const node = this.#node(thisValue);
+      return node === null
+        ? this.#typeError("Invalid Node receiver")
+        : normal(this.#wrap(node.childNodes));
+    });
     this.#attribute(this.#nodePrototype, "textContent", (thisValue) => {
       const node = this.#node(thisValue);
       return node === null
@@ -307,6 +360,12 @@ export class DOMRealmBinding {
       return element === null
         ? this.#typeError("Invalid Element receiver")
         : this.#primitive(element.localName);
+    });
+    this.#attribute(this.#elementPrototype, "namespaceURI", (thisValue) => {
+      const element = this.#element(thisValue);
+      return element === null
+        ? this.#typeError("Invalid Element receiver")
+        : this.#primitive(element.namespaceURI);
     });
     this.#attribute(
       this.#elementPrototype,
@@ -407,6 +466,27 @@ export class DOMRealmBinding {
           : this.#platformValue(element.querySelector(selectors.value));
       },
     );
+    this.#method(
+      this.#elementPrototype,
+      "getElementsByTagName",
+      1,
+      (thisValue, argumentsList) => {
+        const element = this.#element(thisValue);
+        if (element === null) {
+          return this.#typeError("Invalid Element receiver");
+        }
+        const qualifiedName = this.#stringArgument(
+          argumentsList,
+          0,
+          "getElementsByTagName",
+        );
+        return qualifiedName.type === "throw"
+          ? qualifiedName
+          : normal(
+              this.#wrap(element.getElementsByTagName(qualifiedName.value)),
+            );
+      },
+    );
   }
 
   #installDocumentMembers(): void {
@@ -422,6 +502,36 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Document receiver")
         : this.#platformValue(document.body);
     });
+    for (const name of ["doctype", "documentElement"] as const) {
+      this.#attribute(this.#documentPrototype, name, (thisValue) => {
+        const document = this.#document(thisValue);
+        return document === null
+          ? this.#typeError("Invalid Document receiver")
+          : this.#platformValue(document[name]);
+      });
+    }
+    this.#attribute(this.#documentPrototype, "location", (thisValue) => {
+      const document = this.#document(thisValue);
+      return document === null
+        ? this.#typeError("Invalid Document receiver")
+        : this.#primitive(document.location);
+    });
+    for (const name of [
+      "URL",
+      "documentURI",
+      "compatMode",
+      "characterSet",
+      "charset",
+      "inputEncoding",
+      "contentType",
+    ] as const) {
+      this.#attribute(this.#documentPrototype, name, (thisValue) => {
+        const document = this.#document(thisValue);
+        return document === null
+          ? this.#typeError("Invalid Document receiver")
+          : this.#primitive(document[name]);
+      });
+    }
     this.#method(
       this.#documentPrototype,
       "querySelector",
@@ -458,6 +568,27 @@ export class DOMRealmBinding {
     );
     this.#method(
       this.#documentPrototype,
+      "getElementsByTagName",
+      1,
+      (thisValue, argumentsList) => {
+        const document = this.#document(thisValue);
+        if (document === null) {
+          return this.#typeError("Invalid Document receiver");
+        }
+        const qualifiedName = this.#stringArgument(
+          argumentsList,
+          0,
+          "getElementsByTagName",
+        );
+        return qualifiedName.type === "throw"
+          ? qualifiedName
+          : normal(
+              this.#wrap(document.getElementsByTagName(qualifiedName.value)),
+            );
+      },
+    );
+    this.#method(
+      this.#documentPrototype,
       "createElement",
       1,
       (thisValue, argumentsList) => {
@@ -475,6 +606,72 @@ export class DOMRealmBinding {
           : normal(this.#wrap(document.createElement(localName.value)));
       },
     );
+    this.#method(
+      this.#documentPrototype,
+      "createElementNS",
+      2,
+      (thisValue, argumentsList) => {
+        const document = this.#document(thisValue);
+        if (document === null) {
+          return this.#typeError("Invalid Document receiver");
+        }
+        const namespaceValue = argumentsList[0];
+        if (namespaceValue === undefined) {
+          return this.#typeError("createElementNS requires 2 argument(s)");
+        }
+        const namespace = this.#engine.isNull(namespaceValue)
+          ? normal(null)
+          : this.#engine.toString(this.#realm, namespaceValue);
+        if (namespace.type === "throw") {
+          return namespace;
+        }
+        const qualifiedName = this.#stringArgument(
+          argumentsList,
+          1,
+          "createElementNS",
+        );
+        return qualifiedName.type === "throw"
+          ? qualifiedName
+          : normal(
+              this.#wrap(
+                document.createElementNS(namespace.value, qualifiedName.value),
+              ),
+            );
+      },
+    );
+  }
+
+  #installHTMLAnchorElementMembers(): void {
+    this.#attribute(
+      this.#htmlAnchorElementPrototype,
+      "href",
+      (thisValue) => {
+        const anchor = this.#htmlAnchorElement(thisValue);
+        return anchor === null
+          ? this.#typeError("Invalid HTMLAnchorElement receiver")
+          : this.#primitive(anchor.href);
+      },
+      (thisValue, argumentsList) => {
+        const anchor = this.#htmlAnchorElement(thisValue);
+        if (anchor === null) {
+          return this.#typeError("Invalid HTMLAnchorElement receiver");
+        }
+        const value = this.#stringArgument(argumentsList, 0, "href");
+        if (value.type === "throw") {
+          return value;
+        }
+        anchor.href = value.value;
+        return this.#undefined();
+      },
+    );
+    for (const name of ["pathname", "search", "hash"] as const) {
+      this.#attribute(this.#htmlAnchorElementPrototype, name, (thisValue) => {
+        const anchor = this.#htmlAnchorElement(thisValue);
+        return anchor === null
+          ? this.#typeError("Invalid HTMLAnchorElement receiver")
+          : this.#primitive(anchor[name]);
+      });
+    }
   }
 
   #installEventMembers(): void {
@@ -490,6 +687,54 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Event receiver")
         : this.#platformValue(event.currentTarget);
     });
+  }
+
+  #installHTMLCollectionMembers(): void {
+    this.#attribute(this.#htmlCollectionPrototype, "length", (thisValue) => {
+      const collection = this.#htmlCollection(thisValue);
+      return collection === null
+        ? this.#typeError("Invalid HTMLCollection receiver")
+        : this.#primitive(collection.length);
+    });
+    this.#method(
+      this.#htmlCollectionPrototype,
+      "item",
+      1,
+      (thisValue, argumentsList) => {
+        const collection = this.#htmlCollection(thisValue);
+        if (collection === null) {
+          return this.#typeError("Invalid HTMLCollection receiver");
+        }
+        const index = this.#stringArgument(argumentsList, 0, "item");
+        return index.type === "throw"
+          ? index
+          : this.#platformValue(collection.item(Number(index.value)));
+      },
+    );
+  }
+
+  #installNodeListMembers(): void {
+    this.#attribute(this.#nodeListPrototype, "length", (thisValue) => {
+      const list = this.#nodeList(thisValue);
+      return list === null
+        ? this.#typeError("Invalid NodeList receiver")
+        : this.#primitive(list.length);
+    });
+    this.#method(
+      this.#nodeListPrototype,
+      "item",
+      1,
+      (thisValue, argumentsList) => {
+        const list = this.#nodeList(thisValue);
+        if (list === null) {
+          return this.#typeError("Invalid NodeList receiver");
+        }
+        const index = this.#stringArgument(argumentsList, 0, "item");
+        return index.type === "throw"
+          ? index
+          : this.#platformValue(list.item(Number(index.value)));
+      },
+    );
   }
 
   #method(
@@ -533,12 +778,42 @@ export class DOMRealmBinding {
     const platformObject = this.#engine.createObject(this.#realm, prototype);
     this.#platformObjects.set(implementation, platformObject);
     this.#implementations.set(platformObject, implementation);
+    if (
+      interfaceObject instanceof HTMLCollection ||
+      interfaceObject instanceof NodeList
+    ) {
+      for (let index = 0; index < interfaceObject.length; index += 1) {
+        this.#engine.defineAccessorProperty(
+          platformObject,
+          String(index),
+          this.#engine.createFunction(
+            this.#realm,
+            `get ${String(index)}`,
+            0,
+            () => {
+              const item: Node | null =
+                interfaceObject instanceof NodeList
+                  ? (interfaceObject as NodeList).item(index)
+                  : (interfaceObject as HTMLCollection<Element, Element>).item(
+                      index,
+                    );
+              return this.#platformValue(item);
+            },
+          ),
+          null,
+          { configurable: true, enumerable: true },
+        );
+      }
+    }
     return platformObject;
   }
 
   #prototype(interfaceObject: object): EngineObject {
     if (interfaceObject instanceof Document) {
       return this.#documentPrototype;
+    }
+    if (interfaceObject instanceof HTMLAnchorElement) {
+      return this.#htmlAnchorElementPrototype;
     }
     if (interfaceObject instanceof Element) {
       return this.#elementPrototype;
@@ -551,6 +826,12 @@ export class DOMRealmBinding {
     }
     if (interfaceObject instanceof EventTarget) {
       return this.#eventTargetPrototype;
+    }
+    if (interfaceObject instanceof HTMLCollection) {
+      return this.#htmlCollectionPrototype;
+    }
+    if (interfaceObject instanceof NodeList) {
+      return this.#nodeListPrototype;
     }
     throw new TypeError("Unsupported DOM platform object");
   }
@@ -565,7 +846,9 @@ export class DOMRealmBinding {
   }
 
   #eventTarget(value: EngineValue): EventTarget | null {
-    const interfaceObject = this.#interfaceObject(value);
+    const interfaceObject = this.#engine.isUndefined(value)
+      ? this.#interfaceObject(this.#engine.globalThis(this.#realm))
+      : this.#interfaceObject(value);
     return interfaceObject instanceof EventTarget ? interfaceObject : null;
   }
 
@@ -579,6 +862,13 @@ export class DOMRealmBinding {
     return interfaceObject instanceof Element ? interfaceObject : null;
   }
 
+  #htmlAnchorElement(value: EngineValue): HTMLAnchorElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLAnchorElement
+      ? interfaceObject
+      : null;
+  }
+
   #document(value: EngineValue): Document | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Document ? interfaceObject : null;
@@ -587,6 +877,18 @@ export class DOMRealmBinding {
   #event(value: EngineValue): Event | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Event ? interfaceObject : null;
+  }
+
+  #htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLCollection
+      ? (interfaceObject as HTMLCollection<Element, Element>)
+      : null;
+  }
+
+  #nodeList(value: EngineValue): NodeList | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof NodeList ? interfaceObject : null;
   }
 
   #stringArgument(

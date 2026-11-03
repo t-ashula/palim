@@ -1,5 +1,6 @@
-import { reportWindowConsole, Window } from "../window.js";
+import { reportWindowConsole, reportWindowError, Window } from "../window.js";
 import type { WindowConsoleMethod } from "../window.js";
+import { URL } from "../url/index.js";
 import { normal, thrown } from "./adapter.js";
 import type {
   EngineHostFunction,
@@ -52,6 +53,10 @@ export class WindowRealmBinding {
   readonly #globalObject: EngineObject;
   readonly #globalThis: EngineObject;
   readonly #windowPrototype: EngineObject;
+  readonly #locationPrototype: EngineObject;
+  readonly #locationObject: EngineObject;
+  readonly #timers = new Map<number, unknown>();
+  #nextTimerId = 1;
   readonly dom: DOMRealmBinding;
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
@@ -68,12 +73,23 @@ export class WindowRealmBinding {
       this.realm,
       this.dom.eventTargetPrototype,
     );
+    this.#locationPrototype = this.#engine.createObject(
+      this.realm,
+      this.#engine.objectPrototype(this.realm),
+    );
+    this.#locationObject = this.#engine.createObject(
+      this.realm,
+      this.#locationPrototype,
+    );
 
     this.#engine.setPrototypeOf(this.#globalObject, this.#windowPrototype);
     this.dom.associatePlatformObject(this.#window, this.#globalObject);
     this.dom.bindPlatformObject(this.#window, this.#globalThis);
     this.#installWindowInterface();
+    this.#installLocationInterface();
     this.#installWindowMembers();
+    this.#installLocationMembers();
+    this.#installTimers();
     this.#installConsole();
   }
 
@@ -117,12 +133,152 @@ export class WindowRealmBinding {
       () => this.dom.platformObject(this.#window.document),
       false,
     );
+    this.#attribute("location", () => this.#locationObject, false);
     this.#attribute("top", () => this.#globalThis, false);
     this.#attribute("parent", () => this.#globalThis, true, true);
     this.#attribute(
       "frameElement",
       () => this.#engine.fromPrimitive(null),
       true,
+    );
+  }
+
+  #installLocationInterface(): void {
+    const constructor = this.#engine.createFunction(
+      this.realm,
+      "Location",
+      0,
+      () => this.#typeError("Illegal constructor"),
+    );
+    this.#engine.defineDataProperty(
+      constructor,
+      "prototype",
+      this.#locationPrototype,
+      {
+        configurable: false,
+        enumerable: false,
+        writable: false,
+      },
+    );
+    this.#engine.defineDataProperty(
+      this.#locationPrototype,
+      "constructor",
+      constructor,
+      CONSTRUCTOR_PROPERTY,
+    );
+    this.#engine.defineDataProperty(
+      this.#globalObject,
+      "Location",
+      constructor,
+      INTERFACE_PROPERTY,
+    );
+  }
+
+  #installLocationMembers(): void {
+    for (const name of ["href", "pathname", "search", "hash"] as const) {
+      this.#engine.defineAccessorProperty(
+        this.#locationPrototype,
+        name,
+        this.#engine.createFunction(
+          this.realm,
+          `get ${name}`,
+          0,
+          (thisValue) =>
+            thisValue === this.#locationObject
+              ? normal(this.#engine.fromPrimitive(this.#locationURL()[name]))
+              : this.#typeError("Invalid Location receiver"),
+        ),
+        null,
+        { configurable: true, enumerable: true },
+      );
+    }
+    this.#engine.defineDataProperty(
+      this.#locationPrototype,
+      "toString",
+      this.#engine.createFunction(this.realm, "toString", 0, (thisValue) =>
+        thisValue === this.#locationObject
+          ? normal(this.#engine.fromPrimitive(this.#locationURL().href))
+          : this.#typeError("Invalid Location receiver"),
+      ),
+      INTERFACE_PROPERTY,
+    );
+  }
+
+  #locationURL(): URL {
+    return new URL(this.#window.document.URL);
+  }
+
+  #installTimers(): void {
+    this.#operation("setTimeout", 1, (_thisValue, argumentsList) => {
+      const callback = this.#engine.asCallable(
+        argumentsList[0] ?? this.#engine.fromPrimitive(undefined),
+      );
+      if (callback === null) {
+        return this.#typeError("setTimeout callback must be callable");
+      }
+      const delay = this.#timerDelay(argumentsList[1]);
+      if (delay.type === "throw") {
+        return delay;
+      }
+      const id = this.#nextTimerId;
+      this.#nextTimerId += 1;
+      const handle = hostTimers().setTimeout(() => {
+        this.#timers.delete(id);
+        const result = this.#engine.call(
+          this.realm,
+          callback,
+          this.#globalThis,
+          argumentsList.slice(2),
+        );
+        this.#engine.performPromiseCheckpoint();
+        if (result.type === "throw") {
+          reportWindowError(this.#window, {
+            message: this.#engine.exceptionMessage(this.realm, result.value),
+            url: this.#window.document.URL,
+          });
+        }
+      }, delay.value);
+      this.#timers.set(id, handle);
+      return normal(this.#engine.fromPrimitive(id));
+    });
+    this.#operation("clearTimeout", 1, (_thisValue, argumentsList) => {
+      const id = this.#timerId(argumentsList[0]);
+      if (id.type === "throw") {
+        return id;
+      }
+      const handle = this.#timers.get(id.value);
+      if (handle !== undefined) {
+        hostTimers().clearTimeout(handle);
+        this.#timers.delete(id.value);
+      }
+      return this.#undefined();
+    });
+  }
+
+  #timerDelay(value: EngineValue | undefined): EngineResult<number> {
+    if (value === undefined) {
+      return normal(0);
+    }
+    const text = this.#engine.toString(this.realm, value);
+    return text.type === "throw"
+      ? text
+      : normal(Math.max(0, Number(text.value) || 0));
+  }
+
+  #timerId(value: EngineValue | undefined): EngineResult<number> {
+    if (value === undefined) {
+      return normal(0);
+    }
+    const text = this.#engine.toString(this.realm, value);
+    return text.type === "throw" ? text : normal(Number(text.value) || 0);
+  }
+
+  #operation(name: string, length: number, callback: EngineHostFunction): void {
+    this.#engine.defineDataProperty(
+      this.#globalObject,
+      name,
+      this.#engine.createFunction(this.realm, name, length, callback),
+      INTERFACE_PROPERTY,
     );
   }
 
@@ -224,4 +380,15 @@ export class WindowRealmBinding {
   #typeError(message: string): EngineResult<EngineValue> {
     return thrown(this.#engine.createTypeError(this.realm, message));
   }
+}
+
+function hostTimers(): {
+  setTimeout(callback: () => void, delay: number): unknown;
+  clearTimeout(handle: unknown): void;
+} {
+  const host: unknown = globalThis;
+  return host as {
+    setTimeout(callback: () => void, delay: number): unknown;
+    clearTimeout(handle: unknown): void;
+  };
 }

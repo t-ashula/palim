@@ -112,6 +112,8 @@
 ### Window and browsing context
 
 - [ ] `Window`
+- [ ] host 側の `onerror` を initial document の実行前に設定し、過去の error を再送しない
+- [ ] page execution error を蓄積し、全件取得できる API を `onerror` と分けて提供する
 - [ ] `Document.defaultView`
 - [ ] `Location`
 - [ ] `History`

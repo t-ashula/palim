@@ -159,6 +159,31 @@ describe("WindowRealmBinding", () => {
     );
   });
 
+  it("exposes the active document Location", () => {
+    const window = createWindow({
+      url: "https://example.com/path?query#fragment",
+    });
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        if (
+          !(location instanceof Location) ||
+          location.href !== "https://example.com/path?query#fragment" ||
+          location.pathname !== "/path" ||
+          location.search !== "?query" ||
+          location.hash !== "#fragment" ||
+          location.toString() !== location.href
+        ) {
+          throw new Error("Location is invalid");
+        }
+      `,
+    );
+  });
+
   it("shares DOM state between the host and engine realm", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();
@@ -203,6 +228,47 @@ describe("WindowRealmBinding", () => {
     window.dispatchEvent(new Event("ready"));
 
     expect(window.document.body?.getAttribute("data-event")).toBe("ready");
+  });
+
+  it("accepts unqualified Window event operations", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        addEventListener("ready", function (event) {
+          if (this !== window || event.currentTarget !== window) {
+            throw new Error("Window event identity is invalid");
+          }
+          document.body.setAttribute("data-event", event.type);
+        });
+      `,
+    );
+    window.dispatchEvent(new Event("ready"));
+
+    expect(window.document.body?.getAttribute("data-event")).toBe("ready");
+  });
+
+  it("runs Window timer callbacks", async () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        setTimeout(function (value) {
+          document.body.setAttribute("data-timer", value);
+        }, 0, "complete");
+      `,
+    );
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(window.document.body?.getAttribute("data-timer")).toBe("complete");
   });
 
   it("keeps separate Window realms isolated", () => {

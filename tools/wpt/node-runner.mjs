@@ -1,13 +1,23 @@
 import { open } from "../../dist/index.js";
 
 const url = process.argv[2];
+const resultPrefix = "ALERT: RESULT: ";
 
 if (url === undefined) {
   throw new TypeError("A test URL is required.");
 }
 
-const { window } = await open(url);
 let failed = false;
+const hostLog = console.log.bind(console);
+
+console.log = (...data) => {
+  hostLog(...data);
+  if (typeof data[0] === "string" && data[0].startsWith(resultPrefix)) {
+    process.stdout.write("", () => process.exit(failed ? 1 : 0));
+  }
+};
+
+const { window } = await open(url);
 
 window.onerror((error) => {
   failed = true;
@@ -16,6 +26,4 @@ window.onerror((error) => {
   );
 });
 
-if (failed) {
-  process.exitCode = 1;
-}
+process.exitCode = failed ? 1 : 0;

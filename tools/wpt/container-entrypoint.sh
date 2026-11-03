@@ -22,6 +22,7 @@ case "$command" in
       --skip-venv-setup \
       run \
       --yes \
+      --no-pause-after-test \
       --log-wptreport "$wpt_report" \
       --exclude-file /workspace/tools/wpt/exclude.txt \
       palim \

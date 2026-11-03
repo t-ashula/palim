@@ -1,3 +1,4 @@
+import { Event } from "./dom/events.js";
 import type { Document, Element } from "./dom/nodes.js";
 import { HTMLScriptElement } from "./html-elements.js";
 import { parseHTMLIntoDocumentAsync } from "./html/parser.js";
@@ -73,6 +74,7 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
       },
     );
     await Promise.all(this.#pendingResourceLoads);
+    this.window.dispatchEvent(new Event("load"));
     return document;
   }
 

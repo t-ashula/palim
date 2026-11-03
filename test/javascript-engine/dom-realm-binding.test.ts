@@ -106,6 +106,107 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes getElementsByTagName collections in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<meta name="first"><main><meta name="second"></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const collection = testDocument.getElementsByTagName("meta");
+        if (
+          !(collection instanceof HTMLCollection) ||
+          collection.length !== 2 ||
+          collection[0].localName !== "meta" ||
+          collection.item(1).localName !== "meta"
+        ) {
+          throw new Error("HTMLCollection was not exposed correctly");
+        }
+        testDocument
+          .querySelector("main")
+          .appendChild(testDocument.createElement("meta"));
+        if (collection.length !== 3) {
+          throw new Error("HTMLCollection is not live");
+        }
+      `,
+    );
+
+    expect(document.getElementsByTagName("meta").length).toBe(3);
+  });
+
+  it("exposes HTMLAnchorElement URL attributes in the engine realm", () => {
+    const { engine, realm } = createTestRealm('<a id="target"></a>');
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const anchor = testDocument.getElementById("target");
+        anchor.href = "https://example.com/path?query#fragment";
+        if (
+          !(anchor instanceof HTMLAnchorElement) ||
+          anchor.pathname !== "/path" ||
+          anchor.search !== "?query" ||
+          anchor.hash !== "#fragment"
+        ) {
+          throw new Error("HTMLAnchorElement URL attributes are invalid");
+        }
+      `,
+    );
+  });
+
+  it("creates namespaced elements in the engine realm", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const anchor = testDocument.createElementNS(
+          "http://www.w3.org/1999/xhtml",
+          "a",
+        );
+        if (
+          !(anchor instanceof HTMLAnchorElement) ||
+          anchor.namespaceURI !== "http://www.w3.org/1999/xhtml"
+        ) {
+          throw new Error("createElementNS returned an invalid element");
+        }
+      `,
+    );
+  });
+
+  it("exposes constructed Document metadata and children", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const document = new Document();
+        if (
+          document instanceof XMLDocument ||
+          document.firstChild !== null ||
+          document.lastChild !== null ||
+          !(document.childNodes instanceof NodeList) ||
+          document.childNodes.length !== 0 ||
+          document.location !== null ||
+          document.URL !== "about:blank" ||
+          document.documentURI !== "about:blank" ||
+          document.compatMode !== "CSS1Compat" ||
+          document.characterSet !== "UTF-8" ||
+          document.charset !== "UTF-8" ||
+          document.inputEncoding !== "UTF-8" ||
+          document.contentType !== "application/xml"
+        ) {
+          throw new Error("constructed Document state is invalid");
+        }
+      `,
+    );
+  });
+
   it("invokes engine event callbacks synchronously and supports reentry", () => {
     const { document, engine, realm } = createTestRealm(
       '<button id="target"></button>',

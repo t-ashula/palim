@@ -44,8 +44,12 @@ class PalimExecutor(TestharnessExecutor):
                 text=True,
                 timeout=timeout,
             )
-        except subprocess.TimeoutExpired:
-            return test.make_result("TIMEOUT", "palim execution timed out"), []
+        except subprocess.TimeoutExpired as error:
+            message = error.stderr.strip() if error.stderr else ""
+            return test.make_result(
+                "TIMEOUT",
+                message or "palim execution timed out",
+            ), []
 
         if completed.returncode != 0:
             message = completed.stderr.strip() or "palim execution failed"
