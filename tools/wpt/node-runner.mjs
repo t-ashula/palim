@@ -6,4 +6,16 @@ if (url === undefined) {
   throw new TypeError("A test URL is required.");
 }
 
-await open(url);
+const { window } = await open(url);
+let failed = false;
+
+window.onerror((error) => {
+  failed = true;
+  process.stderr.write(
+    `${error.stack ?? `${error.message}\n    at ${error.url}`}\n`,
+  );
+});
+
+if (failed) {
+  process.exitCode = 1;
+}

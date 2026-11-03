@@ -6,7 +6,7 @@ import { Engine262Adapter } from "./javascript-engine/engine262-adapter.js";
 import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
 import { URL } from "./url/index.js";
-import { createWindow } from "./window.js";
+import { createWindow, reportWindowError } from "./window.js";
 import type { WindowOptions } from "./window.js";
 
 export {
@@ -177,13 +177,25 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
     sourceURL: string,
   ): void {
     const script = this.createClassicScript(sourceText, sourceURL);
+    const result = this.runClassicScript(script);
     this.scriptResults.push({
       type: "execution",
       element,
       url: sourceURL,
       script,
-      result: this.runClassicScript(script),
+      result,
     });
+    if (result.type === "throw") {
+      const stack = exceptionStack(this, result.value);
+      reportWindowError(this.window, {
+        message: this.engine.exceptionMessage(
+          this.settings.realm,
+          result.value,
+        ),
+        url: sourceURL,
+        ...(stack === undefined ? {} : { stack }),
+      });
+    }
   }
 
   #recordLoadError(
@@ -193,6 +205,29 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   ): void {
     this.scriptResults.push({ type: "load-error", element, url, error });
   }
+}
+
+function exceptionStack(
+  environment: WindowExecutionEnvironment,
+  value: EngineValue,
+): string | undefined {
+  const object = environment.engine.asObject(value);
+  if (object === null) {
+    return undefined;
+  }
+  const stack = environment.engine.get(
+    environment.settings.realm,
+    object,
+    "stack",
+  );
+  if (stack.type === "throw" || environment.engine.isUndefined(stack.value)) {
+    return undefined;
+  }
+  const text = environment.engine.toString(
+    environment.settings.realm,
+    stack.value,
+  );
+  return text.type === "normal" ? text.value : undefined;
 }
 
 function resourceURLs(element: Element): string[] {

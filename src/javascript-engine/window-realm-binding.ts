@@ -1,4 +1,5 @@
-import { Window } from "../window.js";
+import { reportWindowConsole, Window } from "../window.js";
+import type { WindowConsoleMethod } from "../window.js";
 import { normal, thrown } from "./adapter.js";
 import type {
   EngineHostFunction,
@@ -22,6 +23,28 @@ const CONSTRUCTOR_PROPERTY = {
   enumerable: false,
   writable: true,
 } as const;
+
+const CONSOLE_METHODS: readonly WindowConsoleMethod[] = [
+  "assert",
+  "clear",
+  "count",
+  "countReset",
+  "debug",
+  "dir",
+  "dirxml",
+  "error",
+  "group",
+  "groupCollapsed",
+  "groupEnd",
+  "info",
+  "log",
+  "table",
+  "time",
+  "timeEnd",
+  "timeLog",
+  "trace",
+  "warn",
+];
 
 export class WindowRealmBinding {
   readonly #engine: JavaScriptEngineAdapter;
@@ -51,6 +74,7 @@ export class WindowRealmBinding {
     this.dom.bindPlatformObject(this.#window, this.#globalThis);
     this.#installWindowInterface();
     this.#installWindowMembers();
+    this.#installConsole();
   }
 
   #installWindowInterface(): void {
@@ -100,6 +124,52 @@ export class WindowRealmBinding {
       () => this.#engine.fromPrimitive(null),
       true,
     );
+  }
+
+  #installConsole(): void {
+    const consoleObject = this.#engine.createObject(
+      this.realm,
+      this.#engine.objectPrototype(this.realm),
+    );
+    for (const method of CONSOLE_METHODS) {
+      const operation = this.#engine.createFunction(
+        this.realm,
+        method,
+        0,
+        (_thisValue, argumentsList) => {
+          if (
+            method === "assert" &&
+            argumentsList[0] !== undefined &&
+            this.#engine.toBoolean(argumentsList[0])
+          ) {
+            return this.#undefined();
+          }
+          const values =
+            method === "assert" ? argumentsList.slice(1) : argumentsList;
+          reportWindowConsole(this.#window, {
+            method,
+            arguments: values.map((value) => this.#consoleText(value)),
+          });
+          return this.#undefined();
+        },
+      );
+      this.#engine.defineDataProperty(consoleObject, method, operation, {
+        configurable: true,
+        enumerable: false,
+        writable: true,
+      });
+    }
+    this.#engine.defineDataProperty(
+      this.#globalObject,
+      "console",
+      consoleObject,
+      INTERFACE_PROPERTY,
+    );
+  }
+
+  #consoleText(value: EngineValue): string {
+    const result = this.#engine.toString(this.realm, value);
+    return result.type === "normal" ? result.value : "<unprintable>";
   }
 
   #attribute(

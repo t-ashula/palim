@@ -103,4 +103,47 @@ describe("open", () => {
       second.window.document.body?.getAttribute("data-context"),
     ).toBeNull();
   });
+
+  it("reports page errors and forwards page console calls to the host", async () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    try {
+      const context = await open({
+        html: [
+          "<body><script>",
+          "document.body.setAttribute(",
+          '  "data-host-members",',
+          "  typeof window.onerror,",
+          ");",
+          'console.log("page output", 7);',
+          'throw new TypeError("page failure");',
+          "</script><script>",
+          'document.body.setAttribute("data-after-error", "executed");',
+          "</script></body>",
+        ].join("\n"),
+        baseURL: "https://example.test/page.html",
+      });
+      const errors: { message: string; url: string; stack?: string }[] = [];
+
+      context.window.onerror((error) => {
+        errors.push(error);
+      });
+
+      expect(
+        context.window.document.body?.getAttribute("data-host-members"),
+      ).toBe("undefined");
+      expect(
+        context.window.document.body?.getAttribute("data-after-error"),
+      ).toBe("executed");
+      expect(log).toHaveBeenCalledWith("page output", "7");
+      expect(errors).toHaveLength(1);
+      expect(errors[0]).toMatchObject({
+        message: "TypeError: page failure",
+        url: "https://example.test/page.html",
+      });
+      expect(errors[0]?.stack).toContain("TypeError: page failure");
+    } finally {
+      log.mockRestore();
+    }
+  });
 });

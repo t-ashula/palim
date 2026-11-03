@@ -1,7 +1,7 @@
 import { decodeHTMLBytes } from "./html-byte-input.js";
 import { WindowExecutionEnvironment } from "./window-javascript.js";
 import type { Resource, ResourceLoader } from "./window-javascript.js";
-import type { Window } from "./window.js";
+import type { Window, WindowConsoleCall } from "./window.js";
 import type { URL } from "./url/index.js";
 
 export interface OpenHTMLOptions {
@@ -35,11 +35,32 @@ export async function open(
           url: input.baseURL ?? "about:blank",
         };
   const environment = new WindowExecutionEnvironment({
+    consoleHandler: forwardConsoleCall,
     url: initial.url,
     resourceLoader: loader,
   });
   await environment.loadHTML(initial.source);
   return new OpenedEnvironment(environment);
+}
+
+function forwardConsoleCall(call: WindowConsoleCall): void {
+  const platform: unknown = globalThis;
+  const hostConsole = (
+    platform as {
+      readonly console: Record<
+        string,
+        ((...data: unknown[]) => void) | undefined
+      >;
+    }
+  ).console;
+  const operation = hostConsole[call.method] ?? hostConsole.log;
+  if (operation === undefined) {
+    return;
+  }
+  operation.call(
+    hostConsole,
+    ...(call.method === "assert" ? [false, ...call.arguments] : call.arguments),
+  );
 }
 
 class OpenedEnvironment implements OpenResult {
