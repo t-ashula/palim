@@ -52,6 +52,46 @@ describe("open", () => {
     }
   });
 
+  it("loads document resources against the document base URL", async () => {
+    const fetchMock = vi.fn((input: string | URL) => {
+      const url = input.toString();
+      return Promise.resolve(
+        new Response(
+          url.endsWith("/external.js")
+            ? 'document.body.setAttribute("data-external", "loaded");'
+            : "resource",
+        ),
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const context = await open({
+        html: [
+          '<base href="https://wpt.test/resources/">',
+          '<link rel="stylesheet" href="support.css">',
+          '<link rel="help" href="ignored.html">',
+          '<img src="pixel.png">',
+          '<script src="external.js"></script>',
+          '<script async src="async.js"></script>',
+        ].join(""),
+        baseURL: "https://wpt.test/example/test.html",
+      });
+
+      expect(fetchMock.mock.calls.map(([input]) => input.toString())).toEqual([
+        "https://wpt.test/resources/support.css",
+        "https://wpt.test/resources/pixel.png",
+        "https://wpt.test/resources/external.js",
+        "https://wpt.test/resources/async.js",
+      ]);
+      expect(context.window.document.body?.getAttribute("data-external")).toBe(
+        "loaded",
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("does not share Window state between calls", async () => {
     const first = await open({ html: "<body></body>" });
     const second = await open({ html: "<body></body>" });

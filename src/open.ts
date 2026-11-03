@@ -1,9 +1,6 @@
 import { decodeHTMLBytes } from "./html-byte-input.js";
 import { WindowExecutionEnvironment } from "./window-javascript.js";
-import type {
-  ScriptResource,
-  ScriptResourceLoader,
-} from "./window-javascript.js";
+import type { Resource, ResourceLoader } from "./window-javascript.js";
 import type { Window } from "./window.js";
 import type { URL } from "./url/index.js";
 
@@ -57,8 +54,8 @@ class OpenedEnvironment implements OpenResult {
   }
 }
 
-class FetchResourceLoader implements ScriptResourceLoader {
-  async load(url: URL): Promise<ScriptResource> {
+class FetchResourceLoader implements ResourceLoader {
+  async load(url: URL): Promise<Resource> {
     const response = await hostFetch(url.href);
     if (!response.ok) {
       throw new TypeError(
@@ -84,9 +81,7 @@ async function loadInitialDocument(
   };
 }
 
-async function responseResource(
-  response: HostResponse,
-): Promise<ScriptResource> {
+async function responseResource(response: HostResponse): Promise<Resource> {
   const encoding = contentTypeEncoding(response.headers.get("content-type"));
   return {
     body: new Uint8Array(await response.arrayBuffer()),

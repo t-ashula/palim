@@ -51,6 +51,7 @@ export interface HTMLFragmentContext {
 interface TreeBuilderOptions {
   readonly context?: HTMLFragmentContext | Element;
   readonly document?: Document;
+  readonly onElement?: (element: Element) => void;
   readonly onScript?: (element: Element) => Promise<void> | void;
   readonly scriptingMode?: ParserScriptingMode;
 }
@@ -337,6 +338,7 @@ class TreeBuilder {
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
   readonly #context: Element | null;
+  readonly #onElement: ((element: Element) => void) | undefined;
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
@@ -357,6 +359,7 @@ class TreeBuilder {
     this.document =
       options.document ??
       createDocument(htmlFragmentParser, "text/html", createElementForDocument);
+    this.#onElement = options.onElement;
     this.#onScript = options.onScript;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
@@ -2282,6 +2285,7 @@ class TreeBuilder {
     }
     const element = this.#element(token, namespace);
     this.#insertNode(element, foster);
+    this.#onElement?.(element);
     if (push) {
       this.#stack.push(element);
     }
@@ -3089,12 +3093,14 @@ export async function parseHTMLIntoDocumentAsync(
   input: string,
   document: Document,
   onScript: (element: Element) => Promise<void> | void,
+  onElement?: (element: Element) => void,
 ): Promise<Document> {
   while (document.firstChild !== null) {
     removeNode(document.firstChild);
   }
   return new TreeBuilder(input, {
     document,
+    ...(onElement === undefined ? {} : { onElement }),
     onScript,
     scriptingMode: "enabled",
   }).parseAsync();
