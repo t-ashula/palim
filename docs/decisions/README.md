@@ -40,3 +40,4 @@
 - [ADR-0037: Window console への host 介入](./0037-window-console-host-intervention.md)
 - [ADR-0038: WPT 進捗レポートの集計方針](./0038-wpt-progress-report.md)
 - [ADR-0039: Mozilla Readability との相互運用性検証](./0039-readability-interoperability-verification.md)
+- [ADR-0040: WPT の分割 campaign 実行と累積レポート](./0040-wpt-partitioned-campaign.md)
