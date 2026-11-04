@@ -21,6 +21,10 @@
 ### Node content mutation
 
 - [x] `Node.normalize`
+- [ ] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
+- [ ] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
+- [ ] `Node.moveBefore` と atomic move
+- [ ] insertion steps / removing steps / post-connection steps
 
 ### Node relationships and comparison
 
@@ -34,16 +38,23 @@
 - [x] `Element.classList`
 - [x] `Element.id` / `className`
 - [x] `NamedNodeMap` の取得・設定・削除 API
+- [ ] `getAttributeNodeNS` と namespace attribute mutation
+- [ ] `DOMTokenList` の realm binding と `contains` を含む既存 API の公開
 
 ### Lookup
 
 - [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName`
 - [x] `Document` / `DocumentFragment.getElementById`
+- [ ] `Document.getElementsByName`
+- [ ] `DocumentFragment` の selector API binding
 
 ### Traversal and ranges
 
 - [x] `NodeIterator` / `TreeWalker`
 - [x] `Range`
+- [ ] `Document.createRange` と page realm の `Range` / `StaticRange` constructor 公開
+- [ ] `CharacterData` と tree mutation に対する live range 更新の網羅
+- [ ] Range の extract / delete / clone / insert / surround / point 比較の WPT 境界条件
 
 ## 3. Dynamic markup and serialization APIs
 
@@ -71,6 +82,7 @@
 
 - [ ] focus management
 - [ ] editing API と `contenteditable`
+- [ ] `innerText` / `outerText`
 
 ### Loading, rendering, and embedded content
 
@@ -80,6 +92,7 @@
 - [ ] iframe の独立 realm と cross-realm DOM object binding
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
+- [ ] `getComputedStyle` / `getBoundingClientRect` と layout-dependent API
 
 ### Forms and controls
 
@@ -88,14 +101,25 @@
 - [ ] input type ごとの value sanitization
 - [ ] selection API の type 別制約
 
+### Document surface
+
+- [ ] `document.body` / `head` / `title` / `currentScript`
+- [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
+- [ ] Window named properties と `id` / `name` mutation に追従する supported property names
+- [ ] global attribute reflection、`dataset`、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
+
 ## 6. Events
 
 - [ ] capture phase
+- [ ] `Document.createEvent` と legacy event initialization
+- [ ] `Event` subclass constructor と `MouseEvent` / `KeyboardEvent` の realm 公開
 - [x] listener option の `passive`
 - [x] listener option の `signal`
 - [ ] composed path と shadow boundary
 - [ ] event retargeting
 - [ ] default action
+- [ ] element の `click()` と activation behavior
+- [ ] `window.event` / `isTrusted` / high-resolution `timeStamp`
 - [ ] UI event / mouse event / pointer event / keyboard event
 - [ ] form・media・dialog・popover の仕様イベント
 
@@ -123,6 +147,7 @@
 - [ ] browsing context
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
 - [ ] `Document.write`
+- [ ] `requestAnimationFrame` / `performance`
 - [ ] origin と URL
 - [ ] dialog / popover の top layer と event
 
@@ -130,6 +155,7 @@
 
 - [ ] resource loading
 - [ ] `fetch`
+- [ ] `Request` と fetch 関連 global の realm 公開
 
 ### Storage and state
 
@@ -156,28 +182,53 @@
 - [ ] external script loading
 - [ ] parser-blocking script
 - [ ] `document.currentScript`
+- [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
+- [ ] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
 
 ## 11. Web IDL bindings
 
 - [ ] argument conversion の網羅
 - [ ] 例外変換の網羅
 - [ ] property descriptor の網羅
+- [ ] interface constructor / prototype / iterable の global 公開 set
+- [ ] 既存 DOM API の page realm binding 網羅
+- [ ] branding check と `DOMException` name / code の整合
 
 ## 12. Standards compliance measurement
 
 - [x] html5lib tree-construction tests の実行基盤
 - [x] tree-construction 適合度レポート
-- [ ] DOM API 適合度レポート
+- [x] DOM API 適合度レポート
 - [ ] Selector API の適合度計測方法
 - [ ] Selector API 適合度レポート
 - [ ] HTML element interface 適合度レポート
-- [ ] WPT の実行可能条件と対象範囲の明示
+- [x] WPT の実行可能条件と対象範囲の明示
 - [ ] WPT から palim 単体で実行可能なケースの整理
-- [ ] Window 用 WPT execution adapter
-- [ ] 除外ケースごとのファイル名・内容・理由
+- [x] Window 用 WPT execution adapter
+- [x] 除外ケースごとのファイル名・内容・理由
 - [ ] Living Standard 更新時の差分検出
-- [ ] report 更新タイミングの規約化
+- [x] report 更新タイミングの規約化
+- [x] URL 単位の10並列 campaign、途中集計、中断・再開
+- [x] default scope 1,226 URL の初回完走レポート
 - [ ] commit 済み revision のみで report を更新する運用
+
+### WPT baseline 2026-11-05
+
+`wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010` の default scope を全件実行した。
+URL 単位では 1,226 件中 pass 209、fail 496、error 236、timeout 285、pending 0 である。
+subtest 単位では 52,021 件中 pass 6,707 である。
+
+- [ ] commit 済みの clean build で baseline を再取得する
+- [ ] baseline との差分を URL status と subtest status の両方で比較する
+- [ ] harness blocker、未実装 API、algorithm 差、runner failure を別々に集計する
+- [ ] timeout 285 件を capability 不足、event loop 待機、外部 resource 待機、runner 停止に分類する
+- [ ] `palim returned no WPT result` の13件を runner error として原因保存する
+- [ ] HTML parsing 173件を一つの RegExp literal parse error が遮断する状態を解消する
+- [ ] `/dom/ranges/` 69件の page realm binding と Range algorithm を段階別に計測する
+- [ ] `/dom/nodes/` の `moveBefore` 60 URL と insertion/removing steps 20 URL を独立した進捗項目にする
+- [ ] `/dom/events/` の testdriver/layout 依存ケースと DOM event algorithm ケースを分離する
+- [ ] `/url/` の fetch 依存29件と Worker依存ケースを URL implementation の失敗から分離する
+- [ ] WPT report の failure message を安定した failure kind に正規化する
 
 ## 13. Performance and memory
 
