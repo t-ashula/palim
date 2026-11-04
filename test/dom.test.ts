@@ -940,6 +940,26 @@ describe("Element attributes", () => {
 });
 
 describe("Node mutation", () => {
+  it("appends nodes and strings to ParentNode objects", () => {
+    const document = parse("<main><span></span></main>");
+    const main = select(document, "main");
+    const span = select(document, "span");
+    const fragment = document.createDocumentFragment();
+
+    fragment.append("fragment");
+    main.append("before", span, fragment, "after");
+
+    expect(main.textContent).toBe("beforefragmentafter");
+    expect(main.children).toHaveLength(1);
+    expect(main.firstElementChild).toBe(span);
+    expect(fragment.childNodes).toHaveLength(0);
+
+    const detached = new Document();
+    const root = detached.createElement("root");
+    detached.append(root);
+    expect(detached.documentElement).toBe(root);
+  });
+
   it("moves nodes with appendChild and updates live collections", () => {
     const document = parse(
       '<main><section id="first"><p></p></section><section id="second"></section></main>',

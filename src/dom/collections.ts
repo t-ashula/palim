@@ -8,6 +8,7 @@ import {
 } from "./nodes.js";
 import type { Attr, Element, Node } from "./nodes.js";
 import { DOMException } from "../dom-exception.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
 import { requireArguments } from "../web-idl.js";
 import { domString, normalizeNamespace } from "./conversions.js";
 import { bindDOMInterface, implementationFor } from "./binding.js";
@@ -87,13 +88,34 @@ export class HTMLCollection<
     return (htmlCollectionValues(this).find(
       (element) =>
         element.getAttribute("id") === converted ||
-        element.getAttribute("name") === converted,
+        (element.namespaceURI === HTML_NAMESPACE &&
+          element.getAttribute("name") === converted),
     ) ?? null) as N | null;
   }
 
   [Symbol.iterator](): Iterator<T> {
     return htmlCollectionValues(this)[Symbol.iterator]();
   }
+}
+
+export function htmlCollectionSupportedPropertyNames(
+  collection: HTMLCollection,
+): string[] {
+  const names: string[] = [];
+  for (const element of htmlCollectionValues(collection)) {
+    const id = element.getAttribute("id");
+    if (id !== null && id !== "" && !names.includes(id)) {
+      names.push(id);
+    }
+    if (element.namespaceURI !== HTML_NAMESPACE) {
+      continue;
+    }
+    const name = element.getAttribute("name");
+    if (name !== null && name !== "" && !names.includes(name)) {
+      names.push(name);
+    }
+  }
+  return names;
 }
 
 export class NamedNodeMap implements Iterable<Attr> {
@@ -172,6 +194,16 @@ export class NamedNodeMap implements Iterable<Attr> {
   [Symbol.iterator](): Iterator<Attr> {
     return attributeNodes(namedNodeMapElement(this))[Symbol.iterator]();
   }
+}
+
+export function namedNodeMapSupportedPropertyNames(
+  attributes: NamedNodeMap,
+): string[] {
+  const names: string[] = [];
+  for (const attribute of attributes) {
+    names.push(attribute.name);
+  }
+  return names;
 }
 
 class CollectionImplementation<T> {

@@ -533,6 +533,10 @@ export class Document extends Node {
     return createRange(this);
   }
 
+  append(...nodes: (Node | string)[]): void {
+    appendNodes(this, nodes);
+  }
+
   override get textContent(): null {
     return null;
   }
@@ -928,6 +932,10 @@ export class Element extends Node {
 
   remove(): void {
     removeNode(this);
+  }
+
+  append(...nodes: (Node | string)[]): void {
+    appendNodes(this, nodes);
   }
 
   get innerHTML(): string {
@@ -1381,6 +1389,10 @@ export class DocumentFragment extends Node {
       ),
     );
     return implementation.elementChildren;
+  }
+
+  append(...nodes: (Node | string)[]): void {
+    appendNodes(this, nodes);
   }
 
   querySelector(selectors: string): Element | null {
@@ -2258,6 +2270,32 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       parentImplementation.children.splice(index, 0, insertedImplementation);
     }
   }
+}
+
+function appendNodes(
+  parent: Document | DocumentFragment | Element,
+  nodes: readonly (Node | string)[],
+): void {
+  if (nodes.length === 0) {
+    return;
+  }
+  const document = parent instanceof Document ? parent : parent.ownerDocument;
+  if (document === null) {
+    throw new TypeError("ParentNode has no node document");
+  }
+  const converted = nodes.map((node) =>
+    node instanceof Node ? node : createText(document, domString(node)),
+  );
+  const first = converted[0];
+  if (converted.length === 1 && first !== undefined) {
+    parent.appendChild(first);
+    return;
+  }
+  const fragment = createDocumentFragment(document);
+  for (const node of converted) {
+    fragment.appendChild(node);
+  }
+  parent.appendChild(fragment);
 }
 
 function adopt(node: Node, document: Document): void {

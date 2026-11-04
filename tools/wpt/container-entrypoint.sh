@@ -39,6 +39,7 @@ set +e
   run \
   --yes \
   --no-pause-after-test \
+  --timeout-multiplier 5 \
   --test-type testharness \
   --log-wptreport "$wpt_report" \
   "$@"

@@ -136,6 +136,111 @@ describe("DOMRealmBinding", () => {
     expect(document.getElementsByTagName("meta").length).toBe(3);
   });
 
+  it("exposes live indexed and named HTMLCollection properties", () => {
+    const { engine, realm } = createTestRealm(
+      '<main><span id="first" name="alpha"></span><span id="first" name="beta"></span></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const collection = testDocument.getElementsByTagName("span");
+        const first = testDocument.getElementById("first");
+        if (
+          collection[0] !== first ||
+          collection.first !== first ||
+          collection.namedItem("alpha") !== first
+        ) {
+          throw new Error("HTMLCollection named properties are invalid");
+        }
+        const descriptor = Object.getOwnPropertyDescriptor(collection, "first");
+        if (
+          descriptor.value !== first ||
+          descriptor.enumerable ||
+          !descriptor.configurable ||
+          descriptor.writable
+        ) {
+          throw new Error("HTMLCollection named descriptor is invalid");
+        }
+        const third = testDocument.createElement("span");
+        third.id = "third";
+        third.className = "runtime";
+        const runtime = testDocument.getElementsByClassName("runtime");
+        testDocument.querySelector("main").append(third);
+        if (collection[2] !== third || collection.third !== third) {
+          throw new Error("HTMLCollection properties are not live");
+        }
+        if (runtime[0] !== third || third.getAttribute("class") !== "runtime") {
+          throw new Error("ParentNode.append or className binding is invalid");
+        }
+        const names = Object.getOwnPropertyNames(collection);
+        const expected = ["0", "1", "2", "first", "alpha", "beta", "third"];
+        if (names.join("|") !== expected.join("|")) {
+          throw new Error("HTMLCollection property names are invalid: " + names);
+        }
+        collection.first = "ignored";
+        delete collection.first;
+        if (collection.first !== first) {
+          throw new Error("HTMLCollection named property was replaced");
+        }
+        const derived = Object.create(collection);
+        derived.first = "shadow";
+        if (derived.first !== "shadow" || collection.first !== first) {
+          throw new Error("HTMLCollection prototype property cannot be shadowed");
+        }
+      `,
+    );
+  });
+
+  it("exposes DOMStringMap and NamedNodeMap named properties", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<main id="target" class="initial" data-user-id="42"></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const element = testDocument.getElementById("target");
+        if (!(element instanceof HTMLElement)) {
+          throw new Error("HTMLElement realm identity is invalid");
+        }
+        if (
+          !(element.dataset instanceof DOMStringMap) ||
+          element.dataset.userId !== "42"
+        ) {
+          throw new Error("DOMStringMap getter is invalid");
+        }
+        element.dataset.runtimeValue = 7;
+        if (
+          element.getAttribute("data-runtime-value") !== "7" ||
+          Object.getOwnPropertyNames(element.dataset).join("|") !==
+            "userId|runtimeValue"
+        ) {
+          throw new Error("DOMStringMap setter is invalid");
+        }
+        delete element.dataset.userId;
+        if (element.dataset.userId !== undefined) {
+          throw new Error("DOMStringMap deleter is invalid");
+        }
+        const attributes = element.attributes;
+        if (
+          !(attributes instanceof NamedNodeMap) ||
+          !(attributes[0] instanceof Attr) ||
+          Object.getOwnPropertyNames(attributes).join("|") !==
+            "0|1|2|id|class|data-runtime-value"
+        ) {
+          throw new Error("NamedNodeMap properties are invalid");
+        }
+      `,
+    );
+
+    expect(
+      document.getElementById("target")?.getAttribute("data-user-id"),
+    ).toBeNull();
+  });
+
   it("exposes HTMLAnchorElement URL attributes in the engine realm", () => {
     const { engine, realm } = createTestRealm('<a id="target"></a>');
 
