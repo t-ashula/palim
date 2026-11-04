@@ -106,6 +106,69 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes markup getters and setters in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<main><p id="first">old</p><p id="second">old</p></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const main = testDocument.querySelector("main");
+        const first = testDocument.getElementById("first");
+        const second = testDocument.getElementById("second");
+        if (first.outerHTML !== '<p id="first">old</p>') {
+          throw new Error("outerHTML getter is invalid");
+        }
+        first.outerHTML = null;
+        second.outerHTML = undefined;
+        if (main.innerHTML !== "undefined") {
+          throw new Error("outerHTML conversion is invalid");
+        }
+        main.innerHTML = null;
+        if (main.innerHTML !== "") {
+          throw new Error("innerHTML null conversion is invalid");
+        }
+        main.innerHTML = '<span id="target"></span>';
+        const target = testDocument.getElementById("target");
+        target.insertAdjacentHTML("beforebegin", "<b>before</b>");
+        target.insertAdjacentHTML("afterbegin", "<i>first</i>");
+        target.insertAdjacentHTML("beforeend", "<i>last</i>");
+        target.insertAdjacentHTML("afterend", "<b>after</b>");
+        if (
+          main.innerHTML !==
+          '<b>before</b><span id="target"><i>first</i><i>last</i></span><b>after</b>'
+        ) {
+          throw new Error("insertAdjacentHTML is invalid");
+        }
+        try {
+          target.insertAdjacentHTML("invalid", "");
+          throw new Error("invalid insertAdjacentHTML position was accepted");
+        } catch (error) {
+          if (!(error instanceof DOMException) || error.name !== "SyntaxError") {
+            throw error;
+          }
+        }
+        try {
+          testDocument.documentElement.outerHTML = "<html></html>";
+          throw new Error("document child outerHTML was accepted");
+        } catch (error) {
+          if (
+            !(error instanceof DOMException) ||
+            error.name !== "NoModificationAllowedError"
+          ) {
+            throw error;
+          }
+        }
+      `,
+    );
+
+    expect(document.querySelector("main")?.innerHTML).toBe(
+      '<b>before</b><span id="target"><i>first</i><i>last</i></span><b>after</b>',
+    );
+  });
+
   it("exposes live DOMTokenList objects in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<span class="   a  a b "></span>',
@@ -563,6 +626,10 @@ describe("DOMRealmBinding", () => {
       `
         const parser = new DOMParser();
         const xml = parser.parseFromString("<root>value</root>", "text/xml");
+        const xmlWithDoctype = parser.parseFromString(
+          '<!DOCTYPE root SYSTEM "urn:test"><root/>',
+          "text/xml",
+        );
         const html = parser.parseFromString("<main>value</main>", "text/html");
         if (
           !(parser instanceof DOMParser) ||
@@ -572,6 +639,11 @@ describe("DOMRealmBinding", () => {
           xml.documentElement.localName !== "root" ||
           xml.documentElement.tagName !== "root" ||
           xml.documentElement.textContent !== "value" ||
+          xml.readyState !== "complete" ||
+          !(xmlWithDoctype.doctype instanceof DocumentType) ||
+          xmlWithDoctype.doctype.name !== "root" ||
+          xmlWithDoctype.doctype.publicId !== "" ||
+          xmlWithDoctype.doctype.systemId !== "urn:test" ||
           html.contentType !== "text/html" ||
           html.querySelector("main").textContent !== "value"
         ) {
@@ -599,6 +671,28 @@ describe("DOMRealmBinding", () => {
           "<html xmlns='http://www.w3.org/1999/xhtml'></html>",
           "application/xhtml+xml",
         );
+        const serializer = new XMLSerializer();
+        if (
+          !(serializer instanceof XMLSerializer) ||
+          Object.prototype.toString.call(serializer) !== "[object XMLSerializer]" ||
+          serializer.serializeToString(xml) !== "<root>value</root>"
+        ) {
+          throw new Error("XMLSerializer binding is invalid");
+        }
+        for (const serialize of [
+          () => serializer.serializeToString(),
+          () => serializer.serializeToString("<root />"),
+          () => XMLSerializer.prototype.serializeToString.call({}, xml),
+        ]) {
+          try {
+            serialize();
+            throw new Error("invalid XMLSerializer call was accepted");
+          } catch (error) {
+            if (!(error instanceof TypeError)) {
+              throw error;
+            }
+          }
+        }
         try {
           xhtml.documentElement.innerHTML = "\uD800";
           throw new Error("invalid XML fragment was accepted");

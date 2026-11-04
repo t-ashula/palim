@@ -107,6 +107,14 @@ describe("DOMParser XML parsing", () => {
     expect(document.querySelector("parsererror")).toBeNull();
   });
 
+  it("replaces lone surrogates before parsing", () => {
+    const document = parse("<root>\uD800</root>");
+
+    expect(document.documentElement?.localName).toBe("root");
+    expect(document.documentElement?.textContent).toBe("\uFFFD");
+    expect(document.querySelector("parsererror")).toBeNull();
+  });
+
   it.each([
     "<root><child></root>",
     "<first /><second />",

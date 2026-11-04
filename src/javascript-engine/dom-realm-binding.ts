@@ -35,6 +35,7 @@ import { implementationFor, interfaceFor } from "../dom/binding.js";
 import { DOMException as HostDOMException } from "../dom-exception.js";
 import { DOMParser } from "../dom-parser.js";
 import type { DOMParserSupportedType } from "../dom-parser.js";
+import { XMLSerializer } from "../xml-serializer.js";
 import {
   htmlCollectionSupportedPropertyNames,
   namedNodeMapSupportedPropertyNames,
@@ -328,8 +329,10 @@ export class DOMRealmBinding {
   readonly #htmlTemplateElementPrototype: EngineObject;
   readonly #documentPrototype: EngineObject;
   readonly #documentFragmentPrototype: EngineObject;
+  readonly #documentTypePrototype: EngineObject;
   readonly #domImplementationPrototype: EngineObject;
   readonly #domParserPrototype: EngineObject;
+  readonly #xmlSerializerPrototype: EngineObject;
   readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
   readonly #customEventPrototype: EngineObject;
@@ -345,6 +348,7 @@ export class DOMRealmBinding {
   readonly #traversalFilters = new WeakMap<object, EngineValue>();
   readonly #elementStyles = new WeakMap<Element, EngineObject>();
   readonly #domParsers = new WeakMap<EngineObject, DOMParser>();
+  readonly #xmlSerializers = new WeakSet<EngineObject>();
 
   constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
     this.#engine = engine;
@@ -442,11 +446,19 @@ export class DOMRealmBinding {
       this.#realm,
       this.#nodePrototype,
     );
+    this.#documentTypePrototype = this.#engine.createObject(
+      this.#realm,
+      this.#nodePrototype,
+    );
     this.#domImplementationPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
     );
     this.#domParserPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#xmlSerializerPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
     );
@@ -511,8 +523,10 @@ export class DOMRealmBinding {
     this.#installHTMLTemplateElementMembers();
     this.#installDocumentMembers();
     this.#installDocumentFragmentMembers();
+    this.#installDocumentTypeMembers();
     this.#installDOMImplementationMembers();
     this.#installDOMParserMembers();
+    this.#installXMLSerializerMembers();
     this.#installEventMembers();
     this.#installHTMLCollectionMembers();
     this.#installNamedNodeMapMembers();
@@ -637,6 +651,7 @@ export class DOMRealmBinding {
       0,
       () => normal(this.#wrap(new DocumentFragment())),
     );
+    this.#installInterface("DocumentType", this.#documentTypePrototype);
     this.#installInterface(
       "DOMImplementation",
       this.#domImplementationPrototype,
@@ -649,6 +664,19 @@ export class DOMRealmBinding {
       this.#domParsers.set(object, new DOMParser());
       return normal(object);
     });
+    this.#installInterface(
+      "XMLSerializer",
+      this.#xmlSerializerPrototype,
+      0,
+      () => {
+        const object = this.#engine.createObject(
+          this.#realm,
+          this.#xmlSerializerPrototype,
+        );
+        this.#xmlSerializers.add(object);
+        return normal(object);
+      },
+    );
     this.#installInterface("XMLDocument", this.#xmlDocumentPrototype);
     this.#installInterface("HTMLCollection", this.#htmlCollectionPrototype);
     this.#installInterface("NamedNodeMap", this.#namedNodeMapPrototype);
@@ -1170,26 +1198,84 @@ export class DOMRealmBinding {
         const element = this.#element(thisValue);
         return element === null
           ? this.#typeError("Invalid Element receiver")
-          : this.#primitive(element.innerHTML);
+          : this.#domOperationResult(() => this.#primitive(element.innerHTML));
       },
       (thisValue, argumentsList) => {
         const element = this.#element(thisValue);
         if (element === null) {
           return this.#typeError("Invalid Element receiver");
         }
-        const value = this.#stringArgument(argumentsList, 0, "innerHTML");
+        const value = this.#legacyNullToEmptyStringArgument(
+          argumentsList,
+          0,
+          "innerHTML",
+        );
         if (value.type === "throw") {
           return value;
         }
-        try {
+        return this.#domOperationResult(() => {
           element.innerHTML = value.value;
           return this.#undefined();
-        } catch (error: unknown) {
-          if (error instanceof HostDOMException) {
-            return thrown(this.#createDOMException(error.message, error.name));
-          }
-          throw error;
+        });
+      },
+    );
+    this.#attribute(
+      this.#elementPrototype,
+      "outerHTML",
+      (thisValue) => {
+        const element = this.#element(thisValue);
+        return element === null
+          ? this.#typeError("Invalid Element receiver")
+          : this.#domOperationResult(() => this.#primitive(element.outerHTML));
+      },
+      (thisValue, argumentsList) => {
+        const element = this.#element(thisValue);
+        if (element === null) {
+          return this.#typeError("Invalid Element receiver");
         }
+        const value = this.#legacyNullToEmptyStringArgument(
+          argumentsList,
+          0,
+          "outerHTML",
+        );
+        if (value.type === "throw") {
+          return value;
+        }
+        return this.#domOperationResult(() => {
+          element.outerHTML = value.value;
+          return this.#undefined();
+        });
+      },
+    );
+    this.#method(
+      this.#elementPrototype,
+      "insertAdjacentHTML",
+      2,
+      (thisValue, argumentsList) => {
+        const element = this.#element(thisValue);
+        if (element === null) {
+          return this.#typeError("Invalid Element receiver");
+        }
+        const position = this.#stringArgument(
+          argumentsList,
+          0,
+          "insertAdjacentHTML",
+        );
+        if (position.type === "throw") {
+          return position;
+        }
+        const text = this.#stringArgument(
+          argumentsList,
+          1,
+          "insertAdjacentHTML",
+        );
+        if (text.type === "throw") {
+          return text;
+        }
+        return this.#domOperationResult(() => {
+          element.insertAdjacentHTML(position.value, text.value);
+          return this.#undefined();
+        });
       },
     );
     this.#method(
@@ -1483,6 +1569,7 @@ export class DOMRealmBinding {
       "charset",
       "inputEncoding",
       "contentType",
+      "readyState",
     ] as const) {
       this.#attribute(this.#documentPrototype, name, (thisValue) => {
         const document = this.#document(thisValue);
@@ -2012,6 +2099,18 @@ export class DOMRealmBinding {
     );
   }
 
+  #installDocumentTypeMembers(): void {
+    for (const name of ["name", "publicId", "systemId"] as const) {
+      this.#attribute(this.#documentTypePrototype, name, (thisValue) => {
+        const documentType = this.#documentType(thisValue);
+        return documentType === null
+          ? this.#typeError("Invalid DocumentType receiver")
+          : this.#primitive(documentType[name]);
+      });
+    }
+    this.#interfaceTag(this.#documentTypePrototype, "DocumentType");
+  }
+
   #installDOMImplementationMembers(): void {
     this.#method(
       this.#domImplementationPrototype,
@@ -2145,6 +2244,29 @@ export class DOMRealmBinding {
       },
     );
     this.#interfaceTag(this.#domParserPrototype, "DOMParser");
+  }
+
+  #installXMLSerializerMembers(): void {
+    this.#method(
+      this.#xmlSerializerPrototype,
+      "serializeToString",
+      1,
+      (thisValue, argumentsList) => {
+        const object = this.#engine.asObject(thisValue);
+        if (object === null || !this.#xmlSerializers.has(object)) {
+          return this.#typeError("Invalid XMLSerializer receiver");
+        }
+        const rootValue = argumentsList[0];
+        const root = rootValue === undefined ? null : this.#node(rootValue);
+        if (root === null) {
+          return this.#typeError("The argument is not a Node");
+        }
+        return this.#domOperationResult(() =>
+          this.#primitive(new XMLSerializer().serializeToString(root)),
+        );
+      },
+    );
+    this.#interfaceTag(this.#xmlSerializerPrototype, "XMLSerializer");
   }
 
   #installEventMembers(): void {
@@ -2572,6 +2694,19 @@ export class DOMRealmBinding {
     }
   }
 
+  #domOperationResult(
+    callback: () => EngineResult<EngineValue>,
+  ): EngineResult<EngineValue> {
+    try {
+      return callback();
+    } catch (error: unknown) {
+      if (error instanceof HostDOMException) {
+        return thrown(this.#createDOMException(error.message, error.name));
+      }
+      throw error;
+    }
+  }
+
   #createDOMException(message: string, name: string): EngineObject {
     const exception = this.#engine.createObject(
       this.#realm,
@@ -2884,6 +3019,9 @@ export class DOMRealmBinding {
     if (interfaceObject instanceof DocumentFragment) {
       return this.#documentFragmentPrototype;
     }
+    if (interfaceObject instanceof DocumentType) {
+      return this.#documentTypePrototype;
+    }
     if (interfaceObject instanceof DOMImplementation) {
       return this.#domImplementationPrototype;
     }
@@ -3072,6 +3210,11 @@ export class DOMRealmBinding {
       : null;
   }
 
+  #documentType(value: EngineValue): DocumentType | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof DocumentType ? interfaceObject : null;
+  }
+
   #event(value: EngineValue): Event | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Event ? interfaceObject : null;
@@ -3133,6 +3276,17 @@ export class DOMRealmBinding {
       );
     }
     return this.#engine.toString(this.#realm, value);
+  }
+
+  #legacyNullToEmptyStringArgument(
+    argumentsList: readonly EngineValue[],
+    index: number,
+    operation: string,
+  ): EngineResult<string> {
+    const value = argumentsList[index];
+    return value !== undefined && this.#engine.isNull(value)
+      ? normal("")
+      : this.#stringArgument(argumentsList, index, operation);
   }
 
   #optionalStringArgument(

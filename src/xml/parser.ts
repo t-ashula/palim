@@ -838,7 +838,7 @@ export function parseXML(input: string, type: XMLMIMEType): Document {
   );
   try {
     new XMLParserCore(
-      input.startsWith("\uFEFF") ? input.slice(1) : input,
+      (input.startsWith("\uFEFF") ? input.slice(1) : input).toWellFormed(),
       document,
       null,
       new Map([["xml", XML_NAMESPACE]]),

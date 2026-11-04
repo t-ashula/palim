@@ -432,6 +432,7 @@ export class Document extends Node {
   readonly characterSet = "UTF-8";
   readonly charset = "UTF-8";
   readonly inputEncoding = "UTF-8";
+  readonly readyState = "complete";
 
   constructor(implementation?: unknown) {
     super(
