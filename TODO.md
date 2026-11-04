@@ -133,6 +133,10 @@
 - [ ] cookie
 - [ ] storage
 
+### Workers
+
+- [ ] Dedicated Worker (`Worker`)
+
 ## 9. Runtime scheduling
 
 - [ ] timers

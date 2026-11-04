@@ -435,14 +435,14 @@ export class DOMRealmBinding {
         if (callback === null) {
           return this.#typeError("The event listener is not callable");
         }
-        const capture =
-          argumentsList[2] === undefined
-            ? false
-            : this.#engine.toBoolean(argumentsList[2]);
+        const options = this.#eventListenerOptions(argumentsList[2], true);
+        if (options.type === "throw") {
+          return options;
+        }
         target.addEventListener(
           type.value,
           this.#eventListener(target, callback),
-          capture,
+          options.value,
         );
         return this.#undefined();
       },
@@ -474,11 +474,11 @@ export class DOMRealmBinding {
             ? undefined
             : this.#listeners.get(target)?.get(callback);
         if (listener !== undefined) {
-          const capture =
-            argumentsList[2] === undefined
-              ? false
-              : this.#engine.toBoolean(argumentsList[2]);
-          target.removeEventListener(type.value, listener, capture);
+          const options = this.#eventListenerOptions(argumentsList[2], false);
+          if (options.type === "throw") {
+            return options;
+          }
+          target.removeEventListener(type.value, listener, options.value);
         }
         return this.#undefined();
       },
@@ -1131,6 +1131,20 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Event receiver")
         : this.#platformValue(event.currentTarget);
     });
+    for (const name of [
+      "stopPropagation",
+      "stopImmediatePropagation",
+      "preventDefault",
+    ] as const) {
+      this.#method(this.#eventPrototype, name, 0, (thisValue) => {
+        const event = this.#event(thisValue);
+        if (event === null) {
+          return this.#typeError("Invalid Event receiver");
+        }
+        event[name]();
+        return this.#undefined();
+      });
+    }
   }
 
   #installHTMLCollectionMembers(): void {
@@ -1648,6 +1662,41 @@ export class DOMRealmBinding {
       nodes.push(converted.value);
     }
     return normal(nodes);
+  }
+
+  #eventListenerOptions(
+    value: EngineValue | undefined,
+    includeOnce: boolean,
+  ): EngineResult<{ capture: boolean; once: boolean }> {
+    if (
+      value === undefined ||
+      this.#engine.isUndefined(value) ||
+      this.#engine.isNull(value)
+    ) {
+      return normal({ capture: false, once: false });
+    }
+    const object = this.#engine.asObject(value);
+    if (object === null) {
+      return normal({ capture: this.#engine.toBoolean(value), once: false });
+    }
+    const capture = this.#engine.get(this.#realm, object, "capture");
+    if (capture.type === "throw") {
+      return capture;
+    }
+    if (!includeOnce) {
+      return normal({
+        capture: this.#engine.toBoolean(capture.value),
+        once: false,
+      });
+    }
+    const once = this.#engine.get(this.#realm, object, "once");
+    if (once.type === "throw") {
+      return once;
+    }
+    return normal({
+      capture: this.#engine.toBoolean(capture.value),
+      once: this.#engine.toBoolean(once.value),
+    });
   }
 
   #eventListener(

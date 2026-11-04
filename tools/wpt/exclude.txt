@@ -1,3 +1,4 @@
 # Unsupported subareas within the default scope.
+/dom/events/AddEventListenerOptions-once.any.worker.html
 /domparsing/tentative/
 /xml/xslt/
