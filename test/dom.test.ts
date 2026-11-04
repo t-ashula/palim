@@ -5,6 +5,7 @@ import {
   Attr,
   CDATASection,
   Comment,
+  CustomEvent,
   DOMException,
   DOMParser,
   Document,
@@ -70,6 +71,19 @@ describe("DOM interface binding", () => {
 });
 
 describe("EventTarget", () => {
+  it("constructs custom events with detail", () => {
+    const event = new CustomEvent("custom", {
+      bubbles: true,
+      cancelable: true,
+      detail: { value: 54 },
+    });
+
+    expect(event.type).toBe("custom");
+    expect(event.bubbles).toBe(true);
+    expect(event.cancelable).toBe(true);
+    expect(event.detail).toEqual({ value: 54 });
+  });
+
   it("ignores cancellation from passive listeners", () => {
     const target = new EventTarget();
     target.addEventListener(

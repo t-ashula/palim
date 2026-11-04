@@ -2,6 +2,7 @@ import {
   AbortController,
   AbortSignal,
   Attr,
+  CustomEvent,
   Document,
   Element,
   Event,
@@ -199,6 +200,7 @@ export class DOMRealmBinding {
   readonly #realm: EngineRealm;
   readonly #platformObjects = new WeakMap<object, EngineObject>();
   readonly #implementations = new WeakMap<EngineObject, object>();
+  readonly #customEventDetails = new WeakMap<CustomEvent, EngineValue>();
   readonly #listeners = new WeakMap<
     EventTarget,
     Map<EngineCallable, (event: Event) => void>
@@ -215,6 +217,7 @@ export class DOMRealmBinding {
   readonly #documentPrototype: EngineObject;
   readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
+  readonly #customEventPrototype: EngineObject;
   readonly #htmlCollectionPrototype: EngineObject;
   readonly #namedNodeMapPrototype: EngineObject;
   readonly #nodeListPrototype: EngineObject;
@@ -283,6 +286,10 @@ export class DOMRealmBinding {
     this.#eventPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
+    );
+    this.#customEventPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#eventPrototype,
     );
     this.#htmlCollectionPrototype = this.#engine.createObject(
       this.#realm,
@@ -382,7 +389,7 @@ export class DOMRealmBinding {
     this.#installInterface("NamedNodeMap", this.#namedNodeMapPrototype);
     this.#installInterface("NodeList", this.#nodeListPrototype);
     this.#installInterface("DOMStringMap", this.#domStringMapPrototype);
-    this.#installInterface(
+    const eventConstructor = this.#installInterface(
       "Event",
       this.#eventPrototype,
       1,
@@ -397,6 +404,43 @@ export class DOMRealmBinding {
           : normal(this.#wrap(new Event(type.value, eventInit.value)));
       },
     );
+    for (const [name, value] of [
+      ["NONE", Event.NONE],
+      ["CAPTURING_PHASE", Event.CAPTURING_PHASE],
+      ["AT_TARGET", Event.AT_TARGET],
+      ["BUBBLING_PHASE", Event.BUBBLING_PHASE],
+    ] as const) {
+      for (const target of [eventConstructor, this.#eventPrototype]) {
+        this.#engine.defineDataProperty(
+          target,
+          name,
+          this.#engine.fromPrimitive(value),
+          {
+            configurable: false,
+            enumerable: true,
+            writable: false,
+          },
+        );
+      }
+    }
+    this.#installInterface(
+      "CustomEvent",
+      this.#customEventPrototype,
+      1,
+      (_thisValue, argumentsList) => {
+        const type = this.#stringArgument(argumentsList, 0, "CustomEvent");
+        if (type.type === "throw") {
+          return type;
+        }
+        const eventInit = this.#customEventInit(argumentsList[1]);
+        if (eventInit.type === "throw") {
+          return eventInit;
+        }
+        const event = new CustomEvent(type.value, eventInit.value);
+        this.#customEventDetails.set(event, eventInit.value.detail);
+        return normal(this.#wrap(event));
+      },
+    );
   }
 
   #installInterface(
@@ -404,7 +448,7 @@ export class DOMRealmBinding {
     prototype: EngineObject,
     length = 0,
     construct: EngineHostFunction | null = null,
-  ): void {
+  ): EngineObject {
     const constructor =
       construct === null
         ? this.#engine.createFunction(this.#realm, name, length, () =>
@@ -431,6 +475,7 @@ export class DOMRealmBinding {
         writable: true,
       },
     );
+    return constructor;
   }
 
   #installEventTargetMembers(): void {
@@ -1192,6 +1237,28 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Event receiver")
         : this.#platformValue(event.currentTarget);
     });
+    for (const name of ["target", "srcElement"] as const) {
+      this.#attribute(this.#eventPrototype, name, (thisValue) => {
+        const event = this.#event(thisValue);
+        return event === null
+          ? this.#typeError("Invalid Event receiver")
+          : this.#platformValue(event[name]);
+      });
+    }
+    for (const name of ["eventPhase", "timeStamp"] as const) {
+      this.#attribute(this.#eventPrototype, name, (thisValue) => {
+        const event = this.#event(thisValue);
+        return event === null
+          ? this.#typeError("Invalid Event receiver")
+          : this.#primitive(event[name]);
+      });
+    }
+    this.#attribute(this.#eventPrototype, "isTrusted", (thisValue) => {
+      const event = this.#event(thisValue);
+      return event === null
+        ? this.#typeError("Invalid Event receiver")
+        : this.#primitive(event.isTrusted);
+    });
     for (const name of [
       "bubbles",
       "cancelable",
@@ -1239,6 +1306,40 @@ export class DOMRealmBinding {
         return this.#undefined();
       });
     }
+    this.#method(
+      this.#eventPrototype,
+      "initEvent",
+      1,
+      (thisValue, argumentsList) => {
+        const event = this.#event(thisValue);
+        if (event === null) {
+          return this.#typeError("Invalid Event receiver");
+        }
+        const type = this.#stringArgument(argumentsList, 0, "initEvent");
+        if (type.type === "throw") {
+          return type;
+        }
+        event.initEvent(
+          type.value,
+          argumentsList[1] === undefined
+            ? false
+            : this.#engine.toBoolean(argumentsList[1]),
+          argumentsList[2] === undefined
+            ? false
+            : this.#engine.toBoolean(argumentsList[2]),
+        );
+        return this.#undefined();
+      },
+    );
+    this.#attribute(this.#customEventPrototype, "detail", (thisValue) => {
+      const event = this.#customEvent(thisValue);
+      if (event === null) {
+        return this.#typeError("Invalid CustomEvent receiver");
+      }
+      return normal(
+        this.#customEventDetails.get(event) ?? this.#engine.fromPrimitive(null),
+      );
+    });
   }
 
   #installHTMLCollectionMembers(): void {
@@ -1605,6 +1706,9 @@ export class DOMRealmBinding {
     if (interfaceObject instanceof AbortController) {
       return this.#abortControllerPrototype;
     }
+    if (interfaceObject instanceof CustomEvent) {
+      return this.#customEventPrototype;
+    }
     if (interfaceObject instanceof Document) {
       return this.#documentPrototype;
     }
@@ -1700,6 +1804,11 @@ export class DOMRealmBinding {
   #event(value: EngineValue): Event | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Event ? interfaceObject : null;
+  }
+
+  #customEvent(value: EngineValue): CustomEvent | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof CustomEvent ? interfaceObject : null;
   }
 
   #htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {
@@ -1881,6 +1990,47 @@ export class DOMRealmBinding {
       bubbles: values[0] ?? false,
       cancelable: values[1] ?? false,
       composed: values[2] ?? false,
+    });
+  }
+
+  #customEventInit(value: EngineValue | undefined): EngineResult<{
+    bubbles: boolean;
+    cancelable: boolean;
+    composed: boolean;
+    detail: EngineValue;
+  }> {
+    const eventInit = this.#eventInit(value);
+    if (eventInit.type === "throw") {
+      return eventInit;
+    }
+    if (
+      value === undefined ||
+      this.#engine.isUndefined(value) ||
+      this.#engine.isNull(value)
+    ) {
+      return normal({
+        ...eventInit.value,
+        detail: this.#engine.fromPrimitive(null),
+      });
+    }
+    const object = this.#engine.asObject(value);
+    if (object === null) {
+      return thrown(
+        this.#engine.createTypeError(
+          this.#realm,
+          "CustomEvent init is not an object",
+        ),
+      );
+    }
+    const detail = this.#engine.get(this.#realm, object, "detail");
+    if (detail.type === "throw") {
+      return detail;
+    }
+    return normal({
+      ...eventInit.value,
+      detail: this.#engine.isUndefined(detail.value)
+        ? this.#engine.fromPrimitive(null)
+        : detail.value,
     });
   }
 

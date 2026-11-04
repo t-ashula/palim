@@ -20,6 +20,10 @@ export interface EventInit {
   readonly composed?: boolean;
 }
 
+export interface CustomEventInit<T = unknown> extends EventInit {
+  readonly detail?: T;
+}
+
 export class Event {
   static readonly NONE = 0;
   static readonly CAPTURING_PHASE = 1;
@@ -125,6 +129,29 @@ export class Event {
     if (this.cancelable && !implementation.inPassiveListener) {
       implementation.defaultPrevented = true;
     }
+  }
+
+  initEvent(type: string, bubbles = false, cancelable = false): void {
+    const implementation = eventImplementation(this);
+    implementation.type = domString(type);
+    implementation.bubbles = bubbles;
+    implementation.cancelable = cancelable;
+    implementation.defaultPrevented = false;
+    implementation.stopPropagation = false;
+    implementation.stopImmediatePropagation = false;
+  }
+}
+
+export class CustomEvent<T = unknown> extends Event {
+  readonly #detail: T;
+
+  constructor(type: string, eventInit: CustomEventInit<T> = {}) {
+    super(type, eventInit);
+    this.#detail = eventInit.detail ?? (null as T);
+  }
+
+  get detail(): T {
+    return this.#detail;
   }
 }
 

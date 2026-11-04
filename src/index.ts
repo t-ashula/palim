@@ -5,6 +5,7 @@ export {
   CDATASection,
   CharacterData,
   Comment,
+  CustomEvent,
   Document,
   DocumentFragment,
   DocumentType,
@@ -22,6 +23,7 @@ export {
 } from "./public-dom-interfaces.js";
 export type {
   AddEventListenerOptions,
+  CustomEventInit,
   ElementCreationOptions,
   EventInit,
   EventListener,

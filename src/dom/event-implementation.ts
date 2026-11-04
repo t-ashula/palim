@@ -42,11 +42,21 @@ export class EventImplementation {
   path: EventTargetImplementation[] = [];
 
   constructor(
-    readonly type: string,
-    readonly bubbles: boolean,
-    readonly cancelable: boolean,
-    readonly composed: boolean,
-  ) {}
+    type: string,
+    bubbles: boolean,
+    cancelable: boolean,
+    composed: boolean,
+  ) {
+    this.type = type;
+    this.bubbles = bubbles;
+    this.cancelable = cancelable;
+    this.composed = composed;
+  }
+
+  type = "";
+  bubbles = false;
+  cancelable = false;
+  composed = false;
 }
 
 export function bindEventTarget(

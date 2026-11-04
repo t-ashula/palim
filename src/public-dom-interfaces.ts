@@ -104,12 +104,14 @@ export const Element = exposeInterface<ElementInterface>(DOM.Element);
 export {
   AbortController,
   AbortSignal,
+  CustomEvent,
   Event,
   EventTarget,
   NodeFilter,
 } from "./dom.js";
 export type {
   AddEventListenerOptions,
+  CustomEventInit,
   ElementCreationOptions,
   EventInit,
   EventListener,
