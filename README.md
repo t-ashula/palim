@@ -111,6 +111,21 @@ npm run check
 
 `npm run check` verifies formatting, lint rules, types, tests, and the package build.
 
+The default WPT scope can be executed as a resumable campaign. A campaign runs
+one test URL per worker with ten workers by default and periodically updates the
+WPT progress report.
+
+```sh
+npm run wpt:test -- --campaign
+```
+
+The command prints its campaign ID. Resume an interrupted campaign without
+rerunning completed URLs by passing that ID:
+
+```sh
+npm run wpt:test -- --campaign --resume <campaign-id>
+```
+
 ## Name
 
 **Pronounced:** *pah-lim* (ぱりむ)

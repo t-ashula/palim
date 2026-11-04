@@ -41,6 +41,20 @@ export interface WPTSubtestTotals {
   readonly timeout: number;
 }
 
+export interface WPTCampaignReport {
+  readonly id: string;
+  readonly state: "running" | "interrupted" | "completed";
+  readonly palim: {
+    readonly revision: string;
+    readonly dirty: boolean;
+    readonly imageId: string;
+  };
+  readonly lastAttemptSequence: number;
+  readonly snapshotAt: string;
+  readonly workerFailures: number;
+  readonly retries: number;
+}
+
 export interface WPTProgressReport {
   readonly schemaVersion: 1;
   readonly runStatus: "passed" | "failed" | "interrupted";
@@ -48,6 +62,7 @@ export interface WPTProgressReport {
     readonly name: "wpt/wpt";
     readonly revision: string;
   };
+  readonly campaign?: WPTCampaignReport;
   readonly selection: {
     readonly include: readonly string[];
     readonly exclude: readonly string[];
@@ -175,6 +190,7 @@ export function buildWPTProgressReport(
   exclude: readonly string[],
   revision: string,
   runStatus: WPTProgressReport["runStatus"],
+  campaign?: WPTCampaignReport,
 ): WPTProgressReport {
   const results = new Map(
     rawReport.results.map((result) => [result.test, result]),
@@ -234,6 +250,7 @@ export function buildWPTProgressReport(
     schemaVersion: 1,
     runStatus,
     source: { name: "wpt/wpt", revision },
+    ...(campaign === undefined ? {} : { campaign }),
     selection: { include, exclude },
     totals,
     areas,
@@ -313,13 +330,31 @@ export function renderWPTProgressMarkdown(report: WPTProgressReport): string {
     `Run status: ${report.runStatus}`,
     "",
     `Source: ${report.source.name}@${report.source.revision}`,
+  ];
+  if (report.campaign !== undefined) {
+    lines.push(
+      "",
+      `Campaign: ${report.campaign.id}`,
+      "",
+      `Campaign state: ${report.campaign.state}`,
+      "",
+      `Palim: ${report.campaign.palim.revision}${report.campaign.palim.dirty ? " (dirty)" : ""}`,
+      "",
+      `Container image: ${report.campaign.palim.imageId}`,
+      "",
+      `Snapshot: ${report.campaign.snapshotAt}`,
+      "",
+      `Attempts: ${String(report.campaign.lastAttemptSequence)}; worker failures: ${String(report.campaign.workerFailures)}; retries: ${String(report.campaign.retries)}`,
+    );
+  }
+  lines.push(
     "",
     "## URL progress",
     "",
     "| Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |",
     "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
     progressRow("All", report.totals),
-  ];
+  );
   for (const area of report.areas) {
     lines.push(progressRow(area.prefix, area.totals));
   }
