@@ -121,6 +121,7 @@
 - [ ] `History`
 - [ ] `Navigator`
 - [ ] browsing context
+- [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
 - [ ] `Document.write`
 - [ ] origin と URL
 - [ ] dialog / popover の top layer と event

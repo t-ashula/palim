@@ -33,6 +33,8 @@ import {
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
 import { DOMException as HostDOMException } from "../dom-exception.js";
+import { DOMParser } from "../dom-parser.js";
+import type { DOMParserSupportedType } from "../dom-parser.js";
 import {
   htmlCollectionSupportedPropertyNames,
   namedNodeMapSupportedPropertyNames,
@@ -121,6 +123,18 @@ const DOM_EXCEPTION_CODES: Readonly<Record<string, number>> = {
   INVALID_NODE_TYPE_ERR: 24,
   DATA_CLONE_ERR: 25,
 };
+
+function isDOMParserSupportedType(
+  value: string,
+): value is DOMParserSupportedType {
+  return (
+    value === "text/html" ||
+    value === "text/xml" ||
+    value === "application/xml" ||
+    value === "application/xhtml+xml" ||
+    value === "image/svg+xml"
+  );
+}
 
 class EngineRealmException extends Error {
   constructor(readonly value: EngineValue) {
@@ -315,6 +329,7 @@ export class DOMRealmBinding {
   readonly #documentPrototype: EngineObject;
   readonly #documentFragmentPrototype: EngineObject;
   readonly #domImplementationPrototype: EngineObject;
+  readonly #domParserPrototype: EngineObject;
   readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
   readonly #customEventPrototype: EngineObject;
@@ -329,6 +344,7 @@ export class DOMRealmBinding {
   readonly #foreignAnchorRelLists = new WeakMap<Element, DOMTokenList>();
   readonly #traversalFilters = new WeakMap<object, EngineValue>();
   readonly #elementStyles = new WeakMap<Element, EngineObject>();
+  readonly #domParsers = new WeakMap<EngineObject, DOMParser>();
 
   constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
     this.#engine = engine;
@@ -430,6 +446,10 @@ export class DOMRealmBinding {
       this.#realm,
       objectPrototype,
     );
+    this.#domParserPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
     this.#xmlDocumentPrototype = this.#engine.createObject(
       this.#realm,
       this.#documentPrototype,
@@ -492,6 +512,7 @@ export class DOMRealmBinding {
     this.#installDocumentMembers();
     this.#installDocumentFragmentMembers();
     this.#installDOMImplementationMembers();
+    this.#installDOMParserMembers();
     this.#installEventMembers();
     this.#installHTMLCollectionMembers();
     this.#installNamedNodeMapMembers();
@@ -620,6 +641,14 @@ export class DOMRealmBinding {
       "DOMImplementation",
       this.#domImplementationPrototype,
     );
+    this.#installInterface("DOMParser", this.#domParserPrototype, 0, () => {
+      const object = this.#engine.createObject(
+        this.#realm,
+        this.#domParserPrototype,
+      );
+      this.#domParsers.set(object, new DOMParser());
+      return normal(object);
+    });
     this.#installInterface("XMLDocument", this.#xmlDocumentPrototype);
     this.#installInterface("HTMLCollection", this.#htmlCollectionPrototype);
     this.#installInterface("NamedNodeMap", this.#namedNodeMapPrototype);
@@ -1058,12 +1087,14 @@ export class DOMRealmBinding {
   }
 
   #installElementMembers(): void {
-    this.#attribute(this.#elementPrototype, "localName", (thisValue) => {
-      const element = this.#element(thisValue);
-      return element === null
-        ? this.#typeError("Invalid Element receiver")
-        : this.#primitive(element.localName);
-    });
+    for (const name of ["localName", "tagName"] as const) {
+      this.#attribute(this.#elementPrototype, name, (thisValue) => {
+        const element = this.#element(thisValue);
+        return element === null
+          ? this.#typeError("Invalid Element receiver")
+          : this.#primitive(element[name]);
+      });
+    }
     this.#attribute(this.#elementPrototype, "namespaceURI", (thisValue) => {
       const element = this.#element(thisValue);
       return element === null
@@ -1150,8 +1181,15 @@ export class DOMRealmBinding {
         if (value.type === "throw") {
           return value;
         }
-        element.innerHTML = value.value;
-        return this.#undefined();
+        try {
+          element.innerHTML = value.value;
+          return this.#undefined();
+        } catch (error: unknown) {
+          if (error instanceof HostDOMException) {
+            return thrown(this.#createDOMException(error.message, error.name));
+          }
+          throw error;
+        }
       },
     );
     this.#method(
@@ -2076,6 +2114,37 @@ export class DOMRealmBinding {
           : normal(this.#wrap(implementation.createHTMLDocument(title.value)));
       },
     );
+  }
+
+  #installDOMParserMembers(): void {
+    this.#method(
+      this.#domParserPrototype,
+      "parseFromString",
+      2,
+      (thisValue, argumentsList) => {
+        const object = this.#engine.asObject(thisValue);
+        const parser =
+          object === null ? undefined : this.#domParsers.get(object);
+        if (parser === undefined) {
+          return this.#typeError("Invalid DOMParser receiver");
+        }
+        const input = this.#stringArgument(argumentsList, 0, "parseFromString");
+        if (input.type === "throw") {
+          return input;
+        }
+        const type = this.#stringArgument(argumentsList, 1, "parseFromString");
+        if (type.type === "throw") {
+          return type;
+        }
+        if (!isDOMParserSupportedType(type.value)) {
+          return this.#typeError(`Unsupported type: ${type.value}`);
+        }
+        return normal(
+          this.#wrap(parser.parseFromString(input.value, type.value)),
+        );
+      },
+    );
+    this.#interfaceTag(this.#domParserPrototype, "DOMParser");
   }
 
   #installEventMembers(): void {

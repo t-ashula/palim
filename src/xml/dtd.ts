@@ -6,9 +6,17 @@ export interface DTDEntity {
   readonly notation?: string;
 }
 
+export interface DTDDefaultAttribute {
+  readonly elementName: string;
+  readonly attributeName: string;
+  readonly value: string;
+  readonly tokenized: boolean;
+}
+
 interface DTDResult {
   readonly generalEntities: ReadonlyMap<string, DTDEntity>;
   readonly tokenizedAttributes: ReadonlySet<string>;
+  readonly defaultAttributes: readonly DTDDefaultAttribute[];
   readonly externalDeclarationsSkipped: boolean;
 }
 
@@ -68,6 +76,8 @@ class InternalSubsetParser {
   readonly #generalEntities = new Map<string, DTDEntity>();
   readonly #parameterEntities = new Map<string, DTDEntity>();
   readonly #tokenizedAttributes = new Set<string>();
+  readonly #defaultAttributes: DTDDefaultAttribute[] = [];
+  readonly #declaredAttributes = new Set<string>();
   #externalParameterEntitySkipped = false;
   #parameterEntityReferenced = false;
   #expansionCount = 0;
@@ -111,6 +121,7 @@ class InternalSubsetParser {
         ]),
       ),
       tokenizedAttributes: this.#tokenizedAttributes,
+      defaultAttributes: this.#defaultAttributes,
       externalDeclarationsSkipped:
         this.#externalParameterEntitySkipped || this.#parameterEntityReferenced,
     };
@@ -253,11 +264,23 @@ class InternalSubsetParser {
       const attributeName = this.#parseName();
       this.#requireWhitespace();
       const tokenized = this.#parseAttributeType();
-      if (tokenized) {
-        this.#tokenizedAttributes.add(`${elementName}\u0000${attributeName}`);
-      }
       this.#requireWhitespace();
-      this.#parseDefaultDeclaration();
+      const defaultValue = this.#parseDefaultDeclaration();
+      const key = `${elementName}\u0000${attributeName}`;
+      if (!this.#declaredAttributes.has(key)) {
+        this.#declaredAttributes.add(key);
+        if (tokenized) {
+          this.#tokenizedAttributes.add(key);
+        }
+        if (defaultValue !== null) {
+          this.#defaultAttributes.push({
+            elementName,
+            attributeName,
+            value: defaultValue,
+            tokenized,
+          });
+        }
+      }
     }
   }
 
@@ -306,14 +329,14 @@ class InternalSubsetParser {
     this.#expect(")");
   }
 
-  #parseDefaultDeclaration(): void {
+  #parseDefaultDeclaration(): string | null {
     if (this.#consumeKeyword("#REQUIRED") || this.#consumeKeyword("#IMPLIED")) {
-      return;
+      return null;
     }
     if (this.#consumeKeyword("#FIXED")) {
       this.#requireWhitespace();
     }
-    this.#parseAttributeLiteral();
+    return this.#parseAttributeLiteral();
   }
 
   #parseEntityDeclaration(): void {
@@ -429,12 +452,13 @@ class InternalSubsetParser {
     return value;
   }
 
-  #parseAttributeLiteral(): void {
+  #parseAttributeLiteral(): string {
     const quote = this.#source[this.#position];
     if (quote !== '"' && quote !== "'") {
       throw new DTDFailure("Expected a default attribute value");
     }
     this.#position += 1;
+    const start = this.#position;
     while (!this.#atEnd() && this.#source[this.#position] !== quote) {
       if (this.#startsWith("<")) {
         throw new DTDFailure("< in a default attribute value");
@@ -473,7 +497,53 @@ class InternalSubsetParser {
     if (this.#atEnd()) {
       throw new DTDFailure("Unclosed default attribute value");
     }
+    const value = this.#expandDefaultAttributeValue(
+      this.#source.slice(start, this.#position),
+      new Set(),
+    );
     this.#position += 1;
+    return value;
+  }
+
+  #expandDefaultAttributeValue(
+    value: string,
+    activeEntities: ReadonlySet<string>,
+  ): string {
+    return value.replaceAll(
+      /&(#x[0-9A-Fa-f]+|#[0-9]+|[^;\s<&]+);/gu,
+      (reference, name: string) => {
+        if (name.startsWith("#")) {
+          return decodeCharacterReferences(reference);
+        }
+        const predefined = new Map([
+          ["amp", "&"],
+          ["lt", "<"],
+          ["gt", ">"],
+          ["apos", "'"],
+          ["quot", '"'],
+        ]).get(name);
+        if (predefined !== undefined) {
+          return predefined;
+        }
+        const entity = this.#generalEntities.get(name);
+        if (
+          entity?.value === undefined ||
+          entity.external ||
+          entity.unparsed === true
+        ) {
+          throw new DTDFailure(
+            `Invalid entity in a default attribute value: ${name}`,
+          );
+        }
+        if (activeEntities.has(name)) {
+          throw new DTDFailure(`Recursive entity declaration: ${name}`);
+        }
+        return this.#expandDefaultAttributeValue(
+          entity.value,
+          new Set([...activeEntities, name]),
+        );
+      },
+    );
   }
 
   #parseReference(marker: "%" | "&"): string {

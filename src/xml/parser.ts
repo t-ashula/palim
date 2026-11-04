@@ -21,6 +21,7 @@ import {
 import { createElementForDocument } from "../html-elements.js";
 import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
 import { parseInternalSubset } from "./dtd.js";
+import type { DTDDefaultAttribute } from "./dtd.js";
 import {
   isXMLCharacter,
   isXMLNameCharacter,
@@ -124,6 +125,7 @@ class XMLParserCore {
   ]);
   readonly #initialNamespaces: ReadonlyMap<string, string>;
   readonly #tokenizedAttributes = new Set<string>();
+  readonly #defaultAttributes: DTDDefaultAttribute[] = [];
   #rootSeen = false;
   #rootClosed = false;
   #doctypeSeen = false;
@@ -298,6 +300,7 @@ class XMLParserCore {
         for (const attribute of result.tokenizedAttributes) {
           this.#tokenizedAttributes.add(attribute);
         }
+        this.#defaultAttributes.push(...result.defaultAttributes);
         if (result.externalDeclarationsSkipped) {
           this.#hasExternalSubset = true;
         }
@@ -392,6 +395,22 @@ class XMLParserCore {
         throw new XMLParseFailure(`Duplicate attribute: ${name}`);
       }
       attributes.push({ name, value });
+    }
+
+    for (const attribute of this.#defaultAttributes) {
+      if (
+        attribute.elementName !== qualifiedName ||
+        attributes.some(({ name }) => name === attribute.attributeName)
+      ) {
+        continue;
+      }
+      const normalized = attribute.value.replaceAll(/[\t\n\r]/gu, " ");
+      attributes.push({
+        name: attribute.attributeName,
+        value: attribute.tokenized
+          ? normalized.trim().replaceAll(/ +/gu, " ")
+          : normalized,
+      });
     }
 
     const parentNamespaces =
@@ -819,7 +838,7 @@ export function parseXML(input: string, type: XMLMIMEType): Document {
   );
   try {
     new XMLParserCore(
-      input,
+      input.startsWith("\uFEFF") ? input.slice(1) : input,
       document,
       null,
       new Map([["xml", XML_NAMESPACE]]),

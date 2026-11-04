@@ -554,6 +554,67 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("parses HTML and XML through DOMParser in the engine realm", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const parser = new DOMParser();
+        const xml = parser.parseFromString("<root>value</root>", "text/xml");
+        const html = parser.parseFromString("<main>value</main>", "text/html");
+        if (
+          !(parser instanceof DOMParser) ||
+          Object.prototype.toString.call(parser) !== "[object DOMParser]" ||
+          !(xml instanceof Document) ||
+          xml.contentType !== "text/xml" ||
+          xml.documentElement.localName !== "root" ||
+          xml.documentElement.tagName !== "root" ||
+          xml.documentElement.textContent !== "value" ||
+          html.contentType !== "text/html" ||
+          html.querySelector("main").textContent !== "value"
+        ) {
+          throw new Error("DOMParser binding is invalid");
+        }
+        for (const argumentsList of [[], ["<root />"]]) {
+          try {
+            parser.parseFromString(...argumentsList);
+            throw new Error("missing DOMParser argument was accepted");
+          } catch (error) {
+            if (!(error instanceof TypeError)) {
+              throw error;
+            }
+          }
+        }
+        try {
+          DOMParser.prototype.parseFromString.call({}, "<root />", "text/xml");
+          throw new Error("invalid DOMParser receiver was accepted");
+        } catch (error) {
+          if (!(error instanceof TypeError)) {
+            throw error;
+          }
+        }
+        const xhtml = parser.parseFromString(
+          "<html xmlns='http://www.w3.org/1999/xhtml'></html>",
+          "application/xhtml+xml",
+        );
+        try {
+          xhtml.documentElement.innerHTML = "\uD800";
+          throw new Error("invalid XML fragment was accepted");
+        } catch (error) {
+          if (
+            !(error instanceof DOMException) ||
+            error.name !== "SyntaxError" ||
+            error.code !== DOMException.SYNTAX_ERR
+          ) {
+            throw error;
+          }
+        }
+      `,
+    );
+  });
+
   it("invokes engine event callbacks synchronously and supports reentry", () => {
     const { document, engine, realm } = createTestRealm(
       '<button id="target"></button>',

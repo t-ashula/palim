@@ -76,11 +76,35 @@ describe("DOMParser XML parsing", () => {
     expect(document.characterSet).toBe("UTF-8");
   });
 
+  it("applies default attributes from internal ATTLIST declarations", () => {
+    const document = parse(`<!DOCTYPE root [
+      <!ENTITY greeting "hello">
+      <!ATTLIST item
+        label CDATA "&greeting; &#65; &amp; &lt;"
+        tokens NMTOKENS " first   second "
+      >
+      <!ATTLIST item label CDATA "ignored">
+    ]><root><item/><item label="explicit"/></root>`);
+    const items = document.querySelectorAll("item");
+
+    expect(items.item(0)?.getAttribute("label")).toBe("hello A & <");
+    expect(items.item(0)?.getAttribute("tokens")).toBe("first second");
+    expect(items.item(1)?.getAttribute("label")).toBe("explicit");
+    expect(items.item(1)?.getAttribute("tokens")).toBe("first second");
+  });
+
   it("normalizes line endings and attribute whitespace", () => {
     const document = parse('<root value="a\r\nb\tc">x\ry\r\nz</root>');
 
     expect(document.documentElement?.getAttribute("value")).toBe("a b c");
     expect(document.documentElement?.textContent).toBe("x\ny\nz");
+  });
+
+  it("ignores a leading byte order mark before an XML declaration", () => {
+    const document = parse('\uFEFF<?xml version="1.0"?><root />');
+
+    expect(document.documentElement?.localName).toBe("root");
+    expect(document.querySelector("parsererror")).toBeNull();
   });
 
   it.each([
