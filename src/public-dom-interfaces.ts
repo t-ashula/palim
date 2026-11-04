@@ -101,7 +101,13 @@ interface ElementInterface {
 }
 export const Element = exposeInterface<ElementInterface>(DOM.Element);
 
-export { Event, EventTarget, NodeFilter } from "./dom.js";
+export {
+  AbortController,
+  AbortSignal,
+  Event,
+  EventTarget,
+  NodeFilter,
+} from "./dom.js";
 export type {
   AddEventListenerOptions,
   ElementCreationOptions,

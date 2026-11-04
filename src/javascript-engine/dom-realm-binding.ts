@@ -1,4 +1,6 @@
 import {
+  AbortController,
+  AbortSignal,
   Attr,
   Document,
   Element,
@@ -203,6 +205,8 @@ export class DOMRealmBinding {
   >();
   readonly #legacyPlatformObjectFactory: EngineCallable;
   readonly #eventTargetPrototype: EngineObject;
+  readonly #abortSignalPrototype: EngineObject;
+  readonly #abortControllerPrototype: EngineObject;
   readonly #nodePrototype: EngineObject;
   readonly #attrPrototype: EngineObject;
   readonly #elementPrototype: EngineObject;
@@ -237,6 +241,14 @@ export class DOMRealmBinding {
 
     const objectPrototype = this.#engine.objectPrototype(this.#realm);
     this.#eventTargetPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#abortSignalPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#eventTargetPrototype,
+    );
+    this.#abortControllerPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
     );
@@ -291,6 +303,7 @@ export class DOMRealmBinding {
 
     this.#installInterfaces();
     this.#installEventTargetMembers();
+    this.#installAbortMembers();
     this.#installNodeMembers();
     this.#installElementMembers();
     this.#installHTMLElementMembers();
@@ -346,6 +359,13 @@ export class DOMRealmBinding {
     this.#installInterface("EventTarget", this.#eventTargetPrototype, 0, () =>
       normal(this.#wrap(new EventTarget())),
     );
+    this.#installInterface("AbortSignal", this.#abortSignalPrototype);
+    this.#installInterface(
+      "AbortController",
+      this.#abortControllerPrototype,
+      0,
+      () => normal(this.#wrap(new AbortController())),
+    );
     this.#installInterface("Node", this.#nodePrototype);
     this.#installInterface("Attr", this.#attrPrototype);
     this.#installInterface("Element", this.#elementPrototype);
@@ -368,9 +388,13 @@ export class DOMRealmBinding {
       1,
       (_thisValue, argumentsList) => {
         const type = this.#stringArgument(argumentsList, 0, "Event");
-        return type.type === "throw"
-          ? type
-          : normal(this.#wrap(new Event(type.value)));
+        if (type.type === "throw") {
+          return type;
+        }
+        const eventInit = this.#eventInit(argumentsList[1]);
+        return eventInit.type === "throw"
+          ? eventInit
+          : normal(this.#wrap(new Event(type.value, eventInit.value)));
       },
     );
   }
@@ -423,6 +447,10 @@ export class DOMRealmBinding {
         if (type.type === "throw") {
           return type;
         }
+        const options = this.#eventListenerOptions(argumentsList[2], true);
+        if (options.type === "throw") {
+          return options;
+        }
         const callbackValue = argumentsList[1];
         if (
           callbackValue === undefined ||
@@ -435,14 +463,24 @@ export class DOMRealmBinding {
         if (callback === null) {
           return this.#typeError("The event listener is not callable");
         }
-        const options = this.#eventListenerOptions(argumentsList[2], true);
-        if (options.type === "throw") {
-          return options;
-        }
+        const signal = options.value.signal;
+        const listenerOptions =
+          signal === null
+            ? {
+                capture: options.value.capture,
+                once: options.value.once,
+                passive: options.value.passive,
+              }
+            : {
+                capture: options.value.capture,
+                once: options.value.once,
+                passive: options.value.passive,
+                signal,
+              };
         target.addEventListener(
           type.value,
           this.#eventListener(target, callback),
-          options.value,
+          listenerOptions,
         );
         return this.#undefined();
       },
@@ -500,6 +538,29 @@ export class DOMRealmBinding {
         return this.#primitive(target.dispatchEvent(event));
       },
     );
+  }
+
+  #installAbortMembers(): void {
+    this.#attribute(this.#abortSignalPrototype, "aborted", (thisValue) => {
+      const signal = this.#abortSignal(thisValue);
+      return signal === null
+        ? this.#typeError("Invalid AbortSignal receiver")
+        : this.#primitive(signal.aborted);
+    });
+    this.#attribute(this.#abortControllerPrototype, "signal", (thisValue) => {
+      const controller = this.#abortController(thisValue);
+      return controller === null
+        ? this.#typeError("Invalid AbortController receiver")
+        : this.#platformValue(controller.signal);
+    });
+    this.#method(this.#abortControllerPrototype, "abort", 0, (thisValue) => {
+      const controller = this.#abortController(thisValue);
+      if (controller === null) {
+        return this.#typeError("Invalid AbortController receiver");
+      }
+      controller.abort();
+      return this.#undefined();
+    });
   }
 
   #installNodeMembers(): void {
@@ -1132,6 +1193,39 @@ export class DOMRealmBinding {
         : this.#platformValue(event.currentTarget);
     });
     for (const name of [
+      "bubbles",
+      "cancelable",
+      "composed",
+      "defaultPrevented",
+    ] as const) {
+      this.#attribute(this.#eventPrototype, name, (thisValue) => {
+        const event = this.#event(thisValue);
+        return event === null
+          ? this.#typeError("Invalid Event receiver")
+          : this.#primitive(event[name]);
+      });
+    }
+    this.#attribute(
+      this.#eventPrototype,
+      "returnValue",
+      (thisValue) => {
+        const event = this.#event(thisValue);
+        return event === null
+          ? this.#typeError("Invalid Event receiver")
+          : this.#primitive(event.returnValue);
+      },
+      (thisValue, argumentsList) => {
+        const event = this.#event(thisValue);
+        if (event === null) {
+          return this.#typeError("Invalid Event receiver");
+        }
+        event.returnValue = this.#engine.toBoolean(
+          argumentsList[0] ?? this.#engine.fromPrimitive(undefined),
+        );
+        return this.#undefined();
+      },
+    );
+    for (const name of [
       "stopPropagation",
       "stopImmediatePropagation",
       "preventDefault",
@@ -1505,6 +1599,12 @@ export class DOMRealmBinding {
   }
 
   #prototype(interfaceObject: object): EngineObject {
+    if (interfaceObject instanceof AbortSignal) {
+      return this.#abortSignalPrototype;
+    }
+    if (interfaceObject instanceof AbortController) {
+      return this.#abortControllerPrototype;
+    }
     if (interfaceObject instanceof Document) {
       return this.#documentPrototype;
     }
@@ -1558,6 +1658,16 @@ export class DOMRealmBinding {
       ? this.#interfaceObject(this.#engine.globalThis(this.#realm))
       : this.#interfaceObject(value);
     return interfaceObject instanceof EventTarget ? interfaceObject : null;
+  }
+
+  #abortSignal(value: EngineValue): AbortSignal | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof AbortSignal ? interfaceObject : null;
+  }
+
+  #abortController(value: EngineValue): AbortController | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof AbortController ? interfaceObject : null;
   }
 
   #node(value: EngineValue): Node | null {
@@ -1667,17 +1777,32 @@ export class DOMRealmBinding {
   #eventListenerOptions(
     value: EngineValue | undefined,
     includeOnce: boolean,
-  ): EngineResult<{ capture: boolean; once: boolean }> {
+  ): EngineResult<{
+    capture: boolean;
+    once: boolean;
+    passive: boolean;
+    signal: AbortSignal | null;
+  }> {
     if (
       value === undefined ||
       this.#engine.isUndefined(value) ||
       this.#engine.isNull(value)
     ) {
-      return normal({ capture: false, once: false });
+      return normal({
+        capture: false,
+        once: false,
+        passive: false,
+        signal: null,
+      });
     }
     const object = this.#engine.asObject(value);
     if (object === null) {
-      return normal({ capture: this.#engine.toBoolean(value), once: false });
+      return normal({
+        capture: this.#engine.toBoolean(value),
+        once: false,
+        passive: false,
+        signal: null,
+      });
     }
     const capture = this.#engine.get(this.#realm, object, "capture");
     if (capture.type === "throw") {
@@ -1687,15 +1812,75 @@ export class DOMRealmBinding {
       return normal({
         capture: this.#engine.toBoolean(capture.value),
         once: false,
+        passive: false,
+        signal: null,
       });
+    }
+    const passive = this.#engine.get(this.#realm, object, "passive");
+    if (passive.type === "throw") {
+      return passive;
     }
     const once = this.#engine.get(this.#realm, object, "once");
     if (once.type === "throw") {
       return once;
     }
+    const signalValue = this.#engine.get(this.#realm, object, "signal");
+    if (signalValue.type === "throw") {
+      return signalValue;
+    }
+    let signal: AbortSignal | null = null;
+    if (!this.#engine.isUndefined(signalValue.value)) {
+      signal = this.#abortSignal(signalValue.value);
+      if (signal === null) {
+        return thrown(
+          this.#engine.createTypeError(
+            this.#realm,
+            "The signal option is not an AbortSignal",
+          ),
+        );
+      }
+    }
     return normal({
       capture: this.#engine.toBoolean(capture.value),
       once: this.#engine.toBoolean(once.value),
+      passive: this.#engine.toBoolean(passive.value),
+      signal,
+    });
+  }
+
+  #eventInit(value: EngineValue | undefined): EngineResult<{
+    bubbles: boolean;
+    cancelable: boolean;
+    composed: boolean;
+  }> {
+    if (
+      value === undefined ||
+      this.#engine.isUndefined(value) ||
+      this.#engine.isNull(value)
+    ) {
+      return normal({ bubbles: false, cancelable: false, composed: false });
+    }
+    const object = this.#engine.asObject(value);
+    if (object === null) {
+      return thrown(
+        this.#engine.createTypeError(
+          this.#realm,
+          "Event init is not an object",
+        ),
+      );
+    }
+    const values: boolean[] = [];
+    for (const name of ["bubbles", "cancelable", "composed"] as const) {
+      const property = this.#engine.get(this.#realm, object, name);
+      if (property.type === "throw") {
+        return property;
+      }
+      values.push(this.#engine.toBoolean(property.value));
+    }
+    return normal({
+      bubbles: values[0] ?? false,
+      cancelable: values[1] ?? false,
+      composed: values[2] ?? false,
     });
   }
 

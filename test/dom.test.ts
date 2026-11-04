@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  AbortController,
   Attr,
   CDATASection,
   Comment,
@@ -10,6 +11,8 @@ import {
   DocumentFragment,
   DocumentType,
   Element,
+  Event,
+  EventTarget,
   HTMLElement,
   HTMLSpanElement,
   HTMLTemplateElement,
@@ -63,6 +66,79 @@ describe("DOM interface binding", () => {
         object.constructor.name,
       ).toEqual([]);
     }
+  });
+});
+
+describe("EventTarget", () => {
+  it("ignores cancellation from passive listeners", () => {
+    const target = new EventTarget();
+    target.addEventListener(
+      "passive",
+      (event) => {
+        event.preventDefault();
+        event.returnValue = false;
+      },
+      { passive: true },
+    );
+    const passiveEvent = new Event("passive", { cancelable: true });
+
+    expect(target.dispatchEvent(passiveEvent)).toBe(true);
+    expect(passiveEvent.defaultPrevented).toBe(false);
+
+    target.addEventListener("active", (event) => {
+      event.preventDefault();
+    });
+    const activeEvent = new Event("active", { cancelable: true });
+
+    expect(target.dispatchEvent(activeEvent)).toBe(false);
+    expect(activeEvent.defaultPrevented).toBe(true);
+  });
+
+  it("removes signal-bound listeners when aborted", () => {
+    const target = new EventTarget();
+    const controller = new AbortController();
+    let calls = 0;
+    const listener = (): void => {
+      calls += 1;
+    };
+
+    target.addEventListener("signal", listener, {
+      signal: controller.signal,
+    });
+    target.dispatchEvent(new Event("signal"));
+    controller.abort();
+    target.dispatchEvent(new Event("signal"));
+    target.addEventListener("signal", listener, {
+      signal: controller.signal,
+    });
+    target.dispatchEvent(new Event("signal"));
+
+    expect(calls).toBe(1);
+    expect(controller.signal.aborted).toBe(true);
+  });
+
+  it("skips later listeners removed by an abort during dispatch", () => {
+    const target = new EventTarget();
+    const controller = new AbortController();
+    let laterCalls = 0;
+
+    target.addEventListener(
+      "signal",
+      () => {
+        controller.abort();
+      },
+      { signal: controller.signal },
+    );
+    target.addEventListener(
+      "signal",
+      () => {
+        laterCalls += 1;
+      },
+      { signal: controller.signal },
+    );
+    target.dispatchEvent(new Event("signal"));
+
+    expect(laterCalls).toBe(0);
   });
 });
 

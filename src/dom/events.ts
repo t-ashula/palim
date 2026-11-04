@@ -1,14 +1,18 @@
 import { DOMException } from "../dom-exception.js";
 import { domString } from "./conversions.js";
 import {
+  AbortControllerImplementation,
   EventImplementation,
   EventTargetImplementation,
+  abortControllerImplementation,
+  bindAbortController,
   bindEvent,
   bindEventTarget,
   eventImplementation,
   eventTargetImplementation,
   eventTargetInterface,
 } from "./event-implementation.js";
+import type { RegisteredEventListener } from "./event-implementation.js";
 
 export interface EventInit {
   readonly bubbles?: boolean;
@@ -117,8 +121,9 @@ export class Event {
   }
 
   preventDefault(): void {
-    if (this.cancelable) {
-      eventImplementation(this).defaultPrevented = true;
+    const implementation = eventImplementation(this);
+    if (this.cancelable && !implementation.inPassiveListener) {
+      implementation.defaultPrevented = true;
     }
   }
 }
@@ -133,6 +138,7 @@ export interface AddEventListenerOptions {
   readonly capture?: boolean;
   readonly once?: boolean;
   readonly passive?: boolean;
+  readonly signal?: AbortSignal;
 }
 
 export class EventTarget {
@@ -145,7 +151,20 @@ export class EventTarget {
     callback: EventListener | EventListenerObject | null,
     options: boolean | AddEventListenerOptions = false,
   ): void {
+    let signal: AbortSignal | null = null;
+    if (typeof options === "object") {
+      const candidate: unknown = options.signal;
+      if (candidate !== undefined) {
+        if (!(candidate instanceof AbortSignal)) {
+          throw new TypeError("The signal option is not an AbortSignal");
+        }
+        signal = candidate;
+      }
+    }
     if (callback === null) {
+      return;
+    }
+    if (signal?.aborted === true) {
       return;
     }
     const convertedType = domString(type);
@@ -161,12 +180,26 @@ export class EventTarget {
     ) {
       return;
     }
-    listeners.push({
+    const abortAlgorithm =
+      signal === null
+        ? null
+        : (): void => {
+            this.removeEventListener(convertedType, callback, capture);
+          };
+    const listener: RegisteredEventListener = {
       callback,
       capture,
       once: typeof options === "object" && Boolean(options.once),
-    });
+      passive: typeof options === "object" && Boolean(options.passive),
+      signal,
+      abortAlgorithm,
+      removed: false,
+    };
+    listeners.push(listener);
     implementation.listeners.set(convertedType, listeners);
+    if (signal !== null && abortAlgorithm !== null) {
+      addAbortAlgorithm(signal, abortAlgorithm);
+    }
   }
 
   removeEventListener(
@@ -190,7 +223,13 @@ export class EventTarget {
         listener.callback === callback && listener.capture === capture,
     );
     if (index >= 0) {
-      listeners.splice(index, 1);
+      const [listener] = listeners.splice(index, 1);
+      if (listener !== undefined) {
+        listener.removed = true;
+        if (listener.signal !== null && listener.abortAlgorithm !== null) {
+          removeAbortAlgorithm(listener.signal, listener.abortAlgorithm);
+        }
+      }
     }
   }
 
@@ -228,6 +267,92 @@ export class EventTarget {
   }
 }
 
+interface AbortSignalState {
+  aborted: boolean;
+  reason: unknown;
+  readonly algorithms: Set<() => void>;
+}
+
+const abortSignalStates = new WeakMap<AbortSignal, AbortSignalState>();
+
+export class AbortSignal extends EventTarget {
+  constructor() {
+    super();
+    abortSignalStates.set(this, {
+      aborted: false,
+      reason: undefined,
+      algorithms: new Set(),
+    });
+  }
+
+  get aborted(): boolean {
+    return abortSignalState(this).aborted;
+  }
+
+  get reason(): unknown {
+    return abortSignalState(this).reason;
+  }
+
+  throwIfAborted(): void {
+    const state = abortSignalState(this);
+    if (state.aborted) {
+      throw state.reason;
+    }
+  }
+}
+
+export class AbortController {
+  constructor() {
+    bindAbortController(
+      this,
+      new AbortControllerImplementation(new AbortSignal()),
+    );
+  }
+
+  get signal(): AbortSignal {
+    return abortControllerImplementation(this).signal;
+  }
+
+  abort(
+    reason: unknown = new DOMException(
+      "This operation was aborted",
+      "AbortError",
+    ),
+  ): void {
+    const signal = this.signal;
+    const state = abortSignalState(signal);
+    if (state.aborted) {
+      return;
+    }
+    state.aborted = true;
+    state.reason = reason;
+    for (const algorithm of [...state.algorithms]) {
+      algorithm();
+    }
+    state.algorithms.clear();
+    signal.dispatchEvent(new Event("abort"));
+  }
+}
+
+function abortSignalState(signal: AbortSignal): AbortSignalState {
+  const state = abortSignalStates.get(signal);
+  if (state === undefined) {
+    throw new TypeError("Invalid AbortSignal receiver");
+  }
+  return state;
+}
+
+function addAbortAlgorithm(signal: AbortSignal, algorithm: () => void): void {
+  abortSignalState(signal).algorithms.add(algorithm);
+}
+
+function removeAbortAlgorithm(
+  signal: AbortSignal,
+  algorithm: () => void,
+): void {
+  abortSignalState(signal).algorithms.delete(algorithm);
+}
+
 function invokeEventListeners(
   targetImplementation: EventTargetImplementation,
   event: Event,
@@ -236,6 +361,9 @@ function invokeEventListeners(
   const listeners = [...(targetImplementation.listeners.get(event.type) ?? [])];
   const implementation = eventImplementation(event);
   for (const listener of listeners) {
+    if (listener.removed) {
+      continue;
+    }
     if (listener.once) {
       target.removeEventListener(
         event.type,
@@ -243,10 +371,16 @@ function invokeEventListeners(
         listener.capture,
       );
     }
-    if (typeof listener.callback === "function") {
-      listener.callback.call(target, event);
-    } else {
-      listener.callback.handleEvent(event);
+    const previousPassiveState = implementation.inPassiveListener;
+    implementation.inPassiveListener = listener.passive;
+    try {
+      if (typeof listener.callback === "function") {
+        listener.callback.call(target, event);
+      } else {
+        listener.callback.handleEvent(event);
+      }
+    } finally {
+      implementation.inPassiveListener = previousPassiveState;
     }
     if (implementation.stopImmediatePropagation) {
       break;

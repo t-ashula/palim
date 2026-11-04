@@ -5,6 +5,7 @@ import {
 } from "./binding.js";
 
 import type {
+  AbortSignal,
   Event,
   EventListener,
   EventListenerObject,
@@ -15,6 +16,10 @@ export interface RegisteredEventListener {
   readonly callback: EventListener | EventListenerObject;
   readonly capture: boolean;
   readonly once: boolean;
+  readonly passive: boolean;
+  readonly signal: AbortSignal | null;
+  readonly abortAlgorithm: (() => void) | null;
+  removed: boolean;
 }
 
 export class EventTargetImplementation {
@@ -22,11 +27,16 @@ export class EventTargetImplementation {
   parent: EventTargetImplementation | null = null;
 }
 
+export class AbortControllerImplementation {
+  constructor(readonly signal: AbortSignal) {}
+}
+
 export class EventImplementation {
   target: EventTargetImplementation | null = null;
   currentTarget: EventTargetImplementation | null = null;
   eventPhase = 0;
   defaultPrevented = false;
+  inPassiveListener = false;
   stopPropagation = false;
   stopImmediatePropagation = false;
   path: EventTargetImplementation[] = [];
@@ -44,6 +54,19 @@ export function bindEventTarget(
   implementation: EventTargetImplementation,
 ): void {
   bindDOMInterface(target, implementation);
+}
+
+export function bindAbortController(
+  controller: object,
+  implementation: AbortControllerImplementation,
+): void {
+  bindDOMInterface(controller, implementation);
+}
+
+export function abortControllerImplementation(
+  controller: object,
+): AbortControllerImplementation {
+  return implementationFor(controller) as AbortControllerImplementation;
 }
 
 export function eventTargetImplementation(

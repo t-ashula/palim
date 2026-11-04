@@ -391,6 +391,80 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("supports passive event listeners", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const target = new EventTarget();
+        let passiveGetterCalls = 0;
+        target.addEventListener("probe", null, {
+          get passive() {
+            passiveGetterCalls += 1;
+            return false;
+          },
+        });
+        if (passiveGetterCalls !== 1) {
+          throw new Error("passive option was not read");
+        }
+
+        target.addEventListener("passive", (event) => {
+          if (event.defaultPrevented) {
+            throw new Error("event was canceled before listener invocation");
+          }
+          event.preventDefault();
+          event.returnValue = false;
+        }, { passive: true });
+        const event = new Event("passive", { cancelable: true });
+        if (!target.dispatchEvent(event) || event.defaultPrevented) {
+          throw new Error("passive listener canceled the event");
+        }
+      `,
+    );
+  });
+
+  it("supports abort signals for event listeners", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const target = new EventTarget();
+        const controller = new AbortController();
+        let calls = 0;
+        function listener() {
+          calls += 1;
+        }
+        target.addEventListener("signal", listener, {
+          signal: controller.signal,
+        });
+        target.dispatchEvent(new Event("signal"));
+        controller.abort();
+        target.dispatchEvent(new Event("signal"));
+        target.addEventListener("signal", listener, {
+          signal: controller.signal,
+        });
+        target.dispatchEvent(new Event("signal"));
+        if (calls !== 1 || !controller.signal.aborted) {
+          throw new Error("abort signal did not remove the listener");
+        }
+
+        let threw = false;
+        try {
+          target.addEventListener("signal", null, { signal: null });
+        } catch (error) {
+          threw = error instanceof TypeError;
+        }
+        if (!threw) {
+          throw new Error("null signal did not throw a TypeError");
+        }
+      `,
+    );
+  });
+
   it("keeps platform object wrappers separate between realms", () => {
     const document = new DOMParser().parseFromString(
       '<main id="target"></main>',

@@ -1,4 +1,6 @@
 export {
+  AbortController,
+  AbortSignal,
   Attr,
   CDATASection,
   CharacterData,

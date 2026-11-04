@@ -1,4 +1,9 @@
-export { Event, EventTarget } from "./dom/events.js";
+export {
+  AbortController,
+  AbortSignal,
+  Event,
+  EventTarget,
+} from "./dom/events.js";
 export type {
   AddEventListenerOptions,
   EventInit,

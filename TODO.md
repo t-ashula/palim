@@ -90,7 +90,8 @@
 ## 6. Events
 
 - [ ] capture phase
-- [ ] listener option の `passive` / `signal`
+- [x] listener option の `passive`
+- [x] listener option の `signal`
 - [ ] composed path と shadow boundary
 - [ ] event retargeting
 - [ ] default action
