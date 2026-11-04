@@ -18,8 +18,17 @@ if [ "$sync_required" = true ]; then
 fi
 
 session_id="$(date -u +%Y%m%dT%H%M%SZ)-$$"
-raw_directory="$root/tmp/conformance/$session_id"
-report_directory="$root/reports/conformance"
+raw_directory="$root/tmp/wpt/$session_id"
+case "${1:-}" in
+  --default)
+    report_directory="$root/reports/wpt"
+    container_report_directory=/workspace/reports/wpt
+    ;;
+  *)
+    report_directory="$raw_directory/report"
+    container_report_directory="/workspace/tmp/wpt/$session_id/report"
+    ;;
+esac
 
 docker build \
   --file "$root/tools/wpt/Dockerfile" \
@@ -32,9 +41,12 @@ docker run \
   --volume "$root/conformance:/workspace/conformance" \
   --volume "$root/reports:/workspace/reports" \
   --volume "$root/tmp:/workspace/tmp" \
-  --env "PALIM_CONFORMANCE_RAW_DIRECTORY=/workspace/tmp/conformance/$session_id" \
-  --env "PALIM_CONFORMANCE_REPORT_DIRECTORY=/workspace/reports/conformance" \
+  --env "PALIM_CONFORMANCE_RAW_DIRECTORY=/workspace/tmp/wpt/$session_id" \
+  --env "PALIM_CONFORMANCE_REPORT_DIRECTORY=$container_report_directory" \
   --env "PALIM_CONFORMANCE_MANIFEST=/workspace/conformance/conformance.json" \
+  --env "PALIM_WPT_MANIFEST=/workspace/conformance/wpt/wpt/MANIFEST.json" \
+  --env "PALIM_WPT_INCLUDE_FILE=/workspace/tools/wpt/include.txt" \
+  --env "PALIM_WPT_EXCLUDE_FILE=/workspace/tools/wpt/exclude.txt" \
   "$image" \
   "$@"
 status=$?

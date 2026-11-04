@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "runStatus": "passed",
+  "source": {
+    "name": "wpt/wpt",
+    "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+  },
+  "selection": {
+    "include": [
+      "/dom/collections/",
+      "/dom/events/",
+      "/dom/lists/",
+      "/dom/nodes/",
+      "/dom/ranges/",
+      "/dom/traversal/",
+      "/domparsing/",
+      "/html/dom/documents/dom-tree-accessors/",
+      "/html/dom/elements/",
+      "/html/syntax/parsing/",
+      "/url/",
+      "/xml/"
+    ],
+    "exclude": [
+      "/dom/events/AddEventListenerOptions-once.any.worker.html",
+      "/domparsing/tentative/",
+      "/xml/xslt/"
+    ]
+  },
+  "totals": {
+    "total": 1230,
+    "executed": 16,
+    "pass": 16,
+    "fail": 0,
+    "skip": 0,
+    "error": 0,
+    "timeout": 0,
+    "pending": 1214
+  },
+  "areas": [
+    {
+      "prefix": "/dom/collections/",
+      "totals": {
+        "total": 12,
+        "executed": 12,
+        "pass": 12,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/events/",
+      "totals": {
+        "total": 214,
+        "executed": 4,
+        "pass": 4,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 210
+      }
+    },
+    {
+      "prefix": "/dom/lists/",
+      "totals": {
+        "total": 5,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 5
+      }
+    },
+    {
+      "prefix": "/dom/nodes/",
+      "totals": {
+        "total": 408,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 408
+      }
+    },
+    {
+      "prefix": "/dom/ranges/",
+      "totals": {
+        "total": 69,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 69
+      }
+    },
+    {
+      "prefix": "/dom/traversal/",
+      "totals": {
+        "total": 18,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 18
+      }
+    },
+    {
+      "prefix": "/domparsing/",
+      "totals": {
+        "total": 56,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 56
+      }
+    },
+    {
+      "prefix": "/html/dom/documents/dom-tree-accessors/",
+      "totals": {
+        "total": 57,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 57
+      }
+    },
+    {
+      "prefix": "/html/dom/elements/",
+      "totals": {
+        "total": 70,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 70
+      }
+    },
+    {
+      "prefix": "/html/syntax/parsing/",
+      "totals": {
+        "total": 236,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 236
+      }
+    },
+    {
+      "prefix": "/url/",
+      "totals": {
+        "total": 77,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 77
+      }
+    },
+    {
+      "prefix": "/xml/",
+      "totals": {
+        "total": 8,
+        "executed": 0,
+        "pass": 0,
+        "fail": 0,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 8
+      }
+    }
+  ],
+  "subtests": {
+    "total": 94,
+    "pass": 94,
+    "fail": 0,
+    "skip": 0,
+    "error": 0,
+    "timeout": 0
+  },
+  "nonPassingTests": []
+}

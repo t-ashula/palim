@@ -3,30 +3,18 @@ import { relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
 import {
-  buildReport,
-  renderMarkdown,
   type Classification,
   type FixtureRevisions,
   type RawCaseResult,
 } from "./report.js";
-
-interface WPTSubtestResult {
-  readonly name: string;
-  readonly status: string;
-  readonly message?: string | null;
-}
-
-interface WPTTestResult {
-  readonly test: string;
-  readonly status: string;
-  readonly message?: string | null;
-  readonly duration?: number;
-  readonly subtests: readonly WPTSubtestResult[];
-}
-
-interface WPTReport {
-  readonly results: readonly WPTTestResult[];
-}
+import {
+  buildWPTProgressReport,
+  renderWPTProgressMarkdown,
+  selectWPTURLs,
+  type WPTProgressReport,
+  type WPTReport,
+  type WPTTestResult,
+} from "./wpt-progress.js";
 
 interface ConformanceManifest {
   readonly schemaVersion: number;
@@ -114,6 +102,13 @@ function requiredEnvironment(name: string): string {
   return value;
 }
 
+function readPrefixes(path: string): string[] {
+  return readFileSync(path, "utf8")
+    .split(/\r?\n/u)
+    .map((line) => line.trim())
+    .filter((line) => line !== "" && !line.startsWith("#"));
+}
+
 function main(): void {
   const wptReportPath = process.argv[2];
   const exitCode = Number(process.argv[3]);
@@ -141,8 +136,26 @@ function main(): void {
     );
   }
   const results = convertWPTReport(wptReport);
-  const runStatus = exitCode === 0 ? "passed" : "failed";
-  const report = buildReport(results, manifest.fixtures, runStatus, 0);
+  const runStatus: WPTProgressReport["runStatus"] =
+    exitCode === 0 ? "passed" : exitCode >= 128 ? "interrupted" : "failed";
+  const include = readPrefixes(requiredEnvironment("PALIM_WPT_INCLUDE_FILE"));
+  const exclude = readPrefixes(requiredEnvironment("PALIM_WPT_EXCLUDE_FILE"));
+  const wptManifest = JSON.parse(
+    readFileSync(requiredEnvironment("PALIM_WPT_MANIFEST"), "utf8"),
+  ) as unknown;
+  const selectedURLs = selectWPTURLs(wptManifest, include, exclude);
+  const fixture = manifest.fixtures["wpt/wpt"];
+  if (fixture === undefined) {
+    throw new Error("missing fixture revision for wpt/wpt");
+  }
+  const report = buildWPTProgressReport(
+    wptReport,
+    selectedURLs,
+    include,
+    exclude,
+    fixture.revision,
+    runStatus,
+  );
   mkdirSync(rawDirectory, { recursive: true });
   mkdirSync(reportDirectory, { recursive: true });
   writeFileSync(
@@ -153,7 +166,10 @@ function main(): void {
     resolve(reportDirectory, "report.json"),
     `${JSON.stringify(report, null, 2)}\n`,
   );
-  writeFileSync(resolve(reportDirectory, "report.md"), renderMarkdown(report));
+  writeFileSync(
+    resolve(reportDirectory, "report.md"),
+    renderWPTProgressMarkdown(report),
+  );
   writeFileSync(
     resolve(rawDirectory, "run.json"),
     `${JSON.stringify(
@@ -161,6 +177,8 @@ function main(): void {
         schemaVersion: 1,
         runStatus,
         resultCount: results.length,
+        selectedURLCount: report.totals.total,
+        executedURLCount: report.totals.executed,
         fixtures: manifest.fixtures,
         wptReport: relative(process.cwd(), wptReportPath),
         reportFiles: [

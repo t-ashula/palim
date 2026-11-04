@@ -11,6 +11,7 @@ RUN npm ci
 COPY tsconfig.json tsconfig.build.json ./
 COPY src src
 COPY tools/conformance/report.ts tools/conformance/report.ts
+COPY tools/conformance/wpt-progress.ts tools/conformance/wpt-progress.ts
 COPY tools/conformance/wpt-report.ts tools/conformance/wpt-report.ts
 
 RUN npm run build \
