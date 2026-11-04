@@ -106,6 +106,108 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes live DOMTokenList objects in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<span class="   a  a b "></span>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const list = testDocument.querySelector("span").classList;
+        if (
+          !(list instanceof DOMTokenList) ||
+          Object.prototype.toString.call(list) !== "[object DOMTokenList]" ||
+          String(list) !== "   a  a b " ||
+          list.value !== "   a  a b " ||
+          list.length !== 2 ||
+          list[0] !== "a" ||
+          list[1] !== "b" ||
+          list[Symbol.iterator] !== Array.prototype[Symbol.iterator] ||
+          list.keys !== Array.prototype.keys ||
+          list.values !== Array.prototype.values ||
+          list.entries !== Array.prototype.entries ||
+          list.forEach !== Array.prototype.forEach ||
+          [...list].join("|") !== "a|b" ||
+          [...list.keys()].join("|") !== "0|1" ||
+          [...list.values()].join("|") !== "a|b" ||
+          [...list.entries()].map((entry) => entry.join(":"))
+            .join("|") !== "0:a|1:b"
+        ) {
+          throw new Error("DOMTokenList binding is invalid");
+        }
+        const receiver = {};
+        let calls = 0;
+        list.forEach(function(value, index, parent) {
+          if (
+            this !== receiver ||
+            parent !== list ||
+            value !== list[index]
+          ) {
+            throw new Error("DOMTokenList forEach is invalid");
+          }
+          calls += 1;
+        }, receiver);
+        if (calls !== 2) {
+          throw new Error("DOMTokenList forEach length is invalid");
+        }
+        list.value = " foo bar foo ";
+        if (list.value !== " foo bar foo " || list.length !== 2) {
+          throw new Error("DOMTokenList value is invalid");
+        }
+      `,
+    );
+
+    expect(document.querySelector("span")?.getAttribute("class")).toBe(
+      " foo bar foo ",
+    );
+  });
+
+  it("exposes token list attributes on their element interfaces", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const html = "http://www.w3.org/1999/xhtml";
+        const svg = "http://www.w3.org/2000/svg";
+        const mathml = "http://www.w3.org/1998/Math/MathML";
+        const cases = [
+          [html, "a", "relList", HTMLAnchorElement],
+          [html, "area", "relList", HTMLAreaElement],
+          [html, "link", "relList", HTMLLinkElement],
+          [html, "link", "sizes", HTMLLinkElement],
+          [html, "iframe", "sandbox", HTMLIFrameElement],
+          [html, "output", "htmlFor", HTMLOutputElement],
+          [svg, "a", "relList", Element],
+          [mathml, "a", "relList", Element],
+        ];
+        for (const [namespace, localName, attribute, Interface] of cases) {
+          const element = testDocument.createElementNS(namespace, localName);
+          if (
+            !(element instanceof Interface) ||
+            Object.prototype.toString.call(element[attribute]) !==
+              "[object DOMTokenList]"
+          ) {
+            throw new Error(localName + "." + attribute + " is invalid");
+          }
+        }
+        for (const [namespace, localName, attribute] of [
+          [html, "td", "relList"],
+          [svg, "area", "relList"],
+          [mathml, "link", "sizes"],
+        ]) {
+          const element = testDocument.createElementNS(namespace, localName);
+          if (element[attribute] !== undefined) {
+            throw new Error(localName + "." + attribute + " is overexposed");
+          }
+        }
+      `,
+    );
+  });
+
   it("exposes getElementsByTagName collections in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<meta name="first"><main><meta name="second"></main>',

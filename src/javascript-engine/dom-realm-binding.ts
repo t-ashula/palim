@@ -4,6 +4,7 @@ import {
   Attr,
   CustomEvent,
   Document,
+  DOMTokenList,
   Element,
   Event,
   EventTarget,
@@ -15,13 +16,19 @@ import {
 import {
   DOMStringMap,
   HTMLAnchorElement,
+  HTMLAreaElement,
   HTMLElement,
+  HTMLIFrameElement,
+  HTMLLinkElement,
+  HTMLOutputElement,
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
 import {
   htmlCollectionSupportedPropertyNames,
   namedNodeMapSupportedPropertyNames,
 } from "../dom/collections.js";
+import { createDOMTokenList } from "../dom/token-list.js";
+import { MATHML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
 import { normal, thrown } from "./adapter.js";
 import type {
   EngineCallable,
@@ -212,8 +219,13 @@ export class DOMRealmBinding {
   readonly #nodePrototype: EngineObject;
   readonly #attrPrototype: EngineObject;
   readonly #elementPrototype: EngineObject;
+  readonly #foreignAnchorPrototype: EngineObject;
   readonly #htmlElementPrototype: EngineObject;
   readonly #htmlAnchorElementPrototype: EngineObject;
+  readonly #htmlAreaElementPrototype: EngineObject;
+  readonly #htmlIFrameElementPrototype: EngineObject;
+  readonly #htmlLinkElementPrototype: EngineObject;
+  readonly #htmlOutputElementPrototype: EngineObject;
   readonly #documentPrototype: EngineObject;
   readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
@@ -221,7 +233,9 @@ export class DOMRealmBinding {
   readonly #htmlCollectionPrototype: EngineObject;
   readonly #namedNodeMapPrototype: EngineObject;
   readonly #nodeListPrototype: EngineObject;
+  readonly #domTokenListPrototype: EngineObject;
   readonly #domStringMapPrototype: EngineObject;
+  readonly #foreignAnchorRelLists = new WeakMap<Element, DOMTokenList>();
 
   constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
     this.#engine = engine;
@@ -267,11 +281,31 @@ export class DOMRealmBinding {
       this.#realm,
       this.#nodePrototype,
     );
+    this.#foreignAnchorPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#elementPrototype,
+    );
     this.#htmlElementPrototype = this.#engine.createObject(
       this.#realm,
       this.#elementPrototype,
     );
     this.#htmlAnchorElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#htmlElementPrototype,
+    );
+    this.#htmlAreaElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#htmlElementPrototype,
+    );
+    this.#htmlIFrameElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#htmlElementPrototype,
+    );
+    this.#htmlLinkElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#htmlElementPrototype,
+    );
+    this.#htmlOutputElementPrototype = this.#engine.createObject(
       this.#realm,
       this.#htmlElementPrototype,
     );
@@ -303,6 +337,10 @@ export class DOMRealmBinding {
       this.#realm,
       objectPrototype,
     );
+    this.#domTokenListPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
     this.#domStringMapPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
@@ -313,13 +351,19 @@ export class DOMRealmBinding {
     this.#installAbortMembers();
     this.#installNodeMembers();
     this.#installElementMembers();
+    this.#installForeignAnchorMembers();
     this.#installHTMLElementMembers();
     this.#installHTMLAnchorElementMembers();
+    this.#installHTMLAreaElementMembers();
+    this.#installHTMLIFrameElementMembers();
+    this.#installHTMLLinkElementMembers();
+    this.#installHTMLOutputElementMembers();
     this.#installDocumentMembers();
     this.#installEventMembers();
     this.#installHTMLCollectionMembers();
     this.#installNamedNodeMapMembers();
     this.#installNodeListMembers();
+    this.#installDOMTokenListMembers();
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -381,6 +425,16 @@ export class DOMRealmBinding {
       "HTMLAnchorElement",
       this.#htmlAnchorElementPrototype,
     );
+    this.#installInterface("HTMLAreaElement", this.#htmlAreaElementPrototype);
+    this.#installInterface(
+      "HTMLIFrameElement",
+      this.#htmlIFrameElementPrototype,
+    );
+    this.#installInterface("HTMLLinkElement", this.#htmlLinkElementPrototype);
+    this.#installInterface(
+      "HTMLOutputElement",
+      this.#htmlOutputElementPrototype,
+    );
     this.#installInterface("Document", this.#documentPrototype, 0, () =>
       normal(this.#wrap(new Document())),
     );
@@ -388,6 +442,7 @@ export class DOMRealmBinding {
     this.#installInterface("HTMLCollection", this.#htmlCollectionPrototype);
     this.#installInterface("NamedNodeMap", this.#namedNodeMapPrototype);
     this.#installInterface("NodeList", this.#nodeListPrototype);
+    this.#installInterface("DOMTokenList", this.#domTokenListPrototype);
     this.#installInterface("DOMStringMap", this.#domStringMapPrototype);
     const eventConstructor = this.#installInterface(
       "Event",
@@ -746,6 +801,12 @@ export class DOMRealmBinding {
         return this.#undefined();
       },
     );
+    this.#attribute(this.#elementPrototype, "classList", (thisValue) => {
+      const element = this.#element(thisValue);
+      return element === null
+        ? this.#typeError("Invalid Element receiver")
+        : normal(this.#wrap(element.classList));
+    });
     this.#attribute(
       this.#elementPrototype,
       "innerHTML",
@@ -956,6 +1017,21 @@ export class DOMRealmBinding {
         return this.#undefined();
       },
     );
+  }
+
+  #installForeignAnchorMembers(): void {
+    this.#attribute(this.#foreignAnchorPrototype, "relList", (thisValue) => {
+      const element = this.#foreignAnchorElement(thisValue);
+      if (element === null) {
+        return this.#typeError("Invalid foreign anchor receiver");
+      }
+      let relList = this.#foreignAnchorRelLists.get(element);
+      if (relList === undefined) {
+        relList = createDOMTokenList(element, "rel");
+        this.#foreignAnchorRelLists.set(element, relList);
+      }
+      return normal(this.#wrap(relList));
+    });
   }
 
   #installHTMLElementMembers(): void {
@@ -1194,6 +1270,16 @@ export class DOMRealmBinding {
   #installHTMLAnchorElementMembers(): void {
     this.#attribute(
       this.#htmlAnchorElementPrototype,
+      "relList",
+      (thisValue) => {
+        const anchor = this.#htmlAnchorElement(thisValue);
+        return anchor === null
+          ? this.#typeError("Invalid HTMLAnchorElement receiver")
+          : normal(this.#wrap(anchor.relList));
+      },
+    );
+    this.#attribute(
+      this.#htmlAnchorElementPrototype,
       "href",
       (thisValue) => {
         const anchor = this.#htmlAnchorElement(thisValue);
@@ -1222,6 +1308,52 @@ export class DOMRealmBinding {
           : this.#primitive(anchor[name]);
       });
     }
+  }
+
+  #installHTMLAreaElementMembers(): void {
+    this.#attribute(this.#htmlAreaElementPrototype, "relList", (thisValue) => {
+      const area = this.#htmlAreaElement(thisValue);
+      return area === null
+        ? this.#typeError("Invalid HTMLAreaElement receiver")
+        : normal(this.#wrap(area.relList));
+    });
+  }
+
+  #installHTMLIFrameElementMembers(): void {
+    this.#attribute(
+      this.#htmlIFrameElementPrototype,
+      "sandbox",
+      (thisValue) => {
+        const iframe = this.#htmlIFrameElement(thisValue);
+        return iframe === null
+          ? this.#typeError("Invalid HTMLIFrameElement receiver")
+          : normal(this.#wrap(iframe.sandbox));
+      },
+    );
+  }
+
+  #installHTMLLinkElementMembers(): void {
+    for (const name of ["relList", "sizes"] as const) {
+      this.#attribute(this.#htmlLinkElementPrototype, name, (thisValue) => {
+        const link = this.#htmlLinkElement(thisValue);
+        return link === null
+          ? this.#typeError("Invalid HTMLLinkElement receiver")
+          : normal(this.#wrap(link[name]));
+      });
+    }
+  }
+
+  #installHTMLOutputElementMembers(): void {
+    this.#attribute(
+      this.#htmlOutputElementPrototype,
+      "htmlFor",
+      (thisValue) => {
+        const output = this.#htmlOutputElement(thisValue);
+        return output === null
+          ? this.#typeError("Invalid HTMLOutputElement receiver")
+          : normal(this.#wrap(output.htmlFor));
+      },
+    );
   }
 
   #installEventMembers(): void {
@@ -1436,6 +1568,96 @@ export class DOMRealmBinding {
       this.#nodeListPrototype,
       (thisValue) => this.#nodeList(thisValue),
       "NodeList",
+    );
+  }
+
+  #installDOMTokenListMembers(): void {
+    this.#attribute(this.#domTokenListPrototype, "length", (thisValue) => {
+      const list = this.#domTokenList(thisValue);
+      return list === null
+        ? this.#typeError("Invalid DOMTokenList receiver")
+        : this.#primitive(list.length);
+    });
+    this.#attribute(
+      this.#domTokenListPrototype,
+      "value",
+      (thisValue) => {
+        const list = this.#domTokenList(thisValue);
+        return list === null
+          ? this.#typeError("Invalid DOMTokenList receiver")
+          : this.#primitive(list.value);
+      },
+      (thisValue, argumentsList) => {
+        const list = this.#domTokenList(thisValue);
+        if (list === null) {
+          return this.#typeError("Invalid DOMTokenList receiver");
+        }
+        const value = this.#stringArgument(argumentsList, 0, "value");
+        if (value.type === "throw") {
+          return value;
+        }
+        list.value = value.value;
+        return this.#undefined();
+      },
+    );
+    this.#method(
+      this.#domTokenListPrototype,
+      "item",
+      1,
+      (thisValue, argumentsList) => {
+        const list = this.#domTokenList(thisValue);
+        if (list === null) {
+          return this.#typeError("Invalid DOMTokenList receiver");
+        }
+        const index = this.#stringArgument(argumentsList, 0, "item");
+        return index.type === "throw"
+          ? index
+          : this.#primitive(list.item(Number(index.value) >>> 0));
+      },
+    );
+    this.#method(this.#domTokenListPrototype, "toString", 0, (thisValue) => {
+      const list = this.#domTokenList(thisValue);
+      return list === null
+        ? this.#typeError("Invalid DOMTokenList receiver")
+        : this.#primitive(list.toString());
+    });
+
+    const array = this.#engine.createArray(this.#realm, []);
+    for (const name of ["entries", "keys", "values", "forEach"] as const) {
+      const method = this.#engine.get(this.#realm, array, name);
+      if (method.type === "throw") {
+        throw new TypeError(
+          this.#engine.exceptionMessage(this.#realm, method.value),
+        );
+      }
+      this.#engine.defineDataProperty(
+        this.#domTokenListPrototype,
+        name,
+        method.value,
+        DATA_PROPERTY,
+      );
+    }
+    const iterator = this.#engine.get(
+      this.#realm,
+      array,
+      this.#engine.wellKnownSymbol("iterator"),
+    );
+    if (iterator.type === "throw") {
+      throw new TypeError(
+        this.#engine.exceptionMessage(this.#realm, iterator.value),
+      );
+    }
+    this.#engine.defineDataProperty(
+      this.#domTokenListPrototype,
+      this.#engine.wellKnownSymbol("iterator"),
+      iterator.value,
+      DATA_PROPERTY,
+    );
+    this.#engine.defineDataProperty(
+      this.#domTokenListPrototype,
+      this.#engine.wellKnownSymbol("toStringTag"),
+      this.#engine.fromPrimitive("DOMTokenList"),
+      { configurable: true, enumerable: false, writable: false },
     );
   }
 
@@ -1680,6 +1902,11 @@ export class DOMRealmBinding {
         indexedLength: () => list.length,
         indexedValue: (index) => list.item(index),
       });
+    } else if (interfaceObject instanceof DOMTokenList) {
+      platformObject = this.#legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
     } else if (interfaceObject instanceof DOMStringMap) {
       platformObject = this.#legacyPlatformObject(target, {
         namedNames: () => Object.getOwnPropertyNames(interfaceObject),
@@ -1695,6 +1922,7 @@ export class DOMRealmBinding {
       });
     }
     this.#platformObjects.set(implementation, platformObject);
+    this.#implementations.set(target, implementation);
     this.#implementations.set(platformObject, implementation);
     return platformObject;
   }
@@ -1718,11 +1946,25 @@ export class DOMRealmBinding {
     if (interfaceObject instanceof HTMLAnchorElement) {
       return this.#htmlAnchorElementPrototype;
     }
+    if (interfaceObject instanceof HTMLAreaElement) {
+      return this.#htmlAreaElementPrototype;
+    }
+    if (interfaceObject instanceof HTMLIFrameElement) {
+      return this.#htmlIFrameElementPrototype;
+    }
+    if (interfaceObject instanceof HTMLLinkElement) {
+      return this.#htmlLinkElementPrototype;
+    }
+    if (interfaceObject instanceof HTMLOutputElement) {
+      return this.#htmlOutputElementPrototype;
+    }
     if (interfaceObject instanceof HTMLElement) {
       return this.#htmlElementPrototype;
     }
     if (interfaceObject instanceof Element) {
-      return this.#elementPrototype;
+      return this.#isForeignAnchor(interfaceObject)
+        ? this.#foreignAnchorPrototype
+        : this.#elementPrototype;
     }
     if (interfaceObject instanceof Node) {
       return this.#nodePrototype;
@@ -1741,6 +1983,9 @@ export class DOMRealmBinding {
     }
     if (interfaceObject instanceof NodeList) {
       return this.#nodeListPrototype;
+    }
+    if (interfaceObject instanceof DOMTokenList) {
+      return this.#domTokenListPrototype;
     }
     if (interfaceObject instanceof DOMStringMap) {
       return this.#domStringMapPrototype;
@@ -1796,6 +2041,43 @@ export class DOMRealmBinding {
       : null;
   }
 
+  #htmlAreaElement(value: EngineValue): HTMLAreaElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLAreaElement ? interfaceObject : null;
+  }
+
+  #htmlIFrameElement(value: EngineValue): HTMLIFrameElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLIFrameElement
+      ? interfaceObject
+      : null;
+  }
+
+  #htmlLinkElement(value: EngineValue): HTMLLinkElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLLinkElement ? interfaceObject : null;
+  }
+
+  #htmlOutputElement(value: EngineValue): HTMLOutputElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLOutputElement
+      ? interfaceObject
+      : null;
+  }
+
+  #foreignAnchorElement(value: EngineValue): Element | null {
+    const element = this.#element(value);
+    return element !== null && this.#isForeignAnchor(element) ? element : null;
+  }
+
+  #isForeignAnchor(element: Element): boolean {
+    return (
+      element.localName === "a" &&
+      (element.namespaceURI === SVG_NAMESPACE ||
+        element.namespaceURI === MATHML_NAMESPACE)
+    );
+  }
+
   #document(value: EngineValue): Document | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Document ? interfaceObject : null;
@@ -1826,6 +2108,11 @@ export class DOMRealmBinding {
   #nodeList(value: EngineValue): NodeList | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof NodeList ? interfaceObject : null;
+  }
+
+  #domTokenList(value: EngineValue): DOMTokenList | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof DOMTokenList ? interfaceObject : null;
   }
 
   #stringArgument(
