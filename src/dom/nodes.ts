@@ -43,6 +43,7 @@ import {
 } from "./node-implementation.js";
 import type { DOMTokenList } from "./token-list.js";
 import { createDOMTokenList } from "./token-list.js";
+import { bindDOMInterface } from "./binding.js";
 import {
   adjustLiveRangesForData,
   adjustLiveRangesForInsertion,
@@ -116,6 +117,76 @@ export type ElementFactory = (
 ) => Element;
 
 let documentElementFactory: ElementFactory = defaultElementFactory;
+
+export class DOMImplementation {
+  constructor(readonly document: Document) {
+    bindDOMInterface(this, this);
+  }
+
+  createDocumentType(
+    qualifiedName: string,
+    publicId: string,
+    systemId: string,
+  ): DocumentType {
+    requireArguments(arguments.length, 3);
+    const name = domString(qualifiedName);
+    validateName(name);
+    return createDocumentType(
+      this.document,
+      name,
+      domString(publicId),
+      domString(systemId),
+    );
+  }
+
+  createDocument(
+    namespace: string | null,
+    qualifiedName: string | null,
+    doctype: DocumentType | null = null,
+  ): Document {
+    requireArguments(arguments.length, 2);
+    const source = documentImplementation(this.document);
+    const document = createDocument(
+      source.fragmentParser,
+      "application/xml",
+      source.elementFactory,
+    );
+    if (doctype !== null) {
+      if (!(doctype instanceof DocumentType)) {
+        throw new TypeError("doctype must be a DocumentType");
+      }
+      nodeImplementation(doctype).ownerDocument =
+        documentImplementation(document);
+      document.appendChild(doctype);
+    }
+    const name = qualifiedName === null ? "" : domString(qualifiedName);
+    if (name !== "") {
+      document.appendChild(document.createElementNS(namespace, name));
+    }
+    return document;
+  }
+
+  createHTMLDocument(title?: string): Document {
+    const source = documentImplementation(this.document);
+    const document = createDocument(
+      source.fragmentParser,
+      "text/html",
+      source.elementFactory,
+    );
+    document.appendChild(createDocumentType(document, "html", "", ""));
+    const html = document.createElement("html");
+    const head = document.createElement("head");
+    if (title !== undefined) {
+      const titleElement = document.createElement("title");
+      titleElement.append(domString(title));
+      head.appendChild(titleElement);
+    }
+    html.appendChild(head);
+    html.appendChild(document.createElement("body"));
+    document.appendChild(html);
+    return document;
+  }
+}
 
 export class Node extends EventTarget {
   static readonly ELEMENT_NODE = 1;
@@ -201,6 +272,20 @@ export class Node extends EventTarget {
 
   get textContent(): string | null {
     return descendantText(this);
+  }
+
+  set textContent(value: string | null) {
+    if (!(this instanceof Element) && !(this instanceof DocumentFragment)) {
+      return;
+    }
+    const data = value === null ? "" : domString(value);
+    while (this.firstChild !== null) {
+      removeNode(this.firstChild);
+    }
+    const document = this.ownerDocument;
+    if (data !== "" && document !== null) {
+      appendNode(this, createText(document, data));
+    }
   }
 
   normalize(): void {
@@ -360,6 +445,12 @@ export class Document extends Node {
     );
   }
 
+  get implementation(): DOMImplementation {
+    const implementation = documentImplementation(this);
+    implementation.domImplementation ??= new DOMImplementation(this);
+    return implementation.domImplementation;
+  }
+
   get contentType(): string {
     return documentImplementation(this).contentType;
   }
@@ -483,6 +574,39 @@ export class Document extends Node {
     requireArguments(parameters.length, 1);
     const [data] = parameters;
     return createComment(this, domString(data));
+  }
+
+  createCDATASection(data: string): CDATASection;
+  createCDATASection(
+    ...parameters: CreateCharacterDataArguments
+  ): CDATASection {
+    requireArguments(parameters.length, 1);
+    const [data] = parameters;
+    const convertedData = domString(data);
+    if (convertedData.includes("]]>") || this.contentType === "text/html") {
+      throw new DOMException(
+        "CDATA sections are not supported for this document",
+        "NotSupportedError",
+      );
+    }
+    return createCDATASection(this, convertedData);
+  }
+
+  createProcessingInstruction(
+    target: string,
+    data: string,
+  ): ProcessingInstruction {
+    requireArguments(arguments.length, 2);
+    const convertedTarget = domString(target);
+    validateName(convertedTarget);
+    const convertedData = domString(data);
+    if (convertedData.includes("?>")) {
+      throw new DOMException(
+        "Processing instruction data cannot contain ?>",
+        "InvalidCharacterError",
+      );
+    }
+    return createProcessingInstruction(this, convertedTarget, convertedData);
   }
 
   importNode<T extends Node>(
@@ -1434,6 +1558,11 @@ export class CharacterData extends Node {
 
   override get textContent(): string {
     return this.data;
+  }
+
+  override set textContent(value: string | null) {
+    const data = value === null ? "" : domString(value);
+    replaceCharacterData(this, 0, this.length, data);
   }
 
   remove(): void {

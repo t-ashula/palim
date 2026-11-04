@@ -25,6 +25,7 @@ export {
   Document,
   DocumentFragment,
   DocumentType,
+  DOMImplementation,
   Element,
   Node,
   ProcessingInstruction,

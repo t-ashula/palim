@@ -56,6 +56,7 @@ export interface JavaScriptEngineAdapter {
   fromPrimitive(value: EnginePrimitive): EngineValue;
   wellKnownSymbol(name: EngineWellKnownSymbol): EngineValue;
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
+  toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number>;
   toBoolean(value: EngineValue): boolean;
   asObject(value: EngineValue): EngineObject | null;
   asCallable(value: EngineValue): EngineCallable | null;

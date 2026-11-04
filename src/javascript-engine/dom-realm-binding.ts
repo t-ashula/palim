@@ -2,8 +2,13 @@ import {
   AbortController,
   AbortSignal,
   Attr,
+  CharacterData,
+  Comment,
   CustomEvent,
   Document,
+  DocumentFragment,
+  DocumentType,
+  DOMImplementation,
   DOMTokenList,
   Element,
   Event,
@@ -11,8 +16,11 @@ import {
   HTMLCollection,
   NamedNodeMap,
   Node,
+  NodeFilter,
   NodeList,
+  Text,
 } from "../dom.js";
+import type { NodeIterator, TreeWalker } from "../dom.js";
 import {
   DOMStringMap,
   HTMLAnchorElement,
@@ -21,13 +29,20 @@ import {
   HTMLIFrameElement,
   HTMLLinkElement,
   HTMLOutputElement,
+  HTMLTemplateElement,
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
+import { DOMException as HostDOMException } from "../dom-exception.js";
 import {
   htmlCollectionSupportedPropertyNames,
   namedNodeMapSupportedPropertyNames,
 } from "../dom/collections.js";
 import { createDOMTokenList } from "../dom/token-list.js";
+import {
+  isNodeIterator,
+  isTreeWalker,
+  type NodeFilter as NodeFilterCallback,
+} from "../dom/traversal.js";
 import { MATHML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
 import { normal, thrown } from "./adapter.js";
 import type {
@@ -50,6 +65,68 @@ const ATTRIBUTE_PROPERTY = {
   configurable: true,
   enumerable: true,
 } as const;
+
+const DOM_EXCEPTION_NAME_CODES: Readonly<Record<string, number>> = {
+  IndexSizeError: 1,
+  DOMStringSizeError: 2,
+  HierarchyRequestError: 3,
+  WrongDocumentError: 4,
+  InvalidCharacterError: 5,
+  NoDataAllowedError: 6,
+  NoModificationAllowedError: 7,
+  NotFoundError: 8,
+  NotSupportedError: 9,
+  InUseAttributeError: 10,
+  InvalidStateError: 11,
+  SyntaxError: 12,
+  InvalidModificationError: 13,
+  NamespaceError: 14,
+  InvalidAccessError: 15,
+  ValidationError: 16,
+  TypeMismatchError: 17,
+  SecurityError: 18,
+  NetworkError: 19,
+  AbortError: 20,
+  URLMismatchError: 21,
+  QuotaExceededError: 22,
+  TimeoutError: 23,
+  InvalidNodeTypeError: 24,
+  DataCloneError: 25,
+};
+
+const DOM_EXCEPTION_CODES: Readonly<Record<string, number>> = {
+  INDEX_SIZE_ERR: 1,
+  DOMSTRING_SIZE_ERR: 2,
+  HIERARCHY_REQUEST_ERR: 3,
+  WRONG_DOCUMENT_ERR: 4,
+  INVALID_CHARACTER_ERR: 5,
+  NO_DATA_ALLOWED_ERR: 6,
+  NO_MODIFICATION_ALLOWED_ERR: 7,
+  NOT_FOUND_ERR: 8,
+  NOT_SUPPORTED_ERR: 9,
+  INUSE_ATTRIBUTE_ERR: 10,
+  INVALID_STATE_ERR: 11,
+  SYNTAX_ERR: 12,
+  INVALID_MODIFICATION_ERR: 13,
+  NAMESPACE_ERR: 14,
+  INVALID_ACCESS_ERR: 15,
+  VALIDATION_ERR: 16,
+  TYPE_MISMATCH_ERR: 17,
+  SECURITY_ERR: 18,
+  NETWORK_ERR: 19,
+  ABORT_ERR: 20,
+  URL_MISMATCH_ERR: 21,
+  QUOTA_EXCEEDED_ERR: 22,
+  TIMEOUT_ERR: 23,
+  INVALID_NODE_TYPE_ERR: 24,
+  DATA_CLONE_ERR: 25,
+};
+
+class EngineRealmException extends Error {
+  constructor(readonly value: EngineValue) {
+    super("JavaScript realm exception");
+  }
+}
 
 const LEGACY_PLATFORM_OBJECT_FACTORY = `(
   target,
@@ -202,6 +279,11 @@ interface LegacyPlatformObjectConfiguration {
   readonly overrideBuiltins?: boolean;
 }
 
+interface TraversalFilterArgument {
+  readonly callback: NodeFilterCallback | null;
+  readonly value: EngineValue | null;
+}
+
 export class DOMRealmBinding {
   readonly #engine: JavaScriptEngineAdapter;
   readonly #realm: EngineRealm;
@@ -217,6 +299,9 @@ export class DOMRealmBinding {
   readonly #abortSignalPrototype: EngineObject;
   readonly #abortControllerPrototype: EngineObject;
   readonly #nodePrototype: EngineObject;
+  readonly #characterDataPrototype: EngineObject;
+  readonly #textPrototype: EngineObject;
+  readonly #commentPrototype: EngineObject;
   readonly #attrPrototype: EngineObject;
   readonly #elementPrototype: EngineObject;
   readonly #foreignAnchorPrototype: EngineObject;
@@ -226,7 +311,10 @@ export class DOMRealmBinding {
   readonly #htmlIFrameElementPrototype: EngineObject;
   readonly #htmlLinkElementPrototype: EngineObject;
   readonly #htmlOutputElementPrototype: EngineObject;
+  readonly #htmlTemplateElementPrototype: EngineObject;
   readonly #documentPrototype: EngineObject;
+  readonly #documentFragmentPrototype: EngineObject;
+  readonly #domImplementationPrototype: EngineObject;
   readonly #xmlDocumentPrototype: EngineObject;
   readonly #eventPrototype: EngineObject;
   readonly #customEventPrototype: EngineObject;
@@ -234,8 +322,13 @@ export class DOMRealmBinding {
   readonly #namedNodeMapPrototype: EngineObject;
   readonly #nodeListPrototype: EngineObject;
   readonly #domTokenListPrototype: EngineObject;
+  readonly #domExceptionPrototype: EngineObject;
+  readonly #nodeIteratorPrototype: EngineObject;
+  readonly #treeWalkerPrototype: EngineObject;
   readonly #domStringMapPrototype: EngineObject;
   readonly #foreignAnchorRelLists = new WeakMap<Element, DOMTokenList>();
+  readonly #traversalFilters = new WeakMap<object, EngineValue>();
+  readonly #elementStyles = new WeakMap<Element, EngineObject>();
 
   constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
     this.#engine = engine;
@@ -273,6 +366,18 @@ export class DOMRealmBinding {
       this.#realm,
       this.#eventTargetPrototype,
     );
+    this.#characterDataPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#nodePrototype,
+    );
+    this.#textPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#characterDataPrototype,
+    );
+    this.#commentPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#characterDataPrototype,
+    );
     this.#attrPrototype = this.#engine.createObject(
       this.#realm,
       this.#nodePrototype,
@@ -309,9 +414,21 @@ export class DOMRealmBinding {
       this.#realm,
       this.#htmlElementPrototype,
     );
+    this.#htmlTemplateElementPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#htmlElementPrototype,
+    );
     this.#documentPrototype = this.#engine.createObject(
       this.#realm,
       this.#nodePrototype,
+    );
+    this.#documentFragmentPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#nodePrototype,
+    );
+    this.#domImplementationPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
     );
     this.#xmlDocumentPrototype = this.#engine.createObject(
       this.#realm,
@@ -341,6 +458,18 @@ export class DOMRealmBinding {
       this.#realm,
       objectPrototype,
     );
+    this.#domExceptionPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#nodeIteratorPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#treeWalkerPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
     this.#domStringMapPrototype = this.#engine.createObject(
       this.#realm,
       objectPrototype,
@@ -350,6 +479,7 @@ export class DOMRealmBinding {
     this.#installEventTargetMembers();
     this.#installAbortMembers();
     this.#installNodeMembers();
+    this.#installCharacterDataMembers();
     this.#installElementMembers();
     this.#installForeignAnchorMembers();
     this.#installHTMLElementMembers();
@@ -358,12 +488,17 @@ export class DOMRealmBinding {
     this.#installHTMLIFrameElementMembers();
     this.#installHTMLLinkElementMembers();
     this.#installHTMLOutputElementMembers();
+    this.#installHTMLTemplateElementMembers();
     this.#installDocumentMembers();
+    this.#installDocumentFragmentMembers();
+    this.#installDOMImplementationMembers();
     this.#installEventMembers();
     this.#installHTMLCollectionMembers();
     this.#installNamedNodeMapMembers();
     this.#installNodeListMembers();
     this.#installDOMTokenListMembers();
+    this.#installNodeIteratorMembers();
+    this.#installTreeWalkerMembers();
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -417,7 +552,40 @@ export class DOMRealmBinding {
       0,
       () => normal(this.#wrap(new AbortController())),
     );
-    this.#installInterface("Node", this.#nodePrototype);
+    const nodeConstructor = this.#installInterface("Node", this.#nodePrototype);
+    for (const name of [
+      "ELEMENT_NODE",
+      "ATTRIBUTE_NODE",
+      "TEXT_NODE",
+      "CDATA_SECTION_NODE",
+      "PROCESSING_INSTRUCTION_NODE",
+      "COMMENT_NODE",
+      "DOCUMENT_NODE",
+      "DOCUMENT_TYPE_NODE",
+      "DOCUMENT_FRAGMENT_NODE",
+      "DOCUMENT_POSITION_DISCONNECTED",
+      "DOCUMENT_POSITION_PRECEDING",
+      "DOCUMENT_POSITION_FOLLOWING",
+      "DOCUMENT_POSITION_CONTAINS",
+      "DOCUMENT_POSITION_CONTAINED_BY",
+      "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC",
+    ] as const) {
+      for (const target of [nodeConstructor, this.#nodePrototype]) {
+        this.#engine.defineDataProperty(
+          target,
+          name,
+          this.#engine.fromPrimitive(Node[name]),
+          { configurable: false, enumerable: true, writable: false },
+        );
+      }
+    }
+    this.#installInterface("CharacterData", this.#characterDataPrototype);
+    this.#installInterface("Text", this.#textPrototype, 0, () =>
+      normal(this.#wrap(new Text())),
+    );
+    this.#installInterface("Comment", this.#commentPrototype, 0, () =>
+      normal(this.#wrap(new Comment())),
+    );
     this.#installInterface("Attr", this.#attrPrototype);
     this.#installInterface("Element", this.#elementPrototype);
     this.#installInterface("HTMLElement", this.#htmlElementPrototype);
@@ -435,15 +603,61 @@ export class DOMRealmBinding {
       "HTMLOutputElement",
       this.#htmlOutputElementPrototype,
     );
+    this.#installInterface(
+      "HTMLTemplateElement",
+      this.#htmlTemplateElementPrototype,
+    );
     this.#installInterface("Document", this.#documentPrototype, 0, () =>
       normal(this.#wrap(new Document())),
+    );
+    this.#installInterface(
+      "DocumentFragment",
+      this.#documentFragmentPrototype,
+      0,
+      () => normal(this.#wrap(new DocumentFragment())),
+    );
+    this.#installInterface(
+      "DOMImplementation",
+      this.#domImplementationPrototype,
     );
     this.#installInterface("XMLDocument", this.#xmlDocumentPrototype);
     this.#installInterface("HTMLCollection", this.#htmlCollectionPrototype);
     this.#installInterface("NamedNodeMap", this.#namedNodeMapPrototype);
     this.#installInterface("NodeList", this.#nodeListPrototype);
     this.#installInterface("DOMTokenList", this.#domTokenListPrototype);
+    const domExceptionConstructor = this.#installInterface(
+      "DOMException",
+      this.#domExceptionPrototype,
+      0,
+      (_thisValue, argumentsList) => {
+        const message = this.#optionalStringArgument(argumentsList[0], "");
+        if (message.type === "throw") {
+          return message;
+        }
+        const name = this.#optionalStringArgument(argumentsList[1], "Error");
+        return name.type === "throw"
+          ? name
+          : normal(this.#createDOMException(message.value, name.value));
+      },
+    );
+    for (const [name, value] of Object.entries(DOM_EXCEPTION_CODES)) {
+      for (const target of [
+        domExceptionConstructor,
+        this.#domExceptionPrototype,
+      ]) {
+        this.#engine.defineDataProperty(
+          target,
+          name,
+          this.#engine.fromPrimitive(value),
+          { configurable: false, enumerable: true, writable: false },
+        );
+      }
+    }
+    this.#interfaceTag(this.#domExceptionPrototype, "DOMException");
+    this.#installInterface("NodeIterator", this.#nodeIteratorPrototype);
+    this.#installInterface("TreeWalker", this.#treeWalkerPrototype);
     this.#installInterface("DOMStringMap", this.#domStringMapPrototype);
+    this.#installNodeFilter();
     const eventConstructor = this.#installInterface(
       "Event",
       this.#eventPrototype,
@@ -495,6 +709,27 @@ export class DOMRealmBinding {
         this.#customEventDetails.set(event, eventInit.value.detail);
         return normal(this.#wrap(event));
       },
+    );
+  }
+
+  #installNodeFilter(): void {
+    const nodeFilter = this.#engine.createObject(
+      this.#realm,
+      this.#engine.objectPrototype(this.#realm),
+    );
+    for (const [name, value] of Object.entries(NodeFilter)) {
+      this.#engine.defineDataProperty(
+        nodeFilter,
+        name,
+        this.#engine.fromPrimitive(value),
+        { configurable: false, enumerable: true, writable: false },
+      );
+    }
+    this.#engine.defineDataProperty(
+      this.#engine.globalObject(this.#realm),
+      "NodeFilter",
+      nodeFilter,
+      { configurable: true, enumerable: false, writable: true },
     );
   }
 
@@ -682,7 +917,18 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Node receiver")
         : this.#platformValue(node.parentNode);
     });
-    for (const name of ["firstChild", "lastChild"] as const) {
+    this.#attribute(this.#nodePrototype, "ownerDocument", (thisValue) => {
+      const node = this.#node(thisValue);
+      return node === null
+        ? this.#typeError("Invalid Node receiver")
+        : this.#platformValue(node.ownerDocument);
+    });
+    for (const name of [
+      "firstChild",
+      "lastChild",
+      "previousSibling",
+      "nextSibling",
+    ] as const) {
       this.#attribute(this.#nodePrototype, name, (thisValue) => {
         const node = this.#node(thisValue);
         return node === null
@@ -696,11 +942,42 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Node receiver")
         : normal(this.#wrap(node.childNodes));
     });
-    this.#attribute(this.#nodePrototype, "textContent", (thisValue) => {
+    this.#attribute(
+      this.#nodePrototype,
+      "textContent",
+      (thisValue) => {
+        const node = this.#node(thisValue);
+        return node === null
+          ? this.#typeError("Invalid Node receiver")
+          : this.#primitive(node.textContent);
+      },
+      (thisValue, argumentsList) => {
+        const node = this.#node(thisValue);
+        const value = argumentsList[0];
+        if (node === null) {
+          return this.#typeError("Invalid Node receiver");
+        }
+        if (value === undefined) {
+          node.textContent = "undefined";
+          return this.#undefined();
+        }
+        if (this.#engine.isNull(value)) {
+          node.textContent = null;
+          return this.#undefined();
+        }
+        const converted = this.#engine.toString(this.#realm, value);
+        if (converted.type === "throw") {
+          return converted;
+        }
+        node.textContent = converted.value;
+        return this.#undefined();
+      },
+    );
+    this.#attribute(this.#nodePrototype, "nodeValue", (thisValue) => {
       const node = this.#node(thisValue);
       return node === null
         ? this.#typeError("Invalid Node receiver")
-        : this.#primitive(node.textContent);
+        : this.#primitive(node instanceof CharacterData ? node.data : null);
     });
     this.#method(
       this.#nodePrototype,
@@ -730,6 +1007,54 @@ export class DOMRealmBinding {
         return normal(this.#wrap(node.removeChild(child)));
       },
     );
+    this.#method(
+      this.#nodePrototype,
+      "insertBefore",
+      2,
+      (thisValue, argumentsList) => {
+        const node = this.#node(thisValue);
+        const childValue = argumentsList[0];
+        const child = childValue === undefined ? null : this.#node(childValue);
+        if (node === null || child === null) {
+          return this.#typeError("The argument is not a Node");
+        }
+        const referenceValue = argumentsList[1];
+        const reference =
+          referenceValue === undefined || this.#engine.isNull(referenceValue)
+            ? null
+            : this.#node(referenceValue);
+        if (referenceValue === undefined || reference === null) {
+          if (
+            referenceValue !== undefined &&
+            !this.#engine.isNull(referenceValue)
+          ) {
+            return this.#typeError("The reference is not a Node");
+          }
+        }
+        return normal(this.#wrap(node.insertBefore(child, reference)));
+      },
+    );
+    this.#method(this.#nodePrototype, "hasChildNodes", 0, (thisValue) => {
+      const node = this.#node(thisValue);
+      return node === null
+        ? this.#typeError("Invalid Node receiver")
+        : this.#primitive(node.firstChild !== null);
+    });
+  }
+
+  #installCharacterDataMembers(): void {
+    this.#attribute(this.#characterDataPrototype, "data", (thisValue) => {
+      const data = this.#characterData(thisValue);
+      return data === null
+        ? this.#typeError("Invalid CharacterData receiver")
+        : this.#primitive(data.data);
+    });
+    this.#attribute(this.#characterDataPrototype, "length", (thisValue) => {
+      const data = this.#characterData(thisValue);
+      return data === null
+        ? this.#typeError("Invalid CharacterData receiver")
+        : this.#primitive(data.length);
+    });
   }
 
   #installElementMembers(): void {
@@ -918,6 +1243,25 @@ export class DOMRealmBinding {
     );
     this.#method(
       this.#elementPrototype,
+      "querySelectorAll",
+      1,
+      (thisValue, argumentsList) => {
+        const element = this.#element(thisValue);
+        if (element === null) {
+          return this.#typeError("Invalid Element receiver");
+        }
+        const selectors = this.#stringArgument(
+          argumentsList,
+          0,
+          "querySelectorAll",
+        );
+        return selectors.type === "throw"
+          ? selectors
+          : normal(this.#wrap(element.querySelectorAll(selectors.value)));
+      },
+    );
+    this.#method(
+      this.#elementPrototype,
       "getElementsByTagName",
       1,
       (thisValue, argumentsList) => {
@@ -1041,21 +1385,44 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid HTMLElement receiver")
         : normal(this.#wrap(element.dataset));
     });
+    this.#attribute(this.#htmlElementPrototype, "style", (thisValue) => {
+      const element = this.#htmlElement(thisValue);
+      if (element === null) {
+        return this.#typeError("Invalid HTMLElement receiver");
+      }
+      let style = this.#elementStyles.get(element);
+      if (style === undefined) {
+        style = this.#engine.createObject(
+          this.#realm,
+          this.#engine.objectPrototype(this.#realm),
+        );
+        this.#elementStyles.set(element, style);
+      }
+      return normal(style);
+    });
   }
 
   #installDocumentMembers(): void {
+    this.#attribute(this.#documentPrototype, "implementation", (thisValue) => {
+      const document = this.#document(thisValue);
+      return document === null
+        ? this.#typeError("Invalid Document receiver")
+        : normal(this.#wrap(document.implementation));
+    });
     this.#attribute(this.#documentPrototype, "defaultView", (thisValue) => {
       const document = this.#document(thisValue);
       return document === null
         ? this.#typeError("Invalid Document receiver")
         : this.#platformValue(document.defaultView);
     });
-    this.#attribute(this.#documentPrototype, "body", (thisValue) => {
-      const document = this.#document(thisValue);
-      return document === null
-        ? this.#typeError("Invalid Document receiver")
-        : this.#platformValue(document.body);
-    });
+    for (const name of ["head", "body"] as const) {
+      this.#attribute(this.#documentPrototype, name, (thisValue) => {
+        const document = this.#document(thisValue);
+        return document === null
+          ? this.#typeError("Invalid Document receiver")
+          : this.#platformValue(document[name]);
+      });
+    }
     for (const name of ["doctype", "documentElement"] as const) {
       this.#attribute(this.#documentPrototype, name, (thisValue) => {
         const document = this.#document(thisValue);
@@ -1103,6 +1470,25 @@ export class DOMRealmBinding {
         return selectors.type === "throw"
           ? selectors
           : this.#platformValue(document.querySelector(selectors.value));
+      },
+    );
+    this.#method(
+      this.#documentPrototype,
+      "querySelectorAll",
+      1,
+      (thisValue, argumentsList) => {
+        const document = this.#document(thisValue);
+        if (document === null) {
+          return this.#typeError("Invalid Document receiver");
+        }
+        const selectors = this.#stringArgument(
+          argumentsList,
+          0,
+          "querySelectorAll",
+        );
+        return selectors.type === "throw"
+          ? selectors
+          : normal(this.#wrap(document.querySelectorAll(selectors.value)));
       },
     );
     this.#method(
@@ -1248,6 +1634,83 @@ export class DOMRealmBinding {
             );
       },
     );
+    for (const name of [
+      "createTextNode",
+      "createComment",
+      "createCDATASection",
+    ] as const) {
+      this.#method(
+        this.#documentPrototype,
+        name,
+        1,
+        (thisValue, argumentsList) => {
+          const document = this.#document(thisValue);
+          if (document === null) {
+            return this.#typeError("Invalid Document receiver");
+          }
+          const data = this.#stringArgument(argumentsList, 0, name);
+          return data.type === "throw"
+            ? data
+            : normal(this.#wrap(document[name](data.value)));
+        },
+      );
+    }
+    this.#method(
+      this.#documentPrototype,
+      "createProcessingInstruction",
+      2,
+      (thisValue, argumentsList) => {
+        const document = this.#document(thisValue);
+        if (document === null) {
+          return this.#typeError("Invalid Document receiver");
+        }
+        const target = this.#stringArgument(
+          argumentsList,
+          0,
+          "createProcessingInstruction",
+        );
+        if (target.type === "throw") {
+          return target;
+        }
+        const data = this.#stringArgument(
+          argumentsList,
+          1,
+          "createProcessingInstruction",
+        );
+        return data.type === "throw"
+          ? data
+          : normal(
+              this.#wrap(
+                document.createProcessingInstruction(target.value, data.value),
+              ),
+            );
+      },
+    );
+    this.#method(
+      this.#documentPrototype,
+      "createDocumentFragment",
+      0,
+      (thisValue) => {
+        const document = this.#document(thisValue);
+        return document === null
+          ? this.#typeError("Invalid Document receiver")
+          : normal(this.#wrap(document.createDocumentFragment()));
+      },
+    );
+    this.#method(
+      this.#documentPrototype,
+      "createNodeIterator",
+      1,
+      (thisValue, argumentsList) =>
+        this.#createTraversal(thisValue, argumentsList, "iterator"),
+    );
+    this.#method(
+      this.#documentPrototype,
+      "createTreeWalker",
+      1,
+      (thisValue, argumentsList) =>
+        this.#createTraversal(thisValue, argumentsList, "walker"),
+    );
     this.#method(
       this.#documentPrototype,
       "append",
@@ -1265,6 +1728,135 @@ export class DOMRealmBinding {
         return this.#undefined();
       },
     );
+  }
+
+  #createTraversal(
+    thisValue: EngineValue,
+    argumentsList: readonly EngineValue[],
+    kind: "iterator" | "walker",
+  ): EngineResult<EngineValue> {
+    const document = this.#document(thisValue);
+    if (document === null) {
+      return this.#typeError("Invalid Document receiver");
+    }
+    const rootValue = argumentsList[0];
+    const root = rootValue === undefined ? null : this.#node(rootValue);
+    if (root === null) {
+      return this.#typeError(
+        `${kind === "iterator" ? "createNodeIterator" : "createTreeWalker"} requires a Node root`,
+      );
+    }
+    const whatToShow = this.#unsignedLong(
+      argumentsList[1],
+      NodeFilter.SHOW_ALL,
+    );
+    if (whatToShow.type === "throw") {
+      return whatToShow;
+    }
+    const filter = this.#traversalFilter(argumentsList[2]);
+    if (filter.type === "throw") {
+      return filter;
+    }
+    const traversal =
+      kind === "iterator"
+        ? document.createNodeIterator(
+            root,
+            whatToShow.value,
+            filter.value.callback,
+          )
+        : document.createTreeWalker(
+            root,
+            whatToShow.value,
+            filter.value.callback,
+          );
+    if (filter.value.value !== null) {
+      this.#traversalFilters.set(traversal, filter.value.value);
+    }
+    return normal(this.#wrap(traversal));
+  }
+
+  #unsignedLong(
+    value: EngineValue | undefined,
+    defaultValue: number,
+  ): EngineResult<number> {
+    if (value === undefined || this.#engine.isUndefined(value)) {
+      return normal(defaultValue);
+    }
+    const converted = this.#engine.toString(this.#realm, value);
+    if (converted.type === "throw") {
+      return converted;
+    }
+    const number = Number(converted.value);
+    if (!Number.isFinite(number) || number === 0) {
+      return normal(0);
+    }
+    const integer = Math.trunc(number);
+    return normal(((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000);
+  }
+
+  #traversalFilter(
+    value: EngineValue | undefined,
+  ): EngineResult<TraversalFilterArgument> {
+    if (
+      value === undefined ||
+      this.#engine.isUndefined(value) ||
+      this.#engine.isNull(value)
+    ) {
+      return normal({ callback: null, value: null });
+    }
+    if (
+      this.#engine.asCallable(value) === null &&
+      this.#engine.asObject(value) === null
+    ) {
+      return thrown(
+        this.#engine.createTypeError(
+          this.#realm,
+          "NodeFilter must be an object or function",
+        ),
+      );
+    }
+    return normal({
+      callback: (node) => this.#callTraversalFilter(value, node),
+      value,
+    });
+  }
+
+  #callTraversalFilter(filter: EngineValue, node: Node): number {
+    let callable = this.#engine.asCallable(filter);
+    let receiver = this.#engine.fromPrimitive(undefined);
+    if (callable === null) {
+      const object = this.#engine.asObject(filter);
+      if (object === null) {
+        throw new EngineRealmException(
+          this.#engine.createTypeError(this.#realm, "Invalid NodeFilter"),
+        );
+      }
+      const acceptNode = this.#engine.get(this.#realm, object, "acceptNode");
+      if (acceptNode.type === "throw") {
+        throw new EngineRealmException(acceptNode.value);
+      }
+      callable = this.#engine.asCallable(acceptNode.value);
+      if (callable === null) {
+        throw new EngineRealmException(
+          this.#engine.createTypeError(
+            this.#realm,
+            "NodeFilter.acceptNode is not callable",
+          ),
+        );
+      }
+      receiver = filter;
+    }
+    const result = this.#engine.call(this.#realm, callable, receiver, [
+      this.#wrap(node),
+    ]);
+    if (result.type === "throw") {
+      throw new EngineRealmException(result.value);
+    }
+    const converted = this.#engine.toNumber(this.#realm, result.value);
+    if (converted.type === "throw") {
+      throw new EngineRealmException(converted.value);
+    }
+    return converted.value;
   }
 
   #installHTMLAnchorElementMembers(): void {
@@ -1352,6 +1944,136 @@ export class DOMRealmBinding {
         return output === null
           ? this.#typeError("Invalid HTMLOutputElement receiver")
           : normal(this.#wrap(output.htmlFor));
+      },
+    );
+  }
+
+  #installHTMLTemplateElementMembers(): void {
+    this.#attribute(
+      this.#htmlTemplateElementPrototype,
+      "content",
+      (thisValue) => {
+        const template = this.#htmlTemplateElement(thisValue);
+        return template === null
+          ? this.#typeError("Invalid HTMLTemplateElement receiver")
+          : normal(this.#wrap(template.content));
+      },
+    );
+  }
+
+  #installDocumentFragmentMembers(): void {
+    this.#attribute(
+      this.#documentFragmentPrototype,
+      "children",
+      (thisValue) => {
+        const fragment = this.#documentFragment(thisValue);
+        return fragment === null
+          ? this.#typeError("Invalid DocumentFragment receiver")
+          : normal(this.#wrap(fragment.children));
+      },
+    );
+  }
+
+  #installDOMImplementationMembers(): void {
+    this.#method(
+      this.#domImplementationPrototype,
+      "createDocumentType",
+      3,
+      (thisValue, argumentsList) => {
+        const implementation = this.#domImplementation(thisValue);
+        if (implementation === null) {
+          return this.#typeError("Invalid DOMImplementation receiver");
+        }
+        const values: string[] = [];
+        for (const [index, name] of [
+          "qualifiedName",
+          "publicId",
+          "systemId",
+        ].entries()) {
+          const value = this.#stringArgument(
+            argumentsList,
+            index,
+            `createDocumentType ${name}`,
+          );
+          if (value.type === "throw") {
+            return value;
+          }
+          values.push(value.value);
+        }
+        return normal(
+          this.#wrap(
+            implementation.createDocumentType(
+              values[0] ?? "",
+              values[1] ?? "",
+              values[2] ?? "",
+            ),
+          ),
+        );
+      },
+    );
+    this.#method(
+      this.#domImplementationPrototype,
+      "createDocument",
+      2,
+      (thisValue, argumentsList) => {
+        const implementation = this.#domImplementation(thisValue);
+        if (implementation === null) {
+          return this.#typeError("Invalid DOMImplementation receiver");
+        }
+        const namespace = this.#nullableStringArgument(
+          argumentsList,
+          0,
+          "createDocument",
+        );
+        if (namespace.type === "throw") {
+          return namespace;
+        }
+        const qualifiedNameValue = argumentsList[1];
+        if (qualifiedNameValue === undefined) {
+          return this.#typeError("createDocument requires 2 argument(s)");
+        }
+        const qualifiedName = this.#engine.isNull(qualifiedNameValue)
+          ? normal("")
+          : this.#engine.toString(this.#realm, qualifiedNameValue);
+        if (qualifiedName.type === "throw") {
+          return qualifiedName;
+        }
+        const doctypeValue = argumentsList[2];
+        let doctype: DocumentType | null = null;
+        if (doctypeValue !== undefined && !this.#engine.isNull(doctypeValue)) {
+          const interfaceObject = this.#interfaceObject(doctypeValue);
+          if (!(interfaceObject instanceof DocumentType)) {
+            return this.#typeError("doctype must be a DocumentType");
+          }
+          doctype = interfaceObject;
+        }
+        return normal(
+          this.#wrap(
+            implementation.createDocument(
+              namespace.value,
+              qualifiedName.value,
+              doctype,
+            ),
+          ),
+        );
+      },
+    );
+    this.#method(
+      this.#domImplementationPrototype,
+      "createHTMLDocument",
+      0,
+      (thisValue, argumentsList) => {
+        const implementation = this.#domImplementation(thisValue);
+        if (implementation === null) {
+          return this.#typeError("Invalid DOMImplementation receiver");
+        }
+        if (argumentsList[0] === undefined) {
+          return normal(this.#wrap(implementation.createHTMLDocument()));
+        }
+        const title = this.#engine.toString(this.#realm, argumentsList[0]);
+        return title.type === "throw"
+          ? title
+          : normal(this.#wrap(implementation.createHTMLDocument(title.value)));
       },
     );
   }
@@ -1661,6 +2383,156 @@ export class DOMRealmBinding {
     );
   }
 
+  #installNodeIteratorMembers(): void {
+    for (const name of ["root", "referenceNode"] as const) {
+      this.#attribute(this.#nodeIteratorPrototype, name, (thisValue) => {
+        const iterator = this.#nodeIterator(thisValue);
+        return iterator === null
+          ? this.#typeError("Invalid NodeIterator receiver")
+          : normal(this.#wrap(iterator[name]));
+      });
+    }
+    for (const name of ["pointerBeforeReferenceNode", "whatToShow"] as const) {
+      this.#attribute(this.#nodeIteratorPrototype, name, (thisValue) => {
+        const iterator = this.#nodeIterator(thisValue);
+        return iterator === null
+          ? this.#typeError("Invalid NodeIterator receiver")
+          : this.#primitive(iterator[name]);
+      });
+    }
+    this.#attribute(this.#nodeIteratorPrototype, "filter", (thisValue) => {
+      const iterator = this.#nodeIterator(thisValue);
+      return iterator === null
+        ? this.#typeError("Invalid NodeIterator receiver")
+        : normal(
+            this.#traversalFilters.get(iterator) ??
+              this.#engine.fromPrimitive(null),
+          );
+    });
+    for (const name of ["nextNode", "previousNode"] as const) {
+      this.#method(this.#nodeIteratorPrototype, name, 0, (thisValue) => {
+        const iterator = this.#nodeIterator(thisValue);
+        return iterator === null
+          ? this.#typeError("Invalid NodeIterator receiver")
+          : this.#traversalResult(() => iterator[name]());
+      });
+    }
+    this.#method(this.#nodeIteratorPrototype, "detach", 0, (thisValue) => {
+      const iterator = this.#nodeIterator(thisValue);
+      if (iterator === null) {
+        return this.#typeError("Invalid NodeIterator receiver");
+      }
+      iterator.detach();
+      return this.#undefined();
+    });
+    this.#interfaceTag(this.#nodeIteratorPrototype, "NodeIterator");
+  }
+
+  #installTreeWalkerMembers(): void {
+    this.#attribute(this.#treeWalkerPrototype, "root", (thisValue) => {
+      const walker = this.#treeWalker(thisValue);
+      return walker === null
+        ? this.#typeError("Invalid TreeWalker receiver")
+        : normal(this.#wrap(walker.root));
+    });
+    this.#attribute(this.#treeWalkerPrototype, "whatToShow", (thisValue) => {
+      const walker = this.#treeWalker(thisValue);
+      return walker === null
+        ? this.#typeError("Invalid TreeWalker receiver")
+        : this.#primitive(walker.whatToShow);
+    });
+    this.#attribute(this.#treeWalkerPrototype, "filter", (thisValue) => {
+      const walker = this.#treeWalker(thisValue);
+      return walker === null
+        ? this.#typeError("Invalid TreeWalker receiver")
+        : normal(
+            this.#traversalFilters.get(walker) ??
+              this.#engine.fromPrimitive(null),
+          );
+    });
+    this.#attribute(
+      this.#treeWalkerPrototype,
+      "currentNode",
+      (thisValue) => {
+        const walker = this.#treeWalker(thisValue);
+        return walker === null
+          ? this.#typeError("Invalid TreeWalker receiver")
+          : normal(this.#wrap(walker.currentNode));
+      },
+      (thisValue, argumentsList) => {
+        const walker = this.#treeWalker(thisValue);
+        const nodeValue = argumentsList[0];
+        const node = nodeValue === undefined ? null : this.#node(nodeValue);
+        if (walker === null || node === null) {
+          return this.#typeError("currentNode must be a Node");
+        }
+        walker.currentNode = node;
+        return this.#undefined();
+      },
+    );
+    for (const name of [
+      "parentNode",
+      "firstChild",
+      "lastChild",
+      "previousSibling",
+      "nextSibling",
+      "previousNode",
+      "nextNode",
+    ] as const) {
+      this.#method(this.#treeWalkerPrototype, name, 0, (thisValue) => {
+        const walker = this.#treeWalker(thisValue);
+        return walker === null
+          ? this.#typeError("Invalid TreeWalker receiver")
+          : this.#traversalResult(() => walker[name]());
+      });
+    }
+    this.#interfaceTag(this.#treeWalkerPrototype, "TreeWalker");
+  }
+
+  #traversalResult(callback: () => Node | null): EngineResult<EngineValue> {
+    try {
+      return this.#platformValue(callback());
+    } catch (error: unknown) {
+      if (error instanceof EngineRealmException) {
+        return thrown(error.value);
+      }
+      if (error instanceof HostDOMException) {
+        return thrown(this.#createDOMException(error.message, error.name));
+      }
+      throw error;
+    }
+  }
+
+  #createDOMException(message: string, name: string): EngineObject {
+    const exception = this.#engine.createObject(
+      this.#realm,
+      this.#domExceptionPrototype,
+    );
+    const code = DOM_EXCEPTION_NAME_CODES[name] ?? 0;
+    for (const [property, value] of [
+      ["message", message],
+      ["name", name],
+      ["code", code],
+    ] as const) {
+      this.#engine.defineDataProperty(
+        exception,
+        property,
+        this.#engine.fromPrimitive(value),
+        { configurable: true, enumerable: false, writable: true },
+      );
+    }
+    return exception;
+  }
+
+  #interfaceTag(prototype: EngineObject, name: string): void {
+    this.#engine.defineDataProperty(
+      prototype,
+      this.#engine.wellKnownSymbol("toStringTag"),
+      this.#engine.fromPrimitive(name),
+      { configurable: true, enumerable: false, writable: false },
+    );
+  }
+
   #installIterator(
     prototype: EngineObject,
     collection: (value: EngineValue) => Iterable<object> | null,
@@ -1940,6 +2812,21 @@ export class DOMRealmBinding {
     if (interfaceObject instanceof Document) {
       return this.#documentPrototype;
     }
+    if (interfaceObject instanceof DocumentFragment) {
+      return this.#documentFragmentPrototype;
+    }
+    if (interfaceObject instanceof DOMImplementation) {
+      return this.#domImplementationPrototype;
+    }
+    if (interfaceObject instanceof Text) {
+      return this.#textPrototype;
+    }
+    if (interfaceObject instanceof Comment) {
+      return this.#commentPrototype;
+    }
+    if (interfaceObject instanceof CharacterData) {
+      return this.#characterDataPrototype;
+    }
     if (interfaceObject instanceof Attr) {
       return this.#attrPrototype;
     }
@@ -1957,6 +2844,9 @@ export class DOMRealmBinding {
     }
     if (interfaceObject instanceof HTMLOutputElement) {
       return this.#htmlOutputElementPrototype;
+    }
+    if (interfaceObject instanceof HTMLTemplateElement) {
+      return this.#htmlTemplateElementPrototype;
     }
     if (interfaceObject instanceof HTMLElement) {
       return this.#htmlElementPrototype;
@@ -1986,6 +2876,12 @@ export class DOMRealmBinding {
     }
     if (interfaceObject instanceof DOMTokenList) {
       return this.#domTokenListPrototype;
+    }
+    if (isNodeIterator(interfaceObject)) {
+      return this.#nodeIteratorPrototype;
+    }
+    if (isTreeWalker(interfaceObject)) {
+      return this.#treeWalkerPrototype;
     }
     if (interfaceObject instanceof DOMStringMap) {
       return this.#domStringMapPrototype;
@@ -2022,6 +2918,11 @@ export class DOMRealmBinding {
   #node(value: EngineValue): Node | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Node ? interfaceObject : null;
+  }
+
+  #characterData(value: EngineValue): CharacterData | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof CharacterData ? interfaceObject : null;
   }
 
   #element(value: EngineValue): Element | null {
@@ -2065,6 +2966,13 @@ export class DOMRealmBinding {
       : null;
   }
 
+  #htmlTemplateElement(value: EngineValue): HTMLTemplateElement | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof HTMLTemplateElement
+      ? interfaceObject
+      : null;
+  }
+
   #foreignAnchorElement(value: EngineValue): Element | null {
     const element = this.#element(value);
     return element !== null && this.#isForeignAnchor(element) ? element : null;
@@ -2081,6 +2989,18 @@ export class DOMRealmBinding {
   #document(value: EngineValue): Document | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof Document ? interfaceObject : null;
+  }
+
+  #documentFragment(value: EngineValue): DocumentFragment | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof DocumentFragment ? interfaceObject : null;
+  }
+
+  #domImplementation(value: EngineValue): DOMImplementation | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof DOMImplementation
+      ? interfaceObject
+      : null;
   }
 
   #event(value: EngineValue): Event | null {
@@ -2115,6 +3035,20 @@ export class DOMRealmBinding {
     return interfaceObject instanceof DOMTokenList ? interfaceObject : null;
   }
 
+  #nodeIterator(value: EngineValue): NodeIterator | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject !== null && isNodeIterator(interfaceObject)
+      ? interfaceObject
+      : null;
+  }
+
+  #treeWalker(value: EngineValue): TreeWalker | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject !== null && isTreeWalker(interfaceObject)
+      ? interfaceObject
+      : null;
+  }
+
   #stringArgument(
     argumentsList: readonly EngineValue[],
     index: number,
@@ -2130,6 +3064,15 @@ export class DOMRealmBinding {
       );
     }
     return this.#engine.toString(this.#realm, value);
+  }
+
+  #optionalStringArgument(
+    value: EngineValue | undefined,
+    fallback: string,
+  ): EngineResult<string> {
+    return value === undefined || this.#engine.isUndefined(value)
+      ? normal(fallback)
+      : this.#engine.toString(this.#realm, value);
   }
 
   #nullableStringArgument(

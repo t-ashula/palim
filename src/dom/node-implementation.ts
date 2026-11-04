@@ -10,6 +10,7 @@ import type {
   CharacterData,
   Document,
   DocumentFragment,
+  DOMImplementation,
   Element,
   ElementFactory,
   FragmentParser,
@@ -40,6 +41,7 @@ export class NodeImplementation extends EventTargetImplementation {
 
 export class DocumentImplementation extends NodeImplementation {
   templateContentsOwnerDocument: Document | null = null;
+  domImplementation: DOMImplementation | null = null;
   defaultView: Window | null = null;
   url = new URL("about:blank");
   origin: Origin = originFromURL(this.url);

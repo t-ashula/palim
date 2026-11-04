@@ -1,4 +1,8 @@
 # Unsupported subareas within the default scope.
 /dom/events/AddEventListenerOptions-once.any.worker.html
+# Requires iframe browsing contexts and cross-realm DOM bindings.
+/dom/traversal/TreeWalker-acceptNode-filter-cross-realm-null-browsing-context.html
+/dom/traversal/TreeWalker-acceptNode-filter-cross-realm.html
+/dom/traversal/TreeWalker-realm.html
 /domparsing/tentative/
 /xml/xslt/

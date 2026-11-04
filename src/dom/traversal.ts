@@ -1,4 +1,5 @@
 import { DOMException } from "../dom-exception.js";
+import { bindDOMInterface } from "./binding.js";
 import { Node } from "./nodes.js";
 import type { Document, Element } from "./nodes.js";
 
@@ -100,6 +101,7 @@ class NodeIteratorImplementation implements NodeIterator {
   #candidate: NodePointer | null = null;
 
   constructor(root: Node, whatToShow: unknown, filter: unknown) {
+    bindDOMInterface(this, this);
     this.#traversal = new TraversalFilter(root, whatToShow, filter);
     this.#reference = { node: root, before: true };
     registerNodeIterator(this);
@@ -195,6 +197,7 @@ class TreeWalkerImplementation implements TreeWalker {
   #current: Node;
 
   constructor(root: Node, whatToShow: unknown, filter: unknown) {
+    bindDOMInterface(this, this);
     this.#traversal = new TraversalFilter(root, whatToShow, filter);
     this.#current = root;
   }
@@ -410,6 +413,14 @@ export function createTreeWalker(
   filter: unknown,
 ): TreeWalker {
   return new TreeWalkerImplementation(root, whatToShow, filter);
+}
+
+export function isNodeIterator(value: object): value is NodeIterator {
+  return value instanceof NodeIteratorImplementation;
+}
+
+export function isTreeWalker(value: object): value is TreeWalker {
+  return value instanceof TreeWalkerImplementation;
 }
 
 export function preRemoveNodeIterators(node: Node): void {

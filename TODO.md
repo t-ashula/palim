@@ -77,6 +77,7 @@
 - [ ] media loading・再生状態・track
 - [ ] canvas rendering context
 - [ ] iframe/object/embed の browsing context
+- [ ] iframe の独立 realm と cross-realm DOM object binding
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
 

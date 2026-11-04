@@ -19,6 +19,7 @@ import {
   skipDebugger,
   ThrowCompletion,
   ToBoolean,
+  ToNumber,
   ToString,
   Value,
   ValueOfNormalCompletion,
@@ -169,6 +170,17 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
         return thrown(this.#wrap(completion.Value));
       }
       return normal(ValueOfNormalCompletion(completion));
+    });
+  }
+
+  toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(ToNumber(this.#value(value)));
+      if (completion instanceof ThrowCompletion) {
+        return thrown(this.#wrap(completion.Value));
+      }
+      return normal(ValueOfNormalCompletion(completion).numberValue());
     });
   }
 

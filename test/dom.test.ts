@@ -359,6 +359,30 @@ describe("Document node creation", () => {
     expect(fragment.childNodes.length).toBe(0);
     expect(fragment.children.length).toBe(0);
   });
+
+  it("creates XML character data and documents through DOMImplementation", () => {
+    const document = new Document();
+    const cdata = document.createCDATASection("content");
+    const instruction = document.createProcessingInstruction("target", "data");
+    const doctype = document.implementation.createDocumentType(
+      "root",
+      "public",
+      "system",
+    );
+    const xml = document.implementation.createDocument(null, null, doctype);
+    const html = document.implementation.createHTMLDocument("title");
+
+    expect(cdata).toBeInstanceOf(CDATASection);
+    expect(cdata.ownerDocument).toBe(document);
+    expect(instruction).toBeInstanceOf(ProcessingInstruction);
+    expect(instruction.ownerDocument).toBe(document);
+    expect(xml.doctype).toBe(doctype);
+    expect(doctype.ownerDocument).toBe(xml);
+    expect(html.contentType).toBe("text/html");
+    expect(html.doctype?.name).toBe("html");
+    expect(html.head?.textContent).toBe("title");
+    expect(html.body).not.toBeNull();
+  });
 });
 
 describe("Node cloning and adoption", () => {
