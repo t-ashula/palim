@@ -44,6 +44,7 @@
   },
   "homepage": "https://github.com/t-ashula/palim#readme",
   "devDependencies": {
+    "@mozilla/readability": "0.6.0",
     "@types/node": "^24.19.2",
     "eslint": "^10.13.0",
     "prettier": "^3.9.10",

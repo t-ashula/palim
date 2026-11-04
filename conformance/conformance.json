@@ -9,6 +9,10 @@
       "repository": "https://github.com/html5lib/html5lib-tests.git",
       "revision": "c777c408b61078ea2eb4acefc2535f54dbc8b28a"
     },
+    "readability/readability": {
+      "repository": "https://github.com/mozilla/readability.git",
+      "revision": "04fd32f72b448c12b02ba6c40928b67e510bac49"
+    },
     "wpt/wpt": {
       "repository": "https://github.com/web-platform-tests/wpt.git",
       "revision": "4fa34c721570cad34ee7283bf531811eafed6010"

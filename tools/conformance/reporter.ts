@@ -10,17 +10,31 @@ import type { Reporter, TestCase, TestRunEndReason } from "vitest/node";
 
 import {
   buildReport,
+  classifyFailureKind,
   classifyResult,
   renderMarkdown,
   type ConformanceCaseMetadata,
   type FixtureRevisions,
   type RawCaseResult,
   type RawError,
+  type SuiteImplementation,
 } from "./report.js";
 
 interface ConformanceManifest {
   readonly schemaVersion: number;
   readonly fixtures: FixtureRevisions;
+}
+
+interface PackageLock {
+  readonly packages: Readonly<
+    Record<
+      string,
+      {
+        readonly version?: string;
+        readonly integrity?: string;
+      }
+    >
+  >;
 }
 
 function requiredEnvironment(name: string): string {
@@ -96,6 +110,26 @@ function rawError(value: unknown): RawError {
   return { message: String(value) };
 }
 
+function suiteImplementations(): Readonly<Record<string, SuiteImplementation>> {
+  const lock = JSON.parse(
+    readFileSync(resolve("package-lock.json"), "utf8"),
+  ) as PackageLock;
+  const readability = lock.packages["node_modules/@mozilla/readability"];
+  if (
+    readability?.version === undefined ||
+    readability.integrity === undefined
+  ) {
+    throw new Error("@mozilla/readability is missing from package-lock.json");
+  }
+  return {
+    readability: {
+      name: "@mozilla/readability",
+      version: readability.version,
+      integrity: readability.integrity,
+    },
+  };
+}
+
 export default class ConformanceReporter implements Reporter {
   readonly #rawDirectory = resolve(
     requiredEnvironment("PALIM_CONFORMANCE_RAW_DIRECTORY"),
@@ -120,16 +154,23 @@ export default class ConformanceReporter implements Reporter {
     const result = testCase.result();
     const errors = (result.errors ?? []).map(rawError);
     const diagnostic = testCase.diagnostic();
+    const classification = classifyResult(
+      result.state,
+      meta.excludedAs,
+      errors,
+    );
+    const failureKind = classifyFailureKind(classification, errors);
     const raw: RawCaseResult = {
       schemaVersion: 1,
       ...meta,
-      classification: classifyResult(result.state, meta.excludedAs, errors),
+      classification,
       testFile: relative(process.cwd(), testCase.module.moduleId),
       testName: testCase.fullName,
       ...(diagnostic?.duration === undefined
         ? {}
         : { durationMilliseconds: diagnostic.duration }),
       ...(errors.length === 0 ? {} : { errors }),
+      ...(failureKind === undefined ? {} : { failureKind }),
     };
     this.#results.push(raw);
     appendFileSync(this.#resultsPath, `${JSON.stringify(raw)}\n`);
@@ -153,6 +194,7 @@ export default class ConformanceReporter implements Reporter {
       manifest.fixtures,
       reason,
       unhandledErrors.length,
+      suiteImplementations(),
     );
     writeFileSync(
       resolve(this.#reportDirectory, "report.json"),
@@ -170,6 +212,7 @@ export default class ConformanceReporter implements Reporter {
           runStatus: reason,
           resultCount: this.#results.length,
           fixtures: manifest.fixtures,
+          implementations: suiteImplementations(),
           unhandledErrors,
           reportFiles: [
             relative(
