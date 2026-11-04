@@ -46,6 +46,8 @@ export type { OpenHTMLOptions, OpenResult } from "./open.js";
 export {
   AudioTrack,
   AudioTrackList,
+  CSSStyleDeclaration,
+  CSSStyleProperties,
   DOMStringMap,
   HTMLAnchorElement,
   HTMLAreaElement,

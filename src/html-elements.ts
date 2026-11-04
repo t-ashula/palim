@@ -9,6 +9,8 @@ import {
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
+import { tokenizeCSS } from "./css-syntax.js";
+import type { CSSToken } from "./css-syntax.js";
 import {
   createCollectionImplementation,
   createHTMLCollection,
@@ -62,6 +64,11 @@ interface URLValue {
 }
 
 const FORM_CONTROL_RESETTERS = new WeakMap<Element, () => void>();
+const INLINE_STYLE_DECLARATIONS = new WeakMap<
+  HTMLElement,
+  CSSStyleProperties
+>();
+const INLINE_STYLE_CONSTRUCTION = Symbol("inline style construction");
 
 const DIRECT_HTML_ELEMENT_NAMES = new Set([
   "abbr",
@@ -295,6 +302,142 @@ function datasetElement(dataset: DOMStringMap): Element {
 
 export type EventHandler = ((event: Event) => unknown) | null;
 
+export class CSSStyleDeclaration {
+  readonly [index: number]: string;
+
+  constructor(
+    readonly element: HTMLElement,
+    construction?: symbol,
+  ) {
+    if (construction !== INLINE_STYLE_CONSTRUCTION) {
+      throw new TypeError("Illegal constructor");
+    }
+  }
+
+  get cssText(): string {
+    return serializeInlineStyleDeclarations(
+      inlineStyleDeclarations(this.element),
+    );
+  }
+
+  set cssText(value: string) {
+    setInlineStyleDeclarations(
+      this.element,
+      parseInlineStyleDeclarations(legacyNullToEmptyString(value)),
+    );
+  }
+
+  get length(): number {
+    return inlineStyleDeclarations(this.element).length;
+  }
+
+  item(index: number): string {
+    requireArguments(arguments.length, 1);
+    return (
+      inlineStyleDeclarations(this.element)[toUnsignedLong(index)]?.name ?? ""
+    );
+  }
+
+  getPropertyValue(property: string): string {
+    requireArguments(arguments.length, 1);
+    const name = normalizedCSSPropertyName(domString(property));
+    return findInlineStyleDeclaration(this.element, name)?.value ?? "";
+  }
+
+  getPropertyPriority(property: string): string {
+    requireArguments(arguments.length, 1);
+    const name = normalizedCSSPropertyName(domString(property));
+    return findInlineStyleDeclaration(this.element, name)?.important === true
+      ? "important"
+      : "";
+  }
+
+  setProperty(property: string, value: string, priority = ""): void {
+    requireArguments(arguments.length, 2);
+    const name = normalizedCSSPropertyName(domString(property));
+    const convertedValue = domString(value);
+    if (convertedValue === "") {
+      this.removeProperty(name);
+      return;
+    }
+    const convertedPriority = asciiLowercase(domString(priority));
+    if (convertedPriority !== "" && convertedPriority !== "important") {
+      return;
+    }
+    if (!isSupportedCSSProperty(name)) {
+      return;
+    }
+    const parsedValue = parseCSSPropertyValue(name, convertedValue);
+    if (parsedValue === null) {
+      return;
+    }
+    const declarations = inlineStyleDeclarations(this.element);
+    const declaration = {
+      name,
+      value: parsedValue,
+      important: convertedPriority === "important",
+    };
+    const index = declarations.findIndex((item) => item.name === name);
+    if (index < 0) {
+      declarations.push(declaration);
+    } else {
+      declarations[index] = declaration;
+    }
+    setInlineStyleDeclarations(this.element, declarations);
+  }
+
+  removeProperty(property: string): string {
+    requireArguments(arguments.length, 1);
+    const name = normalizedCSSPropertyName(domString(property));
+    const declarations = inlineStyleDeclarations(this.element);
+    const declaration = declarations.find((item) => item.name === name);
+    if (declaration === undefined) {
+      return "";
+    }
+    setInlineStyleDeclarations(
+      this.element,
+      declarations.filter((item) => item !== declaration),
+    );
+    return declaration.value;
+  }
+
+  readonly parentRule = null;
+}
+
+export class CSSStyleProperties extends CSSStyleDeclaration {
+  get cssFloat(): string {
+    return this.getPropertyValue("float");
+  }
+
+  set cssFloat(value: string) {
+    this.setProperty("float", legacyNullToEmptyString(value));
+  }
+
+  get float(): string {
+    return this.getPropertyValue("float");
+  }
+
+  set float(value: string) {
+    this.setProperty("float", legacyNullToEmptyString(value));
+  }
+
+  get display(): string {
+    return this.getPropertyValue("display");
+  }
+
+  set display(value: string) {
+    this.setProperty("display", legacyNullToEmptyString(value));
+  }
+
+  get visibility(): string {
+    return this.getPropertyValue("visibility");
+  }
+
+  set visibility(value: string) {
+    this.setProperty("visibility", legacyNullToEmptyString(value));
+  }
+}
+
 export class HTMLElement extends Element {
   #dataset: DOMStringMap | null = null;
   #popoverVisible = false;
@@ -317,6 +460,19 @@ export class HTMLElement extends Element {
 
   set title(value: string) {
     this.setAttribute("title", value);
+  }
+
+  get style(): CSSStyleProperties {
+    let declaration = INLINE_STYLE_DECLARATIONS.get(this);
+    if (declaration === undefined) {
+      declaration = createInlineStyleDeclaration(this);
+      INLINE_STYLE_DECLARATIONS.set(this, declaration);
+    }
+    return declaration;
+  }
+
+  set style(value: string | CSSStyleProperties) {
+    this.style.cssText = legacyNullToEmptyString(value);
   }
 
   get lang(): string {
@@ -5087,6 +5243,388 @@ function templateContentsOwnerDocument(document: Document): Document {
 
 function reflectedString(element: Element, name: string): string {
   return element.getAttribute(name) ?? "";
+}
+
+interface InlineStyleProperty {
+  readonly name: string;
+  readonly value: string;
+  readonly important: boolean;
+}
+
+const SUPPORTED_CSS_PROPERTIES = new Set(["display", "float", "visibility"]);
+const CSS_WIDE_KEYWORDS = new Set([
+  "initial",
+  "inherit",
+  "unset",
+  "revert",
+  "revert-layer",
+]);
+const DISPLAY_SINGLE_KEYWORDS = new Set([
+  "none",
+  "contents",
+  "block",
+  "inline",
+  "run-in",
+  "flow",
+  "flow-root",
+  "table",
+  "flex",
+  "grid",
+  "ruby",
+  "list-item",
+  "inline-block",
+  "inline-table",
+  "inline-flex",
+  "inline-grid",
+  "table-row-group",
+  "table-header-group",
+  "table-footer-group",
+  "table-row",
+  "table-cell",
+  "table-column-group",
+  "table-column",
+  "table-caption",
+  "ruby-base",
+  "ruby-text",
+  "ruby-base-container",
+  "ruby-text-container",
+]);
+
+function createInlineStyleDeclaration(
+  element: HTMLElement,
+): CSSStyleProperties {
+  const target = new CSSStyleProperties(element, INLINE_STYLE_CONSTRUCTION);
+  const declaration = new Proxy(target, {
+    get(target, property, receiver): unknown {
+      const index = cssDeclarationIndex(property);
+      if (index !== null) {
+        return target.item(index);
+      }
+      const value: unknown = Reflect.get(target, property, receiver);
+      return value;
+    },
+    has(target, property) {
+      const index = cssDeclarationIndex(property);
+      return index === null
+        ? Reflect.has(target, property)
+        : index < target.length;
+    },
+    ownKeys(target) {
+      return [
+        ...Array.from({ length: target.length }, (_value, index) =>
+          String(index),
+        ),
+        ...Reflect.ownKeys(target),
+      ];
+    },
+    getOwnPropertyDescriptor(target, property) {
+      const index = cssDeclarationIndex(property);
+      return index === null
+        ? Reflect.getOwnPropertyDescriptor(target, property)
+        : index < target.length
+          ? {
+              configurable: true,
+              enumerable: true,
+              value: target.item(index),
+              writable: false,
+            }
+          : undefined;
+    },
+  });
+  bindDOMInterface(declaration, target);
+  return declaration;
+}
+
+function cssDeclarationIndex(property: string | symbol): number | null {
+  if (typeof property !== "string" || !/^(?:0|[1-9]\d*)$/u.test(property)) {
+    return null;
+  }
+  const index = Number(property);
+  return index < 4_294_967_295 ? index : null;
+}
+
+function normalizedCSSPropertyName(property: string): string {
+  return property.startsWith("--") ? property : asciiLowercase(property);
+}
+
+function legacyNullToEmptyString(value: unknown): string {
+  return value === null ? "" : domString(value);
+}
+
+function isSupportedCSSProperty(property: string): boolean {
+  return property.startsWith("--") || SUPPORTED_CSS_PROPERTIES.has(property);
+}
+
+function inlineStyleDeclarations(element: Element): InlineStyleProperty[] {
+  return parseInlineStyleDeclarations(element.getAttribute("style") ?? "");
+}
+
+function findInlineStyleDeclaration(
+  element: Element,
+  property: string,
+): InlineStyleProperty | undefined {
+  if (!isSupportedCSSProperty(property)) {
+    return undefined;
+  }
+  return inlineStyleDeclarations(element).find(
+    (declaration) => declaration.name === property,
+  );
+}
+
+function parseInlineStyleDeclarations(source: string): InlineStyleProperty[] {
+  const declarations: InlineStyleProperty[] = [];
+  for (const component of splitCSSComponents(
+    tokenizeCSS(source),
+    "semicolon",
+  )) {
+    const separator = topLevelTokenIndex(component, "colon");
+    if (separator < 0) {
+      continue;
+    }
+    const nameTokens = trimCSSWhitespace(component.slice(0, separator));
+    if (nameTokens.length !== 1 || nameTokens[0]?.type !== "ident") {
+      continue;
+    }
+    const name = normalizedCSSPropertyName(nameTokens[0].value);
+    if (!isSupportedCSSProperty(name)) {
+      continue;
+    }
+    const parsed = parseDeclarationValue(name, component.slice(separator + 1));
+    if (parsed === null) {
+      continue;
+    }
+    const oldIndex = declarations.findIndex(
+      (declaration) => declaration.name === name,
+    );
+    if (oldIndex >= 0) {
+      const old = declarations[oldIndex];
+      if (old?.important === true && !parsed.important) {
+        continue;
+      }
+      declarations.splice(oldIndex, 1);
+    }
+    declarations.push({ name, ...parsed });
+  }
+  return declarations;
+}
+
+function splitCSSComponents(
+  tokens: readonly CSSToken[],
+  separator: CSSToken["type"],
+): CSSToken[][] {
+  const result: CSSToken[][] = [];
+  let current: CSSToken[] = [];
+  const stack: string[] = [];
+  for (const token of tokens) {
+    if (token.type === separator && stack.length === 0) {
+      result.push(current);
+      current = [];
+      continue;
+    }
+    updateCSSNesting(stack, token);
+    current.push(token);
+  }
+  result.push(current);
+  return result;
+}
+
+function topLevelTokenIndex(
+  tokens: readonly CSSToken[],
+  type: CSSToken["type"],
+): number {
+  const stack: string[] = [];
+  for (const [index, token] of tokens.entries()) {
+    if (token.type === type && stack.length === 0) {
+      return index;
+    }
+    updateCSSNesting(stack, token);
+  }
+  return -1;
+}
+
+function updateCSSNesting(stack: string[], token: CSSToken): void {
+  if (token.type === "function" || token.type === "open-paren") {
+    stack.push("close-paren");
+  } else if (token.type === "open-square") {
+    stack.push("close-square");
+  } else if (token.type === "open-curly") {
+    stack.push("close-curly");
+  } else if (token.type === stack.at(-1)) {
+    stack.pop();
+  }
+}
+
+function trimCSSWhitespace(tokens: readonly CSSToken[]): CSSToken[] {
+  let start = 0;
+  let end = tokens.length;
+  while (tokens[start]?.type === "whitespace") {
+    start += 1;
+  }
+  while (tokens[end - 1]?.type === "whitespace") {
+    end -= 1;
+  }
+  return tokens.slice(start, end);
+}
+
+function parseDeclarationValue(
+  name: string,
+  sourceTokens: readonly CSSToken[],
+): { readonly value: string; readonly important: boolean } | null {
+  let tokens = trimCSSWhitespace(sourceTokens);
+  if (!validCSSComponentValues(tokens)) {
+    return null;
+  }
+  let important = false;
+  let last = tokens.length - 1;
+  const lastToken = tokens[last];
+  if (
+    lastToken?.type === "ident" &&
+    asciiLowercase(lastToken.value) === "important"
+  ) {
+    last -= 1;
+    while (tokens[last]?.type === "whitespace") {
+      last -= 1;
+    }
+    const marker = tokens[last];
+    if (marker?.type === "delim" && marker.value === "!") {
+      important = true;
+      tokens = trimCSSWhitespace(tokens.slice(0, last));
+    }
+  }
+  const value = serializeCSSValue(tokens);
+  return isValidCSSPropertyValue(name, tokens, value)
+    ? { value, important }
+    : null;
+}
+
+function parseCSSPropertyValue(name: string, source: string): string | null {
+  const parsed = parseDeclarationValue(name, tokenizeCSS(source));
+  return parsed === null || parsed.important ? null : parsed.value;
+}
+
+function validCSSComponentValues(tokens: readonly CSSToken[]): boolean {
+  const stack: string[] = [];
+  for (const token of tokens) {
+    if (token.type === "bad-string") {
+      return false;
+    }
+    if (
+      token.type === "close-paren" ||
+      token.type === "close-square" ||
+      token.type === "close-curly"
+    ) {
+      if (stack.at(-1) !== token.type) {
+        return false;
+      }
+      stack.pop();
+      continue;
+    }
+    updateCSSNesting(stack, token);
+  }
+  return stack.length === 0;
+}
+
+function serializeCSSValue(tokens: readonly CSSToken[]): string {
+  return tokens.map((token) => token.raw).join("");
+}
+
+function isValidCSSPropertyValue(
+  name: string,
+  tokens: readonly CSSToken[],
+  value: string,
+): boolean {
+  if (name.startsWith("--")) {
+    return true;
+  }
+  if (value === "") {
+    return false;
+  }
+  if (
+    tokens.some(
+      (token) =>
+        token.type === "function" &&
+        (asciiLowercase(token.value) === "var" ||
+          asciiLowercase(token.value) === "env"),
+    )
+  ) {
+    return true;
+  }
+  const keywords = tokens
+    .filter((token) => token.type !== "whitespace")
+    .map((token) =>
+      token.type === "ident" ? asciiLowercase(token.value) : null,
+    );
+  if (keywords.some((keyword) => keyword === null)) {
+    return false;
+  }
+  const values = keywords as string[];
+  if (values.length === 1 && CSS_WIDE_KEYWORDS.has(values[0] ?? "")) {
+    return true;
+  }
+  if (name === "visibility") {
+    return (
+      values.length === 1 &&
+      ["visible", "hidden", "force-hidden", "collapse"].includes(
+        values[0] ?? "",
+      )
+    );
+  }
+  if (name === "float") {
+    return (
+      values.length === 1 &&
+      ["left", "right", "none", "inline-start", "inline-end"].includes(
+        values[0] ?? "",
+      )
+    );
+  }
+  return validDisplayValue(values);
+}
+
+function validDisplayValue(values: readonly string[]): boolean {
+  if (values.length === 1) {
+    return DISPLAY_SINGLE_KEYWORDS.has(values[0] ?? "");
+  }
+  if (
+    values.length < 2 ||
+    values.length > 3 ||
+    new Set(values).size !== values.length
+  ) {
+    return false;
+  }
+  const outside = values.filter((value) =>
+    ["block", "inline", "run-in"].includes(value),
+  );
+  const inside = values.filter((value) =>
+    ["flow", "flow-root", "table", "flex", "grid", "ruby"].includes(value),
+  );
+  const listItem = values.includes("list-item");
+  if (listItem) {
+    return (
+      outside.length <= 1 &&
+      inside.length <= 1 &&
+      inside.every((value) => value === "flow" || value === "flow-root") &&
+      outside.length + inside.length + 1 === values.length
+    );
+  }
+  return outside.length === 1 && inside.length === 1 && values.length === 2;
+}
+
+function serializeInlineStyleDeclarations(
+  declarations: readonly InlineStyleProperty[],
+): string {
+  return declarations
+    .map(
+      ({ name, value, important }) =>
+        `${name}: ${value}${important ? " !important" : ""};`,
+    )
+    .join(" ");
+}
+
+function setInlineStyleDeclarations(
+  element: Element,
+  declarations: readonly InlineStyleProperty[],
+): void {
+  element.setAttribute("style", serializeInlineStyleDeclarations(declarations));
 }
 
 function reflectedURL(element: Element, name: string): string {

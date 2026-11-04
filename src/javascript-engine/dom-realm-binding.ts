@@ -22,6 +22,8 @@ import {
 } from "../dom.js";
 import type { NodeIterator, TreeWalker } from "../dom.js";
 import {
+  CSSStyleDeclaration,
+  CSSStyleProperties,
   DOMStringMap,
   HTMLAnchorElement,
   HTMLAreaElement,
@@ -344,9 +346,10 @@ export class DOMRealmBinding {
   readonly #nodeIteratorPrototype: EngineObject;
   readonly #treeWalkerPrototype: EngineObject;
   readonly #domStringMapPrototype: EngineObject;
+  readonly #cssStyleDeclarationPrototype: EngineObject;
+  readonly #cssStylePropertiesPrototype: EngineObject;
   readonly #foreignAnchorRelLists = new WeakMap<Element, DOMTokenList>();
   readonly #traversalFilters = new WeakMap<object, EngineValue>();
-  readonly #elementStyles = new WeakMap<Element, EngineObject>();
   readonly #domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly #xmlSerializers = new WeakSet<EngineObject>();
 
@@ -506,6 +509,14 @@ export class DOMRealmBinding {
       this.#realm,
       objectPrototype,
     );
+    this.#cssStyleDeclarationPrototype = this.#engine.createObject(
+      this.#realm,
+      objectPrototype,
+    );
+    this.#cssStylePropertiesPrototype = this.#engine.createObject(
+      this.#realm,
+      this.#cssStyleDeclarationPrototype,
+    );
 
     this.#installInterfaces();
     this.#installEventTargetMembers();
@@ -532,6 +543,8 @@ export class DOMRealmBinding {
     this.#installNamedNodeMapMembers();
     this.#installNodeListMembers();
     this.#installDOMTokenListMembers();
+    this.#installCSSStyleDeclarationMembers();
+    this.#installCSSStylePropertiesMembers();
     this.#installNodeIteratorMembers();
     this.#installTreeWalkerMembers();
   }
@@ -714,6 +727,14 @@ export class DOMRealmBinding {
     this.#installInterface("NodeIterator", this.#nodeIteratorPrototype);
     this.#installInterface("TreeWalker", this.#treeWalkerPrototype);
     this.#installInterface("DOMStringMap", this.#domStringMapPrototype);
+    this.#installInterface(
+      "CSSStyleDeclaration",
+      this.#cssStyleDeclarationPrototype,
+    );
+    this.#installInterface(
+      "CSSStyleProperties",
+      this.#cssStylePropertiesPrototype,
+    );
     this.#installNodeFilter();
     const eventConstructor = this.#installInterface(
       "Event",
@@ -980,6 +1001,12 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Node receiver")
         : this.#platformValue(node.ownerDocument);
     });
+    this.#attribute(this.#nodePrototype, "baseURI", (thisValue) => {
+      const node = this.#node(thisValue);
+      return node === null
+        ? this.#typeError("Invalid Node receiver")
+        : this.#primitive(node.baseURI);
+    });
     for (const name of [
       "firstChild",
       "lastChild",
@@ -1112,6 +1139,17 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid CharacterData receiver")
         : this.#primitive(data.length);
     });
+    for (const name of [
+      "previousElementSibling",
+      "nextElementSibling",
+    ] as const) {
+      this.#attribute(this.#characterDataPrototype, name, (thisValue) => {
+        const data = this.#characterData(thisValue);
+        return data === null
+          ? this.#typeError("Invalid CharacterData receiver")
+          : this.#platformValue(data[name]);
+      });
+    }
   }
 
   #installElementMembers(): void {
@@ -1141,6 +1179,17 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Element receiver")
         : normal(this.#wrap(element.children));
     });
+    for (const name of [
+      "previousElementSibling",
+      "nextElementSibling",
+    ] as const) {
+      this.#attribute(this.#elementPrototype, name, (thisValue) => {
+        const element = this.#element(thisValue);
+        return element === null
+          ? this.#typeError("Invalid Element receiver")
+          : this.#platformValue(element[name]);
+      });
+    }
     this.#attribute(
       this.#elementPrototype,
       "id",
@@ -1331,6 +1380,32 @@ export class DOMRealmBinding {
         return this.#undefined();
       },
     );
+    for (const name of [
+      "setAttributeNode",
+      "setAttributeNodeNS",
+      "removeAttributeNode",
+    ] as const) {
+      this.#method(
+        this.#elementPrototype,
+        name,
+        1,
+        (thisValue, argumentsList) => {
+          const element = this.#element(thisValue);
+          const argument = argumentsList[0];
+          const attribute =
+            argument === undefined ? null : this.#attr(argument);
+          if (element === null) {
+            return this.#typeError("Invalid Element receiver");
+          }
+          if (attribute === null) {
+            return this.#typeError(`${name} requires an Attr argument`);
+          }
+          return this.#domOperationResult(() =>
+            this.#platformValue(element[name](attribute)),
+          );
+        },
+      );
+    }
     this.#method(
       this.#elementPrototype,
       "hasAttribute",
@@ -1509,21 +1584,33 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid HTMLElement receiver")
         : normal(this.#wrap(element.dataset));
     });
-    this.#attribute(this.#htmlElementPrototype, "style", (thisValue) => {
-      const element = this.#htmlElement(thisValue);
-      if (element === null) {
-        return this.#typeError("Invalid HTMLElement receiver");
-      }
-      let style = this.#elementStyles.get(element);
-      if (style === undefined) {
-        style = this.#engine.createObject(
-          this.#realm,
-          this.#engine.objectPrototype(this.#realm),
-        );
-        this.#elementStyles.set(element, style);
-      }
-      return normal(style);
-    });
+    this.#attribute(
+      this.#htmlElementPrototype,
+      "style",
+      (thisValue) => {
+        const element = this.#htmlElement(thisValue);
+        return element === null
+          ? this.#typeError("Invalid HTMLElement receiver")
+          : normal(this.#wrap(element.style));
+      },
+      (thisValue, argumentsList) => {
+        const element = this.#htmlElement(thisValue);
+        if (element === null) {
+          return this.#typeError("Invalid HTMLElement receiver");
+        }
+        const argument = argumentsList[0];
+        if (argument !== undefined && this.#engine.isNull(argument)) {
+          element.style = "";
+          return this.#undefined();
+        }
+        const value = this.#stringArgument(argumentsList, 0, "style");
+        if (value.type === "throw") {
+          return value;
+        }
+        element.style = value.value;
+        return this.#undefined();
+      },
+    );
   }
 
   #installDocumentMembers(): void {
@@ -1561,6 +1648,28 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Document receiver")
         : this.#primitive(document.location);
     });
+    this.#attribute(
+      this.#documentPrototype,
+      "title",
+      (thisValue) => {
+        const document = this.#document(thisValue);
+        return document === null
+          ? this.#typeError("Invalid Document receiver")
+          : this.#primitive(document.title);
+      },
+      (thisValue, argumentsList) => {
+        const document = this.#document(thisValue);
+        if (document === null) {
+          return this.#typeError("Invalid Document receiver");
+        }
+        const value = this.#stringArgument(argumentsList, 0, "title");
+        if (value.type === "throw") {
+          return value;
+        }
+        document.title = value.value;
+        return this.#undefined();
+      },
+    );
     for (const name of [
       "URL",
       "documentURI",
@@ -2574,6 +2683,173 @@ export class DOMRealmBinding {
     );
   }
 
+  #installCSSStyleDeclarationMembers(): void {
+    this.#attribute(
+      this.#cssStyleDeclarationPrototype,
+      "cssText",
+      (thisValue) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        return style === null
+          ? this.#typeError("Invalid CSSStyleDeclaration receiver")
+          : this.#primitive(style.cssText);
+      },
+      (thisValue, argumentsList) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        if (style === null) {
+          return this.#typeError("Invalid CSSStyleDeclaration receiver");
+        }
+        const argument = argumentsList[0];
+        if (argument !== undefined && this.#engine.isNull(argument)) {
+          style.cssText = "";
+          return this.#undefined();
+        }
+        const value = this.#stringArgument(argumentsList, 0, "cssText");
+        if (value.type === "throw") {
+          return value;
+        }
+        style.cssText = value.value;
+        return this.#undefined();
+      },
+    );
+    this.#attribute(
+      this.#cssStyleDeclarationPrototype,
+      "length",
+      (thisValue) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        return style === null
+          ? this.#typeError("Invalid CSSStyleDeclaration receiver")
+          : this.#primitive(style.length);
+      },
+    );
+    this.#attribute(
+      this.#cssStyleDeclarationPrototype,
+      "parentRule",
+      (thisValue) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        return style === null
+          ? this.#typeError("Invalid CSSStyleDeclaration receiver")
+          : this.#primitive(style.parentRule);
+      },
+    );
+    this.#method(
+      this.#cssStyleDeclarationPrototype,
+      "item",
+      1,
+      (thisValue, argumentsList) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        if (style === null) {
+          return this.#typeError("Invalid CSSStyleDeclaration receiver");
+        }
+        const argument = argumentsList[0];
+        if (argument === undefined) {
+          return this.#typeError("item requires 1 argument(s)");
+        }
+        const index = this.#engine.toNumber(this.#realm, argument);
+        return index.type === "throw"
+          ? index
+          : this.#primitive(style.item(index.value));
+      },
+    );
+    for (const name of ["getPropertyValue", "getPropertyPriority"] as const) {
+      this.#method(
+        this.#cssStyleDeclarationPrototype,
+        name,
+        1,
+        (thisValue, argumentsList) => {
+          const style = this.#cssStyleDeclaration(thisValue);
+          if (style === null) {
+            return this.#typeError("Invalid CSSStyleDeclaration receiver");
+          }
+          const property = this.#stringArgument(argumentsList, 0, name);
+          return property.type === "throw"
+            ? property
+            : this.#primitive(style[name](property.value));
+        },
+      );
+    }
+    this.#method(
+      this.#cssStyleDeclarationPrototype,
+      "setProperty",
+      2,
+      (thisValue, argumentsList) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        if (style === null) {
+          return this.#typeError("Invalid CSSStyleDeclaration receiver");
+        }
+        const property = this.#stringArgument(argumentsList, 0, "setProperty");
+        if (property.type === "throw") {
+          return property;
+        }
+        const value = this.#stringArgument(argumentsList, 1, "setProperty");
+        if (value.type === "throw") {
+          return value;
+        }
+        const priority = this.#optionalStringArgument(argumentsList[2], "");
+        if (priority.type === "throw") {
+          return priority;
+        }
+        style.setProperty(property.value, value.value, priority.value);
+        return this.#undefined();
+      },
+    );
+    this.#method(
+      this.#cssStyleDeclarationPrototype,
+      "removeProperty",
+      1,
+      (thisValue, argumentsList) => {
+        const style = this.#cssStyleDeclaration(thisValue);
+        if (style === null) {
+          return this.#typeError("Invalid CSSStyleDeclaration receiver");
+        }
+        const property = this.#stringArgument(
+          argumentsList,
+          0,
+          "removeProperty",
+        );
+        return property.type === "throw"
+          ? property
+          : this.#primitive(style.removeProperty(property.value));
+      },
+    );
+  }
+
+  #installCSSStylePropertiesMembers(): void {
+    for (const name of [
+      "cssFloat",
+      "float",
+      "display",
+      "visibility",
+    ] as const) {
+      this.#attribute(
+        this.#cssStylePropertiesPrototype,
+        name,
+        (thisValue) => {
+          const style = this.#cssStyleProperties(thisValue);
+          return style === null
+            ? this.#typeError("Invalid CSSStyleProperties receiver")
+            : this.#primitive(style[name]);
+        },
+        (thisValue, argumentsList) => {
+          const style = this.#cssStyleProperties(thisValue);
+          if (style === null) {
+            return this.#typeError("Invalid CSSStyleProperties receiver");
+          }
+          const argument = argumentsList[0];
+          if (argument !== undefined && this.#engine.isNull(argument)) {
+            style[name] = "";
+            return this.#undefined();
+          }
+          const value = this.#stringArgument(argumentsList, 0, name);
+          if (value.type === "throw") {
+            return value;
+          }
+          style[name] = value.value;
+          return this.#undefined();
+        },
+      );
+    }
+  }
+
   #installNodeIteratorMembers(): void {
     for (const name of ["root", "referenceNode"] as const) {
       this.#attribute(this.#nodeIteratorPrototype, name, (thisValue) => {
@@ -2983,6 +3259,11 @@ export class DOMRealmBinding {
         indexedLength: () => interfaceObject.length,
         indexedValue: (index) => interfaceObject.item(index),
       });
+    } else if (interfaceObject instanceof CSSStyleDeclaration) {
+      platformObject = this.#legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
     } else if (interfaceObject instanceof DOMStringMap) {
       platformObject = this.#legacyPlatformObject(target, {
         namedNames: () => Object.getOwnPropertyNames(interfaceObject),
@@ -3093,6 +3374,12 @@ export class DOMRealmBinding {
     if (interfaceObject instanceof DOMStringMap) {
       return this.#domStringMapPrototype;
     }
+    if (interfaceObject instanceof CSSStyleProperties) {
+      return this.#cssStylePropertiesPrototype;
+    }
+    if (interfaceObject instanceof CSSStyleDeclaration) {
+      return this.#cssStyleDeclarationPrototype;
+    }
     throw new TypeError("Unsupported DOM platform object");
   }
 
@@ -3130,6 +3417,11 @@ export class DOMRealmBinding {
   #characterData(value: EngineValue): CharacterData | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof CharacterData ? interfaceObject : null;
+  }
+
+  #attr(value: EngineValue): Attr | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof Attr ? interfaceObject : null;
   }
 
   #element(value: EngineValue): Element | null {
@@ -3245,6 +3537,20 @@ export class DOMRealmBinding {
   #domTokenList(value: EngineValue): DOMTokenList | null {
     const interfaceObject = this.#interfaceObject(value);
     return interfaceObject instanceof DOMTokenList ? interfaceObject : null;
+  }
+
+  #cssStyleDeclaration(value: EngineValue): CSSStyleDeclaration | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof CSSStyleDeclaration
+      ? interfaceObject
+      : null;
+  }
+
+  #cssStyleProperties(value: EngineValue): CSSStyleProperties | null {
+    const interfaceObject = this.#interfaceObject(value);
+    return interfaceObject instanceof CSSStyleProperties
+      ? interfaceObject
+      : null;
   }
 
   #nodeIterator(value: EngineValue): NodeIterator | null {

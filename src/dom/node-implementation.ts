@@ -27,6 +27,9 @@ import { URL } from "../url/index.js";
 export class NodeImplementation extends EventTargetImplementation {
   readonly children: NodeImplementation[] = [];
   parent: NodeImplementation | null = null;
+  previousSibling: NodeImplementation | null = null;
+  nextSibling: NodeImplementation | null = null;
+  descendantTextCache: string | null = null;
   childNodes: NodeList | null = null;
   elementChildren: HTMLCollection | null = null;
 
@@ -44,6 +47,9 @@ export class DocumentImplementation extends NodeImplementation {
   domImplementation: DOMImplementation | null = null;
   defaultView: Window | null = null;
   url = new URL("about:blank");
+  aboutBaseURL: URL | null = null;
+  baseURLOverride: URL | null = null;
+  firstBaseElementWithHref: ElementImplementation | null = null;
   origin: Origin = originFromURL(this.url);
   quirks = false;
   parseErrors: readonly PalimParseError[] = [];
@@ -88,6 +94,7 @@ export class AttrImplementation extends NodeImplementation {
 export class ElementImplementation extends NodeImplementation {
   readonly attributes: AttrImplementation[] = [];
   templateContents: DocumentFragment | null = null;
+  frozenBaseURL: URL | null = null;
   attributeMap: NamedNodeMap | null = null;
   classList: DOMTokenList | null = null;
 

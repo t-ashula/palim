@@ -19,15 +19,28 @@ function indexed<T extends object>(
 ): T {
   return new Proxy(collection, {
     get(target, property): unknown {
-      if (typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)) {
-        return values()[Number(property)];
+      const index = indexedPropertyIndex(property);
+      if (index !== null) {
+        return values()[index];
       }
       const value: unknown = Reflect.get(target, property, target);
       return typeof value === "function"
         ? (value as (...arguments_: unknown[]) => unknown).bind(target)
         : value;
     },
+    has(target, property): boolean {
+      const index = indexedPropertyIndex(property);
+      return index === null
+        ? Reflect.has(target, property)
+        : index < values().length;
+    },
   });
+}
+
+function indexedPropertyIndex(property: string | symbol): number | null {
+  return typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)
+    ? Number(property)
+    : null;
 }
 
 export class NodeList<T extends Node = Node> implements Iterable<T> {

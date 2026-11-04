@@ -6,11 +6,7 @@ repository_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 session_id="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 
 export PALIM_CONFORMANCE_RAW_DIRECTORY="$repository_root/tmp/conformance/$session_id"
-if [ "$#" -eq 0 ]; then
-  export PALIM_CONFORMANCE_REPORT_DIRECTORY="$repository_root/reports/conformance"
-else
-  export PALIM_CONFORMANCE_REPORT_DIRECTORY="$PALIM_CONFORMANCE_RAW_DIRECTORY/report"
-fi
+export PALIM_CONFORMANCE_REPORT_DIRECTORY="$repository_root/reports/conformance"
 export PALIM_CONFORMANCE_MANIFEST="$repository_root/conformance/conformance.json"
 
 cd "$repository_root"

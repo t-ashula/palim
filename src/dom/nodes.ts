@@ -5,8 +5,10 @@ import {
   querySelectorAll as selectAll,
 } from "../selectors.js";
 import { DOMException } from "../dom-exception.js";
-import { HTML_NAMESPACE } from "../namespaces.js";
+import { HTML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
+import { originFromURL } from "../origin.js";
 import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
+import { URL } from "../url/index.js";
 import {
   createHTMLCollection,
   createNamedNodeMap,
@@ -233,6 +235,18 @@ export class Node extends EventTarget {
     return implementation === null ? null : documentInterface(implementation);
   }
 
+  get baseURI(): string {
+    const implementation = nodeImplementation(this);
+    const document =
+      implementation instanceof DocumentImplementation
+        ? implementation
+        : implementation.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Node has no node document");
+    }
+    return documentBaseURL(document).href;
+  }
+
   get parentNode(): Node | null {
     const implementation = nodeImplementation(this).parent;
     return implementation === null ? null : nodeInterface(implementation);
@@ -251,23 +265,13 @@ export class Node extends EventTarget {
   }
 
   get previousSibling(): Node | null {
-    const parent = this.parentNode;
-    if (parent === null) {
-      return null;
-    }
-    const siblings = childNodes(parent);
-    const index = siblings.indexOf(this);
-    return index > 0 ? (siblings[index - 1] ?? null) : null;
+    const sibling = nodeImplementation(this).previousSibling;
+    return sibling === null ? null : nodeInterface(sibling);
   }
 
   get nextSibling(): Node | null {
-    const parent = this.parentNode;
-    if (parent === null) {
-      return null;
-    }
-    const siblings = childNodes(parent);
-    const index = siblings.indexOf(this);
-    return index < 0 ? null : (siblings[index + 1] ?? null);
+    const sibling = nodeImplementation(this).nextSibling;
+    return sibling === null ? null : nodeInterface(sibling);
   }
 
   get textContent(): string | null {
@@ -384,9 +388,13 @@ export function appendNode(parent: Node, node: Node): void {
   removeNode(node);
   const parentImplementation = nodeImplementation(parent);
   const childImplementation = nodeImplementation(node);
-  childImplementation.parent = parentImplementation;
   adjustLiveRangesForInsertion(parent, parentImplementation.children.length, 1);
-  parentImplementation.children.push(childImplementation);
+  insertChildImplementation(
+    parentImplementation,
+    childImplementation,
+    parentImplementation.children.length,
+  );
+  invalidateDescendantText(parentImplementation);
 }
 
 export function insertNodeBefore(
@@ -400,18 +408,22 @@ export function insertNodeBefore(
   const index = parentImplementation.children.indexOf(
     nodeImplementation(reference),
   );
-  childImplementation.parent = parentImplementation;
   if (index < 0) {
     adjustLiveRangesForInsertion(
       parent,
       parentImplementation.children.length,
       1,
     );
-    parentImplementation.children.push(childImplementation);
+    insertChildImplementation(
+      parentImplementation,
+      childImplementation,
+      parentImplementation.children.length,
+    );
   } else {
     adjustLiveRangesForInsertion(parent, index, 1);
-    parentImplementation.children.splice(index, 0, childImplementation);
+    insertChildImplementation(parentImplementation, childImplementation, index);
   }
+  invalidateDescendantText(parentImplementation);
 }
 
 export function removeNode(node: Node): void {
@@ -421,11 +433,90 @@ export function removeNode(node: Node): void {
   }
   preRemoveLiveRanges(node);
   preRemoveNodeIterators(node);
-  const index = implementation.parent.children.indexOf(implementation);
+  const parent = implementation.parent;
+  const index = parent.children.indexOf(implementation);
   if (index >= 0) {
-    implementation.parent.children.splice(index, 1);
+    removeChildImplementation(parent, implementation, index);
+    invalidateDescendantText(parent);
   }
-  implementation.parent = null;
+}
+
+function insertChildImplementation(
+  parent: NodeImplementation,
+  child: NodeImplementation,
+  index: number,
+): void {
+  const previous = parent.children[index - 1] ?? null;
+  const next = parent.children[index] ?? null;
+  child.parent = parent;
+  child.previousSibling = previous;
+  child.nextSibling = next;
+  if (previous !== null) {
+    previous.nextSibling = child;
+  }
+  if (next !== null) {
+    next.previousSibling = child;
+  }
+  parent.children.splice(index, 0, child);
+  if (subtreeContainsHTMLBaseElement(child)) {
+    updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
+  }
+}
+
+function removeChildImplementation(
+  parent: NodeImplementation,
+  child: NodeImplementation,
+  index: number,
+): void {
+  const previous = child.previousSibling;
+  const next = child.nextSibling;
+  if (previous !== null) {
+    previous.nextSibling = next;
+  }
+  if (next !== null) {
+    next.previousSibling = previous;
+  }
+  parent.children.splice(index, 1);
+  child.parent = null;
+  child.previousSibling = null;
+  child.nextSibling = null;
+  if (subtreeContainsHTMLBaseElement(child)) {
+    updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
+  }
+}
+
+function invalidateDescendantText(node: NodeImplementation): void {
+  let current: NodeImplementation | null = node;
+  while (current !== null) {
+    current.descendantTextCache = null;
+    current = current.parent;
+  }
+}
+
+function documentTitleElement(document: Document): Element | null {
+  return (
+    descendantElements(document).find(
+      (element) =>
+        element.namespaceURI === HTML_NAMESPACE &&
+        element.localName === "title",
+    ) ?? null
+  );
+}
+
+function childTextContent(element: Element | null): string {
+  if (element === null) {
+    return "";
+  }
+  return childNodes(element)
+    .filter((child): child is Text => child instanceof Text)
+    .map((child) => child.data)
+    .join("");
+}
+
+function stripAndCollapseASCIIWhitespace(value: string): string {
+  return value
+    .replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/gu, "")
+    .replaceAll(/[\t\n\f\r ]+/gu, " ");
 }
 
 export class Document extends Node {
@@ -462,6 +553,57 @@ export class Document extends Node {
 
   get documentURI(): string {
     return this.URL;
+  }
+
+  get title(): string {
+    const root = this.documentElement;
+    const title =
+      root?.namespaceURI === SVG_NAMESPACE && root.localName === "svg"
+        ? (childNodes(root).find(
+            (child): child is Element =>
+              child instanceof Element &&
+              child.namespaceURI === SVG_NAMESPACE &&
+              child.localName === "title",
+          ) ?? null)
+        : documentTitleElement(this);
+    return stripAndCollapseASCIIWhitespace(childTextContent(title));
+  }
+
+  set title(value: string) {
+    const converted = domString(value);
+    const root = this.documentElement;
+    if (root?.namespaceURI === SVG_NAMESPACE && root.localName === "svg") {
+      let title = childNodes(root).find(
+        (child): child is Element =>
+          child instanceof Element &&
+          child.namespaceURI === SVG_NAMESPACE &&
+          child.localName === "title",
+      );
+      if (title === undefined) {
+        title = this.createElementNS(SVG_NAMESPACE, "title");
+        root.insertBefore(title, root.firstChild);
+      }
+      title.textContent = converted;
+      return;
+    }
+    if (root?.namespaceURI !== HTML_NAMESPACE || root.localName !== "html") {
+      return;
+    }
+    let title = documentTitleElement(this);
+    if (title === null) {
+      const head = childNodes(root).find(
+        (child): child is Element =>
+          child instanceof Element &&
+          child.namespaceURI === HTML_NAMESPACE &&
+          child.localName === "head",
+      );
+      if (head === undefined) {
+        return;
+      }
+      title = this.createElement("title");
+      head.appendChild(title);
+    }
+    title.textContent = converted;
   }
 
   readonly location = null;
@@ -890,6 +1032,136 @@ export function setDocumentQuirks(document: Document, quirks: boolean): void {
   documentImplementation(document).quirks = quirks;
 }
 
+export function setDocumentURL(document: Document, value: string): void {
+  const url = new URL(value);
+  const implementation = documentImplementation(document);
+  implementation.url = url;
+  implementation.origin = originFromURL(url);
+}
+
+function nodeDocumentImplementation(
+  node: NodeImplementation,
+): DocumentImplementation {
+  if (node instanceof DocumentImplementation) {
+    return node;
+  }
+  if (node.ownerDocument === null) {
+    throw new TypeError("Node has no node document");
+  }
+  return node.ownerDocument;
+}
+
+function fallbackBaseURL(document: DocumentImplementation): URL {
+  if (
+    (document.url.href === "about:blank" ||
+      document.url.href === "about:srcdoc") &&
+    document.aboutBaseURL !== null
+  ) {
+    return document.aboutBaseURL;
+  }
+  return document.url;
+}
+
+function documentBaseURL(document: DocumentImplementation): URL {
+  const frozen = document.firstBaseElementWithHref?.frozenBaseURL;
+  return frozen ?? document.baseURLOverride ?? fallbackBaseURL(document);
+}
+
+function isHTMLBaseElement(element: ElementImplementation): boolean {
+  return (
+    element.namespaceURI === HTML_NAMESPACE && element.localName === "base"
+  );
+}
+
+function baseHrefAttribute(
+  element: ElementImplementation,
+): AttrImplementation | null {
+  return (
+    element.attributes.find(
+      (attribute) =>
+        attribute.namespaceURI === null && attribute.localName === "href",
+    ) ?? null
+  );
+}
+
+function subtreeContainsHTMLBaseElement(node: NodeImplementation): boolean {
+  if (node instanceof ElementImplementation && isHTMLBaseElement(node)) {
+    return true;
+  }
+  return node.children.some(subtreeContainsHTMLBaseElement);
+}
+
+function firstBaseElementWithHref(
+  root: NodeImplementation,
+): ElementImplementation | null {
+  for (const child of root.children) {
+    if (
+      child instanceof ElementImplementation &&
+      isHTMLBaseElement(child) &&
+      baseHrefAttribute(child) !== null
+    ) {
+      return child;
+    }
+    const descendant = firstBaseElementWithHref(child);
+    if (descendant !== null) {
+      return descendant;
+    }
+  }
+  return null;
+}
+
+function setFrozenBaseURL(
+  document: DocumentImplementation,
+  element: ElementImplementation,
+): void {
+  const fallback = fallbackBaseURL(document);
+  const href = baseHrefAttribute(element)?.value;
+  if (href === undefined) {
+    element.frozenBaseURL = null;
+    return;
+  }
+  try {
+    const parsed = new URL(href, fallback.href);
+    element.frozenBaseURL =
+      parsed.protocol === "data:" || parsed.protocol === "javascript:"
+        ? new URL(fallback.href)
+        : parsed;
+  } catch {
+    element.frozenBaseURL = new URL(fallback.href);
+  }
+}
+
+function updateFirstBaseElementWithHref(
+  document: DocumentImplementation,
+  changedHrefElement: ElementImplementation | null = null,
+): void {
+  const first = firstBaseElementWithHref(document);
+  if (first !== document.firstBaseElementWithHref) {
+    document.firstBaseElementWithHref = first;
+    if (first !== null) {
+      setFrozenBaseURL(document, first);
+    }
+  } else if (first !== null && first === changedHrefElement) {
+    setFrozenBaseURL(document, first);
+  }
+}
+
+function respondToBaseHrefChange(
+  element: ElementImplementation,
+  attribute: AttrImplementation,
+): void {
+  if (
+    isHTMLBaseElement(element) &&
+    attribute.namespaceURI === null &&
+    attribute.localName === "href"
+  ) {
+    updateFirstBaseElementWithHref(
+      nodeDocumentImplementation(element),
+      element,
+    );
+  }
+}
+
 export function setDocumentParseErrors(
   document: Document,
   errors: readonly PalimParseError[],
@@ -959,7 +1231,11 @@ export class Attr extends Node {
   }
 
   set value(value: string) {
-    attrImplementation(this).value = value;
+    const implementation = attrImplementation(this);
+    implementation.value = value;
+    if (implementation.ownerElement !== null) {
+      respondToBaseHrefChange(implementation.ownerElement, implementation);
+    }
   }
 
   get ownerElement(): Element | null {
@@ -1031,6 +1307,14 @@ export class Element extends Node {
 
   get childElementCount(): number {
     return this.children.length;
+  }
+
+  get previousElementSibling(): Element | null {
+    return previousElementSibling(this);
+  }
+
+  get nextElementSibling(): Element | null {
+    return nextElementSibling(this);
   }
 
   get id(): string {
@@ -1237,6 +1521,31 @@ export class Element extends Node {
     );
   }
 
+  setAttributeNode(attribute: Attr): Attr | null {
+    requireArguments(arguments.length, 1);
+    return setAttributeNode(this, attribute);
+  }
+
+  setAttributeNodeNS(attribute: Attr): Attr | null {
+    requireArguments(arguments.length, 1);
+    return setAttributeNode(this, attribute);
+  }
+
+  removeAttributeNode(attribute: Attr): Attr {
+    requireArguments(arguments.length, 1);
+    if (!(attribute instanceof Attr)) {
+      throw new TypeError("The argument is not an Attr");
+    }
+    if (attribute.ownerElement !== this) {
+      throw new DOMException(
+        "The attribute is not owned by this element",
+        "NotFoundError",
+      );
+    }
+    removeAttributeNode(this, attribute);
+    return attribute;
+  }
+
   removeAttribute(qualifiedName: string): void {
     removeAttributeByName(this, domString(qualifiedName));
   }
@@ -1410,15 +1719,18 @@ export function setAttributeNode(
   if (oldAttribute === value) {
     return value;
   }
+  valueImplementation.ownerDocument = implementation.ownerDocument;
   valueImplementation.ownerElement = implementation;
   if (oldAttribute === null) {
     implementation.attributes.push(valueImplementation);
+    respondToBaseHrefChange(implementation, valueImplementation);
     return null;
   }
   const oldImplementation = attrImplementation(oldAttribute);
   const index = implementation.attributes.indexOf(oldImplementation);
   implementation.attributes[index] = valueImplementation;
   oldImplementation.ownerElement = null;
+  respondToBaseHrefChange(implementation, valueImplementation);
   return oldAttribute;
 }
 
@@ -1454,6 +1766,7 @@ export function removeAttributeNode(element: Element, attribute: Attr): void {
   }
   implementation.attributes.splice(index, 1);
   attributeImplementation.ownerElement = null;
+  respondToBaseHrefChange(implementation, attributeImplementation);
 }
 
 export function setAttributes(
@@ -1566,6 +1879,14 @@ export class CharacterData extends Node {
     replaceCharacterData(this, 0, this.length, data);
   }
 
+  get previousElementSibling(): Element | null {
+    return previousElementSibling(this);
+  }
+
+  get nextElementSibling(): Element | null {
+    return nextElementSibling(this);
+  }
+
   remove(): void {
     removeNode(this);
   }
@@ -1590,10 +1911,29 @@ export function replaceCharacterData(
     implementation.data.slice(0, offset) +
     data +
     implementation.data.slice(offset + removed);
+  if (implementation.parent !== null) {
+    invalidateDescendantText(implementation.parent);
+  }
 }
 
 export function appendCharacterData(node: CharacterData, data: string): void {
   replaceCharacterData(node, node.length, 0, data);
+}
+
+function previousElementSibling(node: Node): Element | null {
+  let sibling = node.previousSibling;
+  while (sibling !== null && !(sibling instanceof Element)) {
+    sibling = sibling.previousSibling;
+  }
+  return sibling;
+}
+
+function nextElementSibling(node: Node): Element | null {
+  let sibling = node.nextSibling;
+  while (sibling !== null && !(sibling instanceof Element)) {
+    sibling = sibling.nextSibling;
+  }
+  return sibling;
 }
 
 export class Text extends CharacterData {
@@ -1740,6 +2080,16 @@ function cloneSingleNode(node: Node, document: Document): Node {
       node.contentType,
       implementation.elementFactory,
     );
+    const copyImplementation = documentImplementation(copy);
+    copyImplementation.url = new URL(implementation.url.href);
+    copyImplementation.origin = implementation.origin;
+    copyImplementation.aboutBaseURL =
+      implementation.aboutBaseURL === null
+        ? null
+        : new URL(implementation.aboutBaseURL.href);
+    copyImplementation.baseURLOverride = new URL(
+      documentBaseURL(implementation).href,
+    );
     setDocumentQuirks(copy, implementation.quirks);
     return copy;
   }
@@ -1834,17 +2184,25 @@ function importNodeSubtree(options: unknown): boolean {
 }
 
 function descendantText(node: Node): string {
+  return descendantImplementationText(nodeImplementation(node));
+}
+
+function descendantImplementationText(node: NodeImplementation): string {
+  if (node.descendantTextCache !== null) {
+    return node.descendantTextCache;
+  }
   let result = "";
-  for (const child of childNodes(node)) {
+  for (const child of node.children) {
     if (
       child.nodeType === Node.TEXT_NODE ||
       child.nodeType === Node.CDATA_SECTION_NODE
     ) {
-      result += (child as CharacterData).data;
+      result += (child as CharacterDataImplementation).data;
     } else {
-      result += descendantText(child);
+      result += descendantImplementationText(child);
     }
   }
+  node.descendantTextCache = result;
   return result;
 }
 
@@ -2387,18 +2745,26 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       child === null
         ? -1
         : parentImplementation.children.indexOf(nodeImplementation(child));
-    insertedImplementation.parent = parentImplementation;
     if (index < 0) {
       adjustLiveRangesForInsertion(
         parent,
         parentImplementation.children.length,
         1,
       );
-      parentImplementation.children.push(insertedImplementation);
+      insertChildImplementation(
+        parentImplementation,
+        insertedImplementation,
+        parentImplementation.children.length,
+      );
     } else {
       adjustLiveRangesForInsertion(parent, index, 1);
-      parentImplementation.children.splice(index, 0, insertedImplementation);
+      insertChildImplementation(
+        parentImplementation,
+        insertedImplementation,
+        index,
+      );
     }
+    invalidateDescendantText(parentImplementation);
   }
 }
 

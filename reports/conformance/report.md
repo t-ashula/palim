@@ -6,10 +6,10 @@ Run status: failed
 
 | Suite | Total | Pass | Fail | Unsupported | Skip | Error | Timeout | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 17884 | 17036 | 0 | 320 | 400 | 127 | 1 | 95.26% |
+| All | 17884 | 17163 | 0 | 320 | 400 | 0 | 1 | 95.97% |
 | html5lib-tokenizer | 7053 | 7047 | 0 | 0 | 6 | 0 | 0 | 99.91% |
 | html5lib-tree-construction | 3904 | 3898 | 0 | 6 | 0 | 0 | 0 | 99.85% |
-| readability | 128 | 0 | 0 | 0 | 0 | 127 | 1 | 0.00% |
+| readability | 128 | 127 | 0 | 0 | 0 | 0 | 1 | 99.22% |
 | w3c-xml-parser | 2427 | 1719 | 0 | 314 | 394 | 0 | 0 | 70.83% |
 | wpt-url-constructor | 897 | 897 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 | wpt-url-idna | 2782 | 2782 | 0 | 0 | 0 | 0 | 0 | 100.00% |
@@ -41,7 +41,7 @@ Run status: failed
 | html5lib-tokenizer | Script data state | 89 | 89 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 | html5lib-tree-construction | document | 3492 | 3486 | 0 | 6 | 0 | 0 | 0 | 99.83% |
 | html5lib-tree-construction | fragment | 412 | 412 | 0 | 0 | 0 | 0 | 0 | 100.00% |
-| readability | text/html | 128 | 0 | 0 | 0 | 0 | 127 | 1 | 0.00% |
+| readability | text/html | 128 | 127 | 0 | 0 | 0 | 0 | 1 | 99.22% |
 | w3c-xml-parser | namespaces-1.0-third-edition | 51 | 48 | 0 | 0 | 3 | 0 | 0 | 94.12% |
 | w3c-xml-parser | namespaces-1.1 | 8 | 0 | 0 | 8 | 0 | 0 | 0 | 0.00% |
 | w3c-xml-parser | xml-1.0-fifth-edition | 2102 | 1671 | 0 | 40 | 391 | 0 | 0 | 79.50% |
@@ -59,9 +59,7 @@ None.
 
 | Suite | Name | Message | Count |
 | --- | --- | --- | ---: |
-| readability | TypeError | Cannot read properties of undefined (reading 'nextElementSibling') | 119 |
-| readability | TypeError | replacement.setAttributeNode is not a function | 8 |
-| readability | TimeoutError | Readability case timed out after 5000 ms | 1 |
+| readability | TimeoutError | Readability case timed out after 30000 ms | 1 |
 
 ## Non-passing cases
 
@@ -79,134 +77,7 @@ None.
 | html5lib-tree-construction | document | 83e6ba1440d5f2117a8178d0e72f56707df024556524384f0ea4bd44c0d8773b | scripted_foster01.dat | 12 | unsupported |  |  | The fixture requires executing script during tree construction. |
 | html5lib-tree-construction | document | 10e9a03eeca440ffbff3357fb7fafc7634bbd5782a02a2efb36101c613e9c8f6 | scripted_webkit01.dat | 1 | unsupported |  |  | The fixture requires executing script during tree construction. |
 | html5lib-tree-construction | document | 6fe1aab417068dc47c259292d486d20c4e21c8a1138c0277e10ada675a7db708 | scripted_webkit01.dat | 14 | unsupported |  |  | The fixture requires executing script during tree construction. |
-| readability | text/html | 001 | 001/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | 002 | 002/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | 003-metadata-preferred | 003-metadata-preferred/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | 004-metadata-space-separated-properties | 004-metadata-space-separated-properties/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | 005-unescape-html-entities | 005-unescape-html-entities/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | aclu | aclu/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | aktualne | aktualne/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | archive-of-our-own | archive-of-our-own/source.html |  | timeout |  | TimeoutError: Readability case timed out after 5000 ms |  |
-| readability | text/html | ars-1 | ars-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | article-author-tag | article-author-tag/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | base-url-base-element-relative | base-url-base-element-relative/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | base-url-base-element | base-url-base-element/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | base-url | base-url/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | basic-tags-cleaning | basic-tags-cleaning/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | bbc-1 | bbc-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | blogger | blogger/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | breitbart | breitbart/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | bug-1255978 | bug-1255978/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | buzzfeed-1 | buzzfeed-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | citylab-1 | citylab-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | clean-links | clean-links/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | cnet-svg-classes | cnet-svg-classes/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | cnet | cnet/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | cnn | cnn/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | comment-inside-script-parsing | comment-inside-script-parsing/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | daringfireball-1 | daringfireball-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | data-url-image | data-url-image/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | dev418 | dev418/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | dropbox-blog | dropbox-blog/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | ebb-org | ebb-org/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | ehow-1 | ehow-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | ehow-2 | ehow-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | embedded-videos | embedded-videos/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | engadget | engadget/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | firefox-nightly-blog | firefox-nightly-blog/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | folha | folha/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | gitlab-blog | gitlab-blog/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | gmw | gmw/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | google-sre-book-1 | google-sre-book-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | guardian-1 | guardian-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | heise | heise/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | herald-sun-1 | herald-sun-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | hidden-nodes | hidden-nodes/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | hukumusume | hukumusume/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | iab-1 | iab-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | ietf-1 | ietf-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | invalid-attributes | invalid-attributes/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | js-link-replacement | js-link-replacement/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | keep-images | keep-images/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | keep-tabular-data | keep-tabular-data/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | la-nacion | la-nacion/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lazy-image-1 | lazy-image-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lazy-image-2 | lazy-image-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lazy-image-3 | lazy-image-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lemonde-1 | lemonde-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | liberation-1 | liberation-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lifehacker-post-comment-load | lifehacker-post-comment-load/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lifehacker-working | lifehacker-working/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | links-in-tables | links-in-tables/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | lwn-1 | lwn-1/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | medicalnewstoday | medicalnewstoday/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | medium-1 | medium-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | medium-2 | medium-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | medium-3 | medium-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | mercurial | mercurial/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | metadata-content-missing | metadata-content-missing/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | missing-paragraphs | missing-paragraphs/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | mozilla-1 | mozilla-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | mozilla-2 | mozilla-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | msn | msn/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | normalize-spaces | normalize-spaces/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | nytimes-1 | nytimes-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | nytimes-2 | nytimes-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | nytimes-3 | nytimes-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | nytimes-4 | nytimes-4/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | nytimes-5 | nytimes-5/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | ol | ol/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | parsely-metadata | parsely-metadata/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | pixnet | pixnet/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | qq | qq/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | quanta-1 | quanta-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | remove-aria-hidden | remove-aria-hidden/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | remove-extra-brs | remove-extra-brs/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | remove-extra-paragraphs | remove-extra-paragraphs/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | remove-script-tags | remove-script-tags/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | reordering-paragraphs | reordering-paragraphs/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | replace-brs | replace-brs/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | replace-font-tags | replace-font-tags/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | royal-road | royal-road/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | rtl-1 | rtl-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | rtl-2 | rtl-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | rtl-3 | rtl-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | rtl-4 | rtl-4/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | salon-1 | salon-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | schema-org-context-object | schema-org-context-object/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | seattletimes-1 | seattletimes-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | simplyfound-1 | simplyfound-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | social-buttons | social-buttons/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | spiceworks | spiceworks/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | style-tags-removal | style-tags-removal/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | svg-parsing | svg-parsing/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | table-style-attributes | table-style-attributes/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | telegraph | telegraph/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | theverge | theverge/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | title-and-h1-discrepancy | title-and-h1-discrepancy/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | tmz-1 | tmz-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | toc-missing | toc-missing/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | topicseed-1 | topicseed-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | tumblr | tumblr/source.html |  | error |  | TypeError: replacement.setAttributeNode is not a function |  |
-| readability | text/html | v8-blog | v8-blog/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | videos-1 | videos-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | videos-2 | videos-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | visibility-hidden | visibility-hidden/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wapo-1 | wapo-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wapo-2 | wapo-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | webmd-1 | webmd-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | webmd-2 | webmd-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wikia | wikia/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wikipedia-2 | wikipedia-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wikipedia-3 | wikipedia-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wikipedia-4 | wikipedia-4/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wikipedia | wikipedia/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | wordpress | wordpress/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | yahoo-1 | yahoo-1/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | yahoo-2 | yahoo-2/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | yahoo-3 | yahoo-3/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | yahoo-4 | yahoo-4/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
-| readability | text/html | youth | youth/source.html |  | error |  | TypeError: Cannot read properties of undefined (reading 'nextElementSibling') |  |
+| readability | text/html | wikipedia-2 | wikipedia-2/source.html |  | timeout |  | TimeoutError: Readability case timed out after 30000 ms |  |
 | w3c-xml-parser | namespaces-1.0-third-edition | rmt-ns10-004 | eduni/namespaces/1.0/004.xml | 1 | skip |  |  | The XML recommendation does not prescribe whether this optional error is accepted. |
 | w3c-xml-parser | namespaces-1.0-third-edition | rmt-ns10-005 | eduni/namespaces/1.0/005.xml | 1 | skip |  |  | The XML recommendation does not prescribe whether this optional error is accepted. |
 | w3c-xml-parser | namespaces-1.0-third-edition | rmt-ns10-006 | eduni/namespaces/1.0/006.xml | 1 | skip |  |  | The XML recommendation does not prescribe whether this optional error is accepted. |

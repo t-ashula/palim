@@ -4,6 +4,11 @@ import { join } from "node:path";
 import { Readability } from "@mozilla/readability";
 
 import { DOMParser, Element, Node, type Document } from "../../../src/index.js";
+import {
+  documentIsQuirks,
+  setDocumentQuirks,
+  setDocumentURL,
+} from "../../../src/dom/nodes.js";
 
 interface ExpectedMetadata {
   readonly title: string | null;
@@ -63,6 +68,21 @@ function removeComments(node: Node): void {
   }
 }
 
+function parseDocument(source: string): Document {
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(source, "text/html");
+  const document = parser.parseFromString("", "text/html");
+  while (document.firstChild !== null) {
+    document.removeChild(document.firstChild);
+  }
+  setDocumentQuirks(document, documentIsQuirks(parsed));
+  setDocumentURL(document, "http://fakehost/test/page.html");
+  for (const child of [...parsed.childNodes]) {
+    document.appendChild(document.importNode(child, true));
+  }
+  return document;
+}
+
 function canonicalNodes(document: Document): CanonicalNode[] {
   const result: CanonicalNode[] = [];
   const root = document.documentElement ?? document.firstChild;
@@ -72,14 +92,20 @@ function canonicalNodes(document: Document): CanonicalNode[] {
 
   function visit(node: Node): void {
     if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent ?? "";
+      let text = (node.textContent ?? "").replace(/\s+/gu, " ");
+      if (node.previousSibling === null) {
+        text = text.trimStart();
+      }
+      if (node.nextSibling === null) {
+        text = text.trimEnd();
+      }
       if (text.trim() === "") {
         return;
       }
       result.push({
         type: node.nodeType,
         name: "#text",
-        text: text.replace(/\s+/gu, " "),
+        text,
       });
     } else if (node instanceof Element) {
       const attributes = [...node.attributes]
@@ -189,7 +215,7 @@ export function runReadabilityCase(
     const expectedMetadata = JSON.parse(
       readFileSync(join(fixtureDirectory, "expected-metadata.json"), "utf8"),
     ) as ExpectedMetadata;
-    const document = new DOMParser().parseFromString(source, "text/html");
+    const document = parseDocument(source);
     removeComments(document);
 
     const article = new Readability(readabilityDocument(document), {

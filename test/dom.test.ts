@@ -22,6 +22,7 @@ import {
   ProcessingInstruction,
   Text,
 } from "../src/index.js";
+import { setDocumentURL } from "../src/dom/nodes.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
@@ -1032,6 +1033,66 @@ describe("Element attributes", () => {
     );
   });
 
+  it("exposes collection indexes to generic array iteration", () => {
+    const document = parse('<main id="first"></main><main id="second"></main>');
+    const elements = document.querySelectorAll("main");
+    const liveElements = document.getElementsByTagName("main");
+    const attributes = elements[0]?.attributes;
+
+    expect(0 in elements).toBe(true);
+    expect(2 in elements).toBe(false);
+    expect(
+      Array.prototype.map.call(elements, (element: Element) => element.id),
+    ).toEqual(["first", "second"]);
+    expect(
+      Array.prototype.map.call(liveElements, (element: Element) => element.id),
+    ).toEqual(["first", "second"]);
+    document.body?.appendChild(document.createElement("main"));
+    expect(liveElements).toHaveLength(3);
+    if (attributes === undefined) {
+      throw new Error("missing attributes");
+    }
+    expect(0 in attributes).toBe(true);
+    expect(
+      Array.prototype.map.call(attributes, (attribute: Attr) => attribute.name),
+    ).toEqual(["id"]);
+  });
+
+  it("gets, replaces, and removes attribute nodes through Element", () => {
+    const document = parse(
+      '<main data-value="old"></main><aside data-value="new"></aside>',
+    );
+    const target = select(document, "main");
+    const donor = select(document, "aside");
+    const oldAttribute = target.attributes.getNamedItem("data-value");
+    const replacement = donor.attributes.removeNamedItem("data-value");
+
+    expect(target.setAttributeNode(replacement)).toBe(oldAttribute);
+    expect(oldAttribute?.ownerElement).toBeNull();
+    expect(replacement.ownerElement).toBe(target);
+    expect(target.setAttributeNodeNS(replacement)).toBe(replacement);
+    expect(target.removeAttributeNode(replacement)).toBe(replacement);
+    expect(replacement.ownerElement).toBeNull();
+    expectDOMException(
+      () => target.removeAttributeNode(replacement),
+      "NotFoundError",
+    );
+  });
+
+  it("changes an inserted attribute node to the element's node document", () => {
+    const source = parse('<aside data-value="source"></aside>');
+    const target = parse("<main></main>");
+    const attribute = select(source, "aside").attributes.removeNamedItem(
+      "data-value",
+    );
+    const main = select(target, "main");
+
+    expect(attribute.ownerDocument).toBe(source);
+    expect(main.setAttributeNode(attribute)).toBeNull();
+    expect(attribute.ownerDocument).toBe(target);
+    expect(attribute.ownerElement).toBe(main);
+  });
+
   it("uses namespace and local name through NamedNodeMap", () => {
     const element = select(
       parse('<svg><a id="link" xlink:href="value"></a></svg>'),
@@ -1054,6 +1115,23 @@ describe("Element attributes", () => {
 });
 
 describe("Node mutation", () => {
+  it("finds adjacent element siblings across non-element nodes", () => {
+    const document = parse(
+      "<main><section id=first></section>text<!--comment--><section id=second></section></main>",
+    );
+    const first = select(document, "#first");
+    const second = select(document, "#second");
+    const text = first.nextSibling;
+
+    expect(first.previousElementSibling).toBeNull();
+    expect(first.nextElementSibling).toBe(second);
+    expect(second.previousElementSibling).toBe(first);
+    expect(second.nextElementSibling).toBeNull();
+    expect(text).toBeInstanceOf(Text);
+    expect((text as Text).previousElementSibling).toBe(first);
+    expect((text as Text).nextElementSibling).toBe(second);
+  });
+
   it("appends nodes and strings to ParentNode objects", () => {
     const document = parse("<main><span></span></main>");
     const main = select(document, "main");
@@ -1141,6 +1219,172 @@ describe("Node mutation", () => {
     expectDOMException(() => first.appendChild(main), "HierarchyRequestError");
     expectDOMException(() => main.insertBefore(first, body), "NotFoundError");
     expectDOMException(() => main.removeChild(body), "NotFoundError");
+  });
+});
+
+describe("Document metadata", () => {
+  it("gets and sets the document title", () => {
+    const document = parse(
+      "<title>  Initial\n title\u00a0 </title><main></main>",
+    );
+
+    expect(document.title).toBe("Initial title\u00a0");
+    document.title = "Updated title";
+    expect(document.title).toBe("Updated title");
+    expect(document.querySelector("title")?.textContent).toBe("Updated title");
+  });
+
+  it("uses only the HTML title element in an HTML document", () => {
+    const document = parse(
+      "<svg><title>SVG title</title></svg><title>HTML title</title>",
+    );
+
+    expect(document.title).toBe("HTML title");
+  });
+
+  it("gets, creates, and sets a direct SVG title child", () => {
+    const document = new DOMParser().parseFromString(
+      '<svg xmlns="http://www.w3.org/2000/svg"><g><title>nested</title></g></svg>',
+      "image/svg+xml",
+    );
+
+    expect(document.title).toBe("");
+    document.title = "SVG title";
+    expect(document.title).toBe("SVG title");
+    expect(document.documentElement?.firstElementChild?.localName).toBe(
+      "title",
+    );
+    expect(document.documentElement?.firstElementChild?.namespaceURI).toBe(
+      "http://www.w3.org/2000/svg",
+    );
+  });
+
+  it("ignores title assignment for a non-HTML, non-SVG root", () => {
+    const document = new DOMParser().parseFromString(
+      "<root><title>unchanged</title></root>",
+      "application/xml",
+    );
+
+    expect(document.title).toBe("");
+    document.title = "ignored";
+    expect(document.querySelector("title")?.textContent).toBe("unchanged");
+  });
+
+  it("uses the frozen URL of the first base element with an href", () => {
+    const document = parse("<main></main>");
+    const head = document.head;
+    if (head === null) {
+      throw new Error("missing head");
+    }
+    setDocumentURL(document, "https://old.example/news/page.html");
+    const firstWithoutHref = document.createElement("base");
+    const firstWithHref = document.createElement("base");
+    firstWithHref.setAttribute("href", "../articles/");
+    const secondWithHref = document.createElement("base");
+    secondWithHref.setAttribute("href", "../ignored/");
+    head.append(firstWithoutHref, firstWithHref, secondWithHref);
+
+    expect(document.baseURI).toBe("https://old.example/articles/");
+    expect(select(document, "main").baseURI).toBe(
+      "https://old.example/articles/",
+    );
+
+    setDocumentURL(document, "https://new.example/path/page.html");
+    expect(document.baseURI).toBe("https://old.example/articles/");
+
+    firstWithHref.setAttribute("href", "../updated/");
+    expect(document.baseURI).toBe("https://new.example/updated/");
+
+    firstWithoutHref.setAttribute("href", "/first/");
+    expect(document.baseURI).toBe("https://new.example/first/");
+
+    setDocumentURL(document, "https://latest.example/root/page.html");
+    firstWithoutHref.remove();
+    expect(document.baseURI).toBe("https://latest.example/updated/");
+  });
+
+  it("falls back to the document URL for invalid and forbidden base URLs", () => {
+    const document = parse("<main></main>");
+    const head = document.head;
+    if (head === null) {
+      throw new Error("missing head");
+    }
+    setDocumentURL(document, "https://example.test/path/page.html");
+    const base = document.createElement("base");
+    head.appendChild(base);
+
+    expect(document.baseURI).toBe("https://example.test/path/page.html");
+    base.setAttribute("href", "data:text/plain,base");
+    expect(document.baseURI).toBe("https://example.test/path/page.html");
+    base.setAttribute("href", "javascript:void(0)");
+    expect(document.baseURI).toBe("https://example.test/path/page.html");
+    base.setAttribute("href", "http://[");
+    expect(document.baseURI).toBe("https://example.test/path/page.html");
+  });
+
+  it("preserves the source base URL as a document clone override", () => {
+    const document = parse("<main></main>");
+    const head = document.head;
+    if (head === null) {
+      throw new Error("missing head");
+    }
+    setDocumentURL(document, "https://example.test/path/page.html");
+    const base = document.createElement("base");
+    base.setAttribute("href", "../articles/");
+    head.appendChild(base);
+
+    const clone = document.cloneNode() as Document;
+    setDocumentURL(clone, "https://other.test/changed/page.html");
+
+    expect(clone.baseURI).toBe("https://example.test/articles/");
+  });
+});
+
+describe("HTMLElement inline style", () => {
+  it("reflects a CSS declaration block and preserves priority", () => {
+    const element = select(
+      parse(
+        '<main style="unknown: value; display: none; visibility: hidden !important; display: block"></main>',
+      ),
+      "main",
+    ) as HTMLElement;
+
+    expect(element.style).toBe(element.style);
+    expect(element.style.display).toBe("block");
+    expect(element.style.visibility).toBe("hidden");
+    expect(element.style.getPropertyPriority("visibility")).toBe("important");
+    expect(element.style.length).toBe(2);
+    expect(element.style.item(0)).toBe("visibility");
+    expect(element.style[1]).toBe("display");
+
+    expect(element.style.removeProperty("visibility")).toBe("hidden");
+    expect(element.getAttribute("style")).toBe("display: block;");
+  });
+
+  it("keeps the declaration object synchronized with the style attribute", () => {
+    const element = select(parse("<main></main>"), "main") as HTMLElement;
+    const style = element.style;
+
+    element.setAttribute("style", "display: none; --theme: dark;");
+    expect(style.display).toBe("none");
+    expect(style.getPropertyValue("--theme")).toBe("dark");
+
+    style.setProperty("visibility", "hidden", "IMPORTANT");
+    style.setProperty("display", "invalid-value");
+    expect(style.display).toBe("none");
+    expect(style.getPropertyPriority("visibility")).toBe("important");
+
+    style.cssText = "float: left; display: grid;";
+    expect(style.cssFloat).toBe("left");
+    expect(style.float).toBe("left");
+    expect(style.display).toBe("grid");
+    expect(element.getAttribute("style")).toBe("float: left; display: grid;");
+
+    element.style = "display: flex;";
+    expect(style.display).toBe("flex");
+
+    style.cssText = "";
+    expect(element.getAttribute("style")).toBe("");
   });
 });
 

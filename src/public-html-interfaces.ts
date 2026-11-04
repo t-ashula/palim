@@ -16,6 +16,21 @@ function exposeInterface<T>(value: object): T {
 
 export type EventHandler = HTML.EventHandler;
 
+export type CSSStyleDeclaration = HTML.CSSStyleDeclaration;
+interface CSSStyleDeclarationInterface extends NonConstructibleInterface<CSSStyleDeclaration> {
+  readonly name: "CSSStyleDeclaration";
+}
+export const CSSStyleDeclaration =
+  exposeInterface<CSSStyleDeclarationInterface>(HTML.CSSStyleDeclaration);
+
+export type CSSStyleProperties = HTML.CSSStyleProperties;
+interface CSSStylePropertiesInterface extends NonConstructibleInterface<CSSStyleProperties> {
+  readonly name: "CSSStyleProperties";
+}
+export const CSSStyleProperties = exposeInterface<CSSStylePropertiesInterface>(
+  HTML.CSSStyleProperties,
+);
+
 export type AudioTrack = HTML.AudioTrack;
 interface AudioTrackInterface extends NonConstructibleInterface<AudioTrack> {
   readonly name: "AudioTrack";

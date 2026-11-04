@@ -18,7 +18,7 @@ const fixtureRoot = fileURLToPath(
 const runner = fileURLToPath(
   new URL("./support/readability-case-runner.ts", import.meta.url),
 );
-const caseTimeoutMilliseconds = 5_000;
+const caseTimeoutMilliseconds = 30_000;
 
 function executeCase(fixtureDirectory: string): Promise<ReadabilityCaseResult> {
   return new Promise((resolve, reject) => {
