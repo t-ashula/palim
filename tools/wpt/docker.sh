@@ -2,17 +2,34 @@
 
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
+root=$(CDPATH='' cd -- "$(dirname -- "$0")/../.." && pwd)
 image=palim-wpt
+
+sync_required=false
+if [ ! -d "$root/conformance/wpt/wpt" ] \
+  || [ ! -f "$root/src/html/entities.json" ] \
+  || [ ! -f "$root/src/url/idna-mapping.json" ] \
+  || [ ! -f "$root/src/url/idna-properties.json" ] \
+  || [ ! -f "$root/vendor/engine262/package.json" ]; then
+  sync_required=true
+fi
+if [ "$sync_required" = true ]; then
+  PALIM_REPOSITORY_ROOT="$root" sh "$root/tools/conformance/sync.sh"
+fi
+
 session_id="$(date -u +%Y%m%dT%H%M%SZ)-$$"
 raw_directory="$root/tmp/conformance/$session_id"
 report_directory="$root/reports/conformance"
 
-docker build --file "$root/tools/wpt/Dockerfile" --tag "$image" "$root"
+docker build \
+  --file "$root/tools/wpt/Dockerfile" \
+  --tag "$image" \
+  "$root"
 mkdir -p "$raw_directory" "$report_directory"
 set +e
 docker run \
   --rm \
+  --volume "$root/conformance:/workspace/conformance" \
   --volume "$root/reports:/workspace/reports" \
   --volume "$root/tmp:/workspace/tmp" \
   --env "PALIM_CONFORMANCE_RAW_DIRECTORY=/workspace/tmp/conformance/$session_id" \

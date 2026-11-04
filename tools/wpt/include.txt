@@ -1,0 +1,13 @@
+# Feature areas implemented by palim.
+/dom/collections/
+/dom/events/
+/dom/lists/
+/dom/nodes/
+/dom/ranges/
+/dom/traversal/
+/domparsing/
+/html/dom/documents/dom-tree-accessors/
+/html/dom/elements/
+/html/syntax/parsing/
+/url/
+/xml/

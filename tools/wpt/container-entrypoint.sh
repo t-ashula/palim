@@ -2,44 +2,49 @@
 
 set -eu
 
-command=${1:-}
-if [ -z "$command" ]; then
-  echo "usage: container-entrypoint.sh {wpt|conformance} [arguments...]" >&2
-  exit 2
+wpt_root=/workspace/conformance/wpt/wpt
+wpt_venv="$wpt_root/_venv3"
+cd "$wpt_root"
+if [ ! -x "$wpt_venv/bin/python" ]; then
+  python3 -m venv "$wpt_venv"
 fi
-shift
-
-case "$command" in
-  wpt)
-    cd /workspace/conformance/wpt/wpt
-    export PATH="/opt/wpt-venv/bin:$PATH"
-    cat /opt/wpt-hosts >> /etc/hosts
-    export PALIM_WPT_NODE_RUNNER=/workspace/tools/wpt/node-runner.mjs
-    wpt_report="$PALIM_CONFORMANCE_RAW_DIRECTORY/wptreport.json"
-    set +e
-    ./wpt \
-      --venv /opt/wpt-venv \
-      --skip-venv-setup \
-      run \
-      --yes \
-      --no-pause-after-test \
-      --log-wptreport "$wpt_report" \
+"$wpt_venv/bin/pip" install \
+  --disable-pip-version-check \
+  --no-deps \
+  /workspace/tools/wpt/product
+export PATH="$wpt_venv/bin:$PATH"
+./wpt make-hosts-file >> /etc/hosts
+export PALIM_WPT_NODE_RUNNER=/workspace/tools/wpt/node-runner.mjs
+wpt_report="$PALIM_CONFORMANCE_RAW_DIRECTORY/wptreport.json"
+case "${1:-}" in
+  --default)
+    shift
+    set -- \
+      --include-file /workspace/tools/wpt/include.txt \
       --exclude-file /workspace/tools/wpt/exclude.txt \
       palim \
       "$@"
-    status=$?
-    set -e
-    node --import tsx \
-      /workspace/tools/conformance/wpt-report.ts \
-      "$wpt_report" \
-      "$status"
-    exit "$status"
     ;;
-  conformance)
-    exec sh /workspace/tools/conformance/run-in-container.sh "$@"
+  --full)
+    shift
+    set -- palim "$@"
     ;;
   *)
-    echo "unknown container command: $command" >&2
-    exit 2
+    set -- palim "$@"
     ;;
 esac
+set +e
+"$wpt_venv/bin/python" ./wpt \
+  --venv "$wpt_venv" \
+  run \
+  --yes \
+  --no-pause-after-test \
+  --test-type testharness \
+  --log-wptreport "$wpt_report" \
+  "$@"
+status=$?
+set -e
+node /workspace/tools/conformance/wpt-report.mjs \
+  "$wpt_report" \
+  "$status"
+exit "$status"

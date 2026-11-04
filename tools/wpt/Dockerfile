@@ -1,46 +1,47 @@
-FROM node:24-bookworm-slim
+# syntax=docker/dockerfile:1
+
+FROM node:24-bookworm-slim AS build
+
+WORKDIR /workspace
+
+COPY package.json package-lock.json .npmrc ./
+COPY vendor/engine262 vendor/engine262
+RUN npm ci
+
+COPY tsconfig.json tsconfig.build.json ./
+COPY src src
+COPY tools/conformance/report.ts tools/conformance/report.ts
+COPY tools/conformance/wpt-report.ts tools/conformance/wpt-report.ts
+
+RUN npm run build \
+  && ./node_modules/.bin/esbuild \
+    tools/conformance/wpt-report.ts \
+    --bundle \
+    --format=esm \
+    --platform=node \
+    --outfile=/workspace/wpt-report.mjs
+
+FROM build AS wpt-node-modules
+
+RUN npm prune --omit=dev
+
+FROM node:24-bookworm-slim AS wpt
 
 RUN apt-get update \
   && apt-get install --yes --no-install-recommends \
     ca-certificates \
-    curl \
-    git \
-    jq \
-    perl \
-    python3 \
     python3-venv \
   && rm -rf /var/lib/apt/lists/*
 
-RUN ln -s /usr/bin/python3 /usr/local/bin/python
-
 WORKDIR /workspace
 
-COPY conformance/conformance.json conformance/conformance.json
-COPY tools/conformance tools/conformance
-COPY tools/url tools/url
-COPY src/html src/html
-COPY src/url src/url
-
-ENV PALIM_REPOSITORY_ROOT=/workspace
-RUN sh tools/conformance/sync.sh \
-  && cd conformance/wpt/wpt \
-  && ./wpt make-hosts-file > /opt/wpt-hosts
-
-COPY package.json package-lock.json .npmrc ./
-RUN npm ci
-
-COPY . .
-
-RUN npm run build \
-  && python3 -m venv /opt/wpt-venv \
-  && /opt/wpt-venv/bin/pip install \
-    --disable-pip-version-check \
-    -r conformance/wpt/wpt/tools/manifest/requirements.txt \
-    -r conformance/wpt/wpt/tools/wptrunner/requirements.txt \
-    -r conformance/wpt/wpt/tools/serve/requirements.txt \
-  && /opt/wpt-venv/bin/pip install \
-    --disable-pip-version-check \
-    --no-deps \
-    tools/wpt/product
+COPY --from=wpt-node-modules /workspace/dist dist
+COPY --from=wpt-node-modules /workspace/node_modules node_modules
+COPY --from=build /workspace/wpt-report.mjs tools/conformance/wpt-report.mjs
+COPY tools/wpt/container-entrypoint.sh tools/wpt/container-entrypoint.sh
+COPY tools/wpt/include.txt tools/wpt/include.txt
+COPY tools/wpt/exclude.txt tools/wpt/exclude.txt
+COPY tools/wpt/node-runner.mjs tools/wpt/node-runner.mjs
+COPY tools/wpt/product tools/wpt/product
 
 ENTRYPOINT ["sh", "/workspace/tools/wpt/container-entrypoint.sh"]

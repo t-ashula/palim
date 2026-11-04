@@ -32,7 +32,8 @@
     "test": "vitest run --project project",
     "test:watch": "vitest --project project",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "wpt:test": "sh tools/wpt/run.sh"
+    "wpt:test": "sh tools/wpt/run.sh",
+    "wpt:test:full": "sh tools/wpt/run.sh --full"
   },
   "repository": {
     "type": "git",

@@ -1,4 +1,3 @@
-# Feature areas that palim does not implement as a product.
-/html/semantics/embedded-content/media-elements/
-/media-source/
-/webaudio/
+# Unsupported subareas within the default scope.
+/domparsing/tentative/
+/xml/xslt/
