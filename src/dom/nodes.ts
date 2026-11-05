@@ -2359,6 +2359,8 @@ export function cloneNodeIntoDocument(
   subtree: boolean,
 ): Node {
   const copy = cloneSingleNode(node, document);
+  nodeImplementation(copy).scriptAlreadyStarted =
+    nodeImplementation(node).scriptAlreadyStarted;
   const childDocument = copy instanceof Document ? copy : document;
 
   if (

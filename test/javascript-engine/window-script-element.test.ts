@@ -43,6 +43,19 @@ describe("parser-inserted classic scripts", () => {
     ).toEqual(["normal", "normal"]);
   });
 
+  it("keeps DOMParser metadata and parsed scripts inactive", async () => {
+    const environment = new WindowExecutionEnvironment({
+      url: "https://example.test/path/page.html",
+    });
+
+    const document = await environment.loadHTML(
+      `<body><script>${fixture("domparser-metadata-and-scripting.js")}</script></body>`,
+    );
+
+    expect(document.body?.getAttribute("data-domparser-state")).toBe("valid");
+    expect(environment.scriptResults).toHaveLength(1);
+  });
+
   it("dispatches Window load after parsing and subresource loading", async () => {
     const environment = new WindowExecutionEnvironment();
 

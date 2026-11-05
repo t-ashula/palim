@@ -23,7 +23,9 @@
 ### Parsing and serialization
 
 - [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
-- [ ] `DOMParser` が作る document の URL、origin、content type、character encoding、scripting flag
+- [x] `DOMParser` が作る document の URL、origin、content type、character encoding、scripting flag
+- [ ] navigation document の transport / BOM / `meta` に基づく character encoding state
+- [ ] HTML tree builder の `style` raw text 終了後に続く sibling を構築する
 - [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
 - [ ] `Document.parseHTML` と unsafe / positional HTML parsing API
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
@@ -58,6 +60,7 @@
 ### Document surface
 
 - [ ] `document.body` / `head` / `title` / `currentScript`
+- [ ] XML document の legacy `rootElement` surface
 - [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
 - [ ] Window named properties と `id` / `name` mutation に追従する supported property names
 - [ ] global attribute reflection、`dataset`、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`

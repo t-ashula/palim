@@ -32,6 +32,7 @@ export class NodeImplementation extends EventTargetImplementation {
   descendantTextCache: string | null = null;
   childNodes: NodeList | null = null;
   elementChildren: HTMLCollection | null = null;
+  scriptAlreadyStarted = false;
   readonly creationDocument: DocumentImplementation | null;
 
   constructor(

@@ -10,7 +10,7 @@ import {
   NodeFilter,
   Text,
 } from "../dom.js";
-import { DOMParser } from "../dom-parser.js";
+import { associateDOMParser, DOMParser } from "../dom-parser.js";
 import { createStaticRange } from "../dom/range-implementation.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
@@ -162,7 +162,11 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       binding.realm,
       binding.domParserPrototype,
     );
-    binding.domParsers.set(object, new DOMParser());
+    const parser = new DOMParser();
+    if (binding.associatedDocument !== null) {
+      associateDOMParser(parser, binding.associatedDocument);
+    }
+    binding.domParsers.set(object, parser);
     return normal(object);
   });
   binding.installInterface(

@@ -1,5 +1,8 @@
 import { Event } from "./dom/events.js";
-import { documentImplementation } from "./dom/node-implementation.js";
+import {
+  documentImplementation,
+  nodeImplementation,
+} from "./dom/node-implementation.js";
 import type { Document, Element, Node } from "./dom/nodes.js";
 import { descendantElements } from "./dom/traversal.js";
 import { HTMLScriptElement } from "./html-elements.js";
@@ -62,7 +65,6 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   readonly scriptResults: ParserInsertedScriptResult[] = [];
   readonly #resourceLoader: ResourceLoader | null;
   readonly #pendingResourceLoads: Promise<void>[] = [];
-  readonly #startedScripts = new WeakSet<HTMLScriptElement>();
 
   constructor(options: WindowExecutionOptions = {}, document?: Document) {
     super(
@@ -111,7 +113,11 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   }
 
   async #processScript(element: unknown): Promise<void> {
-    if (!(element instanceof HTMLScriptElement) || !isClassic(element)) {
+    if (
+      !(element instanceof HTMLScriptElement) ||
+      nodeImplementation(element).scriptAlreadyStarted ||
+      !isClassic(element)
+    ) {
       return;
     }
     const source = element.getAttribute("src");
@@ -119,11 +125,11 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
       if (element.text === "") {
         return;
       }
-      this.#startedScripts.add(element);
+      nodeImplementation(element).scriptAlreadyStarted = true;
       this.#executeScript(element, element.text, this.#baseURL(element).href);
       return;
     }
-    this.#startedScripts.add(element);
+    nodeImplementation(element).scriptAlreadyStarted = true;
     if (element.async || element.defer) {
       return;
     }
@@ -175,7 +181,7 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   #processDynamicScript(node: Node): void {
     if (
       !(node instanceof HTMLScriptElement) ||
-      this.#startedScripts.has(node) ||
+      nodeImplementation(node).scriptAlreadyStarted ||
       !node.isConnected ||
       !isClassic(node) ||
       node.hasAttribute("src") ||
@@ -183,7 +189,7 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
     ) {
       return;
     }
-    this.#startedScripts.add(node);
+    nodeImplementation(node).scriptAlreadyStarted = true;
     this.#executeScript(node, node.text, this.#baseURL(node).href);
   }
 
