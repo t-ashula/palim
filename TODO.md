@@ -145,7 +145,7 @@
 
 ## Conformance infrastructure
 
-- [ ] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
+- [x] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
 
 ## Web IDL bindings
 

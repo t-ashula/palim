@@ -8,6 +8,12 @@ from wptrunner.executors.base import TestharnessExecutor
 from wptrunner.products import Product
 
 
+TESTHARNESS_REPORT = os.path.join(
+    os.path.dirname(__file__),
+    "testharnessreport.js",
+)
+
+
 class PalimExecutor(TestharnessExecutor):
     supports_testdriver = True
     supports_jsshell = True
@@ -117,7 +123,7 @@ def get_product():
         env_options={
             "server_host": "127.0.0.1",
             "bind_address": True,
-            "testharnessreport": "testharnessreport-servo.js",
+            "testharnessreport": TESTHARNESS_REPORT,
         },
         get_env_extras=env_extras,
         get_timeout_multiplier=get_timeout_multiplier,
