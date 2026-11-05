@@ -4,7 +4,7 @@
 
 ### Page realm bindings
 
-- [ ] `Document.importNode` / `adoptNode` と `DocumentFragment.getElementById`
+- [x] `Document.importNode` / `adoptNode` と `DocumentFragment.getElementById`
 - [ ] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
 - [ ] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [ ] `NamedNodeMap` mutation API と `NodeList` iterable API

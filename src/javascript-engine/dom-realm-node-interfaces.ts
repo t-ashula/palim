@@ -1283,6 +1283,73 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
   );
   binding.method(
     binding.documentPrototype,
+    "importNode",
+    1,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const nodeValue = argumentsList[0];
+      const node = nodeValue === undefined ? null : binding.node(nodeValue);
+      if (node === null) {
+        return binding.typeError("importNode requires a Node");
+      }
+
+      const optionsValue = argumentsList[1];
+      let options: boolean | { selfOnly: boolean } = false;
+      if (
+        optionsValue !== undefined &&
+        !binding.engine.isUndefined(optionsValue)
+      ) {
+        const object = binding.engine.asObject(optionsValue);
+        if (object === null && !binding.engine.isNull(optionsValue)) {
+          options = binding.engine.toBoolean(optionsValue);
+        } else {
+          let selfOnly = false;
+          if (object !== null) {
+            const selfOnlyValue = binding.engine.get(
+              binding.realm,
+              object,
+              "selfOnly",
+            );
+            if (selfOnlyValue.type === "throw") {
+              return selfOnlyValue;
+            }
+            if (!binding.engine.isUndefined(selfOnlyValue.value)) {
+              selfOnly = binding.engine.toBoolean(selfOnlyValue.value);
+            }
+          }
+          options = { selfOnly };
+        }
+      }
+
+      return binding.domOperationResult(() =>
+        binding.platformValue(document.importNode(node, options)),
+      );
+    },
+  );
+  binding.method(
+    binding.documentPrototype,
+    "adoptNode",
+    1,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const nodeValue = argumentsList[0];
+      const node = nodeValue === undefined ? null : binding.node(nodeValue);
+      if (node === null) {
+        return binding.typeError("adoptNode requires a Node");
+      }
+      return binding.domOperationResult(() =>
+        binding.platformValue(document.adoptNode(node)),
+      );
+    },
+  );
+  binding.method(
+    binding.documentPrototype,
     "getElementsByTagName",
     1,
     (thisValue, argumentsList) => {
@@ -1582,6 +1649,21 @@ export function installDocumentFragmentMembers(
       return fragment === null
         ? binding.typeError("Invalid DocumentFragment receiver")
         : normal(binding.wrap(fragment.children));
+    },
+  );
+  binding.method(
+    binding.documentFragmentPrototype,
+    "getElementById",
+    1,
+    (thisValue, argumentsList) => {
+      const fragment = binding.documentFragment(thisValue);
+      if (fragment === null) {
+        return binding.typeError("Invalid DocumentFragment receiver");
+      }
+      const id = binding.stringArgument(argumentsList, 0, "getElementById");
+      return id.type === "throw"
+        ? id
+        : binding.platformValue(fragment.getElementById(id.value));
     },
   );
   binding.method(
