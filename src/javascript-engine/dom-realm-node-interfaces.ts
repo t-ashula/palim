@@ -466,6 +466,12 @@ export function installCharacterDataMembers(
     (value) => binding.characterData(value),
     "CharacterData",
   );
+  binding.attribute(binding.textPrototype, "wholeText", (thisValue) => {
+    const characterData = binding.characterData(thisValue);
+    return characterData instanceof Text
+      ? binding.primitive(characterData.wholeText)
+      : binding.typeError("Invalid Text receiver");
+  });
   binding.method(
     binding.textPrototype,
     "splitText",

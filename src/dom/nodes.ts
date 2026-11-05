@@ -2139,6 +2139,22 @@ export class Text extends CharacterData {
     );
   }
 
+  get wholeText(): string {
+    const preceding: Text[] = [];
+    let sibling = this.previousSibling;
+    while (sibling instanceof Text) {
+      preceding.unshift(sibling);
+      sibling = sibling.previousSibling;
+    }
+    let result = preceding.map((text) => text.data).join("") + this.data;
+    sibling = this.nextSibling;
+    while (sibling instanceof Text) {
+      result += sibling.data;
+      sibling = sibling.nextSibling;
+    }
+    return result;
+  }
+
   splitText(offset: number): Text {
     requireArguments(arguments.length, 1);
     const convertedOffset = toUnsignedLong(offset);

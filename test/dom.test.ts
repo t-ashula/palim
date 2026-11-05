@@ -364,6 +364,21 @@ describe("Document node creation", () => {
     expect(text.data).toBe("reset");
   });
 
+  it("returns the data of contiguous Text siblings", () => {
+    const document = parse("");
+    const parent = document.createElement("div");
+    const first = document.createTextNode("first");
+    const second = document.createTextNode(" second");
+    const separated = document.createTextNode("separated");
+
+    parent.append(first, second, document.createComment("boundary"), separated);
+
+    expect(first.wholeText).toBe("first second");
+    expect(second.wholeText).toBe("first second");
+    expect(separated.wholeText).toBe("separated");
+    expect(document.createTextNode("detached").wholeText).toBe("detached");
+  });
+
   it("converts CharacterData arguments and validates offsets", () => {
     const text = parse("").createTextNode("test");
     const substringData = text.substringData.bind(text) as unknown as (

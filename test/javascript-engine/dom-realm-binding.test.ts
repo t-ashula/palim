@@ -131,7 +131,11 @@ describe("DOMRealmBinding", () => {
         }
 
         const text = new Text("test");
-        if (text.data !== "test" || text.ownerDocument !== testDocument) {
+        if (
+          text.data !== "test" ||
+          text.wholeText !== "test" ||
+          text.ownerDocument !== testDocument
+        ) {
           throw new Error("Text constructor did not use data or the realm document");
         }
         const calls = [];
