@@ -51,6 +51,7 @@ import {
   adjustLiveRangesForData,
   adjustLiveRangesForInsertion,
   adjustLiveRangesForTextMerge,
+  adjustLiveRangesForTextSplit,
   createRange,
   preRemoveLiveRanges,
   transferLiveRanges,
@@ -2136,6 +2137,41 @@ export class Text extends CharacterData {
         domString(dataOrImplementation),
       ),
     );
+  }
+
+  splitText(offset: number): Text {
+    requireArguments(arguments.length, 1);
+    const convertedOffset = toUnsignedLong(offset);
+    if (convertedOffset > this.length) {
+      throw new DOMException(
+        "The offset exceeds the data length",
+        "IndexSizeError",
+      );
+    }
+    const split = createText(
+      childNodeDocument(this),
+      this.data.slice(convertedOffset),
+    );
+    const parent = this.parentNode;
+    let insertionOffset = 0;
+    if (parent !== null) {
+      insertionOffset = childNodes(parent).indexOf(this) + 1;
+      parent.insertBefore(split, this.nextSibling);
+    }
+    adjustLiveRangesForTextSplit(
+      this,
+      split,
+      convertedOffset,
+      parent,
+      insertionOffset,
+    );
+    replaceCharacterData(
+      this,
+      convertedOffset,
+      this.length - convertedOffset,
+      "",
+    );
+    return split;
   }
 }
 

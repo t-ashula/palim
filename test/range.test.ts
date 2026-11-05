@@ -265,6 +265,55 @@ describe("Range contents", () => {
 });
 
 describe("live Range mutation", () => {
+  it("adjusts CharacterData boundaries for replacement", () => {
+    const document = parse("<main>abcdef</main>");
+    const data = text(element(document, "main").firstChild);
+    const spanning = document.createRange();
+    spanning.setStart(data, 1);
+    spanning.setEnd(data, 5);
+    const removed = document.createRange();
+    removed.setStart(data, 3);
+    removed.setEnd(data, 4);
+
+    data.replaceData(2, 2, "XYZ");
+
+    expect(data.data).toBe("abXYZef");
+    expect(spanning.startOffset).toBe(1);
+    expect(spanning.endOffset).toBe(6);
+    expect(removed.startOffset).toBe(2);
+    expect(removed.endOffset).toBe(2);
+  });
+
+  it("moves boundaries across attached and detached text splits", () => {
+    const document = parse("<main>abcdef</main>");
+    const main = element(document, "main");
+    const data = text(main.firstChild);
+    const content = document.createRange();
+    content.setStart(data, 2);
+    content.setEnd(data, 5);
+    const parentPoint = document.createRange();
+    parentPoint.setStart(main, 1);
+    parentPoint.collapse(true);
+
+    const split = data.splitText(3);
+
+    expect(data.data).toBe("abc");
+    expect(split.data).toBe("def");
+    expect(content.startContainer).toBe(data);
+    expect(content.startOffset).toBe(2);
+    expect(content.endContainer).toBe(split);
+    expect(content.endOffset).toBe(2);
+    expect(parentPoint.startOffset).toBe(2);
+
+    const detached = document.createTextNode("wxyz");
+    const detachedRange = document.createRange();
+    detachedRange.setStart(detached, 3);
+    detachedRange.collapse(true);
+    const detachedSplit = detached.splitText(2);
+    expect(detachedRange.startContainer).toBe(detachedSplit);
+    expect(detachedRange.startOffset).toBe(1);
+  });
+
   it("adjusts parent offsets for insertion and removal", () => {
     const document = parse("<main><a></a><b></b><c></c></main>");
     const main = element(document, "main");

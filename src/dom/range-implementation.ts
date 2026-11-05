@@ -16,7 +16,6 @@ import {
   childNodes,
   cloneNodeIntoDocument,
   createDocumentFragment,
-  createText,
   removeNode,
   replaceCharacterData,
   validatePreInsertion,
@@ -455,7 +454,7 @@ class RangeImplementation implements Range {
     source: Text,
     split: Text,
     offset: number,
-    parent: Node,
+    parent: Node | null,
     insertionOffset: number,
   ): void {
     this.#start = adjustedSplitPoint(
@@ -618,6 +617,18 @@ export function adjustLiveRangesForTextMerge(
   const index = nodeIndex(source);
   forEachRange(nodeDocument(source), (range) => {
     range.adjustForTextMerge(source, target, targetLength, parent, index);
+  });
+}
+
+export function adjustLiveRangesForTextSplit(
+  source: Text,
+  split: Text,
+  offset: number,
+  parent: Node | null,
+  insertionOffset: number,
+): void {
+  forEachRange(nodeDocument(source), (range) => {
+    range.adjustForTextSplit(source, split, offset, parent, insertionOffset);
   });
 }
 
@@ -814,18 +825,7 @@ function cloneRangeContents(range: RangeImplementation): DocumentFragment {
 }
 
 function splitTextNode(node: Text, offset: number): Text {
-  const document = nodeDocument(node);
-  const split = createText(document, node.data.slice(offset));
-  const parent = node.parentNode;
-  if (parent !== null) {
-    const insertionOffset = nodeIndex(node) + 1;
-    parent.insertBefore(split, node.nextSibling);
-    forEachRange(document, (range) => {
-      range.adjustForTextSplit(node, split, offset, parent, insertionOffset);
-    });
-  }
-  replaceCharacterData(node, offset, node.length - offset, "");
-  return split;
+  return node.splitText(offset);
 }
 
 function cloneCharacterData(
@@ -1138,7 +1138,7 @@ function adjustedSplitPoint(
   source: Text,
   split: Text,
   offset: number,
-  parent: Node,
+  parent: Node | null,
   insertionOffset: number,
 ): BoundaryPoint {
   if (point.node === source && point.offset > offset) {

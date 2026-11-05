@@ -1,4 +1,4 @@
-import { Attr, CharacterData, DocumentType } from "../dom.js";
+import { Attr, CharacterData, DocumentType, Text } from "../dom.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -357,6 +357,27 @@ export function installCharacterDataMembers(
     binding.characterDataPrototype,
     (value) => binding.characterData(value),
     "CharacterData",
+  );
+  binding.method(
+    binding.textPrototype,
+    "splitText",
+    1,
+    (thisValue, argumentsList) => {
+      const characterData = binding.characterData(thisValue);
+      if (!(characterData instanceof Text)) {
+        return binding.typeError("Invalid Text receiver");
+      }
+      const offset = binding.unsignedLongArgument(
+        argumentsList,
+        0,
+        "splitText",
+      );
+      return offset.type === "throw"
+        ? offset
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(characterData.splitText(offset.value))),
+          );
+    },
   );
 }
 

@@ -708,6 +708,10 @@ describe("DOMRealmBinding", () => {
         if (created.toString() !== "ex" || created.commonAncestorContainer !== text) {
           throw new Error("Range binding is invalid");
         }
+        const split = text.splitText(2);
+        if (!(split instanceof Text) || split.data !== "xt") {
+          throw new Error("Text.splitText binding is invalid");
+        }
         const snapshot = new StaticRange({
           startContainer: text,
           startOffset: 1,
