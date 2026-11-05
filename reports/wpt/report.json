@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261104t150907228z-1641914",
+    "id": "20261105t094443145z-2660424",
     "state": "completed",
     "palim": {
-      "revision": "a5f8494d28074f7c5d0fd3d696148274ff46ea1f",
-      "dirty": true,
-      "imageId": "sha256:051b5ae2823bfb0db351339397de15031063097bc34f2ec73e894e42e501bc61"
+      "revision": "6556b5bbb8bd83ed886b78a92c1bea2ae911f7a8",
+      "dirty": false,
+      "imageId": "sha256:7f339073f98714378ab6ccb4a7609a5bd6af324499ec7c1d6307476b601717f1"
     },
     "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-04T16:02:06.348Z",
+    "snapshotAt": "2026-11-05T10:36:53.977Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -46,11 +46,11 @@
   "totals": {
     "total": 1226,
     "executed": 1226,
-    "pass": 209,
-    "fail": 496,
+    "pass": 309,
+    "fail": 423,
     "skip": 0,
-    "error": 236,
-    "timeout": 285,
+    "error": 214,
+    "timeout": 280,
     "pending": 0
   },
   "areas": [
@@ -73,10 +73,10 @@
         "total": 214,
         "executed": 214,
         "pass": 13,
-        "fail": 57,
+        "fail": 69,
         "skip": 0,
-        "error": 20,
-        "timeout": 124,
+        "error": 10,
+        "timeout": 122,
         "pending": 0
       }
     },
@@ -98,11 +98,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 92,
-        "fail": 217,
+        "pass": 154,
+        "fail": 164,
         "skip": 0,
-        "error": 26,
-        "timeout": 73,
+        "error": 20,
+        "timeout": 70,
         "pending": 0
       }
     },
@@ -111,10 +111,10 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 0,
-        "fail": 52,
+        "pass": 17,
+        "fail": 40,
         "skip": 0,
-        "error": 7,
+        "error": 2,
         "timeout": 10,
         "pending": 0
       }
@@ -137,8 +137,8 @@
       "totals": {
         "total": 56,
         "executed": 56,
-        "pass": 21,
-        "fail": 15,
+        "pass": 20,
+        "fail": 16,
         "skip": 0,
         "error": 2,
         "timeout": 18,
@@ -150,8 +150,8 @@
       "totals": {
         "total": 57,
         "executed": 57,
-        "pass": 13,
-        "fail": 43,
+        "pass": 28,
+        "fail": 28,
         "skip": 0,
         "error": 0,
         "timeout": 1,
@@ -163,10 +163,10 @@
       "totals": {
         "total": 70,
         "executed": 70,
-        "pass": 5,
-        "fail": 49,
+        "pass": 7,
+        "fail": 48,
         "skip": 0,
-        "error": 2,
+        "error": 1,
         "timeout": 14,
         "pending": 0
       }
@@ -176,8 +176,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 11,
-        "fail": 30,
+        "pass": 16,
+        "fail": 25,
         "skip": 0,
         "error": 175,
         "timeout": 20,
@@ -212,12 +212,12 @@
     }
   ],
   "subtests": {
-    "total": 52021,
-    "pass": 6707,
-    "fail": 39966,
+    "total": 62011,
+    "pass": 47557,
+    "fail": 9137,
     "skip": 0,
-    "error": 5075,
-    "timeout": 273
+    "error": 5049,
+    "timeout": 268
   },
   "nonPassingTests": [
     {
@@ -327,8 +327,8 @@
     },
     {
       "url": "/dom/events/Event-dispatch-on-disabled-elements.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "timeout",
+      "message": "elem.click is not a function. (In \"elem.click()\", it is undefined)"
     },
     {
       "url": "/dom/events/Event-dispatch-order-at-target.html",
@@ -348,7 +348,7 @@
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656\n                throw new Error(this.#engine.exceptionMessage(this.#realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:24:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
@@ -357,8 +357,8 @@
     },
     {
       "url": "/dom/events/Event-dispatch-single-activation-behavior.html",
-      "status": "timeout",
-      "message": "b'TypeError: target.cloneNode is not a function. (In \"target.cloneNode(true)\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/Event-dispatch-single-activation-behavior.html:61:38'"
+      "status": "error",
+      "message": "39 duplicate test names: \"When clicking child <INPUT></INPUT> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <A></A>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <A></A>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <A></A>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <A></A> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <A></A> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <A></A> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\""
     },
     {
       "url": "/dom/events/Event-dispatch-target-moved.html",
@@ -547,13 +547,13 @@
     },
     {
       "url": "/dom/events/click-on-absolute-pseudo.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/events/element-click.html",
-      "status": "error",
-      "message": "Test named 'static querySelectorAll' specified 1 'cleanup' function, and 1 failed."
+      "status": "fail",
+      "message": "button.click is not a function. (In \"button.click()\", it is undefined)"
     },
     {
       "url": "/dom/events/event-disabled-dynamic.html",
@@ -617,23 +617,23 @@
     },
     {
       "url": "/dom/events/focus-event-document-move.html",
-      "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "status": "fail",
+      "message": "Tried to run in a non-testharness window without a call to set_test_context"
     },
     {
       "url": "/dom/events/handler-count.html?document",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/handler-count.html?element",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/handler-count.html?window",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/label-default-action.html",
@@ -652,208 +652,208 @@
     },
     {
       "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: editingHost.blur is not a function. (In \"editingHost.blur()\", it is undefined)\""
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-body.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-div.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-root.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/non-cancelable-when-passive/synthetic-events-cancelable.html",
@@ -872,8 +872,8 @@
     },
     {
       "url": "/dom/events/pointer-event-document-move.html",
-      "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nTypeError: document.querySelector(\"template\").content.cloneNode is not a function. (In \"document.querySelector(\"template\").content.cloneNode(true)\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/pointer-event-document-move.html:2:70'"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
     },
     {
       "url": "/dom/events/preventDefault-during-activation-behavior.html",
@@ -887,13 +887,13 @@
     },
     {
       "url": "/dom/events/scrolling/iframe-chains.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/save-iframe-scroll-offset-when-display-none.html",
@@ -903,7 +903,7 @@
     {
       "url": "/dom/events/scrolling/scroll-cross-origin-iframes.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scroll-event-fired-to-element.html",
@@ -928,7 +928,7 @@
     {
       "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"scroller\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html:2:1'"
+      "message": "b'ReferenceError: \"scroller\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html:2:1'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
@@ -943,172 +943,171 @@
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-after-snap.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth:11:13'"
+      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth:11:13'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView",
       "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView:23:1"
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView:23:1"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto",
       "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto:23:1"
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto:23:1"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth",
       "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth:23:1"
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth:23:1"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto",
       "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto:23:1"
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto:23:1"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth",
       "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth:23:1"
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth:23:1"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-to-document.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"targetXDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html:4:47'"
+      "message": "b'ReferenceError: \"targetXDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html:4:47'"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-to-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fires-for-repeat-key-ending-after-scroll-container-end-is-reached.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "timeout"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fires-on-visual-viewport.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fires-to-iframe-window.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-for-user-scroll.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-handler-content-attributes.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-fires-to-text-input.html",
@@ -1122,73 +1121,73 @@
     },
     {
       "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: window.requestAnimationFrame is not a function. (In \"window.requestAnimationFrame(() => {\n      window.requestAnimationFrame(resolve);\n    })\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-composed.html",
-      "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child:12:20'"
+      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child:12:20'"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic:12:20'"
+      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic:12:20'"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2\\nReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame:12:20'"
+      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame:12:20'"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=contents",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=none",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-elements.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-move.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-removal.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true",
       "status": "timeout",
-      "message": "b'TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/shadow-relatedTarget.html",
@@ -1228,72 +1227,12 @@
     {
       "url": "/dom/nodes/Attr-prefix-xhtml.xhtml",
       "status": "fail",
-      "message": "element.getAttributeNodeNS is not a function. (In \"element.getAttributeNodeNS(\"testnamespace\", \"testwithprefix\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Attr-prefix.html",
-      "status": "fail",
-      "message": "element.getAttributeNodeNS is not a function. (In \"element.getAttributeNodeNS(null, \"xml:lang\")\", it is undefined)"
+      "message": "Cannot convert null to object"
     },
     {
       "url": "/dom/nodes/CharacterData-appendChild.html",
       "status": "fail",
       "message": "assert_throws_dom: CharacterData type Text must not have children function \"function () {\n      node1.appendChild(node2);\n    }\" threw object \"TypeError: This node type cannot have children\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-appendData.html",
-      "status": "fail",
-      "message": "node.appendData is not a function. (In \"node.appendData(\"bar\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-data.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"\" but got \"test\""
-    },
-    {
-      "url": "/dom/nodes/CharacterData-deleteData.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() { node.deleteData(5, 10) }\" threw object \"TypeError: node.deleteData is not a function. (In \"node.deleteData(5, 10)\", it is undefined)\" that is not a DOMException INDEX_SIZE_ERR: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-insertData.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() { node.insertData(5, \"x\") }\" threw object \"TypeError: node.insertData is not a function. (In \"node.insertData(5, \"x\")\", it is undefined)\" that is not a DOMException INDEX_SIZE_ERR: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-remove.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-replaceData.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() { node.replaceData(5, 1, \"x\") }\" threw object \"TypeError: node.replaceData is not a function. (In \"node.replaceData(5, 1, \"x\")\", it is undefined)\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-substringData.html",
-      "status": "fail",
-      "message": "node.substringData is not a function. (In \"node.substringData(0, 1, \"test\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-surrogates.html",
-      "status": "fail",
-      "message": "node.substringData is not a function. (In \"node.substringData(1, 8)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/ChildNode-after.html",
-      "status": "fail",
-      "message": "child.after is not a function. (In \"child.after()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/ChildNode-before.html",
-      "status": "fail",
-      "message": "child.before is not a function. (In \"child.before()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/ChildNode-replaceWith.html",
-      "status": "fail",
-      "message": "child.replaceWith is not a function. (In \"child.replaceWith()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Comment-constructor.html",
@@ -1369,14 +1308,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Document-cloneNode-base-url-xml.window.html",
-      "status": "fail",
-      "message": "doc.cloneNode is not a function. (In \"doc.cloneNode(true)\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
       "status": "fail",
-      "message": "doc.cloneNode is not a function. (In \"doc.cloneNode(true)\", it is undefined)"
+      "message": "Invalid URL"
     },
     {
       "url": "/dom/nodes/Document-cloneNode-srcdoc-base-url.window.html",
@@ -1464,11 +1398,6 @@
       "message": "\"XMLHttpRequest\" is not defined"
     },
     {
-      "url": "/dom/nodes/Document-createAttribute.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n      document.createAttribute(name, \"test\");\n    }\" threw object \"TypeError: document.createAttribute is not a function. (In \"document.createAttribute(name, \"test\")\", it is undefined)\" that is not a DOMException INVALID_CHARACTER_ERR: property \"code\" is equal to undefined, expected 5"
-    },
-    {
       "url": "/dom/nodes/Document-createCDATASection-xhtml.xhtml",
       "status": "timeout",
       "message": "b'ReferenceError: \"CDATASection\" is not defined\\n    at http://web-platform.test:8000/dom/nodes/Document-createCDATASection-xhtml.xhtml:3:37'"
@@ -1486,12 +1415,12 @@
     {
       "url": "/dom/nodes/Document-createElement.html",
       "status": "fail",
-      "message": "assert_equals: prefix expected (object) null but got (undefined) undefined"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/Document-createElementNS.html",
       "status": "fail",
-      "message": "assert_equals: element.prefix expected (object) null but got (undefined) undefined"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/Document-createEvent-touchevent.window.html",
@@ -1516,7 +1445,7 @@
     {
       "url": "/dom/nodes/Document-getElementById.html",
       "status": "fail",
-      "message": "assert_equals: expected null but got Element node <div undefined=\"undefined\"></div>"
+      "message": "assert_equals: expected null but got Element node <div id=\"\"></div>"
     },
     {
       "url": "/dom/nodes/Document-getElementsByTagName-xhtml.xhtml",
@@ -1539,16 +1468,6 @@
       "message": "assert_equals: It must exist on the prototype expected \"function\" but got \"undefined\""
     },
     {
-      "url": "/dom/nodes/DocumentFragment-querySelectorAll-after-modification.html",
-      "status": "timeout",
-      "message": "b'TypeError: frag.querySelectorAll is not a function. (In \"frag.querySelectorAll(\"img\")\", it is undefined)\\n    at http://web-platform.test:8000/dom/nodes/DocumentFragment-querySelectorAll-after-modification.html:9:43'"
-    },
-    {
-      "url": "/dom/nodes/DocumentType-remove.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
       "url": "/dom/nodes/Element-childElement-null-svg.svg",
       "status": "error",
       "message": "palim returned no WPT result"
@@ -1557,11 +1476,6 @@
       "url": "/dom/nodes/Element-childElement-null-xhtml.xhtml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElement-null-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElement-null.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/Element-childElementCount-dynamic-add-svg.svg",
@@ -1574,11 +1488,6 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-dynamic-add-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
     },
     {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-add.html",
-      "status": "fail",
-      "message": "assert_equals: expected (number) 2 but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/Element-childElementCount-dynamic-remove-svg.svg",
       "status": "error",
       "message": "palim returned no WPT result"
@@ -1587,11 +1496,6 @@
       "url": "/dom/nodes/Element-childElementCount-dynamic-remove-xhtml.xhtml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-dynamic-remove-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-remove.html",
-      "status": "fail",
-      "message": "The argument is not a Node"
     },
     {
       "url": "/dom/nodes/Element-childElementCount-nochild-svg.svg",
@@ -1604,11 +1508,6 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-nochild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
     },
     {
-      "url": "/dom/nodes/Element-childElementCount-nochild.html",
-      "status": "fail",
-      "message": "assert_equals: expected (number) 0 but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/Element-childElementCount-svg.svg",
       "status": "error",
       "message": "palim returned no WPT result"
@@ -1617,16 +1516,6 @@
       "url": "/dom/nodes/Element-childElementCount-xhtml.xhtml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
-      "url": "/dom/nodes/Element-classlist.html",
-      "status": "fail",
-      "message": "Cannot set property \"classList\" on [object Object]"
     },
     {
       "url": "/dom/nodes/Element-closest-null-selectors.html",
@@ -1659,11 +1548,6 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-firstElementChild-namespace-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
     },
     {
-      "url": "/dom/nodes/Element-firstElementChild-namespace.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
       "url": "/dom/nodes/Element-firstElementChild-svg.svg",
       "status": "error",
       "message": "palim returned no WPT result"
@@ -1674,19 +1558,9 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-firstElementChild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
     },
     {
-      "url": "/dom/nodes/Element-firstElementChild.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
       "url": "/dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Element-hasAttribute.html",
-      "status": "fail",
-      "message": "el.setAttributeNS is not a function. (In \"el.setAttributeNS(\"foo\", \"x\", \"first\")\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Element-hasAttributes.html",
@@ -1712,11 +1586,6 @@
       "url": "/dom/nodes/Element-lastElementChild-xhtml.xhtml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-lastElementChild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-lastElementChild.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/Element-matches-active-pseudo-class.html",
@@ -1764,26 +1633,6 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-previousElementSibling-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
     },
     {
-      "url": "/dom/nodes/Element-removeAttribute.html",
-      "status": "fail",
-      "message": "el.setAttributeNS is not a function. (In \"el.setAttributeNS(\"foo\", \"x\", \"second\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-removeAttributeNS.html",
-      "status": "fail",
-      "message": "el.setAttributeNS is not a function. (In \"el.setAttributeNS(XML, \"a:bb\", \"pass\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-setAttribute.html",
-      "status": "fail",
-      "message": "el.setAttributeNS is not a function. (In \"el.setAttributeNS(\"foo\", \"x\", \"first\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-setAttributeNodeNS.html",
-      "status": "fail",
-      "message": "element.setAttributeNS is not a function. (In \"element.setAttributeNS(null, \"id\", \"plain\")\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/Element-siblingElement-null-svg.svg",
       "status": "error",
       "message": "palim returned no WPT result"
@@ -1810,8 +1659,8 @@
     },
     {
       "url": "/dom/nodes/MutationObserver-attributes.html",
-      "status": "error",
-      "message": "TypeError: n90.setAttributeNS is not a function. (In \"n90.setAttributeNS(\"http://example.org/\", \"private\", \"42\")\", it is undefined)\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-attributes.html:272:56"
+      "status": "fail",
+      "message": "\"MutationObserver\" is not defined"
     },
     {
       "url": "/dom/nodes/MutationObserver-callback-arguments.html",
@@ -1899,11 +1748,6 @@
       "message": "assert_throws_dom: function \"function() { node.appendChild(document.createTextNode(\"fail\")) }\" threw object \"TypeError: This node type cannot have children\" that is not a DOMException HIERARCHY_REQUEST_ERR: property \"code\" is equal to undefined, expected 3"
     },
     {
-      "url": "/dom/nodes/Node-baseURI.html",
-      "status": "fail",
-      "message": "document.createAttribute is not a function. (In \"document.createAttribute(\"class\")\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/Node-childNodes-cache-2.html",
       "status": "fail",
       "message": "target.replaceChild is not a function. (In \"target.replaceChild(target.childNodes[2], target.childNodes[1])\", it is undefined)"
@@ -1921,37 +1765,12 @@
     {
       "url": "/dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html",
       "status": "fail",
-      "message": "document.cloneNode is not a function. (In \"document.cloneNode(document)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode-document-with-doctype.html",
-      "status": "fail",
-      "message": "doc.cloneNode is not a function. (In \"doc.cloneNode(true)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode-external-stylesheet-no-bc.sub.html",
-      "status": "timeout",
-      "message": "b'TypeError: doc.cloneNode is not a function. (In \"doc.cloneNode(true)\", it is undefined)\\n    at http://web-platform.test:8000/dom/nodes/Node-cloneNode-external-stylesheet-no-bc.sub.html:13:15'"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode-parser-created-names.html",
-      "status": "fail",
-      "message": "container.cloneNode is not a function. (In \"container.cloneNode(true)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode-svg.html",
-      "status": "timeout",
-      "message": "b'TypeError: svg.cloneNode is not a function. (In \"svg.cloneNode(true)\", it is undefined)\\n    at http://web-platform.test:8000/dom/nodes/Node-cloneNode-svg.html:5:29'"
+      "message": "doc.write is not a function. (In \"doc.write('<div><template shadowrootmode=open>test</template></div>')\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Node-cloneNode.html",
       "status": "fail",
-      "message": "element.cloneNode is not a function. (In \"element.cloneNode()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-compareDocumentPosition.html",
-      "status": "fail",
-      "message": "reference.compareDocumentPosition is not a function. (In \"reference.compareDocumentPosition(other)\", it is undefined)"
+      "message": "assert_true: HTMLAudioElement is not supported expected true got false"
     },
     {
       "url": "/dom/nodes/Node-constants.html",
@@ -1962,11 +1781,6 @@
       "url": "/dom/nodes/Node-contains-xml.xml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Node-contains-xml.xml:2:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Node-contains.html",
-      "status": "fail",
-      "message": "reference.contains is not a function. (In \"reference.contains(null)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Node-insertBefore.html",
@@ -1981,7 +1795,7 @@
     {
       "url": "/dom/nodes/Node-isConnected.html",
       "status": "fail",
-      "message": "assert_false: expected false got undefined"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/Node-isEqualNode-xhtml.xhtml",
@@ -1991,17 +1805,12 @@
     {
       "url": "/dom/nodes/Node-isEqualNode.html",
       "status": "fail",
-      "message": "doctype1.isEqualNode is not a function. (In \"doctype1.isEqualNode(doctype1)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-isSameNode.html",
-      "status": "fail",
-      "message": "doctype1.isSameNode is not a function. (In \"doctype1.isSameNode(doctype1)\", it is undefined)"
+      "message": "assert_true: default HTML documents, created different ways expected true got false"
     },
     {
       "url": "/dom/nodes/Node-lookupNamespaceURI.html",
-      "status": "error",
-      "message": "TypeError: fooElem.setAttributeNS is not a function. (In \"fooElem.setAttributeNS(XMLNS_NS, 'xmlns:bar', 'barURI')\", it is undefined)\n    at http://web-platform.test:8000/dom/nodes/Node-lookupNamespaceURI.html:52:47"
+      "status": "fail",
+      "message": "node.lookupNamespaceURI is not a function. (In \"node.lookupNamespaceURI(prefix)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Node-lookupPrefix.xhtml",
@@ -2019,29 +1828,9 @@
       "message": "assert_equals: expected \"test again\" but got \"A span!\""
     },
     {
-      "url": "/dom/nodes/Node-normalize-2.html",
-      "status": "fail",
-      "message": "t1.splitText is not a function. (In \"t1.splitText(5)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-normalize.html",
-      "status": "fail",
-      "message": "document.normalize is not a function. (In \"document.normalize()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-parentElement.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) null but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/Node-parentNode.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Node-properties.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) Element node <body><div id=\"test\"><p id=\"a\">Äb̈c̈d̈ëf̈g̈ḧ\n</p><p id... but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/Node-removeChild.html",
@@ -2094,24 +1883,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/ParentNode-append.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => insert(doc.body, doc.body)\" threw object \"TypeError: The new child is an ancestor of this node\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-prepend.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => insert(doc.body, doc.body)\" threw object \"TypeError: Cannot convert undefined to object\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
       "url": "/dom/nodes/ParentNode-properties.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-All-scope.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-All-xht.xht",
@@ -2122,21 +1896,6 @@
       "url": "/dom/nodes/ParentNode-querySelector-All.html",
       "status": "timeout",
       "message": "Test timed out"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-attribute-change.html",
-      "status": "fail",
-      "message": "assert_equals: initial expected (undefined) undefined but got (object) Element node <span undefined=\"undefined\"></span>"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-class-change.html",
-      "status": "error",
-      "message": "Test named 'svg simple class' specified 1 'cleanup' function, and 1 failed."
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-dupe-id.html",
-      "status": "fail",
-      "message": "test1.cloneNode is not a function. (In \"test1.cloneNode(true)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-escapes.html",
@@ -2152,11 +1911,6 @@
       "url": "/dom/nodes/ParentNode-querySelector-hyphen-prefix.html",
       "status": "fail",
       "message": "assert_throws_dom: function \"() => {\n    document.querySelector(\"#-123\");\n  }\" threw object \"TypeError: The selector is invalid.\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-innerHTML.html",
-      "status": "fail",
-      "message": "assert_equals: inner div expected (undefined) undefined but got (object) Element node <div undefined=\"undefined\"><span id=\"inner-span\"></span><..."
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-invalid-comment-like.html",
@@ -2184,14 +1938,9 @@
       "message": "Cannot convert null to object"
     },
     {
-      "url": "/dom/nodes/ParentNode-querySelectorAll-scope-change.html",
-      "status": "fail",
-      "message": "subCollection.cloneNode is not a function. (In \"subCollection.cloneNode(true)\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/ParentNode-replaceChildren.html",
       "status": "fail",
-      "message": "assert_throws_dom: function \"() => insert(doc.body, doc.body)\" threw object \"TypeError: Cannot convert undefined to object\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
+      "message": "\"MutationObserver\" is not defined"
     },
     {
       "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
@@ -2201,12 +1950,12 @@
     {
       "url": "/dom/nodes/ProcessingInstruction-literal-1.xhtml",
       "status": "fail",
-      "message": "assert_equals: expected Element node <html undefined=\"undefined\"><head>\n<title>&lt;?xml?&gt; i... but got Comment node <!--?xml version=\"1.0\" encoding=\"UTF-8\"?-->"
+      "message": "assert_equals: expected Element node <html xmlns=\"http://www.w3.org/1999/xhtml\"><head>\n<title>... but got Comment node <!--?xml version=\"1.0\" encoding=\"UTF-8\"?-->"
     },
     {
       "url": "/dom/nodes/ProcessingInstruction-literal-2.xhtml",
       "status": "fail",
-      "message": "\"ProcessingInstruction\" is not defined"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/Text-constructor.html",
@@ -2214,24 +1963,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Text-splitText.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function () { text.splitText(10) }\" threw object \"TypeError: text.splitText is not a function. (In \"text.splitText(10)\", it is undefined)\" that is not a DOMException INDEX_SIZE_ERR: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/dom/nodes/Text-wholeText.html",
-      "status": "fail",
-      "message": "assert_equals: expected (string) \"a\" but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/adoption.window.html",
       "status": "fail",
       "message": "document.adoptNode is not a function. (In \"document.adoptNode(df)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/append-on-Document.html",
-      "status": "fail",
-      "message": "node.cloneNode is not a function. (In \"node.cloneNode()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/attach-shadow-realm-after-adoption.html",
@@ -2246,17 +1980,7 @@
     {
       "url": "/dom/nodes/attributes-namednodemap.html",
       "status": "fail",
-      "message": "assert_equals: expected (string) \"first\" but got (undefined) undefined"
-    },
-    {
-      "url": "/dom/nodes/attributes.html",
-      "status": "fail",
-      "message": "assert_throws_dom: toggleAttribute(\"\", true) function \"function() { el.toggleAttribute(invalid_names[i], true) }\" threw object \"TypeError: el.toggleAttribute is not a function. (In \"el.toggleAttribute(invalid_names[i], true)\", it is undefined)\" that is not a DOMException INVALID_CHARACTER_ERR: property \"code\" is equal to undefined, expected 5"
-    },
-    {
-      "url": "/dom/nodes/case.html",
-      "status": "fail",
-      "message": "assert_equals: expected (string) \"abc\" but got (undefined) undefined"
+      "message": "map.setNamedItem is not a function. (In \"map.setNamedItem(attr1)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/create-element-realm-after-adoption.html",
@@ -2266,7 +1990,7 @@
     {
       "url": "/dom/nodes/getElementById-namespaced-id.html",
       "status": "fail",
-      "message": "form.setAttributeNS is not a function. (In \"form.setAttributeNS(namespace, \"id\", \"unrelated\")\", it is undefined)"
+      "message": "assert_equals: expected (object) Element node <form id=\"owner\" id=\"unrelated\"></form> but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/getElementsByClassName-10.xml",
@@ -2276,7 +2000,7 @@
     {
       "url": "/dom/nodes/getElementsByClassName-11.xml",
       "status": "fail",
-      "message": "assert_array_equals: expected property 1 to be undefined but got Element node <g:x undefined=\"undefined\">\n    <x t:class=\"a\" h:class=\"a... (expected array [Element node <x undefined=\"undefined\">\n    <g:x class=\"a\">\n    <x t:cl..., undefined, undefined] got object \"[object Object]\")"
+      "message": "assert_array_equals: expected property 1 to be undefined but got Element node <g:x class=\"a\">\n    <x t:class=\"a\" h:class=\"a\" g:class=\"a... (expected array [Element node <x class=\"a\">\n    <g:x class=\"a\">\n    <x t:class=\"a\" h:cl..., undefined, undefined] got object \"[object Object]\")"
     },
     {
       "url": "/dom/nodes/getElementsByClassName-20.htm",
@@ -2311,17 +2035,17 @@
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-form-and-script-from-fragment.html",
       "status": "fail",
-      "message": "fragment.append is not a function. (In \"fragment.append(script, form)\", it is undefined)"
+      "message": "assert_equals: expected (object) Element node <form id=\"someForm\"></form> but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fragment.append is not a function. (In \"fragment.append(preMetaScript, meta, postMetaScript)\", it is undefined)\""
+      "status": "error",
+      "message": "ReferenceError: \"fetch\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:35\n    at steps (native)\n    at async <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)\nReferenceError: \"fetch\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:36\n    at steps (native)\n    at async <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-button-from-div.html",
       "status": "fail",
-      "message": "assert_equals: expected Element node <form undefined=\"undefined\"><div><script>\n    buttonForm ... but got null"
+      "message": "assert_equals: expected (object) Element node <form id=\"form\"><div><script>\n    buttonForm = button.for... but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html",
@@ -2331,17 +2055,12 @@
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html",
       "status": "fail",
-      "message": "df.append is not a function. (In \"df.append(preScript, meta, postScript)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-div-from-fragment.html",
-      "status": "fail",
-      "message": "assert_equals: expected Element node <head><meta charset=\"utf-8\">\n<title>Node.appendChild: ins... but got null"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-iframe.html",
       "status": "fail",
-      "message": "assert_equals: expected \"iframe with content window\" but got \"script not run yet\""
+      "message": "assert_equals: expected \"iframe with content window\" but got \"contentWindow is null\""
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-source-from-fragment.html",
@@ -2351,12 +2070,12 @@
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html",
       "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"sheet\", 2] length 2, got [] length 0"
+      "message": "assert_array_equals: expected property 0 to be \"sheet\" but got null (expected array [\"sheet\", 2] got [null, undefined])"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"s1\", \"s2\", \"s2ran\"] length 3, got [] length 0"
+      "status": "error",
+      "message": "ReferenceError: \"s1\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:9:5\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:39:18)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:43:4\nReferenceError: \"s1\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:9:5\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:39:18)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:43:4"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-with-mutation-observer-takeRecords.html",
@@ -2365,23 +2084,8 @@
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [2] length 1, got [] length 0"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-text-in-script.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"t1\", \"t2\"] length 2, got [] length 0"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-three-scripts-from-fragment.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"s3\", \"s1\", \"s2\"] length 3, got [] length 0"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-three-scripts.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"s3\", \"s1\", \"s2\"] length 3, got [] length 0"
+      "status": "error",
+      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:2:19\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:18:21)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:22:4"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/blur-event.window.html",
@@ -2390,8 +2094,8 @@
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/change-event.window.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input.focus is not a function. (In \"input.focus()\", it is undefined)\""
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/frame-post-connection-steps.html",
@@ -2409,6 +2113,11 @@
       "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
     },
     {
+      "url": "/dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html",
+      "status": "fail",
+      "message": "assert_false: Appending script with invalid type does not trigger execution expected false got true"
+    },
+    {
       "url": "/dom/nodes/live-collections-batched-mutations.window.html",
       "status": "fail",
       "message": "assert_equals: expected (object) Element node <span></span> but got (undefined) undefined"
@@ -2416,7 +2125,7 @@
     {
       "url": "/dom/nodes/moveBefore/Node-moveBefore.html",
       "status": "fail",
-      "message": "assert_throws_dom: function \"() => insert(doc.body, doc.body)\" threw object \"TypeError: Cannot convert undefined to object\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/moveBefore/child-style-preserve.html",
@@ -2510,13 +2219,13 @@
     },
     {
       "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
     },
     {
       "url": "/dom/nodes/moveBefore/hover-style-update.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/nodes/moveBefore/iframe-document-preserve.window.html",
@@ -2526,12 +2235,12 @@
     {
       "url": "/dom/nodes/moveBefore/listed-form-element-reset.html",
       "status": "fail",
-      "message": "assert_equals: button.form is correctly associated expected (object) Element node <form undefined=\"undefined\"></form> but got (undefined) undefined"
+      "message": "assert_equals: button.form is correctly associated expected (object) Element node <form id=\"form1\"></form> but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/moveBefore/live-range-updates.html",
       "status": "fail",
-      "message": "\"Range\" is not defined"
+      "message": "\"start\" is not defined"
     },
     {
       "url": "/dom/nodes/moveBefore/modal-dialog.html",
@@ -2551,7 +2260,7 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-disconnected-id-map.html",
       "status": "fail",
-      "message": "newParent.moveBefore is not a function. (In \"newParent.moveBefore(element, null)\", it is undefined)"
+      "message": "assert_equals: expected (object) Element node <img name=\"shared-name\" data-document=\"\"></img> but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
@@ -2579,14 +2288,9 @@
       "message": "\"container\" is not defined"
     },
     {
-      "url": "/dom/nodes/moveBefore/moveBefore-nodeiterator.html",
-      "status": "fail",
-      "message": "newParent.moveBefore is not a function. (In \"newParent.moveBefore(target, null)\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
       "status": "fail",
-      "message": "get(\"second\").moveBefore is not a function. (In \"get(\"second\").moveBefore(get(\"moved\"), null)\", it is undefined)"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-option-recalc-style.html",
@@ -2611,7 +2315,7 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-shadow-inside.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.querySelector(\"#section2\").moveBefore is not a function. (In \"document.querySelector(\"#section2\").moveBefore(item, null)\", it is undefined)\""
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-shadow-root.html",
@@ -2645,8 +2349,8 @@
     },
     {
       "url": "/dom/nodes/moveBefore/pointer-events.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/nodes/moveBefore/popover-preserve.html",
@@ -2656,12 +2360,12 @@
     {
       "url": "/dom/nodes/moveBefore/preserve-render-blocking-script.html",
       "status": "error",
-      "message": "ReferenceError: \"requestAnimationFrame\" is not defined\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-script.html:2:5\nTypeError: document.head.moveBefore is not a function. (In \"document.head.moveBefore(document.getElementById(\"target\"), null)\", it is undefined)\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-script.html:2:65"
+      "message": "ReferenceError: \"requestAnimationFrame\" is not defined\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-script.html:2:5"
     },
     {
       "url": "/dom/nodes/moveBefore/preserve-render-blocking-style.html",
       "status": "error",
-      "message": "ReferenceError: \"requestAnimationFrame\" is not defined\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-style.html:7:5\nTypeError: document.head.moveBefore is not a function. (In \"document.head.moveBefore(link, null)\", it is undefined)\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-style.html:2:36"
+      "message": "ReferenceError: \"requestAnimationFrame\" is not defined\n    at http://web-platform.test:8000/dom/nodes/moveBefore/preserve-render-blocking-style.html:7:5"
     },
     {
       "url": "/dom/nodes/moveBefore/relevant-mutations.html",
@@ -2670,13 +2374,8 @@
     },
     {
       "url": "/dom/nodes/moveBefore/role-updates-after-move.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/script-move-before.html",
       "status": "fail",
-      "message": "htmlScript.moveBefore is not a function. (In \"htmlScript.moveBefore(textNode, null)\", it is undefined)"
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"header\" is not defined\""
     },
     {
       "url": "/dom/nodes/moveBefore/select-option-optgroup.html",
@@ -2685,8 +2384,8 @@
     },
     {
       "url": "/dom/nodes/moveBefore/selection-preserve.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
     },
     {
       "url": "/dom/nodes/moveBefore/slotchange-events.html",
@@ -2721,7 +2420,7 @@
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
       "status": "fail",
-      "message": "element.setAttributeNS is not a function. (In \"element.setAttributeNS(null, \"style\", \"color: green\")\", it is undefined)"
+      "message": "assert_equals: expected (string) \"green\" but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/node-creation-realm.html",
@@ -2752,11 +2451,6 @@
       "url": "/dom/nodes/post-connection-steps-shadow-tree.html",
       "status": "fail",
       "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/prepend-on-Document.html",
-      "status": "fail",
-      "message": "node.cloneNode is not a function. (In \"node.cloneNode()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/processing-instruction-attributes.html",
@@ -2799,26 +2493,6 @@
       "message": "shadowHost.attachShadow is not a function. (In \"shadowHost.attachShadow({mode: 'open'})\", it is undefined)"
     },
     {
-      "url": "/dom/nodes/svg-template-querySelector.html",
-      "status": "fail",
-      "message": "fragment.querySelector is not a function. (In \"fragment.querySelector(\"div\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-adopt-test.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-attribute-nodes.html",
-      "status": "fail",
-      "message": "element.getAttributeNode is not a function. (In \"element.getAttributeNode(\"x\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-attributes.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
-    },
-    {
       "url": "/dom/ranges/Range-cloneContents-around-shadow.html",
       "status": "fail",
       "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
@@ -2835,48 +2509,15 @@
     },
     {
       "url": "/dom/ranges/Range-cloneContents.html",
-      "status": "timeout",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-cloneRange.html",
-      "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-collapse.html",
-      "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-commonAncestorContainer-2.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-commonAncestorContainer.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-compareBoundaryPoints.html",
-      "status": "error",
-      "message": "TypeError: document.createRange is not a function. (In \"document.createRange()\", it is undefined)\n    at http://web-platform.test:8000/dom/ranges/Range-compareBoundaryPoints.html:5:23"
-    },
-    {
-      "url": "/dom/ranges/Range-comparePoint-2.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-comparePoint.html",
-      "status": "timeout",
-      "message": "assert_not_equals: Setting up the range failed got disallowed value null"
-    },
-    {
-      "url": "/dom/ranges/Range-constructor.html",
-      "status": "fail",
-      "message": "\"Range\" is not defined"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-deleteContents-around-shadow.html",
@@ -2895,18 +2536,12 @@
     },
     {
       "url": "/dom/ranges/Range-deleteContents.html",
-      "status": "timeout",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-detach.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-expand-shadow.tentative.html",
       "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "message": "range.expand is not a function. (In \"range.expand(unit)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-extractContents-around-shadow.html",
@@ -2930,32 +2565,21 @@
     },
     {
       "url": "/dom/ranges/Range-extractContents.html",
-      "status": "timeout",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656\n                throw new Error(this.#engine.exceptionMessage(this.#realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:24:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656\n                throw new Error(this.#engine.exceptionMessage(this.#realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding.js:2656:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:24:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
       "status": "timeout"
-    },
-    {
-      "url": "/dom/ranges/Range-intersectsNode-2.html",
-      "status": "fail",
-      "message": "\"Range\" is not defined"
-    },
-    {
-      "url": "/dom/ranges/Range-intersectsNode-binding.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-intersectsNode-shadow.html",
@@ -2963,113 +2587,86 @@
       "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"open\" })\", it is undefined)"
     },
     {
-      "url": "/dom/ranges/Range-intersectsNode.html",
-      "status": "timeout",
-      "message": "assert_not_equals: Setting up the range failed got disallowed value null"
-    },
-    {
       "url": "/dom/ranges/Range-isPointInRange.html",
-      "status": "timeout",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-mutations-appendChild.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-appendData.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-mutations-dataChange.html",
       "status": "timeout",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-mutations-deleteData.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-insertBefore.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-insertData.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-mutations-normalize.html",
-      "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-removeChild.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceChild.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceData.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-splitText.html",
       "status": "fail",
-      "message": "ownerDoc.createRange is not a function. (In \"ownerDoc.createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-selectNode.html",
-      "status": "error",
-      "message": "TypeError: document.createRange is not a function. (In \"document.createRange()\", it is undefined)\n    at http://web-platform.test:8000/dom/ranges/Range-selectNode.html:57:13"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-set.html",
-      "status": "timeout",
-      "message": "ownerDocument(endpoints[0]).createRange is not a function. (In \"ownerDocument(endpoints[0]).createRange()\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-stringifier.html",
-      "status": "fail",
-      "message": "\"Range\" is not defined"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-surroundContents.html",
       "status": "timeout"
     },
     {
-      "url": "/dom/ranges/StaticRange-constructor.html",
-      "status": "fail",
-      "message": "\"StaticRange\" is not defined"
-    },
-    {
       "url": "/dom/ranges/tentative/OpaqueRange-auto-disconnect.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "el.createValueRange is not a function. (In \"el.createValueRange(1, 4)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-basic.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "textarea.createValueRange is not a function. (In \"textarea.createValueRange(0, 5)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-disconnect.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "textarea.createValueRange is not a function. (In \"textarea.createValueRange(1, 4)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-display-none.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "element.createValueRange is not a function. (In \"element.createValueRange(1, 4)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-geometry-basic.html",
@@ -3084,7 +2681,7 @@
     {
       "url": "/dom/ranges/tentative/OpaqueRange-geometry-multiline.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "el.createValueRange is not a function. (In \"el.createValueRange(0, 5)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-geometry-mutations.html",
@@ -3103,33 +2700,33 @@
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-interactive-basic.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.focus is not a function. (In \"element.focus()\", it is undefined)\""
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.focus is not a function. (In \"element.focus()\", it is undefined)\""
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-offset.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "element.createValueRange is not a function. (In \"element.createValueRange(start, end)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-programmatic-updates.html",
       "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "message": "element.focus is not a function. (In \"element.focus()\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-range-updates.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "textarea.createValueRange is not a function. (In \"textarea.createValueRange(0, 5)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-supported-elements.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "element.createValueRange is not a function. (In \"element.createValueRange(0, value.length)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-unsupported-elements.html",
@@ -3138,8 +2735,8 @@
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-update-event-order.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.focus is not a function. (In \"element.focus()\", it is undefined)\""
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-validation.html",
@@ -3194,7 +2791,7 @@
     {
       "url": "/domparsing/DOMParser-parseFromString-xml-scripting-support-disabled.html",
       "status": "fail",
-      "message": "document.importNode is not a function. (In \"document.importNode(d.body, true)\", it is undefined)"
+      "message": "assert_equals: expected 0 but got 1"
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-xml.html",
@@ -3209,7 +2806,7 @@
     {
       "url": "/domparsing/createContextualFragment-external-scripts-async.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.createRange is not a function. (In \"document.createRange()\", it is undefined)\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: range.createContextualFragment is not a function. (In \"range.createContextualFragment(markup)\", it is undefined)\""
     },
     {
       "url": "/domparsing/createContextualFragment-xhtml.xhtml",
@@ -3219,7 +2816,7 @@
     {
       "url": "/domparsing/createContextualFragment.html",
       "status": "fail",
-      "message": "document.createRange is not a function. (In \"document.createRange()\", it is undefined)"
+      "message": "range.createContextualFragment is not a function. (In \"range.createContextualFragment(\"\")\", it is undefined)"
     },
     {
       "url": "/domparsing/html-insertion-methods-html-element.html",
@@ -3260,6 +2857,11 @@
       "url": "/domparsing/insert_adjacent_html-xhtml.xhtml",
       "status": "timeout",
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/insert_adjacent_html-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
+    },
+    {
+      "url": "/domparsing/insert_adjacent_html.html",
+      "status": "fail",
+      "message": "assert_false: script should not have run expected false got true"
     },
     {
       "url": "/domparsing/outerhtml-03.html",
@@ -3329,7 +2931,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/Document.currentScript.html",
       "status": "timeout",
-      "message": "b'ReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nTypeError: undefined is not a function\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
+      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\\n{\\n ^\\nReferenceError: \"undefinedfn\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\\nReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nTypeError: undefined is not a function\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/document.embeds-document.plugins-01.html",
@@ -3340,81 +2942,6 @@
       "url": "/html/dom/documents/dom-tree-accessors/document.forms.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-case-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"ABCD\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-case.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"ABCD\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-id-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"abcd\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-id.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"abcd\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-interface.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"name\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-liveness.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"test\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-namespace-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"math\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-namespace.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"math\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-newelements-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"section\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-newelements.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(name)\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-null-undef-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(null)\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-null-undef.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(null)\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-param-xhtml.xhtml",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"test1\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-param.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"test1\")\", it is undefined)"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-same.html",
-      "status": "fail",
-      "message": "document.getElementsByName is not a function. (In \"document.getElementsByName(\"abcd\")\", it is undefined)"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/document.head-02.html",
@@ -3449,7 +2976,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-01.html",
       "status": "fail",
-      "message": "assert_equals: expected (object) Element node <img undefined=\"undefined\" undefined=\"undefined\"></img> but got (undefined) undefined"
+      "message": "assert_equals: expected (object) Element node <img id=\"a\" name=\"b\"></img> but got (undefined) undefined"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-02.html",
@@ -3484,7 +3011,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-adoption.html",
       "status": "fail",
-      "message": "assert_equals: before adoption expected (object) Element node <object undefined=\"undefined\"></object> but got (undefined) undefined"
+      "message": "assert_equals: before adoption expected (object) Element node <object id=\"adopted\"></object> but got (undefined) undefined"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added-cached-list.html",
@@ -3494,7 +3021,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added.html",
       "status": "fail",
-      "message": "assert_equals: after adding a name expected (object) Element node <img undefined=\"undefined\" undefined=\"undefined\"></img> but got (undefined) undefined"
+      "message": "assert_equals: after adding a name expected (object) Element node <img id=\"bar\" name=\"whatever\"></img> but got (undefined) undefined"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-dynamic.html",
@@ -3552,14 +3079,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/html/dom/elements/global-attributes/classlist-nonstring.html",
-      "status": "fail",
-      "message": "items[i].classList.contains is not a function. (In \"items[i].classList.contains(tests[j])\", it is undefined)"
-    },
-    {
       "url": "/html/dom/elements/global-attributes/custom-attrs.html",
       "status": "fail",
-      "message": "div.setAttributeNS is not a function. (In \"div.setAttributeNS(\"foo\", \"data-my-custom-attr\", \"first\")\", it is undefined)"
+      "message": "assert_equals: expected 3 but got 2"
     },
     {
       "url": "/html/dom/elements/global-attributes/dataset-binding.window.html",
@@ -3570,11 +3092,6 @@
       "url": "/html/dom/elements/global-attributes/dataset-delete.html",
       "status": "fail",
       "message": "Invalid dataset property name"
-    },
-    {
-      "url": "/html/dom/elements/global-attributes/dataset-get-invalid-names.html",
-      "status": "fail",
-      "message": "element.setAttributeNS is not a function. (In \"element.setAttributeNS(null, name, value)\", it is undefined)"
     },
     {
       "url": "/html/dom/elements/global-attributes/dataset-get.html",
@@ -3618,8 +3135,8 @@
     },
     {
       "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
-      "status": "error",
-      "message": "TypeError: root_classes.contains is not a function. (In \"root_classes.contains(\"reftest-wait\")\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3126:31)\n    at http://web-platform.test:8000/resources/testdriver.js:3063:2"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input.matches is not a function. (In \"input.matches(\":dir(rtl)\")\", it is undefined)\""
     },
     {
       "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
@@ -3659,7 +3176,7 @@
     {
       "url": "/html/dom/elements/global-attributes/mapped-attribute-adopt-001.html",
       "status": "fail",
-      "message": "fragment.append is not a function. (In \"fragment.append(newEl)\", it is undefined)"
+      "message": "document.adoptNode is not a function. (In \"document.adoptNode(newEl)\", it is undefined)"
     },
     {
       "url": "/html/dom/elements/global-attributes/the-lang-attribute-001.html",
@@ -3945,11 +3462,6 @@
       "url": "/html/syntax/parsing/doctype-system-identifier-distinction.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/foreign_content_dom_properties.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/html/syntax/parsing/form-element-pointer-in-template.html",
@@ -4867,54 +4379,34 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/html/syntax/parsing/noscript-template-querySelector.html",
-      "status": "fail",
-      "message": "fragment.querySelector is not a function. (In \"fragment.querySelector(\"noscript\")\", it is undefined)"
-    },
-    {
       "url": "/html/syntax/parsing/quotes-in-meta.html",
       "status": "fail",
       "message": "assert_equals: expected \"windows-1250\" but got \"UTF-8\""
     },
     {
-      "url": "/html/syntax/parsing/template/additions-to-foster-parenting/template-is-a-foster-parent-element.html",
-      "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#orphanDiv')\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-foster-parenting/template-is-not-a-foster-parent-element.html",
-      "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#fosterParent')\", it is undefined)"
-    },
-    {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/generating-of-implied-end-tags.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#tbl')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-body-token.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#div1')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-frameset-token.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#div1')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-head-token.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#div1')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-html-token.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#div1')\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/start-tag-body.html",
-      "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('body')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/start-tag-html.html",
@@ -4934,7 +4426,7 @@
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/generating-of-implied-end-tags.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#tbl')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/template-end-tag-without-start-one.html",
@@ -4949,7 +4441,7 @@
     {
       "url": "/html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html",
       "status": "fail",
-      "message": "template.content.querySelector is not a function. (In \"template.content.querySelector('#div1')\", it is undefined)"
+      "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
       "url": "/html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html",
@@ -4969,7 +4461,7 @@
     {
       "url": "/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html",
       "status": "error",
-      "message": "TypeError: template.content.querySelector is not a function. (In \"template.content.querySelector(value)\", it is undefined)\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:143:54)\n    at Array#forEach (native)\n    at http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:131:24"
+      "message": "at newIFrame (http://web-platform.test:8000/html/resources/common.js:100:13)\n    at newRenderedHTMLDocument (http://web-platform.test:8000/html/resources/common.js:105:27)\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:172:47)\n    at Array#forEach (native)\n    at http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:168:28"
     },
     {
       "url": "/html/syntax/parsing/the-end.html",
