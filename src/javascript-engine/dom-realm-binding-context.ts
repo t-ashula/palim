@@ -21,6 +21,8 @@ import {
   Text,
 } from "../dom.js";
 import type { NodeIterator, TreeWalker } from "../dom.js";
+import type { Range, StaticRange } from "../dom/range.js";
+import { isRange, isStaticRange } from "../dom/range-implementation.js";
 import {
   CSSStyleDeclaration,
   CSSStyleProperties,
@@ -93,6 +95,7 @@ import {
   installCSSStylePropertiesMembers,
   installNodeIteratorMembers,
   installTreeWalkerMembers,
+  installRangeMembers,
 } from "./dom-realm-interface-installers.js";
 
 const DATA_PROPERTY = {
@@ -185,6 +188,9 @@ export class DOMRealmBindingContext {
   readonly nodeListPrototype: EngineObject;
   readonly domTokenListPrototype: EngineObject;
   readonly domExceptionPrototype: EngineObject;
+  readonly abstractRangePrototype: EngineObject;
+  readonly rangePrototype: EngineObject;
+  readonly staticRangePrototype: EngineObject;
   readonly nodeIteratorPrototype: EngineObject;
   readonly treeWalkerPrototype: EngineObject;
   readonly domStringMapPrototype: EngineObject;
@@ -326,6 +332,18 @@ export class DOMRealmBindingContext {
       this.realm,
       objectPrototype,
     );
+    this.abstractRangePrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.rangePrototype = this.engine.createObject(
+      this.realm,
+      this.abstractRangePrototype,
+    );
+    this.staticRangePrototype = this.engine.createObject(
+      this.realm,
+      this.abstractRangePrototype,
+    );
     this.nodeIteratorPrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
@@ -377,6 +395,7 @@ export class DOMRealmBindingContext {
     installCSSStylePropertiesMembers(this);
     installNodeIteratorMembers(this);
     installTreeWalkerMembers(this);
+    installRangeMembers(this);
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -924,6 +943,12 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof DOMTokenList) {
       return this.domTokenListPrototype;
     }
+    if (isRange(interfaceObject)) {
+      return this.rangePrototype;
+    }
+    if (isStaticRange(interfaceObject)) {
+      return this.staticRangePrototype;
+    }
     if (isNodeIterator(interfaceObject)) {
       return this.nodeIteratorPrototype;
     }
@@ -1096,6 +1121,20 @@ export class DOMRealmBindingContext {
   domTokenList(value: EngineValue): DOMTokenList | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof DOMTokenList ? interfaceObject : null;
+  }
+
+  range(value: EngineValue): Range | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject !== null && isRange(interfaceObject)
+      ? interfaceObject
+      : null;
+  }
+
+  staticRange(value: EngineValue): StaticRange | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject !== null && isStaticRange(interfaceObject)
+      ? interfaceObject
+      : null;
   }
 
   cssStyleDeclaration(value: EngineValue): CSSStyleDeclaration | null {

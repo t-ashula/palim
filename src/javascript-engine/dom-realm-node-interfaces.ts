@@ -1381,6 +1381,12 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         : normal(binding.wrap(document.createDocumentFragment()));
     },
   );
+  binding.method(binding.documentPrototype, "createRange", 0, (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : normal(binding.wrap(document.createRange()));
+  });
   binding.method(
     binding.documentPrototype,
     "createNodeIterator",

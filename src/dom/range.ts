@@ -1,11 +1,23 @@
 import type { DocumentFragment, Node } from "./nodes.js";
 
-export interface Range {
+export interface AbstractRange {
   readonly startContainer: Node;
   readonly startOffset: number;
   readonly endContainer: Node;
   readonly endOffset: number;
   readonly collapsed: boolean;
+}
+
+export interface StaticRangeInit {
+  readonly startContainer: Node;
+  readonly startOffset: number;
+  readonly endContainer: Node;
+  readonly endOffset: number;
+}
+
+export type StaticRange = AbstractRange;
+
+export interface Range extends AbstractRange {
   readonly commonAncestorContainer: Node;
   readonly START_TO_START: 0;
   readonly START_TO_END: 1;

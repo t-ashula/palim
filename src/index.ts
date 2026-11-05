@@ -23,6 +23,7 @@ export {
 } from "./public-dom-interfaces.js";
 export type {
   AddEventListenerOptions,
+  AbstractRange,
   CustomEventInit,
   ElementCreationOptions,
   EventInit,
@@ -32,6 +33,8 @@ export type {
   ImportNodeOptions,
   NodeIterator,
   Range,
+  StaticRange,
+  StaticRangeInit,
   TreeWalker,
 } from "./public-dom-interfaces.js";
 export { DOMException } from "./dom-exception.js";

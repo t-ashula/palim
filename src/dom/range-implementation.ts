@@ -1,7 +1,9 @@
 import { DOMException } from "../dom-exception.js";
 import { requireArguments } from "../web-idl.js";
-import type { Range } from "./range.js";
+import { bindDOMInterface } from "./binding.js";
+import type { Range, StaticRange, StaticRangeInit } from "./range.js";
 import {
+  Attr,
   CharacterData,
   Comment,
   Document,
@@ -50,6 +52,7 @@ class RangeImplementation implements Range {
     this.#end = end;
     this.#registration = new WeakRef(this);
     rangeReferences(document).add(this.#registration);
+    bindDOMInterface(this, this);
   }
 
   get startContainer(): Node {
@@ -523,6 +526,51 @@ const rangesByDocument = new WeakMap<
 
 export function createRange(document: Document): Range {
   return new RangeImplementation(document);
+}
+
+class StaticRangeImplementation implements StaticRange {
+  readonly startContainer: Node;
+  readonly startOffset: number;
+  readonly endContainer: Node;
+  readonly endOffset: number;
+
+  constructor(init: StaticRangeInit) {
+    if (
+      init.startContainer instanceof DocumentType ||
+      init.startContainer instanceof Attr ||
+      init.endContainer instanceof DocumentType ||
+      init.endContainer instanceof Attr
+    ) {
+      throw new DOMException(
+        "StaticRange boundaries cannot be Attr or DocumentType nodes",
+        "InvalidNodeTypeError",
+      );
+    }
+    this.startContainer = init.startContainer;
+    this.startOffset = init.startOffset;
+    this.endContainer = init.endContainer;
+    this.endOffset = init.endOffset;
+    bindDOMInterface(this, this);
+  }
+
+  get collapsed(): boolean {
+    return (
+      this.startContainer === this.endContainer &&
+      this.startOffset === this.endOffset
+    );
+  }
+}
+
+export function createStaticRange(init: StaticRangeInit): StaticRange {
+  return new StaticRangeImplementation(init);
+}
+
+export function isRange(value: object): value is Range {
+  return value instanceof RangeImplementation;
+}
+
+export function isStaticRange(value: object): value is StaticRange {
+  return value instanceof StaticRangeImplementation;
 }
 
 export function preRemoveLiveRanges(node: Node): void {

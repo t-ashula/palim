@@ -49,3 +49,5 @@ export {
   installNodeIteratorMembers,
   installTreeWalkerMembers,
 } from "./dom-realm-traversal-interfaces.js";
+
+export { installRangeMembers } from "./dom-realm-range-interfaces.js";

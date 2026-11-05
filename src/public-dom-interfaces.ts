@@ -111,6 +111,7 @@ export {
 } from "./dom.js";
 export type {
   AddEventListenerOptions,
+  AbstractRange,
   CustomEventInit,
   ElementCreationOptions,
   EventInit,
@@ -120,6 +121,8 @@ export type {
   ImportNodeOptions,
   NodeIterator,
   Range,
+  StaticRange,
+  StaticRangeInit,
   TreeWalker,
 } from "./dom.js";
 

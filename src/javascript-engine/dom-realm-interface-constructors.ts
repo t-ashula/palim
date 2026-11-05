@@ -11,6 +11,7 @@ import {
   Text,
 } from "../dom.js";
 import { DOMParser } from "../dom-parser.js";
+import { createStaticRange } from "../dom/range-implementation.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -175,6 +176,114 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   binding.installInterface("NamedNodeMap", binding.namedNodeMapPrototype);
   binding.installInterface("NodeList", binding.nodeListPrototype);
   binding.installInterface("DOMTokenList", binding.domTokenListPrototype);
+  binding.installInterface("AbstractRange", binding.abstractRangePrototype);
+  const rangeConstructor = binding.installInterface(
+    "Range",
+    binding.rangePrototype,
+    0,
+    () =>
+      normal(
+        binding.wrap(
+          (binding.associatedDocument ?? new Document()).createRange(),
+        ),
+      ),
+  );
+  for (const [name, value] of [
+    ["START_TO_START", 0],
+    ["START_TO_END", 1],
+    ["END_TO_END", 2],
+    ["END_TO_START", 3],
+  ] as const) {
+    for (const target of [rangeConstructor, binding.rangePrototype]) {
+      binding.engine.defineDataProperty(
+        target,
+        name,
+        binding.engine.fromPrimitive(value),
+        { configurable: false, enumerable: true, writable: false },
+      );
+    }
+  }
+  binding.installInterface(
+    "StaticRange",
+    binding.staticRangePrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const initValue = argumentsList[0];
+      if (
+        initValue === undefined ||
+        binding.engine.isUndefined(initValue) ||
+        binding.engine.isNull(initValue)
+      ) {
+        return binding.typeError("StaticRange requires an init dictionary");
+      }
+      const init = binding.engine.asObject(initValue);
+      if (init === null) {
+        return binding.typeError("StaticRange init is not an object");
+      }
+      const values = [];
+      for (const name of [
+        "startContainer",
+        "startOffset",
+        "endContainer",
+        "endOffset",
+      ] as const) {
+        const property = binding.engine.get(binding.realm, init, name);
+        if (property.type === "throw") {
+          return property;
+        }
+        if (binding.engine.isUndefined(property.value)) {
+          return binding.typeError(`StaticRange init.${name} is required`);
+        }
+        values.push(property.value);
+      }
+      const [
+        startContainerValue,
+        startOffsetValue,
+        endContainerValue,
+        endOffsetValue,
+      ] = values;
+      if (
+        startContainerValue === undefined ||
+        startOffsetValue === undefined ||
+        endContainerValue === undefined ||
+        endOffsetValue === undefined
+      ) {
+        return binding.typeError("StaticRange init is incomplete");
+      }
+      const startContainer = binding.node(startContainerValue);
+      const endContainer = binding.node(endContainerValue);
+      if (startContainer === null || endContainer === null) {
+        return binding.typeError("StaticRange containers must be Nodes");
+      }
+      const startOffset = binding.unsignedLongArgument(
+        [startOffsetValue],
+        0,
+        "StaticRange",
+      );
+      if (startOffset.type === "throw") {
+        return startOffset;
+      }
+      const endOffset = binding.unsignedLongArgument(
+        [endOffsetValue],
+        0,
+        "StaticRange",
+      );
+      return endOffset.type === "throw"
+        ? endOffset
+        : binding.domOperationResult(() =>
+            normal(
+              binding.wrap(
+                createStaticRange({
+                  startContainer,
+                  startOffset: startOffset.value,
+                  endContainer,
+                  endOffset: endOffset.value,
+                }),
+              ),
+            ),
+          );
+    },
+  );
   const domExceptionConstructor = binding.installInterface(
     "DOMException",
     binding.domExceptionPrototype,
