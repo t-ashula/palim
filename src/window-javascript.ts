@@ -1,5 +1,6 @@
 import { Event } from "./dom/events.js";
-import type { Document, Element } from "./dom/nodes.js";
+import { documentImplementation } from "./dom/node-implementation.js";
+import type { Document, Element, Node } from "./dom/nodes.js";
 import { HTMLScriptElement } from "./html-elements.js";
 import { parseHTMLIntoDocumentAsync } from "./html/parser.js";
 import type { EngineResult, EngineValue } from "./javascript-engine/adapter.js";
@@ -56,10 +57,18 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   readonly scriptResults: ParserInsertedScriptResult[] = [];
   readonly #resourceLoader: ResourceLoader | null;
   readonly #pendingResourceLoads: Promise<void>[] = [];
+  readonly #startedScripts = new WeakSet<HTMLScriptElement>();
 
   constructor(options: WindowExecutionOptions = {}) {
     super(new Engine262Adapter(), createWindow(options));
     this.#resourceLoader = options.resourceLoader ?? null;
+    const implementation = documentImplementation(this.window.document);
+    implementation.childrenChangedSteps = (node) => {
+      this.#processDynamicScript(node);
+    };
+    implementation.postConnectionSteps = (node) => {
+      this.#processDynamicScript(node);
+    };
   }
 
   async loadHTML(source: string): Promise<Document> {
@@ -84,9 +93,14 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
     }
     const source = element.getAttribute("src");
     if (source === null) {
+      if (element.text === "") {
+        return;
+      }
+      this.#startedScripts.add(element);
       this.#executeScript(element, element.text, this.#baseURL(element).href);
       return;
     }
+    this.#startedScripts.add(element);
     if (element.async || element.defer) {
       return;
     }
@@ -133,6 +147,21 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
       return;
     }
     this.#executeScript(element, sourceText, finalURL.href);
+  }
+
+  #processDynamicScript(node: Node): void {
+    if (
+      !(node instanceof HTMLScriptElement) ||
+      this.#startedScripts.has(node) ||
+      !node.isConnected ||
+      !isClassic(node) ||
+      node.hasAttribute("src") ||
+      node.text === ""
+    ) {
+      return;
+    }
+    this.#startedScripts.add(node);
+    this.#executeScript(node, node.text, this.#baseURL(node).href);
   }
 
   #processElement(element: Element): void {

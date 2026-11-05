@@ -53,6 +53,8 @@ export class DocumentImplementation extends NodeImplementation {
   origin: Origin = originFromURL(this.url);
   quirks = false;
   parseErrors: readonly PalimParseError[] = [];
+  childrenChangedSteps: ((node: Node) => void) | null = null;
+  postConnectionSteps: ((node: Node) => void) | null = null;
 
   constructor(
     readonly fragmentParser: FragmentParser | null,

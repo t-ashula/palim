@@ -2875,6 +2875,9 @@ function validateDocumentInsertion(
 
 function insertNodes(node: Node, parent: Node, child: Node | null): void {
   const nodes = insertionNodes(node);
+  if (nodes.length === 0) {
+    return;
+  }
   const document = parent instanceof Document ? parent : parent.ownerDocument;
   for (const inserted of nodes) {
     if (document === null) {
@@ -2909,6 +2912,24 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
     }
     invalidateDescendantText(parentImplementation);
   }
+  const documentImplementationValue = nodeDocumentImplementation(
+    nodeImplementation(parent),
+  );
+  documentImplementationValue.childrenChangedSteps?.(parent);
+  const staticNodeList = nodes.flatMap(inclusiveDescendantNodes);
+  for (const connectedNode of staticNodeList) {
+    if (connectedNode.isConnected) {
+      documentImplementationValue.postConnectionSteps?.(connectedNode);
+    }
+  }
+}
+
+function inclusiveDescendantNodes(node: Node): Node[] {
+  const result = [node];
+  for (const child of childNodes(node)) {
+    result.push(...inclusiveDescendantNodes(child));
+  }
+  return result;
 }
 
 function appendNodes(

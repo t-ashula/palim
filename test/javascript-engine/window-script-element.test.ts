@@ -191,4 +191,56 @@ describe("parser-inserted classic scripts", () => {
     );
     expect(document.querySelector("#after-failure")).not.toBeNull();
   });
+
+  it("runs dynamic inline scripts after batched DOM insertion", async () => {
+    const environment = new WindowExecutionEnvironment();
+    const errors: string[] = [];
+    environment.window.onerror((report) => {
+      errors.push(report.message);
+    });
+
+    const document = await environment.loadHTML(
+      [
+        '<body><script id="parser-empty"></script><script>',
+        "window.dynamicOrder = [];",
+        'document.querySelector("#parser-empty").appendChild(document.createTextNode("dynamicOrder.push(\'parser-empty\');"));',
+        'const container = document.createElement("div");',
+        'const first = document.createElement("script");',
+        'const second = document.createElement("script");',
+        'const third = document.createElement("script");',
+        'first.textContent = `third.appendChild(document.createTextNode("dynamicOrder.push(\'third\');")); dynamicOrder.push("first");`;',
+        'second.textContent = `dynamicOrder.push("second");`;',
+        "container.append(first, second, third);",
+        "document.body.append(container);",
+        'document.body.setAttribute("data-dynamic-order", dynamicOrder.join(","));',
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(errors).toEqual([]);
+    expect(document.body?.getAttribute("data-dynamic-order")).toBe(
+      "parser-empty,third,first,second",
+    );
+  });
+
+  it("skips a dynamic script removed by an earlier post-connection step", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      [
+        "<body><script>",
+        "const fragment = document.createDocumentFragment();",
+        'window.firstDynamic = fragment.appendChild(document.createElement("script"));',
+        'window.secondDynamic = fragment.appendChild(document.createElement("script"));',
+        "window.secondDynamicRan = false;",
+        'firstDynamic.textContent = "secondDynamic.remove();";',
+        'secondDynamic.textContent = "secondDynamicRan = true;";',
+        "document.body.append(fragment);",
+        'document.body.setAttribute("data-second-ran", String(secondDynamicRan));',
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(document.body?.getAttribute("data-second-ran")).toBe("false");
+  });
 });

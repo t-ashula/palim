@@ -17,6 +17,7 @@
 - [x] `Document.createElement` / `createElementNS`
 - [x] `createTextNode` / `createComment` / `createDocumentFragment`
 - [x] `cloneNode` / `importNode` / `adoptNode`
+- [ ] page realmの`Text` / `Comment` constructorでdata引数を変換する
 
 ### Node content mutation
 
@@ -24,7 +25,8 @@
 - [x] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
 - [x] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
 - [x] `Node.moveBefore` と atomic move
-- [ ] insertion steps / removing steps / post-connection steps
+- [x] insertion / post-connection stepsで動的inline classic scriptを実行する
+- [ ] 残りのinsertion steps / removing steps / post-connection steps
 
 ### Node relationships and comparison
 
