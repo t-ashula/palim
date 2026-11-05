@@ -7,6 +7,7 @@ import {
   DefinePropertyOrThrow,
   Descriptor,
   EnumerableOwnProperties,
+  FromPropertyDescriptor,
   Get,
   IsCallable,
   JSStringValue,
@@ -20,6 +21,7 @@ import {
   ThrowCompletion,
   ToBoolean,
   ToNumber,
+  ToPropertyDescriptor,
   ToString,
   Value,
   ValueOfNormalCompletion,
@@ -52,6 +54,8 @@ import type {
   EnginePropertyAttributes,
   EngineRealmOptions,
   EngineResult,
+  EngineProxyHandler,
+  EngineProxyTrap,
   EngineWellKnownSymbol,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
@@ -188,6 +192,13 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     return ToBoolean(this.#value(value));
   }
 
+  asString(value: EngineValue): string | null {
+    const engineValue = this.#value(value);
+    return engineValue instanceof JSStringValue
+      ? engineValue.stringValue()
+      : null;
+  }
+
   asObject(value: EngineValue): EngineObject | null {
     const engineValue = this.#value(value);
     return engineValue instanceof ObjectValue
@@ -234,6 +245,40 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     );
   }
 
+  createProxy(
+    realm: EngineRealm,
+    target: EngineObject,
+    handler: EngineProxyHandler,
+  ): EngineObject {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const handlerObject = OrdinaryObjectCreate(
+        realmHandle.realm.Intrinsics["%Object.prototype%"],
+      );
+      for (const name of Object.keys(handler) as (keyof EngineProxyHandler)[]) {
+        const trap = handler[name];
+        if (trap === undefined) {
+          continue;
+        }
+        X(
+          DefinePropertyOrThrow(
+            handlerObject,
+            name,
+            Descriptor({
+              Value: this.#proxyTrapFunction(realmHandle, name, trap),
+              Writable: true,
+              Enumerable: true,
+              Configurable: true,
+            }),
+          ),
+        );
+      }
+      return this.#wrapObject(
+        X(ProxyCreate(this.#object(target), handlerObject)),
+      );
+    });
+  }
+
   get(
     realm: EngineRealm,
     object: EngineObject,
@@ -265,6 +310,37 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
             ValueOfNormalCompletion(completion).map((key: JSStringValue) =>
               key.stringValue(),
             ),
+          );
+    });
+  }
+
+  hasProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    key: EnginePropertyKey,
+  ): EngineResult<boolean> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        this.#object(object).HasProperty(this.#propertyKey(key)),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(ValueOfNormalCompletion(completion));
+    });
+  }
+
+  ownPropertyKeys(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<readonly EngineValue[]> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(this.#object(object).OwnPropertyKeys());
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(
+            ValueOfNormalCompletion(completion).map((key) => this.#wrap(key)),
           );
     });
   }
@@ -454,6 +530,107 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   performPromiseCheckpoint(): void {
     this.#activate();
     this.#agent.eventLoop.runOnce();
+  }
+
+  #proxyTrapFunction(
+    realm: Engine262Realm,
+    name: keyof EngineProxyHandler,
+    trap: EngineProxyTrap,
+  ): FunctionObject {
+    const lengths: Readonly<Record<keyof EngineProxyHandler, number>> = {
+      get: 3,
+      has: 2,
+      ownKeys: 1,
+      getOwnPropertyDescriptor: 2,
+      set: 4,
+      defineProperty: 3,
+      deleteProperty: 2,
+    };
+    const steps: NativeSteps = (argumentsList) => {
+      try {
+        const rawArguments = Array.from(argumentsList.values());
+        const result = trap(
+          rawArguments.map((argument) => this.#wrap(argument)),
+        );
+        if (result.type === "forward") {
+          return this.#forwardProxyTrap(name, rawArguments);
+        }
+        return result.type === "throw"
+          ? ThrowCompletion(this.#value(result.value))
+          : this.#value(result.value);
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "Proxy trap failed";
+        return ThrowCompletion(
+          this.#value(this.createTypeError(realm, message)),
+        );
+      }
+    };
+    return CreateBuiltinFunction(steps, lengths[name], name, [], realm.realm);
+  }
+
+  #forwardProxyTrap(
+    name: keyof EngineProxyHandler,
+    argumentsList: readonly Engine262Value[],
+  ): Engine262Value | ThrowCompletion {
+    const target = argumentsList[0];
+    if (!(target instanceof ObjectValue)) {
+      throw new TypeError("Proxy target is not an object");
+    }
+    if (name === "ownKeys") {
+      const completion = skipDebugger(target.OwnPropertyKeys());
+      return completion instanceof ThrowCompletion
+        ? completion
+        : CreateArrayFromList(ValueOfNormalCompletion(completion));
+    }
+    const property = argumentsList[1] as PropertyKeyValue | undefined;
+    if (property === undefined) {
+      throw new TypeError(`Proxy ${name} trap requires a property key`);
+    }
+    if (name === "get") {
+      const receiver = argumentsList[2] ?? target;
+      const completion = skipDebugger(target.Get(property, receiver));
+      return completion instanceof ThrowCompletion
+        ? completion
+        : ValueOfNormalCompletion(completion);
+    }
+    if (name === "has") {
+      const completion = skipDebugger(target.HasProperty(property));
+      return completion instanceof ThrowCompletion
+        ? completion
+        : Value(ValueOfNormalCompletion(completion));
+    }
+    if (name === "getOwnPropertyDescriptor") {
+      const completion = skipDebugger(target.GetOwnProperty(property));
+      return completion instanceof ThrowCompletion
+        ? completion
+        : FromPropertyDescriptor(ValueOfNormalCompletion(completion));
+    }
+    if (name === "set") {
+      const value = argumentsList[2] ?? Value.undefined;
+      const receiver = argumentsList[3] ?? target;
+      const completion = skipDebugger(target.Set(property, value, receiver));
+      return completion instanceof ThrowCompletion
+        ? completion
+        : Value(ValueOfNormalCompletion(completion));
+    }
+    if (name === "defineProperty") {
+      const descriptorValue = argumentsList[2] ?? Value.undefined;
+      const descriptor = skipDebugger(ToPropertyDescriptor(descriptorValue));
+      if (descriptor instanceof ThrowCompletion) {
+        return descriptor;
+      }
+      const completion = skipDebugger(
+        target.DefineOwnProperty(property, ValueOfNormalCompletion(descriptor)),
+      );
+      return completion instanceof ThrowCompletion
+        ? completion
+        : Value(ValueOfNormalCompletion(completion));
+    }
+    const completion = skipDebugger(target.Delete(property));
+    return completion instanceof ThrowCompletion
+      ? completion
+      : Value(ValueOfNormalCompletion(completion));
   }
 
   #createFunction(

@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { normal } from "../../src/javascript-engine/adapter.js";
+import {
+  FORWARD_PROXY_TRAP,
+  normal,
+} from "../../src/javascript-engine/adapter.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
@@ -180,6 +183,70 @@ describe("Engine262Adapter", () => {
         normal("replacement"),
       );
     }
+  });
+
+  it("creates proxies from typed host traps without evaluating source", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const target = engine.createObject(realm, engine.objectPrototype(realm));
+    engine.defineDataProperty(
+      target,
+      "existing",
+      engine.fromPrimitive("target"),
+      { configurable: true, enumerable: true, writable: true },
+    );
+    const proxy = engine.createProxy(realm, target, {
+      get: (argumentsList) =>
+        engine.asString(argumentsList[1] ?? engine.fromPrimitive(undefined)) ===
+        "virtual"
+          ? normal(engine.fromPrimitive("trap"))
+          : FORWARD_PROXY_TRAP,
+      has: (argumentsList) =>
+        engine.asString(argumentsList[1] ?? engine.fromPrimitive(undefined)) ===
+        "virtual"
+          ? normal(engine.fromPrimitive(true))
+          : FORWARD_PROXY_TRAP,
+      ownKeys: () => {
+        const keys = engine.ownPropertyKeys(realm, target);
+        return keys.type === "throw"
+          ? keys
+          : normal(
+              engine.createArray(realm, [
+                engine.fromPrimitive("virtual"),
+                ...keys.value,
+              ]),
+            );
+      },
+      set: (argumentsList) =>
+        engine.asString(argumentsList[1] ?? engine.fromPrimitive(undefined)) ===
+        "virtual"
+          ? normal(engine.fromPrimitive(false))
+          : FORWARD_PROXY_TRAP,
+    });
+    engine.defineDataProperty(engine.globalObject(realm), "testProxy", proxy, {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        if (
+          testProxy.virtual !== "trap" ||
+          !("virtual" in testProxy) ||
+          testProxy.existing !== "target" ||
+          Reflect.ownKeys(testProxy).join("|") !== "virtual|existing"
+        ) {
+          throw new Error("proxy traps were not preserved");
+        }
+        testProxy.existing = "changed";
+        if (testProxy.existing !== "changed") {
+          throw new Error("proxy forwarding was not preserved");
+        }
+      `,
+    );
   });
 
   it("rejects handles from another adapter instance", () => {

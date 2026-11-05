@@ -56,6 +56,10 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import {
+  createDOMLegacyPlatformObject,
+  type DOMLegacyPlatformObjectConfiguration,
+} from "./dom-realm-legacy-platform-object.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 
 import {
@@ -130,157 +134,6 @@ class EngineRealmException extends Error {
   }
 }
 
-const LEGACY_PLATFORM_OBJECT_FACTORY = `(
-  target,
-  indexedNames,
-  indexedValue,
-  namedNames,
-  namedValue,
-  namedSetter,
-  namedDeleter,
-  namedEnumerable,
-  overrideBuiltins
-) => {
-  const isArrayIndex = (property) => {
-    if (
-      typeof property !== "string" ||
-      !/^(0|[1-9]\\d*)$/.test(property)
-    ) {
-      return false;
-    }
-    return Number(property) < 4294967295;
-  };
-  const supportedIndices = () =>
-    indexedNames === null ? [] : indexedNames();
-  const supportedNames = () => namedNames === null ? [] : namedNames();
-  const hasIndex = (property) =>
-    isArrayIndex(property) && supportedIndices().includes(property);
-  const hasName = (property) =>
-    typeof property === "string" &&
-    !isArrayIndex(property) &&
-    supportedNames().includes(property) &&
-    (overrideBuiltins || !Reflect.has(target, property));
-  let proxy;
-  proxy = new Proxy(target, {
-    get(target, property, receiver) {
-      if (hasIndex(property)) {
-        return indexedValue(property);
-      }
-      if (hasName(property)) {
-        return namedValue(property);
-      }
-      return Reflect.get(target, property, receiver);
-    },
-    has(target, property) {
-      return hasIndex(property) || hasName(property) || Reflect.has(target, property);
-    },
-    ownKeys(target) {
-      const targetKeys = Reflect.ownKeys(target);
-      const indices = supportedIndices();
-      const names = supportedNames().filter(
-        (name) =>
-          !indices.includes(name) &&
-          !isArrayIndex(name) &&
-          !targetKeys.includes(name) &&
-          (overrideBuiltins || !Reflect.has(target, name)),
-      );
-      return [
-        ...indices,
-        ...names,
-        ...targetKeys.filter(
-          (key) => !indices.includes(key) && !names.includes(key),
-        ),
-      ];
-    },
-    getOwnPropertyDescriptor(target, property) {
-      if (hasIndex(property)) {
-        return {
-          value: indexedValue(property),
-          writable: false,
-          enumerable: true,
-          configurable: true,
-        };
-      }
-      if (hasName(property)) {
-        return {
-          value: namedValue(property),
-          writable: namedSetter !== null,
-          enumerable: namedEnumerable,
-          configurable: true,
-        };
-      }
-      return Reflect.getOwnPropertyDescriptor(target, property);
-    },
-    set(target, property, value, receiver) {
-      if (receiver !== proxy) {
-        return Reflect.set(target, property, value, receiver);
-      }
-      if (isArrayIndex(property)) {
-        return false;
-      }
-      if (
-        namedSetter !== null &&
-        typeof property === "string" &&
-        (overrideBuiltins || !Reflect.has(target, property))
-      ) {
-        namedSetter(property, value);
-        return true;
-      }
-      if (hasName(property)) {
-        return false;
-      }
-      return Reflect.set(target, property, value, target);
-    },
-    defineProperty(target, property, descriptor) {
-      if (isArrayIndex(property) || hasName(property)) {
-        return false;
-      }
-      if (
-        namedSetter !== null &&
-        typeof property === "string" &&
-        "value" in descriptor &&
-        (overrideBuiltins || !Reflect.has(target, property))
-      ) {
-        namedSetter(property, descriptor.value);
-        return true;
-      }
-      return Reflect.defineProperty(target, property, descriptor);
-    },
-    deleteProperty(target, property) {
-      if (hasIndex(property)) {
-        return false;
-      }
-      if (
-        namedDeleter !== null &&
-        typeof property === "string" &&
-        (overrideBuiltins || !Reflect.has(target, property))
-      ) {
-        namedDeleter(property);
-        return true;
-      }
-      if (hasName(property)) {
-        return false;
-      }
-      return Reflect.deleteProperty(target, property);
-    },
-  });
-  return proxy;
-}`;
-
-type LegacyPlatformValue =
-  object | undefined | null | boolean | string | number;
-
-interface LegacyPlatformObjectConfiguration {
-  readonly indexedLength?: () => number;
-  readonly indexedValue?: (index: number) => LegacyPlatformValue;
-  readonly namedNames?: () => readonly string[];
-  readonly namedValue?: (name: string) => LegacyPlatformValue;
-  readonly namedSet?: (name: string, value: string) => void;
-  readonly namedDelete?: (name: string) => void;
-  readonly namedEnumerable?: boolean;
-  readonly overrideBuiltins?: boolean;
-}
-
 interface TraversalFilterArgument {
   readonly callback: NodeFilterCallback | null;
   readonly value: EngineValue | null;
@@ -300,7 +153,6 @@ export class DOMRealmBindingContext {
     EventTarget,
     Map<EngineCallable, (event: Event) => void>
   >();
-  readonly legacyPlatformObjectFactory: EngineCallable;
   readonly eventTargetPrototype: EngineObject;
   readonly abortSignalPrototype: EngineObject;
   readonly abortControllerPrototype: EngineObject;
@@ -346,21 +198,6 @@ export class DOMRealmBindingContext {
     this.engine = engine;
     this.realm = realm;
     this.context = new RealmBindingContext(engine, realm);
-
-    const factory = this.engine.evaluate(
-      this.realm,
-      LEGACY_PLATFORM_OBJECT_FACTORY,
-    );
-    const factoryCallable =
-      factory.type === "normal" ? this.engine.asCallable(factory.value) : null;
-    if (factoryCallable === null) {
-      const message =
-        factory.type === "throw"
-          ? this.engine.exceptionMessage(this.realm, factory.value)
-          : "Legacy platform object factory is not callable";
-      throw new TypeError(message);
-    }
-    this.legacyPlatformObjectFactory = factoryCallable;
 
     const objectPrototype = this.engine.objectPrototype(this.realm);
     this.eventTargetPrototype = this.engine.createObject(
@@ -911,141 +748,14 @@ export class DOMRealmBindingContext {
 
   legacyPlatformObject(
     target: EngineObject,
-    configuration: LegacyPlatformObjectConfiguration,
+    configuration: DOMLegacyPlatformObjectConfiguration,
   ): EngineObject {
-    const nullValue = this.engine.fromPrimitive(null);
-    const indexedNames =
-      configuration.indexedLength === undefined
-        ? nullValue
-        : this.engine.createFunction(this.realm, "indexedNames", 0, () => {
-            const names = Array.from(
-              { length: configuration.indexedLength?.() ?? 0 },
-              (_value, index) => this.engine.fromPrimitive(String(index)),
-            );
-            return normal(this.engine.createArray(this.realm, names));
-          });
-    const indexedValue =
-      configuration.indexedValue === undefined
-        ? nullValue
-        : this.engine.createFunction(
-            this.realm,
-            "indexedValue",
-            1,
-            (_thisValue, argumentsList) => {
-              const property = this.stringArgument(
-                argumentsList,
-                0,
-                "indexedValue",
-              );
-              return property.type === "throw"
-                ? property
-                : this.legacyValue(
-                    configuration.indexedValue?.(Number(property.value)),
-                  );
-            },
-          );
-    const namedNames =
-      configuration.namedNames === undefined
-        ? nullValue
-        : this.engine.createFunction(this.realm, "namedNames", 0, () => {
-            const names =
-              configuration
-                .namedNames?.()
-                .map((name) => this.engine.fromPrimitive(name)) ?? [];
-            return normal(this.engine.createArray(this.realm, names));
-          });
-    const namedValue =
-      configuration.namedValue === undefined
-        ? nullValue
-        : this.engine.createFunction(
-            this.realm,
-            "namedValue",
-            1,
-            (_thisValue, argumentsList) => {
-              const name = this.stringArgument(argumentsList, 0, "namedValue");
-              return name.type === "throw"
-                ? name
-                : this.legacyValue(configuration.namedValue?.(name.value));
-            },
-          );
-    const namedSetter =
-      configuration.namedSet === undefined
-        ? nullValue
-        : this.engine.createFunction(
-            this.realm,
-            "namedSetter",
-            2,
-            (_thisValue, argumentsList) => {
-              const name = this.stringArgument(argumentsList, 0, "namedSetter");
-              if (name.type === "throw") {
-                return name;
-              }
-              const value = argumentsList[1];
-              if (value === undefined) {
-                return this.typeError("namedSetter requires 2 argument(s)");
-              }
-              const converted = this.engine.toString(this.realm, value);
-              if (converted.type === "throw") {
-                return converted;
-              }
-              configuration.namedSet?.(name.value, converted.value);
-              return this.undefined();
-            },
-          );
-    const namedDeleter =
-      configuration.namedDelete === undefined
-        ? nullValue
-        : this.engine.createFunction(
-            this.realm,
-            "namedDeleter",
-            1,
-            (_thisValue, argumentsList) => {
-              const name = this.stringArgument(
-                argumentsList,
-                0,
-                "namedDeleter",
-              );
-              if (name.type === "throw") {
-                return name;
-              }
-              configuration.namedDelete?.(name.value);
-              return this.undefined();
-            },
-          );
-    const result = this.engine.call(
-      this.realm,
-      this.legacyPlatformObjectFactory,
-      this.engine.fromPrimitive(undefined),
-      [
-        target,
-        indexedNames,
-        indexedValue,
-        namedNames,
-        namedValue,
-        namedSetter,
-        namedDeleter,
-        this.engine.fromPrimitive(configuration.namedEnumerable ?? false),
-        this.engine.fromPrimitive(configuration.overrideBuiltins ?? false),
-      ],
+    return createDOMLegacyPlatformObject(
+      this.context,
+      target,
+      configuration,
+      (value) => this.wrap(value),
     );
-    if (result.type === "throw") {
-      throw new TypeError(
-        this.engine.exceptionMessage(this.realm, result.value),
-      );
-    }
-    const proxy = this.engine.asObject(result.value);
-    if (proxy === null) {
-      throw new TypeError(
-        "Legacy platform object factory returned a primitive",
-      );
-    }
-    return proxy;
-  }
-
-  legacyValue(value: LegacyPlatformValue): EngineResult<EngineValue> {
-    return typeof value === "object" && value !== null
-      ? normal(this.wrap(value))
-      : this.primitive(value);
   }
 
   arrayIterator(values: readonly object[]): EngineResult<EngineValue> {

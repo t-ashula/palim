@@ -47,6 +47,25 @@ export type EngineHostFunction = (
   argumentsList: readonly EngineValue[],
 ) => EngineResult<EngineValue>;
 
+export const FORWARD_PROXY_TRAP = { type: "forward" } as const;
+
+export type EngineProxyTrapResult =
+  EngineResult<EngineValue> | typeof FORWARD_PROXY_TRAP;
+
+export type EngineProxyTrap = (
+  argumentsList: readonly EngineValue[],
+) => EngineProxyTrapResult;
+
+export interface EngineProxyHandler {
+  readonly get?: EngineProxyTrap;
+  readonly has?: EngineProxyTrap;
+  readonly ownKeys?: EngineProxyTrap;
+  readonly getOwnPropertyDescriptor?: EngineProxyTrap;
+  readonly set?: EngineProxyTrap;
+  readonly defineProperty?: EngineProxyTrap;
+  readonly deleteProperty?: EngineProxyTrap;
+}
+
 export interface JavaScriptEngineAdapter {
   createRealm(options?: EngineRealmOptions): EngineRealm;
   globalObject(realm: EngineRealm): EngineObject;
@@ -58,6 +77,7 @@ export interface JavaScriptEngineAdapter {
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
   toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number>;
   toBoolean(value: EngineValue): boolean;
+  asString(value: EngineValue): string | null;
   asObject(value: EngineValue): EngineObject | null;
   asCallable(value: EngineValue): EngineCallable | null;
   isNull(value: EngineValue): boolean;
@@ -67,6 +87,11 @@ export interface JavaScriptEngineAdapter {
     prototype: EngineObject | null,
   ): EngineObject;
   createArray(realm: EngineRealm, values: readonly EngineValue[]): EngineObject;
+  createProxy(
+    realm: EngineRealm,
+    target: EngineObject,
+    handler: EngineProxyHandler,
+  ): EngineObject;
   get(
     realm: EngineRealm,
     object: EngineObject,
@@ -76,6 +101,15 @@ export interface JavaScriptEngineAdapter {
     realm: EngineRealm,
     object: EngineObject,
   ): EngineResult<readonly string[]>;
+  hasProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    key: EnginePropertyKey,
+  ): EngineResult<boolean>;
+  ownPropertyKeys(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<readonly EngineValue[]>;
   setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void;
   setForwardingTarget(object: EngineObject, target: EngineObject): void;
   createFunction(
