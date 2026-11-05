@@ -31,7 +31,8 @@ import {
   validateElementLocalName,
   validateName,
 } from "./conversions.js";
-import { EventTarget } from "./events.js";
+import { createLegacyEvent, EventTarget } from "./events.js";
+import type { Event } from "./events.js";
 import {
   AttrImplementation,
   CharacterDataImplementation,
@@ -782,6 +783,12 @@ export class Document extends Node {
 
   createDocumentFragment(): DocumentFragment {
     return createDocumentFragment(this);
+  }
+
+  createEvent(interfaceName: string): Event;
+  createEvent(...parameters: [interfaceName?: string]): Event {
+    requireArguments(parameters.length, 1);
+    return createLegacyEvent(domString(parameters[0]));
   }
 
   createAttribute(localName: string): Attr;

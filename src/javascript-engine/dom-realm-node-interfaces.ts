@@ -1785,6 +1785,27 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         : normal(binding.wrap(document.createDocumentFragment()));
     },
   );
+  binding.method(
+    binding.documentPrototype,
+    "createEvent",
+    1,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const interfaceName = binding.stringArgument(
+        argumentsList,
+        0,
+        "createEvent",
+      );
+      return interfaceName.type === "throw"
+        ? interfaceName
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(document.createEvent(interfaceName.value))),
+          );
+    },
+  );
   binding.method(binding.documentPrototype, "createRange", 0, (thisValue) => {
     const document = binding.document(thisValue);
     return document === null

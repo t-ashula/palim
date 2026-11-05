@@ -76,6 +76,57 @@ describe("EventTarget", () => {
     expect(event.detail).toEqual({ value: 54 });
   });
 
+  it("creates and initializes legacy events", () => {
+    const document = parse("");
+    const event = document.createEvent("eVeNtS");
+
+    expect(event).toBeInstanceOf(Event);
+    expect(event.type).toBe("");
+    expectDOMException(
+      () => document.dispatchEvent(event),
+      "InvalidStateError",
+    );
+
+    event.initEvent("ready", true, true);
+    expect(event.type).toBe("ready");
+    expect(event.bubbles).toBe(true);
+    expect(event.cancelable).toBe(true);
+    expect(document.dispatchEvent(event)).toBe(true);
+
+    event.initEvent("again");
+    expect(event.target).toBeNull();
+    expect(event.type).toBe("again");
+    expect(event.bubbles).toBe(false);
+    expect(event.cancelable).toBe(false);
+
+    expectDOMException(() => document.createEvent("foo"), "NotSupportedError");
+  });
+
+  it("initializes legacy custom events and ignores initialization during dispatch", () => {
+    const document = parse("");
+    const event = document.createEvent("CustomEvent");
+    if (!(event instanceof CustomEvent)) {
+      throw new Error("Expected a CustomEvent");
+    }
+    const initialDetail = { value: 54 };
+    event.initCustomEvent("custom", true, true, initialDetail);
+    const target = new EventTarget();
+
+    target.addEventListener("custom", () => {
+      event.initCustomEvent("changed", false, false, { value: 0 });
+      expectDOMException(
+        () => target.dispatchEvent(event),
+        "InvalidStateError",
+      );
+    });
+
+    expect(target.dispatchEvent(event)).toBe(true);
+    expect(event.type).toBe("custom");
+    expect(event.bubbles).toBe(true);
+    expect(event.cancelable).toBe(true);
+    expect(event.detail).toBe(initialDetail);
+  });
+
   it("ignores cancellation from passive listeners", () => {
     const target = new EventTarget();
     target.addEventListener(

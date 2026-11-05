@@ -32,6 +32,8 @@ export class AbortControllerImplementation {
 }
 
 export class EventImplementation {
+  initialized = true;
+  dispatching = false;
   target: EventTargetImplementation | null = null;
   currentTarget: EventTargetImplementation | null = null;
   eventPhase = 0;

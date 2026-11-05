@@ -1,4 +1,5 @@
 import { normal } from "./adapter.js";
+import { eventImplementation } from "../dom/event-implementation.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installEventTargetMembers(
@@ -105,7 +106,9 @@ export function installEventTargetMembers(
       if (event === null) {
         return binding.typeError("The argument is not an Event");
       }
-      return binding.primitive(target.dispatchEvent(event));
+      return binding.domOperationResult(() =>
+        binding.primitive(target.dispatchEvent(event)),
+      );
     },
   );
 }
@@ -183,6 +186,26 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
   }
   binding.attribute(
     binding.eventPrototype,
+    "cancelBubble",
+    (thisValue) => {
+      const event = binding.event(thisValue);
+      return event === null
+        ? binding.typeError("Invalid Event receiver")
+        : binding.primitive(event.cancelBubble);
+    },
+    (thisValue, argumentsList) => {
+      const event = binding.event(thisValue);
+      if (event === null) {
+        return binding.typeError("Invalid Event receiver");
+      }
+      event.cancelBubble = binding.engine.toBoolean(
+        argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+      );
+      return binding.undefined();
+    },
+  );
+  binding.attribute(
+    binding.eventPrototype,
     "returnValue",
     (thisValue) => {
       const event = binding.event(thisValue);
@@ -250,4 +273,35 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
         binding.engine.fromPrimitive(null),
     );
   });
+  binding.method(
+    binding.customEventPrototype,
+    "initCustomEvent",
+    1,
+    (thisValue, argumentsList) => {
+      const event = binding.customEvent(thisValue);
+      if (event === null) {
+        return binding.typeError("Invalid CustomEvent receiver");
+      }
+      const type = binding.stringArgument(argumentsList, 0, "initCustomEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      if (eventImplementation(event).dispatching) {
+        return binding.undefined();
+      }
+      const detail = argumentsList[3] ?? binding.engine.fromPrimitive(null);
+      event.initCustomEvent(
+        type.value,
+        argumentsList[1] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[1]),
+        argumentsList[2] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[2]),
+        detail,
+      );
+      binding.customEventDetails.set(event, detail);
+      return binding.undefined();
+    },
+  );
 }

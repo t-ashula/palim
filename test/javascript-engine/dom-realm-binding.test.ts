@@ -516,6 +516,16 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("supports Document.createEvent and legacy event initialization", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      fixture("supports-document-createevent-and-legacy-initialization.js"),
+    );
+  });
+
   it("keeps a platform object wrapper in its first associated realm", () => {
     const document = new DOMParser().parseFromString(
       '<main id="target"></main>',

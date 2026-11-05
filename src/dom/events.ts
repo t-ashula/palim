@@ -1,5 +1,5 @@
 import { DOMException } from "../dom-exception.js";
-import { domString } from "./conversions.js";
+import { asciiLowercase, domString } from "./conversions.js";
 import {
   AbortControllerImplementation,
   EventImplementation,
@@ -133,9 +133,14 @@ export class Event {
 
   initEvent(type: string, bubbles = false, cancelable = false): void {
     const implementation = eventImplementation(this);
+    if (implementation.dispatching) {
+      return;
+    }
+    implementation.initialized = true;
     implementation.type = domString(type);
     implementation.bubbles = bubbles;
     implementation.cancelable = cancelable;
+    implementation.target = null;
     implementation.defaultPrevented = false;
     implementation.stopPropagation = false;
     implementation.stopImmediatePropagation = false;
@@ -143,7 +148,7 @@ export class Event {
 }
 
 export class CustomEvent<T = unknown> extends Event {
-  readonly #detail: T;
+  #detail: T;
 
   constructor(type: string, eventInit: CustomEventInit<T> = {}) {
     super(type, eventInit);
@@ -153,6 +158,41 @@ export class CustomEvent<T = unknown> extends Event {
   get detail(): T {
     return this.#detail;
   }
+
+  initCustomEvent(
+    type: string,
+    bubbles = false,
+    cancelable = false,
+    detail: T = null as T,
+  ): void {
+    if (eventImplementation(this).dispatching) {
+      return;
+    }
+    this.initEvent(type, bubbles, cancelable);
+    this.#detail = detail;
+  }
+}
+
+export function createLegacyEvent(interfaceName: string): Event {
+  let event: Event;
+  switch (asciiLowercase(domString(interfaceName))) {
+    case "event":
+    case "events":
+    case "htmlevents":
+    case "svgevents":
+      event = new Event("");
+      break;
+    case "customevent":
+      event = new CustomEvent("");
+      break;
+    default:
+      throw new DOMException(
+        `The event interface "${interfaceName}" is not supported`,
+        "NotSupportedError",
+      );
+  }
+  eventImplementation(event).initialized = false;
+  return event;
 }
 
 export type EventListener = (event: Event) => void;
@@ -264,10 +304,13 @@ export class EventTarget {
     if (!(event instanceof Event)) {
       throw new TypeError("The event is not an Event");
     }
-    if (event.type === "") {
-      throw new DOMException("The event has no type", "InvalidStateError");
-    }
     const implementation = eventImplementation(event);
+    if (implementation.dispatching || !implementation.initialized) {
+      throw new DOMException(
+        "The event is dispatching or is not initialized",
+        "InvalidStateError",
+      );
+    }
     const targetImplementation = eventTargetImplementation(this);
     const path: EventTargetImplementation[] = [targetImplementation];
     if (event.bubbles) {
@@ -277,19 +320,24 @@ export class EventTarget {
         parent = parent.parent;
       }
     }
-    implementation.target = targetImplementation;
-    implementation.path = path;
-    for (const [index, target] of path.entries()) {
-      if (implementation.stopPropagation && index > 0) {
-        break;
+    implementation.dispatching = true;
+    try {
+      implementation.target = targetImplementation;
+      implementation.path = path;
+      for (const [index, target] of path.entries()) {
+        if (implementation.stopPropagation && index > 0) {
+          break;
+        }
+        implementation.currentTarget = target;
+        implementation.eventPhase =
+          index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
+        invokeEventListeners(target, event);
       }
-      implementation.currentTarget = target;
-      implementation.eventPhase =
-        index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
-      invokeEventListeners(target, event);
+    } finally {
+      implementation.currentTarget = null;
+      implementation.eventPhase = Event.NONE;
+      implementation.dispatching = false;
     }
-    implementation.currentTarget = null;
-    implementation.eventPhase = Event.NONE;
     return !event.defaultPrevented;
   }
 }

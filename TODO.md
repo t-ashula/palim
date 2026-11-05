@@ -70,8 +70,8 @@
 ## Events
 
 - [ ] capture phase
-- [ ] `Document.createEvent` と legacy event initialization
-- [ ] `Event` subclass constructor と `MouseEvent` / `KeyboardEvent` の realm 公開
+- [x] `Document.createEvent` と legacy event initialization
+- [ ] `Event` subclass constructor、legacy factory alias と `MouseEvent` / `KeyboardEvent` の realm 公開
 - [ ] composed path と shadow boundary
 - [ ] event retargeting
 - [ ] default action
