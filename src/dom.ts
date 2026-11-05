@@ -35,6 +35,7 @@ export {
   Node,
   ProcessingInstruction,
   Text,
+  XMLDocument,
 } from "./dom/nodes.js";
 export type {
   AttributeData,

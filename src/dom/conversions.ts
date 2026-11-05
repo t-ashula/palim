@@ -31,6 +31,15 @@ export function validateName(name: string): void {
   }
 }
 
+export function validateDoctypeName(name: string): void {
+  if (/[\t\n\f\r >]/u.test(name) || name.includes(String.fromCodePoint(0))) {
+    throw new DOMException(
+      `Invalid character in doctype name: ${name}`,
+      "InvalidCharacterError",
+    );
+  }
+}
+
 export function validateAttributeLocalName(name: string): void {
   if (name === "" || /[\t\n\f\r \0/=>]/u.test(name)) {
     throw new DOMException(

@@ -26,6 +26,7 @@ import {
   validateAttributeLocalName,
   validateAndExtract,
   validateAndExtractElement,
+  validateDoctypeName,
   validateElementLocalName,
   validateName,
 } from "./conversions.js";
@@ -147,7 +148,7 @@ export class DOMImplementation {
   ): DocumentType {
     requireArguments(arguments.length, 3);
     const name = domString(qualifiedName);
-    validateName(name);
+    validateDoctypeName(name);
     return createDocumentType(
       this.document,
       name,
@@ -163,9 +164,16 @@ export class DOMImplementation {
   ): Document {
     requireArguments(arguments.length, 2);
     const source = documentImplementation(this.document);
+    const normalizedNamespace = normalizeNamespace(namespace);
+    const contentType =
+      normalizedNamespace === HTML_NAMESPACE
+        ? "application/xhtml+xml"
+        : normalizedNamespace === SVG_NAMESPACE
+          ? "image/svg+xml"
+          : "application/xml";
     const document = createDocument(
       source.fragmentParser,
-      "application/xml",
+      contentType,
       source.elementFactory,
     );
     if (doctype !== null) {
@@ -178,7 +186,7 @@ export class DOMImplementation {
     }
     const name = qualifiedName === null ? "" : domString(qualifiedName);
     if (name !== "") {
-      document.appendChild(document.createElementNS(namespace, name));
+      document.appendChild(document.createElementNS(normalizedNamespace, name));
     }
     return document;
   }
@@ -954,6 +962,8 @@ export class Document extends Node {
   }
 }
 
+export class XMLDocument extends Document {}
+
 export function createElementForDocument(
   document: Document,
   localName: string,
@@ -973,7 +983,8 @@ export function createDocument(
   contentType: string,
   elementFactory: ElementFactory,
 ): Document {
-  return new Document(
+  const Interface = contentType === "text/html" ? Document : XMLDocument;
+  return new Interface(
     new DocumentImplementation(fragmentParser, contentType, elementFactory),
   );
 }

@@ -58,6 +58,17 @@ interface DocumentInterface {
 }
 export const Document = exposeInterface<DocumentInterface>(DOM.Document);
 
+export type XMLDocument = DOM.XMLDocument;
+interface XMLDocumentInterface {
+  readonly length: 0;
+  readonly name: "XMLDocument";
+  readonly prototype: XMLDocument;
+  [Symbol.hasInstance](value: unknown): value is XMLDocument;
+}
+export const XMLDocument = exposeInterface<XMLDocumentInterface>(
+  DOM.XMLDocument,
+);
+
 export type DocumentFragment = DOM.DocumentFragment;
 interface DocumentFragmentInterface {
   readonly length: 0;

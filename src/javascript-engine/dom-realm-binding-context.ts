@@ -20,6 +20,7 @@ import {
   NodeList,
   ProcessingInstruction,
   Text,
+  XMLDocument,
 } from "../dom.js";
 import type { NodeIterator, TreeWalker } from "../dom.js";
 import type { Range, StaticRange } from "../dom/range.js";
@@ -877,6 +878,9 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof CustomEvent) {
       return this.customEventPrototype;
+    }
+    if (interfaceObject instanceof XMLDocument) {
+      return this.xmlDocumentPrototype;
     }
     if (interfaceObject instanceof Document) {
       return this.documentPrototype;

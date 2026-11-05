@@ -676,16 +676,41 @@ describe("DOMRealmBinding", () => {
           null,
           doctype,
         );
+        const xhtmlDocument = testDocument.implementation.createDocument(
+          "http://www.w3.org/1999/xhtml",
+          "html",
+          undefined,
+        );
         const htmlDocument = testDocument.implementation.createHTMLDocument("");
         if (
           cdata.nodeType !== Node.CDATA_SECTION_NODE ||
           instruction.nodeType !== Node.PROCESSING_INSTRUCTION_NODE ||
+          !(foreignDocument instanceof XMLDocument) ||
+          Object.getPrototypeOf(foreignDocument) !== XMLDocument.prototype ||
           foreignDocument.doctype !== doctype ||
+          !(xhtmlDocument instanceof XMLDocument) ||
+          xhtmlDocument.contentType !== "application/xhtml+xml" ||
           htmlDocument.head === null ||
           htmlDocument.body === null ||
           testDocument.implementation !== testDocument.implementation
         ) {
           throw new Error("document fixture APIs are invalid");
+        }
+        const unusualDoctype = testDocument.implementation.createDocumentType(
+          "@name",
+          "public",
+          "system",
+        );
+        if (unusualDoctype.name !== "@name") {
+          throw new Error("doctype name validation is invalid");
+        }
+        try {
+          testDocument.implementation.createDocumentType("invalid name", "", "");
+          throw new Error("invalid doctype name was accepted");
+        } catch (error) {
+          if (!(error instanceof DOMException) || error.name !== "InvalidCharacterError") {
+            throw error;
+          }
         }
       `,
     );

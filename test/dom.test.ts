@@ -20,6 +20,7 @@ import {
   Node,
   ProcessingInstruction,
   Text,
+  XMLDocument,
 } from "../src/index.js";
 import { setDocumentURL } from "../src/dom/nodes.js";
 import { documentImplementation } from "../src/dom/node-implementation.js";
@@ -417,6 +418,10 @@ describe("Document node creation", () => {
       "system",
     );
     const xml = document.implementation.createDocument(null, null, doctype);
+    const xhtml = document.implementation.createDocument(
+      HTML_NAMESPACE,
+      "html",
+    );
     const html = document.implementation.createHTMLDocument("title");
 
     expect(cdata).toBeInstanceOf(CDATASection);
@@ -424,7 +429,17 @@ describe("Document node creation", () => {
     expect(instruction).toBeInstanceOf(ProcessingInstruction);
     expect(instruction.ownerDocument).toBe(document);
     expect(xml.doctype).toBe(doctype);
+    expect(xml).toBeInstanceOf(XMLDocument);
     expect(doctype.ownerDocument).toBe(xml);
+    expect(xhtml).toBeInstanceOf(XMLDocument);
+    expect(xhtml.contentType).toBe("application/xhtml+xml");
+    expect(document.implementation.createDocumentType("", "", "").name).toBe(
+      "",
+    );
+    expectDOMException(
+      () => document.implementation.createDocumentType("invalid name", "", ""),
+      "InvalidCharacterError",
+    );
     expect(html.contentType).toBe("text/html");
     expect(html.doctype?.name).toBe("html");
     expect(html.head?.textContent).toBe("title");

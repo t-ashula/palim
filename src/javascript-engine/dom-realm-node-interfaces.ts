@@ -1905,12 +1905,14 @@ export function installDOMImplementationMembers(
         }
         values.push(value.value);
       }
-      return normal(
-        binding.wrap(
-          implementation.createDocumentType(
-            values[0] ?? "",
-            values[1] ?? "",
-            values[2] ?? "",
+      return binding.domOperationResult(() =>
+        normal(
+          binding.wrap(
+            implementation.createDocumentType(
+              values[0] ?? "",
+              values[1] ?? "",
+              values[2] ?? "",
+            ),
           ),
         ),
       );
@@ -1945,19 +1947,25 @@ export function installDOMImplementationMembers(
       }
       const doctypeValue = argumentsList[2];
       let doctype: DocumentType | null = null;
-      if (doctypeValue !== undefined && !binding.engine.isNull(doctypeValue)) {
+      if (
+        doctypeValue !== undefined &&
+        !binding.engine.isUndefined(doctypeValue) &&
+        !binding.engine.isNull(doctypeValue)
+      ) {
         const interfaceObject = binding.interfaceObject(doctypeValue);
         if (!(interfaceObject instanceof DocumentType)) {
           return binding.typeError("doctype must be a DocumentType");
         }
         doctype = interfaceObject;
       }
-      return normal(
-        binding.wrap(
-          implementation.createDocument(
-            namespace.value,
-            qualifiedName.value,
-            doctype,
+      return binding.domOperationResult(() =>
+        normal(
+          binding.wrap(
+            implementation.createDocument(
+              namespace.value,
+              qualifiedName.value,
+              doctype,
+            ),
           ),
         ),
       );

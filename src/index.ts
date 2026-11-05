@@ -20,6 +20,7 @@ export {
   NodeList,
   ProcessingInstruction,
   Text,
+  XMLDocument,
 } from "./public-dom-interfaces.js";
 export type {
   AddEventListenerOptions,
