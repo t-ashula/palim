@@ -36,6 +36,7 @@ export interface Range extends AbstractRange {
   deleteContents(): void;
   extractContents(): DocumentFragment;
   cloneContents(): DocumentFragment;
+  createContextualFragment(fragment: string): DocumentFragment;
   insertNode(node: Node): void;
   surroundContents(newParent: Node): void;
   cloneRange(): Range;

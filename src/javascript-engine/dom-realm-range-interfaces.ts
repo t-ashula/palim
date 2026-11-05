@@ -171,6 +171,30 @@ export function installRangeMembers(binding: DOMRealmBindingContext): void {
     });
   }
 
+  binding.method(
+    binding.rangePrototype,
+    "createContextualFragment",
+    1,
+    (thisValue, argumentsList) => {
+      const range = binding.range(thisValue);
+      if (range === null) {
+        return binding.typeError("Invalid Range receiver");
+      }
+      const fragment = binding.stringArgument(
+        argumentsList,
+        0,
+        "createContextualFragment",
+      );
+      return fragment.type === "throw"
+        ? fragment
+        : binding.domOperationResult(() =>
+            normal(
+              binding.wrap(range.createContextualFragment(fragment.value)),
+            ),
+          );
+    },
+  );
+
   binding.method(binding.rangePrototype, "cloneRange", 0, (thisValue) => {
     const range = binding.range(thisValue);
     return range === null

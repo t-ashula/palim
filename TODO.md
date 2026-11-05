@@ -9,7 +9,7 @@
 - [x] `Node.isDefaultNamespace`
 - [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [x] `NamedNodeMap` mutation API と `NodeList` iterable API
-- [ ] `Range.createContextualFragment`
+- [x] `Range.createContextualFragment`
 
 ### DOM algorithms
 

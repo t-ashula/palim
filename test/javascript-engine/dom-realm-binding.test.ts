@@ -934,7 +934,14 @@ describe("DOMRealmBinding", () => {
         const bold = paragraph.querySelector("b");
         const range = testDocument.createRange();
         range.selectNode(bold);
+        const contextual = range.createContextualFragment("<i>fragment</i>");
         if (
+          typeof Range.prototype.createContextualFragment !== "function" ||
+          Range.prototype.createContextualFragment.length !== 1 ||
+          !(contextual instanceof DocumentFragment) ||
+          contextual.firstChild.localName !== "i" ||
+          contextual.textContent !== "fragment" ||
+          contextual.firstChild.ownerDocument !== testDocument ||
           range.comparePoint(paragraph, 0) !== -1 ||
           range.comparePoint(paragraph, 1) !== 0 ||
           !range.isPointInRange(paragraph, 1) ||

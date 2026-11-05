@@ -471,7 +471,10 @@ class TreeBuilder {
     if (this.#mode === "in-table-text") {
       this.#flushTableCharacters();
     }
-    if (this.#context?.localName === "html") {
+    if (
+      this.#context?.namespaceURI === HTML_NAMESPACE &&
+      this.#context.localName === "html"
+    ) {
       this.#finish();
     }
     const fragment = createDocumentFragment(this.document);
@@ -583,7 +586,7 @@ class TreeBuilder {
 
   #modeForContext(): Mode {
     const name = this.#context?.localName;
-    if (name === "html") {
+    if (this.#context?.namespaceURI === HTML_NAMESPACE && name === "html") {
       return "before-head";
     }
     if (name === "select") {

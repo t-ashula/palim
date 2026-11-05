@@ -1,6 +1,8 @@
 import { DOMException } from "../dom-exception.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
 import { requireArguments } from "../web-idl.js";
 import { bindDOMInterface } from "./binding.js";
+import { domString } from "./conversions.js";
 import type { Range, StaticRange, StaticRangeInit } from "./range.js";
 import {
   Attr,
@@ -9,6 +11,7 @@ import {
   Document,
   DocumentFragment,
   DocumentType,
+  Element,
   Node,
   ProcessingInstruction,
   Text,
@@ -16,6 +19,8 @@ import {
   childNodes,
   cloneNodeIntoDocument,
   createDocumentFragment,
+  createElementForDocument,
+  fragmentParserForDocument,
   removeNode,
   replaceCharacterData,
   validatePreInsertion,
@@ -222,6 +227,32 @@ class RangeImplementation implements Range {
 
   cloneContents(): DocumentFragment {
     return cloneRangeContents(this);
+  }
+
+  createContextualFragment(fragment: string): DocumentFragment {
+    requireArguments(arguments.length, 1);
+    const input = domString(fragment);
+    const node = this.#start.node;
+    const document = nodeDocument(node);
+    let context =
+      node instanceof Element
+        ? node
+        : node instanceof Text || node instanceof Comment
+          ? node.parentElement
+          : null;
+    if (
+      context === null ||
+      (document.contentType === "text/html" &&
+        context.namespaceURI === HTML_NAMESPACE &&
+        context.localName === "html")
+    ) {
+      context = createElementForDocument(document, "body", HTML_NAMESPACE);
+    }
+    const parser = fragmentParserForDocument(document);
+    if (parser === null) {
+      throw new TypeError("Document has no fragment parser");
+    }
+    return document.adoptNode(parser.parse(input, context));
   }
 
   insertNode(node: Node): void {

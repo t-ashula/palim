@@ -147,6 +147,43 @@ describe("Range boundaries", () => {
 });
 
 describe("Range contents", () => {
+  it("parses contextual fragments from the start node", () => {
+    const document = parse("<main>text</main>");
+    const main = element(document, "main");
+    const range = document.createRange();
+
+    range.selectNodeContents(main);
+    const contextual = range.createContextualFragment(
+      '<p class="first">one</p><p>two</p>',
+    );
+    expect(contextual.childNodes.length).toBe(2);
+    expect(contextual.querySelector(".first")?.textContent).toBe("one");
+    expect(contextual.lastChild?.textContent).toBe("two");
+    expect(contextual.firstChild?.ownerDocument).toBe(document);
+
+    range.selectNodeContents(element(document, "html"));
+    const bodyContext = range.createContextualFragment("<body><b>value</b>");
+    expect(bodyContext.childNodes.length).toBe(1);
+    expect(bodyContext.firstChild?.nodeName).toBe("B");
+
+    const foreignHTML = document.createElementNS("urn:test", "html");
+    range.selectNodeContents(foreignHTML);
+    const foreignContext = range.createContextualFragment("<body><p>value");
+    const div = document.createElement("div");
+    range.selectNodeContents(div);
+    const ordinaryContext = range.createContextualFragment("<body><p>value");
+    expect(foreignContext.isEqualNode(ordinaryContext)).toBe(true);
+
+    const defaultRange = document.createRange();
+    expect(defaultRange.createContextualFragment("plain").textContent).toBe(
+      "plain",
+    );
+    const createWithoutArgument = defaultRange.createContextualFragment.bind(
+      defaultRange,
+    ) as () => unknown;
+    expect(createWithoutArgument).toThrow(TypeError);
+  });
+
   it("clones contents without changing the source tree", () => {
     const document = parse("<main><p>one<b>two</b>three</p></main>");
     const paragraph = element(document, "p");
