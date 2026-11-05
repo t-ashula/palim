@@ -1057,6 +1057,20 @@ describe("Element attributes", () => {
     );
   });
 
+  it("creates non-namespaced attribute nodes", () => {
+    const document = parse("<main></main>");
+    const attribute = document.createAttribute("DATA^VALUE");
+
+    expect(attribute.ownerDocument).toBe(document);
+    expect(attribute.namespaceURI).toBeNull();
+    expect(attribute.name).toBe("data^value");
+    expect(attribute.localName).toBe("data^value");
+    expectDOMException(
+      () => document.createAttribute("not valid"),
+      "InvalidCharacterError",
+    );
+  });
+
   it("gets, replaces, and removes attributes through NamedNodeMap", () => {
     const document = parse(
       '<main id="target" data-value="old"></main><aside data-value="new" title="in-use"></aside>',

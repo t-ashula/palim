@@ -31,6 +31,15 @@ export function validateName(name: string): void {
   }
 }
 
+export function validateAttributeLocalName(name: string): void {
+  if (name === "" || /[\t\n\f\r \0/=>]/u.test(name)) {
+    throw new DOMException(
+      `Invalid character in attribute local name: ${name}`,
+      "InvalidCharacterError",
+    );
+  }
+}
+
 export function validateElementLocalName(name: string): void {
   if (
     !/^(?:[A-Za-z][^\0\t\n\f\r />]*|[:_\u0080-\u{10FFFF}][A-Za-z0-9.\-:_\u0080-\u{10FFFF}]*)$/u.test(

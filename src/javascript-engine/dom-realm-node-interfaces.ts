@@ -601,6 +601,39 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
         : binding.primitive(element.getAttribute(name.value));
     },
   );
+  binding.method(
+    binding.elementPrototype,
+    "getAttributeNode",
+    1,
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const name = binding.stringArgument(argumentsList, 0, "getAttributeNode");
+      return name.type === "throw"
+        ? name
+        : binding.platformValue(element.getAttributeNode(name.value));
+    },
+  );
+  binding.method(
+    binding.elementPrototype,
+    "getAttributeNames",
+    0,
+    (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : normal(
+            binding.engine.createArray(
+              binding.realm,
+              element
+                .getAttributeNames()
+                .map((name) => binding.engine.fromPrimitive(name)),
+            ),
+          );
+    },
+  );
   for (const name of [
     "getAttributeNS",
     "getAttributeNodeNS",
@@ -657,8 +690,10 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       if (value.type === "throw") {
         return value;
       }
-      element.setAttribute(name.value, value.value);
-      return binding.undefined();
+      return binding.domOperationResult(() => {
+        element.setAttribute(name.value, value.value);
+        return binding.undefined();
+      });
     },
   );
   binding.method(
@@ -785,6 +820,32 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       return name.type === "throw"
         ? name
         : binding.primitive(element.hasAttribute(name.value));
+    },
+  );
+  binding.method(
+    binding.elementPrototype,
+    "toggleAttribute",
+    1,
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const name = binding.stringArgument(argumentsList, 0, "toggleAttribute");
+      if (name.type === "throw") {
+        return name;
+      }
+      const force = argumentsList[1];
+      return binding.domOperationResult(() =>
+        binding.primitive(
+          force === undefined || binding.engine.isUndefined(force)
+            ? element.toggleAttribute(name.value)
+            : element.toggleAttribute(
+                name.value,
+                binding.engine.toBoolean(force),
+              ),
+        ),
+      );
     },
   );
   binding.method(
@@ -1197,6 +1258,28 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
             document.createAttributeNS(namespace.value, qualifiedName.value),
           ),
         ),
+      );
+    },
+  );
+  binding.method(
+    binding.documentPrototype,
+    "createAttribute",
+    1,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const localName = binding.stringArgument(
+        argumentsList,
+        0,
+        "createAttribute",
+      );
+      if (localName.type === "throw") {
+        return localName;
+      }
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(document.createAttribute(localName.value))),
       );
     },
   );

@@ -18,6 +18,7 @@ import {
   asciiLowercase,
   domString,
   normalizeNamespace,
+  validateAttributeLocalName,
   validateAndExtract,
   validateAndExtractElement,
   validateElementLocalName,
@@ -113,6 +114,8 @@ type CreateAttributeNSArguments = [
   namespace?: string | null,
   qualifiedName?: string,
 ];
+
+type CreateAttributeArguments = [localName?: string];
 
 type CreateCharacterDataArguments = [data?: string];
 
@@ -712,6 +715,18 @@ export class Document extends Node {
 
   createDocumentFragment(): DocumentFragment {
     return createDocumentFragment(this);
+  }
+
+  createAttribute(localName: string): Attr;
+  createAttribute(...parameters: CreateAttributeArguments): Attr {
+    requireArguments(parameters.length, 1);
+    const [localName] = parameters;
+    let convertedName = domString(localName);
+    validateAttributeLocalName(convertedName);
+    if (this.contentType === "text/html") {
+      convertedName = asciiLowercase(convertedName);
+    }
+    return createAttr(this, null, convertedName, "");
   }
 
   createAttributeNS(namespace: string | null, qualifiedName: string): Attr;
@@ -1529,6 +1544,10 @@ export class Element extends Node {
     );
   }
 
+  getAttributeNode(qualifiedName: string): Attr | null {
+    return findAttributeByName(this, domString(qualifiedName));
+  }
+
   getAttributeNodeNS(namespace: string | null, localName: string): Attr | null {
     return findAttributeByNamespace(
       this,
@@ -1558,7 +1577,7 @@ export class Element extends Node {
   setAttribute(qualifiedName: string, value: string): void {
     requireArguments(arguments.length, 2);
     const name = this.#attributeName(domString(qualifiedName));
-    validateName(name);
+    validateAttributeLocalName(name);
     const convertedValue = domString(value);
     const attribute = findAttributeByName(this, name);
     if (attribute !== null) {
@@ -1646,7 +1665,7 @@ export class Element extends Node {
   toggleAttribute(qualifiedName: string, force?: boolean): boolean {
     requireArguments(arguments.length, 1);
     const name = this.#attributeName(domString(qualifiedName));
-    validateName(name);
+    validateAttributeLocalName(name);
     const attribute = findAttributeByName(this, name);
     if (attribute === null) {
       if (arguments.length < 2 || Boolean(force)) {
