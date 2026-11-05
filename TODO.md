@@ -61,7 +61,7 @@
 - [x] `Range`
 - [x] `Document.createRange` と page realm の `Range` / `StaticRange` constructor 公開
 - [x] `CharacterData` と tree mutation に対する live range 更新の網羅
-- [ ] Range の extract / delete / clone / insert / surround / point 比較の WPT 境界条件
+- [x] Range の extract / delete / clone / insert / surround / point 比較の WPT 境界条件
 
 ## 3. Dynamic markup and serialization APIs
 

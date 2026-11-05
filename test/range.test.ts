@@ -131,6 +131,29 @@ describe("Range boundaries", () => {
     expect(clone.endOffset).toBe(first.endOffset);
     clone.detach();
   });
+
+  it("validates comparison modes, roots, and point offsets", () => {
+    const document = parse("<main><a></a><b></b></main>");
+    const main = element(document, "main");
+    const range = document.createRange();
+    range.selectNode(element(document, "b"));
+    const foreignDocument = parse("<main></main>");
+    const foreignRange = foreignDocument.createRange();
+
+    expectDOMException(() => {
+      range.compareBoundaryPoints(4, range);
+    }, "NotSupportedError");
+    expectDOMException(() => {
+      range.compareBoundaryPoints(range.START_TO_START, foreignRange);
+    }, "WrongDocumentError");
+    expectDOMException(() => {
+      range.comparePoint(foreignDocument, 0);
+    }, "WrongDocumentError");
+    expectDOMException(() => {
+      range.comparePoint(main, 3);
+    }, "IndexSizeError");
+    expect(range.isPointInRange(foreignDocument, 0)).toBe(false);
+  });
 });
 
 describe("Range contents", () => {
@@ -261,6 +284,50 @@ describe("Range contents", () => {
     expectDOMException(() => {
       range.surroundContents(document.createElement("strong"));
     }, "InvalidStateError");
+  });
+
+  it("handles collapsed, CharacterData, and fragment boundaries", () => {
+    const document = parse("<main><p>abcd</p></main>");
+    const paragraph = element(document, "p");
+    const data = text(paragraph.firstChild);
+    const range = document.createRange();
+
+    range.setStart(data, 1);
+    range.setEnd(data, 3);
+    expect(range.cloneContents().textContent).toBe("bc");
+    const extracted = range.extractContents();
+    expect(extracted.textContent).toBe("bc");
+    expect(data.data).toBe("ad");
+    expect(range.collapsed).toBe(true);
+    expect(range.startContainer).toBe(data);
+    expect(range.startOffset).toBe(1);
+
+    const emptyClone = range.cloneContents();
+    const emptyExtract = range.extractContents();
+    range.deleteContents();
+    expect(emptyClone.childNodes.length).toBe(0);
+    expect(emptyExtract.childNodes.length).toBe(0);
+    expect(data.data).toBe("ad");
+
+    const fragment = document.createDocumentFragment();
+    fragment.append(document.createElement("i"), document.createElement("b"));
+    range.insertNode(fragment);
+    expect(paragraph.childNodes.length).toBe(4);
+    expect(paragraph.childNodes.item(1)?.nodeName).toBe("I");
+    expect(paragraph.childNodes.item(2)?.nodeName).toBe("B");
+    expect(range.endContainer).toBe(paragraph);
+    expect(range.endOffset).toBe(3);
+
+    const wrapper = document.createElement("strong");
+    wrapper.appendChild(document.createElement("s"));
+    const inserted = paragraph.childNodes.item(1);
+    if (inserted === null) {
+      throw new Error("missing inserted node");
+    }
+    range.selectNode(inserted);
+    range.surroundContents(wrapper);
+    expect(wrapper.childNodes.length).toBe(1);
+    expect(wrapper.firstChild?.nodeName).toBe("I");
   });
 });
 

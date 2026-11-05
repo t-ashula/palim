@@ -824,6 +824,52 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("binds Range content and point operations", () => {
+    const { engine, realm } = createTestRealm(
+      "<main><p>one<b>two</b>three</p></main>",
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const paragraph = testDocument.querySelector("p");
+        const bold = paragraph.querySelector("b");
+        const range = testDocument.createRange();
+        range.selectNode(bold);
+        if (
+          range.comparePoint(paragraph, 0) !== -1 ||
+          range.comparePoint(paragraph, 1) !== 0 ||
+          !range.isPointInRange(paragraph, 1) ||
+          !range.intersectsNode(bold) ||
+          range.cloneContents().textContent !== "two"
+        ) {
+          throw new Error("Range point or clone operation is invalid");
+        }
+        const extracted = range.extractContents();
+        if (
+          extracted.textContent !== "two" ||
+          paragraph.textContent !== "onethree" ||
+          !range.collapsed
+        ) {
+          throw new Error("Range extraction is invalid");
+        }
+        const wrapper = testDocument.createElement("strong");
+        range.insertNode(wrapper);
+        range.selectNode(wrapper);
+        range.surroundContents(testDocument.createElement("section"));
+        if (paragraph.querySelector("section > strong") !== wrapper) {
+          throw new Error("Range insertion or surrounding is invalid");
+        }
+        range.selectNode(wrapper);
+        range.deleteContents();
+        if (paragraph.querySelector("strong") !== null) {
+          throw new Error("Range deletion is invalid");
+        }
+      `,
+    );
+  });
+
   it("exposes live indexed and named HTMLCollection properties", () => {
     const { engine, realm } = createTestRealm(
       '<main><span id="first" name="alpha"></span><span id="first" name="beta"></span></main>',
