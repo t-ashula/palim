@@ -355,6 +355,12 @@ export class Node extends EventTarget {
     return locateNamespace(this, normalizeNamespace(prefix));
   }
 
+  isDefaultNamespace(namespace: string | null): boolean {
+    requireArguments(arguments.length, 1);
+    const convertedNamespace = normalizeNamespace(namespace);
+    return locateNamespace(this, null) === convertedNamespace;
+  }
+
   cloneNode(subtree = false): Node {
     const document = this instanceof Document ? this : this.ownerDocument;
     if (document === null) {

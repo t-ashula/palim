@@ -720,6 +720,11 @@ describe("Node relationships and comparison", () => {
     expect(document.lookupNamespaceURI("r")).toBe("urn:root");
     expect(child.lookupNamespaceURI("xml")).toBe(XML_NAMESPACE);
     expect(child.lookupNamespaceURI("xmlns")).toBe(XMLNS_NAMESPACE);
+    expect(child.isDefaultNamespace("urn:default")).toBe(true);
+    expect(child.isDefaultNamespace("urn:prefix")).toBe(false);
+    expect(document.createDocumentFragment().isDefaultNamespace(null)).toBe(
+      true,
+    );
 
     const declaration = root.getAttributeNodeNS(XMLNS_NAMESPACE, "p");
     expect(declaration?.lookupNamespaceURI("p")).toBe("urn:prefix");

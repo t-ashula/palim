@@ -1310,6 +1310,7 @@ describe("DOMRealmBinding", () => {
           ["replaceChild", 2],
           ["lookupPrefix", 1],
           ["lookupNamespaceURI", 1],
+          ["isDefaultNamespace", 1],
         ]) {
           if (typeof Node.prototype[name] !== "function" || Node.prototype[name].length !== length) {
             throw new Error(name + " has an invalid descriptor");
@@ -1334,7 +1335,9 @@ describe("DOMRealmBinding", () => {
         if (
           main.lookupNamespaceURI(null) !== "http://www.w3.org/1999/xhtml" ||
           main.lookupNamespaceURI("xml") !== "http://www.w3.org/XML/1998/namespace" ||
-          main.lookupPrefix("http://www.w3.org/1999/xhtml") !== null
+          main.lookupPrefix("http://www.w3.org/1999/xhtml") !== null ||
+          !main.isDefaultNamespace("http://www.w3.org/1999/xhtml") ||
+          main.isDefaultNamespace(null)
         ) {
           throw new Error("namespace lookup result is invalid");
         }

@@ -277,6 +277,25 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
   }
   binding.method(
     binding.nodePrototype,
+    "isDefaultNamespace",
+    1,
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      const namespace = binding.nullableStringArgument(
+        argumentsList,
+        0,
+        "isDefaultNamespace",
+      );
+      return namespace.type === "throw"
+        ? namespace
+        : binding.primitive(node.isDefaultNamespace(namespace.value));
+    },
+  );
+  binding.method(
+    binding.nodePrototype,
     "compareDocumentPosition",
     1,
     (thisValue, argumentsList) => {
