@@ -2687,12 +2687,6 @@ function nullableNode(value: unknown): Node | null {
 }
 
 function preInsert(node: Node, parent: Node, child: Node | null): void {
-  if (child !== null && child.parentNode !== parent) {
-    throw new DOMException(
-      "The reference node is not a child of this node",
-      "NotFoundError",
-    );
-  }
   let reference = child;
   if (reference === node) {
     reference = node.nextSibling;

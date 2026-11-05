@@ -118,7 +118,9 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
       if (node === null || child === null) {
         return binding.typeError("The argument is not a Node");
       }
-      return normal(binding.wrap(node.appendChild(child)));
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(node.appendChild(child))),
+      );
     },
   );
   binding.method(
@@ -132,7 +134,9 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
       if (node === null || child === null) {
         return binding.typeError("The argument is not a Node");
       }
-      return normal(binding.wrap(node.removeChild(child)));
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(node.removeChild(child))),
+      );
     },
   );
   binding.method(
@@ -181,7 +185,9 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
           return binding.typeError("The reference is not a Node");
         }
       }
-      return normal(binding.wrap(node.insertBefore(child, reference)));
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(node.insertBefore(child, reference))),
+      );
     },
   );
   binding.method(binding.nodePrototype, "hasChildNodes", 0, (thisValue) => {
@@ -1168,7 +1174,9 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       );
       return selectors.type === "throw"
         ? selectors
-        : binding.platformValue(element.querySelector(selectors.value));
+        : binding.domOperationResult(() =>
+            binding.platformValue(element.querySelector(selectors.value)),
+          );
     },
   );
   binding.method(
@@ -1187,7 +1195,9 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       );
       return selectors.type === "throw"
         ? selectors
-        : normal(binding.wrap(element.querySelectorAll(selectors.value)));
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(element.querySelectorAll(selectors.value))),
+          );
     },
   );
   for (const name of ["matches", "closest"] as const) {
@@ -1391,7 +1401,9 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       );
       return selectors.type === "throw"
         ? selectors
-        : binding.platformValue(document.querySelector(selectors.value));
+        : binding.domOperationResult(() =>
+            binding.platformValue(document.querySelector(selectors.value)),
+          );
     },
   );
   binding.method(
@@ -1410,7 +1422,9 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       );
       return selectors.type === "throw"
         ? selectors
-        : normal(binding.wrap(document.querySelectorAll(selectors.value)));
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(document.querySelectorAll(selectors.value))),
+          );
     },
   );
   binding.method(
@@ -1603,7 +1617,9 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       );
       return localName.type === "throw"
         ? localName
-        : normal(binding.wrap(document.createElement(localName.value)));
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(document.createElement(localName.value))),
+          );
     },
   );
   binding.method(
@@ -1615,13 +1631,11 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       if (document === null) {
         return binding.typeError("Invalid Document receiver");
       }
-      const namespaceValue = argumentsList[0];
-      if (namespaceValue === undefined) {
-        return binding.typeError("createElementNS requires 2 argument(s)");
-      }
-      const namespace = binding.engine.isNull(namespaceValue)
-        ? normal(null)
-        : binding.engine.toString(binding.realm, namespaceValue);
+      const namespace = binding.nullableStringArgument(
+        argumentsList,
+        0,
+        "createElementNS",
+      );
       if (namespace.type === "throw") {
         return namespace;
       }
@@ -1632,9 +1646,11 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       );
       return qualifiedName.type === "throw"
         ? qualifiedName
-        : normal(
-            binding.wrap(
-              document.createElementNS(namespace.value, qualifiedName.value),
+        : binding.domOperationResult(() =>
+            normal(
+              binding.wrap(
+                document.createElementNS(namespace.value, qualifiedName.value),
+              ),
             ),
           );
     },
@@ -1740,9 +1756,11 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       );
       return data.type === "throw"
         ? data
-        : normal(
-            binding.wrap(
-              document.createProcessingInstruction(target.value, data.value),
+        : binding.domOperationResult(() =>
+            normal(
+              binding.wrap(
+                document.createProcessingInstruction(target.value, data.value),
+              ),
             ),
           );
     },
@@ -1829,7 +1847,9 @@ export function installDocumentFragmentMembers(
       );
       return selectors.type === "throw"
         ? selectors
-        : binding.platformValue(fragment.querySelector(selectors.value));
+        : binding.domOperationResult(() =>
+            binding.platformValue(fragment.querySelector(selectors.value)),
+          );
     },
   );
   binding.method(
@@ -1848,7 +1868,9 @@ export function installDocumentFragmentMembers(
       );
       return selectors.type === "throw"
         ? selectors
-        : normal(binding.wrap(fragment.querySelectorAll(selectors.value)));
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(fragment.querySelectorAll(selectors.value))),
+          );
     },
   );
   binding.installParentNodeMutationMembers(
