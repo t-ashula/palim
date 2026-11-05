@@ -137,6 +137,28 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
   );
   binding.method(
     binding.nodePrototype,
+    "replaceChild",
+    2,
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      const replacementValue = argumentsList[0];
+      const childValue = argumentsList[1];
+      const replacement =
+        replacementValue === undefined ? null : binding.node(replacementValue);
+      const child = childValue === undefined ? null : binding.node(childValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      if (replacement === null || child === null) {
+        return binding.typeError("The argument is not a Node");
+      }
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(node.replaceChild(replacement, child))),
+      );
+    },
+  );
+  binding.method(
+    binding.nodePrototype,
     "insertBefore",
     2,
     (thisValue, argumentsList) => {
@@ -233,6 +255,23 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
           return binding.typeError(`${name} requires a Node or null`);
         }
         return binding.primitive(node[name](other));
+      },
+    );
+  }
+  for (const name of ["lookupPrefix", "lookupNamespaceURI"] as const) {
+    binding.method(
+      binding.nodePrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const node = binding.node(thisValue);
+        if (node === null) {
+          return binding.typeError("Invalid Node receiver");
+        }
+        const value = binding.nullableStringArgument(argumentsList, 0, name);
+        return value.type === "throw"
+          ? value
+          : binding.primitive(node[name](value.value));
       },
     );
   }

@@ -5,7 +5,8 @@
 ### Page realm bindings
 
 - [x] `Document.importNode` / `adoptNode` と `DocumentFragment.getElementById`
-- [ ] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
+- [x] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
+- [ ] `Node.isDefaultNamespace`
 - [ ] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [ ] `NamedNodeMap` mutation API と `NodeList` iterable API
 - [ ] `Range.createContextualFragment`

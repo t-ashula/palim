@@ -163,11 +163,14 @@ interface NodeInterface {
   readonly ATTRIBUTE_NODE: 2;
   readonly TEXT_NODE: 3;
   readonly CDATA_SECTION_NODE: 4;
+  readonly ENTITY_REFERENCE_NODE: 5;
+  readonly ENTITY_NODE: 6;
   readonly COMMENT_NODE: 8;
   readonly PROCESSING_INSTRUCTION_NODE: 7;
   readonly DOCUMENT_NODE: 9;
   readonly DOCUMENT_TYPE_NODE: 10;
   readonly DOCUMENT_FRAGMENT_NODE: 11;
+  readonly NOTATION_NODE: 12;
   readonly DOCUMENT_POSITION_DISCONNECTED: 1;
   readonly DOCUMENT_POSITION_PRECEDING: 2;
   readonly DOCUMENT_POSITION_FOLLOWING: 4;

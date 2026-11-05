@@ -697,6 +697,59 @@ describe("Node normalization", () => {
 });
 
 describe("Node relationships and comparison", () => {
+  it("locates namespace prefixes and namespace URIs", () => {
+    const document = new Document();
+    const root = document.createElementNS("urn:root", "r:root");
+    const child = document.createElementNS(null, "child");
+    const comment = document.createComment("content");
+    root.setAttributeNS(XMLNS_NAMESPACE, "xmlns", "urn:default");
+    root.setAttributeNS(XMLNS_NAMESPACE, "xmlns:p", "urn:prefix");
+    root.append(child);
+    child.append(comment);
+    document.append(root);
+
+    expect(root.lookupPrefix("urn:root")).toBe("r");
+    expect(child.lookupPrefix("urn:prefix")).toBe("p");
+    expect(comment.lookupPrefix("urn:prefix")).toBe("p");
+    expect(document.lookupPrefix("urn:prefix")).toBe("p");
+    expect(child.lookupPrefix("")).toBeNull();
+
+    expect(child.lookupNamespaceURI(null)).toBe("urn:default");
+    expect(child.lookupNamespaceURI("")).toBe("urn:default");
+    expect(comment.lookupNamespaceURI("p")).toBe("urn:prefix");
+    expect(document.lookupNamespaceURI("r")).toBe("urn:root");
+    expect(child.lookupNamespaceURI("xml")).toBe(XML_NAMESPACE);
+    expect(child.lookupNamespaceURI("xmlns")).toBe(XMLNS_NAMESPACE);
+
+    const declaration = root.getAttributeNodeNS(XMLNS_NAMESPACE, "p");
+    expect(declaration?.lookupNamespaceURI("p")).toBe("urn:prefix");
+    expect(
+      document.createAttribute("detached").lookupNamespaceURI("xml"),
+    ).toBeNull();
+    expect(
+      document.createDocumentFragment().lookupNamespaceURI("xml"),
+    ).toBeNull();
+
+    const xhtml = new DOMParser().parseFromString(
+      '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:x="urn:test"><body xmlns:s="urn:test"><x xmlns:t="urn:test"><!--content--></x></body></html>',
+      "application/xhtml+xml",
+    );
+    const x = xhtml.getElementsByTagName("x").item(0);
+    if (x === null) {
+      throw new Error("missing XHTML element");
+    }
+    expect(xhtml.lookupPrefix("urn:test")).toBe("x");
+    expect(x.parentElement?.lookupPrefix("urn:test")).toBe("s");
+    expect(x.lookupPrefix("urn:test")).toBe("t");
+    expect(x.firstChild?.lookupPrefix("urn:test")).toBe("t");
+  });
+
+  it("exposes legacy node type constants", () => {
+    expect(Node.ENTITY_REFERENCE_NODE).toBe(5);
+    expect(Node.ENTITY_NODE).toBe(6);
+    expect(Node.NOTATION_NODE).toBe(12);
+  });
+
   it("finds roots and inclusive descendants", () => {
     const document = parse('<main id="root"><span></span></main>');
     const main = select(document, "main");
@@ -1214,6 +1267,42 @@ describe("Element attributes", () => {
 });
 
 describe("Node mutation", () => {
+  it("validates replaceChild hierarchy before child membership", () => {
+    const document = new Document();
+    const text = document.createTextNode("parent");
+
+    expectDOMException(() => {
+      text.replaceChild(
+        document.createElement("replacement"),
+        document.createElement("missing"),
+      );
+    }, "HierarchyRequestError");
+
+    const target = document.implementation.createHTMLDocument("target");
+    const source = document.implementation.createHTMLDocument("source");
+    const oldDoctype = target.doctype;
+    const newDoctype = source.doctype;
+    if (oldDoctype === null || newDoctype === null) {
+      throw new Error("missing doctype");
+    }
+    expect(target.replaceChild(newDoctype, oldDoctype)).toBe(oldDoctype);
+    expect(target.doctype).toBe(newDoctype);
+
+    const constrained = document.implementation.createHTMLDocument("title");
+    const constrainedElement = constrained.documentElement;
+    if (constrainedElement === null) {
+      throw new Error("missing document element");
+    }
+    constrained.removeChild(constrainedElement);
+    const comment = constrained.insertBefore(
+      constrained.createComment("before"),
+      constrained.doctype,
+    );
+    expectDOMException(() => {
+      constrained.replaceChild(constrained.createElement("root"), comment);
+    }, "HierarchyRequestError");
+  });
+
   it("finds adjacent element siblings across non-element nodes", () => {
     const document = parse(
       "<main><section id=first></section>text<!--comment--><section id=second></section></main>",

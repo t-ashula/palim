@@ -5,7 +5,12 @@ import {
   querySelectorAll as selectAll,
 } from "../selectors.js";
 import { DOMException } from "../dom-exception.js";
-import { HTML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
+import {
+  HTML_NAMESPACE,
+  SVG_NAMESPACE,
+  XML_NAMESPACE,
+  XMLNS_NAMESPACE,
+} from "../namespaces.js";
 import { originFromURL } from "../origin.js";
 import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
 import { URL } from "../url/index.js";
@@ -205,11 +210,14 @@ export class Node extends EventTarget {
   static readonly ATTRIBUTE_NODE = 2;
   static readonly TEXT_NODE = 3;
   static readonly CDATA_SECTION_NODE = 4;
+  static readonly ENTITY_REFERENCE_NODE = 5;
+  static readonly ENTITY_NODE = 6;
   static readonly COMMENT_NODE = 8;
   static readonly PROCESSING_INSTRUCTION_NODE = 7;
   static readonly DOCUMENT_NODE = 9;
   static readonly DOCUMENT_TYPE_NODE = 10;
   static readonly DOCUMENT_FRAGMENT_NODE = 11;
+  static readonly NOTATION_NODE = 12;
 
   static readonly DOCUMENT_POSITION_DISCONNECTED = 0x01;
   static readonly DOCUMENT_POSITION_PRECEDING = 0x02;
@@ -333,6 +341,20 @@ export class Node extends EventTarget {
     return nullableNode(otherNode) === this;
   }
 
+  lookupPrefix(namespace: string | null): string | null {
+    requireArguments(arguments.length, 1);
+    const convertedNamespace = normalizeNamespace(namespace);
+    if (convertedNamespace === null) {
+      return null;
+    }
+    return lookupNamespacePrefix(this, convertedNamespace);
+  }
+
+  lookupNamespaceURI(prefix: string | null): string | null {
+    requireArguments(arguments.length, 1);
+    return locateNamespace(this, normalizeNamespace(prefix));
+  }
+
   cloneNode(subtree = false): Node {
     const document = this instanceof Document ? this : this.ownerDocument;
     if (document === null) {
@@ -361,12 +383,7 @@ export class Node extends EventTarget {
     if (!(node instanceof Node) || !(child instanceof Node)) {
       throw new TypeError("The argument is not a Node");
     }
-    if (child.parentNode !== this) {
-      throw new DOMException(
-        "The node to be replaced is not a child of this node",
-        "NotFoundError",
-      );
-    }
+    ensurePreInsertionValidity(node, this, child, [child]);
     if (node === child) {
       return child;
     }
@@ -375,7 +392,6 @@ export class Node extends EventTarget {
     if (reference === node) {
       reference = node.nextSibling;
     }
-    ensurePreInsertionValidity(node, this, reference, [child]);
     removeNode(child);
     insertNodes(node, this, reference);
     return child;
@@ -2874,6 +2890,91 @@ function equalNodes(node: Node, other: Node): boolean {
   });
 }
 
+function locateNamespacePrefix(
+  element: Element,
+  namespace: string,
+): string | null {
+  if (element.namespaceURI === namespace && element.prefix !== null) {
+    return element.prefix;
+  }
+  const declaration = attributeNodes(element).find(
+    (attribute) =>
+      attribute.prefix === "xmlns" && attribute.value === namespace,
+  );
+  if (declaration !== undefined) {
+    return declaration.localName;
+  }
+  return element.parentElement === null
+    ? null
+    : locateNamespacePrefix(element.parentElement, namespace);
+}
+
+function lookupNamespacePrefix(node: Node, namespace: string): string | null {
+  if (node instanceof Element) {
+    return locateNamespacePrefix(node, namespace);
+  }
+  if (node instanceof Document) {
+    return node.documentElement === null
+      ? null
+      : locateNamespacePrefix(node.documentElement, namespace);
+  }
+  if (node instanceof DocumentType || node instanceof DocumentFragment) {
+    return null;
+  }
+  if (node instanceof Attr) {
+    return node.ownerElement === null
+      ? null
+      : locateNamespacePrefix(node.ownerElement, namespace);
+  }
+  return node.parentElement === null
+    ? null
+    : locateNamespacePrefix(node.parentElement, namespace);
+}
+
+function locateNamespace(node: Node, prefix: string | null): string | null {
+  if (node instanceof Element) {
+    if (prefix === "xml") {
+      return XML_NAMESPACE;
+    }
+    if (prefix === "xmlns") {
+      return XMLNS_NAMESPACE;
+    }
+    if (node.namespaceURI !== null && node.prefix === prefix) {
+      return node.namespaceURI;
+    }
+    const declaration = attributeNodes(node).find(
+      (attribute) =>
+        attribute.namespaceURI === XMLNS_NAMESPACE &&
+        ((attribute.prefix === "xmlns" && attribute.localName === prefix) ||
+          (prefix === null &&
+            attribute.prefix === null &&
+            attribute.localName === "xmlns")),
+    );
+    if (declaration !== undefined) {
+      return declaration.value === "" ? null : declaration.value;
+    }
+    return node.parentElement === null
+      ? null
+      : locateNamespace(node.parentElement, prefix);
+  }
+  if (node instanceof Document) {
+    return node.documentElement === null
+      ? null
+      : locateNamespace(node.documentElement, prefix);
+  }
+  if (node instanceof DocumentType || node instanceof DocumentFragment) {
+    return null;
+  }
+  if (node instanceof Attr) {
+    return node.ownerElement === null
+      ? null
+      : locateNamespace(node.ownerElement, prefix);
+  }
+  return node.parentElement === null
+    ? null
+    : locateNamespace(node.parentElement, prefix);
+}
+
 function sameNodeInterface(node: Node, other: Node): boolean {
   if (node instanceof Document) {
     return other instanceof Document;
@@ -2969,13 +3070,22 @@ function validateDocumentInsertion(
     );
   }
 
-  const children = childNodes(document).filter(
+  const originalChildren = childNodes(document);
+  const children = originalChildren.filter(
     (candidate) =>
       !childrenToExclude.includes(candidate) && !inserted.includes(candidate),
   );
-  const referenceIndex =
-    child === null ? children.length : children.indexOf(child);
-  const index = referenceIndex < 0 ? children.length : referenceIndex;
+  const childIndex = child === null ? -1 : originalChildren.indexOf(child);
+  const index =
+    child === null || childIndex < 0
+      ? children.length
+      : originalChildren
+          .slice(0, childIndex)
+          .filter(
+            (candidate) =>
+              !childrenToExclude.includes(candidate) &&
+              !inserted.includes(candidate),
+          ).length;
   children.splice(index, 0, ...inserted);
 
   if (children.filter((candidate) => candidate instanceof Element).length > 1) {
