@@ -702,6 +702,11 @@ describe("DOMRealmBinding", () => {
             }
           }
         }
+        for (const prototype of [Document.prototype, DocumentFragment.prototype, Element.prototype]) {
+          if (typeof prototype.moveBefore !== "function" || prototype.moveBefore.length !== 2) {
+            throw new Error("moveBefore has an invalid descriptor");
+          }
+        }
 
         const main = testDocument.querySelector("main");
         const first = main.children[0];
@@ -727,6 +732,30 @@ describe("DOMRealmBinding", () => {
         if (!converted) {
           throw new Error("detached ChildNode argument was not converted");
         }
+
+        const moveParent = testDocument.createElement("section");
+        const moveFirst = testDocument.createElement("i");
+        const moveSecond = testDocument.createTextNode("moved");
+        main.append(moveParent);
+        moveParent.append(moveFirst, moveSecond);
+        if (!main.isConnected || !moveParent.isConnected) {
+          throw new Error("Node.isConnected is invalid");
+        }
+        if (moveParent.moveBefore(moveSecond, moveFirst) !== undefined ||
+            moveParent.firstChild !== moveSecond) {
+          throw new Error("moveBefore order or return value is invalid");
+        }
+        moveParent.moveBefore(moveFirst, undefined);
+        let missingSecondArgumentThrew = false;
+        try {
+          moveParent.moveBefore(moveFirst);
+        } catch (error) {
+          missingSecondArgumentThrew = error instanceof TypeError;
+        }
+        if (!missingSecondArgumentThrew) {
+          throw new Error("moveBefore accepted a missing second argument");
+        }
+        moveParent.remove();
       `,
     );
 

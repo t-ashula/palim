@@ -247,6 +247,10 @@ export class Node extends EventTarget {
     return documentBaseURL(document).href;
   }
 
+  get isConnected(): boolean {
+    return nodeRoot(this) instanceof Document;
+  }
+
   get parentNode(): Node | null {
     const implementation = nodeImplementation(this).parent;
     return implementation === null ? null : nodeInterface(implementation);
@@ -810,6 +814,12 @@ export class Document extends Node {
 
   replaceChildren(...nodes: (Node | string)[]): void {
     replaceChildrenWithNodes(this, nodes);
+  }
+
+  moveBefore(node: Node, child: Node | null): void {
+    requireArguments(arguments.length, 2);
+    requireNode(node);
+    moveNodeBefore(this, node, nullableNode(child));
   }
 
   override get textContent(): null {
@@ -1387,6 +1397,12 @@ export class Element extends Node {
     replaceChildrenWithNodes(this, nodes);
   }
 
+  moveBefore(node: Node, child: Node | null): void {
+    requireArguments(arguments.length, 2);
+    requireNode(node);
+    moveNodeBefore(this, node, nullableNode(child));
+  }
+
   get innerHTML(): string {
     return this.#isHTMLDocument()
       ? serializeHTMLFragment(this)
@@ -1879,6 +1895,12 @@ export class DocumentFragment extends Node {
 
   replaceChildren(...nodes: (Node | string)[]): void {
     replaceChildrenWithNodes(this, nodes);
+  }
+
+  moveBefore(node: Node, child: Node | null): void {
+    requireArguments(arguments.length, 2);
+    requireNode(node);
+    moveNodeBefore(this, node, nullableNode(child));
   }
 
   querySelector(selectors: string): Element | null {
@@ -2915,6 +2937,104 @@ function replaceChildrenWithNodes(
     removeNode(child);
   }
   insertNodes(node, parent, null);
+}
+
+function moveNodeBefore(
+  parent: Document | DocumentFragment | Element,
+  node: Node,
+  child: Node | null,
+): void {
+  let reference = child;
+  if (reference === node) {
+    reference = node.nextSibling;
+  }
+  if (nodeRoot(parent) !== nodeRoot(node)) {
+    throw new DOMException(
+      "The nodes do not have the same root",
+      "HierarchyRequestError",
+    );
+  }
+  if (isInclusiveAncestor(node, parent)) {
+    throw new DOMException(
+      "The moved node is an ancestor of the destination",
+      "HierarchyRequestError",
+    );
+  }
+  if (reference !== null && reference.parentNode !== parent) {
+    throw new DOMException(
+      "The reference node is not a child of the destination",
+      "NotFoundError",
+    );
+  }
+  if (!(node instanceof Element) && !(node instanceof CharacterData)) {
+    throw new DOMException(
+      "Only Element and CharacterData nodes can be moved",
+      "HierarchyRequestError",
+    );
+  }
+  if (parent instanceof Document && node instanceof Text) {
+    throw new DOMException(
+      "Text nodes cannot be children of a document",
+      "HierarchyRequestError",
+    );
+  }
+  if (
+    parent instanceof Document &&
+    node instanceof Element &&
+    (parent.documentElement !== null ||
+      reference instanceof DocumentType ||
+      hasFollowingDocumentType(reference))
+  ) {
+    throw new DOMException(
+      "The element cannot be moved to this position in the document",
+      "HierarchyRequestError",
+    );
+  }
+
+  const oldParent = node.parentNode;
+  if (oldParent === null) {
+    throw new DOMException(
+      "The moved node has no parent",
+      "HierarchyRequestError",
+    );
+  }
+  preRemoveLiveRanges(node);
+  preRemoveNodeIterators(node);
+  const nodeImplementationValue = nodeImplementation(node);
+  const oldParentImplementation = nodeImplementation(oldParent);
+  const oldIndex = oldParentImplementation.children.indexOf(
+    nodeImplementationValue,
+  );
+  removeChildImplementation(
+    oldParentImplementation,
+    nodeImplementationValue,
+    oldIndex,
+  );
+  invalidateDescendantText(oldParentImplementation);
+
+  const parentImplementation = nodeImplementation(parent);
+  const referenceIndex =
+    reference === null
+      ? parentImplementation.children.length
+      : parentImplementation.children.indexOf(nodeImplementation(reference));
+  adjustLiveRangesForInsertion(parent, referenceIndex, 1);
+  insertChildImplementation(
+    parentImplementation,
+    nodeImplementationValue,
+    referenceIndex,
+  );
+  invalidateDescendantText(parentImplementation);
+}
+
+function hasFollowingDocumentType(node: Node | null): boolean {
+  let sibling = node?.nextSibling ?? null;
+  while (sibling !== null) {
+    if (sibling instanceof DocumentType) {
+      return true;
+    }
+    sibling = sibling.nextSibling;
+  }
+  return false;
 }
 
 function insertNodesBeforeChild(

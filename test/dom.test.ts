@@ -1218,6 +1218,84 @@ describe("Node mutation", () => {
     expect(main.children).toHaveLength(0);
   });
 
+  it("moves Element and CharacterData nodes within the same tree", () => {
+    const document = parse(
+      "<main><section id=first></section><section id=second>text</section><section id=third></section></main>",
+    );
+    const main = select(document, "main");
+    const first = select(document, "#first");
+    const second = select(document, "#second");
+    const third = select(document, "#third");
+    const text = second.firstChild;
+    if (!(text instanceof Text)) {
+      throw new Error("missing text node");
+    }
+
+    expect(document.isConnected).toBe(true);
+    expect(main.isConnected).toBe(true);
+    main.moveBefore(third, first);
+    expect(Array.from(main.children)).toEqual([third, first, second]);
+    main.moveBefore(third, third);
+    expect(Array.from(main.children)).toEqual([third, first, second]);
+    main.moveBefore(text, null);
+    expect(main.lastChild).toBe(text);
+    expect(second.textContent).toBe("");
+
+    const detachedRoot = document.createElement("div");
+    const destination = detachedRoot.appendChild(
+      document.createElement("section"),
+    );
+    const moved = detachedRoot.appendChild(document.createElement("p"));
+    expect(detachedRoot.isConnected).toBe(false);
+    destination.moveBefore(moved, null);
+    expect(destination.firstChild).toBe(moved);
+
+    const unrelated = document.createElement("div");
+    expectDOMException(() => {
+      unrelated.moveBefore(moved, null);
+    }, "HierarchyRequestError");
+    const hierarchyDocument = new Document();
+    const doctype = hierarchyDocument.implementation.createDocumentType(
+      "root",
+      "",
+      "",
+    );
+    const hierarchyRoot = hierarchyDocument.createElement("root");
+    hierarchyDocument.appendChild(doctype);
+    hierarchyDocument.appendChild(hierarchyRoot);
+    expectDOMException(() => {
+      hierarchyRoot.moveBefore(doctype, null);
+    }, "HierarchyRequestError");
+    expectDOMException(() => {
+      first.moveBefore(second, third);
+    }, "NotFoundError");
+  });
+
+  it("applies live Range and NodeIterator pre-remove updates during moves", () => {
+    const document = parse(
+      "<main><section id=old><i id=before></i><div id=target><b id=inner></b></div><i id=after></i></section><section id=destination></section></main>",
+    );
+    const oldParent = select(document, "#old");
+    const target = select(document, "#target");
+    const inner = select(document, "#inner");
+    const after = select(document, "#after");
+    const destination = select(document, "#destination");
+    const range = document.createRange();
+    range.setStart(inner, 0);
+    range.setEnd(after, 0);
+    const iterator = document.createNodeIterator(oldParent);
+    expect(iterator.nextNode()).toBe(oldParent);
+    expect(iterator.nextNode()).toBe(select(document, "#before"));
+    expect(iterator.nextNode()).toBe(target);
+    expect(iterator.nextNode()).toBe(inner);
+
+    destination.moveBefore(target, null);
+
+    expect(range.startContainer).toBe(oldParent);
+    expect(range.endContainer).toBe(after);
+    expect(iterator.nextNode()).toBe(after);
+  });
+
   it("validates and replaces all Document children", () => {
     const document = new Document();
     const doctype = document.implementation.createDocumentType("root", "", "");

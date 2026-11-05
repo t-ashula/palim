@@ -1010,6 +1010,12 @@ export class DOMRealmBinding {
         ? this.#typeError("Invalid Node receiver")
         : this.#primitive(node.baseURI);
     });
+    this.#attribute(this.#nodePrototype, "isConnected", (thisValue) => {
+      const node = this.#node(thisValue);
+      return node === null
+        ? this.#typeError("Invalid Node receiver")
+        : this.#primitive(node.isConnected);
+    });
     for (const name of [
       "firstChild",
       "lastChild",
@@ -2420,6 +2426,36 @@ export class DOMRealmBinding {
         });
       });
     }
+    this.#method(prototype, "moveBefore", 2, (thisValue, argumentsList) => {
+      const parent = receiver(thisValue);
+      const nodeValue = argumentsList[0];
+      const node = nodeValue === undefined ? null : this.#node(nodeValue);
+      if (parent === null) {
+        return this.#typeError(`Invalid ${interfaceName} receiver`);
+      }
+      if (node === null) {
+        return this.#typeError("The first argument is not a Node");
+      }
+      const childValue = argumentsList[1];
+      if (childValue === undefined) {
+        return this.#typeError("moveBefore requires 2 argument(s)");
+      }
+      const child =
+        this.#engine.isNull(childValue) || this.#engine.isUndefined(childValue)
+          ? null
+          : this.#node(childValue);
+      if (
+        child === null &&
+        !this.#engine.isNull(childValue) &&
+        !this.#engine.isUndefined(childValue)
+      ) {
+        return this.#typeError("The second argument is not a Node or null");
+      }
+      return this.#domOperationResult(() => {
+        parent.moveBefore(node, child);
+        return this.#undefined();
+      });
+    });
   }
 
   #installChildNodeMutationMembers(

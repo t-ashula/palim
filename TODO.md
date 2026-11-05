@@ -23,7 +23,7 @@
 - [x] `Node.normalize`
 - [x] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
 - [x] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
-- [ ] `Node.moveBefore` と atomic move
+- [x] `Node.moveBefore` と atomic move
 - [ ] insertion steps / removing steps / post-connection steps
 
 ### Node relationships and comparison
