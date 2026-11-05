@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import type { Element } from "../src/index.js";
-import { DOMException, DOMParser, DOMTokenList } from "../src/index.js";
+import { DOMParser, DOMTokenList } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 function element(input = "<main></main>"): Element {
   const document = new DOMParser().parseFromString(input, "text/html");
@@ -10,17 +11,6 @@ function element(input = "<main></main>"): Element {
     throw new Error("missing main element");
   }
   return result;
-}
-
-function expectDOMException(operation: () => unknown, name: string): void {
-  try {
-    operation();
-  } catch (error: unknown) {
-    expect(error).toBeInstanceOf(DOMException);
-    expect((error as DOMException).name).toBe(name);
-    return;
-  }
-  throw new Error(`expected ${name}`);
 }
 
 describe("DOMTokenList", () => {

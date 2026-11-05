@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMException, DOMParser, Document, Text } from "../src/index.js";
+import { DOMParser, Document, Text } from "../src/index.js";
 import type { Node, Range, Element } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {
   return new DOMParser().parseFromString(input, "text/html");
@@ -20,17 +21,6 @@ function text(node: Node | null): Text {
     throw new Error("missing test text node");
   }
   return node;
-}
-
-function expectDOMException(operation: () => unknown, name: string): void {
-  try {
-    operation();
-  } catch (error: unknown) {
-    expect(error).toBeInstanceOf(DOMException);
-    expect((error as DOMException).name).toBe(name);
-    return;
-  }
-  throw new Error(`expected ${name}`);
 }
 
 describe("Range boundaries", () => {

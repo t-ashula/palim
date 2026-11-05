@@ -1,12 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  DOMException,
-  DOMParser,
-  Document,
-  XMLSerializer,
-} from "../src/index.js";
+import { DOMParser, Document, XMLSerializer } from "../src/index.js";
 import type { Element } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 const XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 
@@ -69,13 +65,9 @@ describe("XML fragment serialization", () => {
   it("throws SyntaxError without changing children for malformed fragments", () => {
     const element = root(parse("<root><existing /></root>"));
 
-    try {
+    expectDOMException(() => {
       element.innerHTML = "<unclosed>";
-      throw new Error("expected SyntaxError");
-    } catch (error: unknown) {
-      expect(error).toBeInstanceOf(DOMException);
-      expect((error as DOMException).name).toBe("SyntaxError");
-    }
+    }, "SyntaxError");
     expect(element.innerHTML).toBe("<existing />");
   });
 });
@@ -134,13 +126,7 @@ describe("XMLSerializer", () => {
     expect(new XMLSerializer().serializeToString(comment)).toBe(
       "<!--invalid--comment-->",
     );
-    try {
-      const serialized = element.innerHTML;
-      throw new Error(`expected InvalidStateError, received ${serialized}`);
-    } catch (error: unknown) {
-      expect(error).toBeInstanceOf(DOMException);
-      expect((error as DOMException).name).toBe("InvalidStateError");
-    }
+    expectDOMException(() => element.innerHTML, "InvalidStateError");
   });
 
   it("requires a Node argument", () => {

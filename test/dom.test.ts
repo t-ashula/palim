@@ -6,7 +6,6 @@ import {
   CDATASection,
   Comment,
   CustomEvent,
-  DOMException,
   DOMParser,
   Document,
   DocumentFragment,
@@ -24,6 +23,7 @@ import {
 } from "../src/index.js";
 import { setDocumentURL } from "../src/dom/nodes.js";
 import { documentImplementation } from "../src/dom/node-implementation.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
@@ -40,17 +40,6 @@ function select(document: Document, selector: string): Element {
     throw new Error(`missing test element: ${selector}`);
   }
   return element;
-}
-
-function expectDOMException(operation: () => unknown, name: string): void {
-  try {
-    operation();
-  } catch (error: unknown) {
-    expect(error).toBeInstanceOf(DOMException);
-    expect((error as DOMException).name).toBe(name);
-    return;
-  }
-  throw new Error(`expected ${name}`);
 }
 
 describe("DOM interface binding", () => {

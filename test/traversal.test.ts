@@ -1,12 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMException, DOMParser, Document, NodeFilter } from "../src/index.js";
+import { DOMParser, Document, NodeFilter } from "../src/index.js";
 import type {
   Element,
   Node,
   NodeFilter as NodeFilterCallback,
   NodeIterator,
 } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {
   return new DOMParser().parseFromString(input, "text/html");
@@ -83,14 +84,9 @@ describe("NodeIterator", () => {
       },
     );
 
-    try {
+    expectDOMException(() => {
       iterator.nextNode();
-    } catch (error: unknown) {
-      expect(error).toBeInstanceOf(DOMException);
-      expect((error as DOMException).name).toBe("InvalidStateError");
-      return;
-    }
-    throw new Error("expected InvalidStateError");
+    }, "InvalidStateError");
   });
 
   it("adjusts its reference before a traversed subtree is removed", () => {

@@ -8,6 +8,7 @@ import {
   Element,
   HTMLInputElement,
 } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 const FIXTURE = `<!doctype html>
 <html lang="en">
@@ -369,16 +370,11 @@ describe("Selector API", () => {
   ])("throws SyntaxError DOMException for invalid selector %j", (selector) => {
     const document = parse();
 
-    let error: unknown;
-    try {
+    const error = expectDOMException(() => {
       document.querySelector(selector);
-    } catch (caught) {
-      error = caught;
-    }
+    }, "SyntaxError");
 
-    expect(error).toBeInstanceOf(DOMException);
     expect(error).toBeInstanceOf(globalThis.DOMException);
-    expect((error as DOMException).name).toBe("SyntaxError");
-    expect((error as DOMException).code).toBe(DOMException.SYNTAX_ERR);
+    expect(error.code).toBe(DOMException.SYNTAX_ERR);
   });
 });

@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import type { Document, Element } from "../src/index.js";
 import {
-  DOMException,
   DOMParser,
   HTMLTableCaptionElement,
   HTMLTableCellElement,
@@ -11,6 +10,7 @@ import {
   HTMLTableRowElement,
   HTMLTableSectionElement,
 } from "../src/index.js";
+import { expectDOMException } from "./helper/assertions.js";
 
 interface ElementInterface<T extends Element> {
   [Symbol.hasInstance](value: unknown): value is T;
@@ -38,17 +38,6 @@ function tableIn(document: Document): HTMLTableElement {
     throw new Error("missing table");
   }
   return table;
-}
-
-function expectDOMException(callback: () => unknown, name: string): void {
-  let error: unknown;
-  try {
-    callback();
-  } catch (caught) {
-    error = caught;
-  }
-  expect(error).toBeInstanceOf(DOMException);
-  expect((error as DOMException).name).toBe(name);
 }
 
 describe("HTML table mutation", () => {
