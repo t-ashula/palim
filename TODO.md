@@ -10,7 +10,6 @@
 - [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [x] `NamedNodeMap` mutation API と `NodeList` iterable API
 - [x] `Range.createContextualFragment`
-- [ ] `HTMLCollection` の indexed property で foreign namespace の `Element` を公開する
 
 ### DOM algorithms
 
@@ -23,6 +22,7 @@
 
 ### Parsing and serialization
 
+- [ ] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
 - [ ] `DOMParser` が作る document の URL、origin、content type、character encoding、scripting flag
 - [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
 - [ ] `Document.parseHTML` と unsafe / positional HTML parsing API
