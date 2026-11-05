@@ -20,7 +20,7 @@ function createTestRealm(input: string): TestRealm {
   const document = new DOMParser().parseFromString(input, "text/html");
   const engine = new Engine262Adapter();
   const realm = engine.createRealm();
-  const binding = new DOMRealmBinding(engine, realm);
+  const binding = new DOMRealmBinding(engine, realm, document);
   binding.expose("testDocument", document);
   return { binding, document, engine, realm };
 }
@@ -131,6 +131,30 @@ describe("DOMRealmBinding", () => {
         }
 
         const text = new Text("test");
+        if (text.data !== "test" || text.ownerDocument !== testDocument) {
+          throw new Error("Text constructor did not use data or the realm document");
+        }
+        const calls = [];
+        const convertedComment = new Comment({
+          toString() {
+            calls.push("first");
+            return "comment";
+          }
+        }, {
+          toString() {
+            calls.push("second");
+            throw new Error("second constructor argument was read");
+          }
+        });
+        if (
+          convertedComment.data !== "comment" ||
+          convertedComment.ownerDocument !== testDocument ||
+          calls.join(",") !== "first" ||
+          new Text(undefined).data !== "" ||
+          new Comment(null).data !== "null"
+        ) {
+          throw new Error("CharacterData constructor conversion is invalid");
+        }
         text.data = "🌠 test 🌠 TEST";
         if (text.substringData(1, 8) !== "\\uDF20 test \\uD83C") {
           throw new Error("substringData did not use UTF-16 code units");

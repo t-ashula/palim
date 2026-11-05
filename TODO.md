@@ -17,7 +17,7 @@
 - [x] `Document.createElement` / `createElementNS`
 - [x] `createTextNode` / `createComment` / `createDocumentFragment`
 - [x] `cloneNode` / `importNode` / `adoptNode`
-- [ ] page realmの`Text` / `Comment` constructorでdata引数を変換する
+- [x] page realmの`Text` / `Comment` constructorでdata引数を変換する
 
 ### Node content mutation
 

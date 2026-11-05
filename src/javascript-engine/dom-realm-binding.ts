@@ -4,13 +4,22 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import type { Document } from "../dom.js";
 import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export class DOMRealmBinding {
   readonly #context: DOMRealmBindingContext;
 
-  constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
-    this.#context = new DOMRealmBindingContext(engine, realm);
+  constructor(
+    engine: JavaScriptEngineAdapter,
+    realm: EngineRealm,
+    associatedDocument: Document | null = null,
+  ) {
+    this.#context = new DOMRealmBindingContext(
+      engine,
+      realm,
+      associatedDocument,
+    );
   }
 
   expose(name: string, interfaceObject: object): void {

@@ -194,7 +194,11 @@ export class DOMRealmBindingContext {
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
 
-  constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
+  constructor(
+    engine: JavaScriptEngineAdapter,
+    realm: EngineRealm,
+    readonly associatedDocument: Document | null = null,
+  ) {
     this.engine = engine;
     this.realm = realm;
     this.context = new RealmBindingContext(engine, realm);

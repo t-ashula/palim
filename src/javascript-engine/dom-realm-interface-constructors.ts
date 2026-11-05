@@ -84,11 +84,35 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     }
   }
   binding.installInterface("CharacterData", binding.characterDataPrototype);
-  binding.installInterface("Text", binding.textPrototype, 0, () =>
-    normal(binding.wrap(new Text())),
+  binding.installInterface(
+    "Text",
+    binding.textPrototype,
+    0,
+    (_thisValue, argumentsList) => {
+      const data = binding.optionalStringArgument(argumentsList[0], "");
+      if (data.type === "throw") {
+        return data;
+      }
+      const text =
+        binding.associatedDocument?.createTextNode(data.value) ??
+        new Text(data.value);
+      return normal(binding.wrap(text));
+    },
   );
-  binding.installInterface("Comment", binding.commentPrototype, 0, () =>
-    normal(binding.wrap(new Comment())),
+  binding.installInterface(
+    "Comment",
+    binding.commentPrototype,
+    0,
+    (_thisValue, argumentsList) => {
+      const data = binding.optionalStringArgument(argumentsList[0], "");
+      if (data.type === "throw") {
+        return data;
+      }
+      const comment =
+        binding.associatedDocument?.createComment(data.value) ??
+        new Comment(data.value);
+      return normal(binding.wrap(comment));
+    },
   );
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);

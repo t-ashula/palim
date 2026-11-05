@@ -41,7 +41,11 @@ export class WindowRealmBindingContext {
     this.context = new RealmBindingContext(engine, this.realm);
     this.globalObject = this.engine.globalObject(this.realm);
     this.globalThis = this.engine.globalThis(this.realm);
-    this.dom = new DOMRealmBinding(this.engine, this.realm);
+    this.dom = new DOMRealmBinding(
+      this.engine,
+      this.realm,
+      this.window.document,
+    );
     this.url = new URLRealmBinding(this.engine, this.realm);
     this.windowPrototype = this.engine.createObject(
       this.realm,
