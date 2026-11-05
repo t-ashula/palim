@@ -489,12 +489,28 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       return binding.undefined();
     },
   );
-  binding.attribute(binding.elementPrototype, "classList", (thisValue) => {
-    const element = binding.element(thisValue);
-    return element === null
-      ? binding.typeError("Invalid Element receiver")
-      : normal(binding.wrap(element.classList));
-  });
+  binding.attribute(
+    binding.elementPrototype,
+    "classList",
+    (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : normal(binding.wrap(element.classList));
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "classList");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.classList.value = value.value;
+      return binding.undefined();
+    },
+  );
   binding.attribute(
     binding.elementPrototype,
     "innerHTML",

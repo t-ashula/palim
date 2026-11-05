@@ -50,12 +50,12 @@ export class DOMTokenList implements Iterable<string> {
   }
 
   contains(token: string): boolean {
-    const converted = validateToken(token);
+    const converted = domString(token);
     return tokenValues(this).includes(converted);
   }
 
   add(...tokens: string[]): void {
-    const converted = tokens.map(validateToken);
+    const converted = validateTokens(tokens);
     const values = tokenValues(this);
     for (const token of converted) {
       if (!values.includes(token)) {
@@ -66,7 +66,7 @@ export class DOMTokenList implements Iterable<string> {
   }
 
   remove(...tokens: string[]): void {
-    const converted = tokens.map(validateToken);
+    const converted = validateTokens(tokens);
     setTokens(
       this,
       tokenValues(this).filter((token) => !converted.includes(token)),
@@ -94,18 +94,22 @@ export class DOMTokenList implements Iterable<string> {
   }
 
   replace(token: string, newToken: string): boolean {
-    const converted = validateToken(token);
-    const replacement = validateToken(newToken);
+    const [converted, replacement] = validateTokens([token, newToken]);
     const values = tokenValues(this);
     const index = values.indexOf(converted);
     if (index < 0) {
       return false;
     }
     const replacementIndex = values.indexOf(replacement);
-    if (replacementIndex >= 0) {
-      values.splice(index, 1);
-    } else {
+    if (replacementIndex < 0) {
       values[index] = replacement;
+    } else if (replacementIndex === index) {
+      // Updating below still serializes the token set without duplicates.
+    } else if (index < replacementIndex) {
+      values[index] = replacement;
+      values.splice(replacementIndex, 1);
+    } else {
+      values.splice(index, 1);
     }
     setTokens(this, values);
     return true;
@@ -209,15 +213,21 @@ function toUnsignedLong(value: unknown): number {
 }
 
 function validateToken(value: unknown): string {
-  const token = domString(value);
-  if (token === "") {
+  return validateTokens([value])[0];
+}
+
+function validateTokens<const Values extends readonly unknown[]>(
+  values: Values,
+): { [Index in keyof Values]: string } {
+  const tokens = values.map(domString) as { [Index in keyof Values]: string };
+  if (tokens.includes("")) {
     throw new DOMException("A token cannot be empty", "SyntaxError");
   }
-  if (/[\t\n\f\r ]/.test(token)) {
+  if (tokens.some((token) => /[\t\n\f\r ]/.test(token))) {
     throw new DOMException(
       "A token cannot contain ASCII whitespace",
       "InvalidCharacterError",
     );
   }
-  return token;
+  return tokens;
 }

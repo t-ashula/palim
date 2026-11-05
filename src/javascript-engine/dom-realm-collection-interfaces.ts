@@ -159,6 +159,115 @@ export function installDOMTokenListMembers(
       ? binding.typeError("Invalid DOMTokenList receiver")
       : binding.primitive(list.toString());
   });
+  binding.method(
+    binding.domTokenListPrototype,
+    "contains",
+    1,
+    (thisValue, argumentsList) => {
+      const list = binding.domTokenList(thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid DOMTokenList receiver");
+      }
+      const token = binding.stringArgument(argumentsList, 0, "contains");
+      return token.type === "throw"
+        ? token
+        : binding.domOperationResult(() =>
+            binding.primitive(list.contains(token.value)),
+          );
+    },
+  );
+  for (const name of ["add", "remove"] as const) {
+    binding.method(
+      binding.domTokenListPrototype,
+      name,
+      0,
+      (thisValue, argumentsList) => {
+        const list = binding.domTokenList(thisValue);
+        if (list === null) {
+          return binding.typeError("Invalid DOMTokenList receiver");
+        }
+        const tokens: string[] = [];
+        for (let index = 0; index < argumentsList.length; index += 1) {
+          const token = binding.stringArgument(argumentsList, index, name);
+          if (token.type === "throw") {
+            return token;
+          }
+          tokens.push(token.value);
+        }
+        return binding.domOperationResult(() => {
+          list[name](...tokens);
+          return binding.undefined();
+        });
+      },
+    );
+  }
+  binding.method(
+    binding.domTokenListPrototype,
+    "toggle",
+    1,
+    (thisValue, argumentsList) => {
+      const list = binding.domTokenList(thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid DOMTokenList receiver");
+      }
+      const token = binding.stringArgument(argumentsList, 0, "toggle");
+      if (token.type === "throw") {
+        return token;
+      }
+      const force = argumentsList[1];
+      return binding.domOperationResult(() =>
+        binding.primitive(
+          force === undefined || binding.engine.isUndefined(force)
+            ? list.toggle(token.value)
+            : list.toggle(token.value, binding.engine.toBoolean(force)),
+        ),
+      );
+    },
+  );
+  binding.method(
+    binding.domTokenListPrototype,
+    "replace",
+    2,
+    (thisValue, argumentsList) => {
+      const list = binding.domTokenList(thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid DOMTokenList receiver");
+      }
+      const token = binding.stringArgument(argumentsList, 0, "replace");
+      if (token.type === "throw") {
+        return token;
+      }
+      const replacement = binding.stringArgument(argumentsList, 1, "replace");
+      return replacement.type === "throw"
+        ? replacement
+        : binding.domOperationResult(() =>
+            binding.primitive(list.replace(token.value, replacement.value)),
+          );
+    },
+  );
+  binding.method(
+    binding.domTokenListPrototype,
+    "supports",
+    1,
+    (thisValue, argumentsList) => {
+      const list = binding.domTokenList(thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid DOMTokenList receiver");
+      }
+      const token = binding.stringArgument(argumentsList, 0, "supports");
+      if (token.type === "throw") {
+        return token;
+      }
+      try {
+        return binding.primitive(list.supports(token.value));
+      } catch (error: unknown) {
+        if (error instanceof TypeError) {
+          return binding.typeError(error.message);
+        }
+        throw error;
+      }
+    },
+  );
 
   const array = binding.engine.createArray(binding.realm, []);
   for (const name of ["entries", "keys", "values", "forEach"] as const) {

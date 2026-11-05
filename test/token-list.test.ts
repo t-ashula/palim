@@ -71,10 +71,21 @@ describe("DOMTokenList", () => {
     expectDOMException(() => {
       list.add("");
     }, "SyntaxError");
-    expectDOMException(
-      () => list.contains("two tokens"),
-      "InvalidCharacterError",
-    );
+    expect(list.contains("two tokens")).toBe(false);
+    expectDOMException(() => {
+      list.add("two tokens");
+    }, "InvalidCharacterError");
+    expectDOMException(() => list.replace("two tokens", ""), "SyntaxError");
     expect(() => list.supports("token")).toThrow(TypeError);
+  });
+
+  it("preserves token order when replacing with an existing token", () => {
+    const list = element('<main class="c b a"></main>').classList;
+
+    expect(list.replace("c", "a")).toBe(true);
+    expect(list.value).toBe("a b");
+    list.value = "a a a b";
+    expect(list.replace("a", "a")).toBe(true);
+    expect(list.value).toBe("a b");
   });
 });
