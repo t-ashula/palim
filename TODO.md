@@ -13,7 +13,7 @@
 
 ### DOM algorithms
 
-- [ ] relational pseudo-class `:has()` の `:scope` scoping
+- [x] relational pseudo-class `:has()` の `:scope` scoping
 - [ ] `DOMImplementation.createDocument` / `createHTMLDocument` / `createDocumentType` の document type、content type、realm、validation
 - [ ] hierarchy、not-found、invalid-character、namespace、selector syntax の失敗を仕様上の `DOMException` name / code へ変換する
 - [ ] adoption 前後の HTMLness と `nodeName` / `tagName`、`nodeValue` / `textContent` の境界条件

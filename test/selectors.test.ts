@@ -203,6 +203,27 @@ describe("Selector API", () => {
     expect(fragment.querySelector(":scope")).toBeNull();
   });
 
+  it("keeps the outer scoping root inside :has()", () => {
+    const document = parse(`
+      <div class="ancestor">
+        <div id="scope">
+          <div id="candidate" class="child"><span class="descendant"></span></div>
+        </div>
+      </div>
+      <select><option id="option"></option></select>
+    `);
+    const scope = byId(document, "scope");
+    const candidate = byId(document, "candidate");
+    const option = byId(document, "option");
+
+    expect(scope.querySelectorAll(":has(:scope)")).toHaveLength(0);
+    expect(scope.querySelector(".ancestor:has(:scope) .child")).toBe(candidate);
+    expect(scope.querySelector(".child:has(:is(:scope .descendant))")).toBe(
+      candidate,
+    );
+    expect(option.closest(":has(> :scope)")?.localName).toBe("select");
+  });
+
   it("exposes matches and closest on Element", () => {
     const document = parse();
     const root = byId(document, "Root");

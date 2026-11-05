@@ -1063,7 +1063,7 @@ function matchesSimpleSelector(
     }
     case "relative-pseudo-class":
       return selector.selectors.some((relative) =>
-        matchesRelativeSelector(element, relative),
+        matchesRelativeSelector(element, relative, scope),
       );
     case "nth-pseudo-class":
       return matchesNth(element, selector, scope);
@@ -1079,6 +1079,7 @@ function matchesSimpleSelector(
 function matchesRelativeSelector(
   anchor: Element,
   selector: ComplexSelector,
+  scope: SelectorRoot,
 ): boolean {
   const root = treeRoot(anchor);
   const candidates = [anchor, ...descendantElements(root)];
@@ -1086,7 +1087,7 @@ function matchesRelativeSelector(
     const compound = selector.compounds[index];
     if (
       compound === undefined ||
-      !matchesCompound(candidate, compound, anchor)
+      !matchesCompound(candidate, compound, scope)
     ) {
       return false;
     }
