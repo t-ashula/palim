@@ -257,6 +257,14 @@ describe("Document element creation", () => {
     expect(createElementNS(undefined, "item").namespaceURI).toBeNull();
   });
 
+  it("uses ASCII uppercase for HTML element qualified names", () => {
+    const document = parse("");
+    const element = document.createElementNS(HTML_NAMESPACE, "p:tıtle");
+
+    expect(element.tagName).toBe("P:TıTLE");
+    expect(element.nodeName).toBe("P:TıTLE");
+  });
+
   it("reports element name and namespace errors", () => {
     const document = parse("");
 
@@ -337,6 +345,54 @@ describe("Document node creation", () => {
     expect(createComment(undefined).data).toBe("undefined");
     expect(() => createTextNode()).toThrow(TypeError);
     expect(() => createComment()).toThrow(TypeError);
+  });
+
+  it("gets and sets nodeValue according to the node type", () => {
+    const document = parse('<main data-value="before"></main>');
+    const main = select(document, "main");
+    const attribute = main.attributes.item(0);
+    const text = document.createTextNode("before");
+    const comment = document.createComment("before");
+    const instruction = document.createProcessingInstruction(
+      "target",
+      "before",
+    );
+    if (attribute === null) {
+      throw new Error("missing test attribute");
+    }
+
+    text.nodeValue = "text";
+    comment.nodeValue = "comment";
+    instruction.nodeValue = null;
+    attribute.nodeValue = "attribute";
+    main.nodeValue = "ignored";
+
+    expect(text.data).toBe("text");
+    expect(comment.data).toBe("comment");
+    expect(instruction.data).toBe("");
+    expect(attribute.value).toBe("attribute");
+    expect(main.nodeValue).toBeNull();
+  });
+
+  it("sets textContent according to the node type", () => {
+    const document = parse('<main data-value="before"><span>old</span></main>');
+    const main = select(document, "main");
+    const attribute = main.attributes.item(0);
+    const doctype = document.implementation.createDocumentType("html", "", "");
+    if (attribute === null) {
+      throw new Error("missing test attribute");
+    }
+
+    attribute.textContent = null;
+    (main as unknown as { textContent: undefined }).textContent = undefined;
+    document.textContent = "ignored";
+    doctype.textContent = "ignored";
+
+    expect(attribute.value).toBe("");
+    expect(main.textContent).toBe("");
+    expect(main.childNodes.length).toBe(0);
+    expect(document.textContent).toBeNull();
+    expect(doctype.textContent).toBeNull();
   });
 
   it("reads and mutates CharacterData in UTF-16 code units", () => {
@@ -614,6 +670,28 @@ describe("Node cloning and adoption", () => {
     expect(template.content.querySelector("b")?.ownerDocument).toBe(
       template.content.ownerDocument,
     );
+  });
+
+  it("derives HTML element names from the current node document", () => {
+    const sourceDocument = parse("");
+    const targetDocument = new DOMParser().parseFromString(
+      "<root />",
+      "application/xml",
+    );
+    const element = sourceDocument.createElement("t");
+
+    expect(element.tagName).toBe("T");
+    expect(element.nodeName).toBe("T");
+
+    targetDocument.adoptNode(element);
+
+    expect(element.tagName).toBe("t");
+    expect(element.nodeName).toBe("t");
+
+    sourceDocument.adoptNode(element);
+
+    expect(element.tagName).toBe("T");
+    expect(element.nodeName).toBe("T");
   });
 
   it("rejects invalid import and adoption inputs", () => {
@@ -932,6 +1010,24 @@ describe("DOM tree lookup", () => {
       added,
     ]);
     expect(descendants.item(descendants.length - 1)).toBe(added);
+  });
+
+  it("keeps qualified-name collection matching rules after adoption", () => {
+    const sourceDocument = parse("");
+    const targetDocument = new DOMParser().parseFromString(
+      "<root />",
+      "application/xml",
+    );
+    const root = sourceDocument.createElement("main");
+    const child = sourceDocument.createElement("x");
+    root.appendChild(child);
+    const htmlCollection = root.getElementsByTagName("X");
+
+    targetDocument.documentElement?.appendChild(root);
+
+    expect(htmlCollection.item(0)).toBe(child);
+    expect(root.getElementsByTagName("X").length).toBe(0);
+    expect(root.getElementsByTagName("x").item(0)).toBe(child);
   });
 
   it("finds elements by namespace and preserves foreign name case", () => {

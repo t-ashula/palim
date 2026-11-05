@@ -1,4 +1,4 @@
-import { Attr, CharacterData, DocumentType, Text } from "../dom.js";
+import { DocumentType, Text } from "../dom.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -75,38 +75,47 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
     },
     (thisValue, argumentsList) => {
       const node = binding.node(thisValue);
-      const value = argumentsList[0];
       if (node === null) {
         return binding.typeError("Invalid Node receiver");
       }
-      if (value === undefined) {
-        node.textContent = "undefined";
-        return binding.undefined();
+      const value = binding.nullableStringArgument(
+        argumentsList,
+        0,
+        "textContent",
+      );
+      if (value.type === "throw") {
+        return value;
       }
-      if (binding.engine.isNull(value)) {
-        node.textContent = null;
-        return binding.undefined();
-      }
-      const converted = binding.engine.toString(binding.realm, value);
-      if (converted.type === "throw") {
-        return converted;
-      }
-      node.textContent = converted.value;
+      node.textContent = value.value;
       return binding.undefined();
     },
   );
-  binding.attribute(binding.nodePrototype, "nodeValue", (thisValue) => {
-    const node = binding.node(thisValue);
-    return node === null
-      ? binding.typeError("Invalid Node receiver")
-      : binding.primitive(
-          node instanceof CharacterData
-            ? node.data
-            : node instanceof Attr
-              ? node.value
-              : null,
-        );
-  });
+  binding.attribute(
+    binding.nodePrototype,
+    "nodeValue",
+    (thisValue) => {
+      const node = binding.node(thisValue);
+      return node === null
+        ? binding.typeError("Invalid Node receiver")
+        : binding.primitive(node.nodeValue);
+    },
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      const value = binding.nullableStringArgument(
+        argumentsList,
+        0,
+        "nodeValue",
+      );
+      if (value.type === "throw") {
+        return value;
+      }
+      node.nodeValue = value.value;
+      return binding.undefined();
+    },
+  );
   binding.method(
     binding.nodePrototype,
     "appendChild",

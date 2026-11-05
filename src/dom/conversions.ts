@@ -12,6 +12,10 @@ export function asciiLowercase(value: string): string {
   return value.replaceAll(/[A-Z]/g, (character) => character.toLowerCase());
 }
 
+export function asciiUppercase(value: string): string {
+  return value.replaceAll(/[a-z]/g, (character) => character.toUpperCase());
+}
+
 export function normalizeNamespace(namespace: unknown): string | null {
   if (namespace === null || namespace === undefined) {
     return null;

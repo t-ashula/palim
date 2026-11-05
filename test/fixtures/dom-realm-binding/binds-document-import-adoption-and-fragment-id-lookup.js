@@ -12,6 +12,7 @@ const sourceDocument = testDocument.implementation.createHTMLDocument("");
 const source = sourceDocument.createElement("main");
 source.appendChild(sourceDocument.createElement("span"));
 sourceDocument.body.appendChild(source);
+const htmlCollection = source.getElementsByTagName("SPAN");
 
 const shallow = testDocument.importNode(source);
 const explicitShallow = testDocument.importNode(source, undefined);
@@ -42,6 +43,25 @@ if (
   adopted.firstChild.ownerDocument !== testDocument
 ) {
   throw new Error("Document.adoptNode binding is invalid");
+}
+
+const xmlDocument = testDocument.implementation.createDocument(
+  "http://www.w3.org/1999/xhtml",
+  "html",
+);
+xmlDocument.adoptNode(adopted);
+if (
+  adopted.tagName !== "main" ||
+  adopted.nodeName !== "main" ||
+  htmlCollection.item(0) !== adopted.firstChild ||
+  adopted.getElementsByTagName("SPAN").length !== 0 ||
+  adopted.getElementsByTagName("span").item(0) !== adopted.firstChild
+) {
+  throw new Error("adoption did not update document HTMLness");
+}
+testDocument.adoptNode(adopted);
+if (adopted.tagName !== "MAIN" || adopted.nodeName !== "MAIN") {
+  throw new Error("HTML element names did not recover after adoption");
 }
 
 const fragment = testDocument.createDocumentFragment();

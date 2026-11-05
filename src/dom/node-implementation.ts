@@ -109,9 +109,8 @@ export class ElementImplementation extends NodeImplementation {
     readonly namespaceURI: string | null,
     readonly prefix: string | null,
     readonly localName: string,
-    readonly tagName: string,
   ) {
-    super(1, tagName, document);
+    super(1, prefix === null ? localName : `${prefix}:${localName}`, document);
   }
 }
 

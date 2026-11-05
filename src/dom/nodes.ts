@@ -21,6 +21,7 @@ import {
 } from "./collections.js";
 import {
   asciiLowercase,
+  asciiUppercase,
   domString,
   normalizeNamespace,
   validateAttributeLocalName,
@@ -253,7 +254,29 @@ export class Node extends EventTarget {
   }
 
   get nodeName(): string {
+    if (this instanceof Element) {
+      return this.tagName;
+    }
     return nodeImplementation(this).nodeName;
+  }
+
+  get nodeValue(): string | null {
+    if (this instanceof Attr) {
+      return this.value;
+    }
+    if (this instanceof CharacterData) {
+      return this.data;
+    }
+    return null;
+  }
+
+  set nodeValue(value: string | null) {
+    const data = nullableDOMStringToString(value);
+    if (this instanceof Attr) {
+      this.value = data;
+    } else if (this instanceof CharacterData) {
+      this.data = data;
+    }
   }
 
   get ownerDocument(): Document | null {
@@ -312,7 +335,7 @@ export class Node extends EventTarget {
     if (!(this instanceof Element) && !(this instanceof DocumentFragment)) {
       return;
     }
-    const data = value === null ? "" : domString(value);
+    const data = nullableDOMStringToString(value);
     while (this.firstChild !== null) {
       removeNode(this.firstChild);
     }
@@ -905,6 +928,10 @@ export class Document extends Node {
     return null;
   }
 
+  override set textContent(value: string | null) {
+    nullableDOMStringToString(value);
+  }
+
   querySelector(selectors: string): Element | null {
     return selectFirst(this, selectorArgument(selectors, arguments.length));
   }
@@ -1044,17 +1071,11 @@ export function createElementImplementation(
   namespaceURI: string | null,
   prefix: string | null,
 ): ElementImplementation {
-  const qualifiedName = prefix === null ? localName : `${prefix}:${localName}`;
-  const tagName =
-    namespaceURI === HTML_NAMESPACE && document.contentType === "text/html"
-      ? qualifiedName.toUpperCase()
-      : qualifiedName;
   return new ElementImplementation(
     documentImplementation(document),
     namespaceURI,
     prefix,
     localName,
-    tagName,
   );
 }
 
@@ -1307,6 +1328,10 @@ export class DocumentType extends Node {
     return null;
   }
 
+  override set textContent(value: string | null) {
+    nullableDOMStringToString(value);
+  }
+
   before(...nodes: (Node | string)[]): void {
     insertNodesBeforeChild(this, nodes);
   }
@@ -1369,6 +1394,10 @@ export class Attr extends Node {
   override get textContent(): string {
     return this.value;
   }
+
+  override set textContent(value: string | null) {
+    this.value = nullableDOMStringToString(value);
+  }
 }
 
 export interface AttributeData {
@@ -1401,7 +1430,15 @@ export class Element extends Node {
   }
 
   get tagName(): string {
-    return elementImplementation(this).tagName;
+    const implementation = elementImplementation(this);
+    const qualifiedName =
+      implementation.prefix === null
+        ? implementation.localName
+        : `${implementation.prefix}:${implementation.localName}`;
+    return implementation.namespaceURI === HTML_NAMESPACE &&
+      implementation.ownerDocument?.contentType === "text/html"
+      ? asciiUppercase(qualifiedName)
+      : qualifiedName;
   }
 
   get attributes(): NamedNodeMap {
@@ -2071,7 +2108,7 @@ export class CharacterData extends Node {
   }
 
   override set textContent(value: string | null) {
-    const data = value === null ? "" : domString(value);
+    const data = nullableDOMStringToString(value);
     replaceCharacterData(this, 0, this.length, data);
   }
 
@@ -2644,6 +2681,10 @@ function requiredDOMString(value: unknown, length: number): string {
 
 function legacyNullToEmptyString(value: unknown): string {
   return value === null ? "" : domString(value);
+}
+
+function nullableDOMStringToString(value: unknown): string {
+  return value === null || value === undefined ? "" : domString(value);
 }
 
 function toUnsignedLong(value: unknown): number {
