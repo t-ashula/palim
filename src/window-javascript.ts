@@ -1,6 +1,7 @@
 import { Event } from "./dom/events.js";
 import { documentImplementation } from "./dom/node-implementation.js";
 import type { Document, Element, Node } from "./dom/nodes.js";
+import { descendantElements } from "./dom/traversal.js";
 import { HTMLScriptElement } from "./html-elements.js";
 import { parseHTMLIntoDocumentAsync } from "./html/parser.js";
 import type { EngineResult, EngineValue } from "./javascript-engine/adapter.js";
@@ -8,7 +9,11 @@ import { Engine262Adapter } from "./javascript-engine/engine262-adapter.js";
 import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
 import { URL } from "./url/index.js";
-import { createWindow, reportWindowError } from "./window.js";
+import {
+  createWindow,
+  createWindowForDocument,
+  reportWindowError,
+} from "./window.js";
 import type { WindowOptions } from "./window.js";
 
 export {
@@ -59,8 +64,13 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
   readonly #pendingResourceLoads: Promise<void>[] = [];
   readonly #startedScripts = new WeakSet<HTMLScriptElement>();
 
-  constructor(options: WindowExecutionOptions = {}) {
-    super(new Engine262Adapter(), createWindow(options));
+  constructor(options: WindowExecutionOptions = {}, document?: Document) {
+    super(
+      new Engine262Adapter(),
+      document === undefined
+        ? createWindow(options)
+        : createWindowForDocument(document, options),
+    );
     this.#resourceLoader = options.resourceLoader ?? null;
     const implementation = documentImplementation(this.window.document);
     implementation.childrenChangedSteps = (node) => {
@@ -82,6 +92,19 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
         this.#processElement(element);
       },
     );
+    await Promise.all(this.#pendingResourceLoads);
+    this.window.dispatchEvent(new Event("load"));
+    return document;
+  }
+
+  async loadParsedDocument(): Promise<Document> {
+    this.scriptResults.length = 0;
+    this.#pendingResourceLoads.length = 0;
+    const document = this.window.document;
+    for (const element of descendantElements(document)) {
+      this.#processElement(element);
+      await this.#processScript(element);
+    }
     await Promise.all(this.#pendingResourceLoads);
     this.window.dispatchEvent(new Event("load"));
     return document;

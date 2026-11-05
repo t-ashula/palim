@@ -22,7 +22,7 @@
 
 ### Parsing and serialization
 
-- [ ] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
+- [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
 - [ ] `DOMParser` が作る document の URL、origin、content type、character encoding、scripting flag
 - [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
 - [ ] `Document.parseHTML` と unsafe / positional HTML parsing API
@@ -142,6 +142,10 @@
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
 - [ ] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
 - [ ] escaped `</script>` を含む template literal を `Invalid template escape` としない
+
+## Conformance infrastructure
+
+- [ ] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
 
 ## Web IDL bindings
 

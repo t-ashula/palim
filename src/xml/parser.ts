@@ -814,7 +814,7 @@ const xmlFragmentParser: FragmentParser = {
   },
 };
 
-function parserErrorDocument(type: XMLMIMEType, message: string): Document {
+function parserErrorDocument(type: string, message: string): Document {
   const document = createDocument(
     xmlFragmentParser,
     type,
@@ -830,7 +830,7 @@ function parserErrorDocument(type: XMLMIMEType, message: string): Document {
   return document;
 }
 
-export function parseXML(input: string, type: XMLMIMEType): Document {
+export function parseXML(input: string, type: string): Document {
   const document = createDocument(
     xmlFragmentParser,
     type,

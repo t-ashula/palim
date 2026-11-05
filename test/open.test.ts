@@ -1,6 +1,15 @@
+import { readFileSync } from "node:fs";
+
 import { describe, expect, it, vi } from "vitest";
 
 import { open } from "../src/index.js";
+
+function fixture(name: string): string {
+  return readFileSync(
+    new URL(`./fixtures/open/${name}`, import.meta.url),
+    "utf8",
+  );
+}
 
 describe("open", () => {
   it("opens supplied HTML with its base URL", async () => {
@@ -47,6 +56,56 @@ describe("open", () => {
       expect(context.window.document.body?.getAttribute("data-external")).toBe(
         "loaded",
       );
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("parses XML responses and runs classic scripts in document order", async () => {
+    const fetchMock = vi.fn((input: string | URL) => {
+      const url = input.toString();
+      return Promise.resolve(
+        url.endsWith("/external.js")
+          ? new Response(fixture("xml-navigation-external.js"), {
+              headers: { "content-type": "text/javascript; charset=utf-8" },
+            })
+          : new Response(
+              [
+                '<html xmlns="http://www.w3.org/1999/xhtml" ',
+                'xmlns:g="http://www.w3.org/2000/svg">',
+                '<body data-order=""><div id="tests">',
+                '<x id="first" class="a"/><g:x id="second" class="a"/>',
+                "</div>",
+                '<script src="/external.js"/>',
+                `<script>${fixture("xml-navigation-inline.js")}</script>`,
+                "</body></html>",
+              ].join(""),
+              {
+                headers: {
+                  "content-type": "Application/XML; Charset=UTF-8",
+                },
+              },
+            ),
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const context = await open("https://example.test/document.xml");
+      const { document } = context.window;
+
+      expect(fetchMock.mock.calls.map(([input]) => input.toString())).toEqual([
+        "https://example.test/document.xml",
+        "https://example.test/external.js",
+      ]);
+      expect(document.contentType).toBe("application/xml");
+      const tests = document.querySelector("#tests");
+      expect(Array.from(document.getElementsByClassName("a"))).toEqual(
+        Array.from(tests?.children ?? []),
+      );
+      expect(document.querySelector("#first")?.parentElement).toBe(tests);
+      expect(document.querySelector("#second")?.parentElement).toBe(tests);
+      expect(document.body?.getAttribute("data-order")).toBe("external,inline");
     } finally {
       vi.unstubAllGlobals();
     }

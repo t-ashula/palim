@@ -102,7 +102,7 @@ class WindowPlatform extends EventTarget implements Window {
     const proxy = new Proxy(this, {});
     bindEventTarget(proxy, eventTargetImplementation(this));
 
-    const document = parseHTML("");
+    const document = construction.document ?? parseHTML("");
     const url = new URL(construction.options.url ?? "about:blank");
     const implementation = documentImplementation(document);
     implementation.url = url;
@@ -162,7 +162,10 @@ class WindowPlatform extends EventTarget implements Window {
 }
 
 class WindowConstruction {
-  constructor(readonly options: WindowOptions) {}
+  constructor(
+    readonly options: WindowOptions,
+    readonly document?: Document,
+  ) {}
 }
 
 Object.defineProperties(WindowPlatform, {
@@ -174,6 +177,13 @@ export const Window = WindowPlatform as unknown as WindowInterface;
 
 export function createWindow(options: WindowOptions = {}): Window {
   return new WindowPlatform(new WindowConstruction(options));
+}
+
+export function createWindowForDocument(
+  document: Document,
+  options: WindowOptions = {},
+): Window {
+  return new WindowPlatform(new WindowConstruction(options, document));
 }
 
 export function reportWindowError(

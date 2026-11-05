@@ -2,6 +2,7 @@ import { decodeHTMLBytes } from "./html-byte-input.js";
 import { WindowExecutionEnvironment } from "./window-javascript.js";
 import type { Resource, ResourceLoader } from "./window-javascript.js";
 import type { Window, WindowConsoleCall } from "./window.js";
+import { parseXML } from "./xml/parser.js";
 import type { URL } from "./url/index.js";
 
 export interface OpenHTMLOptions {
@@ -33,13 +34,24 @@ export async function open(
       : {
           source: input.html,
           url: input.baseURL ?? "about:blank",
+          mimeType: "text/html",
         };
-  const environment = new WindowExecutionEnvironment({
-    consoleHandler: forwardConsoleCall,
-    url: initial.url,
-    resourceLoader: loader,
-  });
-  await environment.loadHTML(initial.source);
+  const xmlDocument = isXMLMIMEType(initial.mimeType)
+    ? parseXML(initial.source, initial.mimeType)
+    : undefined;
+  const environment = new WindowExecutionEnvironment(
+    {
+      consoleHandler: forwardConsoleCall,
+      url: initial.url,
+      resourceLoader: loader,
+    },
+    xmlDocument,
+  );
+  if (xmlDocument === undefined) {
+    await environment.loadHTML(initial.source);
+  } else {
+    await environment.loadParsedDocument();
+  }
   return new OpenedEnvironment(environment);
 }
 
@@ -87,11 +99,15 @@ class FetchResourceLoader implements ResourceLoader {
   }
 }
 
-async function loadInitialDocument(
-  url: string,
-): Promise<{ readonly source: string; readonly url: string }> {
+async function loadInitialDocument(url: string): Promise<{
+  readonly source: string;
+  readonly url: string;
+  readonly mimeType: string;
+}> {
   const response = await hostFetch(url);
   const resource = await responseResource(response);
+  const mimeType =
+    contentTypeEssence(response.headers.get("content-type")) ?? "text/html";
   return {
     source: decodeHTMLBytes(resource.body, {
       ...(resource.encoding === undefined
@@ -99,6 +115,7 @@ async function loadInitialDocument(
         : { transportEncoding: resource.encoding }),
     }).text,
     url: resource.url?.toString() ?? url,
+    mimeType,
   };
 }
 
@@ -129,4 +146,18 @@ function contentTypeEncoding(contentType: string | null): string | undefined {
       contentType,
     );
   return match?.[1] ?? match?.[2] ?? match?.[3];
+}
+
+function contentTypeEssence(contentType: string | null): string | undefined {
+  const essence = contentType?.split(";", 1)[0]?.trim().toLowerCase();
+  return essence === undefined || essence === "" ? undefined : essence;
+}
+
+function isXMLMIMEType(mimeType: string): boolean {
+  const slash = mimeType.indexOf("/");
+  return (
+    mimeType === "text/xml" ||
+    mimeType === "application/xml" ||
+    (slash > 0 && mimeType.slice(slash + 1).endsWith("+xml"))
+  );
 }
