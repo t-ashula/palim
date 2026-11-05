@@ -1193,6 +1193,25 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
   );
   binding.method(
     binding.documentPrototype,
+    "getElementsByName",
+    1,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const elementName = binding.stringArgument(
+        argumentsList,
+        0,
+        "getElementsByName",
+      );
+      return elementName.type === "throw"
+        ? elementName
+        : normal(binding.wrap(document.getElementsByName(elementName.value)));
+    },
+  );
+  binding.method(
+    binding.documentPrototype,
     "createElement",
     1,
     (thisValue, argumentsList) => {

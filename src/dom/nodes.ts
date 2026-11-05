@@ -909,6 +909,17 @@ export class Document extends Node {
       requiredDOMString(classNames, arguments.length),
     );
   }
+
+  getElementsByName(elementName: string): NodeList<Element> {
+    const name = requiredDOMString(elementName, arguments.length);
+    return createNodeList(() =>
+      descendantElements(this).filter(
+        (element) =>
+          element.namespaceURI === HTML_NAMESPACE &&
+          findAttributeByNamespace(element, null, "name")?.value === name,
+      ),
+    );
+  }
 }
 
 export function createElementForDocument(

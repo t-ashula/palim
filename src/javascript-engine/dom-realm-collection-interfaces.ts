@@ -105,6 +105,12 @@ export function installNodeListMembers(binding: DOMRealmBindingContext): void {
     (thisValue) => binding.nodeList(thisValue),
     "NodeList",
   );
+  binding.engine.defineDataProperty(
+    binding.nodeListPrototype,
+    binding.engine.wellKnownSymbol("toStringTag"),
+    binding.engine.fromPrimitive("NodeList"),
+    { configurable: true, enumerable: false, writable: false },
+  );
 }
 
 export function installDOMTokenListMembers(

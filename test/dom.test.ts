@@ -903,6 +903,22 @@ describe("DOM tree lookup", () => {
     expect(standards.getElementsByClassName("Mixed").length).toBe(1);
   });
 
+  it("finds HTML elements by name with live results", () => {
+    const document = parse(
+      '<!doctype html><main><p name="target"></p><svg name="target"></svg><p id="target"></p></main>',
+    );
+    const collection = document.getElementsByName("target");
+    const first = select(document, 'p[name="target"]');
+
+    expect(Array.from(collection)).toEqual([first]);
+    const added = document.createElement("section");
+    added.setAttribute("name", "target");
+    document.body?.appendChild(added);
+    expect(Array.from(collection)).toEqual([first, added]);
+    added.setAttribute("name", "other");
+    expect(Array.from(collection)).toEqual([first]);
+  });
+
   it("finds the first ID in tree order in documents and fragments", () => {
     const document = parse(
       '<!doctype html><main><p id="a:b"></p><section id="duplicate"></section><aside id="duplicate"></aside></main>',
@@ -946,10 +962,14 @@ describe("DOM tree lookup", () => {
     const getElementsByTagNameNS = document.getElementsByTagNameNS.bind(
       document,
     ) as unknown as (namespace?: unknown, localName?: unknown) => unknown;
+    const getElementsByName = document.getElementsByName.bind(
+      document,
+    ) as unknown as (name?: unknown) => unknown;
 
     expect(() => getElementById()).toThrow(TypeError);
     expect(() => getElementsByTagName()).toThrow(TypeError);
     expect(() => getElementsByTagNameNS("urn:example")).toThrow(TypeError);
+    expect(() => getElementsByName()).toThrow(TypeError);
     expect(() => getElementById(Symbol("id"))).toThrow(TypeError);
   });
 });
