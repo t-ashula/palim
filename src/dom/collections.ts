@@ -10,7 +10,11 @@ import type { Attr, Element, Node } from "./nodes.js";
 import { DOMException } from "../dom-exception.js";
 import { HTML_NAMESPACE } from "../namespaces.js";
 import { requireArguments } from "../web-idl.js";
-import { domString, normalizeNamespace } from "./conversions.js";
+import {
+  asciiLowercase,
+  domString,
+  normalizeNamespace,
+} from "./conversions.js";
 import { bindDOMInterface, implementationFor } from "./binding.js";
 
 function indexed<T extends object>(
@@ -213,8 +217,18 @@ export function namedNodeMapSupportedPropertyNames(
   attributes: NamedNodeMap,
 ): string[] {
   const names: string[] = [];
+  const element = namedNodeMapElement(attributes);
+  const lowercaseOnly =
+    element.namespaceURI === HTML_NAMESPACE &&
+    element.ownerDocument?.contentType === "text/html";
   for (const attribute of attributes) {
-    names.push(attribute.name);
+    const name = attribute.name;
+    if (
+      !names.includes(name) &&
+      (!lowercaseOnly || name === asciiLowercase(name))
+    ) {
+      names.push(name);
+    }
   }
   return names;
 }
