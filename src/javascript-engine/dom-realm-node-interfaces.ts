@@ -1415,6 +1415,44 @@ export function installDocumentFragmentMembers(
         : normal(binding.wrap(fragment.children));
     },
   );
+  binding.method(
+    binding.documentFragmentPrototype,
+    "querySelector",
+    1,
+    (thisValue, argumentsList) => {
+      const fragment = binding.documentFragment(thisValue);
+      if (fragment === null) {
+        return binding.typeError("Invalid DocumentFragment receiver");
+      }
+      const selectors = binding.stringArgument(
+        argumentsList,
+        0,
+        "querySelector",
+      );
+      return selectors.type === "throw"
+        ? selectors
+        : binding.platformValue(fragment.querySelector(selectors.value));
+    },
+  );
+  binding.method(
+    binding.documentFragmentPrototype,
+    "querySelectorAll",
+    1,
+    (thisValue, argumentsList) => {
+      const fragment = binding.documentFragment(thisValue);
+      if (fragment === null) {
+        return binding.typeError("Invalid DocumentFragment receiver");
+      }
+      const selectors = binding.stringArgument(
+        argumentsList,
+        0,
+        "querySelectorAll",
+      );
+      return selectors.type === "throw"
+        ? selectors
+        : normal(binding.wrap(fragment.querySelectorAll(selectors.value)));
+    },
+  );
   binding.installParentNodeMutationMembers(
     binding.documentFragmentPrototype,
     (value) => binding.documentFragment(value),

@@ -657,6 +657,32 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("binds DocumentFragment selector methods", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const fragment = testDocument.createDocumentFragment();
+        const first = testDocument.createElement("p");
+        first.className = "target";
+        const second = testDocument.createElement("span");
+        second.className = "target";
+        fragment.append(first, second);
+        const list = fragment.querySelectorAll(".target");
+        if (
+          fragment.querySelector(".target") !== first ||
+          !(list instanceof NodeList) ||
+          list.length !== 2 ||
+          list[1] !== second
+        ) {
+          throw new Error("DocumentFragment selector binding is invalid");
+        }
+      `,
+    );
+  });
+
   it("exposes live indexed and named HTMLCollection properties", () => {
     const { engine, realm } = createTestRealm(
       '<main><span id="first" name="alpha"></span><span id="first" name="beta"></span></main>',

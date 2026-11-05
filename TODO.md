@@ -50,7 +50,7 @@
 - [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName`
 - [x] `Document` / `DocumentFragment.getElementById`
 - [x] `Document.getElementsByName`
-- [ ] `DocumentFragment` の selector API binding
+- [x] `DocumentFragment` の selector API binding
 
 ### Traversal and ranges
 
