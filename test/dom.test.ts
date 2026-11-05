@@ -348,6 +348,47 @@ describe("Document node creation", () => {
     expect(() => createComment()).toThrow(TypeError);
   });
 
+  it("reads and mutates CharacterData in UTF-16 code units", () => {
+    const text = parse("").createTextNode("🌠 test 🌠 TEST");
+
+    expect(text.substringData(1, 8)).toBe("\uDF20 test \uD83C");
+    text.replaceData(1, 4, "--");
+    expect(text.data).toBe("\uD83C--st 🌠 TEST");
+    text.deleteData(1, 2);
+    expect(text.data).toBe("\uD83Cst 🌠 TEST");
+    text.insertData(1, "\uDF1F ");
+    expect(text.data).toBe("🌟 st 🌠 TEST");
+    text.appendData("!");
+    expect(text.data).toBe("🌟 st 🌠 TEST!");
+    text.data = "reset";
+    expect(text.data).toBe("reset");
+  });
+
+  it("converts CharacterData arguments and validates offsets", () => {
+    const text = parse("").createTextNode("test");
+    const substringData = text.substringData.bind(text) as unknown as (
+      offset?: unknown,
+      count?: unknown,
+    ) => string;
+    const appendData = text.appendData.bind(text) as unknown as (
+      data?: unknown,
+    ) => void;
+
+    expect(substringData(-0x1_0000_0000 + 2, 1)).toBe("s");
+    expect(substringData("test", 3)).toBe("tes");
+    expect(() => substringData(5, 0)).toThrow(
+      expect.objectContaining({ name: "IndexSizeError" }),
+    );
+    expect(() => substringData()).toThrow(TypeError);
+    expect(() => substringData(0)).toThrow(TypeError);
+    appendData(null);
+    appendData(undefined);
+    expect(text.data).toBe("testnullundefined");
+    expect(() => {
+      appendData();
+    }).toThrow(TypeError);
+  });
+
   it("creates an empty document fragment associated with the document", () => {
     const document = parse("");
     const fragment = document.createDocumentFragment();

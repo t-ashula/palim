@@ -21,7 +21,7 @@
 ### Node content mutation
 
 - [x] `Node.normalize`
-- [ ] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
+- [x] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
 - [ ] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
 - [ ] `Node.moveBefore` と atomic move
 - [ ] insertion steps / removing steps / post-connection steps

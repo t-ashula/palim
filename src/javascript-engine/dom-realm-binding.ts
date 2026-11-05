@@ -1127,12 +1127,34 @@ export class DOMRealmBinding {
   }
 
   #installCharacterDataMembers(): void {
-    this.#attribute(this.#characterDataPrototype, "data", (thisValue) => {
-      const data = this.#characterData(thisValue);
-      return data === null
-        ? this.#typeError("Invalid CharacterData receiver")
-        : this.#primitive(data.data);
-    });
+    this.#attribute(
+      this.#characterDataPrototype,
+      "data",
+      (thisValue) => {
+        const data = this.#characterData(thisValue);
+        return data === null
+          ? this.#typeError("Invalid CharacterData receiver")
+          : this.#primitive(data.data);
+      },
+      (thisValue, argumentsList) => {
+        const characterData = this.#characterData(thisValue);
+        if (characterData === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const data = this.#legacyNullToEmptyStringArgument(
+          argumentsList,
+          0,
+          "data",
+        );
+        if (data.type === "throw") {
+          return data;
+        }
+        return this.#domOperationResult(() => {
+          characterData.data = data.value;
+          return this.#undefined();
+        });
+      },
+    );
     this.#attribute(this.#characterDataPrototype, "length", (thisValue) => {
       const data = this.#characterData(thisValue);
       return data === null
@@ -1150,6 +1172,147 @@ export class DOMRealmBinding {
           : this.#platformValue(data[name]);
       });
     }
+    this.#method(
+      this.#characterDataPrototype,
+      "substringData",
+      2,
+      (thisValue, argumentsList) => {
+        const data = this.#characterData(thisValue);
+        if (data === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const offset = this.#unsignedLongArgument(
+          argumentsList,
+          0,
+          "substringData",
+        );
+        if (offset.type === "throw") {
+          return offset;
+        }
+        const count = this.#unsignedLongArgument(
+          argumentsList,
+          1,
+          "substringData",
+        );
+        return count.type === "throw"
+          ? count
+          : this.#domOperationResult(() =>
+              this.#primitive(data.substringData(offset.value, count.value)),
+            );
+      },
+    );
+    this.#method(
+      this.#characterDataPrototype,
+      "appendData",
+      1,
+      (thisValue, argumentsList) => {
+        const characterData = this.#characterData(thisValue);
+        if (characterData === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const data = this.#stringArgument(argumentsList, 0, "appendData");
+        if (data.type === "throw") {
+          return data;
+        }
+        return this.#domOperationResult(() => {
+          characterData.appendData(data.value);
+          return this.#undefined();
+        });
+      },
+    );
+    this.#method(
+      this.#characterDataPrototype,
+      "insertData",
+      2,
+      (thisValue, argumentsList) => {
+        const characterData = this.#characterData(thisValue);
+        if (characterData === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const offset = this.#unsignedLongArgument(
+          argumentsList,
+          0,
+          "insertData",
+        );
+        if (offset.type === "throw") {
+          return offset;
+        }
+        const data = this.#stringArgument(argumentsList, 1, "insertData");
+        if (data.type === "throw") {
+          return data;
+        }
+        return this.#domOperationResult(() => {
+          characterData.insertData(offset.value, data.value);
+          return this.#undefined();
+        });
+      },
+    );
+    this.#method(
+      this.#characterDataPrototype,
+      "deleteData",
+      2,
+      (thisValue, argumentsList) => {
+        const characterData = this.#characterData(thisValue);
+        if (characterData === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const offset = this.#unsignedLongArgument(
+          argumentsList,
+          0,
+          "deleteData",
+        );
+        if (offset.type === "throw") {
+          return offset;
+        }
+        const count = this.#unsignedLongArgument(
+          argumentsList,
+          1,
+          "deleteData",
+        );
+        if (count.type === "throw") {
+          return count;
+        }
+        return this.#domOperationResult(() => {
+          characterData.deleteData(offset.value, count.value);
+          return this.#undefined();
+        });
+      },
+    );
+    this.#method(
+      this.#characterDataPrototype,
+      "replaceData",
+      3,
+      (thisValue, argumentsList) => {
+        const characterData = this.#characterData(thisValue);
+        if (characterData === null) {
+          return this.#typeError("Invalid CharacterData receiver");
+        }
+        const offset = this.#unsignedLongArgument(
+          argumentsList,
+          0,
+          "replaceData",
+        );
+        if (offset.type === "throw") {
+          return offset;
+        }
+        const count = this.#unsignedLongArgument(
+          argumentsList,
+          1,
+          "replaceData",
+        );
+        if (count.type === "throw") {
+          return count;
+        }
+        const data = this.#stringArgument(argumentsList, 2, "replaceData");
+        if (data.type === "throw") {
+          return data;
+        }
+        return this.#domOperationResult(() => {
+          characterData.replaceData(offset.value, count.value, data.value);
+          return this.#undefined();
+        });
+      },
+    );
   }
 
   #installElementMembers(): void {
@@ -2025,6 +2188,31 @@ export class DOMRealmBinding {
       return normal(0);
     }
     const integer = Math.trunc(number);
+    return normal(((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000);
+  }
+
+  #unsignedLongArgument(
+    argumentsList: readonly EngineValue[],
+    index: number,
+    operation: string,
+  ): EngineResult<number> {
+    const value = argumentsList[index];
+    if (value === undefined) {
+      return thrown(
+        this.#engine.createTypeError(
+          this.#realm,
+          `${operation} requires ${String(index + 1)} argument(s)`,
+        ),
+      );
+    }
+    const converted = this.#engine.toNumber(this.#realm, value);
+    if (converted.type === "throw") {
+      return converted;
+    }
+    if (!Number.isFinite(converted.value) || converted.value === 0) {
+      return normal(0);
+    }
+    const integer = Math.trunc(converted.value);
     return normal(((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000);
   }
 

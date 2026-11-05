@@ -1866,6 +1866,10 @@ export class CharacterData extends Node {
     return characterDataImplementation(this).data;
   }
 
+  set data(value: string) {
+    replaceCharacterData(this, 0, this.length, legacyNullToEmptyString(value));
+  }
+
   get length(): number {
     return this.data.length;
   }
@@ -1877,6 +1881,46 @@ export class CharacterData extends Node {
   override set textContent(value: string | null) {
     const data = value === null ? "" : domString(value);
     replaceCharacterData(this, 0, this.length, data);
+  }
+
+  substringData(offset: number, count: number): string {
+    requireArguments(arguments.length, 2);
+    const convertedOffset = toUnsignedLong(offset);
+    const convertedCount = toUnsignedLong(count);
+    if (convertedOffset > this.length) {
+      throw new DOMException(
+        "The offset exceeds the data length",
+        "IndexSizeError",
+      );
+    }
+    return this.data.slice(convertedOffset, convertedOffset + convertedCount);
+  }
+
+  appendData(data: string): void {
+    requireArguments(arguments.length, 1);
+    replaceCharacterData(this, this.length, 0, domString(data));
+  }
+
+  insertData(offset: number, data: string): void {
+    requireArguments(arguments.length, 2);
+    const convertedOffset = toUnsignedLong(offset);
+    const convertedData = domString(data);
+    replaceCharacterData(this, convertedOffset, 0, convertedData);
+  }
+
+  deleteData(offset: number, count: number): void {
+    requireArguments(arguments.length, 2);
+    const convertedOffset = toUnsignedLong(offset);
+    const convertedCount = toUnsignedLong(count);
+    replaceCharacterData(this, convertedOffset, convertedCount, "");
+  }
+
+  replaceData(offset: number, count: number, data: string): void {
+    requireArguments(arguments.length, 3);
+    const convertedOffset = toUnsignedLong(offset);
+    const convertedCount = toUnsignedLong(count);
+    const convertedData = domString(data);
+    replaceCharacterData(this, convertedOffset, convertedCount, convertedData);
   }
 
   get previousElementSibling(): Element | null {
@@ -2328,6 +2372,22 @@ function orderedSet(value: string): string[] {
 function requiredDOMString(value: unknown, length: number): string {
   requireArguments(length, 1);
   return domString(value);
+}
+
+function legacyNullToEmptyString(value: unknown): string {
+  return value === null ? "" : domString(value);
+}
+
+function toUnsignedLong(value: unknown): number {
+  if (typeof value === "bigint") {
+    throw new TypeError("Cannot convert a BigInt value to a number");
+  }
+  const number = Number(value);
+  if (!Number.isFinite(number) || number === 0) {
+    return 0;
+  }
+  const integer = Math.trunc(number);
+  return ((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000;
 }
 
 function selectorArgument(value: unknown, length: number): string {
