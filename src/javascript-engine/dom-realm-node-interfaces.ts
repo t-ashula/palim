@@ -162,6 +162,108 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Node receiver")
       : binding.primitive(node.firstChild !== null);
   });
+  binding.method(binding.nodePrototype, "normalize", 0, (thisValue) => {
+    const node = binding.node(thisValue);
+    if (node === null) {
+      return binding.typeError("Invalid Node receiver");
+    }
+    node.normalize();
+    return binding.undefined();
+  });
+  binding.method(
+    binding.nodePrototype,
+    "getRootNode",
+    0,
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      const optionsValue = argumentsList[0];
+      let composed = false;
+      if (
+        optionsValue !== undefined &&
+        !binding.engine.isUndefined(optionsValue) &&
+        !binding.engine.isNull(optionsValue)
+      ) {
+        const options = binding.engine.asObject(optionsValue);
+        if (options === null) {
+          return binding.typeError("getRootNode options is not an object");
+        }
+        const composedValue = binding.engine.get(
+          binding.realm,
+          options,
+          "composed",
+        );
+        if (composedValue.type === "throw") {
+          return composedValue;
+        }
+        composed = binding.engine.toBoolean(composedValue.value);
+      }
+      return normal(binding.wrap(node.getRootNode({ composed })));
+    },
+  );
+  for (const name of ["contains", "isEqualNode", "isSameNode"] as const) {
+    binding.method(
+      binding.nodePrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const node = binding.node(thisValue);
+        if (node === null) {
+          return binding.typeError("Invalid Node receiver");
+        }
+        const otherValue = argumentsList[0];
+        if (
+          otherValue === undefined ||
+          binding.engine.isUndefined(otherValue)
+        ) {
+          return binding.typeError(`${name} requires a Node or null`);
+        }
+        const other = binding.engine.isNull(otherValue)
+          ? null
+          : binding.node(otherValue);
+        if (other === null && !binding.engine.isNull(otherValue)) {
+          return binding.typeError(`${name} requires a Node or null`);
+        }
+        return binding.primitive(node[name](other));
+      },
+    );
+  }
+  binding.method(
+    binding.nodePrototype,
+    "compareDocumentPosition",
+    1,
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      const otherValue = argumentsList[0];
+      const other = otherValue === undefined ? null : binding.node(otherValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      if (other === null) {
+        return binding.typeError("compareDocumentPosition requires a Node");
+      }
+      return binding.primitive(node.compareDocumentPosition(other));
+    },
+  );
+  binding.method(
+    binding.nodePrototype,
+    "cloneNode",
+    0,
+    (thisValue, argumentsList) => {
+      const node = binding.node(thisValue);
+      if (node === null) {
+        return binding.typeError("Invalid Node receiver");
+      }
+      const deepValue = argumentsList[0];
+      const deep =
+        deepValue === undefined || binding.engine.isUndefined(deepValue)
+          ? false
+          : binding.engine.toBoolean(deepValue);
+      return normal(binding.wrap(node.cloneNode(deep)));
+    },
+  );
 }
 
 export function installCharacterDataMembers(
