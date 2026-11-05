@@ -1113,6 +1113,54 @@ describe("DOM tree lookup", () => {
     expect(document.getElementById("fragment-id")).toBeNull();
   });
 
+  it("ignores empty and namespaced ID attributes", () => {
+    const document = parse("");
+    const empty = document.createElement("div");
+    const namespaced = document.createElement("div");
+    empty.id = "";
+    namespaced.id = "plain";
+    namespaced.setAttributeNS("urn:example", "id", "namespaced");
+    document.body?.append(empty, namespaced);
+
+    expect(document.getElementById("")).toBeNull();
+    expect(document.getElementById("plain")).toBe(namespaced);
+    expect(document.getElementById("namespaced")).toBeNull();
+
+    namespaced.removeAttribute("id");
+    expect(document.getElementById("plain")).toBeNull();
+    expect(document.getElementById("namespaced")).toBeNull();
+
+    const fragment = document.createDocumentFragment();
+    fragment.appendChild(empty);
+    expect(fragment.getElementById("")).toBeNull();
+  });
+
+  it("keeps XML class lookup namespace-aware and live", () => {
+    const document = new DOMParser().parseFromString(
+      '<root><item class="a b"/><p:item xmlns:p="urn:element" class="a"/><item xmlns:p="urn:attribute" p:class="a"/></root>',
+      "application/xml",
+    );
+    const root = document.documentElement;
+    if (root === null) {
+      throw new Error("missing XML class fixture root");
+    }
+    const first = root.children.item(0);
+    const second = root.children.item(1);
+    const third = root.children.item(2);
+    if (first === null || second === null || third === null) {
+      throw new Error("missing XML class fixture");
+    }
+    const collection = document.getElementsByClassName("a");
+
+    expect(Array.from(collection)).toEqual([first, second]);
+    third.setAttribute("class", "a");
+    expect(Array.from(collection)).toEqual([first, second, third]);
+    first.removeAttribute("class");
+    expect(Array.from(collection)).toEqual([second, third]);
+    root.removeChild(second);
+    expect(Array.from(collection)).toEqual([third]);
+  });
+
   it("keeps XML qualified-name lookup case-sensitive", () => {
     const document = new DOMParser().parseFromString(
       '<Root><Item class="Mixed" /></Root>',

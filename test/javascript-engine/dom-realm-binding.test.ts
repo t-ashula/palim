@@ -213,6 +213,12 @@ describe("DOMRealmBinding", () => {
     expect(document.getElementsByTagName("meta").length).toBe(3);
   });
 
+  it("binds ID and class lookup boundaries in the engine realm", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("binds-id-and-class-lookup-boundaries.js"));
+  });
+
   it("exposes live getElementsByName NodeLists in the engine realm", () => {
     const { engine, realm } = createTestRealm(
       '<main><p name="target"></p><svg name="target"></svg></main>',

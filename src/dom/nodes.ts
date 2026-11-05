@@ -2573,6 +2573,9 @@ function normalizeDescendantText(node: Node): void {
 type CollectionLookupRoot = Document | Element;
 
 function findElementById(root: Node, elementId: string): Element | null {
+  if (elementId === "") {
+    return null;
+  }
   return (
     descendantElements(root).find(
       (element) =>

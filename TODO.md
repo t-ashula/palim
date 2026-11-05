@@ -10,6 +10,7 @@
 - [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [x] `NamedNodeMap` mutation API と `NodeList` iterable API
 - [x] `Range.createContextualFragment`
+- [ ] `HTMLCollection` の indexed property で foreign namespace の `Element` を公開する
 
 ### DOM algorithms
 
@@ -17,7 +18,7 @@
 - [x] `DOMImplementation.createDocument` / `createHTMLDocument` / `createDocumentType` の document type、content type、realm、validation
 - [x] hierarchy、not-found、invalid-character、namespace、selector syntax の失敗を仕様上の `DOMException` name / code へ変換する
 - [x] adoption 前後の HTMLness と `nodeName` / `tagName`、`nodeValue` / `textContent` の境界条件
-- [ ] 空文字 ID、namespaced ID、XML class token に対する lookup と live collection の境界条件
+- [x] 空文字 ID、namespaced ID、XML class token に対する lookup と live collection の境界条件
 - [ ] node creation と adoption で作成元 realm を保持する
 
 ### Parsing and serialization
