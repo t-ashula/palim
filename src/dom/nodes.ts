@@ -61,6 +61,7 @@ import {
   createNodeIterator,
   createTreeWalker,
   descendantElements,
+  invalidateDescendantElements,
   preRemoveNodeIterators,
   transferNodeIterators,
 } from "./traversal.js";
@@ -509,6 +510,7 @@ function invalidateDescendantText(node: NodeImplementation): void {
   let current: NodeImplementation | null = node;
   while (current !== null) {
     current.descendantTextCache = null;
+    invalidateDescendantElements(nodeInterface(current));
     current = current.parent;
   }
 }
@@ -2495,18 +2497,16 @@ function elementsByTagName(
 ): HTMLCollection {
   const document = lookupDocument(root);
   const htmlName = asciiLowercase(qualifiedName);
-  return createHTMLCollection(() =>
-    descendantElements(root).filter((element) => {
-      if (qualifiedName === "*") {
-        return true;
-      }
-      const name = elementQualifiedName(element);
-      return document.contentType === "text/html" &&
-        element.namespaceURI === HTML_NAMESPACE
-        ? name === htmlName
-        : name === qualifiedName;
-    }),
-  );
+  return createDescendantElementCollection(root, (element) => {
+    if (qualifiedName === "*") {
+      return true;
+    }
+    const name = elementQualifiedName(element);
+    return document.contentType === "text/html" &&
+      element.namespaceURI === HTML_NAMESPACE
+      ? name === htmlName
+      : name === qualifiedName;
+  });
 }
 
 function elementsByTagNameNS(
@@ -2514,13 +2514,28 @@ function elementsByTagNameNS(
   namespace: string | null,
   localName: string,
 ): HTMLCollection {
-  return createHTMLCollection(() =>
-    descendantElements(root).filter(
-      (element) =>
-        (namespace === "*" || element.namespaceURI === namespace) &&
-        (localName === "*" || element.localName === localName),
-    ),
+  return createDescendantElementCollection(
+    root,
+    (element) =>
+      (namespace === "*" || element.namespaceURI === namespace) &&
+      (localName === "*" || element.localName === localName),
   );
+}
+
+function createDescendantElementCollection(
+  root: CollectionLookupRoot,
+  matches: (element: Element) => boolean,
+): HTMLCollection {
+  let cachedDescendants: Element[] | null = null;
+  let cachedMatches: Element[] = [];
+  return createHTMLCollection(() => {
+    const descendants = descendantElements(root);
+    if (descendants !== cachedDescendants) {
+      cachedDescendants = descendants;
+      cachedMatches = descendants.filter(matches);
+    }
+    return cachedMatches;
+  });
 }
 
 function elementsByClassName(

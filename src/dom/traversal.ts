@@ -55,6 +55,8 @@ interface NodePointer {
   readonly before: boolean;
 }
 
+const descendantElementCache = new WeakMap<Node, Element[]>();
+
 class TraversalFilter {
   readonly root: Node;
   readonly whatToShow: number;
@@ -463,6 +465,10 @@ export function transferNodeIterators(node: Node, document: Document): void {
 }
 
 export function descendantElements(root: Node): Element[] {
+  const cached = descendantElementCache.get(root);
+  if (cached !== undefined) {
+    return cached;
+  }
   const result: Element[] = [];
   let node = followingNode(root, root);
   while (node !== null) {
@@ -471,7 +477,12 @@ export function descendantElements(root: Node): Element[] {
     }
     node = followingNode(node, root);
   }
+  descendantElementCache.set(root, result);
   return result;
+}
+
+export function invalidateDescendantElements(node: Node): void {
+  descendantElementCache.delete(node);
 }
 
 function registerNodeIterator(iterator: NodeIteratorImplementation): void {

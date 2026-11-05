@@ -7,6 +7,7 @@ import type {
   NodeFilter as NodeFilterCallback,
   NodeIterator,
 } from "../src/index.js";
+import { descendantElements } from "../src/dom/traversal.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {
@@ -30,6 +31,28 @@ function elementNames(iterator: NodeIterator): string[] {
   }
   return names;
 }
+
+describe("descendant element lookup", () => {
+  it("reuses traversal results until the subtree changes", () => {
+    const document = parse("<main><section><span></span></section></main>");
+    const root = element(document, "main");
+    const initial = descendantElements(root);
+
+    expect(descendantElements(root)).toBe(initial);
+
+    const paragraph = document.createElement("p");
+    root.appendChild(paragraph);
+    const updated = descendantElements(root);
+
+    expect(updated).not.toBe(initial);
+    expect(updated.map((node) => node.localName)).toEqual([
+      "section",
+      "span",
+      "p",
+    ]);
+    expect(descendantElements(root)).toBe(updated);
+  });
+});
 
 describe("NodeIterator", () => {
   it("traverses accepted nodes in both directions", () => {
