@@ -444,14 +444,21 @@ export function removeNode(node: Node): void {
   if (implementation.parent === null) {
     return;
   }
+  const removedNodes = inclusiveDescendantNodes(node);
   preRemoveLiveRanges(node);
   preRemoveNodeIterators(node);
   const parent = implementation.parent;
+  const oldParent = nodeInterface(parent);
+  const document = nodeDocumentImplementation(implementation);
   const index = parent.children.indexOf(implementation);
   if (index >= 0) {
     removeChildImplementation(parent, implementation, index);
     invalidateDescendantText(parent);
   }
+  for (const [removedIndex, removedNode] of removedNodes.entries()) {
+    document.removingSteps?.(removedNode, removedIndex === 0, oldParent);
+  }
+  document.childrenChangedSteps?.(oldParent);
 }
 
 function insertChildImplementation(
@@ -2996,6 +3003,11 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
     } else {
       adopt(inserted, document);
     }
+  }
+  const documentImplementationValue = nodeDocumentImplementation(
+    nodeImplementation(parent),
+  );
+  for (const inserted of nodes) {
     const parentImplementation = nodeImplementation(parent);
     const insertedImplementation = nodeImplementation(inserted);
     const index =
@@ -3022,10 +3034,10 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       );
     }
     invalidateDescendantText(parentImplementation);
+    for (const inclusiveDescendant of inclusiveDescendantNodes(inserted)) {
+      documentImplementationValue.insertionSteps?.(inclusiveDescendant);
+    }
   }
-  const documentImplementationValue = nodeDocumentImplementation(
-    nodeImplementation(parent),
-  );
   documentImplementationValue.childrenChangedSteps?.(parent);
   const staticNodeList = nodes.flatMap(inclusiveDescendantNodes);
   for (const connectedNode of staticNodeList) {

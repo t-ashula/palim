@@ -23,6 +23,7 @@ import {
   Text,
 } from "../src/index.js";
 import { setDocumentURL } from "../src/dom/nodes.js";
+import { documentImplementation } from "../src/dom/node-implementation.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
@@ -1434,6 +1435,90 @@ describe("Node mutation", () => {
     expect(section.ownerDocument).toBe(targetDocument);
     expect(span.ownerDocument).toBe(targetDocument);
     expect(sourceDocument.querySelector("section")).toBeNull();
+  });
+
+  it("runs insertion and post-connection steps in tree order", () => {
+    const document = parse("<main></main>");
+    const main = select(document, "main");
+    const fragment = document.createDocumentFragment();
+    const section = document.createElement("section");
+    const span = document.createElement("span");
+    const aside = document.createElement("aside");
+    section.id = "section";
+    span.id = "span";
+    aside.id = "aside";
+    section.append(span);
+    fragment.append(section, aside);
+    const events: string[] = [];
+    const implementation = documentImplementation(document);
+    implementation.insertionSteps = (node) => {
+      events.push(`insert:${(node as Element).id}`);
+      if (node === section) {
+        expect(section.parentNode).toBe(main);
+        expect(aside.parentNode).toBeNull();
+      }
+    };
+    implementation.postConnectionSteps = (node) => {
+      events.push(`post:${(node as Element).id}`);
+    };
+
+    main.append(fragment);
+
+    expect(events).toEqual([
+      "insert:section",
+      "insert:span",
+      "insert:aside",
+      "post:section",
+      "post:span",
+      "post:aside",
+    ]);
+  });
+
+  it("runs removing steps in tree order after detaching the subtree", () => {
+    const document = parse(
+      "<main><section><span></span></section><aside></aside></main>",
+    );
+    const main = select(document, "main");
+    const section = select(document, "section");
+    const span = select(document, "span");
+    const events: string[] = [];
+    documentImplementation(document).removingSteps = (
+      node,
+      isSubtreeRoot,
+      oldAncestor,
+    ) => {
+      events.push(
+        `${node.nodeName}:${String(isSubtreeRoot)}:${oldAncestor.nodeName}`,
+      );
+      if (node === section) {
+        expect(section.parentNode).toBeNull();
+      }
+      if (node === span) {
+        expect(span.parentNode).toBe(section);
+      }
+    };
+
+    section.remove();
+
+    expect(events).toEqual(["SECTION:true:MAIN", "SPAN:false:MAIN"]);
+    expect(main.firstElementChild?.localName).toBe("aside");
+  });
+
+  it("does not run insertion or removing steps for an atomic move", () => {
+    const document = parse("<main><section></section><aside></aside></main>");
+    const main = select(document, "main");
+    const section = select(document, "section");
+    const aside = select(document, "aside");
+    const events: string[] = [];
+    const implementation = documentImplementation(document);
+    implementation.insertionSteps = () => events.push("insert");
+    implementation.removingSteps = () => events.push("remove");
+    implementation.postConnectionSteps = () => events.push("post");
+
+    main.moveBefore(aside, section);
+
+    expect(Array.from(main.children)).toEqual([aside, section]);
+    expect(events).toEqual([]);
   });
 
   it("rejects invalid tree mutations", () => {

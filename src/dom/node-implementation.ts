@@ -54,6 +54,10 @@ export class DocumentImplementation extends NodeImplementation {
   quirks = false;
   parseErrors: readonly PalimParseError[] = [];
   childrenChangedSteps: ((node: Node) => void) | null = null;
+  insertionSteps: ((node: Node) => void) | null = null;
+  removingSteps:
+    ((node: Node, isSubtreeRoot: boolean, oldAncestor: Node) => void) | null =
+    null;
   postConnectionSteps: ((node: Node) => void) | null = null;
 
   constructor(

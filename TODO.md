@@ -26,7 +26,7 @@
 - [x] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
 - [x] `Node.moveBefore` と atomic move
 - [x] insertion / post-connection stepsで動的inline classic scriptを実行する
-- [ ] 残りのinsertion steps / removing steps / post-connection steps
+- [x] 残りのinsertion steps / removing steps / post-connection steps
 
 ### Node relationships and comparison
 
