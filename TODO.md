@@ -40,7 +40,9 @@
 - [x] `Element.classList`
 - [x] `Element.id` / `className`
 - [x] `NamedNodeMap` の取得・設定・削除 API
-- [ ] `getAttributeNodeNS` と namespace attribute mutation
+- [x] `getAttributeNodeNS` と namespace attribute mutation
+- [ ] `Document.createAttribute` と非namespace attribute APIのpage realm binding
+- [ ] `NamedNodeMap` supported property namesの重複排除とHTML case filtering
 - [ ] `DOMTokenList` の realm binding と `contains` を含む既存 API の公開
 
 ### Lookup

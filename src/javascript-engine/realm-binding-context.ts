@@ -219,7 +219,7 @@ export class RealmBindingContext {
         `${operation} requires ${String(index + 1)} argument(s)`,
       );
     }
-    return this.engine.isNull(value)
+    return this.engine.isNull(value) || this.engine.isUndefined(value)
       ? normal(null)
       : this.string(value, wellFormed);
   }

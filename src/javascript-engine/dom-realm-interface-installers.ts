@@ -12,6 +12,7 @@ export {
 export {
   installNodeMembers,
   installCharacterDataMembers,
+  installAttrMembers,
   installElementMembers,
   installDocumentMembers,
   installDocumentFragmentMembers,

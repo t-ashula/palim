@@ -68,6 +68,7 @@ import {
   installAbortMembers,
   installNodeMembers,
   installCharacterDataMembers,
+  installAttrMembers,
   installElementMembers,
   installForeignAnchorMembers,
   installHTMLElementMembers,
@@ -351,6 +352,7 @@ export class DOMRealmBindingContext {
     installAbortMembers(this);
     installNodeMembers(this);
     installCharacterDataMembers(this);
+    installAttrMembers(this);
     installElementMembers(this);
     installForeignAnchorMembers(this);
     installHTMLElementMembers(this);

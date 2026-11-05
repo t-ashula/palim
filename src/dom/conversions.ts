@@ -69,7 +69,7 @@ export function validateAndExtract(
   if (parts.length > 2 || parts.some((part) => part === "")) {
     throw new DOMException(
       `Invalid qualified name: ${qualifiedName}`,
-      "NamespaceError",
+      "InvalidCharacterError",
     );
   }
   const prefix = parts.length === 2 ? (parts[0] ?? null) : null;

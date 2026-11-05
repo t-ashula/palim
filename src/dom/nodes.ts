@@ -109,6 +109,11 @@ type CreateElementNSArguments = [
   options?: string | ElementCreationOptions,
 ];
 
+type CreateAttributeNSArguments = [
+  namespace?: string | null,
+  qualifiedName?: string,
+];
+
 type CreateCharacterDataArguments = [data?: string];
 
 export type ElementFactory = (
@@ -707,6 +712,25 @@ export class Document extends Node {
 
   createDocumentFragment(): DocumentFragment {
     return createDocumentFragment(this);
+  }
+
+  createAttributeNS(namespace: string | null, qualifiedName: string): Attr;
+  createAttributeNS(...parameters: CreateAttributeNSArguments): Attr {
+    requireArguments(parameters.length, 2);
+    const [namespace, qualifiedName] = parameters;
+    const extracted = validateAndExtract(
+      normalizeNamespace(namespace),
+      domString(qualifiedName),
+    );
+    return createAttr(
+      this,
+      null,
+      extracted.qualifiedName,
+      "",
+      extracted.namespace,
+      extracted.prefix,
+      extracted.localName,
+    );
   }
 
   createTextNode(data: string): Text;
@@ -1505,6 +1529,14 @@ export class Element extends Node {
     );
   }
 
+  getAttributeNodeNS(namespace: string | null, localName: string): Attr | null {
+    return findAttributeByNamespace(
+      this,
+      normalizeNamespace(namespace),
+      domString(localName),
+    );
+  }
+
   getAttributeNames(): string[] {
     return attributeNodes(this).map((attribute) => attribute.name);
   }
@@ -1557,9 +1589,6 @@ export class Element extends Node {
       extracted.localName,
     );
     if (attribute !== null) {
-      const implementation = attrImplementation(attribute);
-      implementation.prefix = extracted.prefix;
-      implementation.name = extracted.qualifiedName;
       attribute.value = convertedValue;
       return;
     }

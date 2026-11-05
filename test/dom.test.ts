@@ -1027,15 +1027,34 @@ describe("Element attributes", () => {
     const attribute = element.attributes.item(1);
 
     expect(element.getAttributeNS(XLINK_NAMESPACE, "href")).toBe("before");
+    expect(element.getAttributeNodeNS(XLINK_NAMESPACE, "href")).toBe(attribute);
     expect(element.hasAttributeNS(XLINK_NAMESPACE, "href")).toBe(true);
 
-    element.setAttributeNS(XLINK_NAMESPACE, "xlink:href", "after");
+    element.setAttributeNS(XLINK_NAMESPACE, "replacement:href", "after");
     expect(element.getAttribute("xlink:href")).toBe("after");
+    expect(element.getAttribute("replacement:href")).toBeNull();
     expect(element.attributes.item(1)).toBe(attribute);
 
     element.removeAttributeNS(XLINK_NAMESPACE, "href");
     expect(element.getAttributeNS(XLINK_NAMESPACE, "href")).toBeNull();
     expect(attribute?.ownerElement).toBeNull();
+  });
+
+  it("creates namespaced attribute nodes", () => {
+    const document = parse("<main></main>");
+    const attribute = document.createAttributeNS("urn:test", "p:name");
+
+    expect(attribute.ownerDocument).toBe(document);
+    expect(attribute.ownerElement).toBeNull();
+    expect(attribute.namespaceURI).toBe("urn:test");
+    expect(attribute.prefix).toBe("p");
+    expect(attribute.localName).toBe("name");
+    expect(attribute.name).toBe("p:name");
+    expect(attribute.value).toBe("");
+    expectDOMException(
+      () => document.createAttributeNS("urn:test", "p:"),
+      "InvalidCharacterError",
+    );
   });
 
   it("gets, replaces, and removes attributes through NamedNodeMap", () => {
