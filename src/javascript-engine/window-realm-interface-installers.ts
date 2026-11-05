@@ -1,0 +1,180 @@
+import {
+  clearWindowTimeout,
+  reportWindowConsole,
+  reportWindowError,
+  scheduleWindowTimeout,
+} from "../window.js";
+import type { WindowConsoleMethod } from "../window.js";
+import { normal } from "./adapter.js";
+import type { WindowRealmBindingContext } from "./window-realm-binding-context.js";
+
+const CONSOLE_METHODS: readonly WindowConsoleMethod[] = [
+  "assert",
+  "clear",
+  "count",
+  "countReset",
+  "debug",
+  "dir",
+  "dirxml",
+  "error",
+  "group",
+  "groupCollapsed",
+  "groupEnd",
+  "info",
+  "log",
+  "table",
+  "time",
+  "timeEnd",
+  "timeLog",
+  "trace",
+  "warn",
+];
+
+export function installWindowInterface(
+  binding: WindowRealmBindingContext,
+): void {
+  const constructor = binding.context.function("Window", 0, () =>
+    binding.context.typeError("Illegal constructor"),
+  );
+  binding.context.installInterface(
+    "Window",
+    constructor,
+    binding.windowPrototype,
+    binding.globalObject,
+  );
+}
+
+export function installWindowMembers(binding: WindowRealmBindingContext): void {
+  binding.attribute("window", () => binding.globalThis, false);
+  binding.attribute("self", () => binding.globalThis, true, true);
+  binding.attribute("frames", () => binding.globalThis, true, true);
+  binding.attribute(
+    "document",
+    () => binding.dom.platformObject(binding.window.document),
+    false,
+  );
+  binding.attribute("location", () => binding.locationObject, false);
+  binding.attribute("top", () => binding.globalThis, false);
+  binding.attribute("parent", () => binding.globalThis, true, true);
+  binding.attribute(
+    "frameElement",
+    () => binding.engine.fromPrimitive(null),
+    true,
+  );
+}
+
+export function installLocationInterface(
+  binding: WindowRealmBindingContext,
+): void {
+  const constructor = binding.context.function("Location", 0, () =>
+    binding.context.typeError("Illegal constructor"),
+  );
+  binding.context.installInterface(
+    "Location",
+    constructor,
+    binding.locationPrototype,
+    binding.globalObject,
+  );
+}
+
+export function installLocationMembers(
+  binding: WindowRealmBindingContext,
+): void {
+  for (const name of ["href", "pathname", "search", "hash"] as const) {
+    binding.context.attribute(binding.locationPrototype, name, (thisValue) =>
+      thisValue === binding.locationObject
+        ? normal(binding.engine.fromPrimitive(binding.locationURL()[name]))
+        : binding.context.typeError("Invalid Location receiver"),
+    );
+  }
+  binding.context.interfaceMethod(
+    binding.locationPrototype,
+    "toString",
+    0,
+    (thisValue) =>
+      thisValue === binding.locationObject
+        ? normal(binding.engine.fromPrimitive(binding.locationURL().href))
+        : binding.context.typeError("Invalid Location receiver"),
+  );
+}
+
+export function installTimers(binding: WindowRealmBindingContext): void {
+  binding.operation("setTimeout", 1, (_thisValue, argumentsList) => {
+    const callback = binding.context.requiredCallable(
+      argumentsList[0],
+      "setTimeout callback must be callable",
+    );
+    if (callback.type === "throw") {
+      return callback;
+    }
+    const delay = binding.timerDelay(argumentsList[1]);
+    if (delay.type === "throw") {
+      return delay;
+    }
+    const id = scheduleWindowTimeout(
+      binding.window,
+      () => {
+        const result = binding.context.call(
+          callback.value,
+          binding.globalThis,
+          argumentsList.slice(2),
+        );
+        binding.engine.performPromiseCheckpoint();
+        if (result.type === "throw") {
+          reportWindowError(binding.window, {
+            message: binding.engine.exceptionMessage(
+              binding.realm,
+              result.value,
+            ),
+            url: binding.window.document.URL,
+          });
+        }
+      },
+      delay.value,
+    );
+    return normal(binding.engine.fromPrimitive(id));
+  });
+  binding.operation("clearTimeout", 1, (_thisValue, argumentsList) => {
+    const id = binding.timerId(argumentsList[0]);
+    if (id.type === "throw") {
+      return id;
+    }
+    clearWindowTimeout(binding.window, id.value);
+    return binding.context.undefined();
+  });
+}
+
+export function installConsole(binding: WindowRealmBindingContext): void {
+  const consoleObject = binding.engine.createObject(
+    binding.realm,
+    binding.engine.objectPrototype(binding.realm),
+  );
+  for (const method of CONSOLE_METHODS) {
+    binding.context.interfaceMethod(
+      consoleObject,
+      method,
+      0,
+      (_thisValue, argumentsList) => {
+        if (
+          method === "assert" &&
+          argumentsList[0] !== undefined &&
+          binding.engine.toBoolean(argumentsList[0])
+        ) {
+          return binding.context.undefined();
+        }
+        const values =
+          method === "assert" ? argumentsList.slice(1) : argumentsList;
+        reportWindowConsole(binding.window, {
+          method,
+          arguments: values.map((value) => binding.consoleText(value)),
+        });
+        return binding.context.undefined();
+      },
+    );
+  }
+  binding.context.interfaceProperty(
+    "console",
+    consoleObject,
+    binding.globalObject,
+  );
+}

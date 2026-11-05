@@ -47,4 +47,19 @@ describe("capability import boundaries", () => {
       }
     `);
   });
+
+  it("loads the package parser without the engine package", () => {
+    const entry = new URL("../src/dom-parser.ts", import.meta.url).href;
+
+    importWithoutEngine(`
+      const { DOMParser } = await import(${JSON.stringify(entry)});
+      const document = new DOMParser().parseFromString(
+        "<main>parser-only</main>",
+        "text/html",
+      );
+      if (document.querySelector("main")?.textContent !== "parser-only") {
+        throw new Error("parser-only entry point did not work");
+      }
+    `);
+  });
 });

@@ -271,6 +271,26 @@ describe("WindowRealmBinding", () => {
     expect(window.document.body?.getAttribute("data-timer")).toBe("complete");
   });
 
+  it("cancels Window timer callbacks through the host runtime", async () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const timer = setTimeout(function () {
+          document.body.setAttribute("data-timer", "unexpected");
+        }, 0);
+        clearTimeout(timer);
+      `,
+    );
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(window.document.body?.getAttribute("data-timer")).toBeNull();
+  });
+
   it("keeps separate Window realms isolated", () => {
     const engine = new Engine262Adapter();
     const firstWindow = createWindow();

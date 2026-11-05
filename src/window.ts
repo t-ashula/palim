@@ -87,6 +87,8 @@ interface WindowEnvironment {
   readonly consoleHandler: WindowConsoleHandler | null;
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
+  readonly timers: Map<number, unknown>;
+  nextTimerId: number;
 }
 
 const WINDOW_ENVIRONMENTS = new WeakMap<object, WindowEnvironment>();
@@ -110,6 +112,8 @@ class WindowPlatform extends EventTarget implements Window {
       consoleHandler: construction.options.consoleHandler ?? null,
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
+      timers: new Map<number, unknown>(),
+      nextTimerId: 1,
     };
     WINDOW_ENVIRONMENTS.set(this, environment);
     WINDOW_ENVIRONMENTS.set(proxy, environment);
@@ -188,6 +192,32 @@ export function reportWindowConsole(
   environment.consoleHandler?.(call);
 }
 
+export function scheduleWindowTimeout(
+  window: Window,
+  callback: () => void,
+  delay: number,
+): number {
+  const environment = windowEnvironment(window);
+  const id = environment.nextTimerId;
+  environment.nextTimerId += 1;
+  const handle = hostTimers().setTimeout(() => {
+    environment.timers.delete(id);
+    callback();
+  }, delay);
+  environment.timers.set(id, handle);
+  return id;
+}
+
+export function clearWindowTimeout(window: Window, id: number): void {
+  const environment = windowEnvironment(window);
+  const handle = environment.timers.get(id);
+  if (handle === undefined) {
+    return;
+  }
+  hostTimers().clearTimeout(handle);
+  environment.timers.delete(id);
+}
+
 function windowEnvironment(window: Window): WindowEnvironment {
   const environment = WINDOW_ENVIRONMENTS.get(window);
   if (environment === undefined) {
@@ -215,4 +245,15 @@ function flush<T>(pending: T[], handler: (value: T) => void): void {
   for (const value of values) {
     handler(value);
   }
+}
+
+function hostTimers(): {
+  setTimeout(callback: () => void, delay: number): unknown;
+  clearTimeout(handle: unknown): void;
+} {
+  const host: unknown = globalThis;
+  return host as {
+    setTimeout(callback: () => void, delay: number): unknown;
+    clearTimeout(handle: unknown): void;
+  };
 }

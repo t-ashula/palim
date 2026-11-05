@@ -8,7 +8,9 @@ import type {
   JavaScriptEngineAdapter,
 } from "../../src/javascript-engine/adapter.js";
 import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
+import { URLRealmBinding } from "../../src/javascript-engine/url-realm-binding.js";
 import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
+import { URL } from "../../src/url/index.js";
 import { createWindow } from "../../src/window.js";
 
 const fixtureDirectory = resolve(
@@ -91,5 +93,15 @@ describe("URLRealmBinding", () => {
       fixture("url-instance.js"),
     );
     expect(firstURL).not.toBe(secondURL);
+  });
+
+  it("keeps URL wrappers stable within one realm and separate across realms", () => {
+    const engine = new Engine262Adapter();
+    const first = new URLRealmBinding(engine, engine.createRealm());
+    const second = new URLRealmBinding(engine, engine.createRealm());
+    const url = new URL("https://example.com/path");
+
+    expect(first.platformObject(url)).toBe(first.platformObject(url));
+    expect(first.platformObject(url)).not.toBe(second.platformObject(url));
   });
 });
