@@ -38,6 +38,11 @@ import {
   HTMLTemplateElement,
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
+import {
+  DocumentImplementation,
+  documentImplementation,
+  nodeImplementation,
+} from "../dom/node-implementation.js";
 import { DOMException as HostDOMException } from "../dom-exception.js";
 import type { DOMParser } from "../dom-parser.js";
 import {
@@ -147,6 +152,42 @@ interface TraversalFilterArgument {
 
 type ParentNodeObject = Document | DocumentFragment | Element;
 type ChildNodeObject = DocumentType | Element | CharacterData;
+
+const documentRealmBindingsByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<DocumentImplementation, DOMRealmBindingContext>
+>();
+const sharedImplementationsByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<EngineObject, object>
+>();
+
+function documentRealmBindings(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<DocumentImplementation, DOMRealmBindingContext> {
+  const existing = documentRealmBindingsByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const bindings = new WeakMap<
+    DocumentImplementation,
+    DOMRealmBindingContext
+  >();
+  documentRealmBindingsByEngine.set(engine, bindings);
+  return bindings;
+}
+
+function sharedImplementations(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<EngineObject, object> {
+  const existing = sharedImplementationsByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const implementations = new WeakMap<EngineObject, object>();
+  sharedImplementationsByEngine.set(engine, implementations);
+  return implementations;
+}
 
 export class DOMRealmBindingContext {
   readonly engine: JavaScriptEngineAdapter;
@@ -403,6 +444,14 @@ export class DOMRealmBindingContext {
     installNodeIteratorMembers(this);
     installTreeWalkerMembers(this);
     installRangeMembers(this);
+
+    if (associatedDocument !== null) {
+      const implementation = documentImplementation(associatedDocument);
+      const bindings = documentRealmBindings(this.engine);
+      if (!bindings.has(implementation.relevantRealmDocument)) {
+        bindings.set(implementation.relevantRealmDocument, this);
+      }
+    }
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -425,16 +474,16 @@ export class DOMRealmBindingContext {
     const implementation = implementationFor(interfaceObject);
     this.platformObjects.set(implementation, platformObject);
     this.implementations.set(platformObject, implementation);
+    sharedImplementations(this.engine).set(platformObject, implementation);
   }
 
   associatePlatformObject(
     interfaceObject: object,
     platformObject: EngineObject,
   ): void {
-    this.implementations.set(
-      platformObject,
-      implementationFor(interfaceObject),
-    );
+    const implementation = implementationFor(interfaceObject);
+    this.implementations.set(platformObject, implementation);
+    sharedImplementations(this.engine).set(platformObject, implementation);
   }
 
   installInterface(
@@ -810,6 +859,17 @@ export class DOMRealmBindingContext {
   }
 
   wrap(interfaceObject: object): EngineObject {
+    const creationBinding = this.creationRealmBinding(interfaceObject);
+    if (creationBinding !== null && creationBinding !== this) {
+      return creationBinding.wrap(interfaceObject);
+    }
+    if (interfaceObject instanceof Document) {
+      const document = documentImplementation(interfaceObject);
+      const bindings = documentRealmBindings(this.engine);
+      if (!bindings.has(document.relevantRealmDocument)) {
+        bindings.set(document.relevantRealmDocument, this);
+      }
+    }
     const implementation = implementationFor(interfaceObject);
     const existing = this.platformObjects.get(implementation);
     if (existing !== undefined) {
@@ -866,7 +926,30 @@ export class DOMRealmBindingContext {
     this.platformObjects.set(implementation, platformObject);
     this.implementations.set(target, implementation);
     this.implementations.set(platformObject, implementation);
+    const implementations = sharedImplementations(this.engine);
+    implementations.set(target, implementation);
+    implementations.set(platformObject, implementation);
     return platformObject;
+  }
+
+  private creationRealmBinding(
+    interfaceObject: object,
+  ): DOMRealmBindingContext | null {
+    let document: DocumentImplementation | null = null;
+    if (interfaceObject instanceof Node) {
+      const implementation = nodeImplementation(interfaceObject);
+      document =
+        implementation instanceof DocumentImplementation
+          ? implementation
+          : implementation.creationDocument;
+    } else if (interfaceObject instanceof DOMImplementation) {
+      document = documentImplementation(interfaceObject.document);
+    }
+    return document === null
+      ? null
+      : (documentRealmBindings(this.engine).get(
+          document.relevantRealmDocument,
+        ) ?? null);
   }
 
   prototype(interfaceObject: object): EngineObject {
@@ -985,7 +1068,9 @@ export class DOMRealmBindingContext {
     if (object === null) {
       return null;
     }
-    const implementation = this.implementations.get(object);
+    const implementation =
+      this.implementations.get(object) ??
+      sharedImplementations(this.engine).get(object);
     return implementation === undefined ? null : interfaceFor(implementation);
   }
 

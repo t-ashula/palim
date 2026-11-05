@@ -177,6 +177,8 @@ export class DOMImplementation {
       contentType,
       source.elementFactory,
     );
+    documentImplementation(document).relevantRealmDocument =
+      source.relevantRealmDocument;
     if (doctype !== null) {
       if (!(doctype instanceof DocumentType)) {
         throw new TypeError("doctype must be a DocumentType");
@@ -199,6 +201,8 @@ export class DOMImplementation {
       "text/html",
       source.elementFactory,
     );
+    documentImplementation(document).relevantRealmDocument =
+      source.relevantRealmDocument;
     document.appendChild(createDocumentType(document, "html", "", ""));
     const html = document.createElement("html");
     const head = document.createElement("head");
@@ -2417,6 +2421,8 @@ function cloneSingleNode(node: Node, document: Document): Node {
       implementation.elementFactory,
     );
     const copyImplementation = documentImplementation(copy);
+    copyImplementation.relevantRealmDocument =
+      implementation.relevantRealmDocument;
     copyImplementation.url = new URL(implementation.url.href);
     copyImplementation.origin = implementation.origin;
     copyImplementation.aboutBaseURL =

@@ -47,6 +47,29 @@ function evaluate(
   }
 }
 
+function copyRealmGlobal(
+  engine: JavaScriptEngineAdapter,
+  sourceRealm: EngineRealm,
+  targetRealm: EngineRealm,
+  sourceName: string,
+  targetName: string,
+): void {
+  const value = engine.get(
+    sourceRealm,
+    engine.globalObject(sourceRealm),
+    sourceName,
+  );
+  if (value.type === "throw") {
+    throw new Error(engine.exceptionMessage(sourceRealm, value.value));
+  }
+  engine.defineDataProperty(
+    engine.globalObject(targetRealm),
+    targetName,
+    value.value,
+    { configurable: true, enumerable: true, writable: true },
+  );
+}
+
 describe("DOMRealmBinding", () => {
   it("converts DOM operation failures into realm DOMExceptions", () => {
     const { engine, realm } = createTestRealm('<main id="target"></main>');
@@ -493,7 +516,7 @@ describe("DOMRealmBinding", () => {
     );
   });
 
-  it("keeps platform object wrappers separate between realms", () => {
+  it("keeps a platform object wrapper in its first associated realm", () => {
     const document = new DOMParser().parseFromString(
       '<main id="target"></main>',
       "text/html",
@@ -509,14 +532,55 @@ describe("DOMRealmBinding", () => {
     evaluate(
       engine,
       firstRealm,
-      fixture("keeps-platform-object-wrappers-separate-between-realms-1.js"),
+      fixture("keeps-platform-object-wrapper-in-associated-realm-1.js"),
     );
     evaluate(
       engine,
       secondRealm,
-      fixture("keeps-platform-object-wrappers-separate-between-realms-2.js"),
+      fixture("keeps-platform-object-wrapper-in-associated-realm-2.js"),
     );
 
     expect(document.getElementById("second")?.localName).toBe("main");
+  });
+
+  it("preserves node creation realms across factories and adoption", () => {
+    const firstDocument = new DOMParser().parseFromString(
+      "<main><span id=never-wrapped></span></main>",
+      "text/html",
+    );
+    const secondDocument = new DOMParser().parseFromString("", "text/html");
+    const engine = new Engine262Adapter();
+    const firstRealm = engine.createRealm();
+    const secondRealm = engine.createRealm();
+    const firstBinding = new DOMRealmBinding(engine, firstRealm, firstDocument);
+    const secondBinding = new DOMRealmBinding(
+      engine,
+      secondRealm,
+      secondDocument,
+    );
+    firstBinding.expose("testDocument", firstDocument);
+    secondBinding.expose("testDocument", secondDocument);
+    secondBinding.expose("otherDocument", firstDocument);
+
+    const crossRealmNode = firstDocument.createElement("span");
+    const adoptedContainer = firstDocument.createElement("div");
+    const neverWrappedNode = firstDocument.getElementById("never-wrapped");
+    if (neverWrappedNode === null) {
+      throw new Error("missing never-wrapped node fixture");
+    }
+    secondDocument.adoptNode(neverWrappedNode);
+    secondBinding.expose("crossRealmNode", crossRealmNode);
+    secondBinding.expose("adoptedContainer", adoptedContainer);
+    secondBinding.expose("neverWrappedNode", neverWrappedNode);
+
+    for (const name of ["Comment", "HTMLElement"] as const) {
+      copyRealmGlobal(engine, firstRealm, secondRealm, name, `first${name}`);
+    }
+
+    evaluate(
+      engine,
+      secondRealm,
+      fixture("preserves-node-creation-realms-across-adoption.js"),
+    );
   });
 });

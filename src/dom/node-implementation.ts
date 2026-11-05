@@ -32,6 +32,7 @@ export class NodeImplementation extends EventTargetImplementation {
   descendantTextCache: string | null = null;
   childNodes: NodeList | null = null;
   elementChildren: HTMLCollection | null = null;
+  readonly creationDocument: DocumentImplementation | null;
 
   constructor(
     readonly nodeType: number,
@@ -39,10 +40,12 @@ export class NodeImplementation extends EventTargetImplementation {
     public ownerDocument: DocumentImplementation | null,
   ) {
     super();
+    this.creationDocument = ownerDocument;
   }
 }
 
 export class DocumentImplementation extends NodeImplementation {
+  relevantRealmDocument: DocumentImplementation;
   templateContentsOwnerDocument: Document | null = null;
   domImplementation: DOMImplementation | null = null;
   defaultView: Window | null = null;
@@ -66,6 +69,7 @@ export class DocumentImplementation extends NodeImplementation {
     readonly elementFactory: ElementFactory,
   ) {
     super(9, "#document", null);
+    this.relevantRealmDocument = this;
   }
 }
 

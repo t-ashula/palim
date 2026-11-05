@@ -5,6 +5,7 @@ import type {
   Node,
 } from "../dom.js";
 import type { FragmentParser } from "../dom/nodes.js";
+import { documentImplementation } from "../dom/node-implementation.js";
 import {
   appendCharacterData,
   appendNode,
@@ -373,6 +374,10 @@ class TreeBuilder {
               context.localName,
               context.namespaceURI,
             );
+    if (context instanceof Element && context.ownerDocument !== null) {
+      documentImplementation(this.document).relevantRealmDocument =
+        documentImplementation(context.ownerDocument).relevantRealmDocument;
+    }
     this.#tokenizer = new HTMLTokenizer(input, {
       initialState: this.#initialTokenizerState(),
     });
