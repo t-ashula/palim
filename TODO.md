@@ -8,7 +8,7 @@
 - [x] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
 - [x] `Node.isDefaultNamespace`
 - [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
-- [ ] `NamedNodeMap` mutation API と `NodeList` iterable API
+- [x] `NamedNodeMap` mutation API と `NodeList` iterable API
 - [ ] `Range.createContextualFragment`
 
 ### DOM algorithms

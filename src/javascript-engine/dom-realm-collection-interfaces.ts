@@ -76,6 +76,76 @@ export function installNamedNodeMapMembers(
         : binding.platformValue(attributes.item(Number(index.value) >>> 0));
     },
   );
+  for (const name of ["setNamedItem", "setNamedItemNS"] as const) {
+    binding.method(
+      binding.namedNodeMapPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const attributes = binding.namedNodeMap(thisValue);
+        if (attributes === null) {
+          return binding.typeError("Invalid NamedNodeMap receiver");
+        }
+        const argument = argumentsList[0];
+        const attribute =
+          argument === undefined ? null : binding.attr(argument);
+        if (attribute === null) {
+          return binding.typeError(`${name} requires an Attr argument`);
+        }
+        return binding.domOperationResult(() =>
+          binding.platformValue(attributes[name](attribute)),
+        );
+      },
+    );
+  }
+  binding.method(
+    binding.namedNodeMapPrototype,
+    "removeNamedItem",
+    1,
+    (thisValue, argumentsList) => {
+      const attributes = binding.namedNodeMap(thisValue);
+      if (attributes === null) {
+        return binding.typeError("Invalid NamedNodeMap receiver");
+      }
+      const name = binding.stringArgument(argumentsList, 0, "removeNamedItem");
+      return name.type === "throw"
+        ? name
+        : binding.domOperationResult(() =>
+            binding.platformValue(attributes.removeNamedItem(name.value)),
+          );
+    },
+  );
+  binding.method(
+    binding.namedNodeMapPrototype,
+    "removeNamedItemNS",
+    2,
+    (thisValue, argumentsList) => {
+      const attributes = binding.namedNodeMap(thisValue);
+      if (attributes === null) {
+        return binding.typeError("Invalid NamedNodeMap receiver");
+      }
+      const namespace = binding.nullableStringArgument(
+        argumentsList,
+        0,
+        "removeNamedItemNS",
+      );
+      if (namespace.type === "throw") {
+        return namespace;
+      }
+      const localName = binding.stringArgument(
+        argumentsList,
+        1,
+        "removeNamedItemNS",
+      );
+      return localName.type === "throw"
+        ? localName
+        : binding.domOperationResult(() =>
+            binding.platformValue(
+              attributes.removeNamedItemNS(namespace.value, localName.value),
+            ),
+          );
+    },
+  );
 }
 
 export function installNodeListMembers(binding: DOMRealmBindingContext): void {
@@ -100,10 +170,32 @@ export function installNodeListMembers(binding: DOMRealmBindingContext): void {
         : binding.platformValue(list.item(Number(index.value) >>> 0));
     },
   );
-  binding.installIterator(
+  const array = binding.engine.createArray(binding.realm, []);
+  for (const name of ["entries", "keys", "values", "forEach"] as const) {
+    const method = binding.engine.get(binding.realm, array, name);
+    if (method.type === "throw") {
+      throw new TypeError(
+        binding.engine.exceptionMessage(binding.realm, method.value),
+      );
+    }
+    binding.engine.defineDataProperty(
+      binding.nodeListPrototype,
+      name,
+      method.value,
+      DATA_PROPERTY,
+    );
+  }
+  const values = binding.engine.get(binding.realm, array, "values");
+  if (values.type === "throw") {
+    throw new TypeError(
+      binding.engine.exceptionMessage(binding.realm, values.value),
+    );
+  }
+  binding.engine.defineDataProperty(
     binding.nodeListPrototype,
-    (thisValue) => binding.nodeList(thisValue),
-    "NodeList",
+    binding.engine.wellKnownSymbol("iterator"),
+    values.value,
+    DATA_PROPERTY,
   );
   binding.engine.defineDataProperty(
     binding.nodeListPrototype,

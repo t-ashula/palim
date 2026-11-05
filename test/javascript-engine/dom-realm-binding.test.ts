@@ -1072,6 +1072,109 @@ describe("DOMRealmBinding", () => {
     ).toBeNull();
   });
 
+  it("binds NamedNodeMap mutation methods", () => {
+    const { engine, realm } = createTestRealm("<main></main>");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const element = testDocument.querySelector("main");
+        const attributes = element.attributes;
+        for (const [name, length] of [
+          ["setNamedItem", 1],
+          ["setNamedItemNS", 1],
+          ["removeNamedItem", 1],
+          ["removeNamedItemNS", 2],
+        ]) {
+          if (
+            typeof NamedNodeMap.prototype[name] !== "function" ||
+            NamedNodeMap.prototype[name].length !== length
+          ) {
+            throw new Error(name + " has an invalid descriptor");
+          }
+        }
+
+        const plain = testDocument.createAttribute("data-value");
+        plain.value = "plain";
+        if (attributes.setNamedItem(plain) !== null || attributes.dataValue) {
+          throw new Error("setNamedItem returned an invalid value");
+        }
+        if (attributes.removeNamedItem("data-value") !== plain) {
+          throw new Error("removeNamedItem returned an invalid value");
+        }
+
+        const namespaced = testDocument.createAttributeNS("urn:test", "p:value");
+        namespaced.value = "namespaced";
+        if (attributes.setNamedItemNS(namespaced) !== null) {
+          throw new Error("setNamedItemNS returned an invalid value");
+        }
+        if (attributes.removeNamedItemNS("urn:test", "value") !== namespaced) {
+          throw new Error("removeNamedItemNS returned an invalid value");
+        }
+
+        let exception;
+        try {
+          attributes.removeNamedItem("missing");
+        } catch (error) {
+          exception = error;
+        }
+        if (!(exception instanceof DOMException) || exception.name !== "NotFoundError") {
+          throw new Error("removeNamedItem did not throw NotFoundError");
+        }
+      `,
+    );
+  });
+
+  it("binds live NodeList iterable methods", () => {
+    const { engine, realm } = createTestRealm(
+      '<main><b id="first"></b></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const container = testDocument.querySelector("main");
+        const list = container.childNodes;
+        for (const name of ["entries", "keys", "values", "forEach"]) {
+          if (typeof NodeList.prototype[name] !== "function") {
+            throw new Error(name + " is not exposed");
+          }
+        }
+        if (NodeList.prototype[Symbol.iterator] !== NodeList.prototype.values) {
+          throw new Error("NodeList iterator is not values");
+        }
+
+        const iterator = list.values();
+        if (iterator.next().value.id !== "first") {
+          throw new Error("NodeList iterator returned an invalid first value");
+        }
+        const added = testDocument.createElement("b");
+        added.id = "second";
+        container.appendChild(added);
+        const next = iterator.next();
+        if (next.done || next.value !== added || !iterator.next().done) {
+          throw new Error("NodeList iterator is not live");
+        }
+
+        const visited = [];
+        list.forEach((node, index, receiver) => {
+          if (receiver !== list) {
+            throw new Error("NodeList forEach receiver is invalid");
+          }
+          visited.push(index + ":" + node.id);
+        });
+        if (visited.join("|") !== "0:first|1:second") {
+          throw new Error("NodeList forEach values are invalid: " + visited);
+        }
+        if (list.keys().next().value !== 0 || list.entries().next().value[1].id !== "first") {
+          throw new Error("NodeList keys or entries are invalid");
+        }
+      `,
+    );
+  });
+
   it("filters and deduplicates NamedNodeMap supported property names", () => {
     const { engine, realm } = createTestRealm("<main></main>");
 
