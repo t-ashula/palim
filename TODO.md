@@ -35,7 +35,8 @@
 - [x] `compareDocumentPosition`
 - [x] `isEqualNode` / `isSameNode`
 - [x] 実装済み Node メソッドの page realm binding
-- [ ] Node / ParentNode / Text の実装済み属性の page realm binding
+- [x] Node / Element / ProcessingInstruction の実装済み属性の page realm binding
+- [ ] `Text.wholeText` の実装と page realm binding
 
 ### Attributes and collections
 

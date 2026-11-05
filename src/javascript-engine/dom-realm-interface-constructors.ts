@@ -115,6 +115,10 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       return normal(binding.wrap(comment));
     },
   );
+  binding.installInterface(
+    "ProcessingInstruction",
+    binding.processingInstructionPrototype,
+  );
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);
   binding.installInterface("HTMLElement", binding.htmlElementPrototype);

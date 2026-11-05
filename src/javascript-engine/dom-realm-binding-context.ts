@@ -18,6 +18,7 @@ import {
   Node,
   NodeFilter,
   NodeList,
+  ProcessingInstruction,
   Text,
 } from "../dom.js";
 import type { NodeIterator, TreeWalker } from "../dom.js";
@@ -164,6 +165,7 @@ export class DOMRealmBindingContext {
   readonly characterDataPrototype: EngineObject;
   readonly textPrototype: EngineObject;
   readonly commentPrototype: EngineObject;
+  readonly processingInstructionPrototype: EngineObject;
   readonly attrPrototype: EngineObject;
   readonly elementPrototype: EngineObject;
   readonly foreignAnchorPrototype: EngineObject;
@@ -236,6 +238,10 @@ export class DOMRealmBindingContext {
       this.characterDataPrototype,
     );
     this.commentPrototype = this.engine.createObject(
+      this.realm,
+      this.characterDataPrototype,
+    );
+    this.processingInstructionPrototype = this.engine.createObject(
       this.realm,
       this.characterDataPrototype,
     );
@@ -890,6 +896,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof Comment) {
       return this.commentPrototype;
     }
+    if (interfaceObject instanceof ProcessingInstruction) {
+      return this.processingInstructionPrototype;
+    }
     if (interfaceObject instanceof CharacterData) {
       return this.characterDataPrototype;
     }
@@ -1001,6 +1010,13 @@ export class DOMRealmBindingContext {
   characterData(value: EngineValue): CharacterData | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof CharacterData ? interfaceObject : null;
+  }
+
+  processingInstruction(value: EngineValue): ProcessingInstruction | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof ProcessingInstruction
+      ? interfaceObject
+      : null;
   }
 
   attr(value: EngineValue): Attr | null {

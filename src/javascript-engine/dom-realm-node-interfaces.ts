@@ -21,6 +21,12 @@ export function installNodeMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Node receiver")
       : binding.platformValue(node.parentNode);
   });
+  binding.attribute(binding.nodePrototype, "parentElement", (thisValue) => {
+    const node = binding.node(thisValue);
+    return node === null
+      ? binding.typeError("Invalid Node receiver")
+      : binding.platformValue(node.parentElement);
+  });
   binding.attribute(binding.nodePrototype, "ownerDocument", (thisValue) => {
     const node = binding.node(thisValue);
     return node === null
@@ -481,6 +487,16 @@ export function installCharacterDataMembers(
           );
     },
   );
+  binding.attribute(
+    binding.processingInstructionPrototype,
+    "target",
+    (thisValue) => {
+      const instruction = binding.processingInstruction(thisValue);
+      return instruction === null
+        ? binding.typeError("Invalid ProcessingInstruction receiver")
+        : binding.primitive(instruction.target);
+    },
+  );
 }
 
 export function installAttrMembers(binding: DOMRealmBindingContext): void {
@@ -531,7 +547,7 @@ export function installAttrMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installElementMembers(binding: DOMRealmBindingContext): void {
-  for (const name of ["localName", "tagName"] as const) {
+  for (const name of ["prefix", "localName", "tagName"] as const) {
     binding.attribute(binding.elementPrototype, name, (thisValue) => {
       const element = binding.element(thisValue);
       return element === null
@@ -557,6 +573,24 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Element receiver")
       : normal(binding.wrap(element.children));
   });
+  for (const name of ["firstElementChild", "lastElementChild"] as const) {
+    binding.attribute(binding.elementPrototype, name, (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : binding.platformValue(element[name]);
+    });
+  }
+  binding.attribute(
+    binding.elementPrototype,
+    "childElementCount",
+    (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : binding.primitive(element.childElementCount);
+    },
+  );
   for (const name of [
     "previousElementSibling",
     "nextElementSibling",
