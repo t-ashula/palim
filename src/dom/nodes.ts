@@ -361,7 +361,7 @@ export class Node extends EventTarget {
     if (reference === node) {
       reference = node.nextSibling;
     }
-    ensurePreInsertionValidity(node, this, reference, child);
+    ensurePreInsertionValidity(node, this, reference, [child]);
     removeNode(child);
     insertNodes(node, this, reference);
     return child;
@@ -800,8 +800,16 @@ export class Document extends Node {
     return createRange(this);
   }
 
+  prepend(...nodes: (Node | string)[]): void {
+    prependNodes(this, nodes);
+  }
+
   append(...nodes: (Node | string)[]): void {
     appendNodes(this, nodes);
+  }
+
+  replaceChildren(...nodes: (Node | string)[]): void {
+    replaceChildrenWithNodes(this, nodes);
   }
 
   override get textContent(): null {
@@ -1196,6 +1204,18 @@ export class DocumentType extends Node {
     return null;
   }
 
+  before(...nodes: (Node | string)[]): void {
+    insertNodesBeforeChild(this, nodes);
+  }
+
+  after(...nodes: (Node | string)[]): void {
+    insertNodesAfterChild(this, nodes);
+  }
+
+  replaceWith(...nodes: (Node | string)[]): void {
+    replaceChildWithNodes(this, nodes);
+  }
+
   remove(): void {
     removeNode(this);
   }
@@ -1339,12 +1359,32 @@ export class Element extends Node {
     return implementation.classList;
   }
 
+  before(...nodes: (Node | string)[]): void {
+    insertNodesBeforeChild(this, nodes);
+  }
+
+  after(...nodes: (Node | string)[]): void {
+    insertNodesAfterChild(this, nodes);
+  }
+
+  replaceWith(...nodes: (Node | string)[]): void {
+    replaceChildWithNodes(this, nodes);
+  }
+
   remove(): void {
     removeNode(this);
   }
 
+  prepend(...nodes: (Node | string)[]): void {
+    prependNodes(this, nodes);
+  }
+
   append(...nodes: (Node | string)[]): void {
     appendNodes(this, nodes);
+  }
+
+  replaceChildren(...nodes: (Node | string)[]): void {
+    replaceChildrenWithNodes(this, nodes);
   }
 
   get innerHTML(): string {
@@ -1829,8 +1869,16 @@ export class DocumentFragment extends Node {
     return implementation.elementChildren;
   }
 
+  prepend(...nodes: (Node | string)[]): void {
+    prependNodes(this, nodes);
+  }
+
   append(...nodes: (Node | string)[]): void {
     appendNodes(this, nodes);
+  }
+
+  replaceChildren(...nodes: (Node | string)[]): void {
+    replaceChildrenWithNodes(this, nodes);
   }
 
   querySelector(selectors: string): Element | null {
@@ -1929,6 +1977,18 @@ export class CharacterData extends Node {
 
   get nextElementSibling(): Element | null {
     return nextElementSibling(this);
+  }
+
+  before(...nodes: (Node | string)[]): void {
+    insertNodesBeforeChild(this, nodes);
+  }
+
+  after(...nodes: (Node | string)[]): void {
+    insertNodesAfterChild(this, nodes);
+  }
+
+  replaceWith(...nodes: (Node | string)[]): void {
+    replaceChildWithNodes(this, nodes);
   }
 
   remove(): void {
@@ -2437,7 +2497,7 @@ function ensurePreInsertionValidity(
   node: Node,
   parent: Node,
   child: Node | null,
-  replacedChild: Node | null = null,
+  childrenToExclude: readonly Node[] = [],
 ): void {
   if (
     !(parent instanceof Document) &&
@@ -2480,7 +2540,7 @@ function ensurePreInsertionValidity(
     );
   }
   if (parent instanceof Document) {
-    validateDocumentInsertion(node, parent, child, replacedChild);
+    validateDocumentInsertion(node, parent, child, childrenToExclude);
   }
 }
 
@@ -2744,7 +2804,7 @@ function validateDocumentInsertion(
   node: Node,
   document: Document,
   child: Node | null,
-  replacedChild: Node | null,
+  childrenToExclude: readonly Node[],
 ): void {
   const inserted = insertionNodes(node);
   if (inserted.some((candidate) => candidate instanceof Text)) {
@@ -2755,7 +2815,8 @@ function validateDocumentInsertion(
   }
 
   const children = childNodes(document).filter(
-    (candidate) => candidate !== replacedChild && !inserted.includes(candidate),
+    (candidate) =>
+      !childrenToExclude.includes(candidate) && !inserted.includes(candidate),
   );
   const referenceIndex =
     child === null ? children.length : children.indexOf(child);
@@ -2832,26 +2893,140 @@ function appendNodes(
   parent: Document | DocumentFragment | Element,
   nodes: readonly (Node | string)[],
 ): void {
-  if (nodes.length === 0) {
+  const node = convertNodesIntoNode(nodes, parentNodeDocument(parent));
+  preInsert(node, parent, null);
+}
+
+function prependNodes(
+  parent: Document | DocumentFragment | Element,
+  nodes: readonly (Node | string)[],
+): void {
+  const node = convertNodesIntoNode(nodes, parentNodeDocument(parent));
+  preInsert(node, parent, parent.firstChild);
+}
+
+function replaceChildrenWithNodes(
+  parent: Document | DocumentFragment | Element,
+  nodes: readonly (Node | string)[],
+): void {
+  const node = convertNodesIntoNode(nodes, parentNodeDocument(parent));
+  ensurePreInsertionValidity(node, parent, null, childNodes(parent));
+  for (const child of childNodes(parent)) {
+    removeNode(child);
+  }
+  insertNodes(node, parent, null);
+}
+
+function insertNodesBeforeChild(
+  child: DocumentType | Element | CharacterData,
+  nodes: readonly (Node | string)[],
+): void {
+  const convertedNodes = convertNodeOrStringArguments(nodes);
+  const parent = child.parentNode;
+  if (parent === null) {
     return;
   }
-  const document = parent instanceof Document ? parent : parent.ownerDocument;
-  if (document === null) {
-    throw new TypeError("ParentNode has no node document");
+  let viablePreviousSibling = child.previousSibling;
+  while (
+    viablePreviousSibling !== null &&
+    convertedNodes.includes(viablePreviousSibling)
+  ) {
+    viablePreviousSibling = viablePreviousSibling.previousSibling;
   }
+  const node = convertNodesIntoNode(convertedNodes, childNodeDocument(child));
+  const reference =
+    viablePreviousSibling === null
+      ? parent.firstChild
+      : viablePreviousSibling.nextSibling;
+  preInsert(node, parent, reference);
+}
+
+function insertNodesAfterChild(
+  child: DocumentType | Element | CharacterData,
+  nodes: readonly (Node | string)[],
+): void {
+  const convertedNodes = convertNodeOrStringArguments(nodes);
+  const parent = child.parentNode;
+  if (parent === null) {
+    return;
+  }
+  const viableNextSibling = followingSiblingNotIn(child, convertedNodes);
+  const node = convertNodesIntoNode(convertedNodes, childNodeDocument(child));
+  preInsert(node, parent, viableNextSibling);
+}
+
+function replaceChildWithNodes(
+  child: DocumentType | Element | CharacterData,
+  nodes: readonly (Node | string)[],
+): void {
+  const convertedNodes = convertNodeOrStringArguments(nodes);
+  const parent = child.parentNode;
+  if (parent === null) {
+    return;
+  }
+  const viableNextSibling = followingSiblingNotIn(child, convertedNodes);
+  const node = convertNodesIntoNode(convertedNodes, childNodeDocument(child));
+  if (child.parentNode === parent) {
+    parent.replaceChild(node, child);
+  } else {
+    preInsert(node, parent, viableNextSibling);
+  }
+}
+
+function followingSiblingNotIn(
+  child: Node,
+  nodes: readonly (Node | string)[],
+): Node | null {
+  let sibling = child.nextSibling;
+  while (sibling !== null && nodes.includes(sibling)) {
+    sibling = sibling.nextSibling;
+  }
+  return sibling;
+}
+
+function convertNodesIntoNode(
+  nodes: readonly (Node | string)[],
+  document: Document,
+): Node {
   const converted = nodes.map((node) =>
     node instanceof Node ? node : createText(document, domString(node)),
   );
   const first = converted[0];
   if (converted.length === 1 && first !== undefined) {
-    parent.appendChild(first);
-    return;
+    return first;
   }
   const fragment = createDocumentFragment(document);
   for (const node of converted) {
     fragment.appendChild(node);
   }
-  parent.appendChild(fragment);
+  return fragment;
+}
+
+function convertNodeOrStringArguments(
+  nodes: readonly (Node | string)[],
+): (Node | string)[] {
+  return nodes.map((node) => (node instanceof Node ? node : domString(node)));
+}
+
+function parentNodeDocument(
+  parent: Document | DocumentFragment | Element,
+): Document {
+  if (parent instanceof Document) {
+    return parent;
+  }
+  if (parent.ownerDocument === null) {
+    throw new TypeError("ParentNode has no node document");
+  }
+  return parent.ownerDocument;
+}
+
+function childNodeDocument(
+  child: DocumentType | Element | CharacterData,
+): Document {
+  if (child.ownerDocument === null) {
+    throw new TypeError("ChildNode has no node document");
+  }
+  return child.ownerDocument;
 }
 
 function adopt(node: Node, document: Document): void {

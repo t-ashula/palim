@@ -1193,6 +1193,50 @@ describe("Node mutation", () => {
     expect(detached.documentElement).toBe(root);
   });
 
+  it("mutates ParentNode and ChildNode objects with nodes and strings", () => {
+    const document = parse("<main><a></a><b></b><c></c></main>");
+    const main = select(document, "main");
+    const first = select(document, "a");
+    const second = select(document, "b");
+    const third = select(document, "c");
+
+    second.before(third, second);
+    expect(Array.from(main.children)).toEqual([first, third, second]);
+    second.after(first, second);
+    expect(Array.from(main.children)).toEqual([third, first, second]);
+    second.replaceWith(first, "tail");
+    expect(Array.from(main.children)).toEqual([third, first]);
+    expect(main.textContent).toBe("tail");
+
+    main.prepend("head");
+    main.append("foot");
+    expect(main.textContent).toBe("headtailfoot");
+    main.replaceChildren(first, "replacement");
+    expect(Array.from(main.childNodes)).toEqual([first, main.lastChild]);
+    expect(main.textContent).toBe("replacement");
+    first.remove();
+    expect(main.children).toHaveLength(0);
+  });
+
+  it("validates and replaces all Document children", () => {
+    const document = new Document();
+    const doctype = document.implementation.createDocumentType("root", "", "");
+    const first = document.createElement("first");
+    const second = document.createElement("second");
+    document.appendChild(doctype);
+    document.appendChild(first);
+
+    document.replaceChildren(second);
+
+    expect(document.childNodes).toHaveLength(1);
+    expect(document.documentElement).toBe(second);
+    expect(doctype.parentNode).toBeNull();
+    expectDOMException(() => {
+      document.append(document.createElement("third"));
+    }, "HierarchyRequestError");
+    expect(document.documentElement).toBe(second);
+  });
+
   it("moves nodes with appendChild and updates live collections", () => {
     const document = parse(
       '<main><section id="first"><p></p></section><section id="second"></section></main>',

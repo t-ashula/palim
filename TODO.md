@@ -22,7 +22,7 @@
 
 - [x] `Node.normalize`
 - [x] `CharacterData` の `appendData` / `deleteData` / `insertData` / `replaceData` / `substringData`
-- [ ] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
+- [x] `ChildNode` / `ParentNode` の `before` / `after` / `replaceWith` / `remove` / `prepend` / `append` / `replaceChildren`
 - [ ] `Node.moveBefore` と atomic move
 - [ ] insertion steps / removing steps / post-connection steps
 
@@ -192,6 +192,7 @@
 - [ ] property descriptor の網羅
 - [ ] interface constructor / prototype / iterable の global 公開 set
 - [ ] 既存 DOM API の page realm binding 網羅
+- [ ] `Node.cloneNode` の page realm binding
 - [ ] branding check と `DOMException` name / code の整合
 
 ## 12. Standards compliance measurement

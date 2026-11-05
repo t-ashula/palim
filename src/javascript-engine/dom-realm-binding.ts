@@ -301,6 +301,9 @@ interface TraversalFilterArgument {
   readonly value: EngineValue | null;
 }
 
+type ParentNodeObject = Document | DocumentFragment | Element;
+type ChildNodeObject = DocumentType | Element | CharacterData;
+
 export class DOMRealmBinding {
   readonly #engine: JavaScriptEngineAdapter;
   readonly #realm: EngineRealm;
@@ -1313,6 +1316,11 @@ export class DOMRealmBinding {
         });
       },
     );
+    this.#installChildNodeMutationMembers(
+      this.#characterDataPrototype,
+      (value) => this.#characterData(value),
+      "CharacterData",
+    );
   }
 
   #installElementMembers(): void {
@@ -1698,30 +1706,15 @@ export class DOMRealmBinding {
             );
       },
     );
-    this.#method(this.#elementPrototype, "remove", 0, (thisValue) => {
-      const element = this.#element(thisValue);
-      if (element === null) {
-        return this.#typeError("Invalid Element receiver");
-      }
-      element.remove();
-      return this.#undefined();
-    });
-    this.#method(
+    this.#installParentNodeMutationMembers(
       this.#elementPrototype,
-      "append",
-      0,
-      (thisValue, argumentsList) => {
-        const element = this.#element(thisValue);
-        if (element === null) {
-          return this.#typeError("Invalid Element receiver");
-        }
-        const nodes = this.#parentNodeArguments(argumentsList);
-        if (nodes.type === "throw") {
-          return nodes;
-        }
-        element.append(...nodes.value);
-        return this.#undefined();
-      },
+      (value) => this.#element(value),
+      "Element",
+    );
+    this.#installChildNodeMutationMembers(
+      this.#elementPrototype,
+      (value) => this.#element(value),
+      "Element",
     );
   }
 
@@ -2108,22 +2101,10 @@ export class DOMRealmBinding {
       (thisValue, argumentsList) =>
         this.#createTraversal(thisValue, argumentsList, "walker"),
     );
-    this.#method(
+    this.#installParentNodeMutationMembers(
       this.#documentPrototype,
-      "append",
-      0,
-      (thisValue, argumentsList) => {
-        const document = this.#document(thisValue);
-        if (document === null) {
-          return this.#typeError("Invalid Document receiver");
-        }
-        const nodes = this.#parentNodeArguments(argumentsList);
-        if (nodes.type === "throw") {
-          return nodes;
-        }
-        document.append(...nodes.value);
-        return this.#undefined();
-      },
+      (value) => this.#document(value),
+      "Document",
     );
   }
 
@@ -2394,6 +2375,11 @@ export class DOMRealmBinding {
           : normal(this.#wrap(fragment.children));
       },
     );
+    this.#installParentNodeMutationMembers(
+      this.#documentFragmentPrototype,
+      (value) => this.#documentFragment(value),
+      "DocumentFragment",
+    );
   }
 
   #installDocumentTypeMembers(): void {
@@ -2405,7 +2391,68 @@ export class DOMRealmBinding {
           : this.#primitive(documentType[name]);
       });
     }
+    this.#installChildNodeMutationMembers(
+      this.#documentTypePrototype,
+      (value) => this.#documentType(value),
+      "DocumentType",
+    );
     this.#interfaceTag(this.#documentTypePrototype, "DocumentType");
+  }
+
+  #installParentNodeMutationMembers(
+    prototype: EngineObject,
+    receiver: (value: EngineValue) => ParentNodeObject | null,
+    interfaceName: string,
+  ): void {
+    for (const name of ["prepend", "append", "replaceChildren"] as const) {
+      this.#method(prototype, name, 0, (thisValue, argumentsList) => {
+        const parent = receiver(thisValue);
+        if (parent === null) {
+          return this.#typeError(`Invalid ${interfaceName} receiver`);
+        }
+        const nodes = this.#parentNodeArguments(argumentsList);
+        if (nodes.type === "throw") {
+          return nodes;
+        }
+        return this.#domOperationResult(() => {
+          parent[name](...nodes.value);
+          return this.#undefined();
+        });
+      });
+    }
+  }
+
+  #installChildNodeMutationMembers(
+    prototype: EngineObject,
+    receiver: (value: EngineValue) => ChildNodeObject | null,
+    interfaceName: string,
+  ): void {
+    for (const name of ["before", "after", "replaceWith"] as const) {
+      this.#method(prototype, name, 0, (thisValue, argumentsList) => {
+        const child = receiver(thisValue);
+        if (child === null) {
+          return this.#typeError(`Invalid ${interfaceName} receiver`);
+        }
+        const nodes = this.#parentNodeArguments(argumentsList);
+        if (nodes.type === "throw") {
+          return nodes;
+        }
+        return this.#domOperationResult(() => {
+          child[name](...nodes.value);
+          return this.#undefined();
+        });
+      });
+    }
+    this.#method(prototype, "remove", 0, (thisValue) => {
+      const child = receiver(thisValue);
+      if (child === null) {
+        return this.#typeError(`Invalid ${interfaceName} receiver`);
+      }
+      return this.#domOperationResult(() => {
+        child.remove();
+        return this.#undefined();
+      });
+    });
   }
 
   #installDOMImplementationMembers(): void {

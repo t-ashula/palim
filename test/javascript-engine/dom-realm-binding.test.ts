@@ -680,6 +680,59 @@ describe("DOMRealmBinding", () => {
     ).toBeNull();
   });
 
+  it("binds ParentNode and ChildNode mutation methods", () => {
+    const { document, engine, realm } = createTestRealm(
+      "<main><a></a><b></b><c></c></main>",
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        for (const [prototype, names] of [
+          [Document.prototype, ["prepend", "append", "replaceChildren"]],
+          [DocumentFragment.prototype, ["prepend", "append", "replaceChildren"]],
+          [Element.prototype, ["before", "after", "replaceWith", "remove", "prepend", "append", "replaceChildren"]],
+          [CharacterData.prototype, ["before", "after", "replaceWith", "remove"]],
+          [DocumentType.prototype, ["before", "after", "replaceWith", "remove"]],
+        ]) {
+          for (const name of names) {
+            if (typeof prototype[name] !== "function" || prototype[name].length !== 0) {
+              throw new Error(name + " has an invalid descriptor");
+            }
+          }
+        }
+
+        const main = testDocument.querySelector("main");
+        const first = main.children[0];
+        const second = main.children[1];
+        const third = main.children[2];
+        second.before(third, second);
+        second.after(first, second);
+        second.replaceWith(first, "tail");
+        main.prepend("head");
+        main.append("foot");
+        if (main.textContent !== "headtailfoot") {
+          throw new Error("ChildNode mutation order is invalid");
+        }
+        main.replaceChildren(first, "replacement");
+        first.remove();
+        if (main.textContent !== "replacement" || main.children.length !== 0) {
+          throw new Error("ParentNode replacement result is invalid");
+        }
+
+        const detached = testDocument.createElement("detached");
+        let converted = false;
+        detached.before({ toString() { converted = true; return "detached"; } });
+        if (!converted) {
+          throw new Error("detached ChildNode argument was not converted");
+        }
+      `,
+    );
+
+    expect(document.querySelector("main")?.textContent).toBe("replacement");
+  });
+
   it("exposes HTMLAnchorElement URL attributes in the engine realm", () => {
     const { engine, realm } = createTestRealm('<a id="target"></a>');
 
