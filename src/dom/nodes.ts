@@ -1744,6 +1744,26 @@ export class Element extends Node {
     return closestSelector(this, selectorArgument(selectors, arguments.length));
   }
 
+  hasAttributes(): boolean {
+    return attributeNodes(this).length !== 0;
+  }
+
+  insertAdjacentElement(where: string, element: Element): Element | null {
+    requireArguments(arguments.length, 2);
+    const position = domString(where);
+    if (!(element instanceof Element)) {
+      throw new TypeError("The argument is not an Element");
+    }
+    return insertAdjacent(this, position, element) as Element | null;
+  }
+
+  insertAdjacentText(where: string, data: string): void {
+    requireArguments(arguments.length, 2);
+    const position = domString(where);
+    const text = createText(this.#document(), domString(data));
+    insertAdjacent(this, position, text);
+  }
+
   getElementsByTagName(qualifiedName: string): HTMLCollection {
     return elementsByTagName(
       this,
@@ -3060,6 +3080,38 @@ function equalAttributes(node: Element, other: Element): boolean {
 
 function insertionNodes(node: Node): Node[] {
   return node instanceof DocumentFragment ? childNodes(node) : [node];
+}
+
+function insertAdjacent(
+  element: Element,
+  where: string,
+  node: Node,
+): Node | null {
+  switch (asciiLowercase(where)) {
+    case "beforebegin":
+      if (element.parentNode === null) {
+        return null;
+      }
+      preInsert(node, element.parentNode, element);
+      return node;
+    case "afterbegin":
+      preInsert(node, element, element.firstChild);
+      return node;
+    case "beforeend":
+      preInsert(node, element, null);
+      return node;
+    case "afterend":
+      if (element.parentNode === null) {
+        return null;
+      }
+      preInsert(node, element.parentNode, element.nextSibling);
+      return node;
+    default:
+      throw new DOMException(
+        `Invalid adjacent insertion position: ${where}`,
+        "SyntaxError",
+      );
+  }
 }
 
 function validateDocumentInsertion(

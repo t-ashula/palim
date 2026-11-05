@@ -1038,6 +1038,35 @@ describe("DOM tree lookup", () => {
 });
 
 describe("Element attributes", () => {
+  it("reports attributes and inserts adjacent nodes", () => {
+    const document = parse('<main><section id="target"></section></main>');
+    const main = select(document, "main");
+    const target = select(document, "#target");
+    const before = document.createElement("before");
+    const inside = document.createElement("inside");
+
+    expect(main.hasAttributes()).toBe(false);
+    expect(target.hasAttributes()).toBe(true);
+    expect(target.insertAdjacentElement("BEFOREBEGIN", before)).toBe(before);
+    target.insertAdjacentText("afterbegin", "start");
+    expect(target.insertAdjacentElement("beforeend", inside)).toBe(inside);
+    target.insertAdjacentText("afterend", "end");
+    expect(Array.from(main.childNodes)).toEqual([
+      before,
+      target,
+      target.nextSibling,
+    ]);
+    expect(target.firstChild?.textContent).toBe("start");
+    expect(target.lastChild).toBe(inside);
+
+    const detached = document.createElement("detached");
+    expect(detached.insertAdjacentElement("beforebegin", inside)).toBeNull();
+    expect(inside.parentNode).toBe(target);
+    expectDOMException(() => {
+      target.insertAdjacentText("invalid", "text");
+    }, "SyntaxError");
+  });
+
   it("reflects id and class attributes", () => {
     const element = select(
       parse('<main id="initial" class="first second"></main>'),

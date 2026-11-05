@@ -7,12 +7,13 @@
 - [x] `Document.importNode` / `adoptNode` と `DocumentFragment.getElementById`
 - [x] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
 - [x] `Node.isDefaultNamespace`
-- [ ] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
+- [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
 - [ ] `NamedNodeMap` mutation API と `NodeList` iterable API
 - [ ] `Range.createContextualFragment`
 
 ### DOM algorithms
 
+- [ ] relational pseudo-class `:has()` の `:scope` scoping
 - [ ] `DOMImplementation.createDocument` / `createHTMLDocument` / `createDocumentType` の document type、content type、realm、validation
 - [ ] hierarchy、not-found、invalid-character、namespace、selector syntax の失敗を仕様上の `DOMException` name / code へ変換する
 - [ ] adoption 前後の HTMLness と `nodeName` / `tagName`、`nodeValue` / `textContent` の境界条件

@@ -825,6 +825,67 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
   );
   binding.method(
     binding.elementPrototype,
+    "insertAdjacentElement",
+    2,
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const position = binding.stringArgument(
+        argumentsList,
+        0,
+        "insertAdjacentElement",
+      );
+      if (position.type === "throw") {
+        return position;
+      }
+      const insertedValue = argumentsList[1];
+      const inserted =
+        insertedValue === undefined ? null : binding.element(insertedValue);
+      if (inserted === null) {
+        return binding.typeError("insertAdjacentElement requires an Element");
+      }
+      return binding.domOperationResult(() =>
+        binding.platformValue(
+          element.insertAdjacentElement(position.value, inserted),
+        ),
+      );
+    },
+  );
+  binding.method(
+    binding.elementPrototype,
+    "insertAdjacentText",
+    2,
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const position = binding.stringArgument(
+        argumentsList,
+        0,
+        "insertAdjacentText",
+      );
+      if (position.type === "throw") {
+        return position;
+      }
+      const data = binding.stringArgument(
+        argumentsList,
+        1,
+        "insertAdjacentText",
+      );
+      if (data.type === "throw") {
+        return data;
+      }
+      return binding.domOperationResult(() => {
+        element.insertAdjacentText(position.value, data.value);
+        return binding.undefined();
+      });
+    },
+  );
+  binding.method(
+    binding.elementPrototype,
     "getAttribute",
     1,
     (thisValue, argumentsList) => {
@@ -1059,6 +1120,12 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
         : binding.primitive(element.hasAttribute(name.value));
     },
   );
+  binding.method(binding.elementPrototype, "hasAttributes", 0, (thisValue) => {
+    const element = binding.element(thisValue);
+    return element === null
+      ? binding.typeError("Invalid Element receiver")
+      : binding.primitive(element.hasAttributes());
+  });
   binding.method(
     binding.elementPrototype,
     "toggleAttribute",
@@ -1123,6 +1190,28 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
         : normal(binding.wrap(element.querySelectorAll(selectors.value)));
     },
   );
+  for (const name of ["matches", "closest"] as const) {
+    binding.method(
+      binding.elementPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const element = binding.element(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid Element receiver");
+        }
+        const selectors = binding.stringArgument(argumentsList, 0, name);
+        if (selectors.type === "throw") {
+          return selectors;
+        }
+        return binding.domOperationResult(() =>
+          name === "matches"
+            ? binding.primitive(element.matches(selectors.value))
+            : binding.platformValue(element.closest(selectors.value)),
+        );
+      },
+    );
+  }
   binding.method(
     binding.elementPrototype,
     "getElementsByTagName",
