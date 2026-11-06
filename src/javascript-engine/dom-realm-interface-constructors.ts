@@ -14,6 +14,7 @@ import { associateDOMParser, DOMParser } from "../dom-parser.js";
 import { createStaticRange } from "../dom/range-implementation.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";
 
 const DOM_EXCEPTION_CODES: Readonly<Record<string, number>> = {
   INDEX_SIZE_ERR: 1,
@@ -125,24 +126,12 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);
   binding.installInterface("HTMLElement", binding.htmlElementPrototype);
-  binding.installInterface(
-    "HTMLAnchorElement",
-    binding.htmlAnchorElementPrototype,
-  );
-  binding.installInterface("HTMLAreaElement", binding.htmlAreaElementPrototype);
-  binding.installInterface(
-    "HTMLIFrameElement",
-    binding.htmlIFrameElementPrototype,
-  );
-  binding.installInterface("HTMLLinkElement", binding.htmlLinkElementPrototype);
-  binding.installInterface(
-    "HTMLOutputElement",
-    binding.htmlOutputElementPrototype,
-  );
-  binding.installInterface(
-    "HTMLTemplateElement",
-    binding.htmlTemplateElementPrototype,
-  );
+  for (const interfaceConstructor of htmlElementInterfaceConstructors) {
+    binding.installInterface(
+      interfaceConstructor.name,
+      binding.htmlElementInterfacePrototype(interfaceConstructor),
+    );
+  }
   binding.installInterface("Document", binding.documentPrototype, 0, () =>
     normal(binding.wrap(new Document())),
   );

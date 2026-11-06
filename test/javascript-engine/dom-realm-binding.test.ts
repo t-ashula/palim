@@ -4,12 +4,14 @@ import { describe, expect, it } from "vitest";
 
 import { DOMParser } from "../../src/index.js";
 import type { Document } from "../../src/index.js";
+import * as HTML from "../../src/html-elements.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
 } from "../../src/javascript-engine/adapter.js";
 import { DOMRealmBinding } from "../../src/javascript-engine/dom-realm-binding.js";
 import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
+import { htmlElementInterfaceConstructors } from "../../src/javascript-engine/html-element-interface-constructors.js";
 
 interface TestRealm {
   readonly binding: DOMRealmBinding;
@@ -70,7 +72,37 @@ function copyRealmGlobal(
   );
 }
 
+function isConcreteHTMLElementInterface(
+  value: unknown,
+): value is typeof HTML.HTMLElement {
+  if (typeof value !== "function") {
+    return false;
+  }
+  const candidate = value as {
+    readonly name?: unknown;
+    readonly prototype?: unknown;
+  };
+  return (
+    typeof candidate.name === "string" &&
+    /^HTML.*Element$/u.test(candidate.name) &&
+    candidate.prototype instanceof HTML.HTMLElement
+  );
+}
+
 describe("DOMRealmBinding", () => {
+  it("exposes every HTML element interface in the engine realm", () => {
+    const concreteInterfaces = Object.values(HTML).filter(
+      isConcreteHTMLElementInterface,
+    );
+    expect(new Set(htmlElementInterfaceConstructors)).toEqual(
+      new Set(concreteInterfaces),
+    );
+
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("exposes-all-html-element-interfaces.js"));
+  });
+
   it("converts DOM operation failures into realm DOMExceptions", () => {
     const { engine, realm } = createTestRealm('<main id="target"></main>');
 

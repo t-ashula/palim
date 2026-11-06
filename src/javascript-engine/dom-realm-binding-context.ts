@@ -70,6 +70,10 @@ import {
   type DOMLegacyPlatformObjectConfiguration,
 } from "./dom-realm-legacy-platform-object.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
+import {
+  htmlElementInterfaceConstructors,
+  type HTMLElementInterfaceConstructor,
+} from "./html-element-interface-constructors.js";
 
 import {
   installInterfaces,
@@ -218,6 +222,10 @@ export class DOMRealmBindingContext {
   readonly elementPrototype: EngineObject;
   readonly foreignAnchorPrototype: EngineObject;
   readonly htmlElementPrototype: EngineObject;
+  readonly htmlElementInterfacePrototypes = new Map<
+    HTMLElementInterfaceConstructor,
+    EngineObject
+  >();
   readonly htmlAnchorElementPrototype: EngineObject;
   readonly htmlAreaElementPrototype: EngineObject;
   readonly htmlIFrameElementPrototype: EngineObject;
@@ -310,30 +318,36 @@ export class DOMRealmBindingContext {
       this.realm,
       this.elementPrototype,
     );
-    this.htmlAnchorElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
-    this.htmlAreaElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
-    this.htmlIFrameElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
-    this.htmlLinkElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
-    this.htmlOutputElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
-    this.htmlTemplateElementPrototype = this.engine.createObject(
-      this.realm,
-      this.htmlElementPrototype,
-    );
+    for (const interfaceConstructor of htmlElementInterfaceConstructors) {
+      const parentConstructor = Object.getPrototypeOf(
+        interfaceConstructor,
+      ) as HTMLElementInterfaceConstructor;
+      const parentPrototype =
+        parentConstructor === HTMLElement
+          ? this.htmlElementPrototype
+          : this.htmlElementInterfacePrototypes.get(parentConstructor);
+      if (parentPrototype === undefined) {
+        throw new TypeError(
+          `${interfaceConstructor.name} must be registered after ${parentConstructor.name}`,
+        );
+      }
+      this.htmlElementInterfacePrototypes.set(
+        interfaceConstructor,
+        this.engine.createObject(this.realm, parentPrototype),
+      );
+    }
+    this.htmlAnchorElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLAnchorElement);
+    this.htmlAreaElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLAreaElement);
+    this.htmlIFrameElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLIFrameElement);
+    this.htmlLinkElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLLinkElement);
+    this.htmlOutputElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLOutputElement);
+    this.htmlTemplateElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLTemplateElement);
     this.documentPrototype = this.engine.createObject(
       this.realm,
       this.nodePrototype,
@@ -507,6 +521,19 @@ export class DOMRealmBindingContext {
         : this.context.createConstructor(name, length, construct);
     this.context.installInterface(name, constructor, prototype);
     return constructor;
+  }
+
+  htmlElementInterfacePrototype(
+    interfaceConstructor: HTMLElementInterfaceConstructor,
+  ): EngineObject {
+    const prototype =
+      this.htmlElementInterfacePrototypes.get(interfaceConstructor);
+    if (prototype === undefined) {
+      throw new TypeError(
+        `${interfaceConstructor.name} is not registered in the realm`,
+      );
+    }
+    return prototype;
   }
 
   createTraversal(
@@ -993,26 +1020,12 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof Attr) {
       return this.attrPrototype;
     }
-    if (interfaceObject instanceof HTMLAnchorElement) {
-      return this.htmlAnchorElementPrototype;
-    }
-    if (interfaceObject instanceof HTMLAreaElement) {
-      return this.htmlAreaElementPrototype;
-    }
-    if (interfaceObject instanceof HTMLIFrameElement) {
-      return this.htmlIFrameElementPrototype;
-    }
-    if (interfaceObject instanceof HTMLLinkElement) {
-      return this.htmlLinkElementPrototype;
-    }
-    if (interfaceObject instanceof HTMLOutputElement) {
-      return this.htmlOutputElementPrototype;
-    }
-    if (interfaceObject instanceof HTMLTemplateElement) {
-      return this.htmlTemplateElementPrototype;
-    }
     if (interfaceObject instanceof HTMLElement) {
-      return this.htmlElementPrototype;
+      return (
+        this.htmlElementInterfacePrototypes.get(
+          interfaceObject.constructor as HTMLElementInterfaceConstructor,
+        ) ?? this.htmlElementPrototype
+      );
     }
     if (interfaceObject instanceof Element) {
       return this.isForeignAnchor(interfaceObject)
