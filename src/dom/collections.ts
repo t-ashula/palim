@@ -139,6 +139,15 @@ function indexedPropertyIndex(property: string | symbol): number | null {
     : null;
 }
 
+function toUnsignedLong(value: unknown): number {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number === 0) {
+    return 0;
+  }
+  const integer = Math.trunc(number);
+  return ((integer % 4_294_967_296) + 4_294_967_296) % 4_294_967_296;
+}
+
 export class NodeList<T extends Node = Node> implements Iterable<T> {
   readonly [index: number]: T | undefined;
 
@@ -159,7 +168,8 @@ export class NodeList<T extends Node = Node> implements Iterable<T> {
   }
 
   item(index: number): T | null {
-    return nodeListValues(this)[index] ?? null;
+    requireArguments(arguments.length, 1);
+    return nodeListValues(this)[toUnsignedLong(index)] ?? null;
   }
 
   [Symbol.iterator](): Iterator<T> {
@@ -192,7 +202,8 @@ export class HTMLCollection<
   }
 
   item(index: number): T | null {
-    return htmlCollectionValues(this)[index] ?? null;
+    requireArguments(arguments.length, 1);
+    return htmlCollectionValues(this)[toUnsignedLong(index)] ?? null;
   }
 
   namedItem(name: string): N | null {
@@ -256,7 +267,10 @@ export class NamedNodeMap implements Iterable<Attr> {
   }
 
   item(index: number): Attr | null {
-    return attributeNodes(namedNodeMapElement(this))[index] ?? null;
+    requireArguments(arguments.length, 1);
+    return (
+      attributeNodes(namedNodeMapElement(this))[toUnsignedLong(index)] ?? null
+    );
   }
 
   getNamedItem(qualifiedName: string): Attr | null {

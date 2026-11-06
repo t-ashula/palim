@@ -8,7 +8,7 @@
 - [x] live / static collection の index、length、tree order、および mutation 後の更新
 - [x] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
 - [x] `Attr.specified`、prefix / namespace、astral code point を含む name validation
-- [ ] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
+- [x] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
 - [ ] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
 - [ ] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
 - [ ] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
@@ -20,6 +20,7 @@
 - [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
 - [x] `DOMParser` が作る document の URL、origin、content type、scripting flag
 - [ ] `DOMParser` の HTML encoding sniffing と `meta charset` に基づく character encoding state
+- [ ] `Document.createCDATASection` の document type と `]]>` に対する例外優先順位
 - [ ] navigation document の transport / BOM / `meta` に基づく character encoding state
 - [ ] HTML tree builder の `style` raw text 終了後に続く sibling を構築する
 - [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization

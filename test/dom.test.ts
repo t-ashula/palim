@@ -62,6 +62,20 @@ describe("DOM interface binding", () => {
   });
 });
 
+describe("Node child access", () => {
+  it("reports child presence and converts collection item indexes", () => {
+    const document = parse("<main><span></span></main>");
+    const main = select(document, "main");
+    const text = document.createTextNode("text");
+
+    expect(main.hasChildNodes()).toBe(true);
+    expect(text.hasChildNodes()).toBe(false);
+    expect(main.children.item("not-a-number" as unknown as number)).toBe(
+      main.firstElementChild,
+    );
+  });
+});
+
 describe("EventTarget", () => {
   it("constructs custom events with detail", () => {
     const event = new CustomEvent("custom", {

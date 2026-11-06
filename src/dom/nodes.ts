@@ -284,6 +284,10 @@ export class Node extends EventTarget {
     }
   }
 
+  hasChildNodes(): boolean {
+    return childNodes(this).length > 0;
+  }
+
   get ownerDocument(): Document | null {
     const implementation = nodeImplementation(this).ownerDocument;
     return implementation === null ? null : documentInterface(implementation);
