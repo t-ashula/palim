@@ -1,4 +1,4 @@
-import { createDOMTokenList } from "../dom/token-list.js";
+import { foreignAnchorRelList } from "../dom/foreign-anchor.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -10,12 +10,7 @@ export function installForeignAnchorMembers(
     if (element === null) {
       return binding.typeError("Invalid foreign anchor receiver");
     }
-    let relList = binding.foreignAnchorRelLists.get(element);
-    if (relList === undefined) {
-      relList = createDOMTokenList(element, "rel");
-      binding.foreignAnchorRelLists.set(element, relList);
-    }
-    return normal(binding.wrap(relList));
+    return normal(binding.wrap(foreignAnchorRelList(element)));
   });
 }
 

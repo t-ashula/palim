@@ -12,23 +12,31 @@ import type { XMLMIMEType } from "./xml/parser.js";
 
 export type DOMParserSupportedType = "text/html" | XMLMIMEType;
 
+export function isDOMParserSupportedType(
+  value: string,
+): value is DOMParserSupportedType {
+  return (
+    value === "text/html" ||
+    value === "text/xml" ||
+    value === "application/xml" ||
+    value === "application/xhtml+xml" ||
+    value === "image/svg+xml"
+  );
+}
+
 const associatedDocuments = new WeakMap<DOMParser, Document>();
 
 export class DOMParser {
   parseFromString(input: string, type: DOMParserSupportedType): Document;
   parseFromString(input: string, type: string): Document {
     let document: Document;
+    if (!isDOMParserSupportedType(type)) {
+      throw new TypeError(`Unsupported type: ${type}`);
+    }
     if (type === "text/html") {
       document = parseHTML(input);
-    } else if (
-      type === "text/xml" ||
-      type === "application/xml" ||
-      type === "application/xhtml+xml" ||
-      type === "image/svg+xml"
-    ) {
-      document = parseXML(input, type);
     } else {
-      throw new TypeError(`Unsupported type: ${type}`);
+      document = parseXML(input, type);
     }
     finalizeDOMParserDocument(this, document);
     return document;

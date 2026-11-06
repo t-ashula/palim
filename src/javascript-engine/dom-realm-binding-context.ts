@@ -43,18 +43,25 @@ import {
   documentImplementation,
   nodeImplementation,
 } from "../dom/node-implementation.js";
-import { DOMException as HostDOMException } from "../dom-exception.js";
+import {
+  DOMException as HostDOMException,
+  domExceptionCode,
+} from "../dom-exception.js";
 import type { DOMParser } from "../dom-parser.js";
 import {
   htmlCollectionSupportedPropertyNames,
   namedNodeMapSupportedPropertyNames,
 } from "../dom/collections.js";
 import {
+  documentNamedItem,
+  documentNamedPropertyNames,
+} from "../dom/document-named-properties.js";
+import { isForeignAnchorElement } from "../dom/foreign-anchor.js";
+import {
   isNodeIterator,
   isTreeWalker,
   type NodeFilter as NodeFilterCallback,
 } from "../dom/traversal.js";
-import { MATHML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
 import { normal, thrown } from "./adapter.js";
 import type {
   EngineCallable,
@@ -114,34 +121,6 @@ const DATA_PROPERTY = {
   enumerable: true,
   writable: true,
 } as const;
-
-const DOM_EXCEPTION_NAME_CODES: Readonly<Record<string, number>> = {
-  IndexSizeError: 1,
-  DOMStringSizeError: 2,
-  HierarchyRequestError: 3,
-  WrongDocumentError: 4,
-  InvalidCharacterError: 5,
-  NoDataAllowedError: 6,
-  NoModificationAllowedError: 7,
-  NotFoundError: 8,
-  NotSupportedError: 9,
-  InUseAttributeError: 10,
-  InvalidStateError: 11,
-  SyntaxError: 12,
-  InvalidModificationError: 13,
-  NamespaceError: 14,
-  InvalidAccessError: 15,
-  ValidationError: 16,
-  TypeMismatchError: 17,
-  SecurityError: 18,
-  NetworkError: 19,
-  AbortError: 20,
-  URLMismatchError: 21,
-  QuotaExceededError: 22,
-  TimeoutError: 23,
-  InvalidNodeTypeError: 24,
-  DataCloneError: 25,
-};
 
 class EngineRealmException extends Error {
   constructor(readonly value: EngineValue) {
@@ -254,7 +233,6 @@ export class DOMRealmBindingContext {
   readonly domStringMapPrototype: EngineObject;
   readonly cssStyleDeclarationPrototype: EngineObject;
   readonly cssStylePropertiesPrototype: EngineObject;
-  readonly foreignAnchorRelLists = new WeakMap<Element, DOMTokenList>();
   readonly traversalFilters = new WeakMap<object, EngineValue>();
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
@@ -805,7 +783,7 @@ export class DOMRealmBindingContext {
       this.realm,
       this.domExceptionPrototype,
     );
-    const code = DOM_EXCEPTION_NAME_CODES[name] ?? 0;
+    const code = domExceptionCode(name);
     this.domExceptions.set(exception, { message, name, code });
     return exception;
   }
@@ -906,7 +884,15 @@ export class DOMRealmBindingContext {
     const prototype = this.prototype(interfaceObject);
     const target = this.engine.createObject(this.realm, prototype);
     let platformObject = target;
-    if (interfaceObject instanceof HTMLCollection) {
+    if (interfaceObject instanceof Document) {
+      platformObject = this.legacyPlatformObject(target, {
+        namedNames: () => documentNamedPropertyNames(interfaceObject),
+        namedValue: (name) => documentNamedItem(interfaceObject, name),
+        namedEnumerable: true,
+        namedIncludesIndices: true,
+        overrideBuiltins: true,
+      });
+    } else if (interfaceObject instanceof HTMLCollection) {
       const collection = interfaceObject as HTMLCollection<Element, Element>;
       platformObject = this.legacyPlatformObject(target, {
         indexedLength: () => collection.length,
@@ -1181,11 +1167,7 @@ export class DOMRealmBindingContext {
   }
 
   isForeignAnchor(element: Element): boolean {
-    return (
-      element.localName === "a" &&
-      (element.namespaceURI === SVG_NAMESPACE ||
-        element.namespaceURI === MATHML_NAMESPACE)
-    );
+    return isForeignAnchorElement(element);
   }
 
   document(value: EngineValue): Document | null {

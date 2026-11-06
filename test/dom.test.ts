@@ -24,6 +24,14 @@ import {
 } from "../src/index.js";
 import { setDocumentURL } from "../src/dom/nodes.js";
 import { documentImplementation } from "../src/dom/node-implementation.js";
+import {
+  documentNamedItem,
+  documentNamedPropertyNames,
+} from "../src/dom/document-named-properties.js";
+import {
+  foreignAnchorRelList,
+  isForeignAnchorElement,
+} from "../src/dom/foreign-anchor.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
@@ -59,6 +67,48 @@ describe("DOM interface binding", () => {
         object.constructor.name,
       ).toEqual([]);
     }
+  });
+});
+
+describe("Document named properties", () => {
+  it("computes supported names and live values outside a realm binding", () => {
+    const document = parse('<img id="first" name="target">');
+    const first = select(document, "#first");
+
+    expect(documentNamedPropertyNames(document)).toEqual(["first", "target"]);
+    expect(documentNamedItem(document, "target")).toBe(first);
+
+    const second = document.createElement("object");
+    second.setAttribute("name", "target");
+    document.body?.append(second);
+    const collection = documentNamedItem(document, "target");
+
+    expect(Array.from(collection as Iterable<Element>)).toEqual([
+      first,
+      second,
+    ]);
+    first.removeAttribute("name");
+    expect(Array.from(collection as Iterable<Element>)).toEqual([second]);
+    expect(documentNamedPropertyNames(document)).toEqual(["target"]);
+  });
+});
+
+describe("foreign anchor relList", () => {
+  it("owns the live DOMTokenList independently of a realm binding", () => {
+    const document = parse("");
+    const anchor = document.createElementNS("http://www.w3.org/2000/svg", "a");
+
+    expect(isForeignAnchorElement(anchor)).toBe(true);
+    const relList = foreignAnchorRelList(anchor);
+    relList.add("noopener");
+
+    expect(anchor.getAttribute("rel")).toBe("noopener");
+    expect(foreignAnchorRelList(anchor)).toBe(relList);
+    anchor.setAttribute("rel", "external");
+    expect(Array.from(relList)).toEqual(["external"]);
+    expect(() => foreignAnchorRelList(document.createElement("a"))).toThrow(
+      TypeError,
+    );
   });
 });
 

@@ -11,38 +11,11 @@ import {
   Text,
 } from "../dom.js";
 import { associateDOMParser, DOMParser } from "../dom-parser.js";
+import { DOM_EXCEPTION_CONSTANTS } from "../dom-exception.js";
 import { createStaticRange } from "../dom/range-implementation.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";
-
-const DOM_EXCEPTION_CODES: Readonly<Record<string, number>> = {
-  INDEX_SIZE_ERR: 1,
-  DOMSTRING_SIZE_ERR: 2,
-  HIERARCHY_REQUEST_ERR: 3,
-  WRONG_DOCUMENT_ERR: 4,
-  INVALID_CHARACTER_ERR: 5,
-  NO_DATA_ALLOWED_ERR: 6,
-  NO_MODIFICATION_ALLOWED_ERR: 7,
-  NOT_FOUND_ERR: 8,
-  NOT_SUPPORTED_ERR: 9,
-  INUSE_ATTRIBUTE_ERR: 10,
-  INVALID_STATE_ERR: 11,
-  SYNTAX_ERR: 12,
-  INVALID_MODIFICATION_ERR: 13,
-  NAMESPACE_ERR: 14,
-  INVALID_ACCESS_ERR: 15,
-  VALIDATION_ERR: 16,
-  TYPE_MISMATCH_ERR: 17,
-  SECURITY_ERR: 18,
-  NETWORK_ERR: 19,
-  ABORT_ERR: 20,
-  URL_MISMATCH_ERR: 21,
-  QUOTA_EXCEEDED_ERR: 22,
-  TIMEOUT_ERR: 23,
-  INVALID_NODE_TYPE_ERR: 24,
-  DATA_CLONE_ERR: 25,
-};
 
 export function installInterfaces(binding: DOMRealmBindingContext): void {
   binding.installInterface("EventTarget", binding.eventTargetPrototype, 0, () =>
@@ -307,7 +280,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
         : binding.primitive(exception[name]);
     });
   }
-  for (const [name, value] of Object.entries(DOM_EXCEPTION_CODES)) {
+  for (const [name, value] of Object.entries(DOM_EXCEPTION_CONSTANTS)) {
     for (const target of [
       domExceptionConstructor,
       binding.domExceptionPrototype,

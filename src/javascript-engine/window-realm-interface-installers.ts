@@ -45,20 +45,46 @@ export function installWindowInterface(
 }
 
 export function installWindowMembers(binding: WindowRealmBindingContext): void {
-  binding.attribute("window", () => binding.globalThis, false);
-  binding.attribute("self", () => binding.globalThis, true, true);
-  binding.attribute("frames", () => binding.globalThis, true, true);
+  binding.attribute(
+    "window",
+    () => binding.dom.platformObject(binding.window.window),
+    false,
+  );
+  binding.attribute(
+    "self",
+    () => binding.dom.platformObject(binding.window.self),
+    true,
+    true,
+  );
+  binding.attribute(
+    "frames",
+    () => binding.dom.platformObject(binding.window.frames),
+    true,
+    true,
+  );
   binding.attribute(
     "document",
     () => binding.dom.platformObject(binding.window.document),
     false,
   );
   binding.attribute("location", () => binding.locationObject, false);
-  binding.attribute("top", () => binding.globalThis, false);
-  binding.attribute("parent", () => binding.globalThis, true, true);
+  binding.attribute(
+    "top",
+    () => binding.dom.platformObject(binding.window.top),
+    false,
+  );
+  binding.attribute(
+    "parent",
+    () => binding.dom.platformObject(binding.window.parent),
+    true,
+    true,
+  );
   binding.attribute(
     "frameElement",
-    () => binding.engine.fromPrimitive(null),
+    () =>
+      binding.window.frameElement === null
+        ? binding.engine.fromPrimitive(null)
+        : binding.dom.platformObject(binding.window.frameElement),
     true,
   );
 }
@@ -83,7 +109,7 @@ export function installLocationMembers(
   for (const name of ["href", "pathname", "search", "hash"] as const) {
     binding.context.attribute(binding.locationPrototype, name, (thisValue) =>
       thisValue === binding.locationObject
-        ? normal(binding.engine.fromPrimitive(binding.locationURL()[name]))
+        ? normal(binding.engine.fromPrimitive(binding.window.location[name]))
         : binding.context.typeError("Invalid Location receiver"),
     );
   }
@@ -93,7 +119,9 @@ export function installLocationMembers(
     0,
     (thisValue) =>
       thisValue === binding.locationObject
-        ? normal(binding.engine.fromPrimitive(binding.locationURL().href))
+        ? normal(
+            binding.engine.fromPrimitive(binding.window.location.toString()),
+          )
         : binding.context.typeError("Invalid Location receiver"),
   );
 }

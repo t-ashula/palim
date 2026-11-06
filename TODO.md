@@ -45,6 +45,7 @@
 - [ ] canvas rendering context
 - [ ] iframe/object/embed の browsing context
 - [ ] iframe の独立 realm と cross-realm DOM object binding
+- [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
 - [ ] `getComputedStyle` / `getBoundingClientRect` と layout-dependent API

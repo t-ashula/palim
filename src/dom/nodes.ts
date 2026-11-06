@@ -573,6 +573,7 @@ function removeChildImplementation(
 }
 
 function invalidateDescendantText(node: NodeImplementation): void {
+  invalidateDocumentNamedProperties(node);
   let current: NodeImplementation | null = node;
   while (current !== null) {
     current.descendantTextCache = null;
@@ -1215,6 +1216,10 @@ function nodeDocumentImplementation(
   return node.ownerDocument;
 }
 
+function invalidateDocumentNamedProperties(node: NodeImplementation): void {
+  nodeDocumentImplementation(node).namedPropertyVersion += 1;
+}
+
 function fallbackBaseURL(document: DocumentImplementation): URL {
   if (
     (document.url.href === "about:blank" ||
@@ -1414,6 +1419,7 @@ export class Attr extends Node {
     const implementation = attrImplementation(this);
     implementation.value = value;
     if (implementation.ownerElement !== null) {
+      invalidateDocumentNamedProperties(implementation.ownerElement);
       respondToBaseHrefChange(implementation.ownerElement, implementation);
     }
   }
@@ -1975,6 +1981,7 @@ export function setAttributeNode(
   valueImplementation.ownerElement = implementation;
   if (oldAttribute === null) {
     implementation.attributes.push(valueImplementation);
+    invalidateDocumentNamedProperties(implementation);
     respondToBaseHrefChange(implementation, valueImplementation);
     return null;
   }
@@ -1982,6 +1989,7 @@ export function setAttributeNode(
   const index = implementation.attributes.indexOf(oldImplementation);
   implementation.attributes[index] = valueImplementation;
   oldImplementation.ownerElement = null;
+  invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, valueImplementation);
   return oldAttribute;
 }
@@ -2018,6 +2026,7 @@ export function removeAttributeNode(element: Element, attribute: Attr): void {
   }
   implementation.attributes.splice(index, 1);
   attributeImplementation.ownerElement = null;
+  invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, attributeImplementation);
 }
 

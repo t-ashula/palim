@@ -1,19 +1,7 @@
-import type { DOMParserSupportedType } from "../dom-parser.js";
+import { isDOMParserSupportedType } from "../dom-parser.js";
 import { XMLSerializer } from "../xml-serializer.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
-
-function isDOMParserSupportedType(
-  value: string,
-): value is DOMParserSupportedType {
-  return (
-    value === "text/html" ||
-    value === "text/xml" ||
-    value === "application/xml" ||
-    value === "application/xhtml+xml" ||
-    value === "image/svg+xml"
-  );
-}
 
 export function installDOMParserMembers(binding: DOMRealmBindingContext): void {
   binding.method(

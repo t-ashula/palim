@@ -47,6 +47,7 @@ export class NodeImplementation extends EventTargetImplementation {
 
 export class DocumentImplementation extends NodeImplementation {
   relevantRealmDocument: DocumentImplementation;
+  namedPropertyVersion = 0;
   encoding = "UTF-8";
   templateContentsOwnerDocument: Document | null = null;
   currentScript: Element | null = null;

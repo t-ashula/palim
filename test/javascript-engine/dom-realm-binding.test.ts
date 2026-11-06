@@ -90,6 +90,12 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("exposes live Document named properties", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("exposes-document-named-properties.js"));
+  });
+
   it("exposes every HTML element interface in the engine realm", () => {
     const concreteInterfaces = Object.values(HTML).filter(
       isConcreteHTMLElementInterface,

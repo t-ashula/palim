@@ -1,9 +1,8 @@
 import { Window } from "../window.js";
-import { URL } from "../url/index.js";
-import { createHTMLCollection } from "../dom/collections.js";
-import type { Document, Element } from "../dom.js";
-import { descendantElements } from "../dom/traversal.js";
-import { HTML_NAMESPACE } from "../namespaces.js";
+import {
+  windowNamedPropertyNames,
+  windowNamedPropertyValue,
+} from "../window-named-properties.js";
 import { normal } from "./adapter.js";
 import type {
   EngineHostFunction,
@@ -66,9 +65,8 @@ export class WindowRealmBindingContext {
       this.context,
       namedPropertiesTarget,
       {
-        namedNames: () => windowNamedPropertyNames(this.window.document),
-        namedValue: (name) =>
-          windowNamedPropertyValue(this.window.document, name),
+        namedNames: () => windowNamedPropertyNames(this.window),
+        namedValue: (name) => windowNamedPropertyValue(this.window, name),
         namedIncludesIndices: true,
         namedWritable: true,
       },
@@ -96,10 +94,6 @@ export class WindowRealmBindingContext {
     installLocationMembers(this);
     installTimers(this);
     installConsole(this);
-  }
-
-  locationURL(): URL {
-    return new URL(this.window.document.URL);
   }
 
   timerDelay(value: EngineValue | undefined): EngineResult<number> {
@@ -175,59 +169,4 @@ export class WindowRealmBindingContext {
     const interfaceObject = this.dom.interfaceObject(value);
     return interfaceObject instanceof Window ? interfaceObject : null;
   }
-}
-
-const WINDOW_NAMED_ELEMENT_LOCAL_NAMES = new Set([
-  "embed",
-  "form",
-  "img",
-  "object",
-]);
-
-function windowNamedPropertyNames(document: Document): string[] {
-  const names: string[] = [];
-  for (const element of descendantElements(document)) {
-    const id = element.getAttributeNS(null, "id");
-    if (id !== null && id !== "" && !names.includes(id)) {
-      names.push(id);
-    }
-    if (!isWindowNamedElement(element)) {
-      continue;
-    }
-    const name = element.getAttributeNS(null, "name");
-    if (name !== null && name !== "" && !names.includes(name)) {
-      names.push(name);
-    }
-  }
-  return names;
-}
-
-function windowNamedPropertyValue(
-  document: Document,
-  name: string,
-): object | undefined {
-  const elements = windowNamedElements(document, name);
-  if (elements.length === 0) {
-    return undefined;
-  }
-  if (elements.length === 1) {
-    return elements[0];
-  }
-  return createHTMLCollection(() => windowNamedElements(document, name));
-}
-
-function windowNamedElements(document: Document, name: string): Element[] {
-  return descendantElements(document).filter(
-    (element) =>
-      element.getAttributeNS(null, "id") === name ||
-      (isWindowNamedElement(element) &&
-        element.getAttributeNS(null, "name") === name),
-  );
-}
-
-function isWindowNamedElement(element: Element): boolean {
-  return (
-    element.namespaceURI === HTML_NAMESPACE &&
-    WINDOW_NAMED_ELEMENT_LOCAL_NAMES.has(element.localName)
-  );
 }

@@ -49,11 +49,20 @@ export interface WindowConsoleCall {
 export type WindowErrorHandler = (report: WindowErrorReport) => void;
 export type WindowConsoleHandler = (call: WindowConsoleCall) => void;
 
+export interface Location {
+  readonly href: string;
+  readonly pathname: string;
+  readonly search: string;
+  readonly hash: string;
+  toString(): string;
+}
+
 export interface Window extends EventTarget {
   readonly window: Window;
   readonly self: Window;
   readonly frames: Window;
   readonly document: Document;
+  readonly location: Location;
   readonly top: Window;
   readonly parent: Window;
   readonly frameElement: Element | null;
@@ -84,6 +93,7 @@ class BrowsingContext {
 
 interface WindowEnvironment {
   readonly browsingContext: BrowsingContext;
+  readonly location: Location;
   readonly consoleHandler: WindowConsoleHandler | null;
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
@@ -109,6 +119,7 @@ class WindowPlatform extends EventTarget implements Window {
     implementation.origin = originFromURL(url);
     const environment = {
       browsingContext: new BrowsingContext(this, proxy, document, url),
+      location: new LocationPlatform(proxy),
       consoleHandler: construction.options.consoleHandler ?? null,
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
@@ -137,6 +148,10 @@ class WindowPlatform extends EventTarget implements Window {
     return windowEnvironment(this).browsingContext.activeDocument;
   }
 
+  get location(): Location {
+    return windowEnvironment(this).location;
+  }
+
   get top(): Window {
     return windowEnvironment(this).browsingContext.top.windowProxy;
   }
@@ -158,6 +173,38 @@ class WindowPlatform extends EventTarget implements Window {
     return () => {
       environment.errorHandlers.delete(handler);
     };
+  }
+}
+
+class LocationPlatform implements Location {
+  readonly #window: Window;
+
+  constructor(window: Window) {
+    this.#window = window;
+  }
+
+  get href(): string {
+    return this.url().href;
+  }
+
+  get pathname(): string {
+    return this.url().pathname;
+  }
+
+  get search(): string {
+    return this.url().search;
+  }
+
+  get hash(): string {
+    return this.url().hash;
+  }
+
+  toString(): string {
+    return this.href;
+  }
+
+  private url(): URL {
+    return new URL(this.#window.document.URL);
   }
 }
 
