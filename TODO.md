@@ -5,7 +5,7 @@
 ### DOM algorithms
 
 - [x] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
-- [ ] live / static collection の index、length、tree order、および mutation 後の更新
+- [x] live / static collection の index、length、tree order、および mutation 後の更新
 - [ ] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
 - [ ] `Attr.specified`、prefix / namespace、astral code point を含む name validation
 - [ ] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
@@ -161,6 +161,7 @@
 
 ## Web IDL bindings
 
+- [ ] `NodeList` の `keys` / `values` / `entries` / `forEach` と iterator identity
 - [ ] argument conversion の網羅
 - [ ] 例外変換の網羅
 - [ ] property descriptor の網羅
