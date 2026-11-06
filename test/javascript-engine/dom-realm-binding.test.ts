@@ -212,6 +212,20 @@ describe("DOMRealmBinding", () => {
     expect(document.querySelector("main")?.getAttribute("title")).toBe("7");
   });
 
+  it("binds HTMLElement.innerText in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<main id="target">before <span>child</span></main>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      fixture("binds-html-element-innertext-in-the-engine-realm.js"),
+    );
+
+    expect(document.getElementById("target")?.textContent).toBe("after");
+  });
+
   it("exposes markup getters and setters in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<main><p id="first">old</p><p id="second">old</p></main>',

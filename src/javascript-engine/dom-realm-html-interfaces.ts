@@ -77,6 +77,28 @@ export function installHTMLElementMembers(
       return binding.undefined();
     },
   );
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "innerText",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.innerText);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "innerText");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.innerText = value.value;
+      return binding.undefined();
+    },
+  );
 }
 
 export function installHTMLAnchorElementMembers(
