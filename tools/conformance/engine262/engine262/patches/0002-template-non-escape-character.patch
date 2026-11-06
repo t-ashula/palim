@@ -1,0 +1,54 @@
+diff --git a/src/static-semantics/TemplateStrings.mts b/src/static-semantics/TemplateStrings.mts
+index b74aba7..48901b2 100644
+--- a/src/static-semantics/TemplateStrings.mts
++++ b/src/static-semantics/TemplateStrings.mts
+@@ -85,6 +85,10 @@ export function TV(s: string) {
+         default:
+-          if (isLineTerminator(s)) {
+-            return '';
++          if (isLineTerminator(s[i])) {
++            break;
+           }
+-          return undefined;
++          if (isDecimalDigit(s[i])) {
++            return undefined;
++          }
++          buffer += s[i];
++          break;
+       }
+diff --git a/test/engine262/template-literal.test.mts b/test/engine262/template-literal.test.mts
+new file mode 100644
+index 0000000..8bbfa53
+--- /dev/null
++++ b/test/engine262/template-literal.test.mts
+@@ -0,0 +1,30 @@
++import { execFile } from 'node:child_process';
++import { fileURLToPath } from 'node:url';
++import { expect, test } from 'vitest';
++
++const bin = fileURLToPath(new URL('../../lib-src/node/bin.mts', import.meta.url));
++
++function runCli(source: string) {
++  return new Promise<{ code: number | null, stdout: string, stderr: string }>((resolve) => {
++    execFile(process.execPath, [bin, '-e', source], (error, stdout, stderr) => {
++      resolve({
++        code: error && 'code' in error ? error.code as number | null : 0,
++        stdout,
++        stderr,
++      });
++    });
++  });
++}
++
++test('template literal accepts a non-escape character', async () => {
++  const result = await runCli('print(`<\\/script>`)');
++  expect(result.code).toBe(0);
++  expect(result.stdout).toBe('</script>\n');
++  expect(result.stderr).toBe('');
++});
++
++test('template literal rejects a decimal escape', async () => {
++  const result = await runCli('`\\8`;');
++  expect(result.code).toBe(1);
++  expect(result.stderr).toContain('SyntaxError: Invalid template escape');
++});
