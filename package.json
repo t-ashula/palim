@@ -32,7 +32,6 @@
     "test": "vitest run --project project",
     "test:watch": "vitest --project project",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "wpt:dom-shell": "node --import tsx tools/wpt-dom-shell/run.ts",
     "wpt:test": "sh tools/wpt/run.sh",
     "wpt:test:full": "sh tools/wpt/run.sh --full"
   },

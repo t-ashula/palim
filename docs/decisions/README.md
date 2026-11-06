@@ -44,3 +44,4 @@
 - [ADR-0041: Web IDL realm binding の実装境界と分割](./0041-web-idl-realm-binding-boundary.md)
 - [ADR-0042: engine262 の固定 revision とローカルパッチ管理](./0042-engine262-local-patch-management.md)
 - [ADR-0043: WPT DOM shell profile による適合度計測](./0043-wpt-dom-shell-profile.md)
+- [ADR-0044: WPT DOM shell profile の廃止](./0044-remove-wpt-dom-shell-profile.md)
