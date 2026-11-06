@@ -140,6 +140,39 @@ describe("parser-inserted classic scripts", () => {
     );
   });
 
+  it("exposes the external classic script as document.currentScript", async () => {
+    const environment = new WindowExecutionEnvironment({
+      url: "https://example.test/page.html",
+      resourceLoader: {
+        load() {
+          return Promise.resolve({
+            body: Buffer.from(fixture("records-current-script-dataset.js")),
+          });
+        },
+      },
+    });
+
+    const document = await environment.loadHTML(
+      '<body><script src="current.js" data-run-type="url"></script></body>',
+    );
+
+    expect(document.body?.getAttribute("data-run-type")).toBe("url");
+    expect(document.currentScript).toBeNull();
+  });
+
+  it("restores document.currentScript after reentrant script execution", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      `<body><script id="outer">${fixture("records-nested-current-script.js")}</script></body>`,
+    );
+
+    expect(document.body?.getAttribute("data-current-script-order")).toBe(
+      "outer,inner,outer",
+    );
+    expect(document.currentScript).toBeNull();
+  });
+
   it("records external load failures and skips unsupported script categories", async () => {
     const environment = new WindowExecutionEnvironment({
       url: "https://example.test/page.html",

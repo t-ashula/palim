@@ -237,24 +237,33 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
     sourceURL: string,
   ): void {
     const script = this.createClassicScript(sourceText, sourceURL);
-    const result = this.runClassicScript(script);
-    this.scriptResults.push({
-      type: "execution",
-      element,
-      url: sourceURL,
-      script,
-      result,
-    });
-    if (result.type === "throw") {
-      const stack = exceptionStack(this, result.value);
-      reportWindowError(this.window, {
-        message: this.engine.exceptionMessage(
-          this.settings.realm,
-          result.value,
-        ),
+    const implementation = documentImplementation(
+      element.ownerDocument ?? this.window.document,
+    );
+    const previousCurrentScript = implementation.currentScript;
+    implementation.currentScript = element;
+    try {
+      const result = this.runClassicScript(script);
+      this.scriptResults.push({
+        type: "execution",
+        element,
         url: sourceURL,
-        ...(stack === undefined ? {} : { stack }),
+        script,
+        result,
       });
+      if (result.type === "throw") {
+        const stack = exceptionStack(this, result.value);
+        reportWindowError(this.window, {
+          message: this.engine.exceptionMessage(
+            this.settings.realm,
+            result.value,
+          ),
+          url: sourceURL,
+          ...(stack === undefined ? {} : { stack }),
+        });
+      }
+    } finally {
+      implementation.currentScript = previousCurrentScript;
     }
   }
 

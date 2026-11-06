@@ -141,7 +141,7 @@
 - [ ] classic script / module script
 - [ ] external script loading
 - [ ] parser-blocking script
-- [ ] `document.currentScript`
+- [x] `document.currentScript`
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
 - [x] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
 - [x] escaped `</script>` を含む template literal を `Invalid template escape` としない

@@ -1333,6 +1333,12 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Document receiver")
       : binding.platformValue(document.defaultView);
   });
+  binding.attribute(binding.documentPrototype, "currentScript", (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : binding.platformValue(document.currentScript);
+  });
   for (const name of ["head", "body"] as const) {
     binding.attribute(binding.documentPrototype, name, (thisValue) => {
       const document = binding.document(thisValue);

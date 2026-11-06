@@ -48,6 +48,7 @@ export class NodeImplementation extends EventTargetImplementation {
 export class DocumentImplementation extends NodeImplementation {
   relevantRealmDocument: DocumentImplementation;
   templateContentsOwnerDocument: Document | null = null;
+  currentScript: Element | null = null;
   domImplementation: DOMImplementation | null = null;
   defaultView: Window | null = null;
   url = new URL("about:blank");

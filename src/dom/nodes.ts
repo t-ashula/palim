@@ -708,6 +708,10 @@ export class Document extends Node {
     );
   }
 
+  get currentScript(): Element | null {
+    return documentImplementation(this).currentScript;
+  }
+
   get head(): Element | null {
     return (
       (this.documentElement === null
