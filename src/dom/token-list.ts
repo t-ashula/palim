@@ -12,14 +12,16 @@ export class DOMTokenList implements Iterable<string> {
     }
     bindDOMInterface(this, implementation);
     const proxy = new Proxy(this, {
-      get(target, property): unknown {
+      get(target, property, receiver): unknown {
         if (typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)) {
           return tokenValues(target)[Number(property)];
         }
-        const value: unknown = Reflect.get(target, property, target);
-        return typeof value === "function"
-          ? (value as (...arguments_: unknown[]) => unknown).bind(target)
-          : value;
+        return Reflect.get(target, property, receiver);
+      },
+      has(target, property): boolean {
+        return typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)
+          ? Number(property) < tokenValues(target).length
+          : Reflect.has(target, property);
       },
     });
     bindDOMInterface(proxy, implementation);
@@ -152,6 +154,27 @@ export class DOMTokenList implements Iterable<string> {
     return this.value;
   }
 }
+
+Object.defineProperties(DOMTokenList.prototype, {
+  entries: {
+    configurable: true,
+    writable: true,
+    value: Array.prototype.entries,
+  },
+  forEach: {
+    configurable: true,
+    writable: true,
+    value: Array.prototype.forEach,
+  },
+  keys: { configurable: true, writable: true, value: Array.prototype.keys },
+  values: { configurable: true, writable: true, value: Array.prototype.values },
+  [Symbol.iterator]: {
+    configurable: true,
+    writable: true,
+    value: Array.prototype[Symbol.iterator],
+  },
+  [Symbol.toStringTag]: { configurable: true, value: "DOMTokenList" },
+});
 
 class DOMTokenListImplementation {
   readonly supportedTokens: ReadonlySet<string> | null;

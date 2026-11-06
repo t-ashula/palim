@@ -6,7 +6,7 @@
 
 - [x] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
 - [x] live / static collection の index、length、tree order、および mutation 後の更新
-- [ ] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
+- [x] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
 - [ ] `Attr.specified`、prefix / namespace、astral code point を含む name validation
 - [ ] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
 - [ ] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness

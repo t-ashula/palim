@@ -1117,6 +1117,54 @@ describe("DOM tree lookup", () => {
     expect(document.getElementsByClassName(" ").length).toBe(0);
   });
 
+  it("exposes the DOMTokenList stringifier and iterable surface", () => {
+    const list = select(
+      parse('<main class="  alpha alpha beta "></main>'),
+      "main",
+    ).classList;
+    const callbacks: [string, number, object][] = [];
+    const descriptorValue = (
+      object: object,
+      property: PropertyKey,
+    ): unknown => {
+      const descriptor = Object.getOwnPropertyDescriptor(object, property);
+      if (descriptor === undefined) {
+        throw new Error(`missing property descriptor: ${String(property)}`);
+      }
+      return descriptor.value as unknown;
+    };
+    const listPrototype = Object.getPrototypeOf(list) as object;
+
+    expect(String(list)).toBe("  alpha alpha beta ");
+    expect(Object.prototype.toString.call(list)).toBe("[object DOMTokenList]");
+    expect(descriptorValue(listPrototype, Symbol.iterator)).toBe(
+      descriptorValue(Array.prototype, Symbol.iterator),
+    );
+    expect(descriptorValue(listPrototype, "keys")).toBe(
+      descriptorValue(Array.prototype, "keys"),
+    );
+    expect(descriptorValue(listPrototype, "values")).toBe(
+      descriptorValue(Array.prototype, "values"),
+    );
+    expect(descriptorValue(listPrototype, "entries")).toBe(
+      descriptorValue(Array.prototype, "entries"),
+    );
+    expect(descriptorValue(listPrototype, "forEach")).toBe(
+      descriptorValue(Array.prototype, "forEach"),
+    );
+    list.forEach((value, key, parent) => {
+      callbacks.push([value, key, parent]);
+    });
+    expect(callbacks).toEqual([
+      ["alpha", 0, list],
+      ["beta", 1, list],
+    ]);
+
+    list.value = " gamma delta gamma ";
+    expect(list.value).toBe(" gamma delta gamma ");
+    expect([...list]).toEqual(["gamma", "delta"]);
+  });
+
   it("uses document mode for class name comparison", () => {
     const quirks = parse('<main><p class="Mixed"></p></main>');
     const standards = parse(
