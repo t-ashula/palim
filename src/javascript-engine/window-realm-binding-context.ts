@@ -1,5 +1,9 @@
 import { Window } from "../window.js";
 import { URL } from "../url/index.js";
+import { createHTMLCollection } from "../dom/collections.js";
+import type { Document, Element } from "../dom.js";
+import { descendantElements } from "../dom/traversal.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
 import { normal } from "./adapter.js";
 import type {
   EngineHostFunction,
@@ -10,6 +14,7 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import { DOMRealmBinding } from "./dom-realm-binding.js";
+import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
 import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
@@ -29,6 +34,7 @@ export class WindowRealmBindingContext {
   readonly window: Window;
   readonly globalObject: EngineObject;
   readonly globalThis: EngineObject;
+  readonly namedPropertiesObject: EngineObject;
   readonly windowPrototype: EngineObject;
   readonly locationPrototype: EngineObject;
   readonly locationObject: EngineObject;
@@ -52,9 +58,25 @@ export class WindowRealmBindingContext {
     this.url = new URLRealmBinding(this.engine, this.realm);
     this.formData = new FormDataRealmBindingContext(this.context);
     installFormDataInterface(this.context, this.formData);
-    this.windowPrototype = this.engine.createObject(
+    const namedPropertiesTarget = this.engine.createObject(
       this.realm,
       this.dom.eventTargetPrototype,
+    );
+    this.namedPropertiesObject = createDOMLegacyPlatformObject(
+      this.context,
+      namedPropertiesTarget,
+      {
+        namedNames: () => windowNamedPropertyNames(this.window.document),
+        namedValue: (name) =>
+          windowNamedPropertyValue(this.window.document, name),
+        namedIncludesIndices: true,
+        namedWritable: true,
+      },
+      (value) => this.dom.platformObject(value),
+    );
+    this.windowPrototype = this.engine.createObject(
+      this.realm,
+      this.namedPropertiesObject,
     );
     this.locationPrototype = this.engine.createObject(
       this.realm,
@@ -153,4 +175,59 @@ export class WindowRealmBindingContext {
     const interfaceObject = this.dom.interfaceObject(value);
     return interfaceObject instanceof Window ? interfaceObject : null;
   }
+}
+
+const WINDOW_NAMED_ELEMENT_LOCAL_NAMES = new Set([
+  "embed",
+  "form",
+  "img",
+  "object",
+]);
+
+function windowNamedPropertyNames(document: Document): string[] {
+  const names: string[] = [];
+  for (const element of descendantElements(document)) {
+    const id = element.getAttributeNS(null, "id");
+    if (id !== null && id !== "" && !names.includes(id)) {
+      names.push(id);
+    }
+    if (!isWindowNamedElement(element)) {
+      continue;
+    }
+    const name = element.getAttributeNS(null, "name");
+    if (name !== null && name !== "" && !names.includes(name)) {
+      names.push(name);
+    }
+  }
+  return names;
+}
+
+function windowNamedPropertyValue(
+  document: Document,
+  name: string,
+): object | undefined {
+  const elements = windowNamedElements(document, name);
+  if (elements.length === 0) {
+    return undefined;
+  }
+  if (elements.length === 1) {
+    return elements[0];
+  }
+  return createHTMLCollection(() => windowNamedElements(document, name));
+}
+
+function windowNamedElements(document: Document, name: string): Element[] {
+  return descendantElements(document).filter(
+    (element) =>
+      element.getAttributeNS(null, "id") === name ||
+      (isWindowNamedElement(element) &&
+        element.getAttributeNS(null, "name") === name),
+  );
+}
+
+function isWindowNamedElement(element: Element): boolean {
+  return (
+    element.namespaceURI === HTML_NAMESPACE &&
+    WINDOW_NAMED_ELEMENT_LOCAL_NAMES.has(element.localName)
+  );
 }

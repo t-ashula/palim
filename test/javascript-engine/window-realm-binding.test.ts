@@ -23,6 +23,24 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes live Window named properties", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/exposes-window-named-properties.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("constructs realm-local Document platform objects", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

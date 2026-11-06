@@ -18,6 +18,8 @@ export interface DOMLegacyPlatformObjectConfiguration {
   readonly namedSet?: (name: string, value: string) => void;
   readonly namedDelete?: (name: string) => void;
   readonly namedEnumerable?: boolean;
+  readonly namedIncludesIndices?: boolean;
+  readonly namedWritable?: boolean;
   readonly overrideBuiltins?: boolean;
 }
 
@@ -45,7 +47,7 @@ export function createDOMLegacyPlatformObject(
   const hasName = (property: string | null): EngineResult<boolean> => {
     if (
       property === null ||
-      isArrayIndex(property) ||
+      (isArrayIndex(property) && !configuration.namedIncludesIndices) ||
       !namedNames().includes(property)
     ) {
       return normal(false);
@@ -107,7 +109,7 @@ export function createDOMLegacyPlatformObject(
       for (const name of namedNames()) {
         if (
           indices.includes(name) ||
-          isArrayIndex(name) ||
+          (isArrayIndex(name) && !configuration.namedIncludesIndices) ||
           targetKeys.value.some((key) => engine.asString(key) === name)
         ) {
           continue;
@@ -147,7 +149,9 @@ export function createDOMLegacyPlatformObject(
       }
       return named.value && property !== null
         ? dataDescriptor(context, value(configuration.namedValue?.(property)), {
-            writable: configuration.namedSet !== undefined,
+            writable:
+              configuration.namedWritable ??
+              configuration.namedSet !== undefined,
             enumerable: configuration.namedEnumerable ?? false,
           })
         : FORWARD_PROXY_TRAP;
