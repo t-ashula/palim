@@ -28,6 +28,14 @@ interface TagResult {
 type EncodingCandidate = DecodingEncoding | "failure" | null;
 
 const PRESCAN_LIMIT = 1024;
+const REPLACEMENT_ENCODING_LABELS = new Set([
+  "csiso2022kr",
+  "hz-gb-2312",
+  "iso-2022-cn",
+  "iso-2022-cn-ext",
+  "iso-2022-kr",
+  "replacement",
+]);
 
 const platform = globalThis as typeof globalThis & {
   readonly TextDecoder: TextDecoderConstructor;
@@ -102,18 +110,43 @@ function sniffBom(input: Uint8Array): string | null {
 }
 
 function getEncoding(label: string): DecodingEncoding | null {
+  const encoding = resolveEncodingLabel(label);
+  return encoding === null
+    ? null
+    : {
+        decoder: createDecoder(encoding),
+        name: encodingName(encoding),
+      };
+}
+
+function resolveEncodingLabel(label: string): string | null {
+  if (REPLACEMENT_ENCODING_LABELS.has(normalizeLabel(label))) {
+    return "replacement";
+  }
   try {
-    const decoder = new platform.TextDecoder(label);
-    return {
-      decoder,
-      name: encodingName(decoder.encoding),
-    };
+    return new platform.TextDecoder(label).encoding;
   } catch (error) {
     if (error instanceof RangeError) {
       return null;
     }
     throw error;
   }
+}
+
+function createDecoder(encoding: string): TextDecoderInstance {
+  if (encoding === "replacement") {
+    return {
+      encoding,
+      decode(input = new Uint8Array()): string {
+        return input.length === 0 ? "" : "\uFFFD";
+      },
+    };
+  }
+  return new platform.TextDecoder(encoding);
+}
+
+function normalizeLabel(label: string): string {
+  return label.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/gu, "").toLowerCase();
 }
 
 function encodingName(lowercaseName: string): string {

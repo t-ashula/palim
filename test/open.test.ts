@@ -61,6 +61,33 @@ describe("open", () => {
     }
   });
 
+  it.each([
+    ["iso-8859-1", "windows-1252"],
+    ["iso-2022-cn-ext", "replacement"],
+  ])(
+    "exposes the normalized %s document encoding as %s",
+    async (label, encoding) => {
+      const fetchMock = vi.fn(() =>
+        Promise.resolve(
+          new Response(`<!doctype html><meta charset="${label}">`, {
+            headers: { "content-type": "text/html" },
+          }),
+        ),
+      );
+      vi.stubGlobal("fetch", fetchMock);
+
+      try {
+        const { document } = (await open("https://example.test/")).window;
+
+        expect(document.characterSet).toBe(encoding);
+        expect(document.inputEncoding).toBe(encoding);
+        expect(document.charset).toBe(encoding);
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    },
+  );
+
   it("parses XML responses and runs classic scripts in document order", async () => {
     const fetchMock = vi.fn((input: string | URL) => {
       const url = input.toString();

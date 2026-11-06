@@ -1,4 +1,5 @@
 import { decodeHTMLBytes } from "./html-byte-input.js";
+import { documentImplementation } from "./dom/node-implementation.js";
 import { WindowExecutionEnvironment } from "./window-javascript.js";
 import type { Resource, ResourceLoader } from "./window-javascript.js";
 import type { Window, WindowConsoleCall } from "./window.js";
@@ -33,6 +34,7 @@ export async function open(
       ? await loadInitialDocument(input)
       : {
           source: input.html,
+          encoding: "UTF-8",
           url: input.baseURL ?? "about:blank",
           mimeType: "text/html",
         };
@@ -47,6 +49,8 @@ export async function open(
     },
     xmlDocument,
   );
+  documentImplementation(environment.window.document).encoding =
+    initial.encoding;
   if (xmlDocument === undefined) {
     await environment.loadHTML(initial.source);
   } else {
@@ -101,6 +105,7 @@ class FetchResourceLoader implements ResourceLoader {
 
 async function loadInitialDocument(url: string): Promise<{
   readonly source: string;
+  readonly encoding: string;
   readonly url: string;
   readonly mimeType: string;
 }> {
@@ -108,12 +113,14 @@ async function loadInitialDocument(url: string): Promise<{
   const resource = await responseResource(response);
   const mimeType =
     contentTypeEssence(response.headers.get("content-type")) ?? "text/html";
+  const decoded = decodeHTMLBytes(resource.body, {
+    ...(resource.encoding === undefined
+      ? {}
+      : { transportEncoding: resource.encoding }),
+  });
   return {
-    source: decodeHTMLBytes(resource.body, {
-      ...(resource.encoding === undefined
-        ? {}
-        : { transportEncoding: resource.encoding }),
-    }).text,
+    source: decoded.text,
+    encoding: decoded.encoding,
     url: resource.url?.toString() ?? url,
     mimeType,
   };

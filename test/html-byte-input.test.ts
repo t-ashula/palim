@@ -168,6 +168,21 @@ describe("decodeHTMLBytes", () => {
     expect(userDefined.text).toBe('<meta charset="x-user-defined"><p>€</p>');
   });
 
+  it.each([
+    "csiso2022kr",
+    "hz-gb-2312",
+    "iso-2022-cn",
+    "iso-2022-cn-ext",
+    "iso-2022-kr",
+    "replacement",
+  ])("normalizes the %s label to replacement", (label) => {
+    const result = decodeHTMLBytes(
+      ascii(`<meta charset=" ${label.toUpperCase()} ">`),
+    );
+
+    expect(result).toEqual({ text: "\uFFFD", encoding: "replacement" });
+  });
+
   it("uses an encoding from an XML declaration", () => {
     const prefix = '<?xml version="1.0" encoding="windows-1252"?><p>';
     const result = decodeHTMLBytes(

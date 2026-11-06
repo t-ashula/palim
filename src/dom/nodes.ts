@@ -608,9 +608,6 @@ function stripAndCollapseASCIIWhitespace(value: string): string {
 }
 
 export class Document extends Node {
-  readonly characterSet = "UTF-8";
-  readonly charset = "UTF-8";
-  readonly inputEncoding = "UTF-8";
   readonly readyState = "complete";
 
   constructor(implementation?: unknown) {
@@ -633,6 +630,18 @@ export class Document extends Node {
 
   get contentType(): string {
     return documentImplementation(this).contentType;
+  }
+
+  get characterSet(): string {
+    return documentImplementation(this).encoding;
+  }
+
+  get charset(): string {
+    return this.characterSet;
+  }
+
+  get inputEncoding(): string {
+    return this.characterSet;
   }
 
   get URL(): string {
@@ -2449,6 +2458,7 @@ function cloneSingleNode(node: Node, document: Document): Node {
     const copyImplementation = documentImplementation(copy);
     copyImplementation.relevantRealmDocument =
       implementation.relevantRealmDocument;
+    copyImplementation.encoding = implementation.encoding;
     copyImplementation.url = new URL(implementation.url.href);
     copyImplementation.origin = implementation.origin;
     copyImplementation.aboutBaseURL =
