@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261105t094443145z-2660424",
+    "id": "20261105t153538809z-3346898",
     "state": "completed",
     "palim": {
-      "revision": "6556b5bbb8bd83ed886b78a92c1bea2ae911f7a8",
+      "revision": "0abf84b77594c1754c31b6ce7979540201e6a1e6",
       "dirty": false,
-      "imageId": "sha256:7f339073f98714378ab6ccb4a7609a5bd6af324499ec7c1d6307476b601717f1"
+      "imageId": "sha256:4c7c531fa9eca1f0ec337272b36bc7eec695bf815fc6345ff7b9c4b6217d9807"
     },
     "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-05T10:36:53.977Z",
+    "snapshotAt": "2026-11-05T16:26:34.483Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -46,11 +46,11 @@
   "totals": {
     "total": 1226,
     "executed": 1226,
-    "pass": 309,
-    "fail": 423,
+    "pass": 394,
+    "fail": 374,
     "skip": 0,
-    "error": 214,
-    "timeout": 280,
+    "error": 200,
+    "timeout": 258,
     "pending": 0
   },
   "areas": [
@@ -72,11 +72,11 @@
       "totals": {
         "total": 214,
         "executed": 214,
-        "pass": 13,
-        "fail": 69,
+        "pass": 24,
+        "fail": 62,
         "skip": 0,
-        "error": 10,
-        "timeout": 122,
+        "error": 9,
+        "timeout": 119,
         "pending": 0
       }
     },
@@ -98,11 +98,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 154,
-        "fail": 164,
+        "pass": 225,
+        "fail": 121,
         "skip": 0,
-        "error": 20,
-        "timeout": 70,
+        "error": 7,
+        "timeout": 55,
         "pending": 0
       }
     },
@@ -137,11 +137,11 @@
       "totals": {
         "total": 56,
         "executed": 56,
-        "pass": 20,
-        "fail": 16,
+        "pass": 23,
+        "fail": 17,
         "skip": 0,
         "error": 2,
-        "timeout": 18,
+        "timeout": 14,
         "pending": 0
       }
     },
@@ -212,12 +212,12 @@
     }
   ],
   "subtests": {
-    "total": 62011,
-    "pass": 47557,
-    "fail": 9137,
+    "total": 62098,
+    "pass": 48235,
+    "fail": 8583,
     "skip": 0,
-    "error": 5049,
-    "timeout": 268
+    "error": 5035,
+    "timeout": 245
   },
   "nonPassingTests": [
     {
@@ -236,19 +236,9 @@
       "message": "ReferenceError: \"HTMLBodyElement\" is not defined\n    at getObject (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:16:38)\n    at getEnumerable (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:83:37)\n    at testEnumerate (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:92:52)\n    at <anonymous> (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:108:38)\n    at Array#forEach (native)\n    at http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:106:11"
     },
     {
-      "url": "/dom/events/CustomEvent.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"CustomEvent\")\", it is undefined)"
-    },
-    {
       "url": "/dom/events/Event-cancelBubble.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent('Event')\", it is undefined)"
-    },
-    {
-      "url": "/dom/events/Event-constants.html",
-      "status": "error",
-      "message": "TypeError: Cannot convert undefined to object\n    at testConstants (http://web-platform.test:8000/dom/constants.js:2:3)\n    at http://web-platform.test:8000/dom/events/Event-constants.html:16:4"
+      "message": "assert_false: cancelBubble must be false after an event has been dispatched. expected false got true"
     },
     {
       "url": "/dom/events/Event-constructors.any.worker.html",
@@ -256,29 +246,19 @@
       "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/dom/events/Event-constructors.any.worker.html:2:29'"
     },
     {
-      "url": "/dom/events/Event-defaultPrevented-after-dispatch.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/events/Event-defaultPrevented.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
       "url": "/dom/events/Event-dispatch-bubble-canceled.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...]] length 2"
     },
     {
       "url": "/dom/events/Event-dispatch-bubbles-false.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title> Event.bubbles ..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <td id=\"target\">Over the river, Charlie</td>, [...]] length 9, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...]] length 2"
     },
     {
       "url": "/dom/events/Event-dispatch-bubbles-true.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title> Event.bubbles ..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <td id=\"target\">Over the river, Charlie</td>, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...], Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., [...], Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., [...], Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., [...], Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., [...], Element node <html><head><meta charset=\"utf-8\">\n<title> Event.bubbles ..., [...], Document node with 2 children, [...]] length 14"
     },
     {
       "url": "/dom/events/Event-dispatch-click.html",
@@ -291,11 +271,6 @@
       "message": "label.click is not a function. (In \"label.click()\", it is undefined)"
     },
     {
-      "url": "/dom/events/Event-dispatch-detached-click.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/events/Event-dispatch-detached-input-and-change.html",
       "status": "fail",
       "message": "input.click is not a function. (In \"input.click()\", it is undefined)"
@@ -303,7 +278,7 @@
     {
       "url": "/dom/events/Event-dispatch-handlers-changed.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: actual_targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title> Dispatch addit..., Element node <body><div id=\"log\"></div>\n\n<table id=\"table\" border=\"1\" ..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <td id=\"target\">Over the river, Charlie</td>, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...], Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., [...], Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., [...], Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., [...], Element node <body><div id=\"log\"></div>\n\n<table id=\"table\" border=\"1\" ..., [...], Element node <html><head><meta charset=\"utf-8\">\n<title> Dispatch addit..., [...], Document node with 2 children, [...]] length 14"
     },
     {
       "url": "/dom/events/Event-dispatch-listener-order.window.html",
@@ -313,17 +288,17 @@
     {
       "url": "/dom/events/Event-dispatch-multiple-cancelBubble.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: lengths differ, expected array [Document node with 2 children, object \"[object Object]\"] length 2, got [Document node with 2 children] length 1"
     },
     {
       "url": "/dom/events/Event-dispatch-multiple-stopPropagation.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: lengths differ, expected array [Document node with 2 children, object \"[object Object]\"] length 2, got [Document node with 2 children] length 1"
     },
     {
       "url": "/dom/events/Event-dispatch-omitted-capture.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: targets lengths differ, expected array [Element node <td id=\"target\">Over the river, Charlie</td>, Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <html><head><meta charset=\"utf-8\">\n<title>EventTarget.add..., Document node with 2 children, object \"[object Object]\"] length 8, got [Element node <td id=\"target\">Over the river, Charlie</td>, Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <html><head><meta charset=\"utf-8\">\n<title>EventTarget.add..., Document node with 2 children] length 7"
     },
     {
       "url": "/dom/events/Event-dispatch-on-disabled-elements.html",
@@ -343,17 +318,17 @@
     {
       "url": "/dom/events/Event-dispatch-propagation-stopped.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...]] length 2"
     },
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: actual_targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title> Dispatch addit..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <td id=\"target\">Over the river, Charlie</td>, Element node <tr id=\"parent\">\n        <td id=\"target\">Over the river, ..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node <td id=\"target\">Over the river, Charlie</td>] length 1"
     },
     {
       "url": "/dom/events/Event-dispatch-single-activation-behavior.html",
@@ -363,12 +338,12 @@
     {
       "url": "/dom/events/Event-dispatch-target-moved.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title> Determined eve..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <tr id=\"parent\">\n        \n        <td>Dorian</td>\n    </tr>, Element node <td id=\"target\">Over the river, Charlie</td>, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...], Element node <tr id=\"parent\">\n        \n        <td>Dorian</td>\n    </tr>, [...], Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., [...], Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., [...], Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., [...], Element node <html><head><meta charset=\"utf-8\">\n<title> Determined eve..., [...], Document node with 2 children, [...]] length 14"
     },
     {
       "url": "/dom/events/Event-dispatch-target-removed.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
+      "message": "assert_array_equals: targets lengths differ, expected array [object \"[object Object]\", Document node with 2 children, Element node <html><head><meta charset=\"utf-8\">\n<title>Determined even..., Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., Element node <tr id=\"parent\">\n        \n        <td>Dorian</td>\n    </tr>, Element node <td id=\"target\">Over the river, Charlie</td>, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node <td id=\"target\">Over the river, Charlie</td>, [...], Element node <tr id=\"parent\">\n        \n        <td>Dorian</td>\n    </tr>, [...], Element node <tbody id=\"table-body\">\n    <tr id=\"table-row\">\n        <..., [...], Element node <table id=\"table\" border=\"1\" style=\"display: none\">\n    <..., [...], Element node <body><div id=\"log\"></div>\n<table id=\"table\" border=\"1\" s..., [...], Element node <html><head><meta charset=\"utf-8\">\n<title>Determined even..., [...], Document node with 2 children, [...]] length 14"
     },
     {
       "url": "/dom/events/Event-dispatch-throwing-multiple-globals.html",
@@ -386,11 +361,6 @@
       "message": "\"KeyboardEvent\" is not defined"
     },
     {
-      "url": "/dom/events/Event-initEvent.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
       "url": "/dom/events/Event-isTrusted.any.html",
       "status": "fail",
       "message": "assert_not_equals: got disallowed value undefined"
@@ -402,18 +372,8 @@
     },
     {
       "url": "/dom/events/Event-propagation.html",
-      "status": "timeout",
-      "message": "b'TypeError: document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/Event-propagation.html:21:31'"
-    },
-    {
-      "url": "/dom/events/Event-returnValue.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/events/Event-stopImmediatePropagation.html",
-      "status": "timeout",
-      "message": "b'TypeError: Error: assert_equals: The stop propagation flag must have been set expected (boolean) true but got (undefined) undefined'"
+      "message": "assert_equals: Propagation flag expected false but got true"
     },
     {
       "url": "/dom/events/Event-stopPropagation-cancel-bubbling.html",
@@ -444,16 +404,6 @@
       "url": "/dom/events/Event-timestamp-safe-resolution.html",
       "status": "fail",
       "message": "\"MouseEvent\" is not defined"
-    },
-    {
-      "url": "/dom/events/Event-type-empty.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/events/Event-type.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
     },
     {
       "url": "/dom/events/EventListener-addEventListener.sub.window.html",
@@ -516,14 +466,9 @@
       "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/dom/events/EventTarget-constructible.any.worker.html:2:29'"
     },
     {
-      "url": "/dom/events/EventTarget-dispatchEvent-returnvalue.html",
-      "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"Event\")\", it is undefined)"
-    },
-    {
       "url": "/dom/events/EventTarget-dispatchEvent.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(alias)\", it is undefined)"
+      "message": "The event interface \"BeforeUnloadEvent\" is not supported"
     },
     {
       "url": "/dom/events/EventTarget-removeEventListener.any.worker.html",
@@ -543,7 +488,7 @@
     {
       "url": "/dom/events/KeyEvent-initKeyEvent.html",
       "status": "fail",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(\"KeyboardEvent\")\", it is undefined)"
+      "message": "The event interface \"KeyboardEvent\" is not supported"
     },
     {
       "url": "/dom/events/click-on-absolute-pseudo.html",
@@ -1225,16 +1170,6 @@
       "message": "assert_equals: window.event is the outer event before the nested dispatch expected (object) object \"[object Object]\" but got (undefined) undefined"
     },
     {
-      "url": "/dom/nodes/Attr-prefix-xhtml.xhtml",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/dom/nodes/CharacterData-appendChild.html",
-      "status": "fail",
-      "message": "assert_throws_dom: CharacterData type Text must not have children function \"function () {\n      node1.appendChild(node2);\n    }\" threw object \"TypeError: This node type cannot have children\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
       "url": "/dom/nodes/Comment-constructor.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -1243,16 +1178,6 @@
       "url": "/dom/nodes/DOMImplementation-createDocument-no-browsing-context.html",
       "status": "fail",
       "message": "assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) \"1 + 2\""
-    },
-    {
-      "url": "/dom/nodes/DOMImplementation-createDocument.html",
-      "status": "fail",
-      "message": "assert_equals: expected object \"[object Object]\" but got object \"[object Object]\""
-    },
-    {
-      "url": "/dom/nodes/DOMImplementation-createDocumentType.html",
-      "status": "fail",
-      "message": "Invalid character in attribute name: "
     },
     {
       "url": "/dom/nodes/DOMImplementation-createHTMLDocument-with-saved-implementation.html",
@@ -1277,12 +1202,7 @@
     {
       "url": "/dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html",
       "status": "fail",
-      "message": "target.adoptNode is not a function. (In \"target.adoptNode(df)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Document-adoptNode.html",
-      "status": "fail",
-      "message": "document.adoptNode is not a function. (In \"document.adoptNode(y)\", it is undefined)"
+      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Document-base-url-not-live.window.html",
@@ -1310,22 +1230,12 @@
     {
       "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
       "status": "fail",
-      "message": "Invalid URL"
+      "message": "assert_equals: source expected \"http://web-platform.test:8000/dom/nodes/sub/\" but got \"about:blank\""
     },
     {
       "url": "/dom/nodes/Document-cloneNode-srcdoc-base-url.window.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Document-constructor-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Document-constructor-xml.xml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Document-constructor-xml.xml:1:1\\n<![CDATA[\\n^'"
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_bmp.html",
@@ -1388,11 +1298,6 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Document-contentType/contentType/createDocument.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"application/xhtml+xml\" but got \"application/xml\""
-    },
-    {
       "url": "/dom/nodes/Document-contentType/contentType/xhr_responseType_document.html",
       "status": "fail",
       "message": "\"XMLHttpRequest\" is not defined"
@@ -1423,39 +1328,14 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/dom/nodes/Document-createEvent-touchevent.window.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => {\n        document.createEvent(variant);\n      }\" threw object \"TypeError: document.createEvent is not a function. (In \"document.createEvent(variant)\", it is undefined)\" that is not a DOMException NOT_SUPPORTED_ERR: property \"code\" is equal to undefined, expected 9"
-    },
-    {
       "url": "/dom/nodes/Document-createEvent.https.html",
       "status": "error",
-      "message": "document.createEvent is not a function. (In \"document.createEvent(arg)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Document-createProcessingInstruction-xhtml.xhtml",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n        document.createProcessingInstruction(invalid[i][0], invalid[i][1])\n      }\" threw object \"TypeError: Processing instruction data cannot contain ?>\" that is not a DOMException INVALID_CHARACTER_ERR: property \"code\" is equal to undefined, expected 5"
-    },
-    {
-      "url": "/dom/nodes/Document-createProcessingInstruction.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n        document.createProcessingInstruction(invalid[i][0], invalid[i][1])\n      }\" threw object \"TypeError: Processing instruction data cannot contain ?>\" that is not a DOMException INVALID_CHARACTER_ERR: property \"code\" is equal to undefined, expected 5"
+      "message": "The event interface \"BeforeUnloadEvent\" is not supported"
     },
     {
       "url": "/dom/nodes/Document-getElementById.html",
       "status": "fail",
-      "message": "assert_equals: expected null but got Element node <div id=\"\"></div>"
-    },
-    {
-      "url": "/dom/nodes/Document-getElementsByTagName-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Document-getElementsByTagName-xhtml.xhtml:81:50\\n    for (var i = 0; i &lt; node.childNodes.length; i++) {\\n                                                 ^'"
-    },
-    {
-      "url": "/dom/nodes/Document-importNode.html",
-      "status": "fail",
-      "message": "document.importNode is not a function. (In \"document.importNode(div)\", it is undefined)"
+      "message": "\"HTMLDivElement\" is not defined"
     },
     {
       "url": "/dom/nodes/DocumentFragment-constructor.html",
@@ -1463,99 +1343,9 @@
       "message": "assert_equals: expected Document node with 2 children but got Document node with 0 children"
     },
     {
-      "url": "/dom/nodes/DocumentFragment-getElementById.html",
-      "status": "fail",
-      "message": "assert_equals: It must exist on the prototype expected \"function\" but got \"undefined\""
-    },
-    {
-      "url": "/dom/nodes/Element-childElement-null-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-childElement-null-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElement-null-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-add-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-add-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-dynamic-add-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-remove-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-dynamic-remove-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-dynamic-remove-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-nochild-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-nochild-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-nochild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-childElementCount-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-childElementCount-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-closest-null-selectors.html",
-      "status": "fail",
-      "message": "p.closest is not a function. (In \"p.closest(\"#null\")\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/Element-closest.html",
       "status": "fail",
-      "message": "document.getElementById(aElementId).closest is not a function. (In \"document.getElementById(aElementId).closest(aSelector)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-entity-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-firstElementChild-entity-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-entity.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-namespace-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-namespace-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-firstElementChild-namespace-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-firstElementChild-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-firstElementChild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
+      "message": "assert_equals: :invalid expected \"test2\" but got \"\""
     },
     {
       "url": "/dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html",
@@ -1563,44 +1353,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Element-hasAttributes.html",
-      "status": "fail",
-      "message": "buttonElement.hasAttributes is not a function. (In \"buttonElement.hasAttributes()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-insertAdjacentElement.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n    target.insertAdjacentElement(\"test\", document.getElementById(\"test1\"))\n  }\" threw object \"TypeError: target.insertAdjacentElement is not a function. (In \"target.insertAdjacentElement(\"test\", document.getElementById(\"test1\"))\", it is undefined)\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
-      "url": "/dom/nodes/Element-insertAdjacentText.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n    target.insertAdjacentText(\"test\", \"text\")\n  }\" threw object \"TypeError: target.insertAdjacentText is not a function. (In \"target.insertAdjacentText(\"test\", \"text\")\", it is undefined)\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
-      "url": "/dom/nodes/Element-lastElementChild-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-lastElementChild-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-lastElementChild-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-matches-active-pseudo-class.html",
-      "status": "fail",
-      "message": "element.matches is not a function. (In \"element.matches(\":active\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Element-matches-complex-nth-last-of-type.html",
-      "status": "fail",
-      "message": "c.matches is not a function. (In \"c.matches(\".a:nth-last-of-type(1) .b .c\")\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/Element-matches-disabled-pseudo-class.html",
       "status": "fail",
-      "message": "input.matches is not a function. (In \"input.matches(\":disabled\")\", it is undefined)"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/Element-matches-namespaced-elements.html",
@@ -1611,46 +1366,6 @@
       "url": "/dom/nodes/Element-matches.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Element-nextElementSibling-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-nextElementSibling-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-nextElementSibling-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-previousElementSibling-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-previousElementSibling-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-previousElementSibling-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-siblingElement-null-svg.svg",
-      "status": "error",
-      "message": "palim returned no WPT result"
-    },
-    {
-      "url": "/dom/nodes/Element-siblingElement-null-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Element-siblingElement-null-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/Element-tagName-adopt.html",
-      "status": "fail",
-      "message": "assert_equals: tagName should be lowercase in XML document expected \"t\" but got \"T\""
-    },
-    {
-      "url": "/dom/nodes/Element-tagName.html",
-      "status": "fail",
-      "message": "document.importNode is not a function. (In \"document.importNode(xmlel, true)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Element-webkitMatchesSelector.html",
@@ -1734,8 +1449,8 @@
     },
     {
       "url": "/dom/nodes/MutationObserver-xml-parser.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/MutationObserver-xml-parser.xhtml:1:1\\n<![CDATA[\\n^\\nSyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/MutationObserver-xml-parser.xhtml:1:1\\n<![CDATA[\\n^'"
+      "status": "error",
+      "message": "ReferenceError: \"MutationObserver\" is not defined\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-xml-parser.xhtml:3:24"
     },
     {
       "url": "/dom/nodes/Node-appendChild-cereactions-vs-script.window.html",
@@ -1745,22 +1460,7 @@
     {
       "url": "/dom/nodes/Node-appendChild.html",
       "status": "fail",
-      "message": "assert_throws_dom: function \"function() { node.appendChild(document.createTextNode(\"fail\")) }\" threw object \"TypeError: This node type cannot have children\" that is not a DOMException HIERARCHY_REQUEST_ERR: property \"code\" is equal to undefined, expected 3"
-    },
-    {
-      "url": "/dom/nodes/Node-childNodes-cache-2.html",
-      "status": "fail",
-      "message": "target.replaceChild is not a function. (In \"target.replaceChild(target.childNodes[2], target.childNodes[1])\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-childNodes.html",
-      "status": "fail",
-      "message": "list.keys is not a function. (In \"list.keys()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode-XMLDocument.html",
-      "status": "fail",
-      "message": "assert_equals: Precondition check: document.implementation.createDocument() creates an XMLDocument expected function \"function XMLDocument() { [native code] }\" but got function \"function Document() { [native code] }\""
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html",
@@ -1773,19 +1473,9 @@
       "message": "assert_true: HTMLAudioElement is not supported expected true got false"
     },
     {
-      "url": "/dom/nodes/Node-constants.html",
-      "status": "fail",
-      "message": "assert_true: Object function Node() { [native code] } doesn't have ENTITY_REFERENCE_NODE expected true got false"
-    },
-    {
-      "url": "/dom/nodes/Node-contains-xml.xml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/Node-contains-xml.xml:2:1\\n<![CDATA[\\n^'"
-    },
-    {
       "url": "/dom/nodes/Node-insertBefore.html",
       "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n      insertFunc.call(parent, node, child);\n    }\" threw object \"TypeError: The reference node is not a child of this node\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
+      "message": "assert_throws_js: function \"function() { document.body.insertBefore(document.createTextNode(\"child\")) }\" did not throw"
     },
     {
       "url": "/dom/nodes/Node-isConnected-shadow-dom.html",
@@ -1803,31 +1493,6 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Node-isEqualNode.html",
-      "status": "fail",
-      "message": "assert_true: default HTML documents, created different ways expected true got false"
-    },
-    {
-      "url": "/dom/nodes/Node-lookupNamespaceURI.html",
-      "status": "fail",
-      "message": "node.lookupNamespaceURI is not a function. (In \"node.lookupNamespaceURI(prefix)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-lookupPrefix.xhtml",
-      "status": "fail",
-      "message": "node.lookupPrefix is not a function. (In \"node.lookupPrefix(ns)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-nodeName-xhtml.xhtml",
-      "status": "fail",
-      "message": "assert_equals: expected \"i\" but got \"I\""
-    },
-    {
-      "url": "/dom/nodes/Node-nodeValue.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"test again\" but got \"A span!\""
-    },
-    {
       "url": "/dom/nodes/Node-parentNode.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -1835,22 +1500,7 @@
     {
       "url": "/dom/nodes/Node-removeChild.html",
       "status": "fail",
-      "message": "assert_throws_dom: function \"function() { document.body.removeChild(s) }\" threw object \"TypeError: The node to be removed is not a child of this node\" that is not a DOMException NOT_FOUND_ERR: property \"code\" is equal to undefined, expected 8"
-    },
-    {
-      "url": "/dom/nodes/Node-replaceChild.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"function() {\n      insertFunc.call(parent, node, child);\n    }\" threw object \"TypeError: Cannot convert undefined to object\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
-      "url": "/dom/nodes/Node-textContent.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"\" but got \"undefined\""
-    },
-    {
-      "url": "/dom/nodes/NodeList-Iterable.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/NodeList-static-length-getter-tampered-1.html",
@@ -1889,8 +1539,8 @@
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-All-xht.xht",
-      "status": "error",
-      "message": "SyntaxError: Unexpected token\nhttp://web-platform.test:8000/dom/nodes/ParentNode-querySelector-All-xht.xht:1:1\n<![CDATA[\n^"
+      "status": "timeout",
+      "message": "Test timed out"
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-All.html",
@@ -1908,34 +1558,9 @@
       "message": "section.attachShadow is not a function. (In \"section.attachShadow({ mode: \"open\" })\", it is undefined)"
     },
     {
-      "url": "/dom/nodes/ParentNode-querySelector-hyphen-prefix.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => {\n    document.querySelector(\"#-123\");\n  }\" threw object \"TypeError: The selector is invalid.\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-invalid-comment-like.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => document.querySelector(selector)\" threw object \"TypeError: The selector is invalid.\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-matches.html",
-      "status": "fail",
-      "message": "el.matches is not a function. (In \"el.matches(\"#main p\")\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-namespace-tagname-attribute.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => doc.querySelector(\"cp|coreProperties\")\" threw object \"TypeError: The selector is invalid.\" that is not a DOMException SyntaxError: property \"code\" is equal to undefined, expected 12"
-    },
-    {
       "url": "/dom/nodes/ParentNode-querySelector-shadowroot-nth-child.html",
       "status": "fail",
       "message": "hostElement.attachShadow is not a function. (In \"hostElement.attachShadow({ mode: \"open\" })\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-underscore-local-name.xhtml",
-      "status": "fail",
-      "message": "Cannot convert null to object"
     },
     {
       "url": "/dom/nodes/ParentNode-replaceChildren.html",
@@ -1944,18 +1569,8 @@
     },
     {
       "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/dom/nodes/ProcessingInstruction-escapes-1.xhtml:2:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/dom/nodes/ProcessingInstruction-literal-1.xhtml",
       "status": "fail",
-      "message": "assert_equals: expected Element node <html xmlns=\"http://www.w3.org/1999/xhtml\"><head>\n<title>... but got Comment node <!--?xml version=\"1.0\" encoding=\"UTF-8\"?-->"
-    },
-    {
-      "url": "/dom/nodes/ProcessingInstruction-literal-2.xhtml",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/nodes/Text-constructor.html",
@@ -1965,22 +1580,12 @@
     {
       "url": "/dom/nodes/adoption.window.html",
       "status": "fail",
-      "message": "document.adoptNode is not a function. (In \"document.adoptNode(df)\", it is undefined)"
+      "message": "doc.createElementNS(\"http://www.w3.org/1999/xhtml\", \"div\").attachShadow is not a function. (In \"doc.createElementNS(\"http://www.w3.org/1999/xhtml\", \"div\").attachShadow({mode: \"closed\"})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/attach-shadow-realm-after-adoption.html",
       "status": "timeout",
       "message": "b'TypeError: Cannot convert undefined to object\\n    at http://web-platform.test:8000/dom/nodes/attach-shadow-realm-after-adoption.html:10:1'"
-    },
-    {
-      "url": "/dom/nodes/attributes-namednodemap-cross-document.window.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => otherElement.attributes.setNamedItem(attribute)\" threw object \"TypeError: otherElement.attributes.setNamedItem is not a function. (In \"otherElement.attributes.setNamedItem(attribute)\", it is undefined)\" that is not a DOMException InUseAttributeError: property \"code\" is equal to undefined, expected 10"
-    },
-    {
-      "url": "/dom/nodes/attributes-namednodemap.html",
-      "status": "fail",
-      "message": "map.setNamedItem is not a function. (In \"map.setNamedItem(attr1)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/create-element-realm-after-adoption.html",
@@ -1991,16 +1596,6 @@
       "url": "/dom/nodes/getElementById-namespaced-id.html",
       "status": "fail",
       "message": "assert_equals: expected (object) Element node <form id=\"owner\" id=\"unrelated\"></form> but got (undefined) undefined"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-10.xml",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array object \"[object Object]\" length 1, got object \"[object Object]\" length 2"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-11.xml",
-      "status": "fail",
-      "message": "assert_array_equals: expected property 1 to be undefined but got Element node <g:x class=\"a\">\n    <x t:class=\"a\" h:class=\"a\" g:class=\"a... (expected array [Element node <x class=\"a\">\n    <g:x class=\"a\">\n    <x t:class=\"a\" h:cl..., undefined, undefined] got object \"[object Object]\")"
     },
     {
       "url": "/dom/nodes/getElementsByClassName-20.htm",
@@ -2026,11 +1621,6 @@
       "url": "/dom/nodes/getElementsByClassName-31.htm",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/insert-adjacent.html",
-      "status": "fail",
-      "message": "el.insertAdjacentElement is not a function. (In \"el.insertAdjacentElement(position, div)\", it is undefined)"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-form-and-script-from-fragment.html",
@@ -2414,8 +2004,8 @@
     },
     {
       "url": "/dom/nodes/name-validation.html",
-      "status": "fail",
-      "message": "assert_throws_dom: document.createElement should throw an error for: code points: [], string: \"\" function \"() => document.createElement(invalidName)\" threw object \"TypeError: Invalid character in element local name: \" that is not a DOMException InvalidCharacterError: property \"code\" is equal to undefined, expected 5"
+      "status": "timeout",
+      "message": "assert_unreached: element.setAttributeNS should not have thrown an error for: code points: [115,109,97,108,108,69,109,111,106,105,55356,56726], string: \"smallEmoji🆖\" code points: [97,116,116,114], string: \"attr\" [object DOMException] Reached unreachable code"
     },
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
@@ -2570,12 +2160,12 @@
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:941:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:279:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:199:13)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:33:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:16:5)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
@@ -2628,7 +2218,7 @@
     {
       "url": "/dom/ranges/Range-mutations-replaceChild.html",
       "status": "fail",
-      "message": "\"getSelection\" is not defined"
+      "message": "assert_equals: Wrong start container expected Element node <div id=\"test\"><p id=\"a\">Äb̈c̈d̈ëf̈g̈ḧ\n</p><p id=\"b\" s... but got Element node <p id=\"a\">Äb̈c̈d̈ëf̈g̈ḧ\n</p>"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceData.html",
@@ -2791,12 +2381,12 @@
     {
       "url": "/domparsing/DOMParser-parseFromString-xml-scripting-support-disabled.html",
       "status": "fail",
-      "message": "assert_equals: expected 0 but got 1"
+      "message": "The argument is not a Node"
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-xml.html",
       "status": "fail",
-      "message": "assert_equals: URL expected \"http://web-platform.test:8000/domparsing/DOMParser-parseFromString-xml.html\" but got \"about:blank\""
+      "message": "assert_false: Should not be XMLDocument expected false got true"
     },
     {
       "url": "/domparsing/XMLSerializer-serializeToString.html",
@@ -2806,17 +2396,12 @@
     {
       "url": "/domparsing/createContextualFragment-external-scripts-async.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: range.createContextualFragment is not a function. (In \"range.createContextualFragment(markup)\", it is undefined)\""
+      "message": "assert_true: script.async is true before insertion expected true got undefined"
     },
     {
       "url": "/domparsing/createContextualFragment-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/createContextualFragment-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
-      "url": "/domparsing/createContextualFragment.html",
       "status": "fail",
-      "message": "range.createContextualFragment is not a function. (In \"range.createContextualFragment(\"\")\", it is undefined)"
+      "message": "assert_equals: expected \"p\" but got \"body\""
     },
     {
       "url": "/domparsing/html-insertion-methods-html-element.html",
@@ -2829,19 +2414,9 @@
       "message": "promise_test: Unhandled rejection with value: object \"TypeError: container[method] is not a function. (In \"container[method](html, options)\", it is undefined)\""
     },
     {
-      "url": "/domparsing/innerhtml-01.xhtml",
-      "status": "fail",
-      "message": "assert_throws_dom: getting element with \":\" in its local name function \"function() {\n    document.documentElement.innerHTML;\n  }\" did not throw"
-    },
-    {
-      "url": "/domparsing/innerhtml-03.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/innerhtml-03.xhtml:1:1\\n<![CDATA[\\n^'"
-    },
-    {
       "url": "/domparsing/innerhtml-05.xhtml",
       "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/innerhtml-05.xhtml:1:1\\n<![CDATA[\\n^'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/domparsing/innerhtml-empty-document-element.html",
@@ -2855,8 +2430,8 @@
     },
     {
       "url": "/domparsing/insert_adjacent_html-xhtml.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/insert_adjacent_html-xhtml.xhtml:1:1\\n<![CDATA[\\n^'"
+      "status": "fail",
+      "message": "assert_false: script should not have run expected false got true"
     },
     {
       "url": "/domparsing/insert_adjacent_html.html",
@@ -2920,8 +2495,8 @@
     },
     {
       "url": "/domparsing/xml-serialization.xhtml",
-      "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/domparsing/xml-serialization.xhtml:1:1\\n<![CDATA[\\n^'"
+      "status": "fail",
+      "message": "assert_equals: expected \"<!DOCTYPE html PUBLIC \\\"\\\"\\\" \\\"\\\"\\\">\" but got \"<!DOCTYPE html PUBLIC '\\\"' '\\\"'>\""
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/Document.body.html",
@@ -3111,7 +2686,7 @@
     {
       "url": "/html/dom/elements/global-attributes/dir-assorted.window.html",
       "status": "fail",
-      "message": "document.documentElement.matches is not a function. (In \"document.documentElement.matches(\":dir(ltr)\")\", it is undefined)"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/html/dom/elements/global-attributes/dir-auto-div-append-child.html",
@@ -3126,7 +2701,7 @@
     {
       "url": "/html/dom/elements/global-attributes/dir-auto-form-associated.window.html",
       "status": "fail",
-      "message": "input.matches is not a function. (In \"input.matches(\":dir(ltr)\")\", it is undefined)"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/html/dom/elements/global-attributes/dir-bdi-script.html",
@@ -3136,7 +2711,7 @@
     {
       "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input.matches is not a function. (In \"input.matches(\":dir(rtl)\")\", it is undefined)\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
     },
     {
       "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
@@ -3171,12 +2746,12 @@
     {
       "url": "/html/dom/elements/global-attributes/lang-attribute.window.html",
       "status": "fail",
-      "message": "container.matches is not a function. (In \"container.matches(\":lang(en-CA)\")\", it is undefined)"
+      "message": "assert_true: child matches en-CA expected true got false"
     },
     {
       "url": "/html/dom/elements/global-attributes/mapped-attribute-adopt-001.html",
       "status": "fail",
-      "message": "document.adoptNode is not a function. (In \"document.adoptNode(newEl)\", it is undefined)"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/html/dom/elements/global-attributes/the-lang-attribute-001.html",
