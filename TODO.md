@@ -2,32 +2,31 @@
 
 ## DOM and parsing
 
-### Page realm bindings
-
-- [x] `Document.importNode` / `adoptNode` と `DocumentFragment.getElementById`
-- [x] `Node.replaceChild` / `lookupPrefix` / `lookupNamespaceURI` / legacy node constants
-- [x] `Node.isDefaultNamespace`
-- [x] `Element.matches` / `closest` / `hasAttributes` / `insertAdjacentElement` / `insertAdjacentText`
-- [x] `NamedNodeMap` mutation API と `NodeList` iterable API
-- [x] `Range.createContextualFragment`
-
 ### DOM algorithms
 
-- [x] relational pseudo-class `:has()` の `:scope` scoping
-- [x] `DOMImplementation.createDocument` / `createHTMLDocument` / `createDocumentType` の document type、content type、realm、validation
-- [x] hierarchy、not-found、invalid-character、namespace、selector syntax の失敗を仕様上の `DOMException` name / code へ変換する
-- [x] adoption 前後の HTMLness と `nodeName` / `tagName`、`nodeValue` / `textContent` の境界条件
-- [x] 空文字 ID、namespaced ID、XML class token に対する lookup と live collection の境界条件
-- [x] node creation と adoption で作成元 realm を保持する
+- [ ] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
+- [ ] live / static collection の index、length、tree order、および mutation 後の更新
+- [ ] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
+- [ ] `Attr.specified`、prefix / namespace、astral code point を含む name validation
+- [ ] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
+- [ ] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
+- [ ] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
+- [ ] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
+- [ ] `Node.moveBefore` の range、observer、form state、shadow tree を含む atomic move semantics
+- [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
 
 ### Parsing and serialization
 
 - [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
-- [x] `DOMParser` が作る document の URL、origin、content type、character encoding、scripting flag
+- [x] `DOMParser` が作る document の URL、origin、content type、scripting flag
+- [ ] `DOMParser` の HTML encoding sniffing と `meta charset` に基づく character encoding state
 - [ ] navigation document の transport / BOM / `meta` に基づく character encoding state
 - [ ] HTML tree builder の `style` raw text 終了後に続く sibling を構築する
 - [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
+- [ ] `Range.createContextualFragment` の HTML / XHTML context selection と script execution semantics
+- [ ] `innerHTML` / `outerHTML` の null変換、style attribute、doctype serialization
 - [ ] `Document.parseHTML` と unsafe / positional HTML parsing API
+- [ ] streaming HTML parsing API と sanitizer / declarative shadow root integration
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
 
@@ -62,23 +61,30 @@
 - [ ] `document.body` / `head` / `title` / `currentScript`
 - [ ] XML document の legacy `rootElement` surface
 - [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
+- [ ] `Document` named properties と `id` / `name` mutation、adoption、tree order に追従する collection
 - [ ] Window named properties と `id` / `name` mutation に追従する supported property names
-- [ ] global attribute reflection、`dataset`、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
+- [ ] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
+- [ ] `DOMStringMap` の property-name conversion、get / set / delete、supported property names
 - [ ] `HTMLDocument` / `XMLDocument` と個別 `HTML*Element` interface constructor の global 公開
 - [ ] Selection API の `getSelection()` と DOM mutation / atomic move に対する range 保持
 
 ## Events
 
+- [ ] `AbortSignal.abort()` / `any()` / `timeout()`、abort reason、dependent signal propagation
 - [ ] capture phase
 - [x] `Document.createEvent` と legacy event initialization
+- [ ] `Event` / `CustomEvent` constructor と legacy initializer の required argument conversion
+- [ ] `Event` / `Node` の legacy constants と interface / instance property placement
 - [ ] `Event` subclass constructor、legacy factory alias と `MouseEvent` / `KeyboardEvent` の realm 公開
 - [ ] composed path と shadow boundary
 - [ ] event retargeting
+- [ ] `cancelBubble` / propagation flag / event phase の dispatch 前後と redispatch時の状態
 - [ ] default action
 - [ ] element の `click()` と activation behavior
 - [ ] `window.event` / `isTrusted` / high-resolution `timeStamp`
 - [ ] UI event / mouse event / pointer event / keyboard event
 - [ ] form・media・dialog・popover の仕様イベント
+- [ ] `addEventListener` option dictionary の `capture` / `once` / `passive` / `signal` semantics
 - [ ] event listener object の `handleEvent`、callback exception reporting、listener ordering
 
 ## Component model
@@ -149,13 +155,18 @@
 ## Conformance infrastructure
 
 - [x] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
+- [ ] DOM shell fixture の element `id` named access、parser timing、script実行順による false failure を分離する
+- [ ] DOM shell の `browser-profile-only` / `host-unsupported` static classification を WPT source更新時に監査する
+- [ ] DOM shell の fail / error を仕様behavior単位へ集約し、TODOとの対応を機械可読に保持する
 
 ## Web IDL bindings
 
 - [ ] argument conversion の網羅
 - [ ] 例外変換の網羅
 - [ ] property descriptor の網羅
+- [ ] platform object の `Symbol.toStringTag` と branding
 - [ ] interface constructor / prototype / iterable の global 公開 set
+- [ ] `Range` / `StaticRange` / `DOMImplementation` / `HTMLDocument` の package runtime export
 - [ ] 既存 DOM API の page realm binding 網羅
 - [ ] `Node.cloneNode` の page realm binding
 - [ ] branding check と `DOMException` name / code の整合
@@ -164,8 +175,6 @@
 
 - [ ] Selector API の適合度計測方法
 - [ ] Selector API 適合度レポート
-- [ ] HTML element interface 適合度レポート
-- [ ] WPT から palim 単体で実行可能なケースの整理
 - [ ] Living Standard 更新時の差分検出
 - [ ] commit 済み revision のみで report を更新する運用
 
