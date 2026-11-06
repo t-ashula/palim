@@ -9,7 +9,7 @@
 - [x] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
 - [x] `Attr.specified`、prefix / namespace、astral code point を含む name validation
 - [x] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
-- [ ] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
+- [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
 - [ ] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
 - [ ] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
 - [ ] `Node.moveBefore` の range、observer、form state、shadow tree を含む atomic move semantics
