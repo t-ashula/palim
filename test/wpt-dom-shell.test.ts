@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  classifyDOMShellSource,
   isDOMShellSourceResult,
   isPassingDOMShellResult,
   resolveWPTResourcePath,
@@ -13,7 +14,7 @@ import {
 } from "../tools/wpt-dom-shell/report.js";
 
 describe("WPT DOM shell model", () => {
-  it("selects immediate any.js sources from each shell scope", () => {
+  it("selects every source below each shell scope", () => {
     const manifest = {
       items: {
         testharness: {
@@ -21,9 +22,9 @@ describe("WPT DOM shell model", () => {
             abort: {
               "abort.any.js": ["hash", ["dom/abort/abort.any.html", {}]],
             },
+            collections: {},
             events: {
               "z.any.js": ["hash", ["dom/events/z.any.html", {}]],
-              "helper.js": ["hash", [null, {}]],
               "a.any.js": ["hash", ["dom/events/a.any.html", {}]],
               nested: {
                 "ignored.any.js": [
@@ -36,6 +37,16 @@ describe("WPT DOM shell model", () => {
               "tokens.html": ["hash", ["dom/lists/tokens.html", {}]],
               "manual.html": {},
             },
+            nodes: {},
+            ranges: {},
+            traversal: {},
+          },
+          domparsing: {},
+          html: {
+            dom: {
+              documents: { "dom-tree-accessors": {} },
+              elements: {},
+            },
           },
         },
       },
@@ -44,6 +55,7 @@ describe("WPT DOM shell model", () => {
     expect(selectDOMShellSources(manifest)).toEqual([
       "dom/abort/abort.any.js",
       "dom/events/a.any.js",
+      "dom/events/nested/ignored.any.js",
       "dom/events/z.any.js",
       "dom/lists/tokens.html",
     ]);
@@ -53,6 +65,27 @@ describe("WPT DOM shell model", () => {
     expect(() => selectDOMShellSources({ items: {} })).toThrow(
       "WPT manifest has no testharness scope",
     );
+  });
+
+  it("classifies sources from required host capabilities", () => {
+    expect(
+      classifyDOMShellSource("dom/nodes/example.html", "<p>fixture</p>"),
+    ).toEqual({ classification: "runnable" });
+    expect(
+      classifyDOMShellSource("dom/nodes/example.window.js", "test(() => {})"),
+    ).toEqual({
+      classification: "browser-profile-only",
+      message: "generated source requires a Window or Worker global",
+    });
+    expect(
+      classifyDOMShellSource(
+        "dom/nodes/example.html",
+        "<iframe src='child.html'></iframe>",
+      ),
+    ).toEqual({
+      classification: "browser-profile-only",
+      message: "source requires Window, layout, navigation, or network",
+    });
   });
 
   it("keeps selected sources inside the WPT checkout", () => {
@@ -110,6 +143,16 @@ describe("WPT DOM shell model", () => {
     } as const;
 
     expect(isDOMShellSourceResult(passing)).toBe(true);
+    expect(
+      isDOMShellSourceResult({
+        schemaVersion: 1,
+        profile: "dom-shell",
+        source: "dom/events/window-only.window.js",
+        result: "excluded",
+        classification: "browser-profile-only",
+        message: "requires Window",
+      }),
+    ).toBe(true);
     expect(
       isDOMShellSourceResult({
         schemaVersion: 1,
@@ -176,7 +219,18 @@ describe("WPT DOM shell model", () => {
       timeout: 0,
     });
     expect(report.selection).toEqual({
-      include: ["/dom/abort/", "/dom/events/", "/dom/lists/"],
+      include: [
+        "/dom/abort/",
+        "/dom/collections/",
+        "/dom/events/",
+        "/dom/lists/",
+        "/dom/nodes/",
+        "/dom/ranges/",
+        "/dom/traversal/",
+        "/domparsing/",
+        "/html/dom/documents/dom-tree-accessors/",
+        "/html/dom/elements/",
+      ],
       exclude: [],
     });
     expect(report.nonPassingTests).toEqual([

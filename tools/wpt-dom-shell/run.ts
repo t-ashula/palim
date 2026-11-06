@@ -1,14 +1,20 @@
 import { fork } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { availableParallelism } from "node:os";
 import { dirname, relative, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import {
+  classifyDOMShellSource,
   isDOMShellSourceResult,
-  isPassingDOMShellResult,
+  isSuccessfulDOMShellResult,
+  referencedLocalScripts,
+  resolveWPTResourcePath,
+  resolveWPTSourcePath,
   selectDOMShellSources,
 } from "./model.js";
 import type {
+  DOMShellExcludedResult,
   DOMShellRunnerErrorResult,
   DOMShellSourceResult,
 } from "./model.js";
@@ -141,17 +147,86 @@ function sessionId(): string {
   return `${new Date().toISOString().replaceAll(/[-:.]/gu, "").toLowerCase()}-${String(process.pid)}`;
 }
 
+function excludedResult(
+  source: string,
+  classification: DOMShellExcludedResult["classification"],
+  message: string,
+): DOMShellExcludedResult {
+  return {
+    schemaVersion: 1,
+    profile: "dom-shell",
+    source,
+    result: "excluded",
+    classification,
+    message,
+  };
+}
+
+async function runEligibleSource(source: string): Promise<DOMShellSourceResult> {
+  const sourcePath = resolveWPTSourcePath(defaultWPTRoot, source);
+  const sourceText = readFileSync(sourcePath, "utf8");
+  const sourceEligibility = classifyDOMShellSource(source, sourceText);
+  if (sourceEligibility.classification !== "runnable") {
+    return excludedResult(
+      source,
+      sourceEligibility.classification,
+      sourceEligibility.message,
+    );
+  }
+  let classificationText = sourceText;
+  for (const resource of referencedLocalScripts(sourceText)) {
+    const resourcePath = resolveWPTResourcePath(defaultWPTRoot, source, resource);
+    classificationText += `\n${readFileSync(resourcePath, "utf8")}`;
+  }
+  const eligibility = classifyDOMShellSource(
+    source,
+    classificationText,
+  );
+  if (eligibility.classification !== "runnable") {
+    return excludedResult(
+      source,
+      eligibility.classification,
+      eligibility.message,
+    );
+  }
+  const longTimeout =
+    /^\/\/ META: timeout=long$/mu.test(sourceText) ||
+    /<meta\s+name=["']?timeout["']?\s+content=["']?long["']?\s*\/?>/iu.test(
+      sourceText,
+    );
+  return runDOMShellSource({
+    source,
+    wptRoot: defaultWPTRoot,
+    timeoutMilliseconds: longTimeout ? 60_000 : 10_000,
+  });
+}
+
+async function runSources(
+  sources: readonly string[],
+): Promise<DOMShellSourceResult[]> {
+  const results = new Array<DOMShellSourceResult>(sources.length);
+  let nextIndex = 0;
+  const runNext = async (): Promise<void> => {
+    while (nextIndex < sources.length) {
+      const index = nextIndex;
+      nextIndex += 1;
+      const source = sources[index];
+      if (source !== undefined) {
+        results[index] = await runEligibleSource(source);
+      }
+    }
+  };
+  const concurrency = Math.min(8, availableParallelism(), sources.length);
+  await Promise.all(Array.from({ length: concurrency }, runNext));
+  return results;
+}
+
 async function main(): Promise<void> {
   const adHoc = process.argv.length > 2;
   const sources = adHoc
     ? process.argv.slice(2)
     : defaultSources(defaultWPTRoot);
-  const results: DOMShellSourceResult[] = [];
-  for (const source of sources) {
-    results.push(
-      await runDOMShellSource({ source, wptRoot: defaultWPTRoot }),
-    );
-  }
+  const results = await runSources(sources);
   const rawDirectory = resolve(
     repositoryRoot,
     "tmp/wpt-dom-shell",
@@ -196,7 +271,7 @@ async function main(): Promise<void> {
   process.stdout.write(renderDOMShellMarkdown(report));
   process.stdout.write(`Raw results: ${rawDirectory}\n`);
   process.stdout.write(`Report: ${reportDirectory}\n`);
-  if (!results.every(isPassingDOMShellResult)) {
+  if (!results.every(isSuccessfulDOMShellResult)) {
     process.exitCode = 1;
   }
 }

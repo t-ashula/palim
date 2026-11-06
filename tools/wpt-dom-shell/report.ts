@@ -11,7 +11,7 @@ import type {
 
 import {
   DOM_SHELL_SOURCE_PREFIXES,
-  isPassingDOMShellResult,
+  isSuccessfulDOMShellResult,
 } from "./model.js";
 import type {
   DOMShellCompletedResult,
@@ -74,6 +74,14 @@ function wptResult(result: DOMShellSourceResult): WPTTestResult {
   if (result.result === "complete") {
     return completedResult(result);
   }
+  if (result.result === "excluded") {
+    return {
+      test: testId(result.source),
+      status: "SKIP",
+      message: `${result.classification}: ${result.message}`,
+      subtests: [],
+    };
+  }
   return {
     test: testId(result.source),
     status: "ERROR",
@@ -94,7 +102,7 @@ export function buildDOMShellReport(
     DOM_SHELL_SOURCE_PREFIXES.map(testId),
     [],
     revision,
-    results.every(isPassingDOMShellResult) ? "passed" : "failed",
+    results.every(isSuccessfulDOMShellResult) ? "passed" : "failed",
   );
 }
 

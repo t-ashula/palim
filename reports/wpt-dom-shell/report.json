@@ -8,18 +8,25 @@
   "selection": {
     "include": [
       "/dom/abort/",
+      "/dom/collections/",
       "/dom/events/",
-      "/dom/lists/"
+      "/dom/lists/",
+      "/dom/nodes/",
+      "/dom/ranges/",
+      "/dom/traversal/",
+      "/domparsing/",
+      "/html/dom/documents/dom-tree-accessors/",
+      "/html/dom/elements/"
     ],
     "exclude": []
   },
   "totals": {
-    "total": 18,
-    "executed": 18,
-    "pass": 6,
-    "fail": 12,
-    "skip": 0,
-    "error": 0,
+    "total": 906,
+    "executed": 906,
+    "pass": 255,
+    "fail": 197,
+    "skip": 450,
+    "error": 4,
     "timeout": 0,
     "pending": 0
   },
@@ -27,11 +34,24 @@
     {
       "prefix": "/dom/abort/",
       "totals": {
-        "total": 4,
-        "executed": 4,
+        "total": 6,
+        "executed": 6,
         "pass": 0,
         "fail": 4,
-        "skip": 0,
+        "skip": 2,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/collections/",
+      "totals": {
+        "total": 12,
+        "executed": 12,
+        "pass": 5,
+        "fail": 6,
+        "skip": 1,
         "error": 0,
         "timeout": 0,
         "pending": 0
@@ -40,11 +60,11 @@
     {
       "prefix": "/dom/events/",
       "totals": {
-        "total": 9,
-        "executed": 9,
-        "pass": 5,
-        "fail": 4,
-        "skip": 0,
+        "total": 182,
+        "executed": 182,
+        "pass": 20,
+        "fail": 20,
+        "skip": 142,
         "error": 0,
         "timeout": 0,
         "pending": 0
@@ -56,8 +76,86 @@
         "total": 5,
         "executed": 5,
         "pass": 1,
-        "fail": 4,
-        "skip": 0,
+        "fail": 3,
+        "skip": 1,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/nodes/",
+      "totals": {
+        "total": 408,
+        "executed": 408,
+        "pass": 154,
+        "fail": 103,
+        "skip": 148,
+        "error": 3,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/ranges/",
+      "totals": {
+        "total": 68,
+        "executed": 68,
+        "pass": 7,
+        "fail": 13,
+        "skip": 48,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/traversal/",
+      "totals": {
+        "total": 18,
+        "executed": 18,
+        "pass": 9,
+        "fail": 1,
+        "skip": 8,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/domparsing/",
+      "totals": {
+        "total": 91,
+        "executed": 91,
+        "pass": 21,
+        "fail": 13,
+        "skip": 56,
+        "error": 1,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/html/dom/documents/dom-tree-accessors/",
+      "totals": {
+        "total": 57,
+        "executed": 57,
+        "pass": 29,
+        "fail": 23,
+        "skip": 5,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/html/dom/elements/",
+      "totals": {
+        "total": 59,
+        "executed": 59,
+        "pass": 9,
+        "fail": 11,
+        "skip": 39,
         "error": 0,
         "timeout": 0,
         "pending": 0
@@ -65,11 +163,11 @@
     }
   ],
   "subtests": {
-    "total": 265,
-    "pass": 189,
-    "fail": 76,
-    "skip": 0,
-    "error": 0,
+    "total": 5324,
+    "pass": 3467,
+    "fail": 1403,
+    "skip": 450,
+    "error": 4,
     "timeout": 0
   },
   "nonPassingTests": [
@@ -84,9 +182,19 @@
       "message": "signalInterface.any is not a function"
     },
     {
+      "url": "/dom/abort/abort-signal-timeout.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
       "url": "/dom/abort/event.any.js",
       "status": "fail",
       "message": "assert_true: event should be trusted expected true got false"
+    },
+    {
+      "url": "/dom/abort/reason-constructor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
     },
     {
       "url": "/dom/abort/timeout.any.js",
@@ -94,9 +202,64 @@
       "message": "AbortSignal.timeout is not a function"
     },
     {
+      "url": "/dom/collections/HTMLCollection-as-prototype.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n    obj.length;\n  }\" did not throw"
+    },
+    {
+      "url": "/dom/collections/HTMLCollection-delete.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n    \"use strict\";\n    delete c[0];\n  }\" did not throw"
+    },
+    {
+      "url": "/dom/collections/HTMLCollection-live-mutations.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/collections/HTMLCollection-own-props.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <a id=\"named\"></a> but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/collections/HTMLCollection-supported-property-indices.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <foo id=\"-2\"></foo> but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/collections/HTMLCollection-supported-property-names.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"0\", \"1\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"some-id\", \"some-name\", \"another-id\", \"another-name\"] length 12, got [] length 0"
+    },
+    {
+      "url": "/dom/collections/namednodemap-supported-property-names.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"0\", \"1\", \"id\", \"class\"] length 4, got [] length 0"
+    },
+    {
       "url": "/dom/events/AddEventListenerOptions-passive.any.js",
       "status": "fail",
       "message": "assert_true: addEventListener doesn't support the passive option expected true got false"
+    },
+    {
+      "url": "/dom/events/Body-FrameSet-Event-Handlers.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/CustomEvent.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n        e.initCustomEvent();\n    }\" did not throw"
+    },
+    {
+      "url": "/dom/events/Event-cancelBubble.html",
+      "status": "fail",
+      "message": "assert_false: cancelBubble must be false after an event has been dispatched. expected false got true"
+    },
+    {
+      "url": "/dom/events/Event-constants.html",
+      "status": "fail",
+      "message": "assert_true: Object [object Object] doesn't have NONE expected true got false"
     },
     {
       "url": "/dom/events/Event-constructors.any.js",
@@ -104,9 +267,204 @@
       "message": "assert_throws_js: function \"function() {\n    new Event()\n  }\" did not throw"
     },
     {
+      "url": "/dom/events/Event-dispatch-bubble-canceled.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-bubbles-false.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-bubbles-true.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-click.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-click.tentative.html",
+      "status": "fail",
+      "message": "MouseEvent is not defined"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-detached-input-and-change.html",
+      "status": "fail",
+      "message": "MouseEvent is not defined"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-handlers-changed.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-listener-order.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-multiple-cancelBubble.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-multiple-stopPropagation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-omitted-capture.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-on-disabled-elements.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-order-at-target.html",
+      "status": "fail",
+      "message": "assert_array_equals: bubbles: true expected property 0 to be \"capturing\" but got \"bubbling\" (expected array [\"capturing\", \"bubbling\"] got [\"bubbling\", \"capturing\"])"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-order.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-propagation-stopped.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-redispatch.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-reenter.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-single-activation-behavior.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-target-moved.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-target-removed.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-throwing-multiple-globals.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-dispatch-throwing.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-init-while-dispatching.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-initEvent.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n    e.initEvent()\n  }\" did not throw"
+    },
+    {
       "url": "/dom/events/Event-isTrusted.any.js",
       "status": "fail",
       "message": "assert_equals: expected \"function\" but got \"undefined\""
+    },
+    {
+      "url": "/dom/events/Event-propagation.html",
+      "status": "fail",
+      "message": "assert_equals: Propagation flag expected false but got true"
+    },
+    {
+      "url": "/dom/events/Event-stopPropagation-cancel-bubbling.html",
+      "status": "fail",
+      "message": "MouseEvent is not defined"
+    },
+    {
+      "url": "/dom/events/Event-subclasses-constructors.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-timestamp-cross-realm-getter.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-timestamp-high-resolution.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-timestamp-high-resolution.https.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/Event-timestamp-safe-resolution.html",
+      "status": "fail",
+      "message": "MouseEvent is not defined"
+    },
+    {
+      "url": "/dom/events/EventListener-addEventListener.sub.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/EventListener-handleEvent-cross-realm.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/EventListener-handleEvent.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/EventListener-incumbent-global-1.sub.html",
+      "status": "skip",
+      "message": "host-unsupported: source requires WPT substitution preprocessing"
+    },
+    {
+      "url": "/dom/events/EventListener-incumbent-global-2.sub.html",
+      "status": "skip",
+      "message": "host-unsupported: source requires WPT substitution preprocessing"
+    },
+    {
+      "url": "/dom/events/EventListener-invoke-legacy.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/EventListenerOptions-capture.html",
+      "status": "fail",
+      "message": "assert_equals: Incorrect event phase for value: true expected 1 but got 3"
+    },
+    {
+      "url": "/dom/events/EventTarget-add-listener-platform-object.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
     },
     {
       "url": "/dom/events/EventTarget-constructible.any.js",
@@ -114,9 +472,584 @@
       "message": "assert_array_equals: lengths differ, expected array [] length 0, got [object \"[object Object]\"] length 1"
     },
     {
-      "url": "/dom/lists/DOMTokenList-coverage-for-attributes.html",
+      "url": "/dom/events/EventTarget-dispatchEvent.html",
       "status": "fail",
-      "message": "assert_class_string: expected \"[object DOMTokenList]\" but got \"[object Object]\""
+      "message": "The event interface \"BeforeUnloadEvent\" is not supported"
+    },
+    {
+      "url": "/dom/events/EventTarget-window-constructor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/KeyEvent-initKeyEvent.html",
+      "status": "fail",
+      "message": "The event interface \"KeyboardEvent\" is not supported"
+    },
+    {
+      "url": "/dom/events/click-on-absolute-pseudo.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-disabled-dynamic.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global-event-targets.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global-extra.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/event-global-is-still-set-when-coercing-beforeunload-result.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global-is-still-set-when-reporting-exception-onerror.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global-replaceable.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global-set-before-handleEvent-lookup.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/event-global.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-global.worker.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/event-handler-attribute-replace-preserves-passive.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-listener-not-fully-active-adopted-node.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-listener-not-fully-active-callback.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-listener-not-fully-active-navigated.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/event-listener-not-fully-active-target.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/focus-event-document-move.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/handler-count.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/legacy-pre-activation-behavior.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/mouse-event-retarget.html",
+      "status": "fail",
+      "message": "target is not defined"
+    },
+    {
+      "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-body.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-div.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-root.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/non-cancelable-when-passive/synthetic-events-cancelable.html",
+      "status": "fail",
+      "message": "assert_implements: WheelEvent should be supported undefined"
+    },
+    {
+      "url": "/dom/events/passive-by-default-non-node.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/passive-by-default.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/pointer-event-document-move.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/preventDefault-during-activation-behavior.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/dom/events/relatedTarget.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/events/scrolling/iframe-chains.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/save-iframe-scroll-offset-when-display-none.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scroll-cross-origin-iframes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scroll-event-fired-to-element.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scroll-event-fired-to-iframe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scroll-event-not-fired-on-ancestor-style-change.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scroll-events-fired-once-per-frame-across-display-none.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-after-layout-clamping.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-after-snap.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-to-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fired-to-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fires-for-repeat-key-ending-after-scroll-container-end-is-reached.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fires-on-visual-viewport.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-fires-to-iframe-window.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-for-user-scroll.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-handler-content-attributes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-fires-to-text-input.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/scrollend-with-snap-on-fractional-offset.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-composed.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-basic.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-target-display-change.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-target-elements.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-target-move.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-target-removal.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/scrolling/wheel-event-transactions-target-resize.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/shadow-relatedTarget.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/webkit-animation-end-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/webkit-animation-iteration-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/webkit-animation-start-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/webkit-transition-end-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/window-composed-path.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/events/window-event-restored-after-throwing-onerror.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/lists/DOMTokenList-coverage-for-attributes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
     },
     {
       "url": "/dom/lists/DOMTokenList-iteration.html",
@@ -132,6 +1065,2366 @@
       "url": "/dom/lists/DOMTokenList-value.html",
       "status": "fail",
       "message": "assert_class_string: expected \"[object DOMTokenList]\" but got \"[object Object]\""
+    },
+    {
+      "url": "/dom/nodes/Attr-prefix-xhtml.xhtml",
+      "status": "fail",
+      "message": "assert_equals: Parser-inserted attribute with prefix: specified expected (boolean) true but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/nodes/Attr-prefix.html",
+      "status": "fail",
+      "message": "assert_equals: Parser-inserted attribute with prefix: specified expected (boolean) true but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/nodes/CharacterData-remove.html",
+      "status": "fail",
+      "message": "assert_array_equals: Parent should have two children left expected property 0 to be \"present\" but was \"missing\" (expected array [Comment node <!--before-->, Comment node <!--after-->] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Comment-constructor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/DOMImplementation-createDocument-no-browsing-context.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/DOMImplementation-createDocument.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/DOMImplementation-createHTMLDocument-with-saved-implementation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/DOMImplementation-createHTMLDocument.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/DOMImplementation-hasFeature.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'apply')"
+    },
+    {
+      "url": "/dom/nodes/Document-URL.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-base-url-not-live.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-characterSet-normalization-1.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-characterSet-normalization-2.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-cloneNode-about-base-url-relative.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-cloneNode-about-base-url.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-cloneNode-base-url-xml.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-cloneNode-base-url.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-cloneNode-srcdoc-base-url.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-constructor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_bmp.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_css.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_gif.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_html.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_jpg.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_mimeheader_01.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_mimeheader_02.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_png.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_txt.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/contenttype_xml.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-contentType/contentType/xhr_responseType_document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-createAttribute.html",
+      "status": "fail",
+      "message": "assert_equals: specified expected (boolean) true but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/nodes/Document-createCDATASection-xhtml.xhtml",
+      "status": "fail",
+      "message": "c.hasChildNodes is not a function"
+    },
+    {
+      "url": "/dom/nodes/Document-createComment.html",
+      "status": "fail",
+      "message": "c.hasChildNodes is not a function"
+    },
+    {
+      "url": "/dom/nodes/Document-createElement-namespace.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-createElement.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-createElementNS.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-createEvent-touchevent.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Document-createEvent.https.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-createTextNode.html",
+      "status": "fail",
+      "message": "c.hasChildNodes is not a function"
+    },
+    {
+      "url": "/dom/nodes/Document-doctype.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Document-getElementsByTagName-xhtml.xhtml",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <I></I>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Document-getElementsByTagName.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n      \"use strict\";\n      l[5] = \"foopy\"\n    }\" did not throw"
+    },
+    {
+      "url": "/dom/nodes/Document-getElementsByTagNameNS.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [] length 0, got object \"[object Object]\" length 2"
+    },
+    {
+      "url": "/dom/nodes/Document-implementation.html",
+      "status": "fail",
+      "message": "DOMImplementation is not defined"
+    },
+    {
+      "url": "/dom/nodes/DocumentFragment-constructor.html",
+      "status": "fail",
+      "message": "assert_equals: expected Document node with 2 children but got Document node with 0 children"
+    },
+    {
+      "url": "/dom/nodes/DocumentType-remove.html",
+      "status": "fail",
+      "message": "assert_array_equals: Parent should have two children left expected property 0 to be \"present\" but was \"missing\" (expected array [Comment node <!--before-->, Comment node <!--after-->] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Element-children.html",
+      "status": "fail",
+      "message": "assert_true: Expected an Element. expected true got false"
+    },
+    {
+      "url": "/dom/nodes/Element-classlist.html",
+      "status": "fail",
+      "message": "Cannot set property classList of #<Element> which has only a getter"
+    },
+    {
+      "url": "/dom/nodes/Element-closest.html",
+      "status": "fail",
+      "message": "assert_equals: :invalid expected \"test2\" but got \"\""
+    },
+    {
+      "url": "/dom/nodes/Element-getElementsByClassName.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <b class=\"foo\"></b>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Element-getElementsByTagName.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n      \"use strict\";\n      l[5] = \"foopy\"\n    }\" did not throw"
+    },
+    {
+      "url": "/dom/nodes/Element-getElementsByTagNameNS.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [] length 0, got object \"[object Object]\" length 1"
+    },
+    {
+      "url": "/dom/nodes/Element-insertAdjacentElement.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Element-insertAdjacentText.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Element-matches-disabled-pseudo-class.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/dom/nodes/Element-matches-namespaced-elements.html",
+      "status": "fail",
+      "message": "document.createElementNS(...)[method] is not a function"
+    },
+    {
+      "url": "/dom/nodes/Element-matches.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Element-querySelectorAll-context-element.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <tr id=\"row\"></tr>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Element-remove.html",
+      "status": "fail",
+      "message": "assert_array_equals: Parent should have two children left expected property 0 to be \"present\" but was \"missing\" (expected array [Comment node <!--before-->, Comment node <!--after-->] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Element-removeAttributeNS.html",
+      "status": "fail",
+      "message": "assert_equals: specified expected (boolean) true but got (undefined) undefined"
+    },
+    {
+      "url": "/dom/nodes/Element-tagName.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Element-webkitMatchesSelector.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-attributes.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-callback-arguments.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-callback-order.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-callback-tricky.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-characterData.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-childList.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-disconnect.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-document.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-inner-outer.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-overlapping-registrations.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-sanity.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-takeRecords.html",
+      "status": "fail",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-textContent.html",
+      "status": "error",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-transient-registered-observers.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/MutationObserver-xml-parser.xhtml",
+      "status": "error",
+      "message": "MutationObserver is not defined"
+    },
+    {
+      "url": "/dom/nodes/Node-appendChild-cereactions-vs-script.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Node-appendChild.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-childNodes.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <p></p>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/Node-cloneNode-document-with-doctype.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-cloneNode-external-stylesheet-no-bc.sub.html",
+      "status": "skip",
+      "message": "host-unsupported: source requires WPT substitution preprocessing"
+    },
+    {
+      "url": "/dom/nodes/Node-cloneNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-compareDocumentPosition.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-constants.html",
+      "status": "fail",
+      "message": "assert_true: Object [object Object] doesn't have ELEMENT_NODE expected true got false"
+    },
+    {
+      "url": "/dom/nodes/Node-contains-xml.xml",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n    document.contains();\n  }\" did not throw"
+    },
+    {
+      "url": "/dom/nodes/Node-contains.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-insertBefore.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [DocumentType node, Element node <html><head><title>title</title></head><body></body></html>, Comment node <!--foo-->] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Node-isConnected-shadow-dom.html",
+      "status": "fail",
+      "message": "host.attachShadow is not a function"
+    },
+    {
+      "url": "/dom/nodes/Node-isConnected.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-isEqualNode-xhtml.xhtml",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-normalize.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Text node \"\", Text node \"a\", Text node \"\"] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/Node-parentNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-properties.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-removeChild.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Node-replaceChild.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [DocumentType node, Element node <html><head><title>title</title></head><body></body></html>, Comment node <!--foo-->] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/NodeList-Iterable.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/dom/nodes/NodeList-live-mutations.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-append.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-prepend.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-properties.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-All-scope.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <p><span>hello</span></p>, Element node <p id=\"p2\">hey</p>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-All-xht.xht",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-All.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-case-insensitive.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <input name=\"User\" id=\"testInput\"></input>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-escapes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-host-pseudo-class.html",
+      "status": "fail",
+      "message": "section.attachShadow is not a function"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-namespace-tagname-attribute.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-scope.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <p><span>hello</span></p>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-shadowroot-nth-child.html",
+      "status": "fail",
+      "message": "hostElement.attachShadow is not a function"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-tag-case.html",
+      "status": "fail",
+      "message": "assert_array_equals: Lowercase ul expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <ul><li></li></ul>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelector-xml-capitalization.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelectorAll-namespace.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelectorAll-nested-not-has.html",
+      "status": "fail",
+      "message": "assert_array_equals: dd:not(:has(dd)) expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <dd class=\"a\" id=\"dd-a\">A</dd>, Element node <dd class=\"c\" id=\"dd-c\">C</dd>, Element node <dd class=\"d\" id=\"dd-d\">D</dd>, Element node <dd class=\"e\" id=\"dd-e\">E</dd>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelectorAll-scope-colon-id-class.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <span id=\"targetSpan\"></span>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelectors-namespaces.html",
+      "status": "error",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <svg id=\"thesvg\" xlink:href=\"foo\"></svg>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-querySelectors-space-and-dash-attribute-value.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <a title=\"test with - dash and space\" id=\"testme\">Test On...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ParentNode-replaceChildren.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/ProcessingInstruction-literal-2.xhtml",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/Text-constructor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/adoption.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/append-on-Document.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/attach-shadow-realm-after-adoption.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/attributes-namednodemap-cross-document.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/attributes-namednodemap.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'value')"
+    },
+    {
+      "url": "/dom/nodes/attributes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/case.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <abc></abc>, Element node <abc></abc>, Element node <abc></abc>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/create-element-realm-after-adoption.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/getElementById-namespaced-id.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [Element node <input name=\"field\" required=\"\" form=\"owner\"></input>] length 1, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-01.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\"><head>\n  <title>document.getElementsByCla..., Element node <body class=\"a\">\n  <div id=\"log\"></div>\n  <script> test(f...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-02.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\nb\"><head>\n  <title>document.getElementsByC..., Element node <body class=\"a\n\">\n  <div id=\"log\"></div>\n  <script> test(...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-03.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\"><head>\n  <title>document.getElementsByCla...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-04.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\"><head>\n  <title>document.getElementsByCla..., Element node <body class=\"a\tb\">\n  <div id=\"log\"></div>\n  <script>\n   t...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-05.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\"><head>\n  <title>document.getElementsByCla...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-06.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"a\">\n  <div id=\"log\"></div>\n  <script>\n   tes..., Element node <foo class=\"a\"></foo>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-07.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"a b\">\n  <div id=\"log\"></div>\n  <script> test...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-08.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"a\">\n  <div id=\"log\"></div>\n  <script>\n   tes...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-09.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a A\"><head>\n  <title>document.getElementsByC...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-11.xml",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x class=\"a\"></x>, Element node <x class=\"a\"></x>, Element node <x class=\"a\" t:class=\"a\" h:class=\"a\" g:class=\"a\"></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-13.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x-y-z class=\"a\"></x-y-z>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-14.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a A\"><head>\n  <title>document.getElementsByC..., Element node <body class=\"a a\">\n  <div id=\"log\"></div>\n  <div class=\"k...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-15.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <html class=\"a\nb\"><head>\n  <title>document.getElementsByC..., Element node <body class=\"a\n\">\n  <div id=\"log\"></div>\n  <script>test(f...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-16.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"b,a\">\n  <div id=\"log\"></div>\n  <script>test(...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-17.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"a b\">\n  <div id=\"log\"></div>\n  <script>test(...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-18.htm",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <body class=\"a,b x\">\n  <div id=\"log\"></div>\n  <p id=\"r\" c...] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-30.htm",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-31.htm",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-32.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <p class=\"first-p\"></p>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/getElementsByClassName-whitespace-class-names.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <span class=\"\u000b\">LINE TABULATION</span>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-append-form-and-script-from-fragment.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-button-from-div.html",
+      "status": "fail",
+      "message": "assert_equals: expected Element node <form id=\"form\"><div><script>\n    buttonForm = button.for... but got null"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-div-from-fragment.html",
+      "status": "fail",
+      "message": "assert_equals: expected Element node <head><meta charset=\"utf-8\">\n<title>Node.appendChild: ins... but got null"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-iframe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-source-from-fragment.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [3] length 1, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"s1\", \"s2\", \"s2ran\"] length 3, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-with-mutation-observer-takeRecords.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [2] length 1, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-text-in-script.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"t1\", \"t2\"] length 2, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-three-scripts-from-fragment.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"s3\", \"s1\", \"s2\"] length 3, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-three-scripts.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"s3\", \"s1\", \"s2\"] length 3, got [] length 0"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/blur-event.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/change-event.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/frame-post-connection-steps.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/insertion-removing-steps-script.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/later-script-removed-by-earlier-script.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/live-collections-batched-mutations.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/Node-moveBefore.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/child-style-preserve.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-animation-left.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-animation-transform.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-transition-left-pseudo.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-transition-left.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-transition-transform-pseudo.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/continue-css-transition-transform.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/css-animation-commit-styles.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/css-transition-cross-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/css-transition-cross-shadow.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/css-transition-to-disconnected-document.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/css-transition-trigger.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/custom-element-move-reactions.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/fieldset-child-blur-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/fieldset-child-date-input-blur-event.html",
+      "status": "fail",
+      "message": "victim is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/fire-focusin-focusout.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/focus-preserve.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/focus-within.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/hover-style-update.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/iframe-document-preserve.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/live-range-updates.html",
+      "status": "fail",
+      "message": "Range is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/modal-dialog.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-dir.html",
+      "status": "fail",
+      "message": "target is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-disconnected-id-map.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-id-map.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-into-display-none.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-lang.html",
+      "status": "fail",
+      "message": "target is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-name-map.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-option-recalc-style.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-selector-matching.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-shadow-host-id-map.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-shadow-inside.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-shadow-root.html",
+      "status": "fail",
+      "message": "shadowTarget is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/moveBefore-size-query.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/mutation-observer-moved-subtree.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/mutation-observer.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: oldParent is not defined\""
+    },
+    {
+      "url": "/dom/nodes/moveBefore/nonce.html",
+      "status": "fail",
+      "message": "new_parent is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/object-crash-regression.html",
+      "status": "fail",
+      "message": "p is not defined"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/pointer-events.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/popover-preserve.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/preserve-render-blocking-script.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/preserve-render-blocking-style.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/relevant-mutations.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/role-updates-after-move.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/script-move-before.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/select-option-optgroup.html",
+      "status": "fail",
+      "message": "assert_true: A STILL selected after it is moved out expected true got false"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/selection-preserve.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/slotchange-events.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/style-applies.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/stylesheet-cascade-order.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/stylesheet-no-refetch.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/moveBefore/throws-exception.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/name-validation.html",
+      "status": "fail",
+      "message": "assert_unreached: element.setAttributeNS should not have thrown an error for: code points: [115,109,97,108,108,69,109,111,106,105,55356,56726], string: \"smallEmoji🆖\" code points: [97,116,116,114], string: \"attr\" InvalidCharacterError: Invalid character in attribute name: smallEmoji🆖:attr Reached unreachable code"
+    },
+    {
+      "url": "/dom/nodes/namespaced-attribute-mutations.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/node-creation-realm.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/node-realm-adoption-after-frame-removal.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/node-realm-mixed-across-adoption.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/node-realm-preserved-across-adoption.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/node-realm-preserved-across-frameless-adoption.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/post-connection-steps-shadow-tree.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/prepend-on-Document.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"present\" but was \"missing\" (expected array [Element node <x></x>] got object \"[object Object]\")"
+    },
+    {
+      "url": "/dom/nodes/processing-instruction-attributes.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/query-target-in-load-event.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/querySelector-empty-id.html",
+      "status": "fail",
+      "message": "root is not defined"
+    },
+    {
+      "url": "/dom/nodes/querySelector-id-nth-child.html",
+      "status": "fail",
+      "message": "target is not defined"
+    },
+    {
+      "url": "/dom/nodes/remove-and-adopt-thcrash.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/remove-next-sibling-during-replace-with.html",
+      "status": "fail",
+      "message": "target is not defined"
+    },
+    {
+      "url": "/dom/nodes/remove-unscopable.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/nodes/rootNode.html",
+      "status": "fail",
+      "message": "shadowHost.attachShadow is not a function"
+    },
+    {
+      "url": "/dom/ranges/Range-attribute-nodes.html",
+      "status": "fail",
+      "message": "Range is not defined"
+    },
+    {
+      "url": "/dom/ranges/Range-cloneContents-around-shadow.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-cloneContents-around-shadow.tentative.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-cloneContents-in-ShadowRoot.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-cloneContents.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-cloneRange.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-collapse.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-commonAncestorContainer.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-compareBoundaryPoints.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-comparePoint.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-constructor.html",
+      "status": "fail",
+      "message": "Range is not defined"
+    },
+    {
+      "url": "/dom/ranges/Range-deleteContents-around-shadow.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-deleteContents-around-shadow.tentative.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-deleteContents-in-ShadowRoot.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-deleteContents.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-expand-shadow.tentative.html",
+      "status": "fail",
+      "message": "range.expand is not a function"
+    },
+    {
+      "url": "/dom/ranges/Range-extractContents-around-shadow.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-extractContents-around-shadow.tentative.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-extractContents-dynamic-end.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-extractContents-in-ShadowRoot.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-extractContents.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-insertNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-intersectsNode-2.html",
+      "status": "fail",
+      "message": "Range is not defined"
+    },
+    {
+      "url": "/dom/ranges/Range-intersectsNode-shadow.html",
+      "status": "fail",
+      "message": "host.attachShadow is not a function"
+    },
+    {
+      "url": "/dom/ranges/Range-intersectsNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-isPointInRange.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-appendChild.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-appendData.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-dataChange.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-deleteData.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-insertBefore.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-insertData.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-removeChild.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-replaceChild.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-replaceData.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-mutations-splitText.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-selectNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-set.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/Range-stringifier.html",
+      "status": "fail",
+      "message": "Range is not defined"
+    },
+    {
+      "url": "/dom/ranges/Range-surroundContents.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/StaticRange-constructor.html",
+      "status": "fail",
+      "message": "StaticRange is not defined"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-auto-disconnect.html",
+      "status": "fail",
+      "message": "el.createValueRange is not a function"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-basic.html",
+      "status": "fail",
+      "message": "textarea.createValueRange is not a function"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-disconnect.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-display-none.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-geometry-basic.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-geometry-multiline.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-geometry-mutations.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-highlight.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-interactive-basic.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-offset.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-programmatic-updates.html",
+      "status": "fail",
+      "message": "element.createValueRange is not a function"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-range-updates.html",
+      "status": "fail",
+      "message": "textarea.createValueRange is not a function"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-supported-elements.html",
+      "status": "fail",
+      "message": "element.createValueRange is not a function"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-unsupported-elements.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-update-event-order.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/ranges/tentative/OpaqueRange-validation.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"() => textarea.createValueRange(10, 15)\" threw object \"TypeError: textarea.createValueRange is not a function\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
+    },
+    {
+      "url": "/dom/traversal/NodeIterator-removal.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/NodeIterator.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-acceptNode-filter-cross-realm-null-browsing-context.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-acceptNode-filter-cross-realm.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-basic.html",
+      "status": "fail",
+      "message": "assert_equals: toString expected \"[object TreeWalker]\" but got \"[object Object]\""
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-currentNode.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-nextNode-detached-currentNode.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker-realm.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/dom/traversal/TreeWalker.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-encoding.html",
+      "status": "error",
+      "message": "Error: assert_equals: the meta charset must be in effect, making the main document windows-1252 expected \"windows-1252\" but got \"UTF-8\""
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-html.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-stylesheets.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url-base-about.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url-base-pushstate.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url-base.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url-moretests.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url-pushstate.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-url.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-xml-CDATA.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-xml-scripting-support-disabled.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-parseFromString-xml.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/DOMParser-xml-character-entities.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/XMLSerializer-serializeToString.html",
+      "status": "fail",
+      "message": "assert_equals: expected \"<html><head/><body><div/><span/></body></html>\" but got \"<html><head /><body><div /><span /></body></html>\""
+    },
+    {
+      "url": "/domparsing/createContextualFragment-external-scripts-async.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/createContextualFragment-xhtml.xhtml",
+      "status": "fail",
+      "message": "assert_equals: expected \"p\" but got \"body\""
+    },
+    {
+      "url": "/domparsing/createContextualFragment.html",
+      "status": "fail",
+      "message": "assert_true: Fragment created and added to document, should run expected true got false"
+    },
+    {
+      "url": "/domparsing/html-insertion-methods-html-element.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/html-unsafe-external-scripts-async.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/innerhtml-05.xhtml",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/innerhtml-07.html",
+      "status": "fail",
+      "message": "assert_equals: expected \"\" but got \"null\""
+    },
+    {
+      "url": "/domparsing/innerhtml-mxss.sub.html",
+      "status": "skip",
+      "message": "host-unsupported: source requires WPT substitution preprocessing"
+    },
+    {
+      "url": "/domparsing/outerhtml-02.html",
+      "status": "fail",
+      "message": "assert_equals: expected \"\" but got \"null\""
+    },
+    {
+      "url": "/domparsing/outerhtml-03.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/parsed-document-origin.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/domparsing/positional-html-into-script-safe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/positional-methods-with-parser-options.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/positional-methods-with-trusted-types-no-createParserOptions.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/positional-methods-with-trusted-types.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/positional-methods.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/positional-template-child.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"() => {\n            child[method_name]('<span></span>');\n          }\" threw object \"TypeError: child[method_name] is not a function\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
+    },
+    {
+      "url": "/domparsing/stream-html-reentrancy.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/style_attribute_html.html",
+      "status": "fail",
+      "message": "assert_equals: expected \"color: red;\" but got \"\""
+    },
+    {
+      "url": "/domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-append-html-unsafe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-append-html.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-fragment-context.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: table[method] is not a function\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-abort-unblocks-rendering.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-custom-element-sanitizer.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-custom-element.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-defer-async-script.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-element.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-parser-blocking-script.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-run-scripts-option.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-sanitizer-safe.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: target[prop] is not a function\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-sanitizer.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: placeholder[method] is not a function\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-script-safe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-unsafe.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-declarative-shadow-root.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: ref_node[method] is not a function\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-adopt.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-no-policy.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-sanitizer.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-insertion-logic.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-positional-template-child.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: child[method_name] is not a function\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-positional.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-customized-builtins.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-img-ctor.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-resource-fetch.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/stream-tokenizer-context.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/tentative/unclosed-script-already-started.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/unsafe-and-trusted-types-external-scripts-async.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/domparsing/xml-serialization.xhtml",
+      "status": "fail",
+      "message": "assert_equals: expected \"<!DOCTYPE html PUBLIC \\\"\\\"\\\" \\\"\\\"\\\">\" but got \"<!DOCTYPE html PUBLIC '\\\"' '\\\"'>\""
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/Document.body.html",
+      "status": "fail",
+      "message": "assert_equals: expected null but got Element node <body></body>"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/Document.currentScript.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.embeds-document.plugins-01.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.forms.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.getElementsByName/document.getElementsByName-interface.html",
+      "status": "fail",
+      "message": "assert_class_string: expected \"[object NodeList]\" but got \"[object Object]\""
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.head-02.html",
+      "status": "fail",
+      "message": "assert_equals: expected Element node <head></head> but got Element node <head></head>"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.images.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.links.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/document.scripts.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-01.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <img id=\"a\" name=\"b\"></img> but got (undefined) undefined"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-02.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-04.html",
+      "status": "fail",
+      "message": "assert_true: \"test1\" in document should be true expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-05.html",
+      "status": "fail",
+      "message": "assert_true: \"test1\" in document should be true expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-06.html",
+      "status": "fail",
+      "message": "assert_true: \"test1\" in document should be true expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-07.html",
+      "status": "fail",
+      "message": "assert_true: \"test1\" in document should be true expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-08.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-adoption.html",
+      "status": "fail",
+      "message": "assert_equals: before adoption expected (object) Element node <object id=\"adopted\"></object> but got (undefined) undefined"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added-cached-list.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added.html",
+      "status": "fail",
+      "message": "assert_equals: after adding a name expected (object) Element node <img id=\"bar\" name=\"whatever\"></img> but got (undefined) undefined"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-dynamic.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-removed.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-insertion-attr-mutation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-names.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html",
+      "status": "fail",
+      "message": "HTMLDocument is not defined"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-setattribute-attr-mutation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-supported-property-names-order.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"id-value\", \"name-value\"] length 2, got [] length 0"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-tree-order.html",
+      "status": "fail",
+      "message": "Cannot read properties of undefined (reading 'length')"
+    },
+    {
+      "url": "/html/dom/documents/dom-tree-accessors/nameditem-tree-transitions.html",
+      "status": "fail",
+      "message": "collection is not iterable"
+    },
+    {
+      "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"click\"] length 1, got [\"click\", \"click\"] length 2"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/cdata-dir_auto.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/custom-attrs.html",
+      "status": "fail",
+      "message": "assert_equals: expected 3 but got 2"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset-binding.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset-delete.html",
+      "status": "fail",
+      "message": "Invalid dataset property name"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset-get-invalid-names.html",
+      "status": "fail",
+      "message": "Invalid dataset property name"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset-get.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset-prototype.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dataset.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-assorted.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-auto-div-append-child.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-auto-dynamic-changes.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-auto-form-associated.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-bdi-script.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/document-dir.html",
+      "status": "fail",
+      "message": "assert_equals: expected (string) \"ltr\" but got (undefined) undefined"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/id-attribute.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/lang-attribute-document-element-replacement.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/lang-attribute-shadow.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/lang-attribute.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/mapped-attribute-adopt-001.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-001.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-002.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-003.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-004.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-005.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-006.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-007.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-008.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-009.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-010.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-lang-attribute-011.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-007.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-008.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-009.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-010.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-011.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/the-translate-attribute-012.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/global-attributes/translate-inherit-no-parent-element.html",
+      "status": "fail",
+      "message": "myElement.attachShadow is not a function"
+    },
+    {
+      "url": "/html/dom/elements/images/bypass-cache-revalidation.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/name-content-attribute-and-property.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/dynamic-getter.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/getter-first-letter-marker-multicol.html",
+      "status": "fail",
+      "message": "item is not defined"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/getter.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-setter.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-whitespace-pre-line.html",
+      "status": "fail",
+      "message": "a is not defined"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-with-white-spaces.html",
+      "status": "skip",
+      "message": "browser-profile-only: source requires Window, layout, navigation, or network"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/multiple-text-nodes.window.js",
+      "status": "skip",
+      "message": "browser-profile-only: generated source requires a Window or Worker global"
+    },
+    {
+      "url": "/html/dom/elements/the-innertext-and-outertext-properties/outertext-setter.html",
+      "status": "fail",
+      "message": "assert_equals: It got merged with the previous text node expected 1 but got 2"
     }
   ]
 }

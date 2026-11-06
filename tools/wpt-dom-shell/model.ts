@@ -44,21 +44,45 @@ export interface DOMShellRunnerErrorResult {
   readonly stack?: string;
 }
 
+export type DOMShellExclusion =
+  | "browser-profile-only"
+  | "host-unsupported";
+
+export interface DOMShellExcludedResult {
+  readonly schemaVersion: 1;
+  readonly profile: "dom-shell";
+  readonly source: string;
+  readonly result: "excluded";
+  readonly classification: DOMShellExclusion;
+  readonly message: string;
+}
+
 export type DOMShellSourceResult =
   | DOMShellCompletedResult
+  | DOMShellExcludedResult
   | DOMShellRunnerErrorResult;
+
+export type DOMShellSourceEligibility =
+  | { readonly classification: "runnable" }
+  | {
+      readonly classification: DOMShellExclusion;
+      readonly message: string;
+    };
 
 type JSONRecord = Readonly<Record<string, unknown>>;
 
-export const DOM_SHELL_SOURCE_SCOPES = [
-  { prefix: "dom/abort/", suffixes: [".any.js"] },
-  { prefix: "dom/events/", suffixes: [".any.js"] },
-  { prefix: "dom/lists/", suffixes: [".html"] },
+export const DOM_SHELL_SOURCE_PREFIXES = [
+  "dom/abort/",
+  "dom/collections/",
+  "dom/events/",
+  "dom/lists/",
+  "dom/nodes/",
+  "dom/ranges/",
+  "dom/traversal/",
+  "domparsing/",
+  "html/dom/documents/dom-tree-accessors/",
+  "html/dom/elements/",
 ] as const;
-
-export const DOM_SHELL_SOURCE_PREFIXES = DOM_SHELL_SOURCE_SCOPES.map(
-  ({ prefix }) => prefix,
-);
 
 function isRecord(value: unknown): value is JSONRecord {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -91,15 +115,108 @@ export function selectDOMShellSources(manifest: unknown): string[] {
   if (!isRecord(testharness)) {
     throw new TypeError("WPT manifest has no testharness scope");
   }
-  return DOM_SHELL_SOURCE_SCOPES.flatMap(({ prefix, suffixes }) =>
-    Object.entries(manifestScope(testharness, prefix))
-      .filter(
-        ([name, entry]) =>
-          suffixes.some((suffix) => name.endsWith(suffix)) &&
-          Array.isArray(entry),
-      )
-      .map(([name]) => `${prefix}${name}`),
-  ).sort();
+  const sources: string[] = [];
+  for (const prefix of DOM_SHELL_SOURCE_PREFIXES) {
+    collectManifestSources(manifestScope(testharness, prefix), prefix, sources);
+  }
+  return sources.sort();
+}
+
+function collectManifestSources(
+  scope: JSONRecord,
+  prefix: string,
+  sources: string[],
+): void {
+  for (const [name, entry] of Object.entries(scope)) {
+    const path = `${prefix}${name}`;
+    if (Array.isArray(entry)) {
+      sources.push(path);
+      continue;
+    }
+    if (isRecord(entry)) {
+      collectManifestSources(entry, `${path}/`, sources);
+    }
+  }
+}
+
+const MARKUP_SOURCE = /\.(?:html?|xhtml|xht|xml|svg)$/u;
+const GENERATED_CONTEXT_SOURCE = /\.(?:window|worker)\.js$/u;
+const BROWSER_CAPABILITY =
+  /\b(?:CSS|customElements|contentDocument|contentWindow|DOMContentLoaded|fetch|frames|getAnimations|getComputedStyle|iframe|location|navigator|performance|requestAnimationFrame|screen|trustedTypes|visualViewport|window|XMLHttpRequest)\b|\b(?:client|offset|scroll)(?:Height|Left|Top|Width)\b|\bgetBoundingClientRect\b|\.onload\b|\baddEventListener\s*\(\s*["'](?:animationstart|load)["']/iu;
+const MODULE_SCRIPT = /<script\b[^>]*\btype\s*=\s*["']?module\b/iu;
+const SCRIPT_SOURCE =
+  /<script\b[^>]*\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/giu;
+const META_SCRIPT = /^\/\/ META: script=(.+)$/gmu;
+
+export function referencedLocalScripts(sourceText: string): string[] {
+  const resources = [
+    ...[...sourceText.matchAll(META_SCRIPT)].map(
+      (match) => match[1]?.trim() ?? "",
+    ),
+    ...[...sourceText.matchAll(SCRIPT_SOURCE)].map(
+      (match) => match[1] ?? match[2] ?? match[3] ?? "",
+    ),
+  ];
+  return resources.filter(
+    (resource) =>
+      resource !== "" &&
+      resource !== "/resources/testharness.js" &&
+      resource !== "/resources/testharnessreport.js",
+  );
+}
+
+export function classifyDOMShellSource(
+  source: string,
+  sourceText: string,
+): DOMShellSourceEligibility {
+  if (GENERATED_CONTEXT_SOURCE.test(source)) {
+    return {
+      classification: "browser-profile-only",
+      message: "generated source requires a Window or Worker global",
+    };
+  }
+  if (source.includes(".sub.")) {
+    return {
+      classification: "host-unsupported",
+      message: "source requires WPT substitution preprocessing",
+    };
+  }
+  if (source.endsWith(".any.js")) {
+    return { classification: "runnable" };
+  }
+  if (!MARKUP_SOURCE.test(source)) {
+    return {
+      classification: "host-unsupported",
+      message: "source type is not supported by the DOM shell",
+    };
+  }
+  if (MODULE_SCRIPT.test(sourceText)) {
+    return {
+      classification: "browser-profile-only",
+      message: "module script execution requires the browser profile",
+    };
+  }
+  if (BROWSER_CAPABILITY.test(sourceText)) {
+    return {
+      classification: "browser-profile-only",
+      message: "source requires Window, layout, navigation, or network",
+    };
+  }
+  for (const resource of referencedLocalScripts(sourceText)) {
+    if (
+      resource.includes("?") ||
+      resource.includes("#") ||
+      /^(?:https?:)?\/\//u.test(resource) ||
+      /^[a-z][a-z0-9+.-]*:/iu.test(resource) ||
+      /\.(?:asis|py)(?:$|[?#])/u.test(resource)
+    ) {
+      return {
+        classification: "host-unsupported",
+        message: "script resource requires WPT server processing",
+      };
+    }
+  }
+  return { classification: "runnable" };
 }
 
 export function resolveWPTSourcePath(wptRoot: string, source: string): string {
@@ -143,6 +260,13 @@ export function isPassingDOMShellResult(
     result.subtests.every((subtest) => subtest.status === "pass")
   );
 }
+
+export function isSuccessfulDOMShellResult(
+  result: DOMShellSourceResult,
+): boolean {
+  return result.result === "excluded" || isPassingDOMShellResult(result);
+}
+
 export function isDOMShellSourceResult(
   value: unknown,
 ): value is DOMShellSourceResult {
@@ -158,6 +282,13 @@ export function isDOMShellSourceResult(
   }
   if (value.result === "runner-error") {
     return typeof value.message === "string";
+  }
+  if (value.result === "excluded") {
+    return (
+      (value.classification === "browser-profile-only" ||
+        value.classification === "host-unsupported") &&
+      typeof value.message === "string"
+    );
   }
   if (value.result !== "complete" || !isRecord(value.harness)) {
     return false;

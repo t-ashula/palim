@@ -281,20 +281,19 @@ upstream subtest を列挙し、palim の pass、fail、および error をそ�
 
 classification rule または host contract を変更した場合は profile schema version を更新し、過去 result と自動的に混在させない。
 
-## 初期実装の固定 scope
+## 実装する固定 scope
 
-初期実装の対象は、manifest から次の規則で選択する。
+manifest から「対象集合の決定」に挙げた全directoryと `/dom/abort/` 以下のtestharness sourceを再帰的に列挙する。
+個別testの成否によるallowlistは設けない。
 
-- `/dom/abort/` 直下の `.any.js`
-- `/dom/events/` 直下の `.any.js`
-- `/dom/lists/` 直下の testharness HTML
+`.any.js` とmarkup sourceは、source本体および参照するlocal helperを機械的に調べる。
+Window、Worker、layout、navigation、network、lifecycle、server preprocessing、またはmodule scriptが必要なsourceは理由とともに分類し、母数から除かずreportへ記録する。
 
-`.any.js` の `META: script` は WPT checkout 内の local resource に限って記載順に評価する。
-HTML source は palim の `DOMParser` で fixture document を生成し、testharness を読み込む script と result transport 用 script を除いた local script と inline script を source order で評価する。
-`/dom/lists/` は fixture markup が test script より前に完成しており、network、iframe、layout、および navigation を必要としない directory scope として選択した。
+実行対象の`.any.js`では、`META: script`をWPT checkout内のlocal resourceに限って記載順に評価する。
+markup sourceはpalimの`DOMParser`でfixture documentを生成し、testharnessを読み込むscriptとresult transport用scriptを除いたlocal scriptとinline scriptをsource orderで評価する。
 
-この scope は個別 test の成否では変更しない。
-別の directory を追加する場合は、その directory 全体に適用できる source structure と host capability の規則を先に定める。
+classification ruleはsourceのpassまたはfailを参照しない。
+ruleを変更した場合は全対象を再分類し、継続reportを全件実行で更新する。
 
 ## Project test の役割
 

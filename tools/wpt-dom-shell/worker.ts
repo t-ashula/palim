@@ -2,22 +2,8 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { runInThisContext } from "node:vm";
 
-import {
-  AbortController,
-  AbortSignal,
-  CustomEvent,
-  Document,
-  DOMException,
-  DOMParser,
-  DOMTokenList,
-  Element,
-  Event,
-  EventTarget,
-  HTMLCollection,
-  NamedNodeMap,
-  Node,
-  NodeList,
-} from "../../src/index.js";
+import * as palim from "../../src/index.js";
+import type { DOMParserSupportedType } from "../../src/index.js";
 import type {
   DOMShellCompletedResult,
   DOMShellHarnessStatus,
@@ -58,6 +44,7 @@ type CompletionCallback = (
 
 interface HarnessGlobal extends Record<string, unknown> {
   add_completion_callback?: (callback: CompletionCallback) => void;
+  add_result_callback?: (callback: (test: HarnessSubtest) => void) => void;
 }
 
 const ECMASCRIPT_GLOBALS = new Set([
@@ -123,22 +110,10 @@ const ECMASCRIPT_GLOBALS = new Set([
   "unescape",
 ]);
 
-const PALIM_GLOBALS = {
-  AbortController,
-  AbortSignal,
-  CustomEvent,
-  Document,
-  DOMException,
-  DOMParser,
-  DOMTokenList,
-  Element,
-  Event,
-  EventTarget,
-  HTMLCollection,
-  NamedNodeMap,
-  Node,
-  NodeList,
-} as const;
+const PALIM_GLOBALS = Object.fromEntries(
+  Object.entries(palim).filter(([name]) => /^[A-Z]/u.test(name)),
+);
+const { DOMParser, EventTarget } = palim;
 
 const FORBIDDEN_NODE_WEB_GLOBALS = [
   "fetch",
@@ -155,6 +130,8 @@ const FORBIDDEN_NODE_WEB_GLOBALS = [
 ] as const;
 
 const nodeProcess = process;
+const nodeConsole = console;
+let resultSent = false;
 
 function message(value: unknown): string | null {
   return value === null || value === undefined ? null : display(value);
@@ -207,6 +184,10 @@ function harnessStatus(value: unknown): DOMShellHarnessStatus {
 }
 
 function send(result: DOMShellSourceResult): void {
+  if (resultSent) {
+    return;
+  }
+  resultSent = true;
   if (nodeProcess.send === undefined) {
     throw new Error("DOM shell worker requires an IPC channel");
   }
@@ -215,6 +196,36 @@ function send(result: DOMShellSourceResult): void {
       nodeProcess.disconnect();
     }
   });
+}
+
+function cloneSubtest(test: HarnessSubtest): DOMShellCompletedResult["subtests"][number] {
+  const clone = test.structured_clone();
+  return {
+    name: String(clone.name),
+    status: subtestStatus(clone.status),
+    message: message(clone.message),
+    stack: message(clone.stack),
+  };
+}
+
+function executionError(
+  source: string,
+  error: unknown,
+  subtests: readonly DOMShellCompletedResult["subtests"][number][],
+): DOMShellCompletedResult {
+  const normalized = error instanceof Error ? error : new Error(String(error));
+  return {
+    schemaVersion: 1,
+    profile: "dom-shell",
+    source,
+    result: "complete",
+    harness: {
+      status: "error",
+      message: normalized.message,
+      stack: normalized.stack ?? null,
+    },
+    subtests,
+  };
 }
 
 function runnerError(source: string, error: unknown): DOMShellRunnerErrorResult {
@@ -264,6 +275,11 @@ function exposePalimGlobals(): void {
   }
   const globalEventTarget = new EventTarget();
   Object.defineProperties(globalThis, {
+    console: {
+      configurable: true,
+      value: nodeConsole,
+      writable: false,
+    },
     addEventListener: {
       configurable: true,
       value: globalEventTarget.addEventListener.bind(globalEventTarget),
@@ -319,13 +335,30 @@ function executeAnySource(
   runInThisContext(testSource, { filename: testPath });
 }
 
-function executeHTMLSource(
+function markupType(source: string): DOMParserSupportedType | null {
+  if (/\.html?$/u.test(source)) {
+    return "text/html";
+  }
+  if (/\.(?:xhtml|xht)$/u.test(source)) {
+    return "application/xhtml+xml";
+  }
+  if (source.endsWith(".xml")) {
+    return "application/xml";
+  }
+  if (source.endsWith(".svg")) {
+    return "image/svg+xml";
+  }
+  return null;
+}
+
+function executeMarkupSource(
   wptRoot: string,
   source: string,
   testSource: string,
   testPath: string,
+  type: DOMParserSupportedType,
 ): void {
-  const document = new DOMParser().parseFromString(testSource, "text/html");
+  const document = new DOMParser().parseFromString(testSource, type);
   Object.defineProperty(globalThis, "document", {
     configurable: true,
     value: document,
@@ -333,7 +366,7 @@ function executeHTMLSource(
   });
   let inlineScriptIndex = 0;
   for (const script of document.querySelectorAll("script")) {
-    const resource = script.getAttribute("src");
+    const resource = script.getAttribute("src") ?? script.getAttribute("href");
     if (resource !== null) {
       if (
         resource === "/resources/testharness.js" ||
@@ -363,9 +396,17 @@ function execute(wptRoot: string, source: string): void {
 
   const harnessGlobal = globalThis as HarnessGlobal;
   const addCompletionCallback = harnessGlobal.add_completion_callback;
-  if (addCompletionCallback === undefined) {
-    throw new Error("testharness did not expose add_completion_callback");
+  const addResultCallback = harnessGlobal.add_result_callback;
+  if (addCompletionCallback === undefined || addResultCallback === undefined) {
+    throw new Error("testharness did not expose result callbacks");
   }
+  const completedSubtests: DOMShellCompletedResult["subtests"][number][] = [];
+  nodeProcess.once("unhandledRejection", (error: unknown) => {
+    send(executionError(source, error, completedSubtests));
+  });
+  addResultCallback((test) => {
+    completedSubtests.push(cloneSubtest(test));
+  });
   addCompletionCallback((tests, status) => {
     try {
       const harness = status.structured_clone();
@@ -379,15 +420,7 @@ function execute(wptRoot: string, source: string): void {
           message: message(harness.message),
           stack: message(harness.stack),
         },
-        subtests: tests.map((test) => {
-          const clone = test.structured_clone();
-          return {
-            name: String(clone.name),
-            status: subtestStatus(clone.status),
-            message: message(clone.message),
-            stack: message(clone.stack),
-          };
-        }),
+        subtests: tests.map(cloneSubtest),
       };
       send(result);
     } catch (error) {
@@ -395,13 +428,19 @@ function execute(wptRoot: string, source: string): void {
     }
   });
 
-  exposePalimGlobals();
-  if (source.endsWith(".any.js")) {
-    executeAnySource(wptRoot, source, testSource, testPath);
-  } else if (source.endsWith(".html")) {
-    executeHTMLSource(wptRoot, source, testSource, testPath);
-  } else {
-    throw new TypeError(`unsupported DOM shell source type: ${source}`);
+  try {
+    exposePalimGlobals();
+    if (source.endsWith(".any.js")) {
+      executeAnySource(wptRoot, source, testSource, testPath);
+    } else {
+      const type = markupType(source);
+      if (type === null) {
+        throw new TypeError(`unsupported DOM shell source type: ${source}`);
+      }
+      executeMarkupSource(wptRoot, source, testSource, testPath, type);
+    }
+  } catch (error) {
+    send(executionError(source, error, completedSubtests));
   }
 }
 
