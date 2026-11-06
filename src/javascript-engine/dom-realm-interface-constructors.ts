@@ -310,6 +310,14 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
         : normal(binding.createDOMException(message.value, name.value));
     },
   );
+  for (const name of ["name", "message", "code"] as const) {
+    binding.attribute(binding.domExceptionPrototype, name, (thisValue) => {
+      const exception = binding.domExceptionState(thisValue);
+      return exception === null
+        ? binding.typeError(`Invalid DOMException receiver for ${name}`)
+        : binding.primitive(exception[name]);
+    });
+  }
   for (const [name, value] of Object.entries(DOM_EXCEPTION_CODES)) {
     for (const target of [
       domExceptionConstructor,

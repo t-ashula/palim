@@ -76,8 +76,7 @@ describe("WPT conformance report conversion", () => {
   });
 
   it("reports pending URLs and executed subtests separately", () => {
-    const failureMessage =
-      "expected <main> | got `null`\nsecond line & detail";
+    const failureMessage = "expected <main> | got `null`\nsecond line & detail";
     const progress = buildWPTProgressReport(
       {
         results: [

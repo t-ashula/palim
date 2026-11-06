@@ -150,6 +150,12 @@ interface TraversalFilterArgument {
   readonly value: EngineValue | null;
 }
 
+interface DOMExceptionState {
+  readonly message: string;
+  readonly name: string;
+  readonly code: number;
+}
+
 type ParentNodeObject = Document | DocumentFragment | Element;
 type ChildNodeObject = DocumentType | Element | CharacterData;
 
@@ -244,6 +250,7 @@ export class DOMRealmBindingContext {
   readonly traversalFilters = new WeakMap<object, EngineValue>();
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
+  readonly domExceptions = new WeakMap<EngineObject, DOMExceptionState>();
 
   constructor(
     engine: JavaScriptEngineAdapter,
@@ -772,19 +779,13 @@ export class DOMRealmBindingContext {
       this.domExceptionPrototype,
     );
     const code = DOM_EXCEPTION_NAME_CODES[name] ?? 0;
-    for (const [property, value] of [
-      ["message", message],
-      ["name", name],
-      ["code", code],
-    ] as const) {
-      this.engine.defineDataProperty(
-        exception,
-        property,
-        this.engine.fromPrimitive(value),
-        { configurable: true, enumerable: false, writable: true },
-      );
-    }
+    this.domExceptions.set(exception, { message, name, code });
     return exception;
+  }
+
+  domExceptionState(value: EngineValue): DOMExceptionState | null {
+    const object = this.engine.asObject(value);
+    return object === null ? null : (this.domExceptions.get(object) ?? null);
   }
 
   interfaceTag(prototype: EngineObject, name: string): void {

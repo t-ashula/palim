@@ -72,3 +72,36 @@ copy.sort();
 if (copy.toString() !== "first=2&last=value&third=three+words") {
   throw new Error("URLSearchParams mutations are invalid");
 }
+
+let prototypeThrew = false;
+try {
+  new URLSearchParams(DOMException.prototype);
+} catch (error) {
+  prototypeThrew = error instanceof TypeError;
+}
+if (!prototypeThrew) {
+  throw new Error("DOMException.prototype did not enforce branding");
+}
+
+const formData = new FormData();
+formData.append("first", "one");
+formData.append("first", "two");
+formData.set("last", "three");
+if (
+  !(formData instanceof FormData) ||
+  formData.get("first") !== "one" ||
+  formData.getAll("first").join(",") !== "one,two" ||
+  !formData.has("last") ||
+  [...formData.keys()].join(",") !== "first,first,last" ||
+  [...formData.values()].join(",") !== "one,two,three"
+) {
+  throw new Error("FormData string entry list is invalid");
+}
+const fromFormData = new URLSearchParams(formData);
+if (fromFormData.toString() !== "first=one&first=two&last=three") {
+  throw new Error("URLSearchParams did not copy FormData entries");
+}
+formData.delete("first");
+if (formData.has("first") || fromFormData.getAll("first").length !== 2) {
+  throw new Error("FormData mutation or URLSearchParams copy is invalid");
+}

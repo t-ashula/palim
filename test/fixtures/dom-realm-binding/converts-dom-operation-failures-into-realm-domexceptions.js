@@ -23,6 +23,26 @@ function assertDOMException(callback, name, code) {
   throw new Error("Expected " + name);
 }
 
+const constructed = new DOMException("detail", "SyntaxError");
+if (
+  constructed.message !== "detail" ||
+  constructed.name !== "SyntaxError" ||
+  constructed.code !== DOMException.SYNTAX_ERR
+) {
+  throw new Error("Constructed DOMException attributes are invalid");
+}
+for (const name of ["message", "name", "code"]) {
+  let threw = false;
+  try {
+    Reflect.get(DOMException.prototype, name);
+  } catch (error) {
+    threw = error instanceof TypeError;
+  }
+  if (!threw) {
+    throw new Error("DOMException.prototype." + name + " was not branded");
+  }
+}
+
 const text = testDocument.createTextNode("text");
 assertDOMException(
   () => text.appendChild(testDocument.createTextNode("child")),

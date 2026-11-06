@@ -52,6 +52,8 @@
 
 ### Forms and controls
 
+- [x] `FormData` の空 constructor、文字列 entry list の mutation / query / iteration
+- [ ] `FormData` の form / submitter による entry list 構築と Blob / File entry
 - [ ] form submission / reset / constraint validation
 - [ ] form-associated element の完全な owner 解決
 - [ ] input type ごとの value sanitization
@@ -172,7 +174,6 @@
 - [ ] `Range` / `StaticRange` / `DOMImplementation` / `HTMLDocument` の package runtime export
 - [ ] 既存 DOM API の page realm binding 網羅
 - [ ] `Node.cloneNode` の page realm binding
-- [ ] branding check と `DOMException` name / code の整合
 
 ## Standards compliance measurement
 

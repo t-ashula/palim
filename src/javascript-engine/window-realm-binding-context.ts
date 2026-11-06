@@ -10,6 +10,8 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import { DOMRealmBinding } from "./dom-realm-binding.js";
+import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
+import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
 import {
@@ -31,6 +33,7 @@ export class WindowRealmBindingContext {
   readonly locationPrototype: EngineObject;
   readonly locationObject: EngineObject;
   readonly dom: DOMRealmBinding;
+  readonly formData: FormDataRealmBindingContext;
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
 
@@ -47,6 +50,8 @@ export class WindowRealmBindingContext {
       this.window.document,
     );
     this.url = new URLRealmBinding(this.engine, this.realm);
+    this.formData = new FormDataRealmBindingContext(this.context);
+    installFormDataInterface(this.context, this.formData);
     this.windowPrototype = this.engine.createObject(
       this.realm,
       this.dom.eventTargetPrototype,
