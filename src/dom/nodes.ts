@@ -143,6 +143,10 @@ export class DOMImplementation {
     bindDOMInterface(this, this);
   }
 
+  hasFeature(): boolean {
+    return true;
+  }
+
   createDocumentType(
     qualifiedName: string,
     publicId: string,

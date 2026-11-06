@@ -1940,6 +1940,17 @@ export function installDOMImplementationMembers(
 ): void {
   binding.method(
     binding.domImplementationPrototype,
+    "hasFeature",
+    0,
+    (thisValue) => {
+      const implementation = binding.domImplementation(thisValue);
+      return implementation === null
+        ? binding.typeError("Invalid DOMImplementation receiver")
+        : binding.primitive(implementation.hasFeature());
+    },
+  );
+  binding.method(
+    binding.domImplementationPrototype,
     "createDocumentType",
     3,
     (thisValue, argumentsList) => {

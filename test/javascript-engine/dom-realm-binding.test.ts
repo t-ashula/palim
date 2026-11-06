@@ -280,6 +280,12 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("binds DOMImplementation.hasFeature", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("binds-domimplementation-hasfeature.js"));
+  });
+
   it("binds document import, adoption, and fragment ID lookup", () => {
     const { engine, realm } = createTestRealm("");
 

@@ -566,6 +566,12 @@ describe("Document node creation", () => {
     expect(html.head?.textContent).toBe("title");
     expect(html.body).not.toBeNull();
   });
+
+  it("reports every historical DOM feature as supported", () => {
+    const implementation = new Document().implementation;
+
+    expect(implementation.hasFeature()).toBe(true);
+  });
 });
 
 describe("Node cloning and adoption", () => {
