@@ -281,6 +281,21 @@ upstream subtest を列挙し、palim の pass、fail、および error をそ�
 
 classification rule または host contract を変更した場合は profile schema version を更新し、過去 result と自動的に混在させない。
 
+## 初期実装の固定 scope
+
+初期実装の対象は、manifest から次の規則で選択する。
+
+- `/dom/abort/` 直下の `.any.js`
+- `/dom/events/` 直下の `.any.js`
+- `/dom/lists/` 直下の testharness HTML
+
+`.any.js` の `META: script` は WPT checkout 内の local resource に限って記載順に評価する。
+HTML source は palim の `DOMParser` で fixture document を生成し、testharness を読み込む script と result transport 用 script を除いた local script と inline script を source order で評価する。
+`/dom/lists/` は fixture markup が test script より前に完成しており、network、iframe、layout、および navigation を必要としない directory scope として選択した。
+
+この scope は個別 test の成否では変更しない。
+別の directory を追加する場合は、その directory 全体に適用できる source structure と host capability の規則を先に定める。
+
 ## Project test の役割
 
 runner の project test は次を確認する。

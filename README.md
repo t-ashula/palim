@@ -126,6 +126,24 @@ rerunning completed URLs by passing that ID:
 npm run wpt:test -- --campaign --resume <campaign-id>
 ```
 
+The DOM shell profile runs the upstream WPT testharness and selected DOM source
+scopes against the package interface without starting the browser profile. It
+writes raw results under `tmp/wpt-dom-shell/` and updates the JSON and Markdown
+reports under `reports/wpt-dom-shell/`:
+
+```sh
+npm run wpt:dom-shell
+```
+
+Pass a relative WPT source path to investigate one source. An ad hoc run writes
+its report under its temporary run directory and does not update the continuous
+report. The command prints the summary and exits nonzero when a result does not
+pass.
+
+```sh
+npm run wpt:dom-shell -- dom/events/EventTarget-addEventListener.any.js
+```
+
 ## Name
 
 **Pronounced:** *pah-lim* (ぱりむ)

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "runStatus": "failed",
+  "source": {
+    "name": "wpt/wpt",
+    "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+  },
+  "selection": {
+    "include": [
+      "/dom/abort/",
+      "/dom/events/",
+      "/dom/lists/"
+    ],
+    "exclude": []
+  },
+  "totals": {
+    "total": 18,
+    "executed": 18,
+    "pass": 6,
+    "fail": 12,
+    "skip": 0,
+    "error": 0,
+    "timeout": 0,
+    "pending": 0
+  },
+  "areas": [
+    {
+      "prefix": "/dom/abort/",
+      "totals": {
+        "total": 4,
+        "executed": 4,
+        "pass": 0,
+        "fail": 4,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/events/",
+      "totals": {
+        "total": 9,
+        "executed": 9,
+        "pass": 5,
+        "fail": 4,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/dom/lists/",
+      "totals": {
+        "total": 5,
+        "executed": 5,
+        "pass": 1,
+        "fail": 4,
+        "skip": 0,
+        "error": 0,
+        "timeout": 0,
+        "pending": 0
+      }
+    }
+  ],
+  "subtests": {
+    "total": 265,
+    "pass": 189,
+    "fail": 76,
+    "skip": 0,
+    "error": 0,
+    "timeout": 0
+  },
+  "nonPassingTests": [
+    {
+      "url": "/dom/abort/AbortSignal.any.js",
+      "status": "fail",
+      "message": "AbortSignal.abort is not a function"
+    },
+    {
+      "url": "/dom/abort/abort-signal-any.any.js",
+      "status": "fail",
+      "message": "signalInterface.any is not a function"
+    },
+    {
+      "url": "/dom/abort/event.any.js",
+      "status": "fail",
+      "message": "assert_true: event should be trusted expected true got false"
+    },
+    {
+      "url": "/dom/abort/timeout.any.js",
+      "status": "fail",
+      "message": "AbortSignal.timeout is not a function"
+    },
+    {
+      "url": "/dom/events/AddEventListenerOptions-passive.any.js",
+      "status": "fail",
+      "message": "assert_true: addEventListener doesn't support the passive option expected true got false"
+    },
+    {
+      "url": "/dom/events/Event-constructors.any.js",
+      "status": "fail",
+      "message": "assert_throws_js: function \"function() {\n    new Event()\n  }\" did not throw"
+    },
+    {
+      "url": "/dom/events/Event-isTrusted.any.js",
+      "status": "fail",
+      "message": "assert_equals: expected \"function\" but got \"undefined\""
+    },
+    {
+      "url": "/dom/events/EventTarget-constructible.any.js",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [] length 0, got [object \"[object Object]\"] length 1"
+    },
+    {
+      "url": "/dom/lists/DOMTokenList-coverage-for-attributes.html",
+      "status": "fail",
+      "message": "assert_class_string: expected \"[object DOMTokenList]\" but got \"[object Object]\""
+    },
+    {
+      "url": "/dom/lists/DOMTokenList-iteration.html",
+      "status": "fail",
+      "message": "assert_equals: Entry 0 listObj expected object \"   a  a b \" but got object \"   a  a b \""
+    },
+    {
+      "url": "/dom/lists/DOMTokenList-stringifier.html",
+      "status": "fail",
+      "message": "assert_class_string: expected \"[object DOMTokenList]\" but got \"[object Object]\""
+    },
+    {
+      "url": "/dom/lists/DOMTokenList-value.html",
+      "status": "fail",
+      "message": "assert_class_string: expected \"[object DOMTokenList]\" but got \"[object Object]\""
+    }
+  ]
+}
