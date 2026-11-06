@@ -86,16 +86,14 @@ export function validateAndExtract(
   namespace: string | null,
   qualifiedName: string,
 ): ExtractedQualifiedName {
-  validateName(qualifiedName);
-  const parts = qualifiedName.split(":");
-  if (parts.length > 2 || parts.some((part) => part === "")) {
-    throw new DOMException(
-      `Invalid qualified name: ${qualifiedName}`,
-      "InvalidCharacterError",
-    );
+  const separator = qualifiedName.indexOf(":");
+  const prefix = separator < 0 ? null : qualifiedName.slice(0, separator);
+  const localName =
+    separator < 0 ? qualifiedName : qualifiedName.slice(separator + 1);
+  if (prefix !== null) {
+    validateNamespacePrefix(prefix);
   }
-  const prefix = parts.length === 2 ? (parts[0] ?? null) : null;
-  const localName = parts.at(-1) ?? qualifiedName;
+  validateAttributeLocalName(localName);
   if (prefix !== null && namespace === null) {
     throw new DOMException("A prefix requires a namespace", "NamespaceError");
   }

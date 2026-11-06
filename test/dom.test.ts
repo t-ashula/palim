@@ -1421,6 +1421,11 @@ describe("Element attributes", () => {
     expect(attribute.localName).toBe("name");
     expect(attribute.name).toBe("p:name");
     expect(attribute.value).toBe("");
+    expect(attribute.specified).toBe(true);
+    const astral = document.createAttributeNS("urn:test", "emoji🆖:attr");
+    expect(astral.prefix).toBe("emoji🆖");
+    expect(astral.localName).toBe("attr");
+    expect(astral.namespaceURI).toBe("urn:test");
     expectDOMException(
       () => document.createAttributeNS("urn:test", "p:"),
       "InvalidCharacterError",

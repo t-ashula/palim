@@ -1406,6 +1406,11 @@ export class Attr extends Node {
     return implementation === null ? null : elementInterface(implementation);
   }
 
+  get specified(): boolean {
+    attrImplementation(this);
+    return true;
+  }
+
   override get textContent(): string {
     return this.value;
   }

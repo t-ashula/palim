@@ -7,7 +7,7 @@
 - [x] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
 - [x] live / static collection の index、length、tree order、および mutation 後の更新
 - [x] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
-- [ ] `Attr.specified`、prefix / namespace、astral code point を含む name validation
+- [x] `Attr.specified`、prefix / namespace、astral code point を含む name validation
 - [ ] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
 - [ ] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
 - [ ] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
@@ -155,6 +155,7 @@
 ## Conformance infrastructure
 
 - [x] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
+- [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
 - [ ] DOM shell fixture の element `id` named access、parser timing、script実行順による false failure を分離する
 - [ ] DOM shell の `browser-profile-only` / `host-unsupported` static classification を WPT source更新時に監査する
 - [ ] DOM shell の fail / error を仕様behavior単位へ集約し、TODOとの対応を機械可読に保持する
