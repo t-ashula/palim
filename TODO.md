@@ -4,7 +4,7 @@
 
 ### DOM algorithms
 
-- [ ] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
+- [x] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
 - [ ] live / static collection の index、length、tree order、および mutation 後の更新
 - [ ] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
 - [ ] `Attr.specified`、prefix / namespace、astral code point を含む name validation

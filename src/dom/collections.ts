@@ -17,32 +17,124 @@ import {
 } from "./conversions.js";
 import { bindDOMInterface, implementationFor } from "./binding.js";
 
-function indexed<T extends object>(
-  collection: T,
-  values: () => readonly unknown[],
+interface LegacyPlatformObjectConfiguration {
+  readonly indexedValues: () => readonly unknown[];
+  readonly namedNames?: () => readonly string[];
+  readonly namedValue?: (name: string) => unknown;
+  readonly namedEnumerable?: boolean;
+}
+
+function legacyPlatformObject<T extends object>(
+  object: T,
+  configuration: LegacyPlatformObjectConfiguration,
 ): T {
-  return new Proxy(collection, {
-    get(target, property): unknown {
-      const index = indexedPropertyIndex(property);
+  const supportedIndex = (property: string | symbol): number | null => {
+    const index = indexedPropertyIndex(property);
+    return index !== null && index < configuration.indexedValues().length
+      ? index
+      : null;
+  };
+  const supportedName = (property: string | symbol): string | null =>
+    typeof property === "string" &&
+    indexedPropertyIndex(property) === null &&
+    (configuration.namedNames?.() ?? []).includes(property) &&
+    !Reflect.has(object, property)
+      ? property
+      : null;
+
+  const proxy = new Proxy(object, {
+    get(target, property, receiver): unknown {
+      const index = supportedIndex(property);
       if (index !== null) {
-        return values()[index];
+        return configuration.indexedValues()[index];
       }
-      const value: unknown = Reflect.get(target, property, target);
-      return typeof value === "function"
-        ? (value as (...arguments_: unknown[]) => unknown).bind(target)
-        : value;
+      const name = supportedName(property);
+      return name === null
+        ? Reflect.get(target, property, receiver)
+        : configuration.namedValue?.(name);
     },
     has(target, property): boolean {
-      const index = indexedPropertyIndex(property);
-      return index === null
-        ? Reflect.has(target, property)
-        : index < values().length;
+      return (
+        supportedIndex(property) !== null ||
+        supportedName(property) !== null ||
+        Reflect.has(target, property)
+      );
+    },
+    ownKeys(target): ArrayLike<string | symbol> {
+      const targetKeys = Reflect.ownKeys(target);
+      const indices = configuration
+        .indexedValues()
+        .map((_value, index) => String(index));
+      const names = (configuration.namedNames?.() ?? []).filter(
+        (name) =>
+          indexedPropertyIndex(name) === null && !Reflect.has(target, name),
+      );
+      const virtualKeys = new Set([...indices, ...names]);
+      return [
+        ...indices,
+        ...names,
+        ...targetKeys.filter(
+          (key) => typeof key === "symbol" || !virtualKeys.has(key),
+        ),
+      ];
+    },
+    getOwnPropertyDescriptor(target, property): PropertyDescriptor | undefined {
+      const index = supportedIndex(property);
+      if (index !== null) {
+        return {
+          configurable: true,
+          enumerable: true,
+          value: configuration.indexedValues()[index],
+          writable: false,
+        };
+      }
+      const name = supportedName(property);
+      return name === null
+        ? Reflect.getOwnPropertyDescriptor(target, property)
+        : {
+            configurable: true,
+            enumerable: configuration.namedEnumerable ?? false,
+            value: configuration.namedValue?.(name),
+            writable: false,
+          };
+    },
+    set(target, property, value, receiver): boolean {
+      if (receiver !== proxy) {
+        return Reflect.set(target, property, value, receiver);
+      }
+      if (indexedPropertyIndex(property) !== null) {
+        return false;
+      }
+      return supportedName(property) === null
+        ? Reflect.set(target, property, value, receiver)
+        : false;
+    },
+    defineProperty(target, property, attributes): boolean {
+      if (
+        indexedPropertyIndex(property) !== null ||
+        supportedName(property) !== null
+      ) {
+        return false;
+      }
+      return Reflect.defineProperty(target, property, attributes);
+    },
+    deleteProperty(target, property): boolean {
+      if (
+        supportedIndex(property) !== null ||
+        supportedName(property) !== null
+      ) {
+        return false;
+      }
+      return Reflect.deleteProperty(target, property);
     },
   });
+  return proxy;
 }
 
 function indexedPropertyIndex(property: string | symbol): number | null {
-  return typeof property === "string" && /^(0|[1-9]\d*)$/.test(property)
+  return typeof property === "string" &&
+    /^(0|[1-9]\d*)$/.test(property) &&
+    Number(property) < 4_294_967_295
     ? Number(property)
     : null;
 }
@@ -55,7 +147,9 @@ export class NodeList<T extends Node = Node> implements Iterable<T> {
       throw new TypeError("Illegal constructor");
     }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, implementation.values);
+    const proxy = legacyPlatformObject(this, {
+      indexedValues: implementation.values,
+    });
     bindDOMInterface(proxy, implementation);
     return proxy;
   }
@@ -84,7 +178,11 @@ export class HTMLCollection<
       throw new TypeError("Illegal constructor");
     }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, implementation.values);
+    const proxy = legacyPlatformObject(this, {
+      indexedValues: implementation.values,
+      namedNames: () => htmlCollectionSupportedPropertyNames(this),
+      namedValue: (name) => this.namedItem(name),
+    });
     bindDOMInterface(proxy, implementation);
     return proxy;
   }
@@ -116,7 +214,7 @@ export class HTMLCollection<
 }
 
 export function htmlCollectionSupportedPropertyNames(
-  collection: HTMLCollection,
+  collection: HTMLCollection<Element, unknown>,
 ): string[] {
   const names: string[] = [];
   for (const element of htmlCollectionValues(collection)) {
@@ -143,7 +241,12 @@ export class NamedNodeMap implements Iterable<Attr> {
       throw new TypeError("Illegal constructor");
     }
     bindDOMInterface(this, implementation);
-    const proxy = indexed(this, () => attributeNodes(implementation.element));
+    const proxy = legacyPlatformObject(this, {
+      indexedValues: () => attributeNodes(implementation.element),
+      namedNames: () => namedNodeMapSupportedPropertyNames(this),
+      namedValue: (name) => this.getNamedItem(name),
+      namedEnumerable: true,
+    });
     bindDOMInterface(proxy, implementation);
     return proxy;
   }

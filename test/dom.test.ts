@@ -1454,6 +1454,66 @@ describe("Element attributes", () => {
     ).toEqual(["id"]);
   });
 
+  it("exposes collection indexes and names as read-only own properties", () => {
+    const document = parse(
+      '<main id="first" name="first-name"></main><main id="second"></main>',
+    );
+    const nodes = document.querySelectorAll("main");
+    const elements = document.getElementsByTagName("main");
+    const attributes = nodes[0]?.attributes;
+    if (attributes === undefined) {
+      throw new Error("missing attributes");
+    }
+
+    expect(Object.getOwnPropertyNames(nodes)).toEqual(["0", "1"]);
+    expect(Object.getOwnPropertyNames(elements)).toEqual([
+      "0",
+      "1",
+      "first",
+      "first-name",
+      "second",
+    ]);
+    expect(Object.getOwnPropertyNames(attributes)).toEqual([
+      "0",
+      "1",
+      "id",
+      "name",
+    ]);
+    expect(Object.getOwnPropertyDescriptor(elements, "0")).toMatchObject({
+      configurable: true,
+      enumerable: true,
+      writable: false,
+    });
+    expect(Object.getOwnPropertyDescriptor(elements, "first")).toMatchObject({
+      configurable: true,
+      enumerable: false,
+      writable: false,
+    });
+    expect(Object.getOwnPropertyDescriptor(attributes, "id")).toMatchObject({
+      configurable: true,
+      enumerable: true,
+      writable: false,
+    });
+
+    const indexed = elements as unknown as Record<string, unknown>;
+    expect(() => {
+      indexed["0"] = null;
+    }).toThrow(TypeError);
+    expect(() => {
+      indexed["5"] = null;
+    }).toThrow(TypeError);
+    expect(() => {
+      delete indexed["0"];
+    }).toThrow(TypeError);
+    expect(() => {
+      Object.defineProperty(elements, "first", { value: null });
+    }).toThrow(TypeError);
+
+    indexed.expando = "value";
+    expect(indexed.expando).toBe("value");
+    expect(Object.getOwnPropertyNames(elements)).toContain("expando");
+  });
+
   it("gets, replaces, and removes attribute nodes through Element", () => {
     const document = parse(
       '<main data-value="old"></main><aside data-value="new"></aside>',
