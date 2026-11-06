@@ -323,6 +323,18 @@ function progressRow(name: string, totals: WPTProgressTotals): string {
   return `| ${name} | ${String(totals.total)} | ${String(totals.executed)} | ${String(totals.pass)} | ${String(totals.fail)} | ${String(totals.skip)} | ${String(totals.error)} | ${String(totals.timeout)} | ${String(totals.pending)} | ${percentage(totals.executed, totals.total)} | ${percentage(totals.pass, totals.executed)} |`;
 }
 
+function markdownCodeCell(value: string): string {
+  if (value === "") {
+    return "";
+  }
+  return `<code>${value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll("|", "&#124;")
+    .replaceAll(/\r\n?|\n/gu, "<br>")}</code>`;
+}
+
 export function renderWPTProgressMarkdown(report: WPTProgressReport): string {
   const lines = [
     "# WPT progress report",
@@ -375,7 +387,7 @@ export function renderWPTProgressMarkdown(report: WPTProgressReport): string {
     lines.push("| URL | Status | Message |", "| --- | --- | --- |");
     for (const test of report.nonPassingTests) {
       lines.push(
-        `| ${test.url} | ${test.status} | ${(test.message ?? "").replaceAll("|", "\\|").replaceAll("\n", " ")} |`,
+        `| ${test.url} | ${test.status} | ${markdownCodeCell(test.message ?? "")} |`,
       );
     }
   }

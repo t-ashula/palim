@@ -76,6 +76,8 @@ describe("WPT conformance report conversion", () => {
   });
 
   it("reports pending URLs and executed subtests separately", () => {
+    const failureMessage =
+      "expected <main> | got `null`\nsecond line & detail";
     const progress = buildWPTProgressReport(
       {
         results: [
@@ -91,7 +93,11 @@ describe("WPT conformance report conversion", () => {
             test: "/dom/fail.html",
             status: "OK",
             subtests: [
-              { name: "failure", status: "FAIL", message: "not equal" },
+              {
+                name: "failure",
+                status: "FAIL",
+                message: failureMessage,
+              },
             ],
           },
         ],
@@ -123,10 +129,14 @@ describe("WPT conformance report conversion", () => {
       timeout: 0,
     });
     expect(progress.nonPassingTests).toEqual([
-      { url: "/dom/fail.html", status: "fail", message: "not equal" },
+      { url: "/dom/fail.html", status: "fail", message: failureMessage },
     ]);
-    expect(renderWPTProgressMarkdown(progress)).toContain(
+    const markdown = renderWPTProgressMarkdown(progress);
+    expect(markdown).toContain(
       "| All | 3 | 2 | 1 | 1 | 0 | 0 | 0 | 1 | 66.67% | 50.00% |",
+    );
+    expect(markdown).toContain(
+      "| /dom/fail.html | fail | <code>expected &lt;main&gt; &#124; got `null`<br>second line &amp; detail</code> |",
     );
   });
 });

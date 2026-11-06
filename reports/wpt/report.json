@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261105t153538809z-3346898",
+    "id": "20261106t135205195z-1385325",
     "state": "completed",
     "palim": {
-      "revision": "0abf84b77594c1754c31b6ce7979540201e6a1e6",
+      "revision": "2a48edf433b409ac26e0901330b95d961ac17e23",
       "dirty": false,
-      "imageId": "sha256:4c7c531fa9eca1f0ec337272b36bc7eec695bf815fc6345ff7b9c4b6217d9807"
+      "imageId": "sha256:2b81bf40432170de4a7cadc3697393272b0e01f7d2e9d34cdecea92bb3fa49b5"
     },
     "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-05T16:26:34.483Z",
+    "snapshotAt": "2026-11-06T14:42:19.513Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -46,10 +46,10 @@
   "totals": {
     "total": 1226,
     "executed": 1226,
-    "pass": 394,
-    "fail": 374,
+    "pass": 400,
+    "fail": 369,
     "skip": 0,
-    "error": 200,
+    "error": 199,
     "timeout": 258,
     "pending": 0
   },
@@ -98,8 +98,8 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 225,
-        "fail": 121,
+        "pass": 227,
+        "fail": 119,
         "skip": 0,
         "error": 7,
         "timeout": 55,
@@ -137,10 +137,10 @@
       "totals": {
         "total": 56,
         "executed": 56,
-        "pass": 23,
+        "pass": 24,
         "fail": 17,
         "skip": 0,
-        "error": 2,
+        "error": 1,
         "timeout": 14,
         "pending": 0
       }
@@ -176,8 +176,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 16,
-        "fail": 25,
+        "pass": 19,
+        "fail": 22,
         "skip": 0,
         "error": 175,
         "timeout": 20,
@@ -212,11 +212,11 @@
     }
   ],
   "subtests": {
-    "total": 62098,
-    "pass": 48235,
-    "fail": 8583,
+    "total": 62101,
+    "pass": 48398,
+    "fail": 8424,
     "skip": 0,
-    "error": 5035,
+    "error": 5034,
     "timeout": 245
   },
   "nonPassingTests": [
@@ -323,7 +323,7 @@
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
@@ -558,7 +558,7 @@
     {
       "url": "/dom/events/event-listener-not-fully-active-target.html",
       "status": "timeout",
-      "message": "b'SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/dom/events/event-listener-not-fully-active-target.html:10:90\\n  const frame = await addFrame(t, `<script>parent.target = new EventTarget();<\\\\/script>`);\\n                                                                                         ^'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/focus-event-document-move.html",
@@ -1190,11 +1190,6 @@
       "message": "\"HTMLHtmlElement\" is not defined"
     },
     {
-      "url": "/dom/nodes/DOMImplementation-hasFeature.html",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
       "url": "/dom/nodes/Document-URL.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -1351,11 +1346,6 @@
       "url": "/dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Element-matches-disabled-pseudo-class.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/Element-matches-namespaced-elements.html",
@@ -2004,8 +1994,7 @@
     },
     {
       "url": "/dom/nodes/name-validation.html",
-      "status": "timeout",
-      "message": "assert_unreached: element.setAttributeNS should not have thrown an error for: code points: [115,109,97,108,108,69,109,111,106,105,55356,56726], string: \"smallEmoji🆖\" code points: [97,116,116,114], string: \"attr\" [object DOMException] Reached unreachable code"
+      "status": "timeout"
     },
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
@@ -2160,12 +2149,12 @@
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:22:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
@@ -2332,11 +2321,6 @@
       "url": "/dom/ranges/tentative/OpaqueRange-validation.html",
       "status": "fail",
       "message": "assert_throws_dom: function \"() => textarea.createValueRange(10, 15)\" threw object \"TypeError: textarea.createValueRange is not a function. (In \"textarea.createValueRange(10, 15)\", it is undefined)\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/domparsing/DOMParser-parseFromString-encoding.html",
-      "status": "error",
-      "message": "Error: assert_equals: the meta charset must be in effect, making the main document windows-1252 expected \"windows-1252\" but got \"UTF-8\""
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-html.html",
@@ -2976,17 +2960,17 @@
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting-cycle.html:10:244\\n  const iframe = await parseInIframe(t, `<div id=ca><b><p id=fb><script>window.fb=document.getElementById('fb');window.ca=document.getElementById('ca');document.body.appendChild(window.fb);window.fb.appendChild(window.ca)<\\\\/script></b></div>`);\\n                                                                                                                                                                                                                                                   ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-document-target.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting-document-target.html:11:301\\n  const iframe = await parseInIframe(t, `<table><tbody><tr><b><div id=fb><script>window.fb=document.getElementById('fb');window.other=document.implementation.createHTMLDocument('');window.other.documentElement.remove();window.other.appendChild(document.querySelector('table'))<\\\\/script></b></table>`);\\n                                                                                                                                                                                                                                                                                                            ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-inner-loop-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting-inner-loop-cycle.html:11:247\\n  const iframe = await parseInIframe(t, `<div id=ca><b><i><p id=fb><script>window.fb=document.getElementById('fb');window.ca=document.getElementById('ca');document.body.appendChild(window.fb);window.fb.appendChild(window.ca)<\\\\/script></b></div>`);\\n                                                                                                                                                                                                                                                      ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html",
@@ -2996,17 +2980,17 @@
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-shadow-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting-shadow-cycle.html:11:349\\n  const iframe = await parseInIframe(t, `<div id=ca><b><p id=fb><script>window.fb=document.getElementById('fb');window.ca=document.getElementById('ca');var host=document.createElement('span');var root=host.attachShadow({mode:'open'});document.body.appendChild(window.fb);window.fb.appendChild(host);root.appendChild(window.ca)<\\\\/script></b></div>`);\\n                                                                                                                                                                                                                                                                                                                                                            ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-template-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting-template-cycle.html:14:319\\n  const iframe = await parseInIframe(t, `<div id=ca><b><p id=fb><script>window.fb=document.getElementById('fb');window.ca=document.getElementById('ca');var tmpl=document.createElement('template');document.body.appendChild(window.fb);window.fb.appendChild(tmpl);tmpl.content.appendChild(window.ca)<\\\\/script></b></div>`);\\n                                                                                                                                                                                                                                                                                                                              ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/adoption-agency-reparenting.html:21:205\\n  const iframe = await parseInIframe(t, `<b>1<p id=fb>2<script>window.other=document.implementation.createHTMLDocument('');window.other.body.appendChild(document.getElementById('fb'))<\\\\/script></b>3</p>`);\\n                                                                                                                                                                                                            ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/adoption_agency_check_the_end_tag_name.html",
@@ -3021,17 +3005,17 @@
     {
       "url": "/html/syntax/parsing/custom-element-reparenting-shadow-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/custom-element-reparenting-shadow-cycle.html:8:323\\n  const iframe = await parseInIframe(t, `<script>customElements.define('x-a', class extends HTMLElement { constructor() { super(); if (window.el) return; window.el = this; window.b = document.body; window.root = this.attachShadow({mode: 'open'}); window.root.appendChild(window.b) } })<\\\\/script><body><x-a><p>x</p></x-a>`);\\n                                                                                                                                                                                                                                                                                                                                  ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/custom-element-reparenting-template-cycle.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/custom-element-reparenting-template-cycle.html:7:410\\n  const iframe = await parseInIframe(t, `<script>customElements.define('x-a', class extends HTMLElement { constructor() { super(); if (window.el) return; window.el = this; window.b = document.body; window.t = document.createElement('template'); window.t.content.appendChild(window.b); window.root = this.attachShadow({mode: 'open'}); window.root.appendChild(window.t) } })<\\\\/script><body><x-a><p>x</p></x-a>`);\\n                                                                                                                                                                                                                                                                                                                                                                                                                         ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/custom-element-reparenting.html",
       "status": "timeout",
-      "message": "b\"SyntaxError: Invalid template escape\\nhttp://web-platform.test:8000/html/syntax/parsing/custom-element-reparenting.html:8:145\\n  const iframe = await parseInIframe(t, `<script>customElements.define('x-a', class extends HTMLElement {})<\\\\/script><body><x-a><p>y</p></x-a>`);\\n                                                                                                                                                ^\""
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/doctype-system-identifier-distinction.html",
@@ -3066,867 +3050,867 @@
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=adoption02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=blocks",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=comments01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=doctype01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=domjs-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=entities01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=entities02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=foreign-fragment",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=html5test-com",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=inbody01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=isindex",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=main-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=math",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=menuitem-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=processing-instructions",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=quirks01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=ruby",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scriptdata01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_ark",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_foster01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=search-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=svg",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tables01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=template",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests1",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests10",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests11",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests12",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests14",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests15",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests16",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests17",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests18",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests19",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests2",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests20",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests21",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests22",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests23",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests24",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests25",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests26",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests3",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests4",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests5",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests6",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests7",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests8",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests9",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tricky01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=void-in-phrasing",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=webkit02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=adoption02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=blocks",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=comments01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=doctype01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=domjs-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=entities01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=entities02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=html5test-com",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=inbody01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=isindex",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=main-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=menuitem-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=processing-instructions",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=quirks01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=ruby",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scriptdata01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_ark",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_foster01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=search-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tables01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=template",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests1",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests10",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests11",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests12",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests14",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests15",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests16",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests17",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests18",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests19",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests2",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests20",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests21",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests22",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests23",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests24",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests25",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests26",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests3",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests5",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests6",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests7",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests8",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests9",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tricky01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=void-in-phrasing",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=webkit02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=blocks",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=comments01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=doctype01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=html5test-com",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=inbody01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=isindex",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=main-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=menuitem-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=processing-instructions",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=quirks01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=ruby",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scriptdata01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_ark",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=search-element",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tables01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=template",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests1",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests10",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests11",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests12",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests14",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests15",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests16",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests17",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests18",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests19",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests2",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests20",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests21",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests22",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests23",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests24",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests25",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests26",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests3",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests5",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests6",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests7",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests8",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests9",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tricky01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit01",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit02",
       "status": "error",
-      "message": "SyntaxError: Invalid decimal digits\nhttp://web-platform.test:8000/html/syntax/parsing/resources/template.js:68:35\n        var substitution_re = /\\${([^ }]*)}/g;\n                                  ^\nTypeError: Cannot convert undefined to object\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:230:19)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
+      "message": "ReferenceError: \"fetch\" is not defined\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/resources/test.js:242:3)\n    at http://web-platform.test:8000/html/syntax/parsing/resources/test.js:10:2"
     },
     {
       "url": "/html/syntax/parsing/html_content_in_foreign_context.html",
@@ -3944,19 +3928,9 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/html/syntax/parsing/meta-inhead-insertion-mode.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"ISO-8859-15\" but got \"UTF-8\""
-    },
-    {
       "url": "/html/syntax/parsing/no-doctype-name.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/quotes-in-meta.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"windows-1250\" but got \"UTF-8\""
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/generating-of-implied-end-tags.html",
@@ -4052,11 +4026,6 @@
       "url": "/html/syntax/parsing/unclosed-svg-script.html",
       "status": "fail",
       "message": "assert_true: expected true got false"
-    },
-    {
-      "url": "/html/syntax/parsing/zero.html",
-      "status": "fail",
-      "message": "assert_equals: expected (string) \"&\\ufffdauml;\" but got (undefined) undefined"
     },
     {
       "url": "/url/IdnaTestV2-removed.any.html",
