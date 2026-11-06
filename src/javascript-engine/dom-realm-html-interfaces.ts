@@ -22,6 +22,28 @@ export function installForeignAnchorMembers(
 export function installHTMLElementMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "title",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.title);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "title");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.title = value.value;
+      return binding.undefined();
+    },
+  );
   binding.attribute(binding.htmlElementPrototype, "dataset", (thisValue) => {
     const element = binding.htmlElement(thisValue);
     return element === null

@@ -166,6 +166,20 @@ describe("DOMRealmBinding", () => {
     expect(document.querySelector("main")?.getAttribute("style")).toBe("");
   });
 
+  it("reflects HTMLElement.title in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<main title="before"></main><aside></aside>',
+    );
+
+    evaluate(
+      engine,
+      realm,
+      fixture("reflects-html-element-title-in-the-engine-realm.js"),
+    );
+
+    expect(document.querySelector("main")?.getAttribute("title")).toBe("7");
+  });
+
   it("exposes markup getters and setters in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<main><p id="first">old</p><p id="second">old</p></main>',
