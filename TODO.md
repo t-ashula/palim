@@ -143,7 +143,7 @@
 - [ ] parser-blocking script
 - [ ] `document.currentScript`
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
-- [ ] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
+- [x] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
 - [ ] escaped `</script>` を含む template literal を `Invalid template escape` としない
 
 ## Conformance infrastructure

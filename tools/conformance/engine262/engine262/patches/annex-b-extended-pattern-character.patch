@@ -1,10 +1,8 @@
 diff --git a/src/parser/RegExpParser.mts b/src/parser/RegExpParser.mts
-index 1d8c8f7..235b93e 100644
+index 9a7a1b5..aa0aa37 100644
 --- a/src/parser/RegExpParser.mts
 +++ b/src/parser/RegExpParser.mts
-@@ -246,7 +246,15 @@ export class RegExpParser {
-       type: 'Alternative',
-       Term,
+@@ -248,3 +248,11 @@ export class RegExpParser {
      };
 -    while (this.position < this.source.length && !isClosingSyntaxCharacter(this.peek())) {
 +    while (this.position < this.source.length) {
@@ -17,11 +15,41 @@ index 1d8c8f7..235b93e 100644
 +        break;
 +      }
        Term.push(this.parseTerm());
-     }
-     return node;
-@@ -473,8 +481,13 @@ export class RegExpParser {
-         CharacterClass: this.parseCharacterClass(),
-       };
+@@ -368,2 +376,27 @@ export class RegExpParser {
+   //   `{` DecimalDigits `,` DecimalDigits `}`
++  private nextIsBracedQuantifier() {
++    if (!this.test('{')) {
++      return false;
++    }
++
++    let index = this.position + 1;
++    if (!isDecimalDigit(this.source[index])) {
++      return false;
++    }
++    while (isDecimalDigit(this.source[index])) {
++      index += 1;
++    }
++    if (this.source[index] === '}') {
++      return true;
++    }
++    if (this.source[index] !== ',') {
++      return false;
++    }
++    index += 1;
++    while (isDecimalDigit(this.source[index])) {
++      index += 1;
++    }
++    return this.source[index] === '}';
++  }
++
+   private maybeParseQuantifier(): ParseNode.RegExp.Quantifier | undefined {
+@@ -377,3 +410,4 @@ export class RegExpParser {
+       QuantifierPrefix = { type: 'QuantifierPrefix', production: '?' };
+-    } else if (this.eat('{')) {
++    } else if (this.nextIsBracedQuantifier()) {
++      this.expect('{');
+       const quantifierPos = this.position;
+@@ -475,4 +509,12 @@ export class RegExpParser {
      }
 -    if (isSyntaxCharacter(this.peek())) {
 -      this.raise(Throw.SyntaxError('Expected a character but got $1', this.peek()));
@@ -30,8 +58,28 @@ index 1d8c8f7..235b93e 100644
 +      !this.inUnicodeMode
 +      && !this.inUnicodeSetMode
 +      && (character === ']' || character === '{' || character === '}');
++    if (extendedPatternCharacter && character === '{' && this.nextIsBracedQuantifier()) {
++      this.raise(Throw.SyntaxError('Invalid braced quantifier'));
++    }
 +    if (isSyntaxCharacter(character) && !extendedPatternCharacter) {
 +      this.raise(Throw.SyntaxError('Expected a character but got $1', character));
      }
-     return {
-       type: 'Atom',
+diff --git a/test/engine262/cli.test.mts b/test/engine262/cli.test.mts
+index 6a7955f..ac31e4f 100644
+--- a/test/engine262/cli.test.mts
++++ b/test/engine262/cli.test.mts
+@@ -102 +102,14 @@ test('uncaught error', async () => {
+ });
++
++test('Annex B extended pattern characters', async () => {
++  const accepted = await runCli([
++    '-e',
++    '/^\\(\\)\\s*=>\\s*(?:{(.*)}\\s*|(.*))$/; /x{o}x/; /\\${([^ }]*)}/g;',
++  ]);
++  expect(accepted.code).toBe(0);
++  expect(accepted.stderr).toBe('');
++
++  const invalid = await runCli(['-e', '/{2}/;']);
++  expect(invalid.code).toBe(1);
++  expect(invalid.stderr).toContain('SyntaxError');
++});
