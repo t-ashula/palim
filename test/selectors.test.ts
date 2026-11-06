@@ -315,6 +315,64 @@ describe("Selector API", () => {
     expect(document.querySelector("main::before")).toBeNull();
   });
 
+  it("matches disabled form controls inherited from fieldsets and selects", () => {
+    const document = parse(`
+      <fieldset id="outer" disabled>
+        <legend>
+          <input id="first-legend-control">
+        </legend>
+        <legend>
+          <input id="second-legend-control">
+        </legend>
+        <input id="fieldset-control">
+        <fieldset id="nested">
+          <legend><input id="nested-legend-control"></legend>
+          <input id="nested-control">
+        </fieldset>
+      </fieldset>
+      <select id="disabled-select" disabled>
+        <optgroup id="inherited-optgroup">
+          <option id="inherited-option"></option>
+        </optgroup>
+      </select>
+      <select>
+        <optgroup disabled>
+          <option id="optgroup-option"></option>
+        </optgroup>
+      </select>
+    `);
+
+    expect(byId(document, "outer").matches(":disabled")).toBe(true);
+    expect(byId(document, "first-legend-control").matches(":enabled")).toBe(
+      true,
+    );
+    expect(byId(document, "second-legend-control").matches(":disabled")).toBe(
+      true,
+    );
+    expect(byId(document, "fieldset-control").matches(":disabled")).toBe(true);
+    expect(byId(document, "nested").matches(":disabled")).toBe(true);
+    expect(byId(document, "nested-legend-control").matches(":disabled")).toBe(
+      true,
+    );
+    expect(byId(document, "nested-control").matches(":disabled")).toBe(true);
+    expect(byId(document, "inherited-optgroup").matches(":disabled")).toBe(
+      true,
+    );
+    expect(byId(document, "inherited-option").matches(":disabled")).toBe(true);
+    expect(byId(document, "optgroup-option").matches(":disabled")).toBe(true);
+
+    byId(document, "outer").removeAttribute("disabled");
+    byId(document, "nested").setAttribute("disabled", "");
+    expect(byId(document, "first-legend-control").matches(":enabled")).toBe(
+      true,
+    );
+    expect(byId(document, "fieldset-control").matches(":enabled")).toBe(true);
+    expect(byId(document, "nested-legend-control").matches(":enabled")).toBe(
+      true,
+    );
+    expect(byId(document, "nested-control").matches(":disabled")).toBe(true);
+  });
+
   it("parses pseudo-compound selectors without returning pseudo-elements", () => {
     const document = parse();
 

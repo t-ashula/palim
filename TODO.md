@@ -10,7 +10,7 @@
 - [x] `Attr.specified`、prefix / namespace、astral code point を含む name validation
 - [x] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
 - [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
-- [ ] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
+- [x] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
 - [ ] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
 - [ ] `Node.moveBefore` の range、observer、form state、shadow tree を含む atomic move semantics
 - [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
@@ -188,6 +188,7 @@
 - [ ] 大規模 HTML corpus
 - [ ] fragment parsing benchmark
 - [ ] selector benchmark
+- [ ] `ParentNode-querySelector-All.html` を browser profile の timeout 内で完走させる selector matching 性能
 - [ ] DOM mutation benchmark
 - [ ] serialization benchmark
 - [ ] 多数 document の生成・破棄 workload

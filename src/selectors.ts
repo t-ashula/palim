@@ -1532,15 +1532,78 @@ function isDisabled(element: Element): boolean {
   if (hasAttribute(element, "disabled")) {
     return true;
   }
-  if (asciiLower(element.localName) === "option") {
-    const parent = parentElement(element);
-    return (
-      parent !== null &&
-      asciiLower(parent.localName) === "optgroup" &&
-      hasAttribute(parent, "disabled")
-    );
+  const name = asciiLower(element.localName);
+  if (["button", "fieldset", "input", "select", "textarea"].includes(name)) {
+    return isDisabledByFieldset(element);
+  }
+  if (name === "option" && isOptionDisabledByOptgroup(element)) {
+    return true;
+  }
+  const select = nearestAncestorSelect(element);
+  return select !== null && isDisabled(select);
+}
+
+function isDisabledByFieldset(element: Element): boolean {
+  let ancestor = parentElement(element);
+  while (ancestor !== null) {
+    if (
+      ancestor.namespaceURI === HTML_NAMESPACE &&
+      asciiLower(ancestor.localName) === "fieldset" &&
+      hasAttribute(ancestor, "disabled")
+    ) {
+      const firstLegend = elementChildren(ancestor).find(
+        (child) =>
+          child.namespaceURI === HTML_NAMESPACE &&
+          asciiLower(child.localName) === "legend",
+      );
+      if (firstLegend === undefined || !isDescendant(element, firstLegend)) {
+        return true;
+      }
+    }
+    ancestor = parentElement(ancestor);
   }
   return false;
+}
+
+function isOptionDisabledByOptgroup(element: Element): boolean {
+  let ancestor = parentElement(element);
+  while (ancestor !== null) {
+    if (ancestor.namespaceURI === HTML_NAMESPACE) {
+      const name = asciiLower(ancestor.localName);
+      if (["select", "hr", "datalist", "option"].includes(name)) {
+        return false;
+      }
+      if (name === "optgroup") {
+        return hasAttribute(ancestor, "disabled");
+      }
+    }
+    ancestor = parentElement(ancestor);
+  }
+  return false;
+}
+
+function nearestAncestorSelect(element: Element): Element | null {
+  let ancestorOptgroup: Element | null = null;
+  let ancestor = parentElement(element);
+  while (ancestor !== null) {
+    if (ancestor.namespaceURI === HTML_NAMESPACE) {
+      const name = asciiLower(ancestor.localName);
+      if (["datalist", "hr", "option"].includes(name)) {
+        return null;
+      }
+      if (name === "optgroup") {
+        if (ancestorOptgroup !== null) {
+          return null;
+        }
+        ancestorOptgroup = ancestor;
+      }
+      if (name === "select") {
+        return ancestor;
+      }
+    }
+    ancestor = parentElement(ancestor);
+  }
+  return null;
 }
 
 function supportsRequired(element: Element): boolean {
