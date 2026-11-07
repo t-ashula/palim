@@ -397,8 +397,11 @@ class TreeBuilder {
   #pendingTableCharacters = "";
   #pendingScript: Promise<void> | null = null;
   #recordedTokenizerErrors = 0;
+  #streamingAbortRequested = false;
+  #streamingCloseRequested = false;
   #streamingRoot: Element | null = null;
   #streamingFinished = false;
+  #streamingRunning = false;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
@@ -548,7 +551,7 @@ class TreeBuilder {
       throw new TypeError("The streaming fragment parser is not writable");
     }
     this.#tokenizer.append(input);
-    this.#processAvailableFragmentTokens();
+    this.#runStreamingFragment();
   }
 
   closeStreamingFragment(): void {
@@ -556,7 +559,14 @@ class TreeBuilder {
       return;
     }
     this.#tokenizer.close();
-    this.#processAvailableFragmentTokens();
+    this.#streamingCloseRequested = true;
+    this.#runStreamingFragment();
+  }
+
+  #finishStreamingFragment(): void {
+    if (this.#streamingFinished) {
+      return;
+    }
     if (this.#mode === "in-table-text") {
       this.#flushTableCharacters();
     }
@@ -569,6 +579,14 @@ class TreeBuilder {
     if (this.#streamingInsertion === null || this.#streamingFinished) {
       return;
     }
+    if (this.#streamingRunning) {
+      this.#streamingAbortRequested = true;
+      return;
+    }
+    this.#abortStreamingFragmentNow();
+  }
+
+  #abortStreamingFragmentNow(): void {
     this.#tokenizer.discard();
     if (this.#mode === "in-table-text") {
       this.#flushTableCharacters();
@@ -578,8 +596,29 @@ class TreeBuilder {
     setDocumentParseErrors(this.document, this.#errors);
   }
 
+  #runStreamingFragment(): void {
+    if (this.#streamingRunning) {
+      return;
+    }
+    this.#streamingRunning = true;
+    try {
+      this.#processAvailableFragmentTokens();
+    } finally {
+      this.#streamingRunning = false;
+    }
+    if (this.#streamingAbortRequested) {
+      this.#streamingAbortRequested = false;
+      this.#abortStreamingFragmentNow();
+    } else if (this.#streamingCloseRequested) {
+      this.#finishStreamingFragment();
+    }
+  }
+
   #processAvailableFragmentTokens(): void {
     for (;;) {
+      if (this.#streamingAbortRequested) {
+        return;
+      }
       const current = this.#adjustedCurrent();
       this.#tokenizer.setAllowCdata(
         current !== null && current.namespaceURI !== HTML_NAMESPACE,

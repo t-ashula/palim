@@ -359,6 +359,24 @@ describe("parser-inserted classic scripts", () => {
     expect(document.body?.getAttribute("data-shadow-script-ran")).toBe("true");
   });
 
+  it("defers reentrant streaming operations until the current chunk ends", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      `<body><div id="write-target"></div><div id="abort-target"></div><script>${fixture("streaming-reentrancy.js")}</script></body>`,
+    );
+
+    expect(document.body?.getAttribute("data-streaming-write-at-script")).toBe(
+      "a",
+    );
+    expect(document.body?.getAttribute("data-streaming-write-after")).toBe(
+      "a,b,c",
+    );
+    expect(document.body?.getAttribute("data-streaming-abort-after")).toBe(
+      "a,b,c,d",
+    );
+  });
+
   it("skips a dynamic script removed by an earlier post-connection step", async () => {
     const environment = new WindowExecutionEnvironment();
 

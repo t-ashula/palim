@@ -76,18 +76,28 @@ export function installHTMLStreamingInterfaces(
       return normal(writer);
     },
   );
-  binding.method(binding.writableStreamPrototype, "abort", 1, (thisValue) => {
-    const state = writableState(binding, thisValue);
-    if (state === null) {
-      return binding.typeError("Invalid WritableStream receiver");
-    }
-    if (state.locked) {
-      return rejectedTypeError(binding, "The WritableStream is locked");
-    }
-    return streamOperation(binding, state, () => {
-      state.abort(undefined, true);
-    });
-  });
+  binding.method(
+    binding.writableStreamPrototype,
+    "abort",
+    1,
+    (thisValue, argumentsList) => {
+      const state = writableState(binding, thisValue);
+      if (state === null) {
+        return binding.typeError("Invalid WritableStream receiver");
+      }
+      if (state.locked) {
+        return rejectedTypeError(binding, "The WritableStream is locked");
+      }
+      const reason =
+        argumentsList[0] ?? binding.engine.fromPrimitive(undefined);
+      if (state.status === "writable") {
+        realmErrors.set(state, reason);
+      }
+      return streamOperation(binding, state, () => {
+        state.abort(reason, true);
+      });
+    },
+  );
   binding.method(binding.writableStreamPrototype, "close", 0, (thisValue) => {
     const state = writableState(binding, thisValue);
     if (state === null) {
@@ -145,7 +155,9 @@ export function installHTMLStreamingInterfaces(
         );
       }
       if (state.status !== "writable") {
-        return rejectedTypeError(binding, "The HTML stream is closed");
+        return state.status === "errored"
+          ? promise(binding, "reject", errorValue(binding, state))
+          : rejectedTypeError(binding, "The HTML stream is closed");
       }
       const converted = binding.context.string(
         argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
@@ -180,13 +192,21 @@ export function installHTMLStreamingInterfaces(
     binding.writableStreamDefaultWriterPrototype,
     "abort",
     1,
-    (thisValue) => {
+    (thisValue, argumentsList) => {
       const state = stateForWriter(binding, thisValue);
-      return state === null
-        ? binding.typeError("Invalid WritableStreamDefaultWriter receiver")
-        : streamOperation(binding, state, () => {
-            state.abort();
-          });
+      if (state === null) {
+        return binding.typeError(
+          "Invalid WritableStreamDefaultWriter receiver",
+        );
+      }
+      const reason =
+        argumentsList[0] ?? binding.engine.fromPrimitive(undefined);
+      if (state.status === "writable") {
+        realmErrors.set(state, reason);
+      }
+      return streamOperation(binding, state, () => {
+        state.abort(reason);
+      });
     },
   );
   binding.method(
