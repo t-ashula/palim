@@ -88,6 +88,49 @@ describe("open", () => {
     },
   );
 
+  it.each([
+    {
+      body: new TextEncoder().encode(
+        '<!doctype html><meta charset="utf-8"><p>transport</p>',
+      ),
+      contentType: "text/html; charset=iso-8859-1",
+      encoding: "windows-1252",
+      source: "transport charset",
+    },
+    {
+      body: new Uint8Array([
+        0xef,
+        0xbb,
+        0xbf,
+        ...new TextEncoder().encode(
+          '<!doctype html><meta charset="windows-1252"><p>bom</p>',
+        ),
+      ]),
+      contentType: "text/html; charset=iso-8859-1",
+      encoding: "UTF-8",
+      source: "BOM",
+    },
+  ])("prefers $source when selecting navigation encoding", async (fixture) => {
+    const fetchMock = vi.fn(() =>
+      Promise.resolve(
+        new Response(fixture.body, {
+          headers: { "content-type": fixture.contentType },
+        }),
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const { document } = (await open("https://example.test/")).window;
+
+      expect(document.characterSet).toBe(fixture.encoding);
+      expect(document.inputEncoding).toBe(fixture.encoding);
+      expect(document.charset).toBe(fixture.encoding);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it("parses XML responses and runs classic scripts in document order", async () => {
     const fetchMock = vi.fn((input: string | URL) => {
       const url = input.toString();
