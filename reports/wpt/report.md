@@ -4,15 +4,15 @@ Run status: failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261106t181823904z-1723289
+Campaign: 20261107t092415384z-2266469
 
 Campaign state: completed
 
-Palim: 464d58648a4424732127f3145b93b4184102e1dc
+Palim: c924d3869b5fec662fb4a4c19f3ac821759a4b2e
 
-Container image: sha256:1b914ced80cf24128d58fb5ebac2177025148055d9ac05be14e6f64b5339e3ac
+Container image: sha256:8ea3e1cc0b4593286a50f864e37b4c8e8cb9c905680026494a36fe76893fe94a
 
-Snapshot: 2026-11-06T19:08:44.205Z
+Snapshot: 2026-11-07T10:14:31.817Z
 
 Attempts: 1226; worker failures: 0; retries: 0
 
@@ -20,17 +20,17 @@ Attempts: 1226; worker failures: 0; retries: 0
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1226 | 1226 | 423 | 350 | 0 | 196 | 257 | 0 | 100.00% | 34.50% |
+| All | 1226 | 1226 | 461 | 319 | 0 | 195 | 251 | 0 | 100.00% | 37.60% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 214 | 214 | 24 | 65 | 0 | 7 | 118 | 0 | 100.00% | 11.21% |
+| /dom/events/ | 214 | 214 | 24 | 66 | 0 | 7 | 117 | 0 | 100.00% | 11.21% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 238 | 109 | 0 | 6 | 55 | 0 | 100.00% | 58.33% |
-| /dom/ranges/ | 69 | 69 | 17 | 40 | 0 | 2 | 10 | 0 | 100.00% | 24.64% |
+| /dom/nodes/ | 408 | 408 | 255 | 96 | 0 | 6 | 51 | 0 | 100.00% | 62.50% |
+| /dom/ranges/ | 69 | 69 | 24 | 33 | 0 | 2 | 10 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 56 | 56 | 26 | 15 | 0 | 1 | 14 | 0 | 100.00% | 46.43% |
+| /domparsing/ | 56 | 56 | 38 | 5 | 0 | 0 | 13 | 0 | 100.00% | 67.86% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 36 | 20 | 0 | 0 | 1 | 0 | 100.00% | 63.16% |
 | /html/dom/elements/ | 70 | 70 | 7 | 48 | 0 | 1 | 14 | 0 | 100.00% | 10.00% |
-| /html/syntax/parsing/ | 236 | 236 | 20 | 21 | 0 | 175 | 20 | 0 | 100.00% | 8.47% |
+| /html/syntax/parsing/ | 236 | 236 | 22 | 19 | 0 | 175 | 20 | 0 | 100.00% | 9.32% |
 | /url/ | 77 | 77 | 16 | 32 | 0 | 4 | 25 | 0 | 100.00% | 20.78% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
@@ -38,7 +38,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 62288 | 48757 | 8255 | 0 | 5032 | 244 | 78.28% |
+| 62379 | 48518 | 8592 | 0 | 5031 | 238 | 77.78% |
 
 ## Non-passing executed tests
 
@@ -56,7 +56,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-detached-input-and-change.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., [...], Document node with 2 children, [...]] length 14</code> |
-| /dom/events/Event-dispatch-listener-order.window.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode: "closed" })", it is undefined)</code> |
+| /dom/events/Event-dispatch-listener-order.window.html | fail | <code>assert_array_equals: lengths differ, expected array ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "capturing SPAN", "bubbling SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"] length 10, got ["bubbling SPAN", "capturing SPAN", "bubbling P", "capturing P", "bubbling #document-fragment", "capturing #document-fragment"] length 6</code> |
 | /dom/events/Event-dispatch-multiple-cancelBubble.html | fail | <code>assert_array_equals: lengths differ, expected array [Document node with 2 children, object "[object Object]"] length 2, got [Document node with 2 children] length 1</code> |
 | /dom/events/Event-dispatch-multiple-stopPropagation.html | fail | <code>assert_array_equals: lengths differ, expected array [Document node with 2 children, object "[object Object]"] length 2, got [Document node with 2 children] length 1</code> |
 | /dom/events/Event-dispatch-omitted-capture.html | fail | <code>assert_array_equals: targets lengths differ, expected array [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children, object "[object Object]"] length 8, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children] length 7</code> |
@@ -64,7 +64,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/Event-dispatch-order-at-target.html | fail | <code>assert_array_equals: bubbles: true expected property 0 to be "capturing" but got "bubbling" (expected array ["capturing", "bubbling"] got ["bubbling", "capturing"])</code> |
 | /dom/events/Event-dispatch-order.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/Event-dispatch-propagation-stopped.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
-| /dom/events/Event-dispatch-redispatch.html | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: ReferenceError: "requestAnimationFrame" is not defined<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
+| /dom/events/Event-dispatch-redispatch.html | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: ReferenceError: "requestAnimationFrame" is not defined<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
 | /dom/events/Event-dispatch-reenter.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;] length 1</code> |
 | /dom/events/Event-dispatch-single-activation-behavior.html | error | <code>39 duplicate test names: "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated."</code> |
 | /dom/events/Event-dispatch-target-moved.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., [...], Document node with 2 children, [...]] length 14</code> |
@@ -88,7 +88,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/EventListener-incumbent-global-2.sub.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/EventListener-invoke-legacy.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/EventListenerOptions-capture.html | fail | <code>assert_equals: Incorrect event phase for value: true expected 1 but got 3</code> |
-| /dom/events/EventTarget-add-listener-platform-object.html | timeout | <code>b'TypeError: Super class [Function HTMLElement] is not a constructor\n    at http://web-platform.test:8000/dom/events/EventTarget-add-listener-platform-object.html:5:29'</code> |
+| /dom/events/EventTarget-add-listener-platform-object.html | timeout | <code>b'TypeError: customElement.click is not a function. (In "customElement.click()", it is undefined)\n    at http://web-platform.test:8000/dom/events/EventTarget-add-listener-platform-object.html:19:1'</code> |
 | /dom/events/EventTarget-add-remove-listener.any.worker.html | timeout | <code>b'ReferenceError: "Worker" is not defined\n    at http://web-platform.test:8000/dom/events/EventTarget-add-remove-listener.any.worker.html:2:29'</code> |
 | /dom/events/EventTarget-addEventListener.any.worker.html | timeout | <code>b'ReferenceError: "Worker" is not defined\n    at http://web-platform.test:8000/dom/events/EventTarget-addEventListener.any.worker.html:2:29'</code> |
 | /dom/events/EventTarget-constructible.any.html | fail | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
@@ -106,7 +106,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/event-global-is-still-set-when-coercing-beforeunload-result.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-is-still-set-when-reporting-exception-onerror.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-set-before-handleEvent-lookup.window.html | fail | <code>The event listener is not callable</code> |
-| /dom/events/event-global.html | fail | <code>assert_own_property: expected property "event" missing</code> |
+| /dom/events/event-global.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global.worker.html | timeout | <code>b'ReferenceError: "Worker" is not defined\n    at http://web-platform.test:8000/dom/events/event-global.worker.html:2:29'</code> |
 | /dom/events/event-listener-not-fully-active-adopted-node.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-listener-not-fully-active-callback.html | timeout | <code>palim execution timed out</code> |
@@ -165,7 +165,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/passive-by-default.html | fail | <code>assert_equals: defaultPrevented expected false but got true</code> |
 | /dom/events/pointer-event-document-move.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /dom/events/preventDefault-during-activation-behavior.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: button.click is not a function. (In "button.click()", it is undefined)"</code> |
-| /dom/events/relatedTarget.window.html | timeout | <code>b'TypeError: host.attachShadow is not a function. (In "host.attachShadow({ mode: "closed" })", it is undefined)\n    at http://web-platform.test:8000/dom/events/relatedTarget.window.js:5:42'</code> |
+| /dom/events/relatedTarget.window.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /dom/events/scrolling/iframe-chains.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/save-iframe-scroll-offset-when-display-none.html | timeout | <code>palim execution timed out</code> |
@@ -227,7 +227,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/events/scrolling/wheel-event-transactions-target-removal.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
 | /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true | timeout | <code>palim execution timed out</code> |
-| /dom/events/shadow-relatedTarget.html | timeout | <code>b'TypeError: host.attachShadow is not a function. (In "host.attachShadow({ mode: "closed" })", it is undefined)\n    at http://web-platform.test:8000/dom/events/shadow-relatedTarget.html:2:40'</code> |
+| /dom/events/shadow-relatedTarget.html | fail | <code>root.getElementById("shadowInput").focus is not a function. (In "root.getElementById("shadowInput").focus()", it is undefined)</code> |
 | /dom/events/webkit-animation-end-event.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at runAnimationEventTests (http://web-platform.test:8000/dom/events/resources/prefixed-animation-event-tests.js:33:5)\n    at http://web-platform.test:8000/dom/events/webkit-animation-end-event.html:7:22'</code> |
 | /dom/events/webkit-animation-iteration-event.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at runAnimationEventTests (http://web-platform.test:8000/dom/events/resources/prefixed-animation-event-tests.js:33:5)\n    at http://web-platform.test:8000/dom/events/webkit-animation-iteration-event.html:10:22'</code> |
 | /dom/events/webkit-animation-start-event.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at runAnimationEventTests (http://web-platform.test:8000/dom/events/resources/prefixed-animation-event-tests.js:33:5)\n    at http://web-platform.test:8000/dom/events/webkit-animation-start-event.html:7:22'</code> |
@@ -239,7 +239,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/DOMImplementation-createHTMLDocument-with-saved-implementation.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/DOMImplementation-createHTMLDocument.html | fail | <code>assert_equals: expected 0 but got 1</code> |
 | /dom/nodes/Document-URL.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode: "closed" })", it is undefined)</code> |
+| /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>assert_throws_dom: function "() =&gt; target.adoptNode(root)" did not throw</code> |
 | /dom/nodes/Document-base-url-not-live.window.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-characterSet-normalization-1.html | timeout |  |
 | /dom/nodes/Document-characterSet-normalization-2.html | timeout |  |
@@ -261,38 +261,37 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/Document-contentType/contentType/contenttype_xml.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /dom/nodes/Document-createCDATASection-xhtml.xhtml | timeout | <code>b'ReferenceError: "CDATASection" is not defined\n    at http://web-platform.test:8000/dom/nodes/Document-createCDATASection-xhtml.xhtml:3:37'</code> |
-| /dom/nodes/Document-createCDATASection.html | timeout | <code>b'at http://web-platform.test:8000/dom/nodes/Document-createCDATASection.html:6:40'</code> |
 | /dom/nodes/Document-createElement-namespace.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-createElement.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Document-createElementNS.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Document-createEvent.https.html | error | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
 | /dom/nodes/DocumentFragment-constructor.html | fail | <code>assert_equals: expected Document node with 2 children but got Document node with 0 children</code> |
+| /dom/nodes/Element-classlist.html | fail | <code>The childList option must be true</code> |
 | /dom/nodes/Element-closest.html | fail | <code>assert_equals: :invalid expected "test2" but got ""</code> |
 | /dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Element-matches-namespaced-elements.html | fail | <code>document.createElementNS("", "element")[method] is not a function. (In "document.createElementNS("", "element")[method]("element")", it is undefined)</code> |
 | /dom/nodes/Element-matches.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Element-webkitMatchesSelector.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/MutationObserver-attributes.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-callback-arguments.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-callback-order.window.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MutationObserver" is not defined"</code> |
-| /dom/nodes/MutationObserver-callback-tricky.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-characterData.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-childList.html | fail | <code>"MutationObserver" is not defined</code> |
+| /dom/nodes/MutationObserver-attributes.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-callback-arguments.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-callback-order.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
+| /dom/nodes/MutationObserver-callback-tricky.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-characterData.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-childList.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/MutationObserver-cross-realm-callback-report-exception.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html:6:21'</code> |
-| /dom/nodes/MutationObserver-disconnect.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-document.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-inner-outer.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-overlapping-registrations.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-sanity.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-takeRecords.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-textContent.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/MutationObserver-transient-registered-observers.window.html | fail | <code>"MutationObserver" is not defined</code> |
-| /dom/nodes/MutationObserver-xml-parser.xhtml | error | <code>ReferenceError: "MutationObserver" is not defined<br>    at http://web-platform.test:8000/dom/nodes/MutationObserver-xml-parser.xhtml:3:24</code> |
+| /dom/nodes/MutationObserver-disconnect.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-document.html | fail | <code>assert_unreached: document observer did not trigger Reached unreachable code</code> |
+| /dom/nodes/MutationObserver-inner-outer.html | fail | <code>assert_array_equals: addedNodes didn't match lengths differ, expected array [Text node "new text"] length 1, got object "[object NodeList]" length 0</code> |
+| /dom/nodes/MutationObserver-overlapping-registrations.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-sanity.html | fail | <code>The childList option must be true</code> |
+| /dom/nodes/MutationObserver-takeRecords.html | fail | <code>assert_equals: mutation records must match expected 5 but got 1</code> |
+| /dom/nodes/MutationObserver-textContent.html | fail | <code>assert_equals: Should have one record expected 1 but got 5</code> |
+| /dom/nodes/MutationObserver-transient-registered-observers.window.html | fail | <code>assert_array_equals: expected property 0 to be "childList parent -child" but got "childList parent -child undefined" (expected array ["childList parent -child", "childList child +added"] got ["childList parent -child undefined", "childList child +added undefined"])</code> |
+| /dom/nodes/MutationObserver-xml-parser.xhtml | fail | <code>assert_equals: mutation records must match expected 6 but got 0</code> |
 | /dom/nodes/Node-appendChild-cereactions-vs-script.window.html | fail | <code>Super class [Function HTMLScriptElement] is not a constructor</code> |
 | /dom/nodes/Node-appendChild.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html | fail | <code>doc.write is not a function. (In "doc.write('&lt;div&gt;&lt;template shadowrootmode=open&gt;test&lt;/template&gt;&lt;/div&gt;')", it is undefined)</code> |
 | /dom/nodes/Node-insertBefore.html | fail | <code>assert_throws_js: function "function() { document.body.insertBefore(document.createTextNode("child")) }" did not throw</code> |
-| /dom/nodes/Node-isConnected-shadow-dom.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode })", it is undefined)</code> |
 | /dom/nodes/Node-isConnected.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Node-isEqualNode-xhtml.xhtml | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Node-parentNode.html | timeout | <code>palim execution timed out</code> |
@@ -307,29 +306,22 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/ParentNode-querySelector-All-xht.xht | timeout | <code>Test timed out</code> |
 | /dom/nodes/ParentNode-querySelector-All.html | timeout | <code>Test timed out</code> |
 | /dom/nodes/ParentNode-querySelector-escapes.html | fail | <code>The selector is invalid.</code> |
-| /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>section.attachShadow is not a function. (In "section.attachShadow({ mode: "open" })", it is undefined)</code> |
-| /dom/nodes/ParentNode-querySelector-shadowroot-nth-child.html | fail | <code>hostElement.attachShadow is not a function. (In "hostElement.attachShadow({ mode: "open" })", it is undefined)</code> |
-| /dom/nodes/ParentNode-replaceChildren.html | fail | <code>"MutationObserver" is not defined</code> |
+| /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>assert_equals: querySelector with :host pseudo-class should find the element expected Element node &lt;article&gt;&lt;/article&gt; but got null</code> |
+| /dom/nodes/ParentNode-querySelector-hyphen-prefix.html | fail | <code>assert_throws_dom: function "() =&gt; {<br>    document.querySelector("#-123");<br>  }" did not throw</code> |
+| /dom/nodes/ParentNode-replaceChildren.html | error | <code>file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134<br>                throw new Error(binding.engine.exceptionMessage(binding.realm, result.value));<br>                      ^<br><br>Error: Error: assert_equals: mutations.length expected 2 but got 3<br>    at MutationObserver.callback (file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134:23)<br>    at notifyMutationObservers (file:///workspace/dist/dom/mutation-observer.js:144:22)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br><br>Node.js v24.15.0</code> |
 | /dom/nodes/ProcessingInstruction-escapes-1.xhtml | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Text-constructor.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/adoption.window.html | fail | <code>doc.createElementNS("http://www.w3.org/1999/xhtml", "div").attachShadow is not a function. (In "doc.createElementNS("http://www.w3.org/1999/xhtml", "div").attachShadow({mode: "closed"})", it is undefined)</code> |
+| /dom/nodes/adoption.window.html | fail | <code>assert_throws_dom: function "() =&gt; document.adoptNode(df)" did not throw</code> |
 | /dom/nodes/attach-shadow-realm-after-adoption.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/nodes/attach-shadow-realm-after-adoption.html:10:1'</code> |
 | /dom/nodes/create-element-realm-after-adoption.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/nodes/create-element-realm-after-adoption.html:11:1'</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
-| /dom/nodes/getElementsByClassName-20.htm | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/getElementsByClassName-21.htm | fail | <code>document.getElementsByTagName("table")[0].deleteRow is not a function. (In "document.getElementsByTagName("table")[0].deleteRow(1)", it is undefined)</code> |
-| /dom/nodes/getElementsByClassName-22.htm | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/getElementsByClassName-25.htm | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/getElementsByClassName-31.htm | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/insertion-removing-steps/Node-append-form-and-script-from-fragment.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="someForm"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | error | <code>ReferenceError: "fetch" is not defined<br>    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:35<br>    at steps (native)<br>    at async &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:2869:79)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:738:53)<br>    at new Promise (native)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:737:32)<br>ReferenceError: "fetch" is not defined<br>    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:36<br>    at steps (native)<br>    at async &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:2869:79)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:738:53)<br>    at new Promise (native)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:737:32)</code> |
-| /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-button-from-div.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="form"&gt;&lt;div&gt;&lt;script&gt;<br>    buttonForm = button.for... but got (undefined) undefined</code> |
-| /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html | timeout | <code>b'TypeError: Super class [Function HTMLElement] is not a constructor\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html:4:29'</code> |
+| /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-iframe.html | fail | <code>assert_equals: expected "iframe with content window" but got "contentWindow is null"</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html | fail | <code>assert_array_equals: expected property 0 to be "sheet" but got null (expected array ["sheet", 2] got [null, undefined])</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["s1", "s2", "s2ran"] length 3, got ["s1", "s2", "s2ran", "s2", "s2ran"] length 5</code> |
-| /dom/nodes/insertion-removing-steps/Node-appendChild-script-with-mutation-observer-takeRecords.html | fail | <code>"MutationObserver" is not defined</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html | error | <code>TypeError: Cannot convert undefined to object<br>    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:2:19<br>    at steps (native)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:18:21)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:2869:79)<br>    at test (http://web-platform.test:8000/resources/testharness.js:633:51)<br>    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html:22:4</code> |
 | /dom/nodes/insertion-removing-steps/blur-event.window.html | fail | <code>input.focus is not a function. (In "input.focus()", it is undefined)</code> |
 | /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.focus is not a function. (In "input.focus()", it is undefined)"</code> |
@@ -351,7 +343,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/moveBefore/css-transition-cross-shadow.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: item.getBoundingClientRect is not a function. (In "item.getBoundingClientRect()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/css-transition-to-disconnected-document.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: item.getBoundingClientRect is not a function. (In "item.getBoundingClientRect()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/css-transition-trigger.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: item.getBoundingClientRect is not a function. (In "item.getBoundingClientRect()", it is undefined)"</code> |
-| /dom/nodes/moveBefore/custom-element-move-reactions.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "customElements" is not defined"</code> |
+| /dom/nodes/moveBefore/custom-element-move-reactions.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /dom/nodes/moveBefore/fieldset-child-blur-event.html | fail | <code>victim.focus is not a function. (In "victim.focus()", it is undefined)</code> |
 | /dom/nodes/moveBefore/fieldset-child-date-input-blur-event.html | fail | <code>victim.focus is not a function. (In "victim.focus()", it is undefined)</code> |
 | /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>button.focus is not a function. (In "button.focus()", it is undefined)</code> |
@@ -360,23 +352,16 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/moveBefore/fullscreen-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/hover-style-update.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/iframe-document-preserve.window.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/moveBefore/listed-form-element-reset.html | fail | <code>assert_equals: button.form is correctly associated expected (object) Element node &lt;form id="form1"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/modal-dialog.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: dialog.showModal is not a function. (In "dialog.showModal()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /dom/nodes/moveBefore/moveBefore-disconnected-id-map.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
 | /dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html | fail | <code>span.getBoundingClientRect is not a function. (In "span.getBoundingClientRect()", it is undefined)</code> |
-| /dom/nodes/moveBefore/moveBefore-id-map.html | fail | <code>container.attachShadow is not a function. (In "container.attachShadow({mode: "open"})", it is undefined)</code> |
 | /dom/nodes/moveBefore/moveBefore-into-display-none.html | fail | <code>span.getBoundingClientRect is not a function. (In "span.getBoundingClientRect()", it is undefined)</code> |
-| /dom/nodes/moveBefore/moveBefore-name-map.html | fail | <code>container.attachShadow is not a function. (In "container.attachShadow({mode: "open"})", it is undefined)</code> |
+| /dom/nodes/moveBefore/moveBefore-name-map.html | fail | <code>assert_equals: expected 2 but got 0</code> |
 | /dom/nodes/moveBefore/moveBefore-optgroup.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/moveBefore/moveBefore-selector-matching.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html | timeout | <code>b'TypeError: host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)\n    at http://web-platform.test:8000/dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html:3:47'</code> |
-| /dom/nodes/moveBefore/moveBefore-shadow-host-id-map.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
 | /dom/nodes/moveBefore/moveBefore-shadow-inside.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
-| /dom/nodes/moveBefore/moveBefore-shadow-root.html | fail | <code>shadowTarget.attachShadow is not a function. (In "shadowTarget.attachShadow({mode: 'open'})", it is undefined)</code> |
 | /dom/nodes/moveBefore/moveBefore-size-query.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /dom/nodes/moveBefore/mutation-observer-moved-subtree.window.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MutationObserver" is not defined"</code> |
-| /dom/nodes/moveBefore/mutation-observer.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MutationObserver" is not defined"</code> |
+| /dom/nodes/moveBefore/mutation-observer.html | fail | <code>assert_equals: MutationObserver has emitted a single mutation list expected 1 but got 0</code> |
 | /dom/nodes/moveBefore/nonce.html | fail | <code>assert_equals: expected "" but got "8IBTHwOdqNKAWeKl7plt8g=="</code> |
 | /dom/nodes/moveBefore/pointer-events.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/popover-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: popover.showPopover is not a function. (In "popover.showPopover()", it is undefined)"</code> |
@@ -386,44 +371,35 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /dom/nodes/moveBefore/role-updates-after-move.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/select-option-optgroup.html | fail | <code>assert_true: A is selected by default expected true got undefined</code> |
 | /dom/nodes/moveBefore/selection-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
-| /dom/nodes/moveBefore/slotchange-events.html | timeout | <code>b'ReferenceError: "customElements" is not defined\n    at http://web-platform.test:8000/dom/nodes/moveBefore/slotchange-events.html:2:1'</code> |
 | /dom/nodes/moveBefore/style-applies.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getComputedStyle" is not defined"</code> |
 | /dom/nodes/moveBefore/stylesheet-cascade-order.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/throws-exception.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/name-validation.html | timeout |  |
-| /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected (string) "green" but got (undefined) undefined</code> |
+| /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected 1 but got 0</code> |
 | /dom/nodes/node-creation-realm.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/node-realm-adoption-after-frame-removal.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/node-realm-preserved-across-adoption.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/node-realm-preserved-across-frameless-adoption.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/post-connection-steps-shadow-tree.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode: "closed" })", it is undefined)</code> |
+| /dom/nodes/post-connection-steps-shadow-tree.html | fail | <code>assert_equals: script runs when its shadow-including tree becomes connected expected 1 but got 0</code> |
 | /dom/nodes/processing-instruction-attributes.html | fail | <code>pi.getAttribute is not a function. (In "pi.getAttribute("a")", it is undefined)</code> |
 | /dom/nodes/query-target-in-load-event.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/remove-and-adopt-thcrash.html | fail | <code>window.open is not a function. (In "window.open()", it is undefined)</code> |
 | /dom/nodes/remove-unscopable.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/rootNode.html | fail | <code>shadowHost.attachShadow is not a function. (In "shadowHost.attachShadow({mode: 'open'})", it is undefined)</code> |
-| /dom/ranges/Range-cloneContents-around-shadow.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
-| /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
-| /dom/ranges/Range-cloneContents-in-ShadowRoot.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
+| /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-cloneContents.html | timeout |  |
 | /dom/ranges/Range-compareBoundaryPoints.html | timeout |  |
 | /dom/ranges/Range-comparePoint.html | timeout |  |
-| /dom/ranges/Range-deleteContents-around-shadow.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
-| /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
-| /dom/ranges/Range-deleteContents-in-ShadowRoot.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
+| /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-deleteContents.html | timeout |  |
 | /dom/ranges/Range-expand-shadow.tentative.html | fail | <code>range.expand is not a function. (In "range.expand(unit)", it is undefined)</code> |
-| /dom/ranges/Range-extractContents-around-shadow.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
-| /dom/ranges/Range-extractContents-around-shadow.tentative.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
+| /dom/ranges/Range-extractContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-extractContents-dynamic-end.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/ranges/Range-extractContents-in-ShadowRoot.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({mode: "open"})", it is undefined)</code> |
 | /dom/ranges/Range-extractContents.html | timeout |  |
-| /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: TypeError: Cannot convert null to object<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
-| /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: TypeError: Cannot convert null to object<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
+| /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: TypeError: Cannot convert null to object<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
+| /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open | error | <code>file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380<br>                throw new Error(this.engine.exceptionMessage(this.realm, result.value));<br>                      ^<br><br>Error: TypeError: Cannot convert null to object<br>    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)<br>    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)<br>    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)<br>    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)<br>    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)<br>    at async open (file:///workspace/dist/open.js:26:9)<br>    at async file:///workspace/tools/wpt/node-runner.mjs:20:20<br><br>Node.js v24.15.0</code> |
 | /dom/ranges/Range-insertNode.html | timeout |  |
-| /dom/ranges/Range-intersectsNode-shadow.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode: "open" })", it is undefined)</code> |
 | /dom/ranges/Range-isPointInRange.html | timeout |  |
 | /dom/ranges/Range-mutations-appendChild.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-appendData.html | fail | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
@@ -465,27 +441,15 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /domparsing/DOMParser-parseFromString-url.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/DOMParser-parseFromString-xml-scripting-support-disabled.html | fail | <code>The argument is not a Node</code> |
 | /domparsing/DOMParser-parseFromString-xml.html | fail | <code>assert_false: Should not be XMLDocument expected false got true</code> |
-| /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;div/&gt;&lt;span/&gt;&lt;/body&gt;&lt;/html&gt;" but got "&lt;html&gt;&lt;head /&gt;&lt;body&gt;&lt;div /&gt;&lt;span /&gt;&lt;/body&gt;&lt;/html&gt;"</code> |
-| /domparsing/createContextualFragment-external-scripts-async.html | fail | <code>assert_true: script.async is true before insertion expected true got undefined</code> |
-| /domparsing/createContextualFragment-xhtml.xhtml | fail | <code>assert_equals: expected "p" but got "body"</code> |
+| /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;el1 xmlns:p=\"u1\" xmlns:q=\"u1\"&gt;&lt;el2 xmlns:q=\"u2\" q:name=\"v\"/&gt;&lt;/el1&gt;" but got "&lt;el1 xmlns:p=\"u1\" xmlns:q=\"u1\"&gt;&lt;el2 xmlns:q=\"u2\" p:name=\"v\"/&gt;&lt;/el1&gt;"</code> |
 | /domparsing/html-insertion-methods-html-element.html | timeout | <code>palim execution timed out</code> |
-| /domparsing/html-unsafe-external-scripts-async.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: container[method] is not a function. (In "container[method](html, options)", it is undefined)"</code> |
 | /domparsing/innerhtml-05.xhtml | timeout | <code>palim execution timed out</code> |
-| /domparsing/innerhtml-mxss.sub.html | error | <code>Unterminated string starting at: line 1 column 13185 (char 13184)</code> |
-| /domparsing/insert_adjacent_html-xhtml.xhtml | fail | <code>assert_false: script should not have run expected false got true</code> |
-| /domparsing/insert_adjacent_html.html | fail | <code>assert_false: script should not have run expected false got true</code> |
 | /domparsing/outerhtml-03.html | timeout | <code>palim execution timed out</code> |
-| /domparsing/parsed-document-origin.window.html | fail | <code>Document.parseHTML is not a function. (In "Document.parseHTML("")", it is undefined)</code> |
-| /domparsing/positional-html-into-script-safe.html | fail | <code>script[method] is not a function. (In "script[method]("&lt;span&gt;content&lt;/span&gt;")", it is undefined)</code> |
 | /domparsing/positional-methods-with-parser-options.html | timeout | <code>b'ReferenceError: "trustedTypes" is not defined\n    at http://web-platform.test:8000/domparsing/positional-methods-with-parser-options.html:4:28'</code> |
 | /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | timeout | <code>b'ReferenceError: "trustedTypes" is not defined\n    at http://web-platform.test:8000/domparsing/positional-methods-with-trusted-types-no-createParserOptions.html:3:5'</code> |
 | /domparsing/positional-methods-with-trusted-types.html | timeout | <code>b'ReferenceError: "trustedTypes" is not defined\n    at http://web-platform.test:8000/domparsing/positional-methods-with-trusted-types.html:4:28'</code> |
-| /domparsing/positional-methods.html | fail | <code>object[method_name] is not a function. (In "object[method_name]("&lt;span&gt;html;&lt;/span&gt;")", it is undefined)</code> |
-| /domparsing/positional-template-child.html | fail | <code>assert_throws_dom: function "() =&gt; {<br>            child[method_name]('&lt;span&gt;&lt;/span&gt;');<br>          }" threw object "TypeError: child[method_name] is not a function. (In "child[method_name]('&lt;span&gt;&lt;/span&gt;')", it is undefined)" that is not a DOMException HierarchyRequestError: property "code" is equal to undefined, expected 3</code> |
-| /domparsing/stream-html-reentrancy.html | timeout | <code>b'ReferenceError: "customElements" is not defined\n    at http://web-platform.test:8000/domparsing/stream-html-reentrancy.html:8:3'</code> |
-| /domparsing/style_attribute_html.html | fail | <code>assert_equals: expected "color: red;" but got ""</code> |
+| /domparsing/stream-html-reentrancy.html | fail | <code>assert_array_equals: the rest of the chunk is parsed before the deferred abort takes effect lengths differ, expected array ["a", "b", "c", "d"] length 4, got ["a"] length 1</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | timeout | <code>b'ReferenceError: "trustedTypes" is not defined\n    at http://web-platform.test:8000/domparsing/unsafe-and-trusted-types-external-scripts-async.html:3:3'</code> |
-| /domparsing/xml-serialization.xhtml | fail | <code>assert_equals: expected "&lt;!DOCTYPE html PUBLIC \"\"\" \"\"\"&gt;" but got "&lt;!DOCTYPE html PUBLIC '\"' '\"'&gt;"</code> |
 | /html/dom/documents/dom-tree-accessors/Document.body.html | fail | <code>assert_equals: expected null but got Element node &lt;body&gt;&lt;/body&gt;</code> |
 | /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nTypeError: undefined is not a function\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
 | /html/dom/documents/dom-tree-accessors/document.embeds-document.plugins-01.html | fail | <code>Cannot convert undefined to object</code> |
@@ -506,7 +470,7 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>"HTMLDocument" is not defined</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-setattribute-attr-mutation.html | fail | <code>Cannot convert undefined to object</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-tree-order.html | fail | <code>assert_array_equals: order after removing name expected property 1 to be Element node &lt;img id="s3" name="a"&gt;&lt;/img&gt; but got Element node &lt;img id="s2" name="a"&gt;&lt;/img&gt; (expected array [Element node &lt;img id="s1" name="a"&gt;&lt;/img&gt;, Element node &lt;img id="s3" name="a"&gt;&lt;/img&gt;] got [Element node &lt;img id="s1" name="a"&gt;&lt;/img&gt;, Element node &lt;img id="s2" name="a"&gt;&lt;/img&gt;])</code> |
-| /html/dom/documents/dom-tree-accessors/nameditem-tree-transitions.html | fail | <code>host.attachShadow is not a function. (In "host.attachShadow({ mode: "open" })", it is undefined)</code> |
+| /html/dom/documents/dom-tree-accessors/nameditem-tree-transitions.html | fail | <code>assert_equals: in the document tree expected (object) Element node &lt;form&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
 | /html/dom/elements/global-attributes/cdata-dir_auto.html | timeout | <code>palim execution timed out</code> |
 | /html/dom/elements/global-attributes/custom-attrs.html | fail | <code>assert_equals: expected 3 but got 2</code> |
@@ -521,12 +485,12 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /html/dom/elements/global-attributes/dir-auto-form-associated.window.html | fail | <code>assert_true: expected true got false</code> |
 | /html/dom/elements/global-attributes/dir-bdi-script.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
-| /html/dom/elements/global-attributes/dir-slots-directionality.html | fail | <code>result.querySelector("#root").attachShadow is not a function. (In "result.querySelector("#root").attachShadow(shadowOptions)", it is undefined)</code> |
+| /html/dom/elements/global-attributes/dir-slots-directionality.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/document-dir.html | fail | <code>assert_equals: expected (string) "ltr" but got (undefined) undefined</code> |
 | /html/dom/elements/global-attributes/id-attribute.html | fail | <code>document.defaultView.getComputedStyle is not a function. (In "document.defaultView.getComputedStyle(document.getElementById("abcd"))", it is undefined)</code> |
 | /html/dom/elements/global-attributes/id-name-specialcase.html | fail | <code>assert_equals: expected (string) "123" but got (undefined) undefined</code> |
 | /html/dom/elements/global-attributes/lang-attribute-document-element-replacement.html | fail | <code>Cannot convert undefined to object</code> |
-| /html/dom/elements/global-attributes/lang-attribute-shadow.window.html | fail | <code>container.querySelector("#host").attachShadow is not a function. (In "container.querySelector("#host").attachShadow({mode: "open"})", it is undefined)</code> |
+| /html/dom/elements/global-attributes/lang-attribute-shadow.window.html | fail | <code>assert_true: element matches expected language en-US expected true got false</code> |
 | /html/dom/elements/global-attributes/lang-attribute.window.html | fail | <code>assert_true: child matches en-CA expected true got false</code> |
 | /html/dom/elements/global-attributes/mapped-attribute-adopt-001.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/the-lang-attribute-001.html | fail | <code>assert_equals: expected (number) 0 but got (undefined) undefined</code> |
@@ -777,11 +741,9 @@ Attempts: 1226; worker failures: 0; retries: 0
 | /html/syntax/parsing/template/additions-to-the-in-frameset-insertion-mode/end-tag-frameset.html | fail | <code>assert_true: Failed to create new rendered document expected true got false</code> |
 | /html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/generating-of-implied-end-tags.html | fail | <code>assert_true: Failed to create new rendered document expected true got false</code> |
 | /html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/template-end-tag-without-start-one.html | fail | <code>assert_true: Failed to create new rendered document expected true got false</code> |
-| /html/syntax/parsing/template/additions-to-the-in-table-insertion-mode/end-tag-table.html | fail | <code>Cannot convert undefined to object</code> |
 | /html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html | fail | <code>assert_true: Failed to create new rendered document expected true got false</code> |
-| /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html | fail | <code>Cannot convert undefined to object</code> |
-| /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-context.html | fail | <code>Cannot convert undefined to object</code> |
-| /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-row-context.html | fail | <code>Cannot convert undefined to object</code> |
+| /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html | fail | <code>assert_equals: Table should have no caption expected (object) null but got (undefined) undefined</code> |
+| /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-context.html | fail | <code>assert_equals: Table should have no caption expected (object) null but got (undefined) undefined</code> |
 | /html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html | error | <code>at newIFrame (http://web-platform.test:8000/html/resources/common.js:100:13)<br>    at newRenderedHTMLDocument (http://web-platform.test:8000/html/resources/common.js:105:27)<br>    at &lt;anonymous&gt; (http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:172:47)<br>    at Array#forEach (native)<br>    at http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:168:28</code> |
 | /html/syntax/parsing/the-end.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/truncated-markup-declaration-at-eof.html | timeout | <code>palim execution timed out</code> |

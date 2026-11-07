@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261106t181823904z-1723289",
+    "id": "20261107t092415384z-2266469",
     "state": "completed",
     "palim": {
-      "revision": "464d58648a4424732127f3145b93b4184102e1dc",
+      "revision": "c924d3869b5fec662fb4a4c19f3ac821759a4b2e",
       "dirty": false,
-      "imageId": "sha256:1b914ced80cf24128d58fb5ebac2177025148055d9ac05be14e6f64b5339e3ac"
+      "imageId": "sha256:8ea3e1cc0b4593286a50f864e37b4c8e8cb9c905680026494a36fe76893fe94a"
     },
     "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-06T19:08:44.205Z",
+    "snapshotAt": "2026-11-07T10:14:31.817Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -46,11 +46,11 @@
   "totals": {
     "total": 1226,
     "executed": 1226,
-    "pass": 423,
-    "fail": 350,
+    "pass": 461,
+    "fail": 319,
     "skip": 0,
-    "error": 196,
-    "timeout": 257,
+    "error": 195,
+    "timeout": 251,
     "pending": 0
   },
   "areas": [
@@ -73,10 +73,10 @@
         "total": 214,
         "executed": 214,
         "pass": 24,
-        "fail": 65,
+        "fail": 66,
         "skip": 0,
         "error": 7,
-        "timeout": 118,
+        "timeout": 117,
         "pending": 0
       }
     },
@@ -98,11 +98,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 238,
-        "fail": 109,
+        "pass": 255,
+        "fail": 96,
         "skip": 0,
         "error": 6,
-        "timeout": 55,
+        "timeout": 51,
         "pending": 0
       }
     },
@@ -111,8 +111,8 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 17,
-        "fail": 40,
+        "pass": 24,
+        "fail": 33,
         "skip": 0,
         "error": 2,
         "timeout": 10,
@@ -137,11 +137,11 @@
       "totals": {
         "total": 56,
         "executed": 56,
-        "pass": 26,
-        "fail": 15,
+        "pass": 38,
+        "fail": 5,
         "skip": 0,
-        "error": 1,
-        "timeout": 14,
+        "error": 0,
+        "timeout": 13,
         "pending": 0
       }
     },
@@ -176,8 +176,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 20,
-        "fail": 21,
+        "pass": 22,
+        "fail": 19,
         "skip": 0,
         "error": 175,
         "timeout": 20,
@@ -212,12 +212,12 @@
     }
   ],
   "subtests": {
-    "total": 62288,
-    "pass": 48757,
-    "fail": 8255,
+    "total": 62379,
+    "pass": 48518,
+    "fail": 8592,
     "skip": 0,
-    "error": 5032,
-    "timeout": 244
+    "error": 5031,
+    "timeout": 238
   },
   "nonPassingTests": [
     {
@@ -283,7 +283,7 @@
     {
       "url": "/dom/events/Event-dispatch-listener-order.window.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)"
+      "message": "assert_array_equals: lengths differ, expected array [\"capturing SECTION\", \"capturing DIV\", \"capturing #document-fragment\", \"capturing P\", \"capturing SPAN\", \"bubbling SPAN\", \"bubbling P\", \"bubbling #document-fragment\", \"bubbling DIV\", \"bubbling SECTION\"] length 10, got [\"bubbling SPAN\", \"capturing SPAN\", \"bubbling P\", \"capturing P\", \"bubbling #document-fragment\", \"capturing #document-fragment\"] length 6"
     },
     {
       "url": "/dom/events/Event-dispatch-multiple-cancelBubble.html",
@@ -323,7 +323,7 @@
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
@@ -443,7 +443,7 @@
     {
       "url": "/dom/events/EventTarget-add-listener-platform-object.html",
       "status": "timeout",
-      "message": "b'TypeError: Super class [Function HTMLElement] is not a constructor\\n    at http://web-platform.test:8000/dom/events/EventTarget-add-listener-platform-object.html:5:29'"
+      "message": "b'TypeError: customElement.click is not a function. (In \"customElement.click()\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/EventTarget-add-listener-platform-object.html:19:1'"
     },
     {
       "url": "/dom/events/EventTarget-add-remove-listener.any.worker.html",
@@ -532,8 +532,8 @@
     },
     {
       "url": "/dom/events/event-global.html",
-      "status": "fail",
-      "message": "assert_own_property: expected property \"event\" missing"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/event-global.worker.html",
@@ -827,8 +827,8 @@
     },
     {
       "url": "/dom/events/relatedTarget.window.html",
-      "status": "timeout",
-      "message": "b'TypeError: host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/relatedTarget.window.js:5:42'"
+      "status": "fail",
+      "message": "\"XMLHttpRequest\" is not defined"
     },
     {
       "url": "/dom/events/scrolling/iframe-chains.html",
@@ -1136,8 +1136,8 @@
     },
     {
       "url": "/dom/events/shadow-relatedTarget.html",
-      "status": "timeout",
-      "message": "b'TypeError: host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/shadow-relatedTarget.html:2:40'"
+      "status": "fail",
+      "message": "root.getElementById(\"shadowInput\").focus is not a function. (In \"root.getElementById(\"shadowInput\").focus()\", it is undefined)"
     },
     {
       "url": "/dom/events/webkit-animation-end-event.html",
@@ -1197,7 +1197,7 @@
     {
       "url": "/dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)"
+      "message": "assert_throws_dom: function \"() => target.adoptNode(root)\" did not throw"
     },
     {
       "url": "/dom/nodes/Document-base-url-not-live.window.html",
@@ -1303,11 +1303,6 @@
       "message": "b'ReferenceError: \"CDATASection\" is not defined\\n    at http://web-platform.test:8000/dom/nodes/Document-createCDATASection-xhtml.xhtml:3:37'"
     },
     {
-      "url": "/dom/nodes/Document-createCDATASection.html",
-      "status": "timeout",
-      "message": "b'at http://web-platform.test:8000/dom/nodes/Document-createCDATASection.html:6:40'"
-    },
-    {
       "url": "/dom/nodes/Document-createElement-namespace.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -1331,6 +1326,11 @@
       "url": "/dom/nodes/DocumentFragment-constructor.html",
       "status": "fail",
       "message": "assert_equals: expected Document node with 2 children but got Document node with 0 children"
+    },
+    {
+      "url": "/dom/nodes/Element-classlist.html",
+      "status": "fail",
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/Element-closest.html",
@@ -1360,32 +1360,32 @@
     {
       "url": "/dom/nodes/MutationObserver-attributes.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-callback-arguments.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-callback-order.window.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MutationObserver\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: The childList option must be true\""
     },
     {
       "url": "/dom/nodes/MutationObserver-callback-tricky.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-characterData.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-childList.html",
-      "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html",
@@ -1395,47 +1395,47 @@
     {
       "url": "/dom/nodes/MutationObserver-disconnect.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-document.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "assert_unreached: document observer did not trigger Reached unreachable code"
     },
     {
       "url": "/dom/nodes/MutationObserver-inner-outer.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "assert_array_equals: addedNodes didn't match lengths differ, expected array [Text node \"new text\"] length 1, got object \"[object NodeList]\" length 0"
     },
     {
       "url": "/dom/nodes/MutationObserver-overlapping-registrations.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-sanity.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "The childList option must be true"
     },
     {
       "url": "/dom/nodes/MutationObserver-takeRecords.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "assert_equals: mutation records must match expected 5 but got 1"
     },
     {
       "url": "/dom/nodes/MutationObserver-textContent.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: Should have one record expected 1 but got 5"
     },
     {
       "url": "/dom/nodes/MutationObserver-transient-registered-observers.window.html",
       "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "message": "assert_array_equals: expected property 0 to be \"childList parent -child\" but got \"childList parent -child undefined\" (expected array [\"childList parent -child\", \"childList child +added\"] got [\"childList parent -child undefined\", \"childList child +added undefined\"])"
     },
     {
       "url": "/dom/nodes/MutationObserver-xml-parser.xhtml",
-      "status": "error",
-      "message": "ReferenceError: \"MutationObserver\" is not defined\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-xml-parser.xhtml:3:24"
+      "status": "fail",
+      "message": "assert_equals: mutation records must match expected 6 but got 0"
     },
     {
       "url": "/dom/nodes/Node-appendChild-cereactions-vs-script.window.html",
@@ -1456,11 +1456,6 @@
       "url": "/dom/nodes/Node-insertBefore.html",
       "status": "fail",
       "message": "assert_throws_js: function \"function() { document.body.insertBefore(document.createTextNode(\"child\")) }\" did not throw"
-    },
-    {
-      "url": "/dom/nodes/Node-isConnected-shadow-dom.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode })\", it is undefined)"
     },
     {
       "url": "/dom/nodes/Node-isConnected.html",
@@ -1535,17 +1530,17 @@
     {
       "url": "/dom/nodes/ParentNode-querySelector-host-pseudo-class.html",
       "status": "fail",
-      "message": "section.attachShadow is not a function. (In \"section.attachShadow({ mode: \"open\" })\", it is undefined)"
+      "message": "assert_equals: querySelector with :host pseudo-class should find the element expected Element node <article></article> but got null"
     },
     {
-      "url": "/dom/nodes/ParentNode-querySelector-shadowroot-nth-child.html",
+      "url": "/dom/nodes/ParentNode-querySelector-hyphen-prefix.html",
       "status": "fail",
-      "message": "hostElement.attachShadow is not a function. (In \"hostElement.attachShadow({ mode: \"open\" })\", it is undefined)"
+      "message": "assert_throws_dom: function \"() => {\n    document.querySelector(\"#-123\");\n  }\" did not throw"
     },
     {
       "url": "/dom/nodes/ParentNode-replaceChildren.html",
-      "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134\n                throw new Error(binding.engine.exceptionMessage(binding.realm, result.value));\n                      ^\n\nError: Error: assert_equals: mutations.length expected 2 but got 3\n    at MutationObserver.callback (file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134:23)\n    at notifyMutationObservers (file:///workspace/dist/dom/mutation-observer.js:144:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
@@ -1560,7 +1555,7 @@
     {
       "url": "/dom/nodes/adoption.window.html",
       "status": "fail",
-      "message": "doc.createElementNS(\"http://www.w3.org/1999/xhtml\", \"div\").attachShadow is not a function. (In \"doc.createElementNS(\"http://www.w3.org/1999/xhtml\", \"div\").attachShadow({mode: \"closed\"})\", it is undefined)"
+      "message": "assert_throws_dom: function \"() => document.adoptNode(df)\" did not throw"
     },
     {
       "url": "/dom/nodes/attach-shadow-realm-after-adoption.html",
@@ -1578,34 +1573,9 @@
       "message": "assert_equals: expected (object) Element node <form id=\"owner\" id=\"unrelated\"></form> but got (undefined) undefined"
     },
     {
-      "url": "/dom/nodes/getElementsByClassName-20.htm",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-21.htm",
-      "status": "fail",
-      "message": "document.getElementsByTagName(\"table\")[0].deleteRow is not a function. (In \"document.getElementsByTagName(\"table\")[0].deleteRow(1)\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-22.htm",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-25.htm",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
       "url": "/dom/nodes/getElementsByClassName-31.htm",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-append-form-and-script-from-fragment.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) Element node <form id=\"someForm\"></form> but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html",
@@ -1613,14 +1583,9 @@
       "message": "ReferenceError: \"fetch\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:35\n    at steps (native)\n    at async <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)\nReferenceError: \"fetch\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:2:36\n    at steps (native)\n    at async <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html:21:24)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)"
     },
     {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-button-from-div.html",
-      "status": "fail",
-      "message": "assert_equals: expected (object) Element node <form id=\"form\"><div><script>\n    buttonForm = button.for... but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html",
-      "status": "timeout",
-      "message": "b'TypeError: Super class [Function HTMLElement] is not a constructor\\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html:4:29'"
+      "status": "fail",
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html",
@@ -1641,11 +1606,6 @@
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html",
       "status": "fail",
       "message": "assert_array_equals: lengths differ, expected array [\"s1\", \"s2\", \"s2ran\"] length 3, got [\"s1\", \"s2\", \"s2ran\", \"s2\", \"s2ran\"] length 5"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-with-mutation-observer-takeRecords.html",
-      "status": "fail",
-      "message": "\"MutationObserver\" is not defined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html",
@@ -1755,7 +1715,7 @@
     {
       "url": "/dom/nodes/moveBefore/custom-element-move-reactions.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"customElements\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
     },
     {
       "url": "/dom/nodes/moveBefore/fieldset-child-blur-event.html",
@@ -1798,11 +1758,6 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/moveBefore/listed-form-element-reset.html",
-      "status": "fail",
-      "message": "assert_equals: button.form is correctly associated expected (object) Element node <form id=\"form1\"></form> but got (undefined) undefined"
-    },
-    {
       "url": "/dom/nodes/moveBefore/modal-dialog.html",
       "status": "fail",
       "message": "promise_test: Unhandled rejection with value: object \"TypeError: dialog.showModal is not a function. (In \"dialog.showModal()\", it is undefined)\""
@@ -1813,19 +1768,9 @@
       "message": "\"getComputedStyle\" is not defined"
     },
     {
-      "url": "/dom/nodes/moveBefore/moveBefore-disconnected-id-map.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
       "status": "fail",
       "message": "span.getBoundingClientRect is not a function. (In \"span.getBoundingClientRect()\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/moveBefore-id-map.html",
-      "status": "fail",
-      "message": "container.attachShadow is not a function. (In \"container.attachShadow({mode: \"open\"})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-into-display-none.html",
@@ -1835,7 +1780,7 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-name-map.html",
       "status": "fail",
-      "message": "container.attachShadow is not a function. (In \"container.attachShadow({mode: \"open\"})\", it is undefined)"
+      "message": "assert_equals: expected 2 but got 0"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
@@ -1848,24 +1793,9 @@
       "message": "\"getComputedStyle\" is not defined"
     },
     {
-      "url": "/dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html",
-      "status": "timeout",
-      "message": "b'TypeError: host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)\\n    at http://web-platform.test:8000/dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html:3:47'"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/moveBefore-shadow-host-id-map.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
       "url": "/dom/nodes/moveBefore/moveBefore-shadow-inside.html",
       "status": "fail",
       "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
-    },
-    {
-      "url": "/dom/nodes/moveBefore/moveBefore-shadow-root.html",
-      "status": "fail",
-      "message": "shadowTarget.attachShadow is not a function. (In \"shadowTarget.attachShadow({mode: 'open'})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-size-query.html",
@@ -1873,14 +1803,9 @@
       "message": "\"getComputedStyle\" is not defined"
     },
     {
-      "url": "/dom/nodes/moveBefore/mutation-observer-moved-subtree.window.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MutationObserver\" is not defined\""
-    },
-    {
       "url": "/dom/nodes/moveBefore/mutation-observer.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MutationObserver\" is not defined\""
+      "message": "assert_equals: MutationObserver has emitted a single mutation list expected 1 but got 0"
     },
     {
       "url": "/dom/nodes/moveBefore/nonce.html",
@@ -1928,11 +1853,6 @@
       "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
     },
     {
-      "url": "/dom/nodes/moveBefore/slotchange-events.html",
-      "status": "timeout",
-      "message": "b'ReferenceError: \"customElements\" is not defined\\n    at http://web-platform.test:8000/dom/nodes/moveBefore/slotchange-events.html:2:1'"
-    },
-    {
       "url": "/dom/nodes/moveBefore/style-applies.html",
       "status": "fail",
       "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getComputedStyle\" is not defined\""
@@ -1959,7 +1879,7 @@
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
       "status": "fail",
-      "message": "assert_equals: expected (string) \"green\" but got (undefined) undefined"
+      "message": "assert_equals: expected 1 but got 0"
     },
     {
       "url": "/dom/nodes/node-creation-realm.html",
@@ -1989,7 +1909,7 @@
     {
       "url": "/dom/nodes/post-connection-steps-shadow-tree.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)"
+      "message": "assert_equals: script runs when its shadow-including tree becomes connected expected 1 but got 0"
     },
     {
       "url": "/dom/nodes/processing-instruction-attributes.html",
@@ -2012,24 +1932,9 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/dom/nodes/rootNode.html",
-      "status": "fail",
-      "message": "shadowHost.attachShadow is not a function. (In \"shadowHost.attachShadow({mode: 'open'})\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-cloneContents-around-shadow.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
       "url": "/dom/ranges/Range-cloneContents-around-shadow.tentative.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-cloneContents-in-ShadowRoot.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-cloneContents.html",
@@ -2044,19 +1949,9 @@
       "status": "timeout"
     },
     {
-      "url": "/dom/ranges/Range-deleteContents-around-shadow.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
       "url": "/dom/ranges/Range-deleteContents-around-shadow.tentative.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
-      "url": "/dom/ranges/Range-deleteContents-in-ShadowRoot.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-deleteContents.html",
@@ -2068,24 +1963,14 @@
       "message": "range.expand is not a function. (In \"range.expand(unit)\", it is undefined)"
     },
     {
-      "url": "/dom/ranges/Range-extractContents-around-shadow.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
-    },
-    {
       "url": "/dom/ranges/Range-extractContents-around-shadow.tentative.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-extractContents-dynamic-end.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/dom/ranges/Range-extractContents-in-ShadowRoot.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-extractContents.html",
@@ -2094,21 +1979,16 @@
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1380:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
       "status": "timeout"
-    },
-    {
-      "url": "/dom/ranges/Range-intersectsNode-shadow.html",
-      "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"open\" })\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-isPointInRange.html",
@@ -2315,17 +2195,7 @@
     {
       "url": "/domparsing/XMLSerializer-serializeToString.html",
       "status": "fail",
-      "message": "assert_equals: expected \"<html><head/><body><div/><span/></body></html>\" but got \"<html><head /><body><div /><span /></body></html>\""
-    },
-    {
-      "url": "/domparsing/createContextualFragment-external-scripts-async.html",
-      "status": "fail",
-      "message": "assert_true: script.async is true before insertion expected true got undefined"
-    },
-    {
-      "url": "/domparsing/createContextualFragment-xhtml.xhtml",
-      "status": "fail",
-      "message": "assert_equals: expected \"p\" but got \"body\""
+      "message": "assert_equals: expected \"<el1 xmlns:p=\\\"u1\\\" xmlns:q=\\\"u1\\\"><el2 xmlns:q=\\\"u2\\\" q:name=\\\"v\\\"/></el1>\" but got \"<el1 xmlns:p=\\\"u1\\\" xmlns:q=\\\"u1\\\"><el2 xmlns:q=\\\"u2\\\" p:name=\\\"v\\\"/></el1>\""
     },
     {
       "url": "/domparsing/html-insertion-methods-html-element.html",
@@ -2333,44 +2203,14 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/domparsing/html-unsafe-external-scripts-async.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: container[method] is not a function. (In \"container[method](html, options)\", it is undefined)\""
-    },
-    {
       "url": "/domparsing/innerhtml-05.xhtml",
       "status": "timeout",
       "message": "palim execution timed out"
     },
     {
-      "url": "/domparsing/innerhtml-mxss.sub.html",
-      "status": "error",
-      "message": "Unterminated string starting at: line 1 column 13185 (char 13184)"
-    },
-    {
-      "url": "/domparsing/insert_adjacent_html-xhtml.xhtml",
-      "status": "fail",
-      "message": "assert_false: script should not have run expected false got true"
-    },
-    {
-      "url": "/domparsing/insert_adjacent_html.html",
-      "status": "fail",
-      "message": "assert_false: script should not have run expected false got true"
-    },
-    {
       "url": "/domparsing/outerhtml-03.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/domparsing/parsed-document-origin.window.html",
-      "status": "fail",
-      "message": "Document.parseHTML is not a function. (In \"Document.parseHTML(\"\")\", it is undefined)"
-    },
-    {
-      "url": "/domparsing/positional-html-into-script-safe.html",
-      "status": "fail",
-      "message": "script[method] is not a function. (In \"script[method](\"<span>content</span>\")\", it is undefined)"
     },
     {
       "url": "/domparsing/positional-methods-with-parser-options.html",
@@ -2388,34 +2228,14 @@
       "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/positional-methods-with-trusted-types.html:4:28'"
     },
     {
-      "url": "/domparsing/positional-methods.html",
-      "status": "fail",
-      "message": "object[method_name] is not a function. (In \"object[method_name](\"<span>html;</span>\")\", it is undefined)"
-    },
-    {
-      "url": "/domparsing/positional-template-child.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => {\n            child[method_name]('<span></span>');\n          }\" threw object \"TypeError: child[method_name] is not a function. (In \"child[method_name]('<span></span>')\", it is undefined)\" that is not a DOMException HierarchyRequestError: property \"code\" is equal to undefined, expected 3"
-    },
-    {
       "url": "/domparsing/stream-html-reentrancy.html",
-      "status": "timeout",
-      "message": "b'ReferenceError: \"customElements\" is not defined\\n    at http://web-platform.test:8000/domparsing/stream-html-reentrancy.html:8:3'"
-    },
-    {
-      "url": "/domparsing/style_attribute_html.html",
       "status": "fail",
-      "message": "assert_equals: expected \"color: red;\" but got \"\""
+      "message": "assert_array_equals: the rest of the chunk is parsed before the deferred abort takes effect lengths differ, expected array [\"a\", \"b\", \"c\", \"d\"] length 4, got [\"a\"] length 1"
     },
     {
       "url": "/domparsing/unsafe-and-trusted-types-external-scripts-async.html",
       "status": "timeout",
       "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/unsafe-and-trusted-types-external-scripts-async.html:3:3'"
-    },
-    {
-      "url": "/domparsing/xml-serialization.xhtml",
-      "status": "fail",
-      "message": "assert_equals: expected \"<!DOCTYPE html PUBLIC \\\"\\\"\\\" \\\"\\\"\\\">\" but got \"<!DOCTYPE html PUBLIC '\\\"' '\\\"'>\""
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/Document.body.html",
@@ -2520,7 +2340,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-tree-transitions.html",
       "status": "fail",
-      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"open\" })\", it is undefined)"
+      "message": "assert_equals: in the document tree expected (object) Element node <form></form> but got (undefined) undefined"
     },
     {
       "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
@@ -2595,7 +2415,7 @@
     {
       "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
       "status": "fail",
-      "message": "result.querySelector(\"#root\").attachShadow is not a function. (In \"result.querySelector(\"#root\").attachShadow(shadowOptions)\", it is undefined)"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/html/dom/elements/global-attributes/document-dir.html",
@@ -2620,7 +2440,7 @@
     {
       "url": "/html/dom/elements/global-attributes/lang-attribute-shadow.window.html",
       "status": "fail",
-      "message": "container.querySelector(\"#host\").attachShadow is not a function. (In \"container.querySelector(\"#host\").attachShadow({mode: \"open\"})\", it is undefined)"
+      "message": "assert_true: element matches expected language en-US expected true got false"
     },
     {
       "url": "/html/dom/elements/global-attributes/lang-attribute.window.html",
@@ -3873,11 +3693,6 @@
       "message": "assert_true: Failed to create new rendered document expected true got false"
     },
     {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-table-insertion-mode/end-tag-table.html",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
       "url": "/html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html",
       "status": "fail",
       "message": "assert_true: Failed to create new rendered document expected true got false"
@@ -3885,17 +3700,12 @@
     {
       "url": "/html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "assert_equals: Table should have no caption expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-context.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-row-context.html",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "assert_equals: Table should have no caption expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html",

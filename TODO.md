@@ -4,37 +4,17 @@
 
 ### DOM algorithms
 
-- [x] `NodeList` / `HTMLCollection` / `NamedNodeMap` の indexed・named property、own key、strict assignment / delete semantics
-- [x] live / static collection の index、length、tree order、および mutation 後の更新
-- [x] `DOMTokenList` の iterator callback identity、stringifier、`value`、branding
-- [x] `Attr.specified`、prefix / namespace、astral code point を含む name validation
-- [x] `Node` / `Element` / `DocumentType` の child access と remove / append / prepend / replace mutation の結果整合性
-- [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
-- [x] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
-- [x] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
-- [x] `Node.moveBefore` の core tree move、live range、`NodeIterator`、form owner 更新を含む atomic move semantics
-- [x] `Node.moveBefore` の `MutationObserver` removal / insertion record と transient registered observer
-- [x] `Node.moveBefore` の Shadow DOM tree model と shadow-including tree validation
-- [x] `Node.moveBefore` の slot assignment と `slotchange` notification
-- [x] `Node.moveBefore` の custom element move reaction
-- [x] `TreeWalker` / `NodeIterator` の branding と traversal state
+- [ ] Selector API の CSS identifier / escape syntax validation と `SyntaxError`
+- [ ] `Range` の boundary validation、比較、clone / extract / delete / insert / surround と mutation 後の live range 更新
 
 ### Parsing and serialization
 
-- [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
-- [x] `DOMParser` が作る document の URL、origin、content type、scripting flag
-- [x] `DOMParser` の string input を UTF-8 とする character encoding state（`meta charset` による byte sniffing は適用しない）
-- [x] `Document.createCDATASection` の document type と `]]>` に対する例外優先順位
-- [x] navigation document の transport / BOM / `meta` に基づく character encoding state
-- [x] HTML tree builder の `style` raw text 終了後に続く sibling を構築する
-- [x] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
-- [x] `Range.createContextualFragment` の HTML / XHTML context selection と script execution semantics
-- [x] `innerHTML` / `outerHTML` の null変換、style attribute、doctype serialization
-- [x] `Document.parseHTML` と unsafe / positional HTML parsing API
-- [x] `Sanitizer` interface、default config、namespace-aware filtering、javascript URL / processing instruction sanitization
-- [x] streaming HTML parsing API と sanitizer / declarative shadow root integration
+- [ ] `XMLSerializer` の namespace prefix reuse / rebinding
+- [ ] streaming HTML parser の reentrant write / abort ordering
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
+- [ ] HTML tree builder の adoption agency、foster parenting、form element pointer、foreign content integration
+- [ ] HTML tree builder の template insertion mode と stack clear algorithm
 
 ## HTML element behavior
 
@@ -58,7 +38,6 @@
 
 ### Forms and controls
 
-- [x] `FormData` の空 constructor、文字列 entry list の mutation / query / iteration
 - [ ] `HTMLSelectElement` / `HTMLOptionsCollection` の options、selectedOptions、indexed / named property surface
 - [ ] `FormData` の form / submitter による entry list 構築と Blob / File entry
 - [ ] form submission / reset / constraint validation
@@ -68,21 +47,20 @@
 
 ### Document surface
 
-- [ ] `document.body` / `head` / `title` / `currentScript`
+- [ ] `document.body` / `head` / `title`
 - [ ] XML document の legacy `rootElement` surface
 - [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
 - [ ] `Document` named properties と `id` / `name` mutation、adoption、tree order に追従する collection
 - [ ] Window named properties と `id` / `name` mutation に追従する supported property names
 - [ ] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
 - [ ] `DOMStringMap` の property-name conversion、get / set / delete、supported property names
-- [ ] `HTMLDocument` / `XMLDocument` と個別 `HTML*Element` interface constructor の global 公開
+- [ ] `HTMLDocument` interface constructor と HTML document の prototype relationship
 - [ ] Selection API の `getSelection()` と DOM mutation / atomic move に対する range 保持
 
 ## Events
 
 - [ ] `AbortSignal.abort()` / `any()` / `timeout()`、abort reason、dependent signal propagation
 - [ ] capture phase
-- [x] `Document.createEvent` と legacy event initialization
 - [ ] `Event` / `CustomEvent` constructor と legacy initializer の required argument conversion
 - [ ] `Event` / `Node` の legacy constants と interface / instance property placement
 - [ ] `Event` subclass constructor、legacy factory alias と `MouseEvent` / `KeyboardEvent` の realm 公開
@@ -94,6 +72,7 @@
 - [ ] `window.event` / `isTrusted` / high-resolution `timeStamp`
 - [ ] UI event / mouse event / pointer event / keyboard event
 - [ ] form・media・dialog・popover の仕様イベント
+- [ ] `Window` / `Body` / `FrameSet` event handler IDL attribute と初期値
 - [ ] `addEventListener` option dictionary の `capture` / `once` / `passive` / `signal` semantics
 - [ ] event listener object の `handleEvent`、callback exception reporting、listener ordering
 
@@ -104,7 +83,6 @@
 - [ ] Custom Elements
 - [ ] custom element 用 `[HTMLConstructor]`
 - [ ] `ElementInternals`
-- [ ] `setHTML` / `setHTMLUnsafe`
 - [ ] shadow root を含む serialization
 
 ## Window and platform services
@@ -148,7 +126,7 @@
 - [ ] timers
 - [ ] task queue / microtask queue
 - [ ] event dispatch と microtask の連携
-- [ ] `MutationObserver` の attributes / characterData record、oldValue / filter option、option validation、callback exception reporting
+- [ ] `MutationObserver` の childList / attributes / characterData record、oldValue / filter option、option validation、callback exception reporting
 - [ ] JavaScript execution と event loop の統合
 
 ## Optional JavaScript execution
@@ -158,14 +136,10 @@
 - [ ] classic script / module script
 - [ ] external script loading
 - [ ] parser-blocking script
-- [x] `document.currentScript`
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
-- [x] `/\${([^ }]*)}/g` を `Invalid decimal digits` とする RegExp literal parse error
-- [x] escaped `</script>` を含む template literal を `Invalid template escape` としない
 
 ## Conformance infrastructure
 
-- [x] `application/xml` WPT で injected testharness reporter が namespace なしの `a` element に URL reflection を要求しないようにする
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
 - [ ] DOM shell fixture の element `id` named access、parser timing、script実行順による false failure を分離する
 - [ ] DOM shell の `browser-profile-only` / `host-unsupported` static classification を WPT source更新時に監査する
@@ -173,7 +147,6 @@
 
 ## Web IDL bindings
 
-- [ ] `NodeList` の `keys` / `values` / `entries` / `forEach` と iterator identity
 - [ ] argument conversion の網羅
 - [ ] 例外変換の網羅
 - [ ] property descriptor の網羅
@@ -181,14 +154,13 @@
 - [ ] interface constructor / prototype / iterable の global 公開 set
 - [ ] `Range` / `StaticRange` / `DOMImplementation` / `HTMLDocument` の package runtime export
 - [ ] 既存 DOM API の page realm binding 網羅
-- [ ] `Node.cloneNode` の page realm binding
 
 ## Standards compliance measurement
 
 - [ ] Selector API の適合度計測方法
 - [ ] Selector API 適合度レポート
 - [ ] Living Standard 更新時の差分検出
-- [ ] commit 済み revision のみで report を更新する運用
+- [ ] WPT report 更新前後の URL / subtest status 差分と regression の自動検出
 
 ## Performance and memory
 
