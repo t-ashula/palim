@@ -98,8 +98,16 @@ import {
   enqueueCustomElementMoveReaction,
 } from "./custom-elements.js";
 
+export interface FragmentParseOptions {
+  readonly runScripts?: boolean;
+}
+
 export interface FragmentParser {
-  parse(input: string, context: Element): DocumentFragment;
+  parse(
+    input: string,
+    context: Element,
+    options?: FragmentParseOptions,
+  ): DocumentFragment;
 }
 
 export interface ElementCreationOptions {
@@ -1378,6 +1386,20 @@ function respondToBaseHrefChange(
   }
 }
 
+function respondToScriptAsyncAttributeAddition(
+  element: ElementImplementation,
+  attribute: AttrImplementation,
+): void {
+  if (
+    element.namespaceURI === HTML_NAMESPACE &&
+    element.localName === "script" &&
+    attribute.namespaceURI === null &&
+    attribute.localName === "async"
+  ) {
+    element.scriptForceAsync = false;
+  }
+}
+
 export function setDocumentParseErrors(
   document: Document,
   errors: readonly PalimParseError[],
@@ -2067,6 +2089,7 @@ export function setAttributeNode(
     implementation.attributes.push(valueImplementation);
     invalidateDocumentNamedProperties(implementation);
     respondToBaseHrefChange(implementation, valueImplementation);
+    respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
     updateSlotAssignmentsForMutation(element);
     return null;
   }
@@ -2076,6 +2099,7 @@ export function setAttributeNode(
   oldImplementation.ownerElement = null;
   invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, valueImplementation);
+  respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
   updateSlotAssignmentsForMutation(element);
   return oldAttribute;
 }
@@ -2508,6 +2532,8 @@ export function cloneNodeIntoDocument(
   const copy = cloneSingleNode(node, document);
   nodeImplementation(copy).scriptAlreadyStarted =
     nodeImplementation(node).scriptAlreadyStarted;
+  nodeImplementation(copy).scriptForceAsync =
+    nodeImplementation(node).scriptForceAsync;
   const childDocument = copy instanceof Document ? copy : document;
 
   if (

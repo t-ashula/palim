@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, Text } from "../src/index.js";
-import type { Node, Range, Element } from "../src/index.js";
+import { DOMParser, Document, Element, Text } from "../src/index.js";
+import type { Node, Range } from "../src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {
@@ -182,6 +182,38 @@ describe("Range contents", () => {
       defaultRange,
     ) as () => unknown;
     expect(createWithoutArgument).toThrow(TypeError);
+  });
+
+  it("strips XHTML document wrappers from contextual fragments", () => {
+    const document = new DOMParser().parseFromString(
+      '<html xmlns="http://www.w3.org/1999/xhtml"><body/></html>',
+      "application/xhtml+xml",
+    );
+    const documentElement = document.documentElement;
+    if (documentElement === null) {
+      throw new Error("missing XHTML document element");
+    }
+    const range = document.createRange();
+    range.setStart(documentElement, 0);
+
+    const fragment = range.createContextualFragment(
+      '<html xmlns="http://www.w3.org/1999/xhtml"><head><title>title</title></head><html><body><p>body</p></body></html></html>',
+    );
+    expect(fragment.childNodes.length).toBe(2);
+    expect(fragment.firstChild?.nodeName).toBe("title");
+    expect(fragment.lastChild?.nodeName).toBe("p");
+    expect(fragment.textContent).toBe("titlebody");
+    expect(fragment.querySelector("html")).toBeNull();
+    expect(fragment.querySelector("head")).toBeNull();
+    expect(fragment.querySelector("body")).toBeNull();
+
+    const foreign = range.createContextualFragment(
+      '<html xmlns="urn:not-html"><head><title>kept</title></head></html>',
+    );
+    const foreignRoot = foreign.firstChild;
+    expect(foreignRoot).toBeInstanceOf(Element);
+    expect((foreignRoot as Element).namespaceURI).toBe("urn:not-html");
+    expect((foreignRoot as Element).firstElementChild?.localName).toBe("head");
   });
 
   it("clones contents without changing the source tree", () => {

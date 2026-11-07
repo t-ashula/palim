@@ -18,6 +18,7 @@ import {
   createNodeList,
 } from "./dom/collections.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
+import { nodeImplementation } from "./dom/node-implementation.js";
 import {
   assignedSlotNodes,
   childNodes,
@@ -4368,7 +4369,6 @@ export class HTMLDialogElement extends HTMLElement {
 
 export class HTMLScriptElement extends HTMLElement {
   #blocking: DOMTokenList | null = null;
-  #async: boolean | null = null;
 
   declare type: string;
   declare src: string;
@@ -4380,11 +4380,13 @@ export class HTMLScriptElement extends HTMLElement {
   declare htmlFor: string;
 
   get async(): boolean {
-    return this.#async ?? this.hasAttribute("async");
+    return (
+      nodeImplementation(this).scriptForceAsync || this.hasAttribute("async")
+    );
   }
 
   set async(value: boolean) {
-    this.#async = value;
+    nodeImplementation(this).scriptForceAsync = false;
     this.toggleAttribute("async", value);
   }
 
@@ -5647,7 +5649,7 @@ function reflectedURL(element: Element, name: string): string {
     return "";
   }
   try {
-    return new URL(value).href;
+    return new URL(value, element.baseURI).href;
   } catch {
     return value;
   }

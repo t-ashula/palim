@@ -21,6 +21,7 @@ import {
   createDocumentFragment,
   createElementForDocument,
   fragmentParserForDocument,
+  insertNodeBefore,
   removeNode,
   replaceCharacterData,
   validatePreInsertion,
@@ -252,7 +253,13 @@ class RangeImplementation implements Range {
     if (parser === null) {
       throw new TypeError("Document has no fragment parser");
     }
-    return document.adoptNode(parser.parse(input, context));
+    const result = document.adoptNode(
+      parser.parse(input, context, { runScripts: true }),
+    );
+    if (document.contentType !== "text/html") {
+      stripHTMLDocumentWrappers(result);
+    }
+    return result;
   }
 
   insertNode(node: Node): void {
@@ -876,6 +883,27 @@ function cloneCharacterData(
 function appendFragment(parent: Node, fragment: DocumentFragment): void {
   while (fragment.firstChild !== null) {
     appendNode(parent, fragment.firstChild);
+  }
+}
+
+function stripHTMLDocumentWrappers(parent: Node): void {
+  for (const child of childNodes(parent)) {
+    if (
+      !(child instanceof Element) ||
+      child.namespaceURI !== HTML_NAMESPACE ||
+      (child.localName !== "html" &&
+        child.localName !== "head" &&
+        child.localName !== "body")
+    ) {
+      continue;
+    }
+    if (child.localName === "html") {
+      stripHTMLDocumentWrappers(child);
+    }
+    for (const nested of childNodes(child)) {
+      insertNodeBefore(parent, nested, child);
+    }
+    removeNode(child);
   }
 }
 

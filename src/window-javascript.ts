@@ -134,6 +134,36 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
       return;
     }
 
+    await this.#loadAndExecuteExternalScript(element, source);
+  }
+
+  #processDynamicScript(node: Node): void {
+    if (
+      !(node instanceof HTMLScriptElement) ||
+      nodeImplementation(node).scriptAlreadyStarted ||
+      !node.isConnected ||
+      !isClassic(node)
+    ) {
+      return;
+    }
+    const source = node.getAttribute("src");
+    if (source === null) {
+      if (node.text === "") {
+        return;
+      }
+      nodeImplementation(node).scriptAlreadyStarted = true;
+      this.#executeScript(node, node.text, this.#baseURL(node).href);
+      return;
+    }
+    nodeImplementation(node).scriptAlreadyStarted = true;
+    const loading = this.#loadAndExecuteExternalScript(node, source);
+    this.#pendingResourceLoads.push(loading);
+  }
+
+  async #loadAndExecuteExternalScript(
+    element: HTMLScriptElement,
+    source: string,
+  ): Promise<void> {
     let resourceURL: URL;
     try {
       resourceURL = new URL(source, this.#baseURL(element));
@@ -176,21 +206,6 @@ export class WindowExecutionEnvironment extends WindowScriptEnvironment {
       return;
     }
     this.#executeScript(element, sourceText, finalURL.href);
-  }
-
-  #processDynamicScript(node: Node): void {
-    if (
-      !(node instanceof HTMLScriptElement) ||
-      nodeImplementation(node).scriptAlreadyStarted ||
-      !node.isConnected ||
-      !isClassic(node) ||
-      node.hasAttribute("src") ||
-      node.text === ""
-    ) {
-      return;
-    }
-    nodeImplementation(node).scriptAlreadyStarted = true;
-    this.#executeScript(node, node.text, this.#baseURL(node).href);
   }
 
   #processElement(element: Element): void {

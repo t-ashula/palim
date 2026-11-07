@@ -914,6 +914,15 @@ describe("HTML element members", () => {
     expect(dialog.open).toBe(false);
     expect(dialog.returnValue).toBe("done");
     expect(script.text).toBe("let value = 1;");
+    expect(script.async).toBe(false);
+    const dynamicScript = document.createElement("script");
+    if (!(dynamicScript instanceof HTMLScriptElement)) {
+      throw new Error("dynamic script is not an HTMLScriptElement");
+    }
+    expect(dynamicScript.async).toBe(true);
+    dynamicScript.setAttribute("async", "");
+    dynamicScript.removeAttribute("async");
+    expect(dynamicScript.async).toBe(false);
     expect(HTMLScriptElement.supports("module")).toBe(true);
     expect(canvas.width).toBe(640);
     expect(canvas.height).toBe(480);

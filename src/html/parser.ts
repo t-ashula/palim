@@ -5,7 +5,10 @@ import type {
   Node,
 } from "../dom.js";
 import type { FragmentParser } from "../dom/nodes.js";
-import { documentImplementation } from "../dom/node-implementation.js";
+import {
+  documentImplementation,
+  nodeImplementation,
+} from "../dom/node-implementation.js";
 import {
   appendCharacterData,
   appendNode,
@@ -54,13 +57,15 @@ interface TreeBuilderOptions {
   readonly document?: Document;
   readonly onElement?: (element: Element) => void;
   readonly onScript?: (element: Element) => Promise<void> | void;
+  readonly runScripts?: boolean;
   readonly scriptingMode?: ParserScriptingMode;
 }
 
 const htmlFragmentParser: FragmentParser = {
-  parse(input, context) {
+  parse(input, context, options) {
     return new TreeBuilder(input, {
       context,
+      runScripts: options?.runScripts ?? false,
       scriptingMode: "enabled",
     }).parseFragment();
   },
@@ -341,6 +346,7 @@ class TreeBuilder {
   readonly #context: Element | null;
   readonly #onElement: ((element: Element) => void) | undefined;
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
+  readonly #runScripts: boolean;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
@@ -362,6 +368,7 @@ class TreeBuilder {
       createDocument(htmlFragmentParser, "text/html", createElementForDocument);
     this.#onElement = options.onElement;
     this.#onScript = options.onScript;
+    this.#runScripts = options.runScripts ?? false;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
     this.#context =
@@ -2292,6 +2299,16 @@ class TreeBuilder {
       this.#treeError("self-closing-non-void-html-element");
     }
     const element = this.#element(token, namespace);
+    if (namespace === HTML_NAMESPACE && token.name === "script") {
+      const implementation = nodeImplementation(element);
+      if (this.#context === null) {
+        implementation.scriptAlreadyStarted = true;
+        implementation.scriptForceAsync = false;
+      } else {
+        implementation.scriptAlreadyStarted = !this.#runScripts;
+        implementation.scriptForceAsync = !element.hasAttribute("async");
+      }
+    }
     this.#insertNode(element, foster);
     this.#onElement?.(element);
     if (push) {
@@ -2716,9 +2733,11 @@ class TreeBuilder {
       this.#stack.pop();
     }
     if (
+      this.#context === null &&
       element?.namespaceURI === HTML_NAMESPACE &&
       element.localName === "script"
     ) {
+      nodeImplementation(element).scriptAlreadyStarted = false;
       const pendingScript = this.#onScript?.(element);
       if (pendingScript !== undefined) {
         this.#pendingScript = pendingScript;

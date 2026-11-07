@@ -269,6 +269,77 @@ describe("parser-inserted classic scripts", () => {
     );
   });
 
+  it("runs contextual fragment external scripts asynchronously", async () => {
+    const slow = Promise.withResolvers<{ body: Uint8Array }>();
+    const requests: string[] = [];
+    const environment = new WindowExecutionEnvironment({
+      url: "https://example.test/page.html",
+      resourceLoader: {
+        load(url) {
+          requests.push(url.href);
+          if (url.href.endsWith("/slow.js")) {
+            return slow.promise;
+          }
+          return Promise.resolve({
+            body: Buffer.from("window.contextualOrder.push('fast');"),
+          });
+        },
+      },
+    });
+
+    const loading = environment.loadHTML(
+      [
+        "<body><script>",
+        "window.contextualOrder = [];",
+        "const inert = document.createElement('div');",
+        "inert.innerHTML = '<script>window.contextualOrder.push(\"inert\");<' + '/script>';",
+        "document.body.append(inert);",
+        "const range = document.createRange();",
+        "range.selectNodeContents(document.body);",
+        "const markup = '<script src=\"slow.js\"><' + '/script>' +",
+        "  '<script src=\"fast.js\"><' + '/script>' +",
+        "  '<script>window.contextualOrder.push(\"inline\");<' + '/script>';",
+        "const fragment = range.createContextualFragment(markup);",
+        "document.body.setAttribute('data-contextual-async',",
+        "  Array.from(fragment.querySelectorAll('script')).map((script) => script.async).join(','));",
+        "document.body.setAttribute('data-contextual-src', fragment.querySelector('script').src);",
+        "document.body.append(fragment);",
+        "document.body.setAttribute('data-contextual-immediate', contextualOrder.join(','));",
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(requests).toEqual([
+      "https://example.test/slow.js",
+      "https://example.test/fast.js",
+    ]);
+    expect(
+      environment.window.document.body?.getAttribute("data-contextual-async"),
+    ).toBe("true,true,true");
+    expect(
+      environment.window.document.body?.getAttribute("data-contextual-src"),
+    ).toBe("https://example.test/slow.js");
+    expect(
+      environment.window.document.body?.getAttribute(
+        "data-contextual-immediate",
+      ),
+    ).toBe("inline");
+
+    slow.resolve({
+      body: Buffer.from("window.contextualOrder.push('slow');"),
+    });
+    const document = await loading;
+    expect(document.body?.getAttribute("data-contextual-immediate")).toBe(
+      "inline",
+    );
+    expect(environment.scriptResults).toHaveLength(4);
+    expect(
+      environment.scriptResults.map((result) =>
+        result.type === "execution" ? result.element.getAttribute("src") : null,
+      ),
+    ).toEqual([null, null, "fast.js", "slow.js"]);
+  });
+
   it("skips a dynamic script removed by an earlier post-connection step", async () => {
     const environment = new WindowExecutionEnvironment();
 

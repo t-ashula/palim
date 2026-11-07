@@ -116,6 +116,7 @@ import {
   installHTMLTableRowElementMembers,
   installHTMLTableSectionElementMembers,
   installHTMLTemplateElementMembers,
+  installHTMLScriptElementMembers,
   installHTMLSlotElementMembers,
   installDocumentFragmentMembers,
   installDocumentTypeMembers,
@@ -491,6 +492,7 @@ export class DOMRealmBindingContext {
     installHTMLTableRowElementMembers(this);
     installHTMLTableSectionElementMembers(this);
     installHTMLTemplateElementMembers(this);
+    installHTMLScriptElementMembers(this);
     installHTMLSlotElementMembers(this);
     installDocumentMembers(this);
     installDocumentFragmentMembers(this);

@@ -33,6 +33,7 @@ export class NodeImplementation extends EventTargetImplementation {
   childNodes: NodeList | null = null;
   elementChildren: HTMLCollection | null = null;
   scriptAlreadyStarted = false;
+  scriptForceAsync = true;
   readonly creationDocument: DocumentImplementation | null;
 
   constructor(

@@ -33,6 +33,7 @@ export {
   installHTMLTableRowElementMembers,
   installHTMLTableSectionElementMembers,
   installHTMLTemplateElementMembers,
+  installHTMLScriptElementMembers,
   installHTMLSlotElementMembers,
 } from "./dom-realm-html-interfaces.js";
 

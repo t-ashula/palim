@@ -1,5 +1,5 @@
 import { foreignAnchorRelList } from "../dom/foreign-anchor.js";
-import { HTMLSlotElement } from "../html-elements.js";
+import { HTMLScriptElement, HTMLSlotElement } from "../html-elements.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -180,6 +180,58 @@ export function installHTMLSlotElementMembers(
       );
     });
   }
+}
+
+export function installHTMLScriptElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  const prototype = binding.htmlElementInterfacePrototype(HTMLScriptElement);
+  const receiver = (value: Parameters<typeof binding.htmlElement>[0]) => {
+    const element = binding.htmlElement(value);
+    return element instanceof HTMLScriptElement ? element : null;
+  };
+  binding.attribute(
+    prototype,
+    "async",
+    (thisValue) => {
+      const script = receiver(thisValue);
+      return script === null
+        ? binding.typeError("Invalid HTMLScriptElement receiver")
+        : binding.primitive(script.async);
+    },
+    (thisValue, argumentsList) => {
+      const script = receiver(thisValue);
+      if (script === null) {
+        return binding.typeError("Invalid HTMLScriptElement receiver");
+      }
+      const value = argumentsList[0];
+      script.async =
+        value === undefined ? false : binding.engine.toBoolean(value);
+      return binding.undefined();
+    },
+  );
+  binding.attribute(
+    prototype,
+    "src",
+    (thisValue) => {
+      const script = receiver(thisValue);
+      return script === null
+        ? binding.typeError("Invalid HTMLScriptElement receiver")
+        : binding.primitive(script.src);
+    },
+    (thisValue, argumentsList) => {
+      const script = receiver(thisValue);
+      if (script === null) {
+        return binding.typeError("Invalid HTMLScriptElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "src");
+      if (value.type === "throw") {
+        return value;
+      }
+      script.src = value.value;
+      return binding.undefined();
+    },
+  );
 }
 
 export function installHTMLAnchorElementMembers(

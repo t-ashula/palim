@@ -18,8 +18,14 @@ import {
   createText,
   setAttributes,
 } from "../dom/nodes.js";
+import { nodeImplementation } from "../dom/node-implementation.js";
 import { createElementForDocument } from "../html-elements.js";
-import { XML_NAMESPACE, XMLNS_NAMESPACE } from "../namespaces.js";
+import {
+  HTML_NAMESPACE,
+  SVG_NAMESPACE,
+  XML_NAMESPACE,
+  XMLNS_NAMESPACE,
+} from "../namespaces.js";
 import { parseInternalSubset } from "./dtd.js";
 import type { DTDDefaultAttribute } from "./dtd.js";
 import {
@@ -447,6 +453,16 @@ class XMLParserCore {
       namespaceURI ?? null,
       elementName.prefix,
     );
+    if (
+      elementName.localName === "script" &&
+      (namespaceURI === HTML_NAMESPACE || namespaceURI === SVG_NAMESPACE)
+    ) {
+      const implementation = nodeImplementation(element);
+      implementation.scriptForceAsync = false;
+      if (this.#fragment !== null) {
+        implementation.scriptAlreadyStarted = true;
+      }
+    }
 
     const expandedNames = new Set<string>();
     for (const attribute of attributes) {
