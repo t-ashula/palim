@@ -27,10 +27,10 @@ describe("XML fragment serialization", () => {
     );
 
     expect(element.innerHTML).toBe(
-      '<child xmlns="urn:root" value="&quot;&amp;">&lt;&amp;</child><empty xmlns="urn:root" />',
+      '<child xmlns="urn:root" value="&quot;&amp;">&lt;&amp;</child><empty xmlns="urn:root"/>',
     );
     expect(element.outerHTML).toBe(
-      '<root xmlns="urn:root"><child value="&quot;&amp;">&lt;&amp;</child><empty /></root>',
+      '<root xmlns="urn:root"><child value="&quot;&amp;">&lt;&amp;</child><empty/></root>',
     );
   });
 
@@ -43,7 +43,7 @@ describe("XML fragment serialization", () => {
     expect(element.firstElementChild?.namespaceURI).toBe("urn:root");
     expect(element.children.item(1)?.namespaceURI).toBe(XHTML_NAMESPACE);
     expect(element.innerHTML).toBe(
-      '<child xmlns="urn:root" /><html:span xmlns:html="http://www.w3.org/1999/xhtml">text</html:span>',
+      '<child xmlns="urn:root"/><html:span xmlns:html="http://www.w3.org/1999/xhtml">text</html:span>',
     );
   });
 
@@ -58,7 +58,7 @@ describe("XML fragment serialization", () => {
     target.outerHTML = "<replacement />";
 
     expect(element.innerHTML).toBe(
-      "<before /><inserted /><replacement /><after />",
+      "<before/><inserted/><replacement/><after/>",
     );
   });
 
@@ -68,7 +68,7 @@ describe("XML fragment serialization", () => {
     expectDOMException(() => {
       element.innerHTML = "<unclosed>";
     }, "SyntaxError");
-    expect(element.innerHTML).toBe("<existing />");
+    expect(element.innerHTML).toBe("<existing/>");
   });
 });
 
@@ -104,7 +104,54 @@ describe("XMLSerializer", () => {
     document.appendChild(element);
 
     expect(new XMLSerializer().serializeToString(element)).toBe(
-      '<r:root xmlns:r="urn:root" xmlns:ns1="urn:attribute" ns1:value="content" />',
+      '<r:root xmlns:r="urn:root" xmlns:ns1="urn:attribute" ns1:value="content"/>',
+    );
+  });
+
+  it("escapes XML attribute values", () => {
+    const document = new Document();
+    const element = document.createElement("root");
+    element.setAttribute("value", '<>&"\t\n\r');
+
+    expect(new XMLSerializer().serializeToString(element)).toBe(
+      '<root value="&lt;&gt;&amp;&quot;&#x9;&#xA;&#xD;"/>',
+    );
+  });
+
+  it("keeps namespace identity when local declarations shadow prefixes", () => {
+    const element = root(
+      parse('<root xmlns:p="u1" xmlns:q="u1"><child xmlns:q="u2"/></root>'),
+    );
+    const child = element.firstElementChild;
+    if (child === null) {
+      throw new Error("missing child element");
+    }
+    child.setAttributeNS("u1", "name", "value");
+
+    expect(new XMLSerializer().serializeToString(element)).toBe(
+      '<root xmlns:p="u1" xmlns:q="u1"><child xmlns:q="u2" p:name="value"/></root>',
+    );
+  });
+
+  it("preserves unused attribute prefixes and avoids generated prefix collisions", () => {
+    const document = new Document();
+    const documentRoot = document.createElement("root");
+    documentRoot.setAttributeNS("urn:attribute", "p:name", "value");
+    document.appendChild(documentRoot);
+
+    expect(new XMLSerializer().serializeToString(documentRoot)).toBe(
+      '<root xmlns:p="urn:attribute" p:name="value"/>',
+    );
+
+    const parsed = parse('<root xmlns:ns2="u2"><child xmlns:ns1="u1"/></root>');
+    const parsedRoot = root(parsed);
+    const child = parsedRoot.firstElementChild;
+    if (child === null) {
+      throw new Error("missing generated-prefix child");
+    }
+    child.setAttributeNS("u3", "name", "value");
+    expect(new XMLSerializer().serializeToString(parsedRoot)).toBe(
+      '<root xmlns:ns2="u2"><child xmlns:ns1="u1" xmlns:ns3="u3" ns3:name="value"/></root>',
     );
   });
 

@@ -27,7 +27,7 @@
 - [x] `Document.createCDATASection` の document type と `]]>` に対する例外優先順位
 - [x] navigation document の transport / BOM / `meta` に基づく character encoding state
 - [x] HTML tree builder の `style` raw text 終了後に続く sibling を構築する
-- [ ] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
+- [x] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
 - [ ] `Range.createContextualFragment` の HTML / XHTML context selection と script execution semantics
 - [ ] `innerHTML` / `outerHTML` の null変換、style attribute、doctype serialization
 - [ ] `Document.parseHTML` と unsafe / positional HTML parsing API

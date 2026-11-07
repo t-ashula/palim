@@ -24,6 +24,8 @@ interface SerializationState {
   nextPrefix: number;
 }
 
+type NamespacePrefixMap = Map<string | null, string[]>;
+
 class XMLSerializationFailure extends Error {}
 
 const HTML_VOID_ELEMENTS = new Set([
@@ -69,176 +71,298 @@ function escapeAttribute(value: string, requireWellFormed: boolean): string {
     .replaceAll("&", "&amp;")
     .replaceAll('"', "&quot;")
     .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
     .replaceAll("\t", "&#x9;")
     .replaceAll("\n", "&#xA;")
     .replaceAll("\r", "&#xD;");
 }
 
-function declaration(
+function copyNamespacePrefixMap(map: NamespacePrefixMap): NamespacePrefixMap {
+  return new Map(
+    [...map].map(([namespace, prefixes]) => [namespace, [...prefixes]]),
+  );
+}
+
+function addPrefix(
+  map: NamespacePrefixMap,
+  namespace: string | null,
+  prefix: string,
+): void {
+  const prefixes = map.get(namespace);
+  if (prefixes === undefined) {
+    map.set(namespace, [prefix]);
+  } else if (!prefixes.includes(prefix)) {
+    prefixes.push(prefix);
+  }
+}
+
+function hasPrefix(
+  map: NamespacePrefixMap,
+  namespace: string | null,
+  prefix: string,
+): boolean {
+  return map.get(namespace)?.includes(prefix) ?? false;
+}
+
+function prefixIsMapped(map: NamespacePrefixMap, prefix: string): boolean {
+  for (const prefixes of map.values()) {
+    if (prefixes.includes(prefix)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function removePrefixMappings(map: NamespacePrefixMap, prefix: string): void {
+  for (const [namespace, prefixes] of map) {
+    const remaining = prefixes.filter((candidate) => candidate !== prefix);
+    if (remaining.length === 0) {
+      map.delete(namespace);
+    } else if (remaining.length !== prefixes.length) {
+      map.set(namespace, remaining);
+    }
+  }
+}
+
+function prefixMapsToAnotherNamespace(
+  map: NamespacePrefixMap,
   prefix: string,
   namespace: string,
-  namespaces: Map<string, string>,
-  requireWellFormed: boolean,
-): string {
-  namespaces.set(prefix, namespace);
-  const name = prefix === "" ? "xmlns" : `xmlns:${prefix}`;
-  return ` ${name}="${escapeAttribute(namespace, requireWellFormed)}"`;
+): boolean {
+  for (const [mappedNamespace, prefixes] of map) {
+    if (mappedNamespace !== namespace && prefixes.includes(prefix)) {
+      return true;
+    }
+  }
+  return false;
 }
 
-function explicitNamespaceDeclaration(attribute: Attr): {
-  readonly prefix: string;
-  readonly namespace: string;
-} | null {
-  if (attribute.namespaceURI !== XMLNS_NAMESPACE) {
+function preferredPrefix(
+  map: NamespacePrefixMap,
+  namespace: string | null,
+  preferred: string | null,
+): string | null {
+  const candidates = map.get(namespace);
+  if (candidates === undefined || candidates.length === 0) {
     return null;
   }
-  return {
-    prefix: attribute.prefix === null ? "" : attribute.localName,
-    namespace: attribute.value,
-  };
+  if (preferred !== null && candidates.includes(preferred)) {
+    return preferred;
+  }
+  return candidates.at(-1) ?? null;
 }
 
-function findPrefix(
-  namespaces: ReadonlyMap<string, string>,
+function namespaceValue(value: string): string | null {
+  return value === "" ? null : value;
+}
+
+function generatedPrefix(
+  map: NamespacePrefixMap,
   namespace: string,
+  state: SerializationState,
+): string {
+  let prefix: string;
+  do {
+    prefix = `ns${String(state.nextPrefix)}`;
+    state.nextPrefix += 1;
+  } while (prefixIsMapped(map, prefix));
+  addPrefix(map, namespace, prefix);
+  return prefix;
+}
+
+function recordNamespaceInformation(
+  element: Element,
+  map: NamespacePrefixMap,
+  localPrefixes: Map<string, string>,
 ): string | null {
-  let result: string | null = null;
-  for (const [prefix, value] of namespaces) {
-    if (prefix !== "" && prefix !== "xmlns" && value === namespace) {
-      result = prefix;
+  let defaultNamespace: string | null = null;
+  for (const attribute of element.attributes) {
+    if (attribute.namespaceURI !== XMLNS_NAMESPACE) {
+      continue;
     }
+    if (attribute.prefix === null) {
+      defaultNamespace = attribute.value;
+      continue;
+    }
+    const prefix = attribute.localName;
+    const namespace = namespaceValue(attribute.value);
+    if (namespace === XML_NAMESPACE || hasPrefix(map, namespace, prefix)) {
+      continue;
+    }
+    removePrefixMappings(map, prefix);
+    addPrefix(map, namespace, prefix);
+    localPrefixes.set(prefix, attribute.value);
+  }
+  return defaultNamespace;
+}
+
+function serializeAttributes(
+  element: Element,
+  map: NamespacePrefixMap,
+  localPrefixes: Map<string, string>,
+  state: SerializationState,
+  ignoreDefaultNamespace: boolean,
+  requireWellFormed: boolean,
+): string {
+  let result = "";
+  for (const attribute of element.attributes) {
+    const namespace = attribute.namespaceURI;
+    const prefix = attribute.prefix;
+    if (namespace === null && attribute.localName === "xmlns") {
+      continue;
+    }
+    let candidate =
+      namespace === null ? null : preferredPrefix(map, namespace, prefix);
+
+    if (namespace === XMLNS_NAMESPACE) {
+      const declarationNamespace = namespaceValue(attribute.value);
+      if (
+        attribute.value === XML_NAMESPACE ||
+        (prefix === null && ignoreDefaultNamespace) ||
+        (prefix !== null &&
+          (!localPrefixes.has(attribute.localName) ||
+            localPrefixes.get(attribute.localName) !== attribute.value) &&
+          hasPrefix(map, declarationNamespace, attribute.localName))
+      ) {
+        continue;
+      }
+      if (prefix === "xmlns") {
+        candidate = "xmlns";
+      }
+    } else if (namespace !== null && candidate === null) {
+      candidate =
+        prefix !== null &&
+        !localPrefixes.has(prefix) &&
+        !prefixMapsToAnotherNamespace(map, prefix, namespace)
+          ? prefix
+          : generatedPrefix(map, namespace, state);
+      addPrefix(map, namespace, candidate);
+      localPrefixes.set(candidate, namespace);
+      result += ` xmlns:${candidate}="${escapeAttribute(namespace, requireWellFormed)}"`;
+    }
+
+    const name =
+      candidate === null
+        ? attribute.localName
+        : `${candidate}:${attribute.localName}`;
+    result += ` ${name}="${escapeAttribute(attribute.value, requireWellFormed)}"`;
   }
   return result;
 }
 
-function generatedPrefix(
-  namespaces: ReadonlyMap<string, string>,
-  state: SerializationState,
-): string {
-  while (namespaces.has(`ns${String(state.nextPrefix)}`)) {
-    state.nextPrefix += 1;
-  }
-  const prefix = `ns${String(state.nextPrefix)}`;
-  state.nextPrefix += 1;
-  return prefix;
-}
-
 function serializeElement(
   element: Element,
-  inheritedNamespaces: ReadonlyMap<string, string>,
+  inheritedNamespace: string | null,
+  prefixMap: NamespacePrefixMap,
   state: SerializationState,
   requireWellFormed: boolean,
 ): string {
   validateElement(element, requireWellFormed);
-  const namespaces = new Map(inheritedNamespaces);
-  namespaces.set("xml", XML_NAMESPACE);
-  const declarations = new Map<string, string>();
-  const localPrefixes = new Set<string>();
-  const attributes: string[] = [];
-
-  for (const attribute of element.attributes) {
-    const item = explicitNamespaceDeclaration(attribute);
-    if (item !== null) {
-      localPrefixes.add(item.prefix);
-      if (item.namespace !== XML_NAMESPACE) {
-        declarations.set(item.prefix, item.namespace);
-        namespaces.set(item.prefix, item.namespace);
-      }
-    }
-  }
-
-  let elementPrefix = element.prefix ?? "";
-  const elementNamespace = element.namespaceURI ?? "";
-  if (element.namespaceURI === XML_NAMESPACE) {
-    elementPrefix = "xml";
-  } else if (
-    elementPrefix !== "" &&
-    namespaces.get(elementPrefix) !== elementNamespace &&
-    localPrefixes.has(elementPrefix)
-  ) {
-    elementPrefix = findPrefix(namespaces, elementNamespace) ?? "";
-    if (elementPrefix === "") {
-      elementPrefix = generatedPrefix(namespaces, state);
-    }
-  }
-  if (namespaces.get(elementPrefix) !== elementNamespace) {
-    declarations.set(elementPrefix, elementNamespace);
-    namespaces.set(elementPrefix, elementNamespace);
-  }
-  const qualifiedName =
-    elementPrefix === ""
-      ? element.localName
-      : `${elementPrefix}:${element.localName}`;
-
-  for (const attribute of element.attributes) {
-    if (explicitNamespaceDeclaration(attribute) !== null) {
-      continue;
-    }
-
-    let prefix: string | null = null;
-    if (attribute.namespaceURI !== null) {
-      if (attribute.namespaceURI === XML_NAMESPACE) {
-        prefix = "xml";
-      } else {
-        const preferred = attribute.prefix;
-        if (
-          preferred !== null &&
-          (!localPrefixes.has(preferred) ||
-            namespaces.get(preferred) === attribute.namespaceURI)
-        ) {
-          prefix = preferred;
-        }
-        if (
-          prefix === null ||
-          namespaces.get(prefix) !== attribute.namespaceURI
-        ) {
-          prefix = findPrefix(namespaces, attribute.namespaceURI);
-        }
-        prefix ??= generatedPrefix(namespaces, state);
-        if (namespaces.get(prefix) !== attribute.namespaceURI) {
-          declarations.set(prefix, attribute.namespaceURI);
-          namespaces.set(prefix, attribute.namespaceURI);
-        }
-      }
-    }
-    const name =
-      prefix === null
-        ? attribute.localName
-        : `${prefix}:${attribute.localName}`;
-    attributes.push(
-      ` ${name}="${escapeAttribute(attribute.value, requireWellFormed)}"`,
-    );
-  }
-
-  const serializedDeclarations = [...declarations].map(([prefix, namespace]) =>
-    declaration(prefix, namespace, namespaces, requireWellFormed),
+  const map = copyNamespacePrefixMap(prefixMap);
+  const localPrefixes = new Map<string, string>();
+  const localDefaultNamespace = recordNamespaceInformation(
+    element,
+    map,
+    localPrefixes,
   );
-  const start = `<${qualifiedName}${serializedDeclarations.join("")}${attributes.join("")}`;
+  const namespace = element.namespaceURI;
+  let childNamespace = inheritedNamespace;
+  let ignoreDefaultNamespace = false;
+  let qualifiedName: string;
+  let start: string;
+
+  if (inheritedNamespace === namespace) {
+    ignoreDefaultNamespace =
+      localDefaultNamespace !== null &&
+      ![...localPrefixes.values()].includes("");
+    qualifiedName =
+      namespace === XML_NAMESPACE
+        ? `xml:${element.localName}`
+        : element.localName;
+    start = `<${qualifiedName}`;
+  } else {
+    let prefix = element.prefix;
+    let candidate = preferredPrefix(map, namespace, prefix);
+    if (prefix === "xmlns") {
+      candidate = prefix;
+    }
+
+    if (candidate !== null) {
+      qualifiedName = `${candidate}:${element.localName}`;
+      start = `<${qualifiedName}`;
+      if (
+        localDefaultNamespace !== null &&
+        localDefaultNamespace !== XML_NAMESPACE
+      ) {
+        childNamespace = namespaceValue(localDefaultNamespace);
+      }
+    } else if (prefix !== null) {
+      if (localPrefixes.has(prefix)) {
+        prefix = generatedPrefix(map, namespace ?? "", state);
+      }
+      addPrefix(map, namespace, prefix);
+      qualifiedName = `${prefix}:${element.localName}`;
+      start = `<${qualifiedName} xmlns:${prefix}="${escapeAttribute(namespace ?? "", requireWellFormed)}"`;
+      if (localDefaultNamespace !== null) {
+        childNamespace = namespaceValue(localDefaultNamespace);
+      }
+    } else if (
+      localDefaultNamespace === null ||
+      namespaceValue(localDefaultNamespace) !== namespace
+    ) {
+      ignoreDefaultNamespace = true;
+      qualifiedName = element.localName;
+      childNamespace = namespace;
+      start = `<${qualifiedName} xmlns="${escapeAttribute(namespace ?? "", requireWellFormed)}"`;
+    } else {
+      qualifiedName = element.localName;
+      childNamespace = namespace;
+      start = `<${qualifiedName}`;
+    }
+  }
+
+  start += serializeAttributes(
+    element,
+    map,
+    localPrefixes,
+    state,
+    ignoreDefaultNamespace,
+    requireWellFormed,
+  );
   const contents = templateContents(element);
   const children = childNodes(contents ?? element);
   if (children.length === 0) {
-    if (
-      element.namespaceURI === HTML_NAMESPACE &&
-      !HTML_VOID_ELEMENTS.has(element.localName)
-    ) {
+    if (namespace === HTML_NAMESPACE) {
+      if (HTML_VOID_ELEMENTS.has(element.localName)) {
+        return `${start} />`;
+      }
       return `${start}></${qualifiedName}>`;
     }
-    return `${start} />`;
+    return `${start}/>`;
   }
   const serializedChildren = children
-    .map((child) => serializeNode(child, namespaces, state, requireWellFormed))
+    .map((child) =>
+      serializeNode(child, childNamespace, map, state, requireWellFormed),
+    )
     .join("");
   return `${start}>${serializedChildren}</${qualifiedName}>`;
 }
 
 function serializeNode(
   node: Node,
-  namespaces: ReadonlyMap<string, string>,
+  namespace: string | null,
+  prefixMap: NamespacePrefixMap,
   state: SerializationState,
   requireWellFormed: boolean,
 ): string {
   if (node instanceof Element) {
-    return serializeElement(node, namespaces, state, requireWellFormed);
+    return serializeElement(
+      node,
+      namespace,
+      prefixMap,
+      state,
+      requireWellFormed,
+    );
   }
   if (node instanceof Document) {
     if (requireWellFormed && node.documentElement === null) {
@@ -246,7 +370,8 @@ function serializeNode(
     }
     return serializeChildren(
       node.childNodes,
-      namespaces,
+      namespace,
+      prefixMap,
       state,
       requireWellFormed,
     );
@@ -254,7 +379,8 @@ function serializeNode(
   if (node instanceof DocumentFragment) {
     return serializeChildren(
       node.childNodes,
-      namespaces,
+      namespace,
+      prefixMap,
       state,
       requireWellFormed,
     );
@@ -314,12 +440,15 @@ function serializeNode(
 
 function serializeChildren(
   nodes: Iterable<Node>,
-  namespaces: ReadonlyMap<string, string>,
+  namespace: string | null,
+  prefixMap: NamespacePrefixMap,
   state: SerializationState,
   requireWellFormed: boolean,
 ): string {
   return [...nodes]
-    .map((node) => serializeNode(node, namespaces, state, requireWellFormed))
+    .map((node) =>
+      serializeNode(node, namespace, prefixMap, state, requireWellFormed),
+    )
     .join("");
 }
 
@@ -327,12 +456,10 @@ function serializeNodes(
   nodes: Iterable<Node>,
   requireWellFormed: boolean,
 ): string {
-  const namespaces = new Map<string, string>([
-    ["", ""],
-    ["xml", XML_NAMESPACE],
-  ]);
+  const prefixMap: NamespacePrefixMap = new Map();
+  addPrefix(prefixMap, XML_NAMESPACE, "xml");
   const state: SerializationState = { nextPrefix: 1 };
-  return serializeChildren(nodes, namespaces, state, requireWellFormed);
+  return serializeChildren(nodes, null, prefixMap, state, requireWellFormed);
 }
 
 function validateElement(element: Element, requireWellFormed: boolean): void {
@@ -371,8 +498,7 @@ function isPublicIdentifier(value: string): boolean {
 }
 
 function serializeIdentifier(value: string): string {
-  const quote = value.includes('"') ? "'" : '"';
-  return `${quote}${value}${quote}`;
+  return `"${value}"`;
 }
 
 export function serializeXML(node: Node, requireWellFormed = false): string {
