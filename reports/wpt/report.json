@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261106t135205195z-1385325",
+    "id": "20261106t181823904z-1723289",
     "state": "completed",
     "palim": {
-      "revision": "2a48edf433b409ac26e0901330b95d961ac17e23",
+      "revision": "464d58648a4424732127f3145b93b4184102e1dc",
       "dirty": false,
-      "imageId": "sha256:2b81bf40432170de4a7cadc3697393272b0e01f7d2e9d34cdecea92bb3fa49b5"
+      "imageId": "sha256:1b914ced80cf24128d58fb5ebac2177025148055d9ac05be14e6f64b5339e3ac"
     },
     "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-06T14:42:19.513Z",
+    "snapshotAt": "2026-11-06T19:08:44.205Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -46,11 +46,11 @@
   "totals": {
     "total": 1226,
     "executed": 1226,
-    "pass": 400,
-    "fail": 369,
+    "pass": 423,
+    "fail": 350,
     "skip": 0,
-    "error": 199,
-    "timeout": 258,
+    "error": 196,
+    "timeout": 257,
     "pending": 0
   },
   "areas": [
@@ -73,10 +73,10 @@
         "total": 214,
         "executed": 214,
         "pass": 24,
-        "fail": 62,
+        "fail": 65,
         "skip": 0,
-        "error": 9,
-        "timeout": 119,
+        "error": 7,
+        "timeout": 118,
         "pending": 0
       }
     },
@@ -98,10 +98,10 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 227,
-        "fail": 119,
+        "pass": 238,
+        "fail": 109,
         "skip": 0,
-        "error": 7,
+        "error": 6,
         "timeout": 55,
         "pending": 0
       }
@@ -137,8 +137,8 @@
       "totals": {
         "total": 56,
         "executed": 56,
-        "pass": 24,
-        "fail": 17,
+        "pass": 26,
+        "fail": 15,
         "skip": 0,
         "error": 1,
         "timeout": 14,
@@ -150,8 +150,8 @@
       "totals": {
         "total": 57,
         "executed": 57,
-        "pass": 28,
-        "fail": 28,
+        "pass": 36,
+        "fail": 20,
         "skip": 0,
         "error": 0,
         "timeout": 1,
@@ -176,8 +176,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 19,
-        "fail": 22,
+        "pass": 20,
+        "fail": 21,
         "skip": 0,
         "error": 175,
         "timeout": 20,
@@ -189,8 +189,8 @@
       "totals": {
         "total": 77,
         "executed": 77,
-        "pass": 15,
-        "fail": 33,
+        "pass": 16,
+        "fail": 32,
         "skip": 0,
         "error": 4,
         "timeout": 25,
@@ -212,12 +212,12 @@
     }
   ],
   "subtests": {
-    "total": 62101,
-    "pass": 48398,
-    "fail": 8424,
+    "total": 62288,
+    "pass": 48757,
+    "fail": 8255,
     "skip": 0,
-    "error": 5034,
-    "timeout": 245
+    "error": 5032,
+    "timeout": 244
   },
   "nonPassingTests": [
     {
@@ -232,8 +232,8 @@
     },
     {
       "url": "/dom/events/Body-FrameSet-Event-Handlers.html",
-      "status": "error",
-      "message": "ReferenceError: \"HTMLBodyElement\" is not defined\n    at getObject (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:16:38)\n    at getEnumerable (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:83:37)\n    at testEnumerate (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:92:52)\n    at <anonymous> (http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:108:38)\n    at Array#forEach (native)\n    at http://web-platform.test:8000/dom/events/Body-FrameSet-Event-Handlers.html:106:11"
+      "status": "fail",
+      "message": "assert_equals: Initially null expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/dom/events/Event-cancelBubble.html",
@@ -323,7 +323,7 @@
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
@@ -593,7 +593,7 @@
     {
       "url": "/dom/events/mouse-event-retarget.html",
       "status": "fail",
-      "message": "\"target\" is not defined"
+      "message": "\"MouseEvent\" is not defined"
     },
     {
       "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
@@ -812,8 +812,8 @@
     },
     {
       "url": "/dom/events/passive-by-default.html",
-      "status": "error",
-      "message": "20 duplicate test names: \"touchstart listener is passive by default for HTMLElement\", \"touchstart listener is passive with {passive:undefined} for HTMLElement\", \"touchstart listener is non-passive with {passive:false} for HTMLElement\", \"touchstart listener is passive with {passive:true} for HTMLElement\", \"touchmove listener is passive by default for HTMLElement\", \"touchmove listener is passive with {passive:undefined} for HTMLElement\", \"touchmove listener is non-passive with {passive:false} for HTMLElement\", \"touchmove listener is passive with {passive:true} for HTMLElement\", \"wheel listener is passive by default for HTMLElement\", \"wheel listener is passive with {passive:undefined} for HTMLElement\", \"wheel listener is non-passive with {passive:false} for HTMLElement\", \"wheel listener is passive with {passive:true} for HTMLElement\", \"mousewheel listener is passive by default for HTMLElement\", \"mousewheel listener is passive with {passive:undefined} for HTMLElement\", \"mousewheel listener is non-passive with {passive:false} for HTMLElement\", \"mousewheel listener is passive with {passive:true} for HTMLElement\", \"touchend listener is non-passive by default for HTMLElement\", \"touchend listener is non-passive with {passive:undefined} for HTMLElement\", \"touchend listener is non-passive with {passive:false} for HTMLElement\", \"touchend listener is passive with {passive:true} for HTMLElement\""
+      "status": "fail",
+      "message": "assert_equals: defaultPrevented expected false but got true"
     },
     {
       "url": "/dom/events/pointer-event-document-move.html",
@@ -862,8 +862,8 @@
     },
     {
       "url": "/dom/events/scrolling/scroll-event-not-fired-on-ancestor-style-change.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"scroller\" is not defined\""
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scroll-events-fired-once-per-frame-across-display-none.html",
@@ -872,8 +872,8 @@
     },
     {
       "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
-      "status": "timeout",
-      "message": "b'ReferenceError: \"scroller\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html:2:1'"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: scroller.getBoundingClientRect is not a function. (In \"scroller.getBoundingClientRect()\", it is undefined)\""
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
@@ -903,82 +903,82 @@
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth:11:13'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView",
@@ -1013,7 +1013,7 @@
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html",
       "status": "timeout",
-      "message": "b'ReferenceError: \"targetXDiv\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html:4:47'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/scrollend-event-fired-to-window.html",
@@ -1061,8 +1061,8 @@
     },
     {
       "url": "/dom/events/scrolling/scrollend-with-snap-on-fractional-offset.html",
-      "status": "timeout",
-      "message": "b'ReferenceError: \"scroller\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/scrollend-with-snap-on-fractional-offset.html:3:7'"
+      "status": "fail",
+      "message": "assert_equals: test precondition: scroller is not scrolled. expected (number) 0 but got (undefined) undefined"
     },
     {
       "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
@@ -1082,17 +1082,17 @@
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child",
       "status": "timeout",
-      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child:12:20'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic",
       "status": "timeout",
-      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic:12:20'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame",
       "status": "timeout",
-      "message": "b'ReferenceError: \"firstRootSpacer\" is not defined\\n    at http://web-platform.test:8000/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame:12:20'"
+      "message": "palim execution timed out"
     },
     {
       "url": "/dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html",
@@ -1137,7 +1137,7 @@
     {
       "url": "/dom/events/shadow-relatedTarget.html",
       "status": "timeout",
-      "message": "b'ReferenceError: \"host\" is not defined\\n    at http://web-platform.test:8000/dom/events/shadow-relatedTarget.html:2:14'"
+      "message": "b'TypeError: host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"closed\" })\", it is undefined)\\n    at http://web-platform.test:8000/dom/events/shadow-relatedTarget.html:2:40'"
     },
     {
       "url": "/dom/events/webkit-animation-end-event.html",
@@ -1187,7 +1187,7 @@
     {
       "url": "/dom/nodes/DOMImplementation-createHTMLDocument.html",
       "status": "fail",
-      "message": "\"HTMLHtmlElement\" is not defined"
+      "message": "assert_equals: expected 0 but got 1"
     },
     {
       "url": "/dom/nodes/Document-URL.html",
@@ -1328,11 +1328,6 @@
       "message": "The event interface \"BeforeUnloadEvent\" is not supported"
     },
     {
-      "url": "/dom/nodes/Document-getElementById.html",
-      "status": "fail",
-      "message": "\"HTMLDivElement\" is not defined"
-    },
-    {
       "url": "/dom/nodes/DocumentFragment-constructor.html",
       "status": "fail",
       "message": "assert_equals: expected Document node with 2 children but got Document node with 0 children"
@@ -1445,7 +1440,7 @@
     {
       "url": "/dom/nodes/Node-appendChild-cereactions-vs-script.window.html",
       "status": "fail",
-      "message": "\"HTMLScriptElement\" is not defined"
+      "message": "Super class [Function HTMLScriptElement] is not a constructor"
     },
     {
       "url": "/dom/nodes/Node-appendChild.html",
@@ -1456,11 +1451,6 @@
       "url": "/dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html",
       "status": "fail",
       "message": "doc.write is not a function. (In \"doc.write('<div><template shadowrootmode=open>test</template></div>')\", it is undefined)"
-    },
-    {
-      "url": "/dom/nodes/Node-cloneNode.html",
-      "status": "fail",
-      "message": "assert_true: HTMLAudioElement is not supported expected true got false"
     },
     {
       "url": "/dom/nodes/Node-insertBefore.html",
@@ -1643,19 +1633,14 @@
       "message": "assert_equals: expected \"iframe with content window\" but got \"contentWindow is null\""
     },
     {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-source-from-fragment.html",
-      "status": "fail",
-      "message": "\"HTMLMediaElement\" is not defined"
-    },
-    {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html",
       "status": "fail",
       "message": "assert_array_equals: expected property 0 to be \"sheet\" but got null (expected array [\"sheet\", 2] got [null, undefined])"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html",
-      "status": "error",
-      "message": "ReferenceError: \"s1\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:9:5\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:39:18)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:43:4\nReferenceError: \"s1\" is not defined\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:9:5\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:39:18)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html:43:4"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"s1\", \"s2\", \"s2ran\"] length 3, got [\"s1\", \"s2\", \"s2ran\", \"s2\", \"s2ran\"] length 5"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-with-mutation-observer-takeRecords.html",
@@ -1775,12 +1760,12 @@
     {
       "url": "/dom/nodes/moveBefore/fieldset-child-blur-event.html",
       "status": "fail",
-      "message": "\"victim\" is not defined"
+      "message": "victim.focus is not a function. (In \"victim.focus()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/fieldset-child-date-input-blur-event.html",
       "status": "fail",
-      "message": "\"victim\" is not defined"
+      "message": "victim.focus is not a function. (In \"victim.focus()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/fire-focusin-focusout.html",
@@ -1818,11 +1803,6 @@
       "message": "assert_equals: button.form is correctly associated expected (object) Element node <form id=\"form1\"></form> but got (undefined) undefined"
     },
     {
-      "url": "/dom/nodes/moveBefore/live-range-updates.html",
-      "status": "fail",
-      "message": "\"start\" is not defined"
-    },
-    {
       "url": "/dom/nodes/moveBefore/modal-dialog.html",
       "status": "fail",
       "message": "promise_test: Unhandled rejection with value: object \"TypeError: dialog.showModal is not a function. (In \"dialog.showModal()\", it is undefined)\""
@@ -1830,17 +1810,12 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html",
       "status": "fail",
-      "message": "\"container\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/moveBefore-dir.html",
-      "status": "fail",
-      "message": "\"target\" is not defined"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-disconnected-id-map.html",
       "status": "fail",
-      "message": "assert_equals: expected (object) Element node <img name=\"shared-name\" data-document=\"\"></img> but got (undefined) undefined"
+      "message": "host.attachShadow is not a function. (In \"host.attachShadow({mode: \"open\"})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
@@ -1850,22 +1825,17 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-id-map.html",
       "status": "fail",
-      "message": "\"container\" is not defined"
+      "message": "container.attachShadow is not a function. (In \"container.attachShadow({mode: \"open\"})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-into-display-none.html",
       "status": "fail",
-      "message": "\"span\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/moveBefore-lang.html",
-      "status": "fail",
-      "message": "\"target\" is not defined"
+      "message": "span.getBoundingClientRect is not a function. (In \"span.getBoundingClientRect()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-name-map.html",
       "status": "fail",
-      "message": "\"container\" is not defined"
+      "message": "container.attachShadow is not a function. (In \"container.attachShadow({mode: \"open\"})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
@@ -1873,14 +1843,9 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/dom/nodes/moveBefore/moveBefore-option-recalc-style.html",
-      "status": "fail",
-      "message": "\"move_to\" is not defined"
-    },
-    {
       "url": "/dom/nodes/moveBefore/moveBefore-selector-matching.html",
       "status": "fail",
-      "message": "\"new_parent\" is not defined"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-shadow-boundary-id-change.html",
@@ -1900,12 +1865,12 @@
     {
       "url": "/dom/nodes/moveBefore/moveBefore-shadow-root.html",
       "status": "fail",
-      "message": "\"shadowTarget\" is not defined"
+      "message": "shadowTarget.attachShadow is not a function. (In \"shadowTarget.attachShadow({mode: 'open'})\", it is undefined)"
     },
     {
       "url": "/dom/nodes/moveBefore/moveBefore-size-query.html",
       "status": "fail",
-      "message": "\"new_parent\" is not defined"
+      "message": "\"getComputedStyle\" is not defined"
     },
     {
       "url": "/dom/nodes/moveBefore/mutation-observer-moved-subtree.window.html",
@@ -1915,17 +1880,12 @@
     {
       "url": "/dom/nodes/moveBefore/mutation-observer.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"oldParent\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MutationObserver\" is not defined\""
     },
     {
       "url": "/dom/nodes/moveBefore/nonce.html",
       "status": "fail",
-      "message": "\"new_parent\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/moveBefore/object-crash-regression.html",
-      "status": "fail",
-      "message": "\"p\" is not defined"
+      "message": "assert_equals: expected \"\" but got \"8IBTHwOdqNKAWeKl7plt8g==\""
     },
     {
       "url": "/dom/nodes/moveBefore/pointer-events.html",
@@ -1955,7 +1915,7 @@
     {
       "url": "/dom/nodes/moveBefore/role-updates-after-move.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"header\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
     },
     {
       "url": "/dom/nodes/moveBefore/select-option-optgroup.html",
@@ -2042,24 +2002,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/querySelector-empty-id.html",
-      "status": "fail",
-      "message": "\"root\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/querySelector-id-nth-child.html",
-      "status": "fail",
-      "message": "\"target\" is not defined"
-    },
-    {
       "url": "/dom/nodes/remove-and-adopt-thcrash.html",
       "status": "fail",
-      "message": "\"d1\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/remove-next-sibling-during-replace-with.html",
-      "status": "fail",
-      "message": "\"target\" is not defined"
+      "message": "window.open is not a function. (In \"window.open()\", it is undefined)"
     },
     {
       "url": "/dom/nodes/remove-unscopable.html",
@@ -2135,7 +2080,7 @@
     {
       "url": "/dom/ranges/Range-extractContents-dynamic-end.html",
       "status": "fail",
-      "message": "\"triggerIframe\" is not defined"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/ranges/Range-extractContents-in-ShadowRoot.html",
@@ -2149,12 +2094,12 @@
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:1006:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:992:23)\n    at invokeEventListeners (file:///workspace/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/dist/dom/events.js:231:17)\n    at WindowExecutionEnvironment.loadHTML (file:///workspace/dist/window-javascript.js:35:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async open (file:///workspace/dist/open.js:26:9)\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
@@ -2323,11 +2268,6 @@
       "message": "assert_throws_dom: function \"() => textarea.createValueRange(10, 15)\" threw object \"TypeError: textarea.createValueRange is not a function. (In \"textarea.createValueRange(10, 15)\", it is undefined)\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
     },
     {
-      "url": "/domparsing/DOMParser-parseFromString-html.html",
-      "status": "fail",
-      "message": "\"HTMLHtmlElement\" is not defined"
-    },
-    {
       "url": "/domparsing/DOMParser-parseFromString-stylesheets.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
@@ -2401,11 +2341,6 @@
       "url": "/domparsing/innerhtml-05.xhtml",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/domparsing/innerhtml-empty-document-element.html",
-      "status": "fail",
-      "message": "\"HTMLBodyElement\" is not defined"
     },
     {
       "url": "/domparsing/innerhtml-mxss.sub.html",
@@ -2523,11 +2458,6 @@
       "message": "assert_true: expected true got false"
     },
     {
-      "url": "/html/dom/documents/dom-tree-accessors/document.title-06.html",
-      "status": "fail",
-      "message": "\"HTMLTitleElement\" is not defined"
-    },
-    {
       "url": "/html/dom/documents/dom-tree-accessors/document.title-07.html",
       "status": "fail",
       "message": "assert_equals: expected \"\" but got \"undefined\""
@@ -2535,7 +2465,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-01.html",
       "status": "fail",
-      "message": "assert_equals: expected (object) Element node <img id=\"a\" name=\"b\"></img> but got (undefined) undefined"
+      "message": "assert_equals: expected (undefined) undefined but got (object) Element node <img id=\"test4a\" name=\"test4b\"></img>"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-02.html",
@@ -2563,32 +2493,7 @@
       "message": "assert_equals: expected (string) \"test1\" but got (undefined) undefined"
     },
     {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-08.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-adoption.html",
-      "status": "fail",
-      "message": "assert_equals: before adoption expected (object) Element node <object id=\"adopted\"></object> but got (undefined) undefined"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added-cached-list.html",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-added.html",
-      "status": "fail",
-      "message": "assert_equals: after adding a name expected (object) Element node <img id=\"bar\" name=\"whatever\"></img> but got (undefined) undefined"
-    },
-    {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-dynamic.html",
-      "status": "fail",
-      "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-img-name-removed.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
     },
@@ -2596,11 +2501,6 @@
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-insertion-attr-mutation.html",
       "status": "fail",
       "message": "Cannot convert undefined to object"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-names.html",
-      "status": "fail",
-      "message": "assert_true: expected true got false"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html",
@@ -2613,19 +2513,14 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-supported-property-names-order.html",
-      "status": "fail",
-      "message": "assert_array_equals: lengths differ, expected array [\"id-value\", \"name-value\"] length 2, got [] length 0"
-    },
-    {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-tree-order.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "assert_array_equals: order after removing name expected property 1 to be Element node <img id=\"s3\" name=\"a\"></img> but got Element node <img id=\"s2\" name=\"a\"></img> (expected array [Element node <img id=\"s1\" name=\"a\"></img>, Element node <img id=\"s3\" name=\"a\"></img>] got [Element node <img id=\"s1\" name=\"a\"></img>, Element node <img id=\"s2\" name=\"a\"></img>])"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-tree-transitions.html",
       "status": "fail",
-      "message": "Cannot convert undefined to object"
+      "message": "host.attachShadow is not a function. (In \"host.attachShadow({ mode: \"open\" })\", it is undefined)"
     },
     {
       "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
@@ -2839,23 +2734,23 @@
     },
     {
       "url": "/html/dom/elements/images/bypass-cache-revalidation.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"imageDiv1\" is not defined\""
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/dom/elements/name-content-attribute-and-property.html",
-      "status": "timeout",
-      "message": "b'ReferenceError: \"HTMLDetailsElement\" is not defined\\n    at http://web-platform.test:8000/html/dom/elements/name-content-attribute-and-property.html:31:17'"
+      "status": "fail",
+      "message": "assert_equals: assignment to .name should change content attribute expected \"bar\" but got \"foo\""
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/dynamic-getter.html",
       "status": "fail",
-      "message": "assert_equals: innerText expected (string) \"ABC\" but got (undefined) undefined"
+      "message": "assert_equals: innerText expected \"ABC\" but got \"abc\""
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/getter-first-letter-marker-multicol.html",
       "status": "fail",
-      "message": "\"item\" is not defined"
+      "message": "assert_equals: outerText expected (string) \"PASS\" but got (undefined) undefined"
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/getter.html",
@@ -2865,12 +2760,12 @@
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-setter.html",
       "status": "fail",
-      "message": "assert_not_equals: Should have a child got disallowed value null"
+      "message": "assert_equals: expected \"abc<br>def\" but got \"abc\\ndef\""
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-whitespace-pre-line.html",
       "status": "fail",
-      "message": "\"a\" is not defined"
+      "message": "assert_equals: expected \"\\none\\ntwo\\n\\nthree\\nfour\\n\" but got \"\\n one\\n  two\\n    \\n   three\\n    four\\n\""
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/innertext-with-white-spaces.html?white-space=normal",
@@ -2935,7 +2830,7 @@
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/multiple-text-nodes.window.html",
       "status": "fail",
-      "message": "assert_equals: innerText expected (string) \"X Y\" but got (undefined) undefined"
+      "message": "assert_equals: outerText expected (string) \"X Y\" but got (undefined) undefined"
     },
     {
       "url": "/html/dom/elements/the-innertext-and-outertext-properties/outertext-setter.html",
@@ -2951,11 +2846,6 @@
       "url": "/html/syntax/parsing/DOMContentLoaded-defer.html",
       "status": "timeout",
       "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/Object-prototype-names.html",
-      "status": "fail",
-      "message": "\"HTMLUnknownElement\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-cycle.html",
@@ -4281,11 +4171,6 @@
       "url": "/url/urlsearchparams-append.any.worker.html",
       "status": "timeout",
       "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/url/urlsearchparams-append.any.worker.html:2:29'"
-    },
-    {
-      "url": "/url/urlsearchparams-constructor.any.html",
-      "status": "fail",
-      "message": "assert_throws_js: Constructing a URLSearchParams from DOMException.prototype should throw due to branding checks function \"() => new URLSearchParams(DOMException.prototype)\" did not throw"
     },
     {
       "url": "/url/urlsearchparams-constructor.any.worker.html",
