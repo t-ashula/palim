@@ -7,6 +7,13 @@ import type {
 import { DOMException } from "../dom-exception.js";
 import type { FragmentParser } from "../dom/nodes.js";
 import {
+  sanitizerAction,
+  sanitizerAllowsAttribute,
+  sanitizerAllowsComments,
+  sanitizerAllowsPI,
+  type CanonicalSanitizerConfig,
+} from "../dom/sanitizer.js";
+import {
   documentImplementation,
   nodeImplementation,
 } from "../dom/node-implementation.js";
@@ -61,6 +68,7 @@ interface TreeBuilderOptions {
   readonly onElement?: (element: Element) => void;
   readonly onScript?: (element: Element) => Promise<void> | void;
   readonly runScripts?: boolean;
+  readonly sanitizerConfig?: CanonicalSanitizerConfig;
   readonly scriptingMode?: ParserScriptingMode;
 }
 
@@ -71,6 +79,9 @@ const htmlFragmentParser: FragmentParser = {
         options?.allowDeclarativeShadowRoots ?? false,
       context,
       runScripts: options?.runScripts ?? false,
+      ...(options?.sanitizerConfig === undefined
+        ? {}
+        : { sanitizerConfig: options.sanitizerConfig }),
       scriptingMode: "enabled",
     }).parseFragment();
   },
@@ -353,10 +364,13 @@ class TreeBuilder {
   readonly #onElement: ((element: Element) => void) | undefined;
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
   readonly #runScripts: boolean;
+  readonly #sanitizerConfig: CanonicalSanitizerConfig | null;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
   readonly #templateModes: Mode[] = [];
+  readonly #sanitizerRedirections = new WeakMap<Element, Node>();
+  readonly #templatesInSanitizerRedirection = new WeakSet<Element>();
   #mode: Mode = "initial";
   #originalMode: Mode = "initial";
   #head: Element | null = null;
@@ -377,6 +391,7 @@ class TreeBuilder {
     this.#allowDeclarativeShadowRoots =
       options.allowDeclarativeShadowRoots ?? false;
     this.#runScripts = options.runScripts ?? false;
+    this.#sanitizerConfig = options.sanitizerConfig ?? null;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
     this.#context =
@@ -942,6 +957,7 @@ class TreeBuilder {
         const declarativeHost = template.parentElement;
         if (
           this.#allowDeclarativeShadowRoots &&
+          !this.#templatesInSanitizerRedirection.has(template) &&
           declarativeHost !== null &&
           (shadowRootMode === "open" || shadowRootMode === "closed")
         ) {
@@ -2262,55 +2278,67 @@ class TreeBuilder {
         ? (SVG_NAMES[token.name] ?? token.name)
         : token.name;
     const element = createDOMElement(this.document, localName, namespace);
+    const attributes = Object.entries(token.attributes).map(
+      ([sourceName, value]): AttributeData => {
+        const name =
+          namespace === SVG_NAMESPACE
+            ? (SVG_ATTRIBUTES[sourceName] ?? sourceName)
+            : namespace === MATHML_NAMESPACE
+              ? (MATHML_ATTRIBUTES[sourceName] ?? sourceName)
+              : sourceName;
+        const colon = name.indexOf(":");
+        if (namespace === HTML_NAMESPACE) {
+          return { name, value };
+        }
+        if (name === "xmlns") {
+          return {
+            name,
+            value,
+            localName: name,
+            namespaceURI: XMLNS_NAMESPACE,
+          };
+        }
+        if (colon < 0) {
+          return { name, value };
+        }
+        const prefix = name.slice(0, colon);
+        const local = name.slice(colon + 1);
+        const namespaceURI =
+          prefix === "xlink" &&
+          [
+            "actuate",
+            "arcrole",
+            "href",
+            "role",
+            "show",
+            "title",
+            "type",
+          ].includes(local)
+            ? XLINK_NAMESPACE
+            : prefix === "xml" && ["lang", "space"].includes(local)
+              ? XML_NAMESPACE
+              : prefix === "xmlns" && local === "xlink"
+                ? XMLNS_NAMESPACE
+                : null;
+        if (namespaceURI === null) {
+          return { name, value };
+        }
+        return { name, value, prefix, localName: local, namespaceURI };
+      },
+    );
     setAttributes(
       element,
-      Object.entries(token.attributes).map(
-        ([sourceName, value]): AttributeData => {
-          const name =
-            namespace === SVG_NAMESPACE
-              ? (SVG_ATTRIBUTES[sourceName] ?? sourceName)
-              : namespace === MATHML_NAMESPACE
-                ? (MATHML_ATTRIBUTES[sourceName] ?? sourceName)
-                : sourceName;
-          const colon = name.indexOf(":");
-          if (namespace === HTML_NAMESPACE) {
-            return { name, value };
-          }
-          if (name === "xmlns") {
-            return {
-              name,
-              value,
-              localName: name,
-              namespaceURI: XMLNS_NAMESPACE,
-            };
-          }
-          if (colon < 0) {
-            return { name, value };
-          }
-          const prefix = name.slice(0, colon);
-          const local = name.slice(colon + 1);
-          const namespaceURI =
-            prefix === "xlink" &&
-            [
-              "actuate",
-              "arcrole",
-              "href",
-              "role",
-              "show",
-              "title",
-              "type",
-            ].includes(local)
-              ? XLINK_NAMESPACE
-              : prefix === "xml" && ["lang", "space"].includes(local)
-                ? XML_NAMESPACE
-                : prefix === "xmlns" && local === "xlink"
-                  ? XMLNS_NAMESPACE
-                  : null;
-          if (namespaceURI === null) {
-            return { name, value };
-          }
-          return { name, value, prefix, localName: local, namespaceURI };
-        },
+      attributes.filter((attribute) =>
+        this.#sanitizerConfig === null
+          ? true
+          : sanitizerAllowsAttribute(
+              this.#sanitizerConfig,
+              attribute.localName ?? attribute.name,
+              attribute.namespaceURI ?? null,
+              attribute.value,
+              localName,
+              namespace,
+            ),
       ),
     );
     return element;
@@ -2326,6 +2354,17 @@ class TreeBuilder {
       this.#treeError("self-closing-non-void-html-element");
     }
     const element = this.#element(token, namespace);
+    const current = this.#current();
+    const redirectedInsertion =
+      current !== null && this.#sanitizerRedirections.has(current);
+    const action =
+      this.#sanitizerConfig === null
+        ? "keep"
+        : sanitizerAction(
+            this.#sanitizerConfig,
+            element.localName,
+            element.namespaceURI,
+          );
     if (namespace === HTML_NAMESPACE && token.name === "script") {
       const implementation = nodeImplementation(element);
       if (this.#context === null) {
@@ -2336,8 +2375,15 @@ class TreeBuilder {
         implementation.scriptForceAsync = !element.hasAttribute("async");
       }
     }
-    this.#insertNode(element, foster);
-    this.#onElement?.(element);
+    if (action === "keep") {
+      this.#insertNode(element, foster);
+      if (redirectedInsertion && element.localName === "template") {
+        this.#templatesInSanitizerRedirection.add(element);
+      }
+      this.#onElement?.(element);
+    } else if (action === "replace" && element.localName !== "template") {
+      this.#sanitizerRedirections.set(element, this.#currentInsertionTarget());
+    }
     if (push) {
       this.#stack.push(element);
     }
@@ -2349,15 +2395,22 @@ class TreeBuilder {
       this.#insertAtFosterParent(node);
       return;
     }
+    appendNode(this.#currentInsertionTarget(), node);
+  }
+
+  #currentInsertionTarget(): Node {
     const current = this.#current();
     if (current === null) {
-      appendNode(this.document, node);
-    } else if (current.localName === "template") {
-      const contents = templateContents(current);
-      appendNode(contents ?? current, node);
-    } else {
-      appendNode(current, node);
+      return this.document;
     }
+    const redirected = this.#sanitizerRedirections.get(current);
+    if (redirected !== undefined) {
+      return redirected;
+    }
+    if (current.localName === "template") {
+      return templateContents(current) ?? current;
+    }
+    return current;
   }
 
   #fosterParentLocation(): { parent: Node; reference: Node | null } {
@@ -2430,10 +2483,7 @@ class TreeBuilder {
       }
       return;
     }
-    let parent: Node = this.#current() ?? this.document;
-    if (parent instanceof Element && parent.localName === "template") {
-      parent = templateContents(parent) ?? parent;
-    }
+    const parent = this.#currentInsertionTarget();
     const previous = parent.lastChild;
     if (previous instanceof Text) {
       appendCharacterData(previous, data);
@@ -2443,6 +2493,12 @@ class TreeBuilder {
   }
 
   #comment(data: string, foster = false): void {
+    if (
+      this.#sanitizerConfig !== null &&
+      !sanitizerAllowsComments(this.#sanitizerConfig)
+    ) {
+      return;
+    }
     this.#insertNode(createComment(this.document, data), foster);
   }
 
@@ -2450,6 +2506,12 @@ class TreeBuilder {
     token: Extract<Token, { type: "ProcessingInstruction" }>,
     foster = false,
   ): void {
+    if (
+      this.#sanitizerConfig !== null &&
+      !sanitizerAllowsPI(this.#sanitizerConfig, token.target)
+    ) {
+      return;
+    }
     this.#insertNode(
       createProcessingInstruction(this.document, token.target, token.data),
       foster,
@@ -3125,9 +3187,11 @@ export function parseHTML(
   input: string,
   scriptingMode: ParserScriptingMode = "disabled",
   allowDeclarativeShadowRoots = false,
+  sanitizerConfig: CanonicalSanitizerConfig | null = null,
 ): Document {
   return new TreeBuilder(input, {
     allowDeclarativeShadowRoots,
+    ...(sanitizerConfig === null ? {} : { sanitizerConfig }),
     scriptingMode,
   }).parse();
 }
@@ -3172,6 +3236,6 @@ export function parseHTMLFragment(
   return new TreeBuilder(input, { context, scriptingMode }).parseFragment();
 }
 
-setHTMLParsingAlgorithms(htmlFragmentParser, (input, allow) =>
-  parseHTML(input, "disabled", allow),
+setHTMLParsingAlgorithms(htmlFragmentParser, (input, allow, sanitizerConfig) =>
+  parseHTML(input, "disabled", allow, sanitizerConfig),
 );

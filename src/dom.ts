@@ -39,6 +39,7 @@ export {
   Element,
   Node,
   ProcessingInstruction,
+  Sanitizer,
   ShadowRoot,
   Text,
   XMLDocument,
@@ -49,6 +50,10 @@ export type {
   GetRootNodeOptions,
   HTMLParsingOptions,
   ImportNodeOptions,
+  SanitizerAttribute,
   SanitizerConfig,
+  SanitizerElement,
+  SanitizerElementInput,
+  SanitizerPI,
   ShadowRootInit,
 } from "./dom/nodes.js";

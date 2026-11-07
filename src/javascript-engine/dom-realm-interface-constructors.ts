@@ -9,6 +9,7 @@ import {
   MutationObserver,
   Node,
   NodeFilter,
+  Sanitizer,
   Text,
 } from "../dom.js";
 import { associateDOMParser, DOMParser } from "../dom-parser.js";
@@ -186,6 +187,35 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       );
       binding.xmlSerializers.add(object);
       return normal(object);
+    },
+  );
+  binding.installInterface(
+    "Sanitizer",
+    binding.sanitizerPrototype,
+    0,
+    (_thisValue, argumentsList) => {
+      const configuration = binding.sanitizerConfiguration(
+        argumentsList[0],
+        true,
+        "Sanitizer",
+      );
+      if (configuration.type === "throw") {
+        return configuration;
+      }
+      try {
+        const object = binding.engine.createObject(
+          binding.realm,
+          binding.sanitizerPrototype,
+        );
+        binding.sanitizers.set(object, new Sanitizer(configuration.value));
+        return normal(object);
+      } catch (error: unknown) {
+        return error instanceof TypeError
+          ? binding.typeError(error.message)
+          : (() => {
+              throw error;
+            })();
+      }
     },
   );
   binding.installInterface("XMLDocument", binding.xmlDocumentPrototype);

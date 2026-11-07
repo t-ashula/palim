@@ -83,6 +83,16 @@ export const DocumentFragment = exposeInterface<DocumentFragmentInterface>(
   DOM.DocumentFragment,
 );
 
+export type Sanitizer = DOM.Sanitizer;
+interface SanitizerInterface {
+  readonly length: 0;
+  readonly name: "Sanitizer";
+  readonly prototype: Sanitizer;
+  [Symbol.hasInstance](value: unknown): value is Sanitizer;
+  new (configuration?: DOM.SanitizerConfig | "default" | null): Sanitizer;
+}
+export const Sanitizer = exposeInterface<SanitizerInterface>(DOM.Sanitizer);
+
 export type DocumentType = DOM.DocumentType;
 interface DocumentTypeInterface {
   readonly length: 0;
@@ -138,6 +148,10 @@ export type {
   MutationCallback,
   MutationObserverInit,
   SanitizerConfig,
+  SanitizerAttribute,
+  SanitizerElement,
+  SanitizerElementInput,
+  SanitizerPI,
   ShadowRootInit,
   NodeIterator,
   Range,

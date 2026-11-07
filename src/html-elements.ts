@@ -8,6 +8,10 @@ import {
   Text,
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
+import {
+  GLOBAL_EVENT_HANDLER_NAMES,
+  WINDOW_EVENT_HANDLER_NAMES,
+} from "./event-handler-names.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
 import { createDefinedCustomElement } from "./dom/custom-elements.js";
 import { tokenizeCSS } from "./css-syntax.js";
@@ -4615,93 +4619,6 @@ export class HTMLParamElement extends HTMLElement {
   declare valueType: string;
 }
 
-const GLOBAL_EVENT_HANDLER_NAMES = [
-  "abort",
-  "animationcancel",
-  "animationend",
-  "animationiteration",
-  "animationstart",
-  "auxclick",
-  "beforeinput",
-  "beforematch",
-  "beforetoggle",
-  "blur",
-  "cancel",
-  "canplay",
-  "canplaythrough",
-  "change",
-  "click",
-  "close",
-  "command",
-  "contextlost",
-  "contextmenu",
-  "contextrestored",
-  "copy",
-  "cuechange",
-  "cut",
-  "dblclick",
-  "drag",
-  "dragend",
-  "dragenter",
-  "dragleave",
-  "dragover",
-  "dragstart",
-  "drop",
-  "durationchange",
-  "emptied",
-  "ended",
-  "error",
-  "focus",
-  "formdata",
-  "input",
-  "invalid",
-  "keydown",
-  "keypress",
-  "keyup",
-  "load",
-  "loadeddata",
-  "loadedmetadata",
-  "loadstart",
-  "mousedown",
-  "mouseenter",
-  "mouseleave",
-  "mousemove",
-  "mouseout",
-  "mouseover",
-  "mouseup",
-  "paste",
-  "pause",
-  "play",
-  "playing",
-  "progress",
-  "ratechange",
-  "reset",
-  "resize",
-  "scroll",
-  "scrollend",
-  "securitypolicyviolation",
-  "seeked",
-  "seeking",
-  "select",
-  "slotchange",
-  "stalled",
-  "submit",
-  "suspend",
-  "timeupdate",
-  "toggle",
-  "transitioncancel",
-  "transitionend",
-  "transitionrun",
-  "transitionstart",
-  "volumechange",
-  "waiting",
-  "webkitanimationend",
-  "webkitanimationiteration",
-  "webkitanimationstart",
-  "webkittransitionend",
-  "wheel",
-] as const;
-
 type EventHandlerProperties<Names extends readonly string[]> = {
   [Name in Names[number] as `on${Name}`]: EventHandler;
 };
@@ -4711,27 +4628,6 @@ export type GlobalEventHandlers = EventHandlerProperties<
 >;
 
 installEventHandlerProperties(HTMLElement, GLOBAL_EVENT_HANDLER_NAMES);
-
-const WINDOW_EVENT_HANDLER_NAMES = [
-  "afterprint",
-  "beforeprint",
-  "beforeunload",
-  "hashchange",
-  "languagechange",
-  "message",
-  "messageerror",
-  "offline",
-  "online",
-  "pagehide",
-  "pagereveal",
-  "pageshow",
-  "pageswap",
-  "popstate",
-  "rejectionhandled",
-  "storage",
-  "unhandledrejection",
-  "unload",
-] as const;
 
 export type WindowEventHandlers = EventHandlerProperties<
   typeof WINDOW_EVENT_HANDLER_NAMES

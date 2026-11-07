@@ -42,6 +42,8 @@ export {
   installXMLSerializerMembers,
 } from "./dom-realm-parsing-interfaces.js";
 
+export { installSanitizerMembers } from "./dom-realm-sanitizer-interface.js";
+
 export {
   installHTMLCollectionMembers,
   installNamedNodeMapMembers,

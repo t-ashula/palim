@@ -311,6 +311,16 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes Sanitizer and connects it to HTML parsing", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      fixture("exposes-sanitizer-in-the-engine-realm.js"),
+    );
+  });
+
   it("exposes live DOMTokenList objects in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<span class="   a  a b "></span>',

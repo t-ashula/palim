@@ -97,10 +97,30 @@ import {
   enqueueCustomElementDisconnectedReaction,
   enqueueCustomElementMoveReaction,
 } from "./custom-elements.js";
+import type { Sanitizer } from "./sanitizer.js";
+import {
+  sanitizerAction,
+  sanitizerAllowsAttribute,
+  sanitizerAllowsComments,
+  sanitizerAllowsPI,
+  sanitizerConfigForParsing,
+  type CanonicalSanitizerConfig,
+  type SanitizerConfig,
+} from "./sanitizer.js";
+
+export { Sanitizer } from "./sanitizer.js";
+export type {
+  SanitizerAttribute,
+  SanitizerConfig,
+  SanitizerElement,
+  SanitizerElementInput,
+  SanitizerPI,
+} from "./sanitizer.js";
 
 export interface FragmentParseOptions {
   readonly allowDeclarativeShadowRoots?: boolean;
   readonly runScripts?: boolean;
+  readonly sanitizerConfig?: CanonicalSanitizerConfig;
 }
 
 export interface FragmentParser {
@@ -111,23 +131,15 @@ export interface FragmentParser {
   ): DocumentFragment;
 }
 
-export interface SanitizerConfig {
-  readonly attributes?: readonly string[];
-  readonly comments?: boolean;
-  readonly dataAttributes?: boolean;
-  readonly elements?: readonly string[];
-  readonly removeAttributes?: readonly string[];
-  readonly removeElements?: readonly string[];
-}
-
 export interface HTMLParsingOptions {
   readonly runScripts?: boolean;
-  readonly sanitizer?: "default" | SanitizerConfig;
+  readonly sanitizer?: "default" | Sanitizer | SanitizerConfig;
 }
 
 type HTMLDocumentParser = (
   input: string,
   allowDeclarativeShadowRoots: boolean,
+  sanitizerConfig: CanonicalSanitizerConfig | null,
 ) => Document;
 
 let htmlInsertionFragmentParser: FragmentParser | null = null;
@@ -2130,13 +2142,6 @@ export function setTemplateContents(
   }
 }
 
-const SAFE_HTML_REMOVED_ELEMENTS = new Set([
-  "embed",
-  "iframe",
-  "object",
-  "script",
-]);
-
 export function parseHTMLDocument(
   input: string,
   options: HTMLParsingOptions = {},
@@ -2146,7 +2151,8 @@ export function parseHTMLDocument(
   if (htmlDocumentParser === null) {
     throw new TypeError("No HTML document parser is registered");
   }
-  const document = htmlDocumentParser(input, true);
+  const config = sanitizerConfigForParsing(options.sanitizer, !unsafe);
+  const document = htmlDocumentParser(input, true, config);
   if (sourceDocument !== null) {
     const source = documentImplementation(sourceDocument);
     const implementation = documentImplementation(document);
@@ -2231,9 +2237,11 @@ function parseHTMLForInsertion(
   if (htmlInsertionFragmentParser === null) {
     throw new TypeError("No HTML fragment parser is registered");
   }
+  const config = sanitizerConfigForParsing(options.sanitizer, !unsafe);
   const fragment = htmlInsertionFragmentParser.parse(input, context, {
     allowDeclarativeShadowRoots: true,
     runScripts: unsafe && options.runScripts === true,
+    ...(config === null ? {} : { sanitizerConfig: config }),
   });
   sanitizeHTMLTree(fragment, options, !unsafe);
   return fragment;
@@ -2320,70 +2328,30 @@ function insertRelativeHTML(
   }
 }
 
-function sanitizerNames(values: readonly string[] | undefined): Set<string> {
-  return new Set(
-    (values ?? []).map((value) => asciiLowercase(domString(value))),
-  );
-}
-
 function sanitizeHTMLTree(
   root: Node,
   options: HTMLParsingOptions,
   safe: boolean,
 ): void {
-  const option = options.sanitizer;
-  if (!safe && option === undefined) {
-    return;
+  const config = sanitizerConfigForParsing(options.sanitizer, safe);
+  if (config !== null) {
+    sanitizeHTMLChildren(root, config);
   }
-  const config = option === undefined || option === "default" ? {} : option;
-  const elements =
-    config.elements === undefined ? null : sanitizerNames(config.elements);
-  const removeElements = sanitizerNames(config.removeElements);
-  for (const name of removeElements) {
-    if (elements?.has(name) === true) {
-      throw new TypeError(
-        `Sanitizer element ${name} is both allowed and removed`,
-      );
-    }
-  }
-  const attributes =
-    config.attributes === undefined ? null : sanitizerNames(config.attributes);
-  const removeAttributes = sanitizerNames(config.removeAttributes);
-  for (const name of removeAttributes) {
-    if (attributes?.has(name) === true) {
-      throw new TypeError(
-        `Sanitizer attribute ${name} is both allowed and removed`,
-      );
-    }
-  }
-  sanitizeHTMLChildren(root, {
-    attributes,
-    comments: config.comments,
-    dataAttributes: config.dataAttributes,
-    elements,
-    removeAttributes,
-    removeElements,
-    safe,
-  });
-}
-
-interface NormalizedSanitizerConfig {
-  readonly attributes: ReadonlySet<string> | null;
-  readonly comments: boolean | undefined;
-  readonly dataAttributes: boolean | undefined;
-  readonly elements: ReadonlySet<string> | null;
-  readonly removeAttributes: ReadonlySet<string>;
-  readonly removeElements: ReadonlySet<string>;
-  readonly safe: boolean;
 }
 
 function sanitizeHTMLChildren(
   parent: Node,
-  config: NormalizedSanitizerConfig,
+  config: CanonicalSanitizerConfig,
 ): void {
   for (const child of childNodes(parent)) {
     if (child instanceof Comment) {
-      if (config.comments === false) {
+      if (!sanitizerAllowsComments(config)) {
+        removeNode(child);
+      }
+      continue;
+    }
+    if (child instanceof ProcessingInstruction) {
+      if (!sanitizerAllowsPI(config, child.target)) {
         removeNode(child);
       }
       continue;
@@ -2391,24 +2359,27 @@ function sanitizeHTMLChildren(
     if (!(child instanceof Element)) {
       continue;
     }
-    const name = asciiLowercase(child.localName);
-    if (
-      config.removeElements.has(name) ||
-      (config.elements !== null && !config.elements.has(name)) ||
-      (config.safe && SAFE_HTML_REMOVED_ELEMENTS.has(name))
-    ) {
+    const action = sanitizerAction(config, child.localName, child.namespaceURI);
+    if (action === "remove") {
       removeNode(child);
       continue;
     }
-    for (const attribute of child.getAttributeNames()) {
-      const normalized = asciiLowercase(attribute);
+    if (action === "replace") {
+      replaceElementWithSanitizedChildren(child, config);
+      continue;
+    }
+    for (const attribute of attributeNodes(child)) {
       if (
-        config.removeAttributes.has(normalized) ||
-        (config.attributes !== null && !config.attributes.has(normalized)) ||
-        (config.dataAttributes === false && normalized.startsWith("data-")) ||
-        (config.safe && normalized.startsWith("on"))
+        !sanitizerAllowsAttribute(
+          config,
+          attribute.localName,
+          attribute.namespaceURI,
+          attribute.value,
+          child.localName,
+          child.namespaceURI,
+        )
       ) {
-        child.removeAttribute(attribute);
+        child.removeAttributeNS(attribute.namespaceURI, attribute.localName);
       }
     }
     sanitizeHTMLChildren(child, config);
@@ -2421,6 +2392,34 @@ function sanitizeHTMLChildren(
       sanitizeHTMLChildren(nodeInterface(shadow), config);
     }
   }
+}
+
+function replaceElementWithSanitizedChildren(
+  element: Element,
+  config: CanonicalSanitizerConfig,
+): void {
+  const parent = element.parentNode;
+  if (parent === null) {
+    return;
+  }
+  const shadowImplementation = elementImplementation(element).shadowRoot;
+  if (shadowImplementation !== null && element.ownerDocument !== null) {
+    const shadow = nodeInterface(shadowImplementation) as ShadowRoot;
+    const template = element.ownerDocument.createElement("template");
+    template.setAttribute("shadowrootmode", shadow.mode);
+    const contents = templateContents(template);
+    if (contents !== null) {
+      while (shadow.firstChild !== null) {
+        contents.appendChild(shadow.firstChild);
+      }
+    }
+    element.insertBefore(template, element.firstChild);
+  }
+  sanitizeHTMLChildren(element, config);
+  for (const child of childNodes(element)) {
+    parent.insertBefore(child, element);
+  }
+  removeNode(element);
 }
 
 export function findAttributeByName(
