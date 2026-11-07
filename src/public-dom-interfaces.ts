@@ -55,6 +55,8 @@ interface DocumentInterface {
   readonly prototype: Document;
   [Symbol.hasInstance](value: unknown): value is Document;
   new (): Document;
+  parseHTML(html: string, options?: DOM.HTMLParsingOptions): Document;
+  parseHTMLUnsafe(html: string, options?: DOM.HTMLParsingOptions): Document;
 }
 export const Document = exposeInterface<DocumentInterface>(DOM.Document);
 
@@ -131,9 +133,11 @@ export type {
   EventListener,
   EventListenerObject,
   GetRootNodeOptions,
+  HTMLParsingOptions,
   ImportNodeOptions,
   MutationCallback,
   MutationObserverInit,
+  SanitizerConfig,
   ShadowRootInit,
   NodeIterator,
   Range,

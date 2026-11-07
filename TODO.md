@@ -30,7 +30,8 @@
 - [x] `XMLSerializer` の namespace / prefix 選択、escaping、well-formedness、empty-element serialization
 - [x] `Range.createContextualFragment` の HTML / XHTML context selection と script execution semantics
 - [x] `innerHTML` / `outerHTML` の null変換、style attribute、doctype serialization
-- [ ] `Document.parseHTML` と unsafe / positional HTML parsing API
+- [x] `Document.parseHTML` と unsafe / positional HTML parsing API
+- [ ] `Sanitizer` interface、default config、namespace-aware filtering、javascript URL / processing instruction sanitization
 - [ ] streaming HTML parsing API と sanitizer / declarative shadow root integration
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state

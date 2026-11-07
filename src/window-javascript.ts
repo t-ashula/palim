@@ -389,7 +389,7 @@ const JAVASCRIPT_MIME_TYPE_ESSENCES = new Set([
 ]);
 
 function isClassic(element: HTMLScriptElement): boolean {
-  if (element.getRootNode() !== element.ownerDocument || element.noModule) {
+  if (!element.isConnected || element.noModule) {
     return false;
   }
   const typeAttribute = element.getAttribute("type");

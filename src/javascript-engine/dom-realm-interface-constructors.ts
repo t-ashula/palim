@@ -14,6 +14,7 @@ import {
 import { associateDOMParser, DOMParser } from "../dom-parser.js";
 import { DOM_EXCEPTION_CONSTANTS } from "../dom-exception.js";
 import { createStaticRange } from "../dom/range-implementation.js";
+import { parseHTMLDocument } from "../dom/nodes.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";
@@ -108,9 +109,48 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       binding.htmlElementInterfacePrototype(interfaceConstructor),
     );
   }
-  binding.installInterface("Document", binding.documentPrototype, 0, () =>
-    normal(binding.wrap(new Document())),
+  const documentConstructor = binding.installInterface(
+    "Document",
+    binding.documentPrototype,
+    0,
+    () => normal(binding.wrap(new Document())),
   );
+  for (const [name, unsafe] of [
+    ["parseHTML", false],
+    ["parseHTMLUnsafe", true],
+  ] as const) {
+    binding.method(
+      documentConstructor,
+      name,
+      1,
+      (_thisValue, argumentsList) => {
+        const html = binding.stringArgument(argumentsList, 0, name);
+        if (html.type === "throw") {
+          return html;
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[1],
+          false,
+          name,
+        );
+        if (options.type === "throw") {
+          return options;
+        }
+        return binding.domOperationResult(() =>
+          normal(
+            binding.wrap(
+              parseHTMLDocument(
+                html.value,
+                options.value,
+                unsafe,
+                binding.associatedDocument,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
   binding.installInterface(
     "DocumentFragment",
     binding.documentFragmentPrototype,

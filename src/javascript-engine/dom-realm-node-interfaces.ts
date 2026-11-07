@@ -393,6 +393,42 @@ export function installCharacterDataMembers(
         : binding.platformValue(data[name]);
     });
   }
+  for (const [name, unsafe] of [
+    ["beforeHTML", false],
+    ["beforeHTMLUnsafe", true],
+    ["afterHTML", false],
+    ["afterHTMLUnsafe", true],
+    ["replaceWithHTML", false],
+    ["replaceWithHTMLUnsafe", true],
+  ] as const) {
+    binding.method(
+      binding.characterDataPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const data = binding.characterData(thisValue);
+        if (data === null) {
+          return binding.typeError("Invalid CharacterData receiver");
+        }
+        const html = binding.stringArgument(argumentsList, 0, name);
+        if (html.type === "throw") {
+          return html;
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[1],
+          unsafe,
+          name,
+        );
+        if (options.type === "throw") {
+          return options;
+        }
+        return binding.domOperationResult(() => {
+          data[name](html.value, options.value);
+          return binding.undefined();
+        });
+      },
+    );
+  }
   binding.method(
     binding.characterDataPrototype,
     "substringData",
@@ -1348,6 +1384,48 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
           );
     },
   );
+  for (const [name, unsafe] of [
+    ["setHTML", false],
+    ["setHTMLUnsafe", true],
+    ["appendHTML", false],
+    ["appendHTMLUnsafe", true],
+    ["prependHTML", false],
+    ["prependHTMLUnsafe", true],
+    ["beforeHTML", false],
+    ["beforeHTMLUnsafe", true],
+    ["afterHTML", false],
+    ["afterHTMLUnsafe", true],
+    ["replaceWithHTML", false],
+    ["replaceWithHTMLUnsafe", true],
+  ] as const) {
+    binding.method(
+      binding.elementPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const element = binding.element(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid Element receiver");
+        }
+        const html = binding.stringArgument(argumentsList, 0, name);
+        if (html.type === "throw") {
+          return html;
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[1],
+          unsafe,
+          name,
+        );
+        if (options.type === "throw") {
+          return options;
+        }
+        return binding.domOperationResult(() => {
+          element[name](html.value, options.value);
+          return binding.undefined();
+        });
+      },
+    );
+  }
   binding.installParentNodeMutationMembers(
     binding.elementPrototype,
     (value) => binding.element(value),
@@ -1900,6 +1978,42 @@ export function installDocumentFragmentMembers(
       ? binding.typeError("Invalid ShadowRoot receiver")
       : normal(binding.wrap(shadowRoot.host));
   });
+  for (const [name, unsafe] of [
+    ["setHTML", false],
+    ["setHTMLUnsafe", true],
+    ["appendHTML", false],
+    ["appendHTMLUnsafe", true],
+    ["prependHTML", false],
+    ["prependHTMLUnsafe", true],
+  ] as const) {
+    binding.method(
+      binding.shadowRootPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const shadowRoot = binding.shadowRoot(thisValue);
+        if (shadowRoot === null) {
+          return binding.typeError("Invalid ShadowRoot receiver");
+        }
+        const html = binding.stringArgument(argumentsList, 0, name);
+        if (html.type === "throw") {
+          return html;
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[1],
+          unsafe,
+          name,
+        );
+        if (options.type === "throw") {
+          return options;
+        }
+        return binding.domOperationResult(() => {
+          shadowRoot[name](html.value, options.value);
+          return binding.undefined();
+        });
+      },
+    );
+  }
   binding.attribute(
     binding.documentFragmentPrototype,
     "children",

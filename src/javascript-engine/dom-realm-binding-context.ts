@@ -55,6 +55,7 @@ import {
   documentImplementation,
   nodeImplementation,
 } from "../dom/node-implementation.js";
+import type { HTMLParsingOptions, SanitizerConfig } from "../dom/nodes.js";
 import {
   DOMException as HostDOMException,
   domExceptionCode,
@@ -786,6 +787,163 @@ export class DOMRealmBindingContext {
     return converted.type === "throw"
       ? converted
       : normal(toLong(converted.value));
+  }
+
+  htmlParsingOptions(
+    value: EngineValue | undefined,
+    includeRunScripts: boolean,
+    operation: string,
+  ): EngineResult<HTMLParsingOptions> {
+    if (
+      value === undefined ||
+      this.engine.isUndefined(value) ||
+      this.engine.isNull(value)
+    ) {
+      return normal({});
+    }
+    const dictionary = this.engine.asObject(value);
+    if (dictionary === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          `${operation} options must be an object`,
+        ),
+      );
+    }
+    const options: {
+      runScripts?: boolean;
+      sanitizer?: "default" | SanitizerConfig;
+    } = {};
+    if (includeRunScripts) {
+      const runScripts = this.engine.get(this.realm, dictionary, "runScripts");
+      if (runScripts.type === "throw") {
+        return runScripts;
+      }
+      if (!this.engine.isUndefined(runScripts.value)) {
+        options.runScripts = this.engine.toBoolean(runScripts.value);
+      }
+    }
+    const sanitizer = this.engine.get(this.realm, dictionary, "sanitizer");
+    if (sanitizer.type === "throw") {
+      return sanitizer;
+    }
+    if (this.engine.isUndefined(sanitizer.value)) {
+      return normal(options);
+    }
+    const sanitizerString = this.engine.asString(sanitizer.value);
+    if (sanitizerString !== null) {
+      if (sanitizerString !== "default") {
+        return thrown(
+          this.engine.createTypeError(
+            this.realm,
+            `${operation} sanitizer must be "default" or a configuration`,
+          ),
+        );
+      }
+      options.sanitizer = "default";
+      return normal(options);
+    }
+    if (this.engine.isNull(sanitizer.value)) {
+      options.sanitizer = {};
+      return normal(options);
+    }
+    const sanitizerDictionary = this.engine.asObject(sanitizer.value);
+    if (sanitizerDictionary === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          `${operation} sanitizer must be an object`,
+        ),
+      );
+    }
+    const config: {
+      attributes?: readonly string[];
+      comments?: boolean;
+      dataAttributes?: boolean;
+      elements?: readonly string[];
+      removeAttributes?: readonly string[];
+      removeElements?: readonly string[];
+    } = {};
+    for (const member of [
+      "attributes",
+      "elements",
+      "removeAttributes",
+      "removeElements",
+    ] as const) {
+      const converted = this.htmlParsingStringSequenceMember(
+        sanitizerDictionary,
+        member,
+        operation,
+      );
+      if (converted.type === "throw") {
+        return converted;
+      }
+      if (converted.value !== undefined) {
+        config[member] = converted.value;
+      }
+    }
+    for (const member of ["comments", "dataAttributes"] as const) {
+      const memberValue = this.engine.get(
+        this.realm,
+        sanitizerDictionary,
+        member,
+      );
+      if (memberValue.type === "throw") {
+        return memberValue;
+      }
+      if (!this.engine.isUndefined(memberValue.value)) {
+        config[member] = this.engine.toBoolean(memberValue.value);
+      }
+    }
+    options.sanitizer = config;
+    return normal(options);
+  }
+
+  private htmlParsingStringSequenceMember(
+    dictionary: EngineObject,
+    member: string,
+    operation: string,
+  ): EngineResult<readonly string[] | undefined> {
+    const value = this.engine.get(this.realm, dictionary, member);
+    if (value.type === "throw") {
+      return value;
+    }
+    if (this.engine.isUndefined(value.value)) {
+      return normal(undefined);
+    }
+    const sequence = this.engine.asObject(value.value);
+    if (sequence === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          `${operation} sanitizer.${member} must be a sequence`,
+        ),
+      );
+    }
+    const lengthValue = this.engine.get(this.realm, sequence, "length");
+    if (lengthValue.type === "throw") {
+      return lengthValue;
+    }
+    const convertedLength = this.engine.toNumber(this.realm, lengthValue.value);
+    if (convertedLength.type === "throw") {
+      return convertedLength;
+    }
+    const length = Number.isFinite(convertedLength.value)
+      ? Math.max(0, Math.trunc(convertedLength.value))
+      : 0;
+    const result: string[] = [];
+    for (let index = 0; index < length; index += 1) {
+      const item = this.engine.get(this.realm, sequence, String(index));
+      if (item.type === "throw") {
+        return item;
+      }
+      const converted = this.engine.toString(this.realm, item.value);
+      if (converted.type === "throw") {
+        return converted;
+      }
+      result.push(converted.value);
+    }
+    return normal(result);
   }
 
   traversalFilter(

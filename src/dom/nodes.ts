@@ -99,6 +99,7 @@ import {
 } from "./custom-elements.js";
 
 export interface FragmentParseOptions {
+  readonly allowDeclarativeShadowRoots?: boolean;
   readonly runScripts?: boolean;
 }
 
@@ -108,6 +109,36 @@ export interface FragmentParser {
     context: Element,
     options?: FragmentParseOptions,
   ): DocumentFragment;
+}
+
+export interface SanitizerConfig {
+  readonly attributes?: readonly string[];
+  readonly comments?: boolean;
+  readonly dataAttributes?: boolean;
+  readonly elements?: readonly string[];
+  readonly removeAttributes?: readonly string[];
+  readonly removeElements?: readonly string[];
+}
+
+export interface HTMLParsingOptions {
+  readonly runScripts?: boolean;
+  readonly sanitizer?: "default" | SanitizerConfig;
+}
+
+type HTMLDocumentParser = (
+  input: string,
+  allowDeclarativeShadowRoots: boolean,
+) => Document;
+
+let htmlInsertionFragmentParser: FragmentParser | null = null;
+let htmlDocumentParser: HTMLDocumentParser | null = null;
+
+export function setHTMLParsingAlgorithms(
+  fragmentParser: FragmentParser,
+  documentParser: HTMLDocumentParser,
+): void {
+  htmlInsertionFragmentParser = fragmentParser;
+  htmlDocumentParser = documentParser;
 }
 
 export interface ElementCreationOptions {
@@ -659,6 +690,17 @@ function stripAndCollapseASCIIWhitespace(value: string): string {
 
 export class Document extends Node {
   readonly readyState = "complete";
+
+  static parseHTML(html: string, options: HTMLParsingOptions = {}): Document {
+    return parseHTMLDocument(domString(html), options, false);
+  }
+
+  static parseHTMLUnsafe(
+    html: string,
+    options: HTMLParsingOptions = {},
+  ): Document {
+    return parseHTMLDocument(domString(html), options, true);
+  }
 
   constructor(implementation?: unknown) {
     super(
@@ -1682,6 +1724,56 @@ export class Element extends Node {
     moveNodeBefore(this, node, nullableNode(child));
   }
 
+  setHTML(html: string, options: HTMLParsingOptions = {}): void {
+    setHTMLContent(this, domString(html), options, false);
+  }
+
+  setHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    setHTMLContent(this, domString(html), options, true);
+  }
+
+  appendHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, null, domString(html), options, false);
+  }
+
+  appendHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, null, domString(html), options, true);
+  }
+
+  prependHTML(html: string, options: HTMLParsingOptions = {}): void {
+    const target = targetForHTMLInsertion(this);
+    insertHTMLContent(this, target.firstChild, domString(html), options, false);
+  }
+
+  prependHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    const target = targetForHTMLInsertion(this);
+    insertHTMLContent(this, target.firstChild, domString(html), options, true);
+  }
+
+  beforeHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "before", domString(html), options, false);
+  }
+
+  beforeHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "before", domString(html), options, true);
+  }
+
+  afterHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "after", domString(html), options, false);
+  }
+
+  afterHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "after", domString(html), options, true);
+  }
+
+  replaceWithHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "replace", domString(html), options, false);
+  }
+
+  replaceWithHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "replace", domString(html), options, true);
+  }
+
   get innerHTML(): string {
     return this.#isHTMLDocument()
       ? serializeHTMLFragment(this)
@@ -2032,6 +2124,303 @@ export function setTemplateContents(
   contents: DocumentFragment | null,
 ): void {
   elementImplementation(element).templateContents = contents;
+  if (contents !== null) {
+    nodeImplementation(contents).htmlInsertionHost =
+      elementImplementation(element);
+  }
+}
+
+const SAFE_HTML_REMOVED_ELEMENTS = new Set([
+  "embed",
+  "iframe",
+  "object",
+  "script",
+]);
+
+export function parseHTMLDocument(
+  input: string,
+  options: HTMLParsingOptions = {},
+  unsafe = false,
+  sourceDocument: Document | null = null,
+): Document {
+  if (htmlDocumentParser === null) {
+    throw new TypeError("No HTML document parser is registered");
+  }
+  const document = htmlDocumentParser(input, true);
+  if (sourceDocument !== null) {
+    const source = documentImplementation(sourceDocument);
+    const implementation = documentImplementation(document);
+    implementation.origin = source.origin;
+    implementation.relevantRealmDocument = source.relevantRealmDocument;
+  }
+  sanitizeHTMLTree(document, options, !unsafe);
+  for (const element of descendantElements(document)) {
+    if (
+      element.localName === "script" &&
+      (element.namespaceURI === HTML_NAMESPACE ||
+        element.namespaceURI === SVG_NAMESPACE)
+    ) {
+      nodeImplementation(element).scriptAlreadyStarted = true;
+    }
+  }
+  return document;
+}
+
+function targetForHTMLInsertion(element: Element): Element | DocumentFragment {
+  return templateContents(element) ?? element;
+}
+
+function htmlInsertionHost(fragment: DocumentFragment): Element | null {
+  if (fragment instanceof ShadowRoot) {
+    return fragment.host;
+  }
+  const host = nodeImplementation(fragment).htmlInsertionHost;
+  return host === null ? null : elementInterface(host);
+}
+
+function parentForHTMLInsertion(node: Node): {
+  readonly parent: Element | DocumentFragment;
+  readonly context: Element;
+} | null {
+  const parent = node.parentNode;
+  if (parent === null) {
+    return null;
+  }
+  if (
+    parent instanceof Element &&
+    parent.namespaceURI === HTML_NAMESPACE &&
+    parent.localName === "template"
+  ) {
+    throw new DOMException(
+      "A child of a template element cannot be updated positionally",
+      "HierarchyRequestError",
+    );
+  }
+  if (parent instanceof Element) {
+    return { parent, context: parent };
+  }
+  if (parent instanceof DocumentFragment) {
+    const context = htmlInsertionHost(parent);
+    if (context !== null) {
+      return { parent, context };
+    }
+  }
+  throw new DOMException(
+    "The parent cannot provide an HTML parser context",
+    "HierarchyRequestError",
+  );
+}
+
+function isHTMLOrSVGScript(element: Element): boolean {
+  return (
+    element.localName === "script" &&
+    (element.namespaceURI === HTML_NAMESPACE ||
+      element.namespaceURI === SVG_NAMESPACE)
+  );
+}
+
+function parseHTMLForInsertion(
+  context: Element,
+  input: string,
+  options: HTMLParsingOptions,
+  unsafe: boolean,
+): DocumentFragment | null {
+  if (!unsafe && isHTMLOrSVGScript(context)) {
+    return null;
+  }
+  if (htmlInsertionFragmentParser === null) {
+    throw new TypeError("No HTML fragment parser is registered");
+  }
+  const fragment = htmlInsertionFragmentParser.parse(input, context, {
+    allowDeclarativeShadowRoots: true,
+    runScripts: unsafe && options.runScripts === true,
+  });
+  sanitizeHTMLTree(fragment, options, !unsafe);
+  return fragment;
+}
+
+function setHTMLContent(
+  receiver: Element | ShadowRoot,
+  input: string,
+  options: HTMLParsingOptions,
+  unsafe: boolean,
+): void {
+  const target =
+    receiver instanceof Element ? targetForHTMLInsertion(receiver) : receiver;
+  const context = receiver instanceof Element ? receiver : receiver.host;
+  const fragment = parseHTMLForInsertion(context, input, options, unsafe);
+  if (fragment === null) {
+    return;
+  }
+  while (target.firstChild !== null) {
+    target.removeChild(target.firstChild);
+  }
+  target.appendChild(fragment);
+}
+
+function insertHTMLContent(
+  receiver: Element | ShadowRoot,
+  child: Node | null,
+  input: string,
+  options: HTMLParsingOptions,
+  unsafe: boolean,
+): void {
+  const target =
+    receiver instanceof Element ? targetForHTMLInsertion(receiver) : receiver;
+  if (
+    target instanceof Element &&
+    target.namespaceURI === HTML_NAMESPACE &&
+    target.localName === "html"
+  ) {
+    throw new DOMException(
+      "HTML cannot be inserted into an html element at a position",
+      "HierarchyRequestError",
+    );
+  }
+  const context = receiver instanceof Element ? receiver : receiver.host;
+  const fragment = parseHTMLForInsertion(context, input, options, unsafe);
+  if (fragment !== null) {
+    target.insertBefore(fragment, child);
+  }
+}
+
+function insertRelativeHTML(
+  node: Element | CharacterData,
+  position: "before" | "after" | "replace",
+  input: string,
+  options: HTMLParsingOptions,
+  unsafe: boolean,
+): void {
+  const insertion = parentForHTMLInsertion(node);
+  if (insertion === null) {
+    return;
+  }
+  const { parent, context } = insertion;
+  if (
+    parent instanceof Element &&
+    parent.namespaceURI === HTML_NAMESPACE &&
+    parent.localName === "html"
+  ) {
+    throw new DOMException(
+      "HTML cannot be inserted adjacent to a child of html",
+      "HierarchyRequestError",
+    );
+  }
+  const fragment = parseHTMLForInsertion(context, input, options, unsafe);
+  if (fragment === null) {
+    return;
+  }
+  if (position === "replace") {
+    parent.replaceChild(fragment, node);
+  } else {
+    parent.insertBefore(
+      fragment,
+      position === "before" ? node : node.nextSibling,
+    );
+  }
+}
+
+function sanitizerNames(values: readonly string[] | undefined): Set<string> {
+  return new Set(
+    (values ?? []).map((value) => asciiLowercase(domString(value))),
+  );
+}
+
+function sanitizeHTMLTree(
+  root: Node,
+  options: HTMLParsingOptions,
+  safe: boolean,
+): void {
+  const option = options.sanitizer;
+  if (!safe && option === undefined) {
+    return;
+  }
+  const config = option === undefined || option === "default" ? {} : option;
+  const elements =
+    config.elements === undefined ? null : sanitizerNames(config.elements);
+  const removeElements = sanitizerNames(config.removeElements);
+  for (const name of removeElements) {
+    if (elements?.has(name) === true) {
+      throw new TypeError(
+        `Sanitizer element ${name} is both allowed and removed`,
+      );
+    }
+  }
+  const attributes =
+    config.attributes === undefined ? null : sanitizerNames(config.attributes);
+  const removeAttributes = sanitizerNames(config.removeAttributes);
+  for (const name of removeAttributes) {
+    if (attributes?.has(name) === true) {
+      throw new TypeError(
+        `Sanitizer attribute ${name} is both allowed and removed`,
+      );
+    }
+  }
+  sanitizeHTMLChildren(root, {
+    attributes,
+    comments: config.comments,
+    dataAttributes: config.dataAttributes,
+    elements,
+    removeAttributes,
+    removeElements,
+    safe,
+  });
+}
+
+interface NormalizedSanitizerConfig {
+  readonly attributes: ReadonlySet<string> | null;
+  readonly comments: boolean | undefined;
+  readonly dataAttributes: boolean | undefined;
+  readonly elements: ReadonlySet<string> | null;
+  readonly removeAttributes: ReadonlySet<string>;
+  readonly removeElements: ReadonlySet<string>;
+  readonly safe: boolean;
+}
+
+function sanitizeHTMLChildren(
+  parent: Node,
+  config: NormalizedSanitizerConfig,
+): void {
+  for (const child of childNodes(parent)) {
+    if (child instanceof Comment) {
+      if (config.comments === false) {
+        removeNode(child);
+      }
+      continue;
+    }
+    if (!(child instanceof Element)) {
+      continue;
+    }
+    const name = asciiLowercase(child.localName);
+    if (
+      config.removeElements.has(name) ||
+      (config.elements !== null && !config.elements.has(name)) ||
+      (config.safe && SAFE_HTML_REMOVED_ELEMENTS.has(name))
+    ) {
+      removeNode(child);
+      continue;
+    }
+    for (const attribute of child.getAttributeNames()) {
+      const normalized = asciiLowercase(attribute);
+      if (
+        config.removeAttributes.has(normalized) ||
+        (config.attributes !== null && !config.attributes.has(normalized)) ||
+        (config.dataAttributes === false && normalized.startsWith("data-")) ||
+        (config.safe && normalized.startsWith("on"))
+      ) {
+        child.removeAttribute(attribute);
+      }
+    }
+    sanitizeHTMLChildren(child, config);
+    const contents = templateContents(child);
+    if (contents !== null) {
+      sanitizeHTMLChildren(contents, config);
+    }
+    const shadow = elementImplementation(child).shadowRoot;
+    if (shadow !== null) {
+      sanitizeHTMLChildren(nodeInterface(shadow), config);
+    }
+  }
 }
 
 export function findAttributeByName(
@@ -2255,6 +2644,30 @@ export class ShadowRoot extends DocumentFragment {
   get host(): Element {
     return elementInterface(shadowRootImplementation(this).host);
   }
+
+  setHTML(html: string, options: HTMLParsingOptions = {}): void {
+    setHTMLContent(this, domString(html), options, false);
+  }
+
+  setHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    setHTMLContent(this, domString(html), options, true);
+  }
+
+  appendHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, null, domString(html), options, false);
+  }
+
+  appendHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, null, domString(html), options, true);
+  }
+
+  prependHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, this.firstChild, domString(html), options, false);
+  }
+
+  prependHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertHTMLContent(this, this.firstChild, domString(html), options, true);
+  }
 }
 
 export class CharacterData extends Node {
@@ -2285,6 +2698,30 @@ export class CharacterData extends Node {
   override set textContent(value: string | null) {
     const data = nullableDOMStringToString(value);
     replaceCharacterData(this, 0, this.length, data);
+  }
+
+  beforeHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "before", domString(html), options, false);
+  }
+
+  beforeHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "before", domString(html), options, true);
+  }
+
+  afterHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "after", domString(html), options, false);
+  }
+
+  afterHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "after", domString(html), options, true);
+  }
+
+  replaceWithHTML(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "replace", domString(html), options, false);
+  }
+
+  replaceWithHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
+    insertRelativeHTML(this, "replace", domString(html), options, true);
   }
 
   substringData(offset: number, count: number): string {

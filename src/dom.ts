@@ -47,6 +47,8 @@ export type {
   AttributeData,
   ElementCreationOptions,
   GetRootNodeOptions,
+  HTMLParsingOptions,
   ImportNodeOptions,
+  SanitizerConfig,
   ShadowRootInit,
 } from "./dom/nodes.js";

@@ -4,6 +4,7 @@ import type {
   DocumentFragment,
   Node,
 } from "../dom.js";
+import { DOMException } from "../dom-exception.js";
 import type { FragmentParser } from "../dom/nodes.js";
 import {
   documentImplementation,
@@ -28,6 +29,7 @@ import {
   setAttributes,
   setDocumentParseErrors,
   setDocumentQuirks,
+  setHTMLParsingAlgorithms,
   setTemplateContents,
   templateContents,
 } from "../dom/nodes.js";
@@ -53,6 +55,7 @@ export interface HTMLFragmentContext {
 }
 
 interface TreeBuilderOptions {
+  readonly allowDeclarativeShadowRoots?: boolean;
   readonly context?: HTMLFragmentContext | Element;
   readonly document?: Document;
   readonly onElement?: (element: Element) => void;
@@ -64,6 +67,8 @@ interface TreeBuilderOptions {
 const htmlFragmentParser: FragmentParser = {
   parse(input, context, options) {
     return new TreeBuilder(input, {
+      allowDeclarativeShadowRoots:
+        options?.allowDeclarativeShadowRoots ?? false,
       context,
       runScripts: options?.runScripts ?? false,
       scriptingMode: "enabled",
@@ -343,6 +348,7 @@ class TreeBuilder {
   readonly document: Document;
   readonly #tokenizer: HTMLTokenizer;
   readonly #errors: PalimParseError[] = [];
+  readonly #allowDeclarativeShadowRoots: boolean;
   readonly #context: Element | null;
   readonly #onElement: ((element: Element) => void) | undefined;
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
@@ -368,6 +374,8 @@ class TreeBuilder {
       createDocument(htmlFragmentParser, "text/html", createElementForDocument);
     this.#onElement = options.onElement;
     this.#onScript = options.onScript;
+    this.#allowDeclarativeShadowRoots =
+      options.allowDeclarativeShadowRoots ?? false;
     this.#runScripts = options.runScripts ?? false;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
@@ -930,6 +938,25 @@ class TreeBuilder {
         }
       } else if (token.name === "template") {
         const template = this.#insert(token, true, foster);
+        const shadowRootMode = template.getAttribute("shadowrootmode");
+        const declarativeHost = template.parentElement;
+        if (
+          this.#allowDeclarativeShadowRoots &&
+          declarativeHost !== null &&
+          (shadowRootMode === "open" || shadowRootMode === "closed")
+        ) {
+          try {
+            const shadowRoot = declarativeHost.attachShadow({
+              mode: shadowRootMode,
+            });
+            setTemplateContents(template, shadowRoot);
+            removeNode(template);
+          } catch (error) {
+            if (!(error instanceof DOMException)) {
+              throw error;
+            }
+          }
+        }
         if (templateContents(template) === null) {
           setTemplateContents(template, createDocumentFragment(this.document));
         }
@@ -3097,8 +3124,12 @@ function appendToDocumentElement(document: Document, node: Node): void {
 export function parseHTML(
   input: string,
   scriptingMode: ParserScriptingMode = "disabled",
+  allowDeclarativeShadowRoots = false,
 ): Document {
-  return new TreeBuilder(input, { scriptingMode }).parse();
+  return new TreeBuilder(input, {
+    allowDeclarativeShadowRoots,
+    scriptingMode,
+  }).parse();
 }
 
 export function parseHTMLIntoDocument(
@@ -3140,3 +3171,7 @@ export function parseHTMLFragment(
 ): DocumentFragment {
   return new TreeBuilder(input, { context, scriptingMode }).parseFragment();
 }
+
+setHTMLParsingAlgorithms(htmlFragmentParser, (input, allow) =>
+  parseHTML(input, "disabled", allow),
+);

@@ -340,6 +340,25 @@ describe("parser-inserted classic scripts", () => {
     ).toEqual([null, null, "fast.js", "slow.js"]);
   });
 
+  it("runs unsafe HTML insertion scripts in a connected shadow tree", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      [
+        "<body><div id='host'></div><script>",
+        "window.shadowScriptRan = false;",
+        "const shadow = document.querySelector('#host').attachShadow({ mode: 'open' });",
+        "shadow.setHTMLUnsafe('<script>window.shadowScriptRan = true;<' + '/script>', { runScripts: true });",
+        "document.body.setAttribute('data-shadow-connected', String(shadow.querySelector('script').isConnected));",
+        "document.body.setAttribute('data-shadow-script-ran', String(window.shadowScriptRan));",
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(document.body?.getAttribute("data-shadow-connected")).toBe("true");
+    expect(document.body?.getAttribute("data-shadow-script-ran")).toBe("true");
+  });
+
   it("skips a dynamic script removed by an earlier post-connection step", async () => {
     const environment = new WindowExecutionEnvironment();
 
