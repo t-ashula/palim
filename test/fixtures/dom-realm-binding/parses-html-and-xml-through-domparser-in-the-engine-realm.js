@@ -1,4 +1,14 @@
 const parser = new DOMParser();
+const htmlWithMetaEncoding = parser.parseFromString(
+  '<meta charset="windows-1252"><p>€</p>',
+  "text/html",
+);
+if (
+  htmlWithMetaEncoding.characterSet !== "UTF-8" ||
+  htmlWithMetaEncoding.querySelector("p").textContent !== "€"
+) {
+  throw new Error("DOMParser applied byte encoding sniffing to string input");
+}
 const xml = parser.parseFromString("<root>value</root>", "text/xml");
 const xmlWithDoctype = parser.parseFromString(
   '<!DOCTYPE root SYSTEM "urn:test"><root/>',

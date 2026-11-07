@@ -23,7 +23,7 @@
 
 - [x] document navigation が response MIME type に応じて HTML / XML parser を選ぶ
 - [x] `DOMParser` が作る document の URL、origin、content type、scripting flag
-- [ ] `DOMParser` の HTML encoding sniffing と `meta charset` に基づく character encoding state
+- [x] `DOMParser` の string input を UTF-8 とする character encoding state（`meta charset` による byte sniffing は適用しない）
 - [ ] `Document.createCDATASection` の document type と `]]>` に対する例外優先順位
 - [ ] navigation document の transport / BOM / `meta` に基づく character encoding state
 - [ ] HTML tree builder の `style` raw text 終了後に続く sibling を構築する

@@ -49,6 +49,18 @@ describe("public standard interface boundaries", () => {
     expect(instruction.data).toBe("data");
   });
 
+  it("uses UTF-8 for DOMParser string input regardless of meta charset", () => {
+    const document = new DOMParser().parseFromString(
+      '<meta charset="windows-1252"><p>€</p>',
+      "text/html",
+    );
+
+    expect(document.characterSet).toBe("UTF-8");
+    expect(document.charset).toBe("UTF-8");
+    expect(document.inputEncoding).toBe("UTF-8");
+    expect(document.querySelector("p")?.textContent).toBe("€");
+  });
+
   it("rejects constructor calls for interfaces without constructors", () => {
     for (const Interface of [
       Attr,
