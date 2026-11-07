@@ -90,6 +90,12 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("connects slot assignment", () => {
+    const { engine, realm } = createTestRealm("<div></div><p></p>");
+
+    evaluate(engine, realm, fixture("connects-slot-assignment.js"));
+  });
+
   it("connects ShadowRoot tree operations", () => {
     const { engine, realm } = createTestRealm("<div><p></p></div>");
 

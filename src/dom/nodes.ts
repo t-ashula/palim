@@ -31,8 +31,7 @@ import {
   validateElementLocalName,
   validateName,
 } from "./conversions.js";
-import { createLegacyEvent, EventTarget } from "./events.js";
-import type { Event } from "./events.js";
+import { createLegacyEvent, Event, EventTarget } from "./events.js";
 import {
   AttrImplementation,
   CharacterDataImplementation,
@@ -564,6 +563,10 @@ function insertChildImplementation(
   if (subtreeContainsHTMLBaseElement(child)) {
     updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
   }
+  updateSlotAssignmentsAfterTreeMutation(
+    nodeInterface(parent),
+    nodeInterface(child),
+  );
 }
 
 function removeChildImplementation(
@@ -593,6 +596,10 @@ function removeChildImplementation(
   if (subtreeContainsHTMLBaseElement(child)) {
     updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
   }
+  updateSlotAssignmentsAfterTreeMutation(
+    nodeInterface(parent),
+    nodeInterface(child),
+  );
 }
 
 function invalidateDescendantText(node: NodeImplementation): void {
@@ -1444,6 +1451,9 @@ export class Attr extends Node {
     if (implementation.ownerElement !== null) {
       invalidateDocumentNamedProperties(implementation.ownerElement);
       respondToBaseHrefChange(implementation.ownerElement, implementation);
+      updateSlotAssignmentsForMutation(
+        elementInterface(implementation.ownerElement),
+      );
     }
   }
 
@@ -2040,6 +2050,7 @@ export function setAttributeNode(
     implementation.attributes.push(valueImplementation);
     invalidateDocumentNamedProperties(implementation);
     respondToBaseHrefChange(implementation, valueImplementation);
+    updateSlotAssignmentsForMutation(element);
     return null;
   }
   const oldImplementation = attrImplementation(oldAttribute);
@@ -2048,6 +2059,7 @@ export function setAttributeNode(
   oldImplementation.ownerElement = null;
   invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, valueImplementation);
+  updateSlotAssignmentsForMutation(element);
   return oldAttribute;
 }
 
@@ -2085,6 +2097,7 @@ export function removeAttributeNode(element: Element, attribute: Attr): void {
   attributeImplementation.ownerElement = null;
   invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, attributeImplementation);
+  updateSlotAssignmentsForMutation(element);
 }
 
 export function setAttributes(
@@ -2970,6 +2983,156 @@ function shadowIncludingRoot(node: Node): Node {
     root = nodeRoot(root.host);
   }
   return root;
+}
+
+const LAST_SLOT_ASSIGNMENTS = new WeakMap<Element, readonly Node[]>();
+const SIGNALLED_SLOTS = new Set<Element>();
+let slotChangeMicrotaskQueued = false;
+
+export function assignedSlotNodes(slot: Element, flatten = false): Node[] {
+  if (!isSlotElement(slot)) {
+    return [];
+  }
+  const root = nodeRoot(slot);
+  if (!(root instanceof ShadowRoot)) {
+    return [];
+  }
+  const name = slot.getAttribute("name") ?? "";
+  const matchingSlots = slotElements(root).filter(
+    (candidate) => (candidate.getAttribute("name") ?? "") === name,
+  );
+  if (matchingSlots[0] !== slot) {
+    return [];
+  }
+  const assigned = childNodes(root.host).filter(
+    (candidate): candidate is Element | Text =>
+      (candidate instanceof Element || candidate instanceof Text) &&
+      (candidate instanceof Element
+        ? (candidate.getAttribute("slot") ?? "")
+        : "") === name,
+  );
+  return flatten ? flattenSlotNodes(slot, assigned, new Set()) : assigned;
+}
+
+function flattenSlotNodes(
+  slot: Element,
+  assigned: readonly Node[],
+  visited: Set<Element>,
+): Node[] {
+  if (visited.has(slot)) {
+    return [];
+  }
+  visited.add(slot);
+  const source = assigned.length === 0 ? childNodes(slot) : assigned;
+  const result: Node[] = [];
+  for (const node of source) {
+    if (node instanceof Element && isSlotElement(node)) {
+      result.push(...flattenSlotNodes(node, assignedSlotNodes(node), visited));
+    } else {
+      result.push(node);
+    }
+  }
+  visited.delete(slot);
+  return result;
+}
+
+function isSlotElement(node: Node): node is Element {
+  return (
+    node instanceof Element &&
+    node.namespaceURI === HTML_NAMESPACE &&
+    node.localName === "slot"
+  );
+}
+
+function slotElements(root: ShadowRoot): Element[] {
+  return descendantElements(root).filter(isSlotElement);
+}
+
+function updateSlotAssignmentsAfterTreeMutation(
+  parent: Node,
+  changedNode: Node,
+): void {
+  if (isSlotElement(parent) && assignedSlotNodes(parent).length === 0) {
+    signalSlotChange(parent);
+  }
+  const roots = new Set<ShadowRoot>();
+  addRelevantShadowRoot(roots, parent);
+  if (parent instanceof Element) {
+    const attached = elementImplementation(parent).shadowRoot;
+    if (attached !== null) {
+      roots.add(nodeInterface(attached) as ShadowRoot);
+    }
+  }
+  addRelevantShadowRoot(roots, changedNode);
+  for (const root of roots) {
+    refreshSlotAssignments(root);
+  }
+  if (changedNode instanceof Element) {
+    const slots = [changedNode, ...descendantElements(changedNode)].filter(
+      isSlotElement,
+    );
+    for (const slot of slots) {
+      refreshSlotAssignment(slot);
+    }
+  }
+}
+
+function updateSlotAssignmentsForMutation(element: Element): void {
+  const roots = new Set<ShadowRoot>();
+  addRelevantShadowRoot(roots, element);
+  if (element.parentNode !== null) {
+    addRelevantShadowRoot(roots, element.parentNode);
+    if (element.parentNode instanceof Element) {
+      const attached = elementImplementation(element.parentNode).shadowRoot;
+      if (attached !== null) {
+        roots.add(nodeInterface(attached) as ShadowRoot);
+      }
+    }
+  }
+  for (const root of roots) {
+    refreshSlotAssignments(root);
+  }
+}
+
+function addRelevantShadowRoot(roots: Set<ShadowRoot>, node: Node): void {
+  const root = nodeRoot(node);
+  if (root instanceof ShadowRoot) {
+    roots.add(root);
+  }
+}
+
+function refreshSlotAssignments(root: ShadowRoot): void {
+  for (const slot of slotElements(root)) {
+    refreshSlotAssignment(slot);
+  }
+}
+
+function refreshSlotAssignment(slot: Element): void {
+  const assigned = assignedSlotNodes(slot);
+  const previous = LAST_SLOT_ASSIGNMENTS.get(slot) ?? [];
+  LAST_SLOT_ASSIGNMENTS.set(slot, assigned);
+  if (
+    previous.length !== assigned.length ||
+    previous.some((node, index) => node !== assigned[index])
+  ) {
+    signalSlotChange(slot);
+  }
+}
+
+function signalSlotChange(slot: Element): void {
+  SIGNALLED_SLOTS.add(slot);
+  if (slotChangeMicrotaskQueued) {
+    return;
+  }
+  slotChangeMicrotaskQueued = true;
+  void Promise.resolve().then(() => {
+    slotChangeMicrotaskQueued = false;
+    const slots = Array.from(SIGNALLED_SLOTS);
+    SIGNALLED_SLOTS.clear();
+    for (const signalledSlot of slots) {
+      signalledSlot.dispatchEvent(new Event("slotchange", { bubbles: true }));
+    }
+  });
 }
 
 const disconnectedNodeIds = new WeakMap<Node, number>();

@@ -18,6 +18,7 @@ import {
 } from "./dom/collections.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
 import {
+  assignedSlotNodes,
   childNodes,
   createDocumentFragment,
   createElementImplementation,
@@ -460,6 +461,14 @@ export class HTMLElement extends Element {
 
   set title(value: string) {
     this.setAttribute("title", value);
+  }
+
+  get slot(): string {
+    return this.getAttribute("slot") ?? "";
+  }
+
+  set slot(value: string) {
+    this.setAttribute("slot", value);
   }
 
   get style(): CSSStyleProperties {
@@ -4444,13 +4453,14 @@ export class HTMLSlotElement extends HTMLElement {
   declare name: string;
 
   assignedNodes(options: { flatten?: boolean } = {}): Node[] {
-    Reflect.get(options, "flatten");
-    return this.#assigned === null ? childNodes(this) : [...this.#assigned];
+    const flatten = Boolean(Reflect.get(options, "flatten"));
+    return this.#assigned === null
+      ? assignedSlotNodes(this, flatten)
+      : [...this.#assigned];
   }
 
   assignedElements(options: { flatten?: boolean } = {}): Element[] {
-    Reflect.get(options, "flatten");
-    return this.assignedNodes().filter(
+    return this.assignedNodes(options).filter(
       (node): node is Element => node instanceof Element,
     );
   }

@@ -1,4 +1,5 @@
 import { foreignAnchorRelList } from "../dom/foreign-anchor.js";
+import { HTMLSlotElement } from "../html-elements.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -36,6 +37,28 @@ export function installHTMLElementMembers(
         return value;
       }
       element.title = value.value;
+      return binding.undefined();
+    },
+  );
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "slot",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.slot);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "slot");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.slot = value.value;
       return binding.undefined();
     },
   );
@@ -94,6 +117,69 @@ export function installHTMLElementMembers(
       return binding.undefined();
     },
   );
+}
+
+export function installHTMLSlotElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  const prototype = binding.htmlElementInterfacePrototype(HTMLSlotElement);
+  const receiver = (value: Parameters<typeof binding.htmlElement>[0]) => {
+    const element = binding.htmlElement(value);
+    return element instanceof HTMLSlotElement ? element : null;
+  };
+  binding.attribute(
+    prototype,
+    "name",
+    (thisValue) => {
+      const slot = receiver(thisValue);
+      return slot === null
+        ? binding.typeError("Invalid HTMLSlotElement receiver")
+        : binding.primitive(slot.name);
+    },
+    (thisValue, argumentsList) => {
+      const slot = receiver(thisValue);
+      if (slot === null) {
+        return binding.typeError("Invalid HTMLSlotElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "name");
+      if (value.type === "throw") {
+        return value;
+      }
+      slot.name = value.value;
+      return binding.undefined();
+    },
+  );
+  for (const name of ["assignedNodes", "assignedElements"] as const) {
+    binding.method(prototype, name, 0, (thisValue, argumentsList) => {
+      const slot = receiver(thisValue);
+      if (slot === null) {
+        return binding.typeError("Invalid HTMLSlotElement receiver");
+      }
+      let flatten = false;
+      const optionsValue = argumentsList[0];
+      if (
+        optionsValue !== undefined &&
+        !binding.engine.isUndefined(optionsValue) &&
+        !binding.engine.isNull(optionsValue)
+      ) {
+        const options = binding.engine.asObject(optionsValue);
+        if (options === null) {
+          return binding.typeError("AssignedNodesOptions must be an object");
+        }
+        const value = binding.engine.get(binding.realm, options, "flatten");
+        if (value.type === "throw") {
+          return value;
+        }
+        flatten = binding.engine.toBoolean(value.value);
+      }
+      return normal(
+        binding.engine.createArray(
+          binding.realm,
+          slot[name]({ flatten }).map((node) => binding.wrap(node)),
+        ),
+      );
+    });
+  }
 }
 
 export function installHTMLAnchorElementMembers(
