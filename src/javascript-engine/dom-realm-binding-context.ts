@@ -47,7 +47,7 @@ import {
 } from "../html-elements.js";
 import {
   CustomElementRegistry,
-  setDocumentCustomElementRegistry,
+  documentCustomElementRegistry,
 } from "../dom/custom-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
 import {
@@ -97,55 +97,11 @@ import {
   createDOMLegacyPlatformObject,
   type DOMLegacyPlatformObjectConfiguration,
 } from "./dom-realm-legacy-platform-object.js";
-import { RealmBindingContext } from "./realm-binding-context.js";
+import type { RealmBindingContext } from "./realm-binding-context.js";
 import {
   htmlElementInterfaceConstructors,
   type HTMLElementInterfaceConstructor,
 } from "./html-element-interface-constructors.js";
-
-import {
-  installInterfaces,
-  installEventTargetMembers,
-  installAbortMembers,
-  installNodeMembers,
-  installCharacterDataMembers,
-  installAttrMembers,
-  installElementMembers,
-  installForeignAnchorMembers,
-  installHTMLElementMembers,
-  installDocumentMembers,
-  installHTMLAnchorElementMembers,
-  installHTMLAreaElementMembers,
-  installHTMLButtonElementMembers,
-  installHTMLIFrameElementMembers,
-  installHTMLLinkElementMembers,
-  installHTMLOutputElementMembers,
-  installHTMLTableElementMembers,
-  installHTMLTableRowElementMembers,
-  installHTMLTableSectionElementMembers,
-  installHTMLTemplateElementMembers,
-  installHTMLScriptElementMembers,
-  installHTMLSlotElementMembers,
-  installDocumentFragmentMembers,
-  installDocumentTypeMembers,
-  installDOMImplementationMembers,
-  installDOMParserMembers,
-  installXMLSerializerMembers,
-  installSanitizerMembers,
-  installEventMembers,
-  installHTMLCollectionMembers,
-  installNamedNodeMapMembers,
-  installNodeListMembers,
-  installDOMTokenListMembers,
-  installCSSStyleDeclarationMembers,
-  installCSSStylePropertiesMembers,
-  installNodeIteratorMembers,
-  installTreeWalkerMembers,
-  installRangeMembers,
-  installMutationObserverMembers,
-  installCustomElementRegistryMembers,
-} from "./dom-realm-interface-installers.js";
-import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 
 const DATA_PROPERTY = {
   configurable: true,
@@ -281,17 +237,20 @@ export class DOMRealmBindingContext {
   readonly xmlSerializers = new WeakSet<EngineObject>();
   readonly sanitizers = new WeakMap<EngineObject, Sanitizer>();
   readonly domExceptions = new WeakMap<EngineObject, DOMExceptionState>();
-  readonly customElementRegistry = new CustomElementRegistry();
+  readonly customElementRegistry: CustomElementRegistry;
   readonly customElementConstructionStack: HTMLElement[] = [];
 
   constructor(
-    engine: JavaScriptEngineAdapter,
-    realm: EngineRealm,
+    context: RealmBindingContext,
     readonly associatedDocument: Document | null = null,
   ) {
-    this.engine = engine;
-    this.realm = realm;
-    this.context = new RealmBindingContext(engine, realm);
+    this.engine = context.engine;
+    this.realm = context.realm;
+    this.context = context;
+    this.customElementRegistry =
+      associatedDocument === null
+        ? new CustomElementRegistry()
+        : documentCustomElementRegistry(associatedDocument);
 
     const objectPrototype = this.engine.objectPrototype(this.realm);
     this.eventTargetPrototype = this.engine.createObject(
@@ -498,55 +457,6 @@ export class DOMRealmBindingContext {
       this.realm,
       this.cssStyleDeclarationPrototype,
     );
-
-    installInterfaces(this);
-    installEventTargetMembers(this);
-    installAbortMembers(this);
-    installNodeMembers(this);
-    installCharacterDataMembers(this);
-    installAttrMembers(this);
-    installElementMembers(this);
-    installForeignAnchorMembers(this);
-    installHTMLElementMembers(this);
-    installHTMLAnchorElementMembers(this);
-    installHTMLAreaElementMembers(this);
-    installHTMLButtonElementMembers(this);
-    installHTMLIFrameElementMembers(this);
-    installHTMLLinkElementMembers(this);
-    installHTMLOutputElementMembers(this);
-    installHTMLTableElementMembers(this);
-    installHTMLTableRowElementMembers(this);
-    installHTMLTableSectionElementMembers(this);
-    installHTMLTemplateElementMembers(this);
-    installHTMLScriptElementMembers(this);
-    installHTMLSlotElementMembers(this);
-    installDocumentMembers(this);
-    installDocumentFragmentMembers(this);
-    installDocumentTypeMembers(this);
-    installDOMImplementationMembers(this);
-    installDOMParserMembers(this);
-    installXMLSerializerMembers(this);
-    installSanitizerMembers(this);
-    installHTMLStreamingInterfaces(this);
-    installEventMembers(this);
-    installHTMLCollectionMembers(this);
-    installNamedNodeMapMembers(this);
-    installNodeListMembers(this);
-    installDOMTokenListMembers(this);
-    installCSSStyleDeclarationMembers(this);
-    installCSSStylePropertiesMembers(this);
-    installNodeIteratorMembers(this);
-    installTreeWalkerMembers(this);
-    installRangeMembers(this);
-    installMutationObserverMembers(this);
-    installCustomElementRegistryMembers(this);
-
-    if (associatedDocument !== null) {
-      setDocumentCustomElementRegistry(
-        associatedDocument,
-        this.customElementRegistry,
-      );
-    }
 
     if (associatedDocument !== null) {
       const implementation = documentImplementation(associatedDocument);

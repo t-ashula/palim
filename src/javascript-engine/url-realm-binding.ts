@@ -12,8 +12,11 @@ import { installURLInterfaces } from "./url-realm-interface-installer.js";
 export class URLRealmBinding {
   readonly #domain: URLRealmBindingContext;
 
-  constructor(engine: JavaScriptEngineAdapter, realm: EngineRealm) {
-    const binding = new RealmBindingContext(engine, realm);
+  constructor(
+    engine: JavaScriptEngineAdapter,
+    realm: EngineRealm,
+    binding = new RealmBindingContext(engine, realm),
+  ) {
     this.#domain = new URLRealmBindingContext(binding);
     installURLInterfaces(binding, this.#domain);
   }

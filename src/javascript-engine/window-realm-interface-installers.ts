@@ -2,6 +2,7 @@ import {
   clearWindowTimeout,
   reportWindowConsole,
   reportWindowError,
+  scheduleWindowMicrotask,
   scheduleWindowTimeout,
 } from "../window.js";
 import type { WindowConsoleMethod } from "../window.js";
@@ -135,7 +136,7 @@ export function installTimers(binding: WindowRealmBindingContext): void {
     if (callback.type === "throw") {
       return callback;
     }
-    void Promise.resolve().then(() => {
+    scheduleWindowMicrotask(binding.window, () => {
       const result = binding.context.call(
         callback.value,
         binding.engine.fromPrimitive(undefined),

@@ -6,25 +6,19 @@ import type {
   HTMLParsingOptions,
   HTMLStreamingOperation,
   ShadowRoot,
-  HTMLStreamingSink,
 } from "../dom/nodes.js";
+import { WritableStreamState } from "../writable-stream-state.js";
 import { normal, thrown } from "./adapter.js";
 import type { EngineObject, EngineResult, EngineValue } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
-
-interface WritableState {
-  readonly sink: HTMLStreamingSink;
-  locked: boolean;
-  status: "writable" | "closed" | "errored";
-  error: EngineValue | null;
-}
 
 interface WriterState {
   readonly stream: EngineObject;
 }
 
-const writableStates = new WeakMap<EngineObject, WritableState>();
+const writableStates = new WeakMap<EngineObject, WritableStreamState<string>>();
 const writerStates = new WeakMap<EngineObject, WriterState>();
+const realmErrors = new WeakMap<WritableStreamState<string>, EngineValue>();
 
 export function installHTMLStreamingInterfaces(
   binding: DOMRealmBindingContext,
@@ -73,7 +67,7 @@ export function installHTMLStreamingInterfaces(
       if (state.locked) {
         return binding.typeError("The WritableStream is locked");
       }
-      state.locked = true;
+      state.acquireWriter();
       const writer = binding.engine.createObject(
         binding.realm,
         binding.writableStreamDefaultWriterPrototype,
@@ -90,22 +84,17 @@ export function installHTMLStreamingInterfaces(
     if (state.locked) {
       return rejectedTypeError(binding, "The WritableStream is locked");
     }
-    return abort(binding, state);
+    return streamOperation(binding, state, () => {
+      state.abort(undefined, true);
+    });
   });
   binding.method(binding.writableStreamPrototype, "close", 0, (thisValue) => {
     const state = writableState(binding, thisValue);
     if (state === null) {
       return binding.typeError("Invalid WritableStream receiver");
     }
-    if (state.locked) {
-      return rejectedTypeError(binding, "The WritableStream is locked");
-    }
-    if (state.status !== "writable") {
-      return rejectedTypeError(binding, "The HTML stream is closed");
-    }
     return streamOperation(binding, state, () => {
-      state.sink.close();
-      state.status = "closed";
+      state.close(true);
     });
   });
 
@@ -119,8 +108,8 @@ export function installHTMLStreamingInterfaces(
           "Invalid WritableStreamDefaultWriter receiver",
         );
       }
-      return state.status === "errored" && state.error !== null
-        ? promise(binding, "reject", state.error)
+      return state.status === "errored"
+        ? promise(binding, "reject", errorValue(binding, state))
         : promise(binding, "resolve", binding.engine.fromPrimitive(undefined));
     },
   );
@@ -141,13 +130,7 @@ export function installHTMLStreamingInterfaces(
       const state = stateForWriter(binding, thisValue);
       return state === null
         ? binding.typeError("Invalid WritableStreamDefaultWriter receiver")
-        : binding.primitive(
-            state.status === "errored"
-              ? null
-              : state.status === "closed"
-                ? 0
-                : 1,
-          );
+        : binding.primitive(state.desiredSize);
     },
   );
   binding.method(
@@ -168,13 +151,12 @@ export function installHTMLStreamingInterfaces(
         argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
       );
       if (converted.type === "throw") {
-        state.status = "errored";
-        state.error = converted.value;
-        state.sink.abort();
+        state.fail(converted.value);
+        realmErrors.set(state, converted.value);
         return promise(binding, "reject", converted.value);
       }
       return streamOperation(binding, state, () => {
-        state.sink.write(converted.value);
+        state.write(converted.value);
       });
     },
   );
@@ -189,12 +171,8 @@ export function installHTMLStreamingInterfaces(
           "Invalid WritableStreamDefaultWriter receiver",
         );
       }
-      if (state.status !== "writable") {
-        return rejectedTypeError(binding, "The HTML stream is closed");
-      }
       return streamOperation(binding, state, () => {
-        state.sink.close();
-        state.status = "closed";
+        state.close();
       });
     },
   );
@@ -206,7 +184,9 @@ export function installHTMLStreamingInterfaces(
       const state = stateForWriter(binding, thisValue);
       return state === null
         ? binding.typeError("Invalid WritableStreamDefaultWriter receiver")
-        : abort(binding, state);
+        : streamOperation(binding, state, () => {
+            state.abort();
+          });
     },
   );
   binding.method(
@@ -224,7 +204,7 @@ export function installHTMLStreamingInterfaces(
       }
       const state = writableStates.get(writerState.stream);
       if (state !== undefined) {
-        state.locked = false;
+        state.releaseWriter();
       }
       writerStates.delete(writer);
       return binding.undefined();
@@ -251,12 +231,7 @@ export function createRealmHTMLWritableStream(
       binding.realm,
       binding.writableStreamPrototype,
     );
-    writableStates.set(stream, {
-      sink,
-      locked: false,
-      status: "writable",
-      error: null,
-    });
+    writableStates.set(stream, new WritableStreamState(sink));
     return normal(stream);
   });
 }
@@ -264,7 +239,7 @@ export function createRealmHTMLWritableStream(
 function writableState(
   binding: DOMRealmBindingContext,
   value: EngineValue,
-): WritableState | null {
+): WritableStreamState<string> | null {
   const object = binding.engine.asObject(value);
   return object === null ? null : (writableStates.get(object) ?? null);
 }
@@ -272,7 +247,7 @@ function writableState(
 function stateForWriter(
   binding: DOMRealmBindingContext,
   value: EngineValue,
-): WritableState | null {
+): WritableStreamState<string> | null {
   const writer = binding.engine.asObject(value);
   const writerState = writer === null ? undefined : writerStates.get(writer);
   return writerState === undefined
@@ -280,27 +255,15 @@ function stateForWriter(
     : (writableStates.get(writerState.stream) ?? null);
 }
 
-function abort(
-  binding: DOMRealmBindingContext,
-  state: WritableState,
-): EngineResult<EngineValue> {
-  if (state.status === "writable") {
-    state.sink.abort();
-    state.status = "closed";
-  }
-  return promise(binding, "resolve", binding.engine.fromPrimitive(undefined));
-}
-
 function streamOperation(
   binding: DOMRealmBindingContext,
-  state: WritableState,
+  state: WritableStreamState<string>,
   callback: () => void,
 ): EngineResult<EngineValue> {
   try {
     callback();
     return promise(binding, "resolve", binding.engine.fromPrimitive(undefined));
   } catch (error: unknown) {
-    state.status = "errored";
     const value =
       error instanceof HostDOMException
         ? binding.createDOMException(error.message, error.name)
@@ -308,9 +271,29 @@ function streamOperation(
             binding.realm,
             error instanceof Error ? error.message : String(error),
           );
-    state.error = value;
+    realmErrors.set(state, value);
     return promise(binding, "reject", value);
   }
+}
+
+function errorValue(
+  binding: DOMRealmBindingContext,
+  state: WritableStreamState<string>,
+): EngineValue {
+  const existing = realmErrors.get(state);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const error = state.error;
+  const value =
+    error instanceof HostDOMException
+      ? binding.createDOMException(error.message, error.name)
+      : binding.engine.createTypeError(
+          binding.realm,
+          error instanceof Error ? error.message : String(error),
+        );
+  realmErrors.set(state, value);
+  return value;
 }
 
 function rejectedTypeError(

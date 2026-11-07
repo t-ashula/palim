@@ -3,13 +3,32 @@ import { describe, expect, it } from "vitest";
 import type { Element, EventTarget } from "../src/index.js";
 import { DOMParser, Event } from "../src/index.js";
 import { setDocumentURL } from "../src/dom/nodes.js";
-import { createWindow, type Window } from "../src/window.js";
+import {
+  createWindow,
+  scheduleWindowMicrotask,
+  type Window,
+} from "../src/window.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
 } from "../src/window-named-properties.js";
 
 describe("Window", () => {
+  it("owns microtask scheduling in the Window runtime", async () => {
+    const window = createWindow();
+    const calls: string[] = [];
+
+    scheduleWindowMicrotask(window, () => calls.push("first"));
+    scheduleWindowMicrotask(window, () => calls.push("second"));
+    calls.push("sync");
+
+    expect(calls).toEqual(["sync"]);
+    await new Promise<void>((resolve) => {
+      queueMicrotask(resolve);
+    });
+    expect(calls).toEqual(["sync", "first", "second"]);
+  });
+
   it("creates a top-level Window environment", () => {
     const window = createWindow();
 

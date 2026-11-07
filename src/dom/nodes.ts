@@ -91,6 +91,7 @@ import {
   serializeXMLElement,
 } from "../xml/serializer.js";
 import { requireArguments } from "../web-idl.js";
+import { WritableStreamState } from "../writable-stream-state.js";
 import { queueTreeMutationRecord } from "./mutation-observer.js";
 import {
   enqueueCustomElementConnectedReaction,
@@ -2459,26 +2460,115 @@ function createHTMLWritableStream(
   unsafe: boolean,
 ): HTMLWritableStream {
   const sink = createHTMLStreamingSink(receiver, operation, options, unsafe);
-  const WritableStreamConstructor = (
-    globalThis as unknown as {
-      readonly WritableStream: new (sink: {
-        write(chunk: unknown): void;
-        close(): void;
-        abort(): void;
-      }) => HTMLWritableStream;
+  return new HTMLWritableStreamPlatform(new WritableStreamState(sink));
+}
+
+class HTMLWritableStreamPlatform implements HTMLWritableStream {
+  readonly #state: WritableStreamState<string>;
+
+  constructor(state: WritableStreamState<string>) {
+    this.#state = state;
+  }
+
+  get locked(): boolean {
+    return this.#state.locked;
+  }
+
+  abort(reason?: unknown): Promise<void> {
+    return promiseForOperation(() => {
+      this.#state.abort(reason, true);
+    });
+  }
+
+  close(): Promise<void> {
+    return promiseForOperation(() => {
+      this.#state.close(true);
+    });
+  }
+
+  getWriter(): HTMLWritableStreamWriter {
+    this.#state.acquireWriter();
+    return new HTMLWritableStreamWriterPlatform(this.#state);
+  }
+}
+
+class HTMLWritableStreamWriterPlatform implements HTMLWritableStreamWriter {
+  readonly #state: WritableStreamState<string>;
+  #released = false;
+
+  constructor(state: WritableStreamState<string>) {
+    this.#state = state;
+  }
+
+  get closed(): Promise<void> {
+    this.#requireActive();
+    return this.#state.status === "errored"
+      ? Promise.reject(promiseRejection(this.#state.error))
+      : Promise.resolve();
+  }
+
+  get desiredSize(): number | null {
+    this.#requireActive();
+    return this.#state.desiredSize;
+  }
+
+  get ready(): Promise<void> {
+    this.#requireActive();
+    return Promise.resolve();
+  }
+
+  abort(reason?: unknown): Promise<void> {
+    return promiseForOperation(() => {
+      this.#requireActive();
+      this.#state.abort(reason);
+    });
+  }
+
+  close(): Promise<void> {
+    return promiseForOperation(() => {
+      this.#requireActive();
+      this.#state.close();
+    });
+  }
+
+  releaseLock(): void {
+    this.#requireActive();
+    this.#released = true;
+    this.#state.releaseWriter();
+  }
+
+  write(chunk?: unknown): Promise<void> {
+    return promiseForOperation(() => {
+      this.#requireActive();
+      let input: string;
+      try {
+        input = domString(chunk);
+      } catch (error: unknown) {
+        this.#state.fail(error);
+        throw error;
+      }
+      this.#state.write(input);
+    });
+  }
+
+  #requireActive(): void {
+    if (this.#released) {
+      throw new TypeError("The WritableStreamDefaultWriter has been released");
     }
-  ).WritableStream;
-  return new WritableStreamConstructor({
-    write(chunk) {
-      sink.write(domString(chunk));
-    },
-    close() {
-      sink.close();
-    },
-    abort() {
-      sink.abort();
-    },
-  });
+  }
+}
+
+function promiseForOperation(operation: () => void): Promise<void> {
+  try {
+    operation();
+    return Promise.resolve();
+  } catch (error: unknown) {
+    return Promise.reject(promiseRejection(error));
+  }
+}
+
+function promiseRejection(value: unknown): Error {
+  return value instanceof Error ? value : new Error(String(value));
 }
 
 function parseHTMLForInsertion(

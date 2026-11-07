@@ -6,6 +6,8 @@ import type {
 } from "./adapter.js";
 import type { Document } from "../dom.js";
 import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
+import { RealmBindingContext } from "./realm-binding-context.js";
 
 export class DOMRealmBinding {
   readonly #context: DOMRealmBindingContext;
@@ -14,12 +16,10 @@ export class DOMRealmBinding {
     engine: JavaScriptEngineAdapter,
     realm: EngineRealm,
     associatedDocument: Document | null = null,
+    context = new RealmBindingContext(engine, realm),
   ) {
-    this.#context = new DOMRealmBindingContext(
-      engine,
-      realm,
-      associatedDocument,
-    );
+    this.#context = new DOMRealmBindingContext(context, associatedDocument);
+    installDOMRealmInterfaces(this.#context);
   }
 
   expose(name: string, interfaceObject: object): void {

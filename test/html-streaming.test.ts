@@ -15,6 +15,20 @@ function documentWithTarget() {
 }
 
 describe("HTML streaming", () => {
+  it("uses shared writable stream state for locking and closing", async () => {
+    const { target } = documentWithTarget();
+    const stream = target.streamHTMLUnsafe();
+    const writer = stream.getWriter();
+
+    expect(stream.locked).toBe(true);
+    await expect(stream.close()).rejects.toThrow("locked");
+    writer.releaseLock();
+    expect(stream.locked).toBe(false);
+    await stream.close();
+
+    expect(target.innerHTML).toBe("");
+  });
+
   it("preserves tokenizer and tree-builder state across writes", async () => {
     const { target } = documentWithTarget();
     const writer = target.streamHTMLUnsafe().getWriter();

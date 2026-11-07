@@ -35,6 +35,17 @@ export class CustomElementRegistry {
   }
 }
 
+export function documentCustomElementRegistry(
+  document: Document,
+): CustomElementRegistry {
+  let registry = DOCUMENT_REGISTRIES.get(document);
+  if (registry === undefined) {
+    registry = new CustomElementRegistry();
+    DOCUMENT_REGISTRIES.set(document, registry);
+  }
+  return registry;
+}
+
 export function setDocumentCustomElementRegistry(
   document: Document,
   registry: CustomElementRegistry,

@@ -1,0 +1,90 @@
+import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import {
+  installAbortMembers,
+  installAttrMembers,
+  installCharacterDataMembers,
+  installCSSStyleDeclarationMembers,
+  installCSSStylePropertiesMembers,
+  installCustomElementRegistryMembers,
+  installDocumentFragmentMembers,
+  installDocumentMembers,
+  installDocumentTypeMembers,
+  installDOMImplementationMembers,
+  installDOMParserMembers,
+  installDOMTokenListMembers,
+  installElementMembers,
+  installEventMembers,
+  installEventTargetMembers,
+  installForeignAnchorMembers,
+  installHTMLAnchorElementMembers,
+  installHTMLAreaElementMembers,
+  installHTMLButtonElementMembers,
+  installHTMLCollectionMembers,
+  installHTMLElementMembers,
+  installHTMLIFrameElementMembers,
+  installHTMLLinkElementMembers,
+  installHTMLOutputElementMembers,
+  installHTMLScriptElementMembers,
+  installHTMLSlotElementMembers,
+  installHTMLTableElementMembers,
+  installHTMLTableRowElementMembers,
+  installHTMLTableSectionElementMembers,
+  installHTMLTemplateElementMembers,
+  installInterfaces,
+  installMutationObserverMembers,
+  installNamedNodeMapMembers,
+  installNodeIteratorMembers,
+  installNodeListMembers,
+  installNodeMembers,
+  installRangeMembers,
+  installSanitizerMembers,
+  installTreeWalkerMembers,
+  installXMLSerializerMembers,
+} from "./dom-realm-interface-installers.js";
+import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
+
+export function installDOMRealmInterfaces(
+  binding: DOMRealmBindingContext,
+): void {
+  installInterfaces(binding);
+  installEventTargetMembers(binding);
+  installAbortMembers(binding);
+  installNodeMembers(binding);
+  installCharacterDataMembers(binding);
+  installAttrMembers(binding);
+  installElementMembers(binding);
+  installForeignAnchorMembers(binding);
+  installHTMLElementMembers(binding);
+  installHTMLAnchorElementMembers(binding);
+  installHTMLAreaElementMembers(binding);
+  installHTMLButtonElementMembers(binding);
+  installHTMLIFrameElementMembers(binding);
+  installHTMLLinkElementMembers(binding);
+  installHTMLOutputElementMembers(binding);
+  installHTMLTableElementMembers(binding);
+  installHTMLTableRowElementMembers(binding);
+  installHTMLTableSectionElementMembers(binding);
+  installHTMLTemplateElementMembers(binding);
+  installHTMLScriptElementMembers(binding);
+  installHTMLSlotElementMembers(binding);
+  installDocumentMembers(binding);
+  installDocumentFragmentMembers(binding);
+  installDocumentTypeMembers(binding);
+  installDOMImplementationMembers(binding);
+  installDOMParserMembers(binding);
+  installXMLSerializerMembers(binding);
+  installSanitizerMembers(binding);
+  installHTMLStreamingInterfaces(binding);
+  installEventMembers(binding);
+  installHTMLCollectionMembers(binding);
+  installNamedNodeMapMembers(binding);
+  installNodeListMembers(binding);
+  installDOMTokenListMembers(binding);
+  installCSSStyleDeclarationMembers(binding);
+  installCSSStylePropertiesMembers(binding);
+  installNodeIteratorMembers(binding);
+  installTreeWalkerMembers(binding);
+  installRangeMembers(binding);
+  installMutationObserverMembers(binding);
+  installCustomElementRegistryMembers(binding);
+}

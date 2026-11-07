@@ -15,17 +15,8 @@ import type {
 import { DOMRealmBinding } from "./dom-realm-binding.js";
 import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
-import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
-import {
-  installConsole,
-  installLocationInterface,
-  installLocationMembers,
-  installTimers,
-  installWindowInterface,
-  installWindowMembers,
-} from "./window-realm-interface-installers.js";
 
 export class WindowRealmBindingContext {
   readonly engine: JavaScriptEngineAdapter;
@@ -53,10 +44,10 @@ export class WindowRealmBindingContext {
       this.engine,
       this.realm,
       this.window.document,
+      this.context,
     );
-    this.url = new URLRealmBinding(this.engine, this.realm);
+    this.url = new URLRealmBinding(this.engine, this.realm, this.context);
     this.formData = new FormDataRealmBindingContext(this.context);
-    installFormDataInterface(this.context, this.formData);
     const namedPropertiesTarget = this.engine.createObject(
       this.realm,
       this.dom.eventTargetPrototype,
@@ -88,12 +79,6 @@ export class WindowRealmBindingContext {
     this.engine.setPrototypeOf(this.globalObject, this.windowPrototype);
     this.dom.associatePlatformObject(this.window, this.globalObject);
     this.dom.bindPlatformObject(this.window, this.globalThis);
-    installWindowInterface(this);
-    installLocationInterface(this);
-    installWindowMembers(this);
-    installLocationMembers(this);
-    installTimers(this);
-    installConsole(this);
   }
 
   timerDelay(value: EngineValue | undefined): EngineResult<number> {

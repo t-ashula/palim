@@ -98,6 +98,8 @@ interface WindowEnvironment {
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
   readonly timers: Map<number, unknown>;
+  readonly microtasks: (() => void)[];
+  microtaskScheduled: boolean;
   nextTimerId: number;
 }
 
@@ -124,6 +126,8 @@ class WindowPlatform extends EventTarget implements Window {
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
       timers: new Map<number, unknown>(),
+      microtasks: [],
+      microtaskScheduled: false,
       nextTimerId: 1,
     };
     WINDOW_ENVIRONMENTS.set(this, environment);
@@ -275,6 +279,28 @@ export function clearWindowTimeout(window: Window, id: number): void {
   environment.timers.delete(id);
 }
 
+export function scheduleWindowMicrotask(
+  window: Window,
+  callback: () => void,
+): void {
+  const environment = windowEnvironment(window);
+  environment.microtasks.push(callback);
+  if (environment.microtaskScheduled) {
+    return;
+  }
+  environment.microtaskScheduled = true;
+  hostMicrotasks().queueMicrotask(() => {
+    environment.microtaskScheduled = false;
+    for (;;) {
+      const task = environment.microtasks.shift();
+      if (task === undefined) {
+        return;
+      }
+      task();
+    }
+  });
+}
+
 function windowEnvironment(window: Window): WindowEnvironment {
   const environment = WINDOW_ENVIRONMENTS.get(window);
   if (environment === undefined) {
@@ -313,4 +339,11 @@ function hostTimers(): {
     setTimeout(callback: () => void, delay: number): unknown;
     clearTimeout(handle: unknown): void;
   };
+}
+
+function hostMicrotasks(): {
+  queueMicrotask(callback: () => void): void;
+} {
+  const host: unknown = globalThis;
+  return host as { queueMicrotask(callback: () => void): void };
 }

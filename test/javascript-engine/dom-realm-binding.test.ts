@@ -90,6 +90,43 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("shares a document custom element registry across realms", () => {
+    const document = new DOMParser().parseFromString(
+      "<body></body>",
+      "text/html",
+    );
+    const engine = new Engine262Adapter();
+    const firstRealm = engine.createRealm();
+    const firstBinding = new DOMRealmBinding(engine, firstRealm, document);
+    firstBinding.expose("testDocument", document);
+
+    evaluate(
+      engine,
+      firstRealm,
+      `
+        customElements.define("x-shared", class extends HTMLElement {
+          constructor() {
+            super();
+            this.setAttribute("constructed", "yes");
+          }
+        });
+      `,
+    );
+
+    const secondRealm = engine.createRealm();
+    const secondBinding = new DOMRealmBinding(engine, secondRealm, document);
+    secondBinding.expose("testDocument", document);
+    evaluate(
+      engine,
+      secondRealm,
+      `testDocument.body.append(testDocument.createElement("x-shared"));`,
+    );
+
+    expect(
+      document.querySelector("x-shared")?.getAttribute("constructed"),
+    ).toBe("yes");
+  });
+
   it("connects custom element reactions", () => {
     const { engine, realm } = createTestRealm("<section></section>");
 
