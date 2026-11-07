@@ -118,7 +118,7 @@ describe("XMLSerializer", () => {
     );
   });
 
-  it("keeps namespace identity when local declarations shadow prefixes", () => {
+  it("uses the nearest prefix retained by the namespace prefix map", () => {
     const element = root(
       parse('<root xmlns:p="u1" xmlns:q="u1"><child xmlns:q="u2"/></root>'),
     );
@@ -129,11 +129,11 @@ describe("XMLSerializer", () => {
     child.setAttributeNS("u1", "name", "value");
 
     expect(new XMLSerializer().serializeToString(element)).toBe(
-      '<root xmlns:p="u1" xmlns:q="u1"><child xmlns:q="u2" p:name="value"/></root>',
+      '<root xmlns:p="u1" xmlns:q="u1"><child xmlns:q="u2" q:name="value"/></root>',
     );
   });
 
-  it("preserves unused attribute prefixes and avoids generated prefix collisions", () => {
+  it("preserves attribute prefixes that are not declared locally", () => {
     const document = new Document();
     const documentRoot = document.createElement("root");
     documentRoot.setAttributeNS("urn:attribute", "p:name", "value");
@@ -143,6 +143,19 @@ describe("XMLSerializer", () => {
       '<root xmlns:p="urn:attribute" p:name="value"/>',
     );
 
+    const parsed = parse('<root xmlns:p="u1"><child/></root>');
+    const parsedRoot = root(parsed);
+    const child = parsedRoot.firstElementChild;
+    if (child === null) {
+      throw new Error("missing prefix-rebinding child");
+    }
+    child.setAttributeNS("u2", "p:name", "value");
+    expect(new XMLSerializer().serializeToString(parsedRoot)).toBe(
+      '<root xmlns:p="u1"><child xmlns:p="u2" p:name="value"/></root>',
+    );
+  });
+
+  it("generates prefixes from the serialization prefix index", () => {
     const parsed = parse('<root xmlns:ns2="u2"><child xmlns:ns1="u1"/></root>');
     const parsedRoot = root(parsed);
     const child = parsedRoot.firstElementChild;
@@ -151,7 +164,7 @@ describe("XMLSerializer", () => {
     }
     child.setAttributeNS("u3", "name", "value");
     expect(new XMLSerializer().serializeToString(parsedRoot)).toBe(
-      '<root xmlns:ns2="u2"><child xmlns:ns1="u1" xmlns:ns3="u3" ns3:name="value"/></root>',
+      '<root xmlns:ns2="u2"><child xmlns:ns1="u1" xmlns:ns1="u3" ns1:name="value"/></root>',
     );
   });
 

@@ -104,39 +104,6 @@ function hasPrefix(
   return map.get(namespace)?.includes(prefix) ?? false;
 }
 
-function prefixIsMapped(map: NamespacePrefixMap, prefix: string): boolean {
-  for (const prefixes of map.values()) {
-    if (prefixes.includes(prefix)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function removePrefixMappings(map: NamespacePrefixMap, prefix: string): void {
-  for (const [namespace, prefixes] of map) {
-    const remaining = prefixes.filter((candidate) => candidate !== prefix);
-    if (remaining.length === 0) {
-      map.delete(namespace);
-    } else if (remaining.length !== prefixes.length) {
-      map.set(namespace, remaining);
-    }
-  }
-}
-
-function prefixMapsToAnotherNamespace(
-  map: NamespacePrefixMap,
-  prefix: string,
-  namespace: string,
-): boolean {
-  for (const [mappedNamespace, prefixes] of map) {
-    if (mappedNamespace !== namespace && prefixes.includes(prefix)) {
-      return true;
-    }
-  }
-  return false;
-}
-
 function preferredPrefix(
   map: NamespacePrefixMap,
   namespace: string | null,
@@ -161,11 +128,8 @@ function generatedPrefix(
   namespace: string,
   state: SerializationState,
 ): string {
-  let prefix: string;
-  do {
-    prefix = `ns${String(state.nextPrefix)}`;
-    state.nextPrefix += 1;
-  } while (prefixIsMapped(map, prefix));
+  const prefix = `ns${String(state.nextPrefix)}`;
+  state.nextPrefix += 1;
   addPrefix(map, namespace, prefix);
   return prefix;
 }
@@ -189,7 +153,6 @@ function recordNamespaceInformation(
     if (namespace === XML_NAMESPACE || hasPrefix(map, namespace, prefix)) {
       continue;
     }
-    removePrefixMappings(map, prefix);
     addPrefix(map, namespace, prefix);
     localPrefixes.set(prefix, attribute.value);
   }
@@ -231,9 +194,7 @@ function serializeAttributes(
       }
     } else if (namespace !== null && candidate === null) {
       candidate =
-        prefix !== null &&
-        !localPrefixes.has(prefix) &&
-        !prefixMapsToAnotherNamespace(map, prefix, namespace)
+        prefix !== null && !localPrefixes.has(prefix)
           ? prefix
           : generatedPrefix(map, namespace, state);
       addPrefix(map, namespace, candidate);

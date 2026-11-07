@@ -4,7 +4,6 @@
 
 ### Parsing and serialization
 
-- [ ] `XMLSerializer` の namespace prefix reuse / rebinding
 - [ ] streaming HTML parser の reentrant write / abort ordering
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
