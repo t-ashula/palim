@@ -17,7 +17,7 @@
 - [x] `Node.moveBefore` の Shadow DOM tree model と shadow-including tree validation
 - [x] `Node.moveBefore` の slot assignment と `slotchange` notification
 - [x] `Node.moveBefore` の custom element move reaction
-- [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
+- [x] `TreeWalker` / `NodeIterator` の branding と traversal state
 
 ### Parsing and serialization
 
