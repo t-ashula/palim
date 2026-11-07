@@ -136,21 +136,54 @@ export interface HTMLParsingOptions {
   readonly sanitizer?: "default" | Sanitizer | SanitizerConfig;
 }
 
+export interface HTMLWritableStreamWriter {
+  readonly closed: Promise<void>;
+  readonly desiredSize: number | null;
+  readonly ready: Promise<void>;
+  abort(reason?: unknown): Promise<void>;
+  close(): Promise<void>;
+  releaseLock(): void;
+  write(chunk?: unknown): Promise<void>;
+}
+
+export interface HTMLWritableStream {
+  readonly locked: boolean;
+  abort(reason?: unknown): Promise<void>;
+  close(): Promise<void>;
+  getWriter(): HTMLWritableStreamWriter;
+}
+
 type HTMLDocumentParser = (
   input: string,
   allowDeclarativeShadowRoots: boolean,
   sanitizerConfig: CanonicalSanitizerConfig | null,
 ) => Document;
 
+interface HTMLStreamingParserSession {
+  write(input: string): void;
+  close(): void;
+  abort(): void;
+}
+
+type HTMLStreamingParserFactory = (
+  target: Element | DocumentFragment,
+  context: Element,
+  reference: Node | null,
+  options: FragmentParseOptions,
+) => HTMLStreamingParserSession;
+
 let htmlInsertionFragmentParser: FragmentParser | null = null;
 let htmlDocumentParser: HTMLDocumentParser | null = null;
+let htmlStreamingParserFactory: HTMLStreamingParserFactory | null = null;
 
 export function setHTMLParsingAlgorithms(
   fragmentParser: FragmentParser,
   documentParser: HTMLDocumentParser,
+  streamingParserFactory: HTMLStreamingParserFactory,
 ): void {
   htmlInsertionFragmentParser = fragmentParser;
   htmlDocumentParser = documentParser;
+  htmlStreamingParserFactory = streamingParserFactory;
 }
 
 export interface ElementCreationOptions {
@@ -1744,6 +1777,58 @@ export class Element extends Node {
     setHTMLContent(this, domString(html), options, true);
   }
 
+  streamHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace", options, false);
+  }
+
+  streamHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace", options, true);
+  }
+
+  streamAppendHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "append", options, false);
+  }
+
+  streamAppendHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "append", options, true);
+  }
+
+  streamPrependHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "prepend", options, false);
+  }
+
+  streamPrependHTMLUnsafe(
+    options: HTMLParsingOptions = {},
+  ): HTMLWritableStream {
+    return createHTMLWritableStream(this, "prepend", options, true);
+  }
+
+  streamBeforeHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "before", options, false);
+  }
+
+  streamBeforeHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "before", options, true);
+  }
+
+  streamAfterHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "after", options, false);
+  }
+
+  streamAfterHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "after", options, true);
+  }
+
+  streamReplaceWithHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace-with", options, false);
+  }
+
+  streamReplaceWithHTMLUnsafe(
+    options: HTMLParsingOptions = {},
+  ): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace-with", options, true);
+  }
+
   appendHTML(html: string, options: HTMLParsingOptions = {}): void {
     insertHTMLContent(this, null, domString(html), options, false);
   }
@@ -2225,6 +2310,177 @@ function isHTMLOrSVGScript(element: Element): boolean {
   );
 }
 
+export type HTMLStreamingOperation =
+  "replace" | "append" | "prepend" | "before" | "after" | "replace-with";
+
+export class HTMLStreamingSink {
+  readonly #target: Element | DocumentFragment;
+  readonly #reference: Node | null;
+  readonly #parser: HTMLStreamingParserSession;
+  #finished = false;
+
+  constructor(
+    target: Element | DocumentFragment,
+    reference: Node | null,
+    parser: HTMLStreamingParserSession,
+  ) {
+    this.#target = target;
+    this.#reference = reference;
+    this.#parser = parser;
+  }
+
+  write(input: string): void {
+    if (this.#finished) {
+      throw new TypeError("The HTML stream is closed");
+    }
+    this.#validateReference();
+    this.#parser.write(input);
+  }
+
+  close(): void {
+    if (this.#finished) {
+      return;
+    }
+    this.#parser.close();
+    this.#finished = true;
+  }
+
+  abort(): void {
+    if (this.#finished) {
+      return;
+    }
+    this.#parser.abort();
+    this.#finished = true;
+  }
+
+  #validateReference(): void {
+    if (
+      this.#reference !== null &&
+      this.#reference.parentNode !== this.#target
+    ) {
+      this.#parser.abort();
+      this.#finished = true;
+      throw new DOMException(
+        "The streaming reference child is no longer in its parent",
+        "HierarchyRequestError",
+      );
+    }
+  }
+}
+
+export function createHTMLStreamingSink(
+  receiver: Element | ShadowRoot | CharacterData,
+  operation: HTMLStreamingOperation,
+  options: HTMLParsingOptions = {},
+  unsafe = false,
+): HTMLStreamingSink {
+  if (htmlStreamingParserFactory === null) {
+    throw new TypeError("No streaming HTML parser is registered");
+  }
+
+  let target: Element | DocumentFragment;
+  let context: Element;
+  let reference: Node | null;
+
+  if (
+    operation === "replace" ||
+    operation === "append" ||
+    operation === "prepend"
+  ) {
+    if (receiver instanceof CharacterData) {
+      throw new TypeError("CharacterData is not an HTML stream container");
+    }
+    target =
+      receiver instanceof Element ? targetForHTMLInsertion(receiver) : receiver;
+    context = receiver instanceof Element ? receiver : receiver.host;
+    if (
+      operation !== "replace" &&
+      target instanceof Element &&
+      target.namespaceURI === HTML_NAMESPACE &&
+      target.localName === "html"
+    ) {
+      throw new DOMException(
+        "HTML cannot be streamed into an html element at a position",
+        "HierarchyRequestError",
+      );
+    }
+    reference = operation === "prepend" ? target.firstChild : null;
+  } else {
+    const insertion = parentForHTMLInsertion(receiver);
+    if (
+      insertion === null ||
+      (insertion.parent instanceof Element &&
+        insertion.parent.namespaceURI === HTML_NAMESPACE &&
+        insertion.parent.localName === "html")
+    ) {
+      throw new DOMException(
+        "The node has no parent suitable for HTML streaming",
+        "HierarchyRequestError",
+      );
+    }
+    target = insertion.parent;
+    context = insertion.context;
+    reference = operation === "before" ? receiver : receiver.nextSibling;
+  }
+
+  if (isHTMLOrSVGScript(context)) {
+    throw new DOMException(
+      "HTML cannot be streamed into a script context",
+      "NotSupportedError",
+    );
+  }
+
+  const config = sanitizerConfigForParsing(options.sanitizer, !unsafe);
+  const parser = htmlStreamingParserFactory(target, context, reference, {
+    allowDeclarativeShadowRoots: true,
+    runScripts: unsafe && options.runScripts === true,
+    ...(config === null ? {} : { sanitizerConfig: config }),
+  });
+  const sink = new HTMLStreamingSink(target, reference, parser);
+
+  if (operation === "replace") {
+    while (target.firstChild !== null) {
+      target.removeChild(target.firstChild);
+    }
+  } else if (operation === "replace-with") {
+    if (receiver instanceof ShadowRoot) {
+      throw new TypeError("A ShadowRoot cannot be replaced positionally");
+    }
+    receiver.remove();
+  }
+
+  return sink;
+}
+
+function createHTMLWritableStream(
+  receiver: Element | ShadowRoot | CharacterData,
+  operation: HTMLStreamingOperation,
+  options: HTMLParsingOptions,
+  unsafe: boolean,
+): HTMLWritableStream {
+  const sink = createHTMLStreamingSink(receiver, operation, options, unsafe);
+  const WritableStreamConstructor = (
+    globalThis as unknown as {
+      readonly WritableStream: new (sink: {
+        write(chunk: unknown): void;
+        close(): void;
+        abort(): void;
+      }) => HTMLWritableStream;
+    }
+  ).WritableStream;
+  return new WritableStreamConstructor({
+    write(chunk) {
+      sink.write(domString(chunk));
+    },
+    close() {
+      sink.close();
+    },
+    abort() {
+      sink.abort();
+    },
+  });
+}
+
 function parseHTMLForInsertion(
   context: Element,
   input: string,
@@ -2589,6 +2845,18 @@ export class DocumentFragment extends Node {
     return implementation.elementChildren;
   }
 
+  get firstElementChild(): Element | null {
+    return this.children.item(0);
+  }
+
+  get lastElementChild(): Element | null {
+    return this.children.item(this.children.length - 1);
+  }
+
+  get childElementCount(): number {
+    return this.children.length;
+  }
+
   prepend(...nodes: (Node | string)[]): void {
     prependNodes(this, nodes);
   }
@@ -2644,12 +2912,58 @@ export class ShadowRoot extends DocumentFragment {
     return elementInterface(shadowRootImplementation(this).host);
   }
 
+  get innerHTML(): string {
+    return serializeHTMLFragment(this);
+  }
+
+  set innerHTML(value: string) {
+    const document = this.host.ownerDocument;
+    if (document === null) {
+      throw new TypeError("ShadowRoot host has no owner document");
+    }
+    const parser = fragmentParserForDocument(document);
+    if (parser === null) {
+      throw new TypeError("Document has no fragment parser");
+    }
+    const fragment = parser.parse(domString(value), this.host);
+    while (this.firstChild !== null) {
+      this.removeChild(this.firstChild);
+    }
+    this.appendChild(fragment);
+  }
+
   setHTML(html: string, options: HTMLParsingOptions = {}): void {
     setHTMLContent(this, domString(html), options, false);
   }
 
   setHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
     setHTMLContent(this, domString(html), options, true);
+  }
+
+  streamHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace", options, false);
+  }
+
+  streamHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace", options, true);
+  }
+
+  streamAppendHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "append", options, false);
+  }
+
+  streamAppendHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "append", options, true);
+  }
+
+  streamPrependHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "prepend", options, false);
+  }
+
+  streamPrependHTMLUnsafe(
+    options: HTMLParsingOptions = {},
+  ): HTMLWritableStream {
+    return createHTMLWritableStream(this, "prepend", options, true);
   }
 
   appendHTML(html: string, options: HTMLParsingOptions = {}): void {
@@ -2769,6 +3083,32 @@ export class CharacterData extends Node {
 
   get nextElementSibling(): Element | null {
     return nextElementSibling(this);
+  }
+
+  streamBeforeHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "before", options, false);
+  }
+
+  streamBeforeHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "before", options, true);
+  }
+
+  streamAfterHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "after", options, false);
+  }
+
+  streamAfterHTMLUnsafe(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "after", options, true);
+  }
+
+  streamReplaceWithHTML(options: HTMLParsingOptions = {}): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace-with", options, false);
+  }
+
+  streamReplaceWithHTMLUnsafe(
+    options: HTMLParsingOptions = {},
+  ): HTMLWritableStream {
+    return createHTMLWritableStream(this, "replace-with", options, true);
   }
 
   before(...nodes: (Node | string)[]): void {

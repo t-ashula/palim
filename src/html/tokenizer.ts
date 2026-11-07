@@ -11,6 +11,7 @@ export type TokenizerState =
 export interface TokenizerOptions {
   readonly initialState?: TokenizerState;
   readonly lastStartTag?: string;
+  readonly streaming?: boolean;
 }
 
 export interface ParseError {
@@ -200,9 +201,12 @@ function isWhitespace(character: string): boolean {
 }
 
 export class HTMLTokenizer {
-  readonly #input: string;
+  #input: string;
   readonly #tokens: Token[] = [];
   readonly #errors: ParseError[] = [];
+  #closed: boolean;
+  #pendingCarriageReturn = false;
+  #waitingForInput = false;
   #state: State;
   #position = 0;
   #lastConsumedLength = 1;
@@ -222,23 +226,53 @@ export class HTMLTokenizer {
   readonly #inputErrorPositions = new Set<number>();
 
   constructor(input: string, options: TokenizerOptions = {}) {
-    this.#input = input.replace(/\r\n?/g, "\n");
+    this.#closed = options.streaming !== true;
+    this.#input = this.#normalizeInput(input, this.#closed);
     this.#state = INITIAL_STATES[options.initialState ?? "Data state"];
     this.#lastStartTag = options.lastStartTag;
   }
 
   run(): TokenizerResult {
-    while (this.#position <= this.#input.length) {
+    while (this.#position <= this.#input.length && !this.#waitingForInput) {
       this.#step();
     }
     return { tokens: this.#tokens, errors: this.#errors };
   }
 
   nextToken(): Token | null {
-    while (this.#tokens.length === 0 && this.#position <= this.#input.length) {
+    while (
+      this.#tokens.length === 0 &&
+      !this.#waitingForInput &&
+      (this.#position < this.#input.length || this.#closed) &&
+      this.#position <= this.#input.length
+    ) {
       this.#step();
     }
     return this.#tokens.shift() ?? null;
+  }
+
+  append(input: string): void {
+    if (this.#closed) {
+      throw new TypeError("The tokenizer input stream is closed");
+    }
+    this.#input += this.#normalizeInput(input, false);
+    this.#waitingForInput = false;
+  }
+
+  close(): void {
+    if (this.#pendingCarriageReturn) {
+      this.#input += "\n";
+      this.#pendingCarriageReturn = false;
+    }
+    this.#closed = true;
+    this.#waitingForInput = false;
+  }
+
+  discard(): void {
+    this.#closed = true;
+    this.#waitingForInput = false;
+    this.#position = this.#input.length + 1;
+    this.#tokens.length = 0;
   }
 
   setState(state: TokenizerState, lastStartTag?: string): void {
@@ -252,6 +286,10 @@ export class HTMLTokenizer {
 
   get errors(): readonly ParseError[] {
     return this.#errors;
+  }
+
+  get closed(): boolean {
+    return this.#closed;
   }
 
   #step(): void {
@@ -1023,6 +1061,21 @@ export class HTMLTokenizer {
     }
   }
 
+  #waitForInput(position: number): void {
+    this.#position = position;
+    this.#waitingForInput = true;
+  }
+
+  #normalizeInput(input: string, final: boolean): string {
+    let source = this.#pendingCarriageReturn ? `\r${input}` : input;
+    this.#pendingCarriageReturn = false;
+    if (!final && source.endsWith("\r")) {
+      source = source.slice(0, -1);
+      this.#pendingCarriageReturn = true;
+    }
+    return source.replace(/\r\n?/g, "\n");
+  }
+
   #inputStreamError(position: number, codePoint: number): void {
     if (this.#inputErrorPositions.has(position)) {
       return;
@@ -1287,6 +1340,16 @@ export class HTMLTokenizer {
   #markupDeclaration(): void {
     this.#reconsume();
     const rest = this.#input.slice(this.#position);
+    if (
+      !this.#closed &&
+      rest !== "" &&
+      ("--".startsWith(rest) ||
+        "doctype".startsWith(rest.toLowerCase()) ||
+        (this.#allowCdata && "[CDATA[".startsWith(rest)))
+    ) {
+      this.#waitForInput(this.#position);
+      return;
+    }
     if (rest.startsWith("--")) {
       this.#position += 2;
       this.#comment = "";
@@ -1585,6 +1648,16 @@ export class HTMLTokenizer {
   #consumeReference(inAttribute: boolean): void {
     const start = this.#position;
     const next = this.#input[start];
+    const rest = this.#input.slice(start);
+    if (
+      !this.#closed &&
+      (rest === "" ||
+        /^[A-Za-z0-9]+$/u.test(rest) ||
+        /^#(?:[xX]?[0-9A-Fa-f]*)?$/u.test(rest))
+    ) {
+      this.#waitForInput(start - 1);
+      return;
+    }
     if (
       next === undefined ||
       isWhitespace(next) ||

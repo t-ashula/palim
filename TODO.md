@@ -32,7 +32,7 @@
 - [x] `innerHTML` / `outerHTML` の null変換、style attribute、doctype serialization
 - [x] `Document.parseHTML` と unsafe / positional HTML parsing API
 - [x] `Sanitizer` interface、default config、namespace-aware filtering、javascript URL / processing instruction sanitization
-- [ ] streaming HTML parsing API と sanitizer / declarative shadow root integration
+- [x] streaming HTML parsing API と sanitizer / declarative shadow root integration
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
 
@@ -59,6 +59,7 @@
 ### Forms and controls
 
 - [x] `FormData` の空 constructor、文字列 entry list の mutation / query / iteration
+- [ ] `HTMLSelectElement` / `HTMLOptionsCollection` の options、selectedOptions、indexed / named property surface
 - [ ] `FormData` の form / submitter による entry list 構築と Blob / File entry
 - [ ] form submission / reset / constraint validation
 - [ ] form-associated element の完全な owner 解決
@@ -119,7 +120,7 @@
 - [ ] `Navigator`
 - [ ] browsing context
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
-- [ ] `Document.write`
+- [ ] `Document.open` / `write` / `writeln` / `close`
 - [ ] `requestAnimationFrame` / `performance`
 - [ ] origin と URL
 - [ ] dialog / popover の top layer と event
@@ -128,6 +129,7 @@
 ### Networking and resource loading
 
 - [ ] resource loading
+- [ ] Web Streams と Encoding API の page realm 公開、および `Response.body` の pipe 接続
 - [ ] `fetch`
 - [ ] `Request` と fetch 関連 global の realm 公開
 - [ ] `XMLHttpRequest`

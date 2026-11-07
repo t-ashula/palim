@@ -1,6 +1,7 @@
 import type {
   Attr,
   CharacterData,
+  DocumentFragment,
   DocumentType,
   Element,
   Node,
@@ -156,15 +157,22 @@ function serializeNode(node: Node): string {
   }
 }
 
-export function serializeHTMLFragment(element: Element): string {
-  if (serializesAsVoid(element)) {
-    return "";
+export function serializeHTMLFragment(
+  fragment: Element | DocumentFragment,
+): string {
+  if (fragment.nodeType === ELEMENT_NODE) {
+    const element = fragment as Element;
+    if (serializesAsVoid(element)) {
+      return "";
+    }
+    const contents = templateContents(element);
+    const node =
+      isHTMLElement(element, "template") && contents !== null
+        ? contents
+        : element;
+    return childNodes(node).map(serializeNode).join("");
   }
-  const contents = templateContents(element);
-  const node =
-    isHTMLElement(element, "template") && contents !== null
-      ? contents
-      : element;
+  const node = fragment;
   return childNodes(node).map(serializeNode).join("");
 }
 

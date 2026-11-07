@@ -145,6 +145,7 @@ import {
   installMutationObserverMembers,
   installCustomElementRegistryMembers,
 } from "./dom-realm-interface-installers.js";
+import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 
 const DATA_PROPERTY = {
   configurable: true,
@@ -253,6 +254,8 @@ export class DOMRealmBindingContext {
   readonly domParserPrototype: EngineObject;
   readonly xmlSerializerPrototype: EngineObject;
   readonly sanitizerPrototype: EngineObject;
+  readonly writableStreamPrototype: EngineObject;
+  readonly writableStreamDefaultWriterPrototype: EngineObject;
   readonly xmlDocumentPrototype: EngineObject;
   readonly eventPrototype: EngineObject;
   readonly customEventPrototype: EngineObject;
@@ -410,6 +413,14 @@ export class DOMRealmBindingContext {
       this.realm,
       objectPrototype,
     );
+    this.writableStreamPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.writableStreamDefaultWriterPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
     this.xmlDocumentPrototype = this.engine.createObject(
       this.realm,
       this.documentPrototype,
@@ -516,6 +527,7 @@ export class DOMRealmBindingContext {
     installDOMParserMembers(this);
     installXMLSerializerMembers(this);
     installSanitizerMembers(this);
+    installHTMLStreamingInterfaces(this);
     installEventMembers(this);
     installHTMLCollectionMembers(this);
     installNamedNodeMapMembers(this);

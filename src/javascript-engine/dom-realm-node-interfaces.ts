@@ -1,6 +1,7 @@
 import { DocumentType, Text } from "../dom.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { createRealmHTMLWritableStream } from "./dom-realm-html-streaming-interface.js";
 
 export function installNodeMembers(binding: DOMRealmBindingContext): void {
   binding.attribute(binding.nodePrototype, "nodeType", (thisValue) => {
@@ -426,6 +427,40 @@ export function installCharacterDataMembers(
           data[name](html.value, options.value);
           return binding.undefined();
         });
+      },
+    );
+  }
+  for (const [name, operation, unsafe] of [
+    ["streamBeforeHTML", "before", false],
+    ["streamBeforeHTMLUnsafe", "before", true],
+    ["streamAfterHTML", "after", false],
+    ["streamAfterHTMLUnsafe", "after", true],
+    ["streamReplaceWithHTML", "replace-with", false],
+    ["streamReplaceWithHTMLUnsafe", "replace-with", true],
+  ] as const) {
+    binding.method(
+      binding.characterDataPrototype,
+      name,
+      0,
+      (thisValue, argumentsList) => {
+        const data = binding.characterData(thisValue);
+        if (data === null) {
+          return binding.typeError("Invalid CharacterData receiver");
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[0],
+          unsafe,
+          name,
+        );
+        return options.type === "throw"
+          ? options
+          : createRealmHTMLWritableStream(
+              binding,
+              data,
+              operation,
+              options.value,
+              unsafe,
+            );
       },
     );
   }
@@ -1426,6 +1461,46 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       },
     );
   }
+  for (const [name, operation, unsafe] of [
+    ["streamHTML", "replace", false],
+    ["streamHTMLUnsafe", "replace", true],
+    ["streamAppendHTML", "append", false],
+    ["streamAppendHTMLUnsafe", "append", true],
+    ["streamPrependHTML", "prepend", false],
+    ["streamPrependHTMLUnsafe", "prepend", true],
+    ["streamBeforeHTML", "before", false],
+    ["streamBeforeHTMLUnsafe", "before", true],
+    ["streamAfterHTML", "after", false],
+    ["streamAfterHTMLUnsafe", "after", true],
+    ["streamReplaceWithHTML", "replace-with", false],
+    ["streamReplaceWithHTMLUnsafe", "replace-with", true],
+  ] as const) {
+    binding.method(
+      binding.elementPrototype,
+      name,
+      0,
+      (thisValue, argumentsList) => {
+        const element = binding.element(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid Element receiver");
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[0],
+          unsafe,
+          name,
+        );
+        return options.type === "throw"
+          ? options
+          : createRealmHTMLWritableStream(
+              binding,
+              element,
+              operation,
+              options.value,
+              unsafe,
+            );
+      },
+    );
+  }
   binding.installParentNodeMutationMembers(
     binding.elementPrototype,
     (value) => binding.element(value),
@@ -1978,6 +2053,30 @@ export function installDocumentFragmentMembers(
       ? binding.typeError("Invalid ShadowRoot receiver")
       : normal(binding.wrap(shadowRoot.host));
   });
+  binding.attribute(
+    binding.shadowRootPrototype,
+    "innerHTML",
+    (thisValue) => {
+      const shadowRoot = binding.shadowRoot(thisValue);
+      return shadowRoot === null
+        ? binding.typeError("Invalid ShadowRoot receiver")
+        : binding.primitive(shadowRoot.innerHTML);
+    },
+    (thisValue, argumentsList) => {
+      const shadowRoot = binding.shadowRoot(thisValue);
+      if (shadowRoot === null) {
+        return binding.typeError("Invalid ShadowRoot receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "innerHTML");
+      if (value.type === "throw") {
+        return value;
+      }
+      return binding.domOperationResult(() => {
+        shadowRoot.innerHTML = value.value;
+        return binding.undefined();
+      });
+    },
+  );
   for (const [name, unsafe] of [
     ["setHTML", false],
     ["setHTMLUnsafe", true],
@@ -2014,6 +2113,40 @@ export function installDocumentFragmentMembers(
       },
     );
   }
+  for (const [name, operation, unsafe] of [
+    ["streamHTML", "replace", false],
+    ["streamHTMLUnsafe", "replace", true],
+    ["streamAppendHTML", "append", false],
+    ["streamAppendHTMLUnsafe", "append", true],
+    ["streamPrependHTML", "prepend", false],
+    ["streamPrependHTMLUnsafe", "prepend", true],
+  ] as const) {
+    binding.method(
+      binding.shadowRootPrototype,
+      name,
+      0,
+      (thisValue, argumentsList) => {
+        const shadowRoot = binding.shadowRoot(thisValue);
+        if (shadowRoot === null) {
+          return binding.typeError("Invalid ShadowRoot receiver");
+        }
+        const options = binding.htmlParsingOptions(
+          argumentsList[0],
+          unsafe,
+          name,
+        );
+        return options.type === "throw"
+          ? options
+          : createRealmHTMLWritableStream(
+              binding,
+              shadowRoot,
+              operation,
+              options.value,
+              unsafe,
+            );
+      },
+    );
+  }
   binding.attribute(
     binding.documentFragmentPrototype,
     "children",
@@ -2022,6 +2155,24 @@ export function installDocumentFragmentMembers(
       return fragment === null
         ? binding.typeError("Invalid DocumentFragment receiver")
         : normal(binding.wrap(fragment.children));
+    },
+  );
+  for (const name of ["firstElementChild", "lastElementChild"] as const) {
+    binding.attribute(binding.documentFragmentPrototype, name, (thisValue) => {
+      const fragment = binding.documentFragment(thisValue);
+      return fragment === null
+        ? binding.typeError("Invalid DocumentFragment receiver")
+        : binding.platformValue(fragment[name]);
+    });
+  }
+  binding.attribute(
+    binding.documentFragmentPrototype,
+    "childElementCount",
+    (thisValue) => {
+      const fragment = binding.documentFragment(thisValue);
+      return fragment === null
+        ? binding.typeError("Invalid DocumentFragment receiver")
+        : binding.primitive(fragment.childElementCount);
     },
   );
   binding.method(

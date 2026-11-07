@@ -5,7 +5,7 @@ import type {
   Node,
 } from "../dom.js";
 import { DOMException } from "../dom-exception.js";
-import type { FragmentParser } from "../dom/nodes.js";
+import type { FragmentParseOptions, FragmentParser } from "../dom/nodes.js";
 import {
   sanitizerAction,
   sanitizerAllowsAttribute,
@@ -70,6 +70,10 @@ interface TreeBuilderOptions {
   readonly runScripts?: boolean;
   readonly sanitizerConfig?: CanonicalSanitizerConfig;
   readonly scriptingMode?: ParserScriptingMode;
+  readonly streamingInsertion?: {
+    readonly parent: Node;
+    readonly reference: Node | null;
+  };
 }
 
 const htmlFragmentParser: FragmentParser = {
@@ -365,11 +369,23 @@ class TreeBuilder {
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
   readonly #runScripts: boolean;
   readonly #sanitizerConfig: CanonicalSanitizerConfig | null;
+  readonly #streamingInsertion: {
+    readonly parent: Node;
+    readonly reference: Node | null;
+  } | null;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
   readonly #templateModes: Mode[] = [];
-  readonly #sanitizerRedirections = new WeakMap<Element, Node>();
+  readonly #sanitizerRedirections = new WeakMap<
+    Element,
+    { readonly parent: Node; readonly reference: Node | null }
+  >();
+  readonly #sanitizerActions = new WeakMap<
+    Element,
+    "keep" | "remove" | "replace"
+  >();
+  readonly #sourceAttributes = new WeakMap<Element, readonly AttributeData[]>();
   readonly #templatesInSanitizerRedirection = new WeakSet<Element>();
   #mode: Mode = "initial";
   #originalMode: Mode = "initial";
@@ -381,6 +397,8 @@ class TreeBuilder {
   #pendingTableCharacters = "";
   #pendingScript: Promise<void> | null = null;
   #recordedTokenizerErrors = 0;
+  #streamingRoot: Element | null = null;
+  #streamingFinished = false;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
@@ -392,6 +410,7 @@ class TreeBuilder {
       options.allowDeclarativeShadowRoots ?? false;
     this.#runScripts = options.runScripts ?? false;
     this.#sanitizerConfig = options.sanitizerConfig ?? null;
+    this.#streamingInsertion = options.streamingInsertion ?? null;
     this.#scripting = options.scriptingMode === "enabled";
     const context = options.context;
     this.#context =
@@ -410,6 +429,7 @@ class TreeBuilder {
     }
     this.#tokenizer = new HTMLTokenizer(input, {
       initialState: this.#initialTokenizerState(),
+      streaming: this.#streamingInsertion !== null,
     });
     if (this.#context !== null) {
       if (context instanceof Element) {
@@ -436,6 +456,9 @@ class TreeBuilder {
       const html = createDOMElement(this.document, "html", HTML_NAMESPACE);
       appendNode(this.document, html);
       this.#stack.push(html);
+      if (this.#streamingInsertion !== null) {
+        this.#streamingRoot = html;
+      }
       if (this.#context.localName === "template") {
         this.#templateModes.push("in-template");
       }
@@ -518,6 +541,55 @@ class TreeBuilder {
       appendNode(fragment, root.firstChild);
     }
     return fragment;
+  }
+
+  writeStreamingFragment(input: string): void {
+    if (this.#streamingInsertion === null || this.#streamingFinished) {
+      throw new TypeError("The streaming fragment parser is not writable");
+    }
+    this.#tokenizer.append(input);
+    this.#processAvailableFragmentTokens();
+  }
+
+  closeStreamingFragment(): void {
+    if (this.#streamingInsertion === null || this.#streamingFinished) {
+      return;
+    }
+    this.#tokenizer.close();
+    this.#processAvailableFragmentTokens();
+    if (this.#mode === "in-table-text") {
+      this.#flushTableCharacters();
+    }
+    this.#endOfFile();
+    this.#streamingFinished = true;
+    setDocumentParseErrors(this.document, this.#errors);
+  }
+
+  abortStreamingFragment(): void {
+    if (this.#streamingInsertion === null || this.#streamingFinished) {
+      return;
+    }
+    this.#tokenizer.discard();
+    if (this.#mode === "in-table-text") {
+      this.#flushTableCharacters();
+    }
+    this.#stack.length = 0;
+    this.#streamingFinished = true;
+    setDocumentParseErrors(this.document, this.#errors);
+  }
+
+  #processAvailableFragmentTokens(): void {
+    for (;;) {
+      const current = this.#adjustedCurrent();
+      this.#tokenizer.setAllowCdata(
+        current !== null && current.namespaceURI !== HTML_NAMESPACE,
+      );
+      const token = this.#nextToken();
+      if (token === null) {
+        return;
+      }
+      this.#process(token);
+    }
   }
 
   #nextToken(): Token | null {
@@ -2341,6 +2413,7 @@ class TreeBuilder {
             ),
       ),
     );
+    this.#sourceAttributes.set(element, attributes);
     return element;
   }
 
@@ -2365,13 +2438,15 @@ class TreeBuilder {
             element.localName,
             element.namespaceURI,
           );
+    this.#sanitizerActions.set(element, action);
     if (namespace === HTML_NAMESPACE && token.name === "script") {
       const implementation = nodeImplementation(element);
       if (this.#context === null) {
         implementation.scriptAlreadyStarted = true;
         implementation.scriptForceAsync = false;
       } else {
-        implementation.scriptAlreadyStarted = !this.#runScripts;
+        implementation.scriptAlreadyStarted =
+          this.#streamingInsertion !== null || !this.#runScripts;
         implementation.scriptForceAsync = !element.hasAttribute("async");
       }
     }
@@ -2382,7 +2457,12 @@ class TreeBuilder {
       }
       this.#onElement?.(element);
     } else if (action === "replace" && element.localName !== "template") {
-      this.#sanitizerRedirections.set(element, this.#currentInsertionTarget());
+      this.#sanitizerRedirections.set(
+        element,
+        foster && this.#shouldFosterParent()
+          ? this.#fosterParentLocation()
+          : this.#currentInsertionLocation(),
+      );
     }
     if (push) {
       this.#stack.push(element);
@@ -2395,22 +2475,73 @@ class TreeBuilder {
       this.#insertAtFosterParent(node);
       return;
     }
-    appendNode(this.#currentInsertionTarget(), node);
+    const location = this.#currentInsertionLocation();
+    if (!this.#isValidInsertionLocation(location)) {
+      return;
+    }
+    this.#insertAtLocation(location, node);
   }
 
-  #currentInsertionTarget(): Node {
+  #insertAtLocation(
+    location: { readonly parent: Node; readonly reference: Node | null },
+    node: Node,
+  ): void {
+    if (node instanceof Element) {
+      const action = this.#sanitizerActions.get(node);
+      if (action === "remove") {
+        return;
+      }
+      if (action === "replace") {
+        this.#sanitizerRedirections.set(node, location);
+        return;
+      }
+    }
+    if (this.#streamingInsertion !== null) {
+      location.parent.insertBefore(node, location.reference);
+    } else if (location.reference === null) {
+      appendNode(location.parent, node);
+    } else {
+      insertNodeBefore(location.parent, node, location.reference);
+    }
+  }
+
+  #currentInsertionLocation(): {
+    readonly parent: Node;
+    readonly reference: Node | null;
+  } {
     const current = this.#current();
     if (current === null) {
-      return this.document;
+      return { parent: this.document, reference: null };
     }
     const redirected = this.#sanitizerRedirections.get(current);
     if (redirected !== undefined) {
       return redirected;
     }
-    if (current.localName === "template") {
-      return templateContents(current) ?? current;
+    if (current === this.#streamingRoot && this.#streamingInsertion !== null) {
+      return this.#streamingInsertion;
     }
-    return current;
+    if (current.localName === "template") {
+      return { parent: templateContents(current) ?? current, reference: null };
+    }
+    return { parent: current, reference: null };
+  }
+
+  #isValidInsertionLocation(location: {
+    readonly parent: Node;
+    readonly reference: Node | null;
+  }): boolean {
+    const streamingInsertion = this.#streamingInsertion;
+    if (
+      streamingInsertion !== null &&
+      streamingInsertion.reference !== null &&
+      streamingInsertion.reference.parentNode !== streamingInsertion.parent
+    ) {
+      return false;
+    }
+    return (
+      location.reference === null ||
+      location.reference.parentNode === location.parent
+    );
   }
 
   #fosterParentLocation(): { parent: Node; reference: Node | null } {
@@ -2436,11 +2567,20 @@ class TreeBuilder {
       }
       const beforeTable = this.#stack[tableIndex - 1];
       if (beforeTable !== undefined) {
+        if (
+          beforeTable === this.#streamingRoot &&
+          this.#streamingInsertion !== null
+        ) {
+          return this.#streamingInsertion;
+        }
         return { parent: beforeTable, reference: null };
       }
     }
     const first = this.#stack[0];
     if (first !== undefined) {
+      if (first === this.#streamingRoot && this.#streamingInsertion !== null) {
+        return this.#streamingInsertion;
+      }
       return { parent: first, reference: null };
     }
     return { parent: this.document, reference: null };
@@ -2456,11 +2596,10 @@ class TreeBuilder {
 
   #insertAtFosterParent(node: Node): void {
     const location = this.#fosterParentLocation();
-    if (location.reference !== null) {
-      insertNodeBefore(location.parent, node, location.reference);
-    } else {
-      appendNode(location.parent, node);
+    if (!this.#isValidInsertionLocation(location)) {
+      return;
     }
+    this.#insertAtLocation(location, node);
   }
 
   #text(data: string, foster = false): void {
@@ -2469,27 +2608,35 @@ class TreeBuilder {
     }
     if (foster && this.#shouldFosterParent()) {
       const location = this.#fosterParentLocation();
+      if (!this.#isValidInsertionLocation(location)) {
+        return;
+      }
       const previous =
-        location.reference?.previousSibling ?? location.parent.lastChild;
+        location.reference === null
+          ? location.parent.lastChild
+          : location.reference.previousSibling;
       if (previous instanceof Text) {
         appendCharacterData(previous, data);
         return;
       }
       const text = createText(this.document, data);
-      if (location.reference !== null) {
-        insertNodeBefore(location.parent, text, location.reference);
-      } else {
-        appendNode(location.parent, text);
-      }
+      this.#insertAtLocation(location, text);
       return;
     }
-    const parent = this.#currentInsertionTarget();
-    const previous = parent.lastChild;
+    const location = this.#currentInsertionLocation();
+    if (!this.#isValidInsertionLocation(location)) {
+      return;
+    }
+    const previous =
+      location.reference === null
+        ? location.parent.lastChild
+        : location.reference.previousSibling;
     if (previous instanceof Text) {
       appendCharacterData(previous, data);
       return;
     }
-    appendNode(parent, createText(this.document, data));
+    const text = createText(this.document, data);
+    this.#insertAtLocation(location, text);
   }
 
   #comment(data: string, foster = false): void {
@@ -2822,15 +2969,25 @@ class TreeBuilder {
       this.#stack.pop();
     }
     if (
-      this.#context === null &&
-      element?.namespaceURI === HTML_NAMESPACE &&
-      element.localName === "script"
+      element?.namespaceURI !== HTML_NAMESPACE ||
+      element.localName !== "script"
     ) {
-      nodeImplementation(element).scriptAlreadyStarted = false;
+      return;
+    }
+    const implementation = nodeImplementation(element);
+    if (this.#context === null) {
+      implementation.scriptAlreadyStarted = false;
       const pendingScript = this.#onScript?.(element);
       if (pendingScript !== undefined) {
         this.#pendingScript = pendingScript;
       }
+    } else if (this.#streamingInsertion !== null && this.#runScripts) {
+      implementation.scriptAlreadyStarted = false;
+      const document = element.ownerDocument;
+      if (document !== null) {
+        documentImplementation(document).childrenChangedSteps?.(element);
+      }
+      implementation.scriptAlreadyStarted = true;
     }
   }
 
@@ -2874,6 +3031,7 @@ class TreeBuilder {
   }
 
   #pushFormatting(element: Element): void {
+    const elementAttributes = this.#formattingAttributes(element);
     const matching: number[] = [];
     for (let index = this.#formatting.length - 1; index >= 0; index -= 1) {
       const candidate = this.#formatting[index];
@@ -2886,12 +3044,15 @@ class TreeBuilder {
       if (
         candidate.localName === element.localName &&
         candidate.namespaceURI === element.namespaceURI &&
-        attributeNodes(candidate).length === attributeNodes(element).length &&
-        attributeNodes(candidate).every((attribute) =>
-          attributeNodes(element).some(
+        this.#formattingAttributes(candidate).length ===
+          elementAttributes.length &&
+        this.#formattingAttributes(candidate).every((attribute) =>
+          elementAttributes.some(
             (other) =>
-              other.namespaceURI === attribute.namespaceURI &&
-              other.localName === attribute.localName &&
+              (other.namespaceURI ?? null) ===
+                (attribute.namespaceURI ?? null) &&
+              (other.localName ?? other.name) ===
+                (attribute.localName ?? attribute.name) &&
               other.value === attribute.value,
           ),
         )
@@ -2906,6 +3067,19 @@ class TreeBuilder {
       }
     }
     this.#formatting.push(element);
+  }
+
+  #formattingAttributes(element: Element): readonly AttributeData[] {
+    return (
+      this.#sourceAttributes.get(element) ??
+      attributeNodes(element).map((attribute) => ({
+        name: attribute.name,
+        value: attribute.value,
+        localName: attribute.localName,
+        namespaceURI: attribute.namespaceURI,
+        prefix: attribute.prefix,
+      }))
+    );
   }
 
   #removeFromStack(element: Element): void {
@@ -2927,15 +3101,26 @@ class TreeBuilder {
     if (!(clone instanceof Element)) {
       throw new TypeError("Element clone has an unexpected interface");
     }
+    const sourceAttributes = this.#sourceAttributes.get(element);
+    if (sourceAttributes !== undefined) {
+      this.#sourceAttributes.set(clone, sourceAttributes);
+    }
+    const action = this.#sanitizerActions.get(element);
+    if (action !== undefined) {
+      this.#sanitizerActions.set(clone, action);
+    }
     return clone;
   }
 
   #appendToElement(parent: Element, node: Node): void {
-    if (parent.localName === "template") {
-      appendNode(templateContents(parent) ?? parent, node);
-    } else {
-      appendNode(parent, node);
-    }
+    const redirected = this.#sanitizerRedirections.get(parent);
+    const target =
+      redirected?.parent ??
+      (parent.localName === "template"
+        ? (templateContents(parent) ?? parent)
+        : parent);
+    const reference = redirected?.reference ?? null;
+    this.#insertAtLocation({ parent: target, reference }, node);
   }
 
   #adopt(name: string): void {
@@ -3236,6 +3421,45 @@ export function parseHTMLFragment(
   return new TreeBuilder(input, { context, scriptingMode }).parseFragment();
 }
 
-setHTMLParsingAlgorithms(htmlFragmentParser, (input, allow, sanitizerConfig) =>
-  parseHTML(input, "disabled", allow, sanitizerConfig),
+export interface HTMLStreamingParserSession {
+  write(input: string): void;
+  close(): void;
+  abort(): void;
+}
+
+export function createHTMLStreamingParser(
+  target: Node,
+  context: Element,
+  reference: Node | null,
+  options: FragmentParseOptions = {},
+): HTMLStreamingParserSession {
+  const builder = new TreeBuilder("", {
+    allowDeclarativeShadowRoots: options.allowDeclarativeShadowRoots ?? false,
+    context,
+    runScripts: options.runScripts ?? false,
+    ...(options.sanitizerConfig === undefined
+      ? {}
+      : { sanitizerConfig: options.sanitizerConfig }),
+    scriptingMode:
+      context.ownerDocument?.defaultView === null ? "disabled" : "enabled",
+    streamingInsertion: { parent: target, reference },
+  });
+  return {
+    write(input) {
+      builder.writeStreamingFragment(input);
+    },
+    close() {
+      builder.closeStreamingFragment();
+    },
+    abort() {
+      builder.abortStreamingFragment();
+    },
+  };
+}
+
+setHTMLParsingAlgorithms(
+  htmlFragmentParser,
+  (input, allow, sanitizerConfig) =>
+    parseHTML(input, "disabled", allow, sanitizerConfig),
+  createHTMLStreamingParser,
 );

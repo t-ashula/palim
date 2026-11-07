@@ -321,6 +321,22 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes HTML streaming in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      "<main><i>old</i></main>",
+    );
+
+    evaluate(
+      engine,
+      realm,
+      fixture("exposes-html-streaming-in-the-engine-realm.js"),
+    );
+
+    expect(document.querySelector("main")?.innerHTML).toBe(
+      "<span>A&lt;B</span>",
+    );
+  });
+
   it("exposes live DOMTokenList objects in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<span class="   a  a b "></span>',

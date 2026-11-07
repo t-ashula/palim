@@ -49,6 +49,8 @@ export type {
   ElementCreationOptions,
   GetRootNodeOptions,
   HTMLParsingOptions,
+  HTMLWritableStream,
+  HTMLWritableStreamWriter,
   ImportNodeOptions,
   SanitizerAttribute,
   SanitizerConfig,

@@ -144,6 +144,8 @@ export type {
   EventListenerObject,
   GetRootNodeOptions,
   HTMLParsingOptions,
+  HTMLWritableStream,
+  HTMLWritableStreamWriter,
   ImportNodeOptions,
   MutationCallback,
   MutationObserverInit,
