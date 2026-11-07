@@ -906,10 +906,16 @@ export class Document extends Node {
     requireArguments(parameters.length, 1);
     const [data] = parameters;
     const convertedData = domString(data);
-    if (convertedData.includes("]]>") || this.contentType === "text/html") {
+    if (this.contentType === "text/html") {
       throw new DOMException(
         "CDATA sections are not supported for this document",
         "NotSupportedError",
+      );
+    }
+    if (convertedData.includes("]]>")) {
+      throw new DOMException(
+        'CDATA section data cannot contain "]]>"',
+        "InvalidCharacterError",
       );
     }
     return createCDATASection(this, convertedData);

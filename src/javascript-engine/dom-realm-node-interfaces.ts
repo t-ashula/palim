@@ -1787,7 +1787,9 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         const data = binding.stringArgument(argumentsList, 0, name);
         return data.type === "throw"
           ? data
-          : normal(binding.wrap(document[name](data.value)));
+          : binding.domOperationResult(() =>
+              normal(binding.wrap(document[name](data.value))),
+            );
       },
     );
   }

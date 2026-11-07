@@ -617,6 +617,24 @@ describe("Document node creation", () => {
     expect(html.body).not.toBeNull();
   });
 
+  it("orders createCDATASection document and data validation", () => {
+    const html = parse("");
+    const xml = new DOMParser().parseFromString("<root />", "text/xml");
+
+    expectDOMException(
+      () => html.createCDATASection("data"),
+      "NotSupportedError",
+    );
+    expectDOMException(
+      () => html.createCDATASection("]]>"),
+      "NotSupportedError",
+    );
+    expectDOMException(
+      () => xml.createCDATASection("]]>"),
+      "InvalidCharacterError",
+    );
+  });
+
   it("reports every historical DOM feature as supported", () => {
     const implementation = new Document().implementation;
 

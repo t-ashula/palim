@@ -15,6 +15,19 @@ const xmlWithDoctype = parser.parseFromString(
   "text/xml",
 );
 const html = parser.parseFromString("<main>value</main>", "text/html");
+for (const [document, data, name] of [
+  [html, "]]>", "NotSupportedError"],
+  [xml, "]]>", "InvalidCharacterError"],
+]) {
+  try {
+    document.createCDATASection(data);
+    throw new Error("invalid CDATA section was accepted");
+  } catch (error) {
+    if (!(error instanceof DOMException) || error.name !== name) {
+      throw error;
+    }
+  }
+}
 if (
   !(parser instanceof DOMParser) ||
   Object.prototype.toString.call(parser) !== "[object DOMParser]" ||
