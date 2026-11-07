@@ -9,6 +9,7 @@ import {
 } from "./dom.js";
 import { DOMException } from "./dom-exception.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
+import { createDefinedCustomElement } from "./dom/custom-elements.js";
 import { tokenizeCSS } from "./css-syntax.js";
 import type { CSSToken } from "./css-syntax.js";
 import {
@@ -5141,9 +5142,22 @@ export function createElementForDocument(
   namespaceURI: string | null,
   prefix: string | null,
 ): Element {
-  return namespaceURI === HTML_NAMESPACE
-    ? createHTMLElement(document, localName, prefix)
-    : createElementInterface(document, localName, namespaceURI, prefix);
+  if (namespaceURI === HTML_NAMESPACE) {
+    return (
+      createDefinedCustomElement(document, localName, prefix) ??
+      createHTMLElement(document, localName, prefix)
+    );
+  }
+  return createElementInterface(document, localName, namespaceURI, prefix);
+}
+
+export function createCustomHTMLElementBase(
+  document: Document,
+  localName: string,
+  prefix: string | null,
+): HTMLElement {
+  htmlConstructionPrefixStack.push(prefix);
+  return constructHTMLElement(HTMLElement, document, localName);
 }
 
 setDocumentElementFactory(createElementForDocument);

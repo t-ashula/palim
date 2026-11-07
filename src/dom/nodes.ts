@@ -92,6 +92,11 @@ import {
 } from "../xml/serializer.js";
 import { requireArguments } from "../web-idl.js";
 import { queueTreeMutationRecord } from "./mutation-observer.js";
+import {
+  enqueueCustomElementConnectedReaction,
+  enqueueCustomElementDisconnectedReaction,
+  enqueueCustomElementMoveReaction,
+} from "./custom-elements.js";
 
 export interface FragmentParser {
   parse(input: string, context: Element): DocumentFragment;
@@ -520,6 +525,9 @@ export function removeNode(node: Node): void {
     return;
   }
   const removedNodes = inclusiveDescendantNodes(node);
+  const disconnectedCustomElements = node.isConnected
+    ? shadowIncludingInclusiveDescendantElements(node)
+    : [];
   preRemoveLiveRanges(node);
   preRemoveNodeIterators(node);
   const parent = implementation.parent;
@@ -532,6 +540,9 @@ export function removeNode(node: Node): void {
   }
   for (const [removedIndex, removedNode] of removedNodes.entries()) {
     document.removingSteps?.(removedNode, removedIndex === 0, oldParent);
+  }
+  for (const element of disconnectedCustomElements) {
+    enqueueCustomElementDisconnectedReaction(element);
   }
   document.childrenChangedSteps?.(oldParent);
 }
@@ -3586,12 +3597,40 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       documentImplementationValue.postConnectionSteps?.(connectedNode);
     }
   }
+  for (const inserted of nodes) {
+    if (inserted.isConnected) {
+      for (const element of shadowIncludingInclusiveDescendantElements(
+        inserted,
+      )) {
+        enqueueCustomElementConnectedReaction(element);
+      }
+    }
+  }
 }
 
 function inclusiveDescendantNodes(node: Node): Node[] {
   const result = [node];
   for (const child of childNodes(node)) {
     result.push(...inclusiveDescendantNodes(child));
+  }
+  return result;
+}
+
+function shadowIncludingInclusiveDescendantElements(node: Node): Element[] {
+  const result: Element[] = [];
+  if (node instanceof Element) {
+    result.push(node);
+    const shadowRoot = elementImplementation(node).shadowRoot;
+    if (shadowRoot !== null) {
+      result.push(
+        ...shadowIncludingInclusiveDescendantElements(
+          nodeInterface(shadowRoot),
+        ),
+      );
+    }
+  }
+  for (const child of childNodes(node)) {
+    result.push(...shadowIncludingInclusiveDescendantElements(child));
   }
   return result;
 }
@@ -3709,6 +3748,11 @@ function moveNodeBefore(
     referenceIndex,
   );
   invalidateDescendantText(parentImplementation);
+  if (node.isConnected) {
+    for (const element of shadowIncludingInclusiveDescendantElements(node)) {
+      enqueueCustomElementMoveReaction(element);
+    }
+  }
 }
 
 function hasFollowingDocumentType(node: Node | null): boolean {

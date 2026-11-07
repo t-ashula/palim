@@ -99,7 +99,9 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   );
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);
-  binding.installInterface("HTMLElement", binding.htmlElementPrototype);
+  binding.installInterface("HTMLElement", binding.htmlElementPrototype, 0, () =>
+    binding.constructHTMLElement(),
+  );
   for (const interfaceConstructor of htmlElementInterfaceConstructors) {
     binding.installInterface(
       interfaceConstructor.name,
@@ -187,6 +189,16 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     },
   );
   binding.installInterface("MutationRecord", binding.mutationRecordPrototype);
+  binding.installInterface(
+    "CustomElementRegistry",
+    binding.customElementRegistryPrototype,
+  );
+  binding.engine.defineDataProperty(
+    binding.engine.globalObject(binding.realm),
+    "customElements",
+    binding.customElementRegistryObject,
+    { configurable: true, enumerable: true, writable: true },
+  );
   binding.installInterface("AbstractRange", binding.abstractRangePrototype);
   const rangeConstructor = binding.installInterface(
     "Range",

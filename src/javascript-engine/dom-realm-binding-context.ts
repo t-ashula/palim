@@ -43,7 +43,12 @@ import {
   HTMLTableRowElement,
   HTMLTableSectionElement,
   HTMLTemplateElement,
+  createCustomHTMLElementBase,
 } from "../html-elements.js";
+import {
+  CustomElementRegistry,
+  setDocumentCustomElementRegistry,
+} from "../dom/custom-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
 import {
   DocumentImplementation,
@@ -128,6 +133,7 @@ import {
   installTreeWalkerMembers,
   installRangeMembers,
   installMutationObserverMembers,
+  installCustomElementRegistryMembers,
 } from "./dom-realm-interface-installers.js";
 
 const DATA_PROPERTY = {
@@ -246,6 +252,8 @@ export class DOMRealmBindingContext {
   readonly domExceptionPrototype: EngineObject;
   readonly mutationObserverPrototype: EngineObject;
   readonly mutationRecordPrototype: EngineObject;
+  readonly customElementRegistryPrototype: EngineObject;
+  readonly customElementRegistryObject: EngineObject;
   readonly abstractRangePrototype: EngineObject;
   readonly rangePrototype: EngineObject;
   readonly staticRangePrototype: EngineObject;
@@ -258,6 +266,8 @@ export class DOMRealmBindingContext {
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
   readonly domExceptions = new WeakMap<EngineObject, DOMExceptionState>();
+  readonly customElementRegistry = new CustomElementRegistry();
+  readonly customElementConstructionStack: HTMLElement[] = [];
 
   constructor(
     engine: JavaScriptEngineAdapter,
@@ -421,6 +431,14 @@ export class DOMRealmBindingContext {
       this.realm,
       objectPrototype,
     );
+    this.customElementRegistryPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.customElementRegistryObject = this.engine.createObject(
+      this.realm,
+      this.customElementRegistryPrototype,
+    );
     this.abstractRangePrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
@@ -491,6 +509,14 @@ export class DOMRealmBindingContext {
     installTreeWalkerMembers(this);
     installRangeMembers(this);
     installMutationObserverMembers(this);
+    installCustomElementRegistryMembers(this);
+
+    if (associatedDocument !== null) {
+      setDocumentCustomElementRegistry(
+        associatedDocument,
+        this.customElementRegistry,
+      );
+    }
 
     if (associatedDocument !== null) {
       const implementation = documentImplementation(associatedDocument);
@@ -508,6 +534,98 @@ export class DOMRealmBindingContext {
       this.wrap(interfaceObject),
       DATA_PROPERTY,
     );
+  }
+
+  constructHTMLElement(): EngineResult<EngineValue> {
+    const element = this.customElementConstructionStack.at(-1);
+    return element === undefined
+      ? this.typeError("Illegal constructor")
+      : normal(this.wrap(element));
+  }
+
+  defineCustomElement(
+    name: string,
+    constructor: EngineCallable,
+  ): EngineResult<EngineValue> {
+    const prototypeValue = this.engine.get(
+      this.realm,
+      constructor,
+      "prototype",
+    );
+    if (prototypeValue.type === "throw") {
+      return prototypeValue;
+    }
+    const prototype = this.engine.asObject(prototypeValue.value);
+    if (prototype === null) {
+      return this.typeError("Custom element constructor has no prototype");
+    }
+    const callback = (
+      callbackName:
+        "connectedCallback" | "disconnectedCallback" | "connectedMoveCallback",
+    ): ((element: Element) => void) | null => {
+      const value = this.engine.get(this.realm, prototype, callbackName);
+      if (value.type === "throw") {
+        throw new Error(this.engine.exceptionMessage(this.realm, value.value));
+      }
+      if (this.engine.isUndefined(value.value)) {
+        return null;
+      }
+      const callable = this.engine.asCallable(value.value);
+      if (callable === null) {
+        throw new TypeError(`${callbackName} is not callable`);
+      }
+      return (element) => {
+        const result = this.engine.call(
+          this.realm,
+          callable,
+          this.wrap(element),
+          [],
+        );
+        if (result.type === "throw") {
+          throw new Error(
+            this.engine.exceptionMessage(this.realm, result.value),
+          );
+        }
+      };
+    };
+    try {
+      this.customElementRegistry.define({
+        name,
+        construct: (document, localName, prefix) => {
+          const element = createCustomHTMLElementBase(
+            document,
+            localName,
+            prefix,
+          );
+          this.engine.setPrototypeOf(this.wrap(element), prototype);
+          this.customElementConstructionStack.push(element);
+          try {
+            const result = this.engine.construct(this.realm, constructor, []);
+            if (result.type === "throw") {
+              throw new Error(
+                this.engine.exceptionMessage(this.realm, result.value),
+              );
+            }
+            if (this.interfaceObject(result.value) !== element) {
+              throw new TypeError(
+                "Custom element constructor returned a different object",
+              );
+            }
+            return element;
+          } finally {
+            this.customElementConstructionStack.pop();
+          }
+        },
+        connectedCallback: callback("connectedCallback"),
+        disconnectedCallback: callback("disconnectedCallback"),
+        connectedMoveCallback: callback("connectedMoveCallback"),
+      });
+    } catch (error: unknown) {
+      return this.typeError(
+        error instanceof Error ? error.message : "Invalid custom element",
+      );
+    }
+    return this.undefined();
   }
 
   platformObject(interfaceObject: object): EngineObject {

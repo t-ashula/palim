@@ -153,6 +153,11 @@ export interface JavaScriptEngineAdapter {
     thisValue: EngineValue,
     argumentsList: readonly EngineValue[],
   ): EngineResult<EngineValue>;
+  construct(
+    realm: EngineRealm,
+    constructor: EngineCallable,
+    argumentsList: readonly EngineValue[],
+  ): EngineResult<EngineObject>;
   createTypeError(realm: EngineRealm, message: string): EngineValue;
   exceptionMessage(realm: EngineRealm, value: EngineValue): string;
   performPromiseCheckpoint(): void;

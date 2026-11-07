@@ -90,6 +90,12 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("connects custom element reactions", () => {
+    const { engine, realm } = createTestRealm("<section></section>");
+
+    evaluate(engine, realm, fixture("connects-custom-element-reactions.js"));
+  });
+
   it("connects slot assignment", () => {
     const { engine, realm } = createTestRealm("<div></div><p></p>");
 
