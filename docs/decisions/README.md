@@ -45,3 +45,4 @@
 - [ADR-0042: engine262 の固定 revision とローカルパッチ管理](./0042-engine262-local-patch-management.md)
 - [ADR-0043: WPT DOM shell profile による適合度計測](./0043-wpt-dom-shell-profile.md)
 - [ADR-0044: WPT DOM shell profile の廃止](./0044-remove-wpt-dom-shell-profile.md)
+- [ADR-0045: WPT 対象範囲の拡張](./0045-expand-wpt-scope-for-exposed-web-apis.md)
