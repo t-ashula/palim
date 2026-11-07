@@ -1,4 +1,5 @@
 # Feature areas implemented by palim.
+/custom-elements/
 /dom/collections/
 /dom/events/
 /dom/lists/
@@ -9,5 +10,10 @@
 /html/dom/documents/dom-tree-accessors/
 /html/dom/elements/
 /html/syntax/parsing/
+/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/
+/sanitizer-api/
+/shadow-dom/
+/streams/writable-streams/
 /url/
+/xhr/formdata
 /xml/

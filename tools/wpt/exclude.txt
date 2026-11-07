@@ -4,7 +4,6 @@
 /dom/traversal/TreeWalker-acceptNode-filter-cross-realm-null-browsing-context.html
 /dom/traversal/TreeWalker-acceptNode-filter-cross-realm.html
 /dom/traversal/TreeWalker-realm.html
-/domparsing/tentative/
 # Requires XHTML navigation and the document loading lifecycle.
 /xml/onreadystatechange-crash-on-stop.xhtml
 /xml/xslt/
