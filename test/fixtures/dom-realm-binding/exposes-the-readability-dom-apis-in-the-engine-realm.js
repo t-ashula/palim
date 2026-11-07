@@ -37,6 +37,18 @@ if (
 ) {
   throw new Error("style object binding is invalid");
 }
+main.setAttribute("style", "color: green");
+if (style.cssText !== "color: green;" || style.color !== "green") {
+  throw new Error("style color binding is invalid");
+}
+style.backgroundColor = "blue";
+if (
+  style.backgroundColor !== "blue" ||
+  main.getAttribute("style") !== "color: green; background-color: blue;"
+) {
+  throw new Error("style backgroundColor binding is invalid");
+}
+style.cssText = "";
 style.setProperty("display", "none", "important");
 style.visibility = "hidden";
 if (

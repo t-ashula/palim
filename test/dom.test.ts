@@ -2180,6 +2180,27 @@ describe("Document metadata", () => {
 });
 
 describe("HTMLElement inline style", () => {
+  it("parses and updates supported color properties", () => {
+    const element = select(
+      parse(
+        '<main style="color: red; background-color: #00ff00; color: unknown-color"></main>',
+      ),
+      "main",
+    ) as HTMLElement;
+
+    expect(element.style.cssText).toBe(
+      "color: red; background-color: #00ff00;",
+    );
+    expect(element.style.color).toBe("red");
+    expect(element.style.backgroundColor).toBe("#00ff00");
+
+    element.style.color = "transparent";
+    element.style.backgroundColor = "blue";
+    expect(element.getAttribute("style")).toBe(
+      "color: transparent; background-color: blue;",
+    );
+  });
+
   it("reflects a CSS declaration block and preserves priority", () => {
     const element = select(
       parse(

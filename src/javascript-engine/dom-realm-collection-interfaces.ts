@@ -541,7 +541,14 @@ export function installCSSStyleDeclarationMembers(
 export function installCSSStylePropertiesMembers(
   binding: DOMRealmBindingContext,
 ): void {
-  for (const name of ["cssFloat", "float", "display", "visibility"] as const) {
+  for (const name of [
+    "backgroundColor",
+    "color",
+    "cssFloat",
+    "float",
+    "display",
+    "visibility",
+  ] as const) {
     binding.attribute(
       binding.cssStylePropertiesPrototype,
       name,

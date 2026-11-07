@@ -408,6 +408,22 @@ export class CSSStyleDeclaration {
 }
 
 export class CSSStyleProperties extends CSSStyleDeclaration {
+  get backgroundColor(): string {
+    return this.getPropertyValue("background-color");
+  }
+
+  set backgroundColor(value: string) {
+    this.setProperty("background-color", legacyNullToEmptyString(value));
+  }
+
+  get color(): string {
+    return this.getPropertyValue("color");
+  }
+
+  set color(value: string) {
+    this.setProperty("color", legacyNullToEmptyString(value));
+  }
+
   get cssFloat(): string {
     return this.getPropertyValue("float");
   }
@@ -5267,7 +5283,32 @@ interface InlineStyleProperty {
   readonly important: boolean;
 }
 
-const SUPPORTED_CSS_PROPERTIES = new Set(["display", "float", "visibility"]);
+const SUPPORTED_CSS_PROPERTIES = new Set([
+  "background-color",
+  "color",
+  "display",
+  "float",
+  "visibility",
+]);
+const CSS_BASIC_COLOR_KEYWORDS = new Set([
+  "aqua",
+  "black",
+  "blue",
+  "fuchsia",
+  "gray",
+  "green",
+  "lime",
+  "maroon",
+  "navy",
+  "olive",
+  "orange",
+  "purple",
+  "red",
+  "silver",
+  "teal",
+  "white",
+  "yellow",
+]);
 const CSS_WIDE_KEYWORDS = new Set([
   "initial",
   "inherit",
@@ -5565,18 +5606,27 @@ function isValidCSSPropertyValue(
   ) {
     return true;
   }
-  const keywords = tokens
-    .filter((token) => token.type !== "whitespace")
-    .map((token) =>
-      token.type === "ident" ? asciiLowercase(token.value) : null,
-    );
+  const significantTokens = tokens.filter(
+    (token) => token.type !== "whitespace",
+  );
+  const keywords = significantTokens.map((token) =>
+    token.type === "ident" ? asciiLowercase(token.value) : null,
+  );
+  const onlyKeyword = keywords[0];
+  if (
+    keywords.length === 1 &&
+    typeof onlyKeyword === "string" &&
+    CSS_WIDE_KEYWORDS.has(onlyKeyword)
+  ) {
+    return true;
+  }
+  if (name === "color" || name === "background-color") {
+    return validCSSColor(significantTokens);
+  }
   if (keywords.some((keyword) => keyword === null)) {
     return false;
   }
   const values = keywords as string[];
-  if (values.length === 1 && CSS_WIDE_KEYWORDS.has(values[0] ?? "")) {
-    return true;
-  }
   if (name === "visibility") {
     return (
       values.length === 1 &&
@@ -5594,6 +5644,25 @@ function isValidCSSPropertyValue(
     );
   }
   return validDisplayValue(values);
+}
+
+function validCSSColor(tokens: readonly CSSToken[]): boolean {
+  if (tokens.length !== 1) {
+    return false;
+  }
+  const token = tokens[0];
+  if (token?.type === "ident") {
+    const keyword = asciiLowercase(token.value);
+    return (
+      keyword === "currentcolor" ||
+      keyword === "transparent" ||
+      CSS_BASIC_COLOR_KEYWORDS.has(keyword)
+    );
+  }
+  return (
+    token?.type === "hash" &&
+    /^(?:[\da-f]{3}|[\da-f]{4}|[\da-f]{6}|[\da-f]{8})$/iu.test(token.value)
+  );
 }
 
 function validDisplayValue(values: readonly string[]): boolean {

@@ -98,7 +98,7 @@ class CSSTokenizer {
 
     if (character === "#") {
       this.#position += 1;
-      if (this.#wouldStartIdent()) {
+      if (isName(this.#peek()) || this.#validEscape()) {
         return {
           type: "hash",
           value: this.#consumeName(),
