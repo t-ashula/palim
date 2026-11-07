@@ -474,6 +474,26 @@ describe("live Range mutation", () => {
     expect(range.endOffset).toBe(0);
   });
 
+  it("updates boundaries when a child is replaced with itself", () => {
+    const document = parse("<main><p>text</p><aside></aside></main>");
+    const main = element(document, "main");
+    const paragraph = element(document, "p");
+    const descendant = document.createRange();
+    descendant.selectNodeContents(paragraph);
+    const parentPoint = document.createRange();
+    parentPoint.setStart(main, 1);
+    parentPoint.collapse(true);
+
+    expect(main.replaceChild(paragraph, paragraph)).toBe(paragraph);
+
+    expect(descendant.startContainer).toBe(main);
+    expect(descendant.startOffset).toBe(0);
+    expect(descendant.endContainer).toBe(main);
+    expect(descendant.endOffset).toBe(0);
+    expect(parentPoint.startOffset).toBe(0);
+    expect(parentPoint.endOffset).toBe(0);
+  });
+
   it("preserves text boundaries through normalization", () => {
     const document = parse("<main><p></p></main>");
     const paragraph = element(document, "p");

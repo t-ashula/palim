@@ -2,10 +2,6 @@
 
 ## DOM and parsing
 
-### DOM algorithms
-
-- [ ] `Range` の boundary validation、比較、clone / extract / delete / insert / surround と mutation 後の live range 更新
-
 ### Parsing and serialization
 
 - [ ] `XMLSerializer` の namespace prefix reuse / rebinding
@@ -136,6 +132,7 @@
 - [ ] external script loading
 - [ ] parser-blocking script
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
+- [ ] browser page realm の Annex B built-in（少なくとも `String.prototype.substr`）
 
 ## Conformance infrastructure
 

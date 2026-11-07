@@ -532,9 +532,6 @@ export class Node extends EventTarget {
       throw new TypeError("The argument is not a Node");
     }
     ensurePreInsertionValidity(node, this, child, [child]);
-    if (node === child) {
-      return child;
-    }
 
     let reference = child.nextSibling;
     if (reference === node) {
