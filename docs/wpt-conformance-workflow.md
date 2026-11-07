@@ -10,19 +10,19 @@ WPT は仕様適合を観測し、変更前後を比較するための検証手�
 
 - 特定の WPT URL、fixture、failure message、または期待値だけを満たす分岐や特別扱いを実装しない
 - WPT の期待結果だけから要件を決めず、対応する仕様本文と algorithm を確認する
-- 仕様どおりの変更と WPT の期待が一致しない場合は、仕様から外れず、仕様参照と不一致の内容を作業 report に記録する
+‐ page realm 二機能やアルゴリズムを実装するのではなく palim 本体に実装し，必要に応じて page 側と接続する
+- 仕様どおりの変更と WPT の期待が一致しない場合は、仕様から外れず、仕様参照と不一致の内容を作業 report に記録し作業を止める
 - WPT status が改善しても、仕様適合を確認できなければ TODO を完了にしない
-- 一つの WPT file に含まれる全 subtest の完遂を、一項目の終了条件にしない
+- TODO への対応で WPT ファイル内の別の問題が発生してもその修正を完了条件とはしない
+- 新しいオブジェクトの追加や設計の変更が必要になるときは作業を行わない
+- 設計および実装方針はそれまでの ADR を参照して決める
 
 ## 作業範囲
 
-DOM の algorithm は HTML、Web IDL、JavaScript realm、event、custom element など複数の仕様と実装箇所に接続する。
-interface 名、WPT directory、または個別の platform feature 名によって「DOM」と「新機能」の境界を一意に決めない。
-
-一回の作業範囲は、選択した TODO と、変更前に作業 report へ記載した対象 behavior との必要性で決める。
+一回の作業範囲は、選択した TODO と、対象となるファイルの状況から決める
 
 - 未完了の TODO から一項目を選び、その項目で改善する対象 behavior を変更前に明記する
-- interface 名、WPT directory、仕様領域、または実装 module の境界を、そのまま作業範囲の境界にしない
+- interface 名、WPT directory、仕様領域、または実装 module の境界を、そのまま作業範囲にしない
 - 対象 behavior を仕様どおりにするために必要な変更は、複数の仕様や実装 module にまたがっても対象に含める
 - WPT を先へ進めるためだけに必要で、対象 behavior 自体の仕様適合には必要でない機能は、その項目では実装しない
 - 対象 behavior と独立して記述できる先行条件や別の失敗は、必要に応じて別の TODO として記録する
@@ -93,7 +93,7 @@ WPT の期待結果から仕様要件を推測するだけでなく、該当す�
 仕様本文と algorithm に照らして対象 behavior が適合したことを、実装の確認と test 結果の両方で評価する。
 対象とした failure の解消、対象 behavior の通過数の増加、または対象 behavior を越えた後続段階への到達は、WPT 上の改善として記録する。
 
-同じ WPT file に残る、対象 behavior と独立した subtest の失敗は作業終了を妨げない。
+同じ WPT file に残る、対象 behavior と独立した subtest が失敗しても作業は終了する
 対象 behavior に仕様上または WPT 上の改善がない場合は TODO を完了にせず、report に結果と blocker を残す。
 
 ### 6. TODO の更新
