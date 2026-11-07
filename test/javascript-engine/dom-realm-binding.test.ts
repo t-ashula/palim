@@ -90,6 +90,19 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("exposes live HTML table collections", () => {
+    const { engine, realm } = createTestRealm(`
+      <div><a class="text"></a></div>
+      <b class="text"></b>
+      <table>
+        <caption class="text"></caption>
+        <tbody><tr><td class="text"></td></tr></tbody>
+      </table>
+    `);
+
+    evaluate(engine, realm, fixture("exposes-live-html-table-collections.js"));
+  });
+
   it("connects HTMLTableElement.deleteRow to the domain implementation", () => {
     const { engine, realm } = createTestRealm(`
       <table>

@@ -36,6 +36,8 @@ import {
   HTMLLinkElement,
   HTMLOutputElement,
   HTMLTableElement,
+  HTMLTableRowElement,
+  HTMLTableSectionElement,
   HTMLTemplateElement,
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
@@ -101,6 +103,8 @@ import {
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
   installHTMLTableElementMembers,
+  installHTMLTableRowElementMembers,
+  installHTMLTableSectionElementMembers,
   installHTMLTemplateElementMembers,
   installDocumentFragmentMembers,
   installDocumentTypeMembers,
@@ -214,6 +218,8 @@ export class DOMRealmBindingContext {
   readonly htmlLinkElementPrototype: EngineObject;
   readonly htmlOutputElementPrototype: EngineObject;
   readonly htmlTableElementPrototype: EngineObject;
+  readonly htmlTableRowElementPrototype: EngineObject;
+  readonly htmlTableSectionElementPrototype: EngineObject;
   readonly htmlTemplateElementPrototype: EngineObject;
   readonly documentPrototype: EngineObject;
   readonly documentFragmentPrototype: EngineObject;
@@ -330,6 +336,11 @@ export class DOMRealmBindingContext {
       this.htmlElementInterfacePrototype(HTMLOutputElement);
     this.htmlTableElementPrototype =
       this.htmlElementInterfacePrototype(HTMLTableElement);
+    this.htmlTableRowElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLTableRowElement);
+    this.htmlTableSectionElementPrototype = this.htmlElementInterfacePrototype(
+      HTMLTableSectionElement,
+    );
     this.htmlTemplateElementPrototype =
       this.htmlElementInterfacePrototype(HTMLTemplateElement);
     this.documentPrototype = this.engine.createObject(
@@ -433,6 +444,8 @@ export class DOMRealmBindingContext {
     installHTMLLinkElementMembers(this);
     installHTMLOutputElementMembers(this);
     installHTMLTableElementMembers(this);
+    installHTMLTableRowElementMembers(this);
+    installHTMLTableSectionElementMembers(this);
     installHTMLTemplateElementMembers(this);
     installDocumentMembers(this);
     installDocumentFragmentMembers(this);
@@ -1184,6 +1197,20 @@ export class DOMRealmBindingContext {
   htmlTableElement(value: EngineValue): HTMLTableElement | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof HTMLTableElement ? interfaceObject : null;
+  }
+
+  htmlTableRowElement(value: EngineValue): HTMLTableRowElement | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof HTMLTableRowElement
+      ? interfaceObject
+      : null;
+  }
+
+  htmlTableSectionElement(value: EngineValue): HTMLTableSectionElement | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof HTMLTableSectionElement
+      ? interfaceObject
+      : null;
   }
 
   htmlTemplateElement(value: EngineValue): HTMLTemplateElement | null {

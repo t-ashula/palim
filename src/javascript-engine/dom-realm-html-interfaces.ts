@@ -202,6 +202,14 @@ export function installHTMLOutputElementMembers(
 export function installHTMLTableElementMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  for (const name of ["tBodies", "rows"] as const) {
+    binding.attribute(binding.htmlTableElementPrototype, name, (thisValue) => {
+      const table = binding.htmlTableElement(thisValue);
+      return table === null
+        ? binding.typeError(`Invalid HTMLTableElement receiver for ${name}`)
+        : normal(binding.wrap(table[name]));
+    });
+  }
   binding.method(
     binding.htmlTableElementPrototype,
     "deleteRow",
@@ -219,6 +227,36 @@ export function installHTMLTableElementMembers(
         table.deleteRow(index.value);
         return binding.undefined();
       });
+    },
+  );
+}
+
+export function installHTMLTableSectionElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  binding.attribute(
+    binding.htmlTableSectionElementPrototype,
+    "rows",
+    (thisValue) => {
+      const section = binding.htmlTableSectionElement(thisValue);
+      return section === null
+        ? binding.typeError("Invalid HTMLTableSectionElement receiver for rows")
+        : normal(binding.wrap(section.rows));
+    },
+  );
+}
+
+export function installHTMLTableRowElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  binding.attribute(
+    binding.htmlTableRowElementPrototype,
+    "cells",
+    (thisValue) => {
+      const row = binding.htmlTableRowElement(thisValue);
+      return row === null
+        ? binding.typeError("Invalid HTMLTableRowElement receiver for cells")
+        : normal(binding.wrap(row.cells));
     },
   );
 }

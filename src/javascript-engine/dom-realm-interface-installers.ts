@@ -29,6 +29,8 @@ export {
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
   installHTMLTableElementMembers,
+  installHTMLTableRowElementMembers,
+  installHTMLTableSectionElementMembers,
   installHTMLTemplateElementMembers,
 } from "./dom-realm-html-interfaces.js";
 
