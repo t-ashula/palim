@@ -40,6 +40,7 @@ import {
   DocumentTypeImplementation,
   ElementImplementation,
   NodeImplementation,
+  ShadowRootImplementation,
   attrImplementation,
   attrInterface,
   bindNode,
@@ -51,6 +52,7 @@ import {
   elementInterface,
   nodeImplementation,
   nodeInterface,
+  shadowRootImplementation,
 } from "./node-implementation.js";
 import type { DOMTokenList } from "./token-list.js";
 import { createDOMTokenList } from "./token-list.js";
@@ -108,6 +110,10 @@ export interface ImportNodeOptions {
 
 export interface GetRootNodeOptions {
   readonly composed?: boolean;
+}
+
+export interface ShadowRootInit {
+  readonly mode: "open" | "closed";
 }
 
 type CreateElementArguments = [
@@ -311,7 +317,7 @@ export class Node extends EventTarget {
   }
 
   get isConnected(): boolean {
-    return nodeRoot(this) instanceof Document;
+    return shadowIncludingRoot(this) instanceof Document;
   }
 
   get parentNode(): Node | null {
@@ -363,8 +369,10 @@ export class Node extends EventTarget {
     normalizeDescendantText(this);
   }
 
-  getRootNode(_options: GetRootNodeOptions = {}): Node {
-    return nodeRoot(this);
+  getRootNode(options: GetRootNodeOptions = {}): Node {
+    return options.composed === true
+      ? shadowIncludingRoot(this)
+      : nodeRoot(this);
   }
 
   contains(other: Node | null): boolean {
@@ -1505,6 +1513,40 @@ export class Element extends Node {
     return implementation.attributeMap;
   }
 
+  get shadowRoot(): ShadowRoot | null {
+    const shadowRoot = elementImplementation(this).shadowRoot;
+    return shadowRoot === null || shadowRoot.mode === "closed"
+      ? null
+      : (nodeInterface(shadowRoot) as ShadowRoot);
+  }
+
+  attachShadow(init: ShadowRootInit): ShadowRoot {
+    requireArguments(arguments.length, 1);
+    const implementation = elementImplementation(this);
+    if (
+      implementation.namespaceURI !== HTML_NAMESPACE ||
+      implementation.shadowRoot !== null
+    ) {
+      throw new DOMException(
+        "A shadow root cannot be attached to this element",
+        "NotSupportedError",
+      );
+    }
+    const document = this.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Element has no owner document");
+    }
+    const shadowRoot = new ShadowRoot(
+      new ShadowRootImplementation(
+        documentImplementation(document),
+        implementation,
+        init.mode,
+      ),
+    );
+    implementation.shadowRoot = shadowRootImplementation(shadowRoot);
+    return shadowRoot;
+  }
+
   get children(): HTMLCollection {
     const implementation = elementImplementation(this);
     implementation.elementChildren ??= createHTMLCollection(() =>
@@ -2140,6 +2182,24 @@ export class DocumentFragment extends Node {
       this,
       requiredDOMString(elementId, arguments.length),
     );
+  }
+}
+
+export class ShadowRoot extends DocumentFragment {
+  constructor(implementation?: unknown) {
+    if (!(implementation instanceof ShadowRootImplementation)) {
+      super();
+      throw new TypeError("Illegal constructor");
+    }
+    super(implementation);
+  }
+
+  get mode(): "open" | "closed" {
+    return shadowRootImplementation(this).mode;
+  }
+
+  get host(): Element {
+    return elementInterface(shadowRootImplementation(this).host);
   }
 }
 
@@ -2821,7 +2881,7 @@ function ensurePreInsertionValidity(
       "HierarchyRequestError",
     );
   }
-  if (isInclusiveAncestor(node, parent)) {
+  if (isHostIncludingInclusiveAncestor(node, parent)) {
     throw new DOMException(
       "The new child is an ancestor of this node",
       "HierarchyRequestError",
@@ -2884,10 +2944,30 @@ function isInclusiveAncestor(ancestor: Node, node: Node): boolean {
   return false;
 }
 
+function isHostIncludingInclusiveAncestor(ancestor: Node, node: Node): boolean {
+  let current: Node | null = node;
+  while (current !== null) {
+    if (current === ancestor) {
+      return true;
+    }
+    const root = nodeRoot(current);
+    current = root instanceof ShadowRoot ? root.host : current.parentNode;
+  }
+  return false;
+}
+
 function nodeRoot(node: Node): Node {
   let root = node;
   while (root.parentNode !== null) {
     root = root.parentNode;
+  }
+  return root;
+}
+
+function shadowIncludingRoot(node: Node): Node {
+  let root = nodeRoot(node);
+  while (root instanceof ShadowRoot) {
+    root = nodeRoot(root.host);
   }
   return root;
 }
@@ -3390,13 +3470,13 @@ function moveNodeBefore(
   if (reference === node) {
     reference = node.nextSibling;
   }
-  if (nodeRoot(parent) !== nodeRoot(node)) {
+  if (shadowIncludingRoot(parent) !== shadowIncludingRoot(node)) {
     throw new DOMException(
       "The nodes do not have the same root",
       "HierarchyRequestError",
     );
   }
-  if (isInclusiveAncestor(node, parent)) {
+  if (isHostIncludingInclusiveAncestor(node, parent)) {
     throw new DOMException(
       "The moved node is an ancestor of the destination",
       "HierarchyRequestError",

@@ -21,6 +21,7 @@ export {
   NodeFilter,
   NodeList,
   ProcessingInstruction,
+  ShadowRoot,
   Text,
   XMLDocument,
 } from "./public-dom-interfaces.js";
@@ -36,6 +37,7 @@ export type {
   ImportNodeOptions,
   MutationCallback,
   MutationObserverInit,
+  ShadowRootInit,
   NodeIterator,
   Range,
   StaticRange,

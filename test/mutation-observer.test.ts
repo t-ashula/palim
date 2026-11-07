@@ -14,7 +14,9 @@ describe("MutationObserver", () => {
     oldParent.append(target);
 
     const delivered = new Promise<readonly unknown[]>((resolve) => {
-      const observer = new MutationObserver((records) => { resolve(records); });
+      const observer = new MutationObserver((records) => {
+        resolve(records);
+      });
       observer.observe(root, { childList: true, subtree: true });
       newParent.moveBefore(target, null);
     });

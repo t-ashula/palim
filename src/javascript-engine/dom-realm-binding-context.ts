@@ -21,6 +21,7 @@ import {
   NodeFilter,
   NodeList,
   ProcessingInstruction,
+  ShadowRoot,
   Text,
   XMLDocument,
 } from "../dom.js";
@@ -229,6 +230,7 @@ export class DOMRealmBindingContext {
   readonly htmlTemplateElementPrototype: EngineObject;
   readonly documentPrototype: EngineObject;
   readonly documentFragmentPrototype: EngineObject;
+  readonly shadowRootPrototype: EngineObject;
   readonly documentTypePrototype: EngineObject;
   readonly domImplementationPrototype: EngineObject;
   readonly domParserPrototype: EngineObject;
@@ -360,6 +362,10 @@ export class DOMRealmBindingContext {
     this.documentFragmentPrototype = this.engine.createObject(
       this.realm,
       this.nodePrototype,
+    );
+    this.shadowRootPrototype = this.engine.createObject(
+      this.realm,
+      this.documentFragmentPrototype,
     );
     this.documentTypePrototype = this.engine.createObject(
       this.realm,
@@ -1042,6 +1048,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof Document) {
       return this.documentPrototype;
     }
+    if (interfaceObject instanceof ShadowRoot) {
+      return this.shadowRootPrototype;
+    }
     if (interfaceObject instanceof DocumentFragment) {
       return this.documentFragmentPrototype;
     }
@@ -1280,6 +1289,11 @@ export class DOMRealmBindingContext {
   documentFragment(value: EngineValue): DocumentFragment | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof DocumentFragment ? interfaceObject : null;
+  }
+
+  shadowRoot(value: EngineValue): ShadowRoot | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof ShadowRoot ? interfaceObject : null;
   }
 
   domImplementation(value: EngineValue): DOMImplementation | null {

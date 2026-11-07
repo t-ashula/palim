@@ -90,6 +90,12 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("connects ShadowRoot tree operations", () => {
+    const { engine, realm } = createTestRealm("<div><p></p></div>");
+
+    evaluate(engine, realm, fixture("connects-shadow-root.js"));
+  });
+
   it("connects MutationObserver to domain tree mutations", () => {
     const { engine, realm } = createTestRealm(`
       <div><section><span></span></section><main></main></div>

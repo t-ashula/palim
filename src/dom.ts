@@ -39,6 +39,7 @@ export {
   Element,
   Node,
   ProcessingInstruction,
+  ShadowRoot,
   Text,
   XMLDocument,
 } from "./dom/nodes.js";
@@ -47,4 +48,5 @@ export type {
   ElementCreationOptions,
   GetRootNodeOptions,
   ImportNodeOptions,
+  ShadowRootInit,
 } from "./dom/nodes.js";

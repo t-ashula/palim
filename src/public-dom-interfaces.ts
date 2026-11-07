@@ -134,6 +134,7 @@ export type {
   ImportNodeOptions,
   MutationCallback,
   MutationObserverInit,
+  ShadowRootInit,
   NodeIterator,
   Range,
   StaticRange,
@@ -218,6 +219,15 @@ interface ProcessingInstructionInterface {
 }
 export const ProcessingInstruction =
   exposeInterface<ProcessingInstructionInterface>(DOM.ProcessingInstruction, 1);
+
+export type ShadowRoot = DOM.ShadowRoot;
+interface ShadowRootInterface {
+  readonly length: 0;
+  readonly name: "ShadowRoot";
+  readonly prototype: ShadowRoot;
+  [Symbol.hasInstance](value: unknown): value is ShadowRoot;
+}
+export const ShadowRoot = exposeInterface<ShadowRootInterface>(DOM.ShadowRoot);
 
 export type Text = DOM.Text;
 interface TextInterface {

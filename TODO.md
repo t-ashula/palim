@@ -14,7 +14,9 @@
 - [x] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
 - [x] `Node.moveBefore` の core tree move、live range、`NodeIterator`、form owner 更新を含む atomic move semantics
 - [x] `Node.moveBefore` の `MutationObserver` removal / insertion record と transient registered observer
-- [ ] `Node.moveBefore` の shadow-including tree validation、slot assignment、custom element move reaction
+- [x] `Node.moveBefore` の Shadow DOM tree model と shadow-including tree validation
+- [ ] `Node.moveBefore` の slot assignment と `slotchange` notification
+- [ ] `Node.moveBefore` の custom element move reaction
 - [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
 
 ### Parsing and serialization

@@ -111,6 +111,7 @@ export class ElementImplementation extends NodeImplementation {
   frozenBaseURL: URL | null = null;
   attributeMap: NamedNodeMap | null = null;
   classList: DOMTokenList | null = null;
+  shadowRoot: ShadowRootImplementation | null = null;
 
   constructor(
     document: DocumentImplementation,
@@ -119,6 +120,16 @@ export class ElementImplementation extends NodeImplementation {
     readonly localName: string,
   ) {
     super(1, prefix === null ? localName : `${prefix}:${localName}`, document);
+  }
+}
+
+export class ShadowRootImplementation extends NodeImplementation {
+  constructor(
+    document: DocumentImplementation,
+    readonly host: ElementImplementation,
+    readonly mode: "open" | "closed",
+  ) {
+    super(11, "#document-fragment", document);
   }
 }
 
@@ -159,6 +170,12 @@ export function attrImplementation(attribute: Attr): AttrImplementation {
 
 export function elementImplementation(element: Element): ElementImplementation {
   return implementationFor(element) as ElementImplementation;
+}
+
+export function shadowRootImplementation(
+  shadowRoot: Node,
+): ShadowRootImplementation {
+  return implementationFor(shadowRoot) as ShadowRootImplementation;
 }
 
 export function characterDataImplementation(

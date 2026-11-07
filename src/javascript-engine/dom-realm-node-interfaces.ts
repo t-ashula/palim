@@ -626,6 +626,50 @@ export function installAttrMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installElementMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(binding.elementPrototype, "shadowRoot", (thisValue) => {
+    const element = binding.element(thisValue);
+    return element === null
+      ? binding.typeError("Invalid Element receiver")
+      : binding.platformValue(element.shadowRoot);
+  });
+  binding.method(
+    binding.elementPrototype,
+    "attachShadow",
+    1,
+    (thisValue, argumentsList) => {
+      const element = binding.element(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid Element receiver");
+      }
+      const initValue = argumentsList[0];
+      if (
+        initValue === undefined ||
+        binding.engine.isUndefined(initValue) ||
+        binding.engine.isNull(initValue)
+      ) {
+        return binding.typeError("attachShadow requires an init dictionary");
+      }
+      const init = binding.engine.asObject(initValue);
+      if (init === null) {
+        return binding.typeError("ShadowRootInit must be an object");
+      }
+      const modeValue = binding.engine.get(binding.realm, init, "mode");
+      if (modeValue.type === "throw") {
+        return modeValue;
+      }
+      const mode = binding.engine.toString(binding.realm, modeValue.value);
+      if (mode.type === "throw") {
+        return mode;
+      }
+      if (mode.value !== "open" && mode.value !== "closed") {
+        return binding.typeError("ShadowRootInit.mode must be open or closed");
+      }
+      const shadowMode: "open" | "closed" = mode.value;
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(element.attachShadow({ mode: shadowMode }))),
+      );
+    },
+  );
   for (const name of ["prefix", "localName", "tagName"] as const) {
     binding.attribute(binding.elementPrototype, name, (thisValue) => {
       const element = binding.element(thisValue);
@@ -1842,6 +1886,18 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
 export function installDocumentFragmentMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.attribute(binding.shadowRootPrototype, "mode", (thisValue) => {
+    const shadowRoot = binding.shadowRoot(thisValue);
+    return shadowRoot === null
+      ? binding.typeError("Invalid ShadowRoot receiver")
+      : binding.primitive(shadowRoot.mode);
+  });
+  binding.attribute(binding.shadowRootPrototype, "host", (thisValue) => {
+    const shadowRoot = binding.shadowRoot(thisValue);
+    return shadowRoot === null
+      ? binding.typeError("Invalid ShadowRoot receiver")
+      : normal(binding.wrap(shadowRoot.host));
+  });
   binding.attribute(
     binding.documentFragmentPrototype,
     "children",

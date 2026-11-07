@@ -115,6 +115,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     0,
     () => normal(binding.wrap(new DocumentFragment())),
   );
+  binding.installInterface("ShadowRoot", binding.shadowRootPrototype);
   binding.installInterface("DocumentType", binding.documentTypePrototype);
   binding.installInterface(
     "DOMImplementation",
