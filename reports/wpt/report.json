@@ -6,20 +6,21 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261107t092415384z-2266469",
+    "id": "20261107t165136272z-2621986",
     "state": "completed",
     "palim": {
-      "revision": "c924d3869b5fec662fb4a4c19f3ac821759a4b2e",
+      "revision": "39460b3ddb87afde158d4343cc273e09d36ffe7b",
       "dirty": false,
-      "imageId": "sha256:8ea3e1cc0b4593286a50f864e37b4c8e8cb9c905680026494a36fe76893fe94a"
+      "imageId": "sha256:0b67674600afee4fe1ce790bcb817e27c257bc85fe7c323fd61f8dd88d730123"
     },
-    "lastAttemptSequence": 1226,
-    "snapshotAt": "2026-11-07T10:14:31.817Z",
+    "lastAttemptSequence": 1926,
+    "snapshotAt": "2026-11-07T18:03:32.069Z",
     "workerFailures": 0,
     "retries": 0
   },
   "selection": {
     "include": [
+      "/custom-elements/",
       "/dom/collections/",
       "/dom/events/",
       "/dom/lists/",
@@ -30,7 +31,12 @@
       "/html/dom/documents/dom-tree-accessors/",
       "/html/dom/elements/",
       "/html/syntax/parsing/",
+      "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/",
+      "/sanitizer-api/",
+      "/shadow-dom/",
+      "/streams/writable-streams/",
       "/url/",
+      "/xhr/formdata",
       "/xml/"
     ],
     "exclude": [
@@ -38,22 +44,34 @@
       "/dom/traversal/TreeWalker-acceptNode-filter-cross-realm-null-browsing-context.html",
       "/dom/traversal/TreeWalker-acceptNode-filter-cross-realm.html",
       "/dom/traversal/TreeWalker-realm.html",
-      "/domparsing/tentative/",
       "/xml/onreadystatechange-crash-on-stop.xhtml",
       "/xml/xslt/"
     ]
   },
   "totals": {
-    "total": 1226,
-    "executed": 1226,
-    "pass": 461,
-    "fail": 319,
+    "total": 1926,
+    "executed": 1926,
+    "pass": 539,
+    "fail": 725,
     "skip": 0,
-    "error": 195,
-    "timeout": 251,
+    "error": 226,
+    "timeout": 436,
     "pending": 0
   },
   "areas": [
+    {
+      "prefix": "/custom-elements/",
+      "totals": {
+        "total": 196,
+        "executed": 196,
+        "pass": 8,
+        "fail": 116,
+        "skip": 0,
+        "error": 20,
+        "timeout": 52,
+        "pending": 0
+      }
+    },
     {
       "prefix": "/dom/collections/",
       "totals": {
@@ -98,8 +116,8 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 255,
-        "fail": 96,
+        "pass": 257,
+        "fail": 94,
         "skip": 0,
         "error": 6,
         "timeout": 51,
@@ -135,13 +153,13 @@
     {
       "prefix": "/domparsing/",
       "totals": {
-        "total": 56,
-        "executed": 56,
-        "pass": 38,
-        "fail": 5,
+        "total": 91,
+        "executed": 91,
+        "pass": 45,
+        "fail": 19,
         "skip": 0,
-        "error": 0,
-        "timeout": 13,
+        "error": 1,
+        "timeout": 26,
         "pending": 0
       }
     },
@@ -185,6 +203,58 @@
       }
     },
     {
+      "prefix": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/",
+      "totals": {
+        "total": 13,
+        "executed": 13,
+        "pass": 6,
+        "fail": 1,
+        "skip": 0,
+        "error": 0,
+        "timeout": 6,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/sanitizer-api/",
+      "totals": {
+        "total": 50,
+        "executed": 50,
+        "pass": 16,
+        "fail": 16,
+        "skip": 0,
+        "error": 1,
+        "timeout": 17,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/shadow-dom/",
+      "totals": {
+        "total": 314,
+        "executed": 314,
+        "pass": 34,
+        "fail": 233,
+        "skip": 0,
+        "error": 8,
+        "timeout": 39,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/streams/writable-streams/",
+      "totals": {
+        "total": 64,
+        "executed": 64,
+        "pass": 0,
+        "fail": 16,
+        "skip": 0,
+        "error": 0,
+        "timeout": 48,
+        "pending": 0
+      }
+    },
+    {
       "prefix": "/url/",
       "totals": {
         "total": 77,
@@ -194,6 +264,19 @@
         "skip": 0,
         "error": 4,
         "timeout": 25,
+        "pending": 0
+      }
+    },
+    {
+      "prefix": "/xhr/formdata",
+      "totals": {
+        "total": 28,
+        "executed": 28,
+        "pass": 5,
+        "fail": 12,
+        "skip": 0,
+        "error": 1,
+        "timeout": 10,
         "pending": 0
       }
     },
@@ -212,14 +295,954 @@
     }
   ],
   "subtests": {
-    "total": 62379,
-    "pass": 48518,
-    "fail": 8592,
+    "total": 71472,
+    "pass": 52430,
+    "fail": 13463,
     "skip": 0,
-    "error": 5031,
-    "timeout": 238
+    "error": 5157,
+    "timeout": 422
   },
   "nonPassingTests": [
+    {
+      "url": "/custom-elements/CustomElementRegistry-constructor-and-callbacks-are-held-strongly.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: customElements.get is not a function. (In \"customElements.get(tagName)\", it is undefined)\""
+    },
+    {
+      "url": "/custom-elements/CustomElementRegistry-getName.html",
+      "status": "fail",
+      "message": "customElements.getName is not a function. (In \"customElements.getName(class extends HTMLElement {})\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/CustomElementRegistry.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/Document-createElement-customized-builtins.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/custom-elements/Document-createElement-svg.svg",
+      "status": "fail",
+      "message": "Super class [Function HTMLDivElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/Document-createElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/Document-createElementNS-customized-builtins.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/custom-elements/Document-createElementNS-prefix-timing.html",
+      "status": "fail",
+      "message": "assert_equals: prefix should be null during constructor (set after construction per step 5.1.3.9) expected (object) null but got (string) \"p\""
+    },
+    {
+      "url": "/custom-elements/ElementInternals-accessibility-values.html",
+      "status": "timeout",
+      "message": "b'TypeError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)'"
+    },
+    {
+      "url": "/custom-elements/ElementInternals-accessibility.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/ElementInternals-accessibility.tentative.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/ElementInternals-role.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: customElements.get is not a function. (In \"customElements.get(`${role}-element`)\", it is undefined)\""
+    },
+    {
+      "url": "/custom-elements/HTMLElement-attachInternals.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/HTMLElement-constructor.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLParagraphElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/adopted-callback.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/append-children-to-new-parent-cycle.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/attribute-changed-callback.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/builtin-coverage.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLAnchorElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/connected-callbacks-html-fragment-parsing.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/connected-callbacks.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/cross-realm-callback-report-exception.html",
+      "status": "timeout",
+      "message": "b'TypeError: Cannot convert undefined to object\\n    at http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:5:21'"
+    },
+    {
+      "url": "/custom-elements/custom-element-reaction-queue.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/customized-built-in-constructor-exceptions.html",
+      "status": "error",
+      "message": "TypeError: Super class [Function HTMLParagraphElement] is not a constructor\n    at http://web-platform.test:8000/custom-elements/customized-built-in-constructor-exceptions.html:4:33\nTypeError: Super class [Function HTMLVideoElement] is not a constructor\n    at http://web-platform.test:8000/custom-elements/customized-built-in-constructor-exceptions.html:2:29\nTypeError: Super class [Function HTMLFormElement] is not a constructor\n    at http://web-platform.test:8000/custom-elements/customized-built-in-constructor-exceptions.html:2:28\nTypeError: Super class [Function HTMLInputElement] is not a constructor\n    at http://web-platform.test:8000/custom-elements/customized-built-in-constructor-exceptions.html:2:23\nTypeError: Super class [Function HTMLInputElement] is not a constructor\n    at http://web-platform.test:8000/custom-elements/customized-built-in-constructor-exceptions.html:2:28"
+    },
+    {
+      "url": "/custom-elements/disconnected-callbacks.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html",
+      "status": "fail",
+      "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/element-internals-aria-element-reflection.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/element-internals-behaviors.tentative.html",
+      "status": "fail",
+      "message": "element.attachInternals is not a function. (In \"element.attachInternals({ behaviors: [] })\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/element-internals-shadowroot.html",
+      "status": "fail",
+      "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-NotSupportedError.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html",
+      "status": "error",
+      "message": "Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed."
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-form.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-labels.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <my-control></my-control> but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-setFormValue.html",
+      "status": "error",
+      "message": "ReferenceError: \"File\" is not defined\n    at http://web-platform.test:8000/custom-elements/form-associated/ElementInternals-setFormValue.html:324:14"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html",
+      "status": "error",
+      "message": "Test named 'Custom submit button with form method=dialog closes dialog with behavior value' specified 1 'cleanup' function, and 1 failed."
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html",
+      "status": "error",
+      "message": "Test named 'HTMLSubmitButtonBehavior properties have correct default values' specified 1 'cleanup' function, and 1 failed."
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-target-element-is-held-strongly.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: targetElement.attachInternals is not a function. (In \"targetElement.attachInternals()\", it is undefined)\""
+    },
+    {
+      "url": "/custom-elements/form-associated/ElementInternals-validation.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/form-associated/disabled-delegatesFocus.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/form-associated/fieldset-elements-after-upgrade.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/form-associated/fieldset-elements-during-construction.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/form-associated/fieldset-elements.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/form-associated/focusability.html",
+      "status": "fail",
+      "message": "foo.focus is not a function. (In \"foo.focus()\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/form-associated/form-associated-callback.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/form-associated/form-disabled-callback.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/form-associated/form-disabled-legend.html",
+      "status": "fail",
+      "message": "assert_true: in legend :enabled expected true got false"
+    },
+    {
+      "url": "/custom-elements/form-associated/form-elements-namedItem.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/form-associated/form-reset-callback.html",
+      "status": "fail",
+      "message": "form.reset is not a function. (In \"form.reset()\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/form-associated/label-delegatesFocus.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/htmlconstructor/newtarget-customized-builtins.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/htmlconstructor/newtarget.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/microtasks-and-constructors.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/overwritten-customElements-global.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/parser/parser-constructs-custom-element-in-document-write.html",
+      "status": "timeout",
+      "message": "b'TypeError: document.write is not a function. (In \"document.write(\\'<my-custom-element>hello <b>world</b></my-custom-element>\\')\", it is undefined)\\n    at http://web-platform.test:8000/custom-elements/parser/parser-constructs-custom-element-in-document-write.html:12:16'"
+    },
+    {
+      "url": "/custom-elements/parser/parser-constructs-custom-elements-with-is.html",
+      "status": "fail",
+      "message": "assert_true: A resolved custom element must be an instance of that custom element expected true got false"
+    },
+    {
+      "url": "/custom-elements/parser/parser-custom-element-in-foreign-content.html",
+      "status": "fail",
+      "message": "\"SVGElement\" is not defined"
+    },
+    {
+      "url": "/custom-elements/parser/parser-fallsback-to-unknown-element.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:256\n                            throw new TypeError(\"Custom element constructor returned a different object\");\n                                  ^\n\nTypeError: Custom element constructor returned a different object\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:256:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/parser/parser-sets-attributes-after-autonomous-constructor.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/dist/html-elements.js:3768:17)\n    at createElementForDocument (file:///workspace/dist/dom/nodes.js:664:45)\n    at #element (file:///workspace/dist/html/parser.js:2256:25)\n    at #insert (file:///workspace/dist/html/parser.js:2311:38)\n    at #inBody (file:///workspace/dist/html/parser.js:1327:29)\n    at #process (file:///workspace/dist/html/parser.js:728:33)\n    at #processNextDocumentToken (file:///workspace/dist/html/parser.js:378:22)\n    at TreeBuilder.parseAsync (file:///workspace/dist/html/parser.js:358:46)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html",
+      "status": "error",
+      "message": "TypeError: The childList option must be true"
+    },
+    {
+      "url": "/custom-elements/parser/parser-sets-attributes-and-children.html",
+      "status": "fail",
+      "message": "assert_equals: expected 2 but got 0"
+    },
+    {
+      "url": "/custom-elements/parser/parser-uses-constructed-element.html",
+      "status": "fail",
+      "message": "assert_not_equals: HTML parser must not insert another instance of the custom element created before super() call got disallowed value Element node <instantiates-itself-before-super></instantiates-itself-b..."
+    },
+    {
+      "url": "/custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg",
+      "status": "timeout",
+      "message": "b'TypeError: Super class [Function HTMLDivElement] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg:4:26'"
+    },
+    {
+      "url": "/custom-elements/parser/parser-uses-registry-of-owner-document.html",
+      "status": "timeout",
+      "message": "b'TypeError: document.write is not a function. (In \"document.write(\\'<template><my-custom-element></my-custom-element></template>\\')\", it is undefined)\\n    at http://web-platform.test:8000/custom-elements/parser/parser-uses-registry-of-owner-document.html:6:16'"
+    },
+    {
+      "url": "/custom-elements/parser/serializing-html-fragments-customized-builtins.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLParagraphElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+    },
+    {
+      "url": "/custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+    },
+    {
+      "url": "/custom-elements/perform-microtask-checkpoint-before-construction.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/pseudo-class-defined-customized-builtins.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/pseudo-class-defined.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/range-and-constructors.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be \"root-0\" but got \"\" (expected array [\"root-0\", \"root-0-0\", \"root-1\"] got [\"\", \"\", \"\"])"
+    },
+    {
+      "url": "/custom-elements/reaction-timing.html",
+      "status": "fail",
+      "message": "assert_equals: expected 4 but got 0"
+    },
+    {
+      "url": "/custom-elements/reactions/Animation.html",
+      "status": "fail",
+      "message": "instance.animate is not a function. (In \"instance.animate([{'borderColor': 'rgb(0, 0, 255)'}], 1)\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/reactions/AriaMixin-element-attributes.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/AriaMixin-string-attributes.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/AriaMixin-string-attributes.tentative.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/Attr.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"attributeChanged\"] length 2, got [\"constructed\"] length 1"
+    },
+    {
+      "url": "/custom-elements/reactions/CSSStyleDeclaration.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/ChildNode.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
+    },
+    {
+      "url": "/custom-elements/reactions/DOMStringMap.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/DOMTokenList.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/Document.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/Element.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/ElementContentEditable.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLAnchorElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLElement.html",
+      "status": "error",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLOptionElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLOptionsCollection.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLOutputElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLSelectElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLTableElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLTableRowElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLTableSectionElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/HTMLTitleElement.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/NamedNodeMap.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/custom-elements/reactions/Node.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"attributeChanged\"] length 2, got [\"constructed\"] length 1"
+    },
+    {
+      "url": "/custom-elements/reactions/ParentNode.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
+    },
+    {
+      "url": "/custom-elements/reactions/Range.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\", \"attributeChanged\"] length 3, got [\"constructed\", \"connected\"] length 2"
+    },
+    {
+      "url": "/custom-elements/reactions/Selection.html",
+      "status": "fail",
+      "message": "window.getSelection is not a function. (In \"window.getSelection()\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/reactions/ShadowRoot.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLAreaElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLAreaElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLBaseElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLBaseElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLButtonElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLButtonElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLCanvasElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLCanvasElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLDataElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLDataElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLDetailsElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLDetailsElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLEmbedElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLEmbedElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLFieldSetElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLFieldSetElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLImageElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLImageElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLLIElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLLIElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLLabelElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLLabelElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLMapElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLMapElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLMediaElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLAudioElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLMetaElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLMetaElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLMeterElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLMeterElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLModElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLModElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLOListElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLOListElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLOptGroupElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLOptGroupElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLParamElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLParamElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLProgressElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLProgressElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLQuoteElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLQuoteElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLSlotElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLSlotElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLSourceElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLSourceElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLStyleElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLStyleElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLTableCellElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLTableCellElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLTableColElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLTableColElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/customized-builtins/HTMLTimeElement.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLTimeElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/reactions/with-exceptions.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/registries/Construct.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/CustomElementRegistry-define.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/CustomElementRegistry-initialize.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"() => window.customElements.initialize(document)\" threw object \"TypeError: window.customElements.initialize is not a function. (In \"window.customElements.initialize(document)\", it is undefined)\" that is not a DOMException NotSupportedError: property \"code\" is equal to undefined, expected 9"
+    },
+    {
+      "url": "/custom-elements/registries/CustomElementRegistry-multi-register.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/CustomElementRegistry-upgrade.html",
+      "status": "fail",
+      "message": "assert_equals: expected \"function\" but got \"undefined\""
+    },
+    {
+      "url": "/custom-elements/registries/Document-createElement.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/registries/Document-createElement.html:5:28'"
+    },
+    {
+      "url": "/custom-elements/registries/Document-createElementNS.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/registries/Document-createElementNS.html:5:28'"
+    },
+    {
+      "url": "/custom-elements/registries/Document-customElementRegistry.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/Document-importNode-cross-document.window.html",
+      "status": "error",
+      "message": "Test named 'Cloning with global registry' specified 1 'cleanup' function, and 1 failed."
+    },
+    {
+      "url": "/custom-elements/registries/Document-importNode.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/registries/Document-importNode.html:3:28'"
+    },
+    {
+      "url": "/custom-elements/registries/Element-customElementRegistry-exceptions.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/Element-customElementRegistry.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/Element-innerHTML.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/ShadowRoot-init-customElementRegistry.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/ShadowRoot-init-declarative.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/custom-elements/registries/ShadowRoot-innerHTML.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/adoption.window.html",
+      "status": "error",
+      "message": "Test named 'Adoption with global registry' specified 1 'cleanup' function, and 1 failed."
+    },
+    {
+      "url": "/custom-elements/registries/constructor-direct-call-fallback-registry.window.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/constructor-reentry-createElement.window.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/constructor-reentry-with-different-definition.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/define-customized-builtins.html",
+      "status": "timeout",
+      "message": "b'TypeError: Cannot convert undefined to object\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/registries/define-customized-builtins.html:47:22)\\n    at http://web-platform.test:8000/custom-elements/registries/define-customized-builtins.html:3:2'"
+    },
+    {
+      "url": "/custom-elements/registries/define.html",
+      "status": "timeout",
+      "message": "b'TypeError: Cannot convert undefined to object\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/registries/define.html:9:22)\\n    at http://web-platform.test:8000/custom-elements/registries/define.html:3:2'"
+    },
+    {
+      "url": "/custom-elements/registries/element-mutation-null-registry-removal.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/custom-elements/registries/element-mutation.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/global.window.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"() => customElements.initialize(contentDocument)\" threw object \"TypeError: customElements.initialize is not a function. (In \"customElements.initialize(contentDocument)\", it is undefined)\" that is not a DOMException NotSupportedError: property \"code\" is equal to undefined, expected 9"
+    },
+    {
+      "url": "/custom-elements/registries/initial-about-blank.window.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/registries/per-document.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/registries/pseudo-class-defined.window.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute-in-xhtml.xhtml",
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-append.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-define-upgrade-criteria.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-define-upgrade-order.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-effective-global-registry.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/registries/scoped-registry-effective-global-registry.html:3:28'"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-initialize-upgrades.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-initialize.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/custom-elements/registries/scoped-registry-initialize.html:70:45'"
+    },
+    {
+      "url": "/custom-elements/registries/scoped-registry-registry-define-get-etc.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/registries/template.window.html",
+      "status": "fail",
+      "message": "assert_equals: expected (string) \"\" but got (undefined) undefined"
+    },
+    {
+      "url": "/custom-elements/registries/upgrade.html",
+      "status": "fail",
+      "message": "customElements.upgrade is not a function. (In \"customElements.upgrade(el)\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/registries/valid-custom-element-names.html",
+      "status": "timeout",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: customElements.whenDefined is not a function. (In \"customElements.whenDefined(validName)\", it is undefined)\""
+    },
+    {
+      "url": "/custom-elements/shadow-descendant-lifecycle-order.html",
+      "status": "fail",
+      "message": "customElements.upgrade is not a function. (In \"customElements.upgrade(root)\", it is undefined)"
+    },
+    {
+      "url": "/custom-elements/state/ElementInternals-states.html",
+      "status": "fail",
+      "message": "Illegal constructor"
+    },
+    {
+      "url": "/custom-elements/state/custom-state-set-strong-ref.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+    },
+    {
+      "url": "/custom-elements/state/state-css-selector-nth-of.html",
+      "status": "error",
+      "message": "Test named 'state selector has influence on nth-of when state is applied' specified 2 'cleanup' functions, and 2 failed."
+    },
+    {
+      "url": "/custom-elements/state/state-css-selector-shadow-dom.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/state/state-css-selector.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/custom-elements/state/state-pseudo-class.html",
+      "status": "fail",
+      "message": "The selector is invalid."
+    },
+    {
+      "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+    },
+    {
+      "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading/Document-importNode-customized-builtins.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading/Document-importNode.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading/Node-cloneNode-customized-builtins.html",
+      "status": "fail",
+      "message": "Super class [Function HTMLDivElement] is not a constructor"
+    },
+    {
+      "url": "/custom-elements/upgrading/Node-cloneNode.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading/upgrade-custom-element-error-event.html",
+      "status": "timeout",
+      "message": "b'TypeError: Super class [Function HTMLDivElement] is not a constructor\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/upgrading/upgrade-custom-element-error-event.html:24:57)\\n    at http://web-platform.test:8000/custom-elements/upgrading/upgrade-custom-element-error-event.html:22:44'"
+    },
+    {
+      "url": "/custom-elements/upgrading/upgrading-enqueue-reactions.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/custom-elements/upgrading/upgrading-parser-created-element.html",
+      "status": "fail",
+      "message": "assert_true: Calling customElements.define must upgrade existing custom elements expected true got false"
+    },
     {
       "url": "/dom/events/AddEventListenerOptions-passive.any.worker.html",
       "status": "timeout",
@@ -1523,19 +2546,9 @@
       "message": "Test timed out"
     },
     {
-      "url": "/dom/nodes/ParentNode-querySelector-escapes.html",
-      "status": "fail",
-      "message": "The selector is invalid."
-    },
-    {
       "url": "/dom/nodes/ParentNode-querySelector-host-pseudo-class.html",
       "status": "fail",
       "message": "assert_equals: querySelector with :host pseudo-class should find the element expected Element node <article></article> but got null"
-    },
-    {
-      "url": "/dom/nodes/ParentNode-querySelector-hyphen-prefix.html",
-      "status": "fail",
-      "message": "assert_throws_dom: function \"() => {\n    document.querySelector(\"#-123\");\n  }\" did not throw"
     },
     {
       "url": "/dom/nodes/ParentNode-replaceChildren.html",
@@ -2032,7 +3045,7 @@
     {
       "url": "/dom/ranges/Range-mutations-replaceChild.html",
       "status": "fail",
-      "message": "assert_equals: Wrong start container expected Element node <div id=\"test\"><p id=\"a\">Äb̈c̈d̈ëf̈g̈ḧ\n</p><p id=\"b\" s... but got Element node <p id=\"a\">Äb̈c̈d̈ëf̈g̈ḧ\n</p>"
+      "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceData.html",
@@ -2195,7 +3208,7 @@
     {
       "url": "/domparsing/XMLSerializer-serializeToString.html",
       "status": "fail",
-      "message": "assert_equals: expected \"<el1 xmlns:p=\\\"u1\\\" xmlns:q=\\\"u1\\\"><el2 xmlns:q=\\\"u2\\\" q:name=\\\"v\\\"/></el1>\" but got \"<el1 xmlns:p=\\\"u1\\\" xmlns:q=\\\"u1\\\"><el2 xmlns:q=\\\"u2\\\" p:name=\\\"v\\\"/></el1>\""
+      "message": "assert_equals: expected \"<r xmlns:xx=\\\"uri\\\" xmlns:ns1=\\\"uri2\\\" ns1:name=\\\"value\\\"/>\" but got \"<r xmlns:xx=\\\"uri\\\" xmlns:p=\\\"uri2\\\" p:name=\\\"value\\\"/>\""
     },
     {
       "url": "/domparsing/html-insertion-methods-html-element.html",
@@ -2230,7 +3243,147 @@
     {
       "url": "/domparsing/stream-html-reentrancy.html",
       "status": "fail",
-      "message": "assert_array_equals: the rest of the chunk is parsed before the deferred abort takes effect lengths differ, expected array [\"a\", \"b\", \"c\", \"d\"] length 4, got [\"a\"] length 1"
+      "message": "assert_array_equals: lengths differ, expected array [\"connected\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
+    },
+    {
+      "url": "/domparsing/tentative/stream-append-html-unsafe.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-append-html.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-fragment-context.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-abort-unblocks-rendering.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-custom-element-sanitizer.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-custom-element-sanitizer.html:16:22'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-custom-element.html",
+      "status": "fail",
+      "message": "assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-defer-async-script.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"immediate\"] length 1, got [\"defer\", \"immediate\"] length 2"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-element.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-parser-blocking-script.html",
+      "status": "error",
+      "message": "Error: expected test error\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-parser-blocking-script.html:1:51\n    at steps (native)\n    at async <anonymous> (http://web-platform.test:8000/domparsing/tentative/stream-html-parser-blocking-script.html:149:81)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-unsafe.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-declarative-shadow-root.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: doc.open is not a function. (In \"doc.open()\", it is undefined)\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-adopt.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-adopt.html:2:33'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html:3:5'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html:5:22'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html:3:29'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-no-policy.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html:4:29'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html:3:29'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html:3:29'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html-with-trusted-types-sanitizer.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/domparsing/tentative/stream-html-with-trusted-types-sanitizer.html:5:29'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-html.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-customized-builtins.html",
+      "status": "timeout",
+      "message": "b'TypeError: Super class [Function HTMLButtonElement] is not a constructor\\n    at http://web-platform.test:8000/domparsing/tentative/stream-sanitizer-customized-builtins.html:5:25'"
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-img-ctor.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Image\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-sanitizer-resource-fetch.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+    },
+    {
+      "url": "/domparsing/tentative/stream-tokenizer-context.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/domparsing/tentative/unclosed-script-already-started.html",
+      "status": "fail",
+      "message": "assert_false: createContextualFragment: must not run on insertion expected false got true"
     },
     {
       "url": "/domparsing/unsafe-and-trusted-types-external-scripts-async.html",
@@ -3728,6 +4881,1931 @@
       "message": "assert_true: expected true got false"
     },
     {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base-pushstate.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"history\" is not defined\\n    at http://web-platform.test:8000/fake/base-from-outer-frame:3:1'"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-moretests.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-pushstate.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"history\" is not defined\\n    at http://web-platform.test:8000/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-pushstate.html:3:1'"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-CEReactions.html",
+      "status": "fail",
+      "message": "assert_equals: myElement1.numConnectedCallback after first setHTMLUnsafe. expected (number) 1 but got (undefined) undefined"
+    },
+    {
+      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-runScripts.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/sanitizer-api/parsehtmlunsafe-with-trustedtypes.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/parsehtmlunsafe-with-trustedtypes.html:5:7'"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-a-navigation.html?target=html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-a-navigation.html?target=mathml",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-a-navigation.html?target=svg",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-custom-elements-constructor.html",
+      "status": "timeout",
+      "message": "b'TypeError: [Function CustomElementRegistry] is not a constructor\\n    at http://web-platform.test:8000/sanitizer-api/sanitizer-custom-elements-constructor.html:16:22'"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-custom-elements-is.html",
+      "status": "timeout",
+      "message": "b'TypeError: Super class [Function HTMLDivElement] is not a constructor\\n    at http://web-platform.test:8000/sanitizer-api/sanitizer-custom-elements-is.html:6:29'"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-in-adoption-agency.html",
+      "status": "fail",
+      "message": "\"fetch\" is not defined"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-inert-document.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-modifiers.html",
+      "status": "fail",
+      "message": "assert_false: If the intersection of config[\"attributes\"] and element[\"attributes\"] with default « » is not empty, then return false. (element: id) expected false got true"
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-script-tokenizer.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/sanitizer-svg-animate.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+    },
+    {
+      "url": "/sanitizer-api/sethtml-custom-element-reactions.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-form-owner.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <form id=\"f\"><input name=\"i\"></form> but got (undefined) undefined"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-replace-with-children.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected:div\"] length 2, got [] length 0"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-safety.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/sethtml-scoped-custom-element-registry.html",
+      "status": "fail",
+      "message": "[Function CustomElementRegistry] is not a constructor"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-tree-construction.html",
+      "status": "fail",
+      "message": "\"fetch\" is not defined"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-custom-elements.html",
+      "status": "error",
+      "message": "TypeError: Super class [Function HTMLDivElement] is not a constructor\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-custom-elements.html:130:46"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-declarative-shadow-root.html",
+      "status": "fail",
+      "message": "assert_equals: expected (string) \"open\" but got (undefined) undefined"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html:6:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-null.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-null.html:5:24'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html:84:26'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-createParserOptions.html:9:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedtypes-immutable.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-immutable.html:4:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-with-trustedtypes.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes.html:7:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-xml-document-sanitizer-report-only.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-xml-document-sanitizer-report-only.html:5:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-xml-document-sanitizer.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-xml-document-sanitizer.html:5:7'"
+    },
+    {
+      "url": "/sanitizer-api/sethtml-xml-document.html",
+      "status": "fail",
+      "message": "A shadow root cannot be attached to this element"
+    },
+    {
+      "url": "/sanitizer-api/sethtmlunsafe-toplevel-template-script.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+    },
+    {
+      "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html:3:3'"
+    },
+    {
+      "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html:3:3'"
+    },
+    {
+      "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html:2:18'"
+    },
+    {
+      "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html:2:18'"
+    },
+    {
+      "url": "/sanitizer-api/trustedhtml-unvetted-parser-options.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/trustedhtml-unvetted-parser-options.html:2:18'"
+    },
+    {
+      "url": "/shadow-dom/Document-caretPositionFromPoint.tentative.html",
+      "status": "fail",
+      "message": "container.firstChild.getBoundingClientRect is not a function. (In \"container.firstChild.getBoundingClientRect()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/Document-prototype-adoptNode.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"function () {\n            var element = document.createElement('div');\n            var shadowRoot = element.attachShadow({mode: mode});\n            newDocument.adoptNode(shadowRoot);\n        }\" did not throw"
+    },
+    {
+      "url": "/shadow-dom/Document-prototype-currentScript.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/Document-prototype-importNode.html",
+      "status": "fail",
+      "message": "assert_throws_dom: function \"function () {\n            var element = document.createElement('div');\n            var shadowRoot = element.attachShadow({mode: mode});\n            newDocument.importNode(shadowRoot);\n        }\" did not throw"
+    },
+    {
+      "url": "/shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html",
+      "status": "fail",
+      "message": "document.elementFromPoint is not a function. (In \"document.elementFromPoint(...pointInElement(host))\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/Element-interface-attachShadow-custom-element.html",
+      "status": "error",
+      "message": "TypeError: Super class [Function HTMLInputElement] is not a constructor\n    at http://web-platform.test:8000/shadow-dom/Element-interface-attachShadow-custom-element.html:83:42"
+    },
+    {
+      "url": "/shadow-dom/Element-interface-attachShadow.html",
+      "status": "fail",
+      "message": "assert_throws_dom: Calling attachShadow({mode: \"open\"}) on a element must throw function \"function () {\n            document.createElement(elementName).attachShadow({mode: \"open\"});\n        }\" did not throw"
+    },
+    {
+      "url": "/shadow-dom/Extensions-to-Event-Interface.html",
+      "status": "fail",
+      "message": "event.composedPath is not a function. (In \"event.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/HighlightRegistry-highlightsFromPoint.html",
+      "status": "fail",
+      "message": "assert_throws_js: function \"() => { CSS.highlights.highlightsFromPoint(10, 10, {shadowRoots: [container]}); }\" threw object \"ReferenceError: \"CSS\" is not defined\" (\"ReferenceError\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
+    },
+    {
+      "url": "/shadow-dom/MouseEvent-prototype-offsetX-offsetY.html",
+      "status": "fail",
+      "message": "\"MouseEvent\" is not defined"
+    },
+    {
+      "url": "/shadow-dom/Node-prototype-cloneNode.html",
+      "status": "fail",
+      "message": "assert_throws_dom: cloneNode(false) on a shadow root in open mode must throw a NotSupportedError function \"function () {\n            var element = document.createElement('div');\n            var shadowRoot = element.attachShadow({mode: mode});\n            shadowRoot.cloneNode(false);\n        }\" did not throw"
+    },
+    {
+      "url": "/shadow-dom/ShadowRoot-interface.html",
+      "status": "fail",
+      "message": "assert_equals: ShadowRoot.host must return null if an open shadow tree does not have a focused element expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/Slottable-mixin.html",
+      "status": "fail",
+      "message": "assert_true: assignedSlot must be defined on Element.prototype expected true got false"
+    },
+    {
+      "url": "/shadow-dom/accesskey.tentative.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"navigator\" is not defined\""
+    },
+    {
+      "url": "/shadow-dom/attachShadow-with-ShadowRoot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html",
+      "status": "fail",
+      "message": "TypeError: event.composedPath is not a function. (In \"event.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-parser-interaction.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-attachment.html",
+      "status": "fail",
+      "message": "assert_equals: Correct delegatesFocus expected (boolean) false but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-basic.html",
+      "status": "fail",
+      "message": "assert_equals: No leftover template node expected null but got Element node <template shadowrootmode=\"open\">\n    <slot id=\"s1\" name=\"..."
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-opt-in.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-repeats-2.html",
+      "status": "fail",
+      "message": "assert_true: Remaining shadow root should be open expected true got false"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-repeats-slot-assignment.html",
+      "status": "fail",
+      "message": "assert_true: Shadow root should exist expected true got false"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-repeats.html",
+      "status": "fail",
+      "message": "assert_true: Remaining shadow root should be open expected true got false"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-serialization.html",
+      "status": "fail",
+      "message": "a.getHTML is not a function. (In \"a.getHTML({ serializableShadowRoots: true })\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-slot-assignment-serialization.html",
+      "status": "fail",
+      "message": "assert_equals: expected (string) \"manual\" but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-slot-assignment.html",
+      "status": "fail",
+      "message": "assert_equals: Missing attribute should map to named expected (string) \"named\" but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+    },
+    {
+      "url": "/shadow-dom/declarative/gethtml-ordering.html",
+      "status": "timeout",
+      "message": "b'TypeError: host.getHTML is not a function. (In \"host.getHTML({shadowRoots: [host.shadowRoot]})\", it is undefined)\\n    at serialize (http://web-platform.test:8000/shadow-dom/declarative/gethtml-ordering.html:13:59)\\n    at http://web-platform.test:8000/shadow-dom/declarative/gethtml-ordering.html:18:42'"
+    },
+    {
+      "url": "/shadow-dom/declarative/gethtml.html",
+      "status": "error",
+      "message": "ReferenceError: \"light\" is not defined\n    at http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:1:1\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:46:25)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at testElementType (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:99:41)\n    at runAllTests (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:128:15)\n    at http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:135:1\nReferenceError: \"light\" is not defined\n    at http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:1:1\n    at steps (native)\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:46:25)\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at test (http://web-platform.test:8000/resources/testharness.js:633:51)\n    at testElementType (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:99:41)\n    at runAllTests (http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:128:15)\n    at http://web-platform.test:8000/shadow-dom/declarative/gethtml.html:135:1"
+    },
+    {
+      "url": "/shadow-dom/declarative/innerhtml-before-closing-tag.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134\n                throw new Error(binding.engine.exceptionMessage(binding.realm, result.value));\n                      ^\n\nError: Error: assert_unreached: For streaming declarative Shadow DOM, the <template> element should never get added to the tree Reached unreachable code\n    at MutationObserver.callback (file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134:23)\n    at notifyMutationObservers (file:///workspace/dist/dom/mutation-observer.js:144:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/shadow-dom/declarative/move-template-before-closing-tag.html",
+      "status": "fail",
+      "message": "assert_true: Declarative shadow template should not be left over expected true got false"
+    },
+    {
+      "url": "/shadow-dom/declarative/script-access.html",
+      "status": "error",
+      "message": "file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134\n                throw new Error(binding.engine.exceptionMessage(binding.realm, result.value));\n                      ^\n\nError: Error: assert_equals: No template ever for streaming declarative Shadow DOM expected null but got Element node <template shadowrootmode=\"open\">\n  <slot></slot>\n  <!-- E...\n    at MutationObserver.callback (file:///workspace/dist/javascript-engine/dom-realm-interface-constructors.js:134:23)\n    at notifyMutationObservers (file:///workspace/dist/dom/mutation-observer.js:144:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n\nNode.js v24.15.0"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect-iframe.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-bare-specifier.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-importmap.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-failure.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-clear.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-insertrule.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-same.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-swap.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-remove-middle.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-replacesync.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-ordering.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-shared.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-basic.html",
+      "status": "error",
+      "message": "TypeError: Cannot convert null to object\n    at http://web-platform.test:8000/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-basic.html:11:24"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode-async-fetch.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-fetched-module.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-absent-and-empty.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-feature-detection.html",
+      "status": "fail",
+      "message": "assert_true: HTMLTemplateElement.prototype must expose shadowRootAdoptedStyleSheets. expected true got false"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-reflection.html",
+      "status": "fail",
+      "message": "assert_equals: Setting the IDL attribute must set the content attribute. expected (string) \"foo bar\" but got (object) null"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-invalid-specifier.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-async.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-basic.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-failure.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-identity.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-nested.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-ordering.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-shared.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-multiple.html",
+      "status": "error",
+      "message": "TypeError: Cannot convert null to object\n    at http://web-platform.test:8000/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-multiple.html:11:24"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-async.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-sync.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-placeholder-identity.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html",
+      "status": "fail",
+      "message": "host.getHTML is not a function. (In \"host.getHTML(opts)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/dragenter-related-target.html",
+      "status": "fail",
+      "message": "Tried to run in a non-testharness window without a call to set_test_context"
+    },
+    {
+      "url": "/shadow-dom/dragleave-related-target.html",
+      "status": "fail",
+      "message": "Tried to run in a non-testharness window without a call to set_test_context"
+    },
+    {
+      "url": "/shadow-dom/event-composed-path-after-dom-mutation.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/event-composed-path-with-related-target.html",
+      "status": "fail",
+      "message": "\"FocusEvent\" is not defined"
+    },
+    {
+      "url": "/shadow-dom/event-composed-path.html",
+      "status": "fail",
+      "message": "TypeError: e.composedPath is not a function. (In \"e.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/event-composed.html",
+      "status": "fail",
+      "message": "TypeError: e.composedPath is not a function. (In \"e.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/event-dispatch-order.tentative.html",
+      "status": "fail",
+      "message": "TypeError: e.composedPath is not a function. (In \"e.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/event-inside-shadow-tree.html",
+      "status": "fail",
+      "message": "assert_equals: EventPath must contain [target, parent, shadow root, shadow host] expected 4 but got 3"
+    },
+    {
+      "url": "/shadow-dom/event-inside-slotted-node.html",
+      "status": "fail",
+      "message": "assert_equals: EventPath must contain [target, target parent, slot, slot parent, shadow root, shadow host] expected 6 but got 3"
+    },
+    {
+      "url": "/shadow-dom/event-post-dispatch-listenerless.html",
+      "status": "fail",
+      "message": "assert_equals: target is retargeted to the host expected Element node <div></div> but got Element node <div></div>"
+    },
+    {
+      "url": "/shadow-dom/event-post-dispatch-no-listeners.html",
+      "status": "fail",
+      "message": "assert_equals: event.target should be the shadow host (retargeted) after dispatch expected Element node <div id=\"host\">\n    \n  </div> but got Element node <div id=\"target\"></div>"
+    },
+    {
+      "url": "/shadow-dom/event-post-dispatch.html",
+      "status": "fail",
+      "message": "TypeError: event.composedPath is not a function. (In \"event.composedPath()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/event-with-related-target.html",
+      "status": "fail",
+      "message": "\"MouseEvent\" is not defined"
+    },
+    {
+      "url": "/shadow-dom/execcommand-insertList-in-shadow.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: xmenu1.focus is not a function. (In \"xmenu1.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: start.focus is not a function. (In \"start.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
+      "status": "fail",
+      "message": "assert_false: expected false got undefined"
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-navigation.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: div1.focus is not a function. (In \"div1.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input2.focus is not a function. (In \"input2.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input1.focus is not a function. (In \"input1.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
+      "status": "fail",
+      "message": "assert_true: Failed to focus host/B expected true got false"
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
+      "status": "error",
+      "message": "TypeError: document.querySelector('[popovertarget]').click is not a function. (In \"document.querySelector('[popovertarget]').click()\", it is undefined)\n    at http://web-platform.test:8000/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html:2:24"
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: fromElement.focus is not a function. (In \"fromElement.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: start.focus is not a function. (In \"start.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: scroller.focus is not a function. (In \"scroller.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus-within-shadow.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/focus/DocumentOrShadowRoot-activeElement.html",
+      "status": "fail",
+      "message": "focused.focus is not a function. (In \"focused.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/ShadowRoot-delegatesFocus.html",
+      "status": "fail",
+      "message": "assert_equals: expected (boolean) false but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html",
+      "status": "fail",
+      "message": "host.focus is not a function. (In \"host.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/click-focus-delegatesFocus-click.html",
+      "status": "fail",
+      "message": "host.click is not a function. (In \"host.click()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/click-focus-slot-ancestor.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/shadow-dom/focus/delegatesFocus-tabindex-change.html",
+      "status": "fail",
+      "message": "host.focus is not a function. (In \"host.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-autofocus.html",
+      "status": "fail",
+      "message": "host.focus is not a function. (In \"host.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-click-on-shadow-host.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <body>\n  <div id=\"host\"></div>\n\n\n<script>\nconst host = do... but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-method-delegatesFocus.html",
+      "status": "fail",
+      "message": "host.focus is not a function. (In \"host.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-method-with-delegatesFocus.html",
+      "status": "fail",
+      "message": "xshadow0.focus is not a function. (In \"xshadow0.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-preserved-on-slot-reorder.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: input.focus is not a function. (In \"input.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-scroll-under-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-selector-delegatesFocus.html",
+      "status": "fail",
+      "message": "shadowChild.focus is not a function. (In \"shadowChild.focus()\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-shadowhost-display-none.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: host.focus is not a function. (In \"host.focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-slot-box-generated-tabindex-0.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tab-on-shadow-host.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <body>\n  <div id=\"host\"></div>\n\n\n<script>\nconst host = do... but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: root1.querySelector(\"input\").focus is not a function. (In \"root1.querySelector(\"input\").focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: root1.querySelector(\"input\").focus is not a function. (In \"root1.querySelector(\"input\").focus()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: host.shadowRoot.firstElementChild.show is not a function. (In \"host.shadowRoot.firstElementChild.show()\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-text-control.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
+    },
+    {
+      "url": "/shadow-dom/focus/text-selection-with-delegatesFocus.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
+    },
+    {
+      "url": "/shadow-dom/form-control-form-attribute.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <form id=\"form\">form</form> but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-api-cross-shadow-root.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: slotA.assign is not a function. (In \"slotA.assign(nodeN)\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-api-disconnected.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: slot1.assign is not a function. (In \"slot1.assign(div)\", it is undefined)\""
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-api-slotchange.html",
+      "status": "fail",
+      "message": "tTree.s1.assign is not a function. (In \"tTree.s1.assign(tTree.c1)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-api.html",
+      "status": "fail",
+      "message": "assert_equals: slotAssignment should return \"manual\" expected (string) \"manual\" but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-fallback-clear.html",
+      "status": "fail",
+      "message": "slot.assign is not a function. (In \"slot.assign(host.firstChild)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/imperative-slot-initial-fallback.html",
+      "status": "fail",
+      "message": "assert_greater_than: Fallback content should be rendered expected a number but got a \"undefined\""
+    },
+    {
+      "url": "/shadow-dom/innerHTML-setter.xhtml",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/input-element-list.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/input-type-radio.html",
+      "status": "fail",
+      "message": "assert_false: expected false got undefined"
+    },
+    {
+      "url": "/shadow-dom/leaktests/html-collection.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/leaktests/selection.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/shadow-dom/leaktests/window-frames.html",
+      "status": "fail",
+      "message": "assert_equals: window.frames should return only frames in document. expected (number) 1 but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/manual-slot-assignment-with-details.html",
+      "status": "fail",
+      "message": "slot.assign is not a function. (In \"slot.assign(child)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/offsetParent-across-shadow-boundaries.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <div id=\"relativeParent\" style=\"position: relative; paddi... but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/offsetTop-offsetLeft-across-shadow-boundaries.html",
+      "status": "fail",
+      "message": "assert_equals: expected (number) 38 but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/aria-labelledby.html",
+      "status": "error",
+      "message": "TypeError: Cannot convert null to object\n    at http://web-platform.test:8000/shadow-dom/reference-target/tentative/aria-labelledby.html:2:68"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/commandfor.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/dom-mutation.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/event-path.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/form.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/gethtml-serialization.html",
+      "status": "fail",
+      "message": "host.getHTML is not a function. (In \"host.getHTML({shadowRoots: [host.shadowRoot]})\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/interestfor.tentative.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/label-descendant.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/label-for.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/label-lifetime.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/popovertarget.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/property-reflection-idl-setters.html",
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"host-id\"] length 1, got [] length 0"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html",
+      "status": "fail",
+      "message": "assert_equals: expected Element node <div id=\"host-id\"></div> but got null"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/property-reflection.html",
+      "status": "fail",
+      "message": "assert_equals: expected Element node <div id=\"host-id\">\n        \n      </div> but got null"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/reference-target-basics.html",
+      "status": "fail",
+      "message": "Cannot convert null to object"
+    },
+    {
+      "url": "/shadow-dom/reference-target/tentative/shadowrootreferencetarget-idl-reflection.html",
+      "status": "fail",
+      "message": "assert_true: HTMLTemplateElement should expose the shadowRootReferenceTarget IDL attribute expected true got false"
+    },
+    {
+      "url": "/shadow-dom/scroll-restore-shadow.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+    },
+    {
+      "url": "/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html",
+      "status": "timeout",
+      "message": "b'TypeError: window.scrollTo is not a function. (In \"window.scrollTo(0, 0)\", it is undefined)\\n    at executeNextTest (http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:34:24)\\n    at http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:110:1'"
+    },
+    {
+      "url": "/shadow-dom/shadow-root-clonable.html",
+      "status": "fail",
+      "message": "assert_true: clonable attribute expected true got undefined"
+    },
+    {
+      "url": "/shadow-dom/slotchange-customelements.html",
+      "status": "fail",
+      "message": "assert_true: expected true got false"
+    },
+    {
+      "url": "/shadow-dom/slotchange-event.html",
+      "status": "timeout",
+      "message": "b'TypeError: The childList option must be true\\nError: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0\\n    at http://web-platform.test:8000/shadow-dom/slotchange-event.html\\nError: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0\\n    at http://web-platform.test:8000/shadow-dom/slotchange-event.html\\nError: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0\\n    at http://web-platform.test:8000/shadow-dom/slotchange-event.html\\nError: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0\\n    at http://web-platform.test:8000/shadow-dom/slotchange-event.html'"
+    },
+    {
+      "url": "/shadow-dom/slotchange.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/slots-fallback-in-document.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be Element node <slot id=\"slot\"><div id=\"fallback\">This is fallback conte... but got Element node <div id=\"fallback\">This is fallback content</div> (expected array [Element node <slot id=\"slot\"><div id=\"fallback\">This is fallback conte...] got [Element node <div id=\"fallback\">This is fallback content</div>])"
+    },
+    {
+      "url": "/shadow-dom/slots-fallback.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/slots-outside-shadow-dom.html",
+      "status": "fail",
+      "message": "assert_array_equals: expected property 0 to be Element node <slot>foo</slot> but got Text node \"foo\" (expected array [Element node <slot>foo</slot>] got [Text node \"foo\"])"
+    },
+    {
+      "url": "/shadow-dom/slots.html",
+      "status": "fail",
+      "message": "assert_equals: expected (object) Element node <slot id=\"s1\" name=\"slot1\"></slot> but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/touch-event-retargeting-leak.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/activeElement-confirm-return-null.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-007.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-009.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-010.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-011.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-012.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-013.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-004.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-006.html",
+      "status": "fail",
+      "message": "s.elementFromPoint is not a function. (In \"s.elementFromPoint(1, 1)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-007.html",
+      "status": "fail",
+      "message": "s.elementFromPoint is not a function. (In \"s.elementFromPoint(-1, 1)\", it is undefined)"
+    },
+    {
+      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-010.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/event-dispatch/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/event-dispatch/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/event-retargeting/test-001.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/event-retargeting/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/events/test-001.html",
+      "status": "timeout",
+      "message": "palim execution timed out"
+    },
+    {
+      "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/dom-tree-accessors-001.html",
+      "status": "fail",
+      "message": "Cannot convert undefined to object"
+    },
+    {
+      "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/test-005.html",
+      "status": "fail",
+      "message": "assert_equals: Elements in shadow DOM must not be accessible from owner's document label.for attribute expected (object) null but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/test-007.html",
+      "status": "fail",
+      "message": "assert_equals: Elements in shadow DOM must be accessible from shadow document label.for attribute expected (object) Element node <input type=\"text\" id=\"input_id\"></input> but got (undefined) undefined"
+    },
+    {
+      "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/test-011.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/styles/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/styles/test-003.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/styles/test-005.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/styles/test-008.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/user-interaction/active-element/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/user-interaction/active-element/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/user-interaction/editing/inheritance-of-content-editable-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/user-interaction/ranges-and-selections/test-001.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/untriaged/user-interaction/ranges-and-selections/test-002.html",
+      "status": "fail",
+      "message": "assert_true: Failed to create new rendered document expected true got false"
+    },
+    {
+      "url": "/shadow-dom/wheel-event-related-target.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+    },
+    {
+      "url": "/streams/writable-streams/aborting.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/aborting.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/aborting.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/aborting.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/aborting.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/aborting.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/bad-strategies.any.html",
+      "status": "fail",
+      "message": "assert_throws_exactly: construction should re-throw the error function \"() => {\n    new WritableStream({}, {\n      get size() {\n        throw error1;\n      },\n      highWaterMark: 5\n    });\n  }\" threw object \"TypeError: WritableStream construction is not implemented\" but we expected it to throw object \"error1: a unique string\""
+    },
+    {
+      "url": "/streams/writable-streams/bad-strategies.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/bad-strategies.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/bad-strategies.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/bad-strategies.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/bad-strategies.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/bad-underlying-sinks.any.html",
+      "status": "fail",
+      "message": "assert_throws_exactly: constructor should throw same error as throwing start getter function \"() => {\n    new WritableStream({\n      get start() {\n        throw error1;\n      }\n    });\n  }\" threw object \"TypeError: WritableStream construction is not implemented\" but we expected it to throw object \"error1: error1\""
+    },
+    {
+      "url": "/streams/writable-streams/bad-underlying-sinks.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/bad-underlying-sinks.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/bad-underlying-sinks.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/bad-underlying-sinks.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/bad-underlying-sinks.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/byte-length-queuing-strategy.any.html",
+      "status": "fail",
+      "message": "\"ByteLengthQueuingStrategy\" is not defined"
+    },
+    {
+      "url": "/streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/byte-length-queuing-strategy.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/byte-length-queuing-strategy.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/close.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/close.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/close.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/close.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/close.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/close.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/constructor.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/constructor.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/constructor.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/constructor.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/constructor.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/constructor.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/count-queuing-strategy.any.html",
+      "status": "fail",
+      "message": "\"CountQueuingStrategy\" is not defined"
+    },
+    {
+      "url": "/streams/writable-streams/count-queuing-strategy.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/count-queuing-strategy.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/count-queuing-strategy.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/count-queuing-strategy.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/count-queuing-strategy.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: WritableStream construction is not implemented\""
+    },
+    {
+      "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/crashtests/garbage-collection.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/crashtests/garbage-collection.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/error.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/error.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/error.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/error.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/error.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/error.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/floating-point-total-queue-size.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/floating-point-total-queue-size.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/floating-point-total-queue-size.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/garbage-collection.any.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: WritableStream construction is not implemented\""
+    },
+    {
+      "url": "/streams/writable-streams/garbage-collection.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/garbage-collection.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/garbage-collection.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/garbage-collection.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/garbage-collection.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/general.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/general.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/general.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/general.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/general.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/general.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/properties.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/properties.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/properties.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/properties.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/properties.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/properties.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/reentrant-strategy.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/reentrant-strategy.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/reentrant-strategy.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/reentrant-strategy.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/reentrant-strategy.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/reentrant-strategy.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/start.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/start.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/start.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/start.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/start.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/start.any.worker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/write.any.html",
+      "status": "fail",
+      "message": "WritableStream construction is not implemented"
+    },
+    {
+      "url": "/streams/writable-streams/write.any.serviceworker.html",
+      "status": "timeout",
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+    },
+    {
+      "url": "/streams/writable-streams/write.any.sharedworker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"SharedWorker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/write.any.sharedworker.html:2:29'"
+    },
+    {
+      "url": "/streams/writable-streams/write.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/streams/writable-streams/write.any.worker.html:2:29'"
+    },
+    {
       "url": "/url/IdnaTestV2-removed.any.html",
       "status": "fail",
       "message": "\"fetch\" is not defined"
@@ -4031,6 +7109,121 @@
       "url": "/url/urlsearchparams-stringifier.any.worker.html",
       "status": "timeout",
       "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/url/urlsearchparams-stringifier.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata.html",
+      "status": "error",
+      "message": "ReferenceError: \"Blob\" is not defined\n    at http://web-platform.test:8000/xhr/formdata.html:26:69"
+    },
+    {
+      "url": "/xhr/formdata/append-formelement.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/append.any.html",
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
+    },
+    {
+      "url": "/xhr/formdata/append.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/append.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/constructor-formelement.html",
+      "status": "fail",
+      "message": "assert_equals: input.value when type=text should not contain newlines expected \"value\" but got \"value\\n\\r\""
+    },
+    {
+      "url": "/xhr/formdata/constructor-submitter-coordinate.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: submitter.getBoundingClientRect is not a function. (In \"submitter.getBoundingClientRect()\", it is undefined)\""
+    },
+    {
+      "url": "/xhr/formdata/constructor-submitter.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/constructor.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/constructor.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/delete-formelement.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/delete.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/delete.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/foreach.any.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"File\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/foreach.any.js:12:20'"
+    },
+    {
+      "url": "/xhr/formdata/foreach.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/foreach.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/get-formelement.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/get.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/get.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/has-formelement.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/has.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/has.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/iteration.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/iteration.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/set-blob.any.html",
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
+    },
+    {
+      "url": "/xhr/formdata/set-blob.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/set-blob.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/set-formelement.html",
+      "status": "fail",
+      "message": "Constructing FormData from a form is not supported"
+    },
+    {
+      "url": "/xhr/formdata/set.any.html",
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
+    },
+    {
+      "url": "/xhr/formdata/set.any.worker.html",
+      "status": "timeout",
+      "message": "b'ReferenceError: \"Worker\" is not defined\\n    at http://web-platform.test:8000/xhr/formdata/set.any.worker.html:2:29'"
+    },
+    {
+      "url": "/xhr/formdata/submitter-coordinate-value.html",
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
     }
   ]
 }

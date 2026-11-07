@@ -5,6 +5,9 @@
 ### Parsing and serialization
 
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
+- [ ] `Sanitizer` configuration の validation、normalization、modifier、safe baseline
+- [ ] safe / unsafe HTML parsing sink の custom element reaction、form owner、declarative Shadow DOM
+- [ ] streaming HTML setter の chunk insertion、script scheduling、custom element reaction
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
 - [ ] HTML tree builder の adoption agency、foster parenting、form element pointer、foreign content integration
 - [ ] HTML tree builder の template insertion mode と stack clear algorithm
@@ -32,7 +35,7 @@
 ### Forms and controls
 
 - [ ] `HTMLSelectElement` / `HTMLOptionsCollection` の options、selectedOptions、indexed / named property surface
-- [ ] `FormData` の form / submitter による entry list 構築と Blob / File entry
+- [ ] `FormData` の form / submitter による entry list 構築、successful controls、改行の正規化
 - [ ] form submission / reset / constraint validation
 - [ ] form-associated element の完全な owner 解決
 - [ ] input type ごとの value sanitization
@@ -71,12 +74,13 @@
 
 ## Component model
 
-- [ ] Shadow DOM
-- [ ] `Element.slot`
-- [ ] Custom Elements
-- [ ] custom element 用 `[HTMLConstructor]`
-- [ ] `ElementInternals`
-- [ ] shadow root を含む serialization
+- [ ] shadow root の attach 条件、mode、host、clonable / serializable state
+- [ ] slot assignment、manual slotting、`Element.slot`、`HTMLSlotElement.assign()`、`slotchange`
+- [ ] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、upgrade、scoped registry
+- [ ] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
+- [ ] custom element reaction queue と connected / disconnected / adopted / attributeChanged callback
+- [ ] `ElementInternals` と form-associated custom element
+- [ ] shadow root を含む serialization と `getHTML()`
 
 ## Window and platform services
 
@@ -100,9 +104,11 @@
 ### Networking and resource loading
 
 - [ ] resource loading
-- [ ] Web Streams と Encoding API の page realm 公開、および `Response.body` の pipe 接続
+- [ ] `Blob` / `File` / `FileList` の page realm 公開と `FormData` の binary entry
+- [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
+- [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
 - [ ] `fetch`
-- [ ] `Request` と fetch 関連 global の realm 公開
+- [ ] `Request` / `Response` / `Headers` と fetch 関連 global の realm 公開
 - [ ] `XMLHttpRequest`
 
 ### Storage and state
@@ -112,7 +118,7 @@
 
 ### Workers
 
-- [ ] Dedicated Worker (`Worker`)
+- [ ] `Worker` / `SharedWorker` の execution realm
 
 ## Runtime scheduling
 
@@ -135,9 +141,6 @@
 ## Conformance infrastructure
 
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
-- [ ] DOM shell fixture の element `id` named access、parser timing、script実行順による false failure を分離する
-- [ ] DOM shell の `browser-profile-only` / `host-unsupported` static classification を WPT source更新時に監査する
-- [ ] DOM shell の fail / error を仕様behavior単位へ集約し、TODOとの対応を機械可読に保持する
 
 ## Web IDL bindings
 
