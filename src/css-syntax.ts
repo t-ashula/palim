@@ -2,7 +2,12 @@ export type CSSToken =
   | { readonly type: "whitespace"; readonly raw: string }
   | { readonly type: "ident"; readonly value: string; readonly raw: string }
   | { readonly type: "function"; readonly value: string; readonly raw: string }
-  | { readonly type: "hash"; readonly value: string; readonly raw: string }
+  | {
+      readonly type: "hash";
+      readonly value: string;
+      readonly id: boolean;
+      readonly raw: string;
+    }
   | { readonly type: "string"; readonly value: string; readonly raw: string }
   | { readonly type: "bad-string"; readonly raw: string }
   | { readonly type: "number"; readonly value: number; readonly raw: string }
@@ -99,9 +104,11 @@ class CSSTokenizer {
     if (character === "#") {
       this.#position += 1;
       if (isName(this.#peek()) || this.#validEscape()) {
+        const id = this.#wouldStartIdent();
         return {
           type: "hash",
           value: this.#consumeName(),
+          id,
           raw: this.#slice(start),
         };
       }
@@ -298,10 +305,7 @@ class CSSTokenizer {
   }
 
   #validEscape(offset = 0): boolean {
-    return (
-      this.#peek(offset) === "\\" &&
-      !["", "\n"].includes(this.#peek(offset + 1))
-    );
+    return this.#peek(offset) === "\\" && this.#peek(offset + 1) !== "\n";
   }
 
   #consumeWhile(predicate: (character: string) => boolean): void {

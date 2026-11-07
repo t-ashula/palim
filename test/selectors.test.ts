@@ -242,9 +242,13 @@ describe("Selector API", () => {
 
   it("applies CSS escapes and comments", () => {
     const document = parse();
+    const escapedEofDocument = parse('<div id="eof\ufffd"></div>');
 
     expect(document.querySelector("#\\31 23")).toBe(byId(document, "123"));
     expect(document.querySelector(".caf\\e9")).toBe(byId(document, "123"));
+    expect(escapedEofDocument.querySelector("#eof\\")).toBe(
+      byId(escapedEofDocument, "eof\ufffd"),
+    );
     expect(document.querySelector("main/**/>/**/section")).toBe(
       byId(document, "first"),
     );
@@ -418,6 +422,7 @@ describe("Selector API", () => {
     "[",
     "[data-kind=",
     "#",
+    "#-123",
     "div >",
     "> div",
     ":unknown",

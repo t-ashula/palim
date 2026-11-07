@@ -381,7 +381,7 @@ class SelectorParser {
     for (;;) {
       const token = this.#peek();
       let selector: SimpleSelector | null = null;
-      if (token?.type === "hash") {
+      if (token?.type === "hash" && token.id) {
         this.#position += 1;
         selector = { kind: "id", value: token.value };
       } else if (isDelim(token, ".")) {

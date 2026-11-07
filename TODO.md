@@ -4,7 +4,6 @@
 
 ### DOM algorithms
 
-- [ ] Selector API の CSS identifier / escape syntax validation と `SyntaxError`
 - [ ] `Range` の boundary validation、比較、clone / extract / delete / insert / surround と mutation 後の live range 更新
 
 ### Parsing and serialization
