@@ -156,6 +156,17 @@ export function installHTMLAreaElementMembers(
   );
 }
 
+export function installHTMLButtonElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  binding.attribute(binding.htmlButtonElementPrototype, "form", (thisValue) => {
+    const button = binding.htmlButtonElement(thisValue);
+    return button === null
+      ? binding.typeError("Invalid HTMLButtonElement receiver for form")
+      : binding.platformValue(button.form);
+  });
+}
+
 export function installHTMLIFrameElementMembers(
   binding: DOMRealmBindingContext,
 ): void {

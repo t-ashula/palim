@@ -90,6 +90,19 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("updates a button form owner after an atomic move", () => {
+    const { engine, realm } = createTestRealm(`
+      <form id="form1"></form>
+      <button form="form1"></button>
+    `);
+
+    evaluate(
+      engine,
+      realm,
+      fixture("updates-button-form-owner-after-atomic-move.js"),
+    );
+  });
+
   it("exposes live HTML table collections", () => {
     const { engine, realm } = createTestRealm(`
       <div><a class="text"></a></div>

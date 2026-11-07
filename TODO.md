@@ -12,7 +12,9 @@
 - [x] `getElementsByTagName` / `getElementsByTagNameNS` / `getElementsByClassName` の HTML・XML case、namespace、class whitespace、liveness
 - [x] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
 - [x] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
-- [ ] `Node.moveBefore` の range、observer、form state、shadow tree を含む atomic move semantics
+- [x] `Node.moveBefore` の core tree move、live range、`NodeIterator`、form owner 更新を含む atomic move semantics
+- [ ] `Node.moveBefore` の `MutationObserver` removal / insertion record と transient registered observer
+- [ ] `Node.moveBefore` の shadow-including tree validation、slot assignment、custom element move reaction
 - [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
 
 ### Parsing and serialization

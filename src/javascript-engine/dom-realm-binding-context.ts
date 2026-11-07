@@ -31,6 +31,7 @@ import {
   DOMStringMap,
   HTMLAnchorElement,
   HTMLAreaElement,
+  HTMLButtonElement,
   HTMLElement,
   HTMLIFrameElement,
   HTMLLinkElement,
@@ -99,6 +100,7 @@ import {
   installDocumentMembers,
   installHTMLAnchorElementMembers,
   installHTMLAreaElementMembers,
+  installHTMLButtonElementMembers,
   installHTMLIFrameElementMembers,
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
@@ -214,6 +216,7 @@ export class DOMRealmBindingContext {
   >();
   readonly htmlAnchorElementPrototype: EngineObject;
   readonly htmlAreaElementPrototype: EngineObject;
+  readonly htmlButtonElementPrototype: EngineObject;
   readonly htmlIFrameElementPrototype: EngineObject;
   readonly htmlLinkElementPrototype: EngineObject;
   readonly htmlOutputElementPrototype: EngineObject;
@@ -328,6 +331,8 @@ export class DOMRealmBindingContext {
       this.htmlElementInterfacePrototype(HTMLAnchorElement);
     this.htmlAreaElementPrototype =
       this.htmlElementInterfacePrototype(HTMLAreaElement);
+    this.htmlButtonElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLButtonElement);
     this.htmlIFrameElementPrototype =
       this.htmlElementInterfacePrototype(HTMLIFrameElement);
     this.htmlLinkElementPrototype =
@@ -440,6 +445,7 @@ export class DOMRealmBindingContext {
     installHTMLElementMembers(this);
     installHTMLAnchorElementMembers(this);
     installHTMLAreaElementMembers(this);
+    installHTMLButtonElementMembers(this);
     installHTMLIFrameElementMembers(this);
     installHTMLLinkElementMembers(this);
     installHTMLOutputElementMembers(this);
@@ -1173,6 +1179,13 @@ export class DOMRealmBindingContext {
   htmlAreaElement(value: EngineValue): HTMLAreaElement | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof HTMLAreaElement ? interfaceObject : null;
+  }
+
+  htmlButtonElement(value: EngineValue): HTMLButtonElement | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof HTMLButtonElement
+      ? interfaceObject
+      : null;
   }
 
   htmlIFrameElement(value: EngineValue): HTMLIFrameElement | null {
