@@ -90,6 +90,14 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("connects MutationObserver to domain tree mutations", () => {
+    const { engine, realm } = createTestRealm(`
+      <div><section><span></span></section><main></main></div>
+    `);
+
+    evaluate(engine, realm, fixture("connects-mutation-observer.js"));
+  });
+
   it("updates a button form owner after an atomic move", () => {
     const { engine, realm } = createTestRealm(`
       <form id="form1"></form>

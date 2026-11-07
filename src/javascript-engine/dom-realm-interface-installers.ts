@@ -55,3 +55,4 @@ export {
 } from "./dom-realm-traversal-interfaces.js";
 
 export { installRangeMembers } from "./dom-realm-range-interfaces.js";
+export { installMutationObserverMembers } from "./dom-realm-mutation-observer-interface.js";

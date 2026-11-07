@@ -118,6 +118,8 @@ export {
   CustomEvent,
   Event,
   EventTarget,
+  MutationObserver,
+  MutationRecord,
   NodeFilter,
 } from "./dom.js";
 export type {
@@ -130,6 +132,8 @@ export type {
   EventListenerObject,
   GetRootNodeOptions,
   ImportNodeOptions,
+  MutationCallback,
+  MutationObserverInit,
   NodeIterator,
   Range,
   StaticRange,

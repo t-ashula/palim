@@ -13,7 +13,7 @@
 - [x] Selector API の element context、`:scope`、namespace、case sensitivity、form state pseudo-class
 - [x] `DOMImplementation.hasFeature` と `DOMImplementation` interface surface
 - [x] `Node.moveBefore` の core tree move、live range、`NodeIterator`、form owner 更新を含む atomic move semantics
-- [ ] `Node.moveBefore` の `MutationObserver` removal / insertion record と transient registered observer
+- [x] `Node.moveBefore` の `MutationObserver` removal / insertion record と transient registered observer
 - [ ] `Node.moveBefore` の shadow-including tree validation、slot assignment、custom element move reaction
 - [ ] `TreeWalker` / `NodeIterator` の branding と traversal state
 
@@ -143,7 +143,7 @@
 - [ ] timers
 - [ ] task queue / microtask queue
 - [ ] event dispatch と microtask の連携
-- [ ] `MutationObserver`
+- [ ] `MutationObserver` の attributes / characterData record、oldValue / filter option、option validation、callback exception reporting
 - [ ] JavaScript execution と event loop の統合
 
 ## Optional JavaScript execution

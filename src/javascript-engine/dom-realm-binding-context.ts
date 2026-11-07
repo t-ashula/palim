@@ -14,6 +14,8 @@ import {
   Event,
   EventTarget,
   HTMLCollection,
+  MutationObserver,
+  MutationRecord,
   NamedNodeMap,
   Node,
   NodeFilter,
@@ -123,6 +125,7 @@ import {
   installNodeIteratorMembers,
   installTreeWalkerMembers,
   installRangeMembers,
+  installMutationObserverMembers,
 } from "./dom-realm-interface-installers.js";
 
 const DATA_PROPERTY = {
@@ -238,6 +241,8 @@ export class DOMRealmBindingContext {
   readonly nodeListPrototype: EngineObject;
   readonly domTokenListPrototype: EngineObject;
   readonly domExceptionPrototype: EngineObject;
+  readonly mutationObserverPrototype: EngineObject;
+  readonly mutationRecordPrototype: EngineObject;
   readonly abstractRangePrototype: EngineObject;
   readonly rangePrototype: EngineObject;
   readonly staticRangePrototype: EngineObject;
@@ -401,6 +406,14 @@ export class DOMRealmBindingContext {
       this.realm,
       objectPrototype,
     );
+    this.mutationObserverPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.mutationRecordPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
     this.abstractRangePrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
@@ -469,6 +482,7 @@ export class DOMRealmBindingContext {
     installNodeIteratorMembers(this);
     installTreeWalkerMembers(this);
     installRangeMembers(this);
+    installMutationObserverMembers(this);
 
     if (associatedDocument !== null) {
       const implementation = documentImplementation(associatedDocument);
@@ -1082,6 +1096,12 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof NodeList) {
       return this.nodeListPrototype;
     }
+    if (interfaceObject instanceof MutationObserver) {
+      return this.mutationObserverPrototype;
+    }
+    if (interfaceObject instanceof MutationRecord) {
+      return this.mutationRecordPrototype;
+    }
     if (interfaceObject instanceof DOMTokenList) {
       return this.domTokenListPrototype;
     }
@@ -1140,6 +1160,16 @@ export class DOMRealmBindingContext {
   node(value: EngineValue): Node | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof Node ? interfaceObject : null;
+  }
+
+  mutationObserver(value: EngineValue): MutationObserver | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof MutationObserver ? interfaceObject : null;
+  }
+
+  mutationRecord(value: EngineValue): MutationRecord | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof MutationRecord ? interfaceObject : null;
   }
 
   characterData(value: EngineValue): CharacterData | null {

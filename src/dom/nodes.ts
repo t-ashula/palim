@@ -90,6 +90,7 @@ import {
   serializeXMLElement,
 } from "../xml/serializer.js";
 import { requireArguments } from "../web-idl.js";
+import { queueTreeMutationRecord } from "./mutation-observer.js";
 
 export interface FragmentParser {
   parse(input: string, context: Element): DocumentFragment;
@@ -545,6 +546,13 @@ function insertChildImplementation(
     next.previousSibling = child;
   }
   parent.children.splice(index, 0, child);
+  queueTreeMutationRecord(
+    nodeInterface(parent),
+    [nodeInterface(child)],
+    [],
+    previous === null ? null : nodeInterface(previous),
+    next === null ? null : nodeInterface(next),
+  );
   if (subtreeContainsHTMLBaseElement(child)) {
     updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
   }
@@ -557,6 +565,13 @@ function removeChildImplementation(
 ): void {
   const previous = child.previousSibling;
   const next = child.nextSibling;
+  queueTreeMutationRecord(
+    nodeInterface(parent),
+    [],
+    [nodeInterface(child)],
+    previous === null ? null : nodeInterface(previous),
+    next === null ? null : nodeInterface(next),
+  );
   if (previous !== null) {
     previous.nextSibling = next;
   }

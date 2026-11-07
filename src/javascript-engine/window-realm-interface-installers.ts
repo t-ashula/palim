@@ -127,6 +127,30 @@ export function installLocationMembers(
 }
 
 export function installTimers(binding: WindowRealmBindingContext): void {
+  binding.operation("queueMicrotask", 1, (_thisValue, argumentsList) => {
+    const callback = binding.context.requiredCallable(
+      argumentsList[0],
+      "queueMicrotask callback must be callable",
+    );
+    if (callback.type === "throw") {
+      return callback;
+    }
+    void Promise.resolve().then(() => {
+      const result = binding.context.call(
+        callback.value,
+        binding.engine.fromPrimitive(undefined),
+        [],
+      );
+      binding.engine.performPromiseCheckpoint();
+      if (result.type === "throw") {
+        reportWindowError(binding.window, {
+          message: binding.engine.exceptionMessage(binding.realm, result.value),
+          url: binding.window.document.URL,
+        });
+      }
+    });
+    return binding.context.undefined();
+  });
   binding.operation("setTimeout", 1, (_thisValue, argumentsList) => {
     const callback = binding.context.requiredCallable(
       argumentsList[0],

@@ -6,6 +6,7 @@ import {
   DocumentFragment,
   Event,
   EventTarget,
+  MutationObserver,
   Node,
   NodeFilter,
   Text,
@@ -149,6 +150,42 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   binding.installInterface("NamedNodeMap", binding.namedNodeMapPrototype);
   binding.installInterface("NodeList", binding.nodeListPrototype);
   binding.installInterface("DOMTokenList", binding.domTokenListPrototype);
+  binding.installInterface(
+    "MutationObserver",
+    binding.mutationObserverPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const callback = binding.engine.asCallable(
+        argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+      );
+      if (callback === null) {
+        return binding.typeError("MutationObserver callback must be callable");
+      }
+      const observer = new MutationObserver((records, currentObserver) => {
+        const platformObserver = binding.wrap(currentObserver);
+        const result = binding.engine.call(
+          binding.realm,
+          callback,
+          platformObserver,
+          [
+            binding.engine.createArray(
+              binding.realm,
+              records.map((record) => binding.wrap(record)),
+            ),
+            platformObserver,
+          ],
+        );
+        binding.engine.performPromiseCheckpoint();
+        if (result.type === "throw") {
+          throw new Error(
+            binding.engine.exceptionMessage(binding.realm, result.value),
+          );
+        }
+      });
+      return normal(binding.wrap(observer));
+    },
+  );
+  binding.installInterface("MutationRecord", binding.mutationRecordPrototype);
   binding.installInterface("AbstractRange", binding.abstractRangePrototype);
   const rangeConstructor = binding.installInterface(
     "Range",

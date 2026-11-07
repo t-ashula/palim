@@ -22,6 +22,11 @@ export type {
   StaticRange,
   StaticRangeInit,
 } from "./dom/range.js";
+export { MutationObserver, MutationRecord } from "./dom/mutation-observer.js";
+export type {
+  MutationCallback,
+  MutationObserverInit,
+} from "./dom/mutation-observer.js";
 export {
   Attr,
   CDATASection,
