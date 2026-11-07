@@ -46,7 +46,7 @@ import {
   tableSectionRows,
 } from "./html-table.js";
 import { HTML_NAMESPACE } from "./namespaces.js";
-import { requireArguments } from "./web-idl.js";
+import { requireArguments, toLong } from "./web-idl.js";
 import { URL } from "./url/index.js";
 
 interface URLValue {
@@ -5218,16 +5218,6 @@ function reflectedLong(
   return number < -2_147_483_648 || number > 2_147_483_647
     ? defaultValue
     : number;
-}
-
-function toLong(value: unknown): number {
-  const number = Number(value);
-  if (!Number.isFinite(number) || number === 0) {
-    return 0;
-  }
-  const integer = Math.trunc(number);
-  const unsigned = ((integer % 4_294_967_296) + 4_294_967_296) % 4_294_967_296;
-  return unsigned >= 2_147_483_648 ? unsigned - 4_294_967_296 : unsigned;
 }
 
 function domString(value: unknown): string {

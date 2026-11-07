@@ -199,6 +199,30 @@ export function installHTMLOutputElementMembers(
   );
 }
 
+export function installHTMLTableElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  binding.method(
+    binding.htmlTableElementPrototype,
+    "deleteRow",
+    1,
+    (thisValue, argumentsList) => {
+      const table = binding.htmlTableElement(thisValue);
+      if (table === null) {
+        return binding.typeError("Invalid HTMLTableElement receiver");
+      }
+      const index = binding.longArgument(argumentsList, 0, "deleteRow");
+      if (index.type === "throw") {
+        return index;
+      }
+      return binding.domOperationResult(() => {
+        table.deleteRow(index.value);
+        return binding.undefined();
+      });
+    },
+  );
+}
+
 export function installHTMLTemplateElementMembers(
   binding: DOMRealmBindingContext,
 ): void {

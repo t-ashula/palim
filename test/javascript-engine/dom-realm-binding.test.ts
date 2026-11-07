@@ -90,6 +90,17 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("connects HTMLTableElement.deleteRow to the domain implementation", () => {
+    const { engine, realm } = createTestRealm(`
+      <table>
+        <thead><tr><td>head</td></tr></thead>
+        <tbody><tr><td class="text1">body</td></tr></tbody>
+      </table>
+    `);
+
+    evaluate(engine, realm, fixture("supports-html-table-delete-row.js"));
+  });
+
   it("exposes live Document named properties", () => {
     const { engine, realm } = createTestRealm("");
 

@@ -35,6 +35,7 @@ import {
   HTMLIFrameElement,
   HTMLLinkElement,
   HTMLOutputElement,
+  HTMLTableElement,
   HTMLTemplateElement,
 } from "../html-elements.js";
 import { implementationFor, interfaceFor } from "../dom/binding.js";
@@ -62,6 +63,7 @@ import {
   isTreeWalker,
   type NodeFilter as NodeFilterCallback,
 } from "../dom/traversal.js";
+import { toLong } from "../web-idl.js";
 import { normal, thrown } from "./adapter.js";
 import type {
   EngineCallable,
@@ -98,6 +100,7 @@ import {
   installHTMLIFrameElementMembers,
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
+  installHTMLTableElementMembers,
   installHTMLTemplateElementMembers,
   installDocumentFragmentMembers,
   installDocumentTypeMembers,
@@ -210,6 +213,7 @@ export class DOMRealmBindingContext {
   readonly htmlIFrameElementPrototype: EngineObject;
   readonly htmlLinkElementPrototype: EngineObject;
   readonly htmlOutputElementPrototype: EngineObject;
+  readonly htmlTableElementPrototype: EngineObject;
   readonly htmlTemplateElementPrototype: EngineObject;
   readonly documentPrototype: EngineObject;
   readonly documentFragmentPrototype: EngineObject;
@@ -324,6 +328,8 @@ export class DOMRealmBindingContext {
       this.htmlElementInterfacePrototype(HTMLLinkElement);
     this.htmlOutputElementPrototype =
       this.htmlElementInterfacePrototype(HTMLOutputElement);
+    this.htmlTableElementPrototype =
+      this.htmlElementInterfacePrototype(HTMLTableElement);
     this.htmlTemplateElementPrototype =
       this.htmlElementInterfacePrototype(HTMLTemplateElement);
     this.documentPrototype = this.engine.createObject(
@@ -426,6 +432,7 @@ export class DOMRealmBindingContext {
     installHTMLIFrameElementMembers(this);
     installHTMLLinkElementMembers(this);
     installHTMLOutputElementMembers(this);
+    installHTMLTableElementMembers(this);
     installHTMLTemplateElementMembers(this);
     installDocumentMembers(this);
     installDocumentFragmentMembers(this);
@@ -598,6 +605,26 @@ export class DOMRealmBindingContext {
     }
     const integer = Math.trunc(converted.value);
     return normal(((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000);
+  }
+
+  longArgument(
+    argumentsList: readonly EngineValue[],
+    index: number,
+    operation: string,
+  ): EngineResult<number> {
+    const value = argumentsList[index];
+    if (value === undefined) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          `${operation} requires ${String(index + 1)} argument(s)`,
+        ),
+      );
+    }
+    const converted = this.engine.toNumber(this.realm, value);
+    return converted.type === "throw"
+      ? converted
+      : normal(toLong(converted.value));
   }
 
   traversalFilter(
@@ -1152,6 +1179,11 @@ export class DOMRealmBindingContext {
     return interfaceObject instanceof HTMLOutputElement
       ? interfaceObject
       : null;
+  }
+
+  htmlTableElement(value: EngineValue): HTMLTableElement | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof HTMLTableElement ? interfaceObject : null;
   }
 
   htmlTemplateElement(value: EngineValue): HTMLTemplateElement | null {
