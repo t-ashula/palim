@@ -2062,6 +2062,68 @@ describe("Node mutation", () => {
 });
 
 describe("Document metadata", () => {
+  it("gets the first HTML body or frameset child of an HTML root", () => {
+    const foreignRootDocument = new Document();
+    const foreignRoot = foreignRootDocument.createElementNS(
+      "urn:example",
+      "html",
+    );
+    foreignRootDocument.appendChild(foreignRoot);
+    foreignRoot.appendChild(
+      foreignRootDocument.createElementNS(HTML_NAMESPACE, "body"),
+    );
+    expect(foreignRootDocument.body).toBeNull();
+
+    const document = new Document();
+    const root = document.createElementNS(HTML_NAMESPACE, "html");
+    const foreignBody = document.createElementNS("urn:example", "body");
+    const frameset = document.createElementNS(HTML_NAMESPACE, "frameset");
+    document.appendChild(root);
+    root.append(foreignBody, frameset);
+
+    expect(document.body).toBe(frameset);
+  });
+
+  it("sets, replaces, and validates the document body", () => {
+    const document = parse("<main>content</main>");
+    const oldBody = document.body;
+    const body = document.createElement("body");
+    document.body = body;
+
+    expect(document.body).toBe(body);
+    expect(oldBody?.parentNode).toBeNull();
+    document.body = body;
+    expect(document.body).toBe(body);
+
+    expect(() => {
+      document.body = "text" as unknown as Element;
+    }).toThrow(TypeError);
+    expectDOMException(() => {
+      document.body = document.createElement("div");
+    }, "HierarchyRequestError");
+    expectDOMException(() => {
+      document.body = null;
+    }, "HierarchyRequestError");
+
+    const empty = new Document();
+    expectDOMException(() => {
+      empty.body = empty.createElementNS(HTML_NAMESPACE, "body");
+    }, "HierarchyRequestError");
+  });
+
+  it("appends a valid body value to a non-HTML document element", () => {
+    const document = new DOMParser().parseFromString(
+      '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+      "image/svg+xml",
+    );
+    const body = document.createElementNS(HTML_NAMESPACE, "body");
+
+    document.body = body;
+
+    expect(document.documentElement?.lastChild).toBe(body);
+    expect(document.body).toBeNull();
+  });
+
   it("gets and sets the document title", () => {
     const document = parse(
       "<title>  Initial\n title\u00a0 </title><main></main>",

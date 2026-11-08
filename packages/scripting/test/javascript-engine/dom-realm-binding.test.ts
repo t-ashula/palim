@@ -196,6 +196,12 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("exposes-document-named-properties.js"));
   });
 
+  it("connects the Document body setter", () => {
+    const { engine, realm } = createTestRealm("<main></main>");
+
+    evaluate(engine, realm, fixture("connects-document-body-setter.js"));
+  });
+
   it("exposes every HTML element interface in the engine realm", () => {
     const concreteInterfaces = Object.values(HTML).filter(
       isConcreteHTMLElementInterface,

@@ -877,16 +877,53 @@ export class Document extends Node {
   }
 
   get body(): Element | null {
+    const root = this.documentElement;
+    if (root?.namespaceURI !== HTML_NAMESPACE || root.localName !== "html") {
+      return null;
+    }
     return (
-      (this.documentElement === null
-        ? []
-        : childNodes(this.documentElement)
-      ).find(
+      childNodes(root).find(
         (node): node is Element =>
           node instanceof Element &&
+          node.namespaceURI === HTML_NAMESPACE &&
           (node.localName === "body" || node.localName === "frameset"),
       ) ?? null
     );
+  }
+
+  set body(value: Element | null) {
+    if (value !== null && !(value instanceof Element)) {
+      throw new TypeError("The value is not an Element or null");
+    }
+    if (
+      value?.namespaceURI !== HTML_NAMESPACE ||
+      (value.localName !== "body" && value.localName !== "frameset")
+    ) {
+      throw new DOMException(
+        "The value is not a body or frameset element",
+        "HierarchyRequestError",
+      );
+    }
+    const body = this.body;
+    if (value === body) {
+      return;
+    }
+    if (body !== null) {
+      const parent = body.parentNode;
+      if (parent === null) {
+        throw new TypeError("The body element has no parent");
+      }
+      parent.replaceChild(value, body);
+      return;
+    }
+    const root = this.documentElement;
+    if (root === null) {
+      throw new DOMException(
+        "The document has no document element",
+        "HierarchyRequestError",
+      );
+    }
+    root.appendChild(value);
   }
 
   get compatMode(): "BackCompat" | "CSS1Compat" {

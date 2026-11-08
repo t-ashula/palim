@@ -1536,14 +1536,45 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Document receiver")
       : binding.platformValue(document.currentScript);
   });
-  for (const name of ["head", "body"] as const) {
-    binding.attribute(binding.documentPrototype, name, (thisValue) => {
+  binding.attribute(binding.documentPrototype, "head", (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : binding.platformValue(document.head);
+  });
+  binding.attribute(
+    binding.documentPrototype,
+    "body",
+    (thisValue) => {
       const document = binding.document(thisValue);
       return document === null
         ? binding.typeError("Invalid Document receiver")
-        : binding.platformValue(document[name]);
-    });
-  }
+        : binding.platformValue(document.body);
+    },
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const value = argumentsList[0];
+      const body =
+        value !== undefined && binding.engine.isNull(value)
+          ? null
+          : value === undefined
+            ? null
+            : binding.element(value);
+      if (
+        body === null &&
+        (value === undefined || !binding.engine.isNull(value))
+      ) {
+        return binding.typeError("The value is not an Element or null");
+      }
+      return binding.domOperationResult(() => {
+        document.body = body;
+        return binding.undefined();
+      });
+    },
+  );
   for (const name of ["doctype", "documentElement"] as const) {
     binding.attribute(binding.documentPrototype, name, (thisValue) => {
       const document = binding.document(thisValue);

@@ -43,7 +43,9 @@
 
 ### Document surface
 
-- [ ] `document.body` / `head` / `title`
+- [x] `document.body`
+- [ ] `document.head`
+- [ ] `document.title`
 - [ ] XML document の legacy `rootElement` surface
 - [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
 - [ ] `Document` named properties と `id` / `name` mutation、adoption、tree order に追従する collection
