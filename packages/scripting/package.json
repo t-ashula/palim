@@ -1,0 +1,34 @@
+{
+  "name": "@palim/scripting",
+  "version": "0.0.0",
+  "description": "JavaScript scripting support for palim Window environments.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./internal/*.js": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --root ../.. --config vitest.config.ts --project scripting"
+  },
+  "dependencies": {
+    "@palim/core": "0.0.0",
+    "@palim/window": "0.0.0"
+  }
+}

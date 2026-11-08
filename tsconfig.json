@@ -6,7 +6,13 @@
     "moduleResolution": "NodeNext",
     "paths": {
       "@palim/core": ["./packages/core/src/index.ts"],
-      "@palim/core/internal/*": ["./packages/core/src/*"]
+      "@palim/core/internal/*": ["./packages/core/src/*"],
+      "@palim/window": ["./packages/window/src/index.ts"],
+      "@palim/window/internal/*": ["./packages/window/src/*"],
+      "@palim/scripting": ["./packages/scripting/src/index.ts"],
+      "@palim/scripting/internal/*": ["./packages/scripting/src/*"],
+      "@palim/engine262": ["./packages/engine262/src/index.ts"],
+      "@palim/engine262/internal/*": ["./packages/engine262/src/*"]
     },
     "resolveJsonModule": true,
     "strict": true,
@@ -20,6 +26,7 @@
   "include": [
     "benchmark/**/*.ts",
     "packages/*/src/**/*.ts",
+    "packages/*/test/**/*.ts",
     "test/**/*.ts",
     "tools/**/*.ts",
     "vitest.config.ts"

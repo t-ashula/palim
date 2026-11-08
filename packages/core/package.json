@@ -24,7 +24,9 @@
   "scripts": {
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "prebuild": "npm run clean",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --root ../.. --config vitest.config.ts --project core",
+    "test:conformance": "vitest run --root ../.. --config vitest.config.ts --project conformance"
   },
   "repository": {
     "type": "git",

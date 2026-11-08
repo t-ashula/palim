@@ -16,6 +16,7 @@ import {
 import {
   documentImplementation,
   nodeImplementation,
+  type ScriptingMode,
 } from "../dom/node-implementation.js";
 import {
   appendCharacterData,
@@ -54,8 +55,6 @@ import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
 import type { PalimParseError } from "./parse-errors.js";
 
-type ParserScriptingMode = "disabled" | "enabled";
-
 export interface HTMLFragmentContext {
   readonly namespaceURI: string;
   readonly localName: string;
@@ -69,7 +68,7 @@ interface TreeBuilderOptions {
   readonly onScript?: (element: Element) => Promise<void> | void;
   readonly runScripts?: boolean;
   readonly sanitizerConfig?: CanonicalSanitizerConfig;
-  readonly scriptingMode?: ParserScriptingMode;
+  readonly scriptingMode?: ScriptingMode;
   readonly streamingInsertion?: {
     readonly parent: Node;
     readonly reference: Node | null;
@@ -86,7 +85,10 @@ const htmlFragmentParser: FragmentParser = {
       ...(options?.sanitizerConfig === undefined
         ? {}
         : { sanitizerConfig: options.sanitizerConfig }),
-      scriptingMode: "enabled",
+      scriptingMode:
+        context.ownerDocument === null
+          ? "disabled"
+          : documentImplementation(context.ownerDocument).scriptingMode,
     }).parseFragment();
   },
 };
@@ -414,7 +416,10 @@ class TreeBuilder {
     this.#runScripts = options.runScripts ?? false;
     this.#sanitizerConfig = options.sanitizerConfig ?? null;
     this.#streamingInsertion = options.streamingInsertion ?? null;
-    this.#scripting = options.scriptingMode === "enabled";
+    const implementation = documentImplementation(this.document);
+    const scriptingMode = options.scriptingMode ?? implementation.scriptingMode;
+    implementation.scriptingMode = scriptingMode;
+    this.#scripting = scriptingMode === "enabled";
     const context = options.context;
     this.#context =
       context === undefined
@@ -3409,7 +3414,7 @@ function appendToDocumentElement(document: Document, node: Node): void {
 
 export function parseHTML(
   input: string,
-  scriptingMode: ParserScriptingMode = "disabled",
+  scriptingMode: ScriptingMode = "disabled",
   allowDeclarativeShadowRoots = false,
   sanitizerConfig: CanonicalSanitizerConfig | null = null,
 ): Document {
@@ -3431,7 +3436,7 @@ export function parseHTMLIntoDocument(
   return new TreeBuilder(input, {
     document,
     onScript,
-    scriptingMode: "enabled",
+    scriptingMode: documentImplementation(document).scriptingMode,
   }).parse();
 }
 
@@ -3448,14 +3453,14 @@ export async function parseHTMLIntoDocumentAsync(
     document,
     ...(onElement === undefined ? {} : { onElement }),
     onScript,
-    scriptingMode: "enabled",
+    scriptingMode: documentImplementation(document).scriptingMode,
   }).parseAsync();
 }
 
 export function parseHTMLFragment(
   input: string,
   context: HTMLFragmentContext | Element,
-  scriptingMode: ParserScriptingMode = "disabled",
+  scriptingMode: ScriptingMode = "disabled",
 ): DocumentFragment {
   return new TreeBuilder(input, { context, scriptingMode }).parseFragment();
 }
@@ -3480,7 +3485,9 @@ export function createHTMLStreamingParser(
       ? {}
       : { sanitizerConfig: options.sanitizerConfig }),
     scriptingMode:
-      context.ownerDocument?.defaultView === null ? "disabled" : "enabled",
+      context.ownerDocument === null
+        ? "disabled"
+        : documentImplementation(context.ownerDocument).scriptingMode,
     streamingInsertion: { parent: target, reference },
   });
   return {

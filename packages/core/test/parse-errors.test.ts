@@ -1,0 +1,132 @@
+import { describe, expect, it } from "vitest";
+
+import { Document, DOMParser, parseErrors } from "./public-test-api.js";
+
+describe("parseErrors", () => {
+  it("returns no errors for a conforming document", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><html><head></head><body></body></html>",
+      "text/html",
+    );
+
+    expect(parseErrors(document)).toEqual([]);
+  });
+
+  it("returns tokenizer errors stored in the parsed document", () => {
+    const document = new DOMParser().parseFromString("\0", "text/html");
+
+    expect(parseErrors(document)).toEqual([
+      {
+        source: "tokenizer",
+        code: "unexpected-null-character",
+        line: 1,
+        column: 1,
+      },
+      {
+        source: "tree-construction",
+        code: "missing-doctype",
+        line: null,
+        column: null,
+      },
+      {
+        source: "tree-construction",
+        code: "null-character-in-body",
+        line: null,
+        column: null,
+      },
+    ]);
+  });
+
+  it("returns tree-construction errors stored in the parsed document", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><p></div>",
+      "text/html",
+    );
+
+    expect(
+      parseErrors(document).some(
+        (error) => error.source === "tree-construction",
+      ),
+    ).toBe(true);
+  });
+
+  it("records an unexpected EOF outside the in-body insertion mode", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><table>",
+      "text/html",
+    );
+
+    expect(parseErrors(document)).toEqual([
+      {
+        source: "tree-construction",
+        code: "unexpected-open-elements-at-eof",
+        line: null,
+        column: null,
+      },
+    ]);
+  });
+
+  it("records an unexpected EOF for each open template", () => {
+    const document = new DOMParser().parseFromString(
+      "<!doctype html><template><template><script>",
+      "text/html",
+    );
+
+    expect(parseErrors(document).map(({ code }) => code)).toEqual([
+      "unexpected-eof-in-text",
+      "unexpected-eof-in-template",
+      "unexpected-eof-in-template",
+    ]);
+  });
+
+  it.each([
+    {
+      input: "<!doctype html><image>",
+      codes: ["image-start-tag"],
+    },
+    {
+      input: "<!doctype html><template><table><form></table></template>",
+      codes: ["form-in-table"],
+    },
+    {
+      input: "<!doctype html><table><tr><td><span><th>",
+      codes: ["misnested-cell", "unexpected-open-elements-at-eof"],
+    },
+    {
+      input: "<!doctype html><head><noscript>",
+      codes: ["unexpected-eof-in-head-noscript"],
+    },
+    {
+      input: "<!doctype html><select><menuitem></select>",
+      codes: ["misnested-select-end-tag"],
+    },
+  ])("records $codes for $input", ({ input, codes }) => {
+    const document = new DOMParser().parseFromString(input, "text/html");
+
+    expect(parseErrors(document).map(({ code }) => code)).toEqual(codes);
+  });
+
+  it("keeps errors associated with each document", () => {
+    const parser = new DOMParser();
+    const first = parser.parseFromString("\0", "text/html");
+    const second = parser.parseFromString("<!doctype html>", "text/html");
+
+    expect(parseErrors(first)).toHaveLength(3);
+    expect(parseErrors(second)).toEqual([]);
+  });
+
+  it("returns a read-only snapshot", () => {
+    const document = new DOMParser().parseFromString("\0", "text/html");
+    const errors = parseErrors(document);
+
+    expect(Object.isFrozen(errors)).toBe(true);
+    expect(Object.isFrozen(errors[0])).toBe(true);
+    expect(parseErrors(document)).not.toBe(errors);
+  });
+
+  it("accepts a standalone Document", () => {
+    const source = new Document();
+
+    expect(parseErrors(source)).toEqual([]);
+  });
+});

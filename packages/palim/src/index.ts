@@ -6,6 +6,6 @@ export type { DOMParserSupportedType } from "@palim/core";
 export { XMLSerializer } from "@palim/core/internal/xml-serializer.js";
 export { parseErrors } from "@palim/core/internal/html/parse-errors.js";
 export type { PalimParseError } from "@palim/core/internal/html/parse-errors.js";
-export { decodeHTMLBytes } from "./html-byte-input.js";
+export { decodeHTMLBytes } from "@palim/window";
 export { open } from "./open.js";
-export type { OpenHTMLOptions, OpenResult } from "./open.js";
+export type { Open, OpenHTMLOptions, OpenOptions, OpenResult } from "./open.js";

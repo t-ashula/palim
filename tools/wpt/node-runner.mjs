@@ -17,7 +17,7 @@ console.log = (...data) => {
   }
 };
 
-const { window } = await open(url);
+const { window } = await open(url, { scripting: "enabled" });
 
 window.onerror((error) => {
   failed = true;

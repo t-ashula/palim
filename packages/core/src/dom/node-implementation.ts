@@ -47,6 +47,8 @@ export class NodeImplementation extends EventTargetImplementation {
   }
 }
 
+export type ScriptingMode = "disabled" | "enabled";
+
 export class DocumentImplementation extends NodeImplementation {
   relevantRealmDocument: DocumentImplementation;
   namedPropertyVersion = 0;
@@ -55,6 +57,7 @@ export class DocumentImplementation extends NodeImplementation {
   currentScript: Element | null = null;
   domImplementation: DOMImplementation | null = null;
   defaultView: Window | null = null;
+  scriptingMode: ScriptingMode = "disabled";
   url = new URL("about:blank");
   aboutBaseURL: URL | null = null;
   baseURLOverride: URL | null = null;

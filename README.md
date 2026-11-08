@@ -89,12 +89,23 @@ Passing a URL directly loads the initial document from that URL:
 const context = await open("https://example.test/");
 ```
 
+Scripting is disabled unless it is explicitly enabled:
+
+```js
+const context = await open("https://example.test/", {
+  scripting: "enabled",
+});
+```
+
 The goal is to make these capabilities coexist without requiring applications that only need HTML parsing to pay the cost of a full browser environment.
 
 ## Packages
 
 - `@palim/core` provides DOMParser and the DOM implementation required by parsed documents. It does not include Window, resource loading, JavaScript realm binding, or engine262.
-- `palim` provides the full browser-like environment through `open()` and re-exports DOMParser from `@palim/core`.
+- `@palim/window` adds a Window environment and resource loading without scripting or engine262.
+- `@palim/scripting` provides engine-independent realm binding and script processing.
+- `@palim/engine262` provides the engine262 backend and is the only package that depends on engine262.
+- `palim` provides the full browser-like environment and re-exports DOMParser from `@palim/core`.
 
 ## Project status
 

@@ -20,7 +20,8 @@
   "scripts": {
     "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "prebuild": "npm run clean",
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --root ../.. --config vitest.config.ts --project palim"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,8 @@
   "homepage": "https://github.com/t-ashula/palim#readme",
   "dependencies": {
     "@palim/core": "0.0.0",
-    "@engine262/engine262": "file:../../vendor/engine262"
+    "@palim/engine262": "0.0.0",
+    "@palim/scripting": "0.0.0",
+    "@palim/window": "0.0.0"
   }
 }

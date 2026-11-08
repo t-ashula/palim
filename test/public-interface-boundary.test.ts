@@ -22,7 +22,7 @@ import {
   Text,
   TimeRanges,
 } from "../packages/palim/src/index.js";
-import { Window, createWindow } from "../packages/palim/src/window.js";
+import { Window, createWindow } from "@palim/window/internal/window.js";
 
 describe("public standard interface boundaries", () => {
   it("uses the standard constructors that are available", () => {
