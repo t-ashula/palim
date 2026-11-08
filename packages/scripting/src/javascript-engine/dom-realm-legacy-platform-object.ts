@@ -15,7 +15,10 @@ export interface DOMLegacyPlatformObjectConfiguration {
   readonly indexedValue?: (index: number) => LegacyPlatformValue;
   readonly namedNames?: () => readonly string[];
   readonly namedValue?: (name: string) => LegacyPlatformValue;
-  readonly namedSet?: (name: string, value: string) => void;
+  readonly namedSet?: (
+    name: string,
+    value: string,
+  ) => EngineResult<EngineValue>;
   readonly namedDelete?: (name: string) => void;
   readonly namedEnumerable?: boolean;
   readonly namedIncludesIndices?: boolean;
@@ -161,7 +164,7 @@ export function createDOMLegacyPlatformObject(
       if (argumentsList[3] !== proxyReference.value || property === null) {
         return FORWARD_PROXY_TRAP;
       }
-      if (isArrayIndex(property)) {
+      if (isArrayIndex(property) && !configuration.namedIncludesIndices) {
         return context.primitive(false);
       }
       if (configuration.namedSet !== undefined) {
@@ -176,8 +179,8 @@ export function createDOMLegacyPlatformObject(
           if (converted.type === "throw") {
             return converted;
           }
-          configuration.namedSet(property, converted.value);
-          return context.primitive(true);
+          const result = configuration.namedSet(property, converted.value);
+          return result.type === "throw" ? result : context.primitive(true);
         }
       }
       const named = hasName(property);
@@ -188,7 +191,10 @@ export function createDOMLegacyPlatformObject(
     },
     defineProperty: (argumentsList) => {
       const property = propertyName(argumentsList);
-      if (property === null || isArrayIndex(property)) {
+      if (
+        property === null ||
+        (isArrayIndex(property) && !configuration.namedIncludesIndices)
+      ) {
         return property === null
           ? FORWARD_PROXY_TRAP
           : context.primitive(false);
@@ -222,8 +228,8 @@ export function createDOMLegacyPlatformObject(
             if (converted.type === "throw") {
               return converted;
             }
-            configuration.namedSet(property, converted.value);
-            return context.primitive(true);
+            const result = configuration.namedSet(property, converted.value);
+            return result.type === "throw" ? result : context.primitive(true);
           }
         }
       }
@@ -237,19 +243,13 @@ export function createDOMLegacyPlatformObject(
       if (hasIndex(property)) {
         return context.primitive(false);
       }
-      if (configuration.namedDelete !== undefined) {
-        const override = canOverride(property);
-        if (override.type === "throw") {
-          return override;
-        }
-        if (override.value) {
-          configuration.namedDelete(property);
-          return context.primitive(true);
-        }
-      }
       const named = hasName(property);
       if (named.type === "throw") {
         return named;
+      }
+      if (named.value && configuration.namedDelete !== undefined) {
+        configuration.namedDelete(property);
+        return context.primitive(true);
       }
       return named.value ? context.primitive(false) : FORWARD_PROXY_TRAP;
     },

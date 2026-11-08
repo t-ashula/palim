@@ -1453,13 +1453,16 @@ export class DOMRealmBindingContext {
       platformObject = this.legacyPlatformObject(target, {
         namedNames: () => Object.getOwnPropertyNames(interfaceObject),
         namedValue: (name) => interfaceObject[name],
-        namedSet: (name, value) => {
-          interfaceObject[name] = value;
-        },
+        namedSet: (name, value) =>
+          this.domOperationResult(() => {
+            interfaceObject[name] = value;
+            return this.undefined();
+          }),
         namedDelete: (name) => {
           Reflect.deleteProperty(interfaceObject, name);
         },
         namedEnumerable: true,
+        namedIncludesIndices: true,
         overrideBuiltins: true,
       });
     }

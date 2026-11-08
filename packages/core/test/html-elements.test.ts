@@ -657,6 +657,31 @@ describe("HTML element members", () => {
     expect(element.isContentEditable).toBe(true);
   });
 
+  it("implements DOMStringMap named property algorithms", () => {
+    const element = select(
+      parse('<main data-to-string="value" data-user-id="42"></main>'),
+      "main",
+    );
+    if (!(element instanceof HTMLElement)) {
+      throw new Error("main is not an HTMLElement");
+    }
+
+    expect(Reflect.get(element.dataset, "toString")).toBe("value");
+    expect(element.dataset.userId).toBe("42");
+    expect("userId" in element.dataset).toBe(true);
+    expect(Object.getOwnPropertyDescriptor(element.dataset, "userId")).toEqual({
+      configurable: true,
+      enumerable: true,
+      value: "42",
+      writable: true,
+    });
+
+    element.setAttribute("data--lower", "kept");
+    expect(element.dataset["-lower"]).toBeUndefined();
+    expect(Reflect.deleteProperty(element.dataset, "-lower")).toBe(true);
+    expect(element.getAttribute("data--lower")).toBe("kept");
+  });
+
   it("implements metadata element members", () => {
     const document = parse(`
       <base href="https://example.test/path" target="_blank">

@@ -247,11 +247,24 @@ export class DOMStringMap {
     bindDOMInterface(this, implementation);
     const proxy = new Proxy(this, {
       get(target, property): unknown {
-        if (typeof property !== "string" || property in target) {
+        if (typeof property !== "string") {
+          return Reflect.get(target, property, target);
+        }
+        if (!isValidDatasetPropertyName(property)) {
           return Reflect.get(target, property, target);
         }
         const attributeName = datasetAttributeName(property);
-        return datasetElement(target).getAttribute(attributeName) ?? undefined;
+        const value = datasetElement(target).getAttribute(attributeName);
+        return value ?? Reflect.get(target, property, target);
+      },
+      has(target, property): boolean {
+        if (typeof property !== "string" || Reflect.has(target, property)) {
+          return Reflect.has(target, property);
+        }
+        return (
+          isValidDatasetPropertyName(property) &&
+          datasetElement(target).hasAttribute(datasetAttributeName(property))
+        );
       },
       set(target, property, value): boolean {
         if (typeof property !== "string") {
@@ -264,7 +277,10 @@ export class DOMStringMap {
         return true;
       },
       deleteProperty(target, property): boolean {
-        if (typeof property === "string") {
+        if (
+          typeof property === "string" &&
+          isValidDatasetPropertyName(property)
+        ) {
           datasetElement(target).removeAttribute(
             datasetAttributeName(property),
           );
@@ -283,9 +299,17 @@ export class DOMStringMap {
       ): PropertyDescriptor | undefined {
         if (
           typeof property === "string" &&
+          isValidDatasetPropertyName(property) &&
           datasetElement(target).hasAttribute(datasetAttributeName(property))
         ) {
-          return { configurable: true, enumerable: true, writable: true };
+          return {
+            configurable: true,
+            enumerable: true,
+            value: datasetElement(target).getAttribute(
+              datasetAttributeName(property),
+            ),
+            writable: true,
+          };
         }
         return undefined;
       },
@@ -5657,13 +5681,17 @@ function usvString(value: unknown): string {
 }
 
 function datasetAttributeName(property: string): string {
-  if (/-[a-z]/.test(property)) {
+  if (!isValidDatasetPropertyName(property)) {
     throw new DOMException("Invalid dataset property name", "SyntaxError");
   }
   return `data-${property.replaceAll(
     /[A-Z]/g,
     (character) => `-${character.toLowerCase()}`,
   )}`;
+}
+
+function isValidDatasetPropertyName(property: string): boolean {
+  return !/-[a-z]/.test(property);
 }
 
 function isDatasetAttribute(name: string): boolean {
