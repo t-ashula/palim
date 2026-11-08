@@ -470,6 +470,16 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("binds-domimplementation-hasfeature.js"));
   });
 
+  it("treats an undefined createHTMLDocument title as omitted", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      fixture("converts-createhtmldocument-optional-title.js"),
+    );
+  });
+
   it("binds document import, adoption, and fragment ID lookup", () => {
     const { engine, realm } = createTestRealm("");
 

@@ -2403,7 +2403,10 @@ export function installDOMImplementationMembers(
       if (implementation === null) {
         return binding.typeError("Invalid DOMImplementation receiver");
       }
-      if (argumentsList[0] === undefined) {
+      if (
+        argumentsList[0] === undefined ||
+        binding.engine.isUndefined(argumentsList[0])
+      ) {
         return normal(binding.wrap(implementation.createHTMLDocument()));
       }
       const title = binding.engine.toString(binding.realm, argumentsList[0]);
