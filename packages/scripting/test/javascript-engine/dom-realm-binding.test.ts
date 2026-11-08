@@ -202,6 +202,12 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("connects-document-body-setter.js"));
   });
 
+  it("exposes the legacy SVG document rootElement", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("exposes-document-root-element.js"));
+  });
+
   it("exposes every HTML element interface in the engine realm", () => {
     const concreteInterfaces = Object.values(HTML).filter(
       isConcreteHTMLElementInterface,

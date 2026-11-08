@@ -2062,6 +2062,23 @@ describe("Node mutation", () => {
 });
 
 describe("Document metadata", () => {
+  it("gets an SVG document root through the legacy rootElement", () => {
+    const svg = new DOMParser().parseFromString(
+      '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+      "image/svg+xml",
+    );
+    const prefixed = new DOMParser().parseFromString(
+      '<p:svg xmlns:p="http://www.w3.org/2000/svg"></p:svg>',
+      "image/svg+xml",
+    );
+    const xml = new DOMParser().parseFromString("<svg></svg>", "text/xml");
+
+    expect(svg.rootElement).toBe(svg.documentElement);
+    expect(prefixed.rootElement).toBe(prefixed.documentElement);
+    expect(xml.rootElement).toBeNull();
+    expect(parse("").rootElement).toBeNull();
+  });
+
   it("gets the first HTML head child of an HTML root", () => {
     const foreignRootDocument = new Document();
     const foreignRoot = foreignRootDocument.createElementNS(

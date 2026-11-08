@@ -860,6 +860,13 @@ export class Document extends Node {
     );
   }
 
+  get rootElement(): Element | null {
+    const root = this.documentElement;
+    return root?.namespaceURI === SVG_NAMESPACE && root.localName === "svg"
+      ? root
+      : null;
+  }
+
   get currentScript(): Element | null {
     return documentImplementation(this).currentScript;
   }

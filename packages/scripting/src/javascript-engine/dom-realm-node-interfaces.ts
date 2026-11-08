@@ -1575,7 +1575,7 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       });
     },
   );
-  for (const name of ["doctype", "documentElement"] as const) {
+  for (const name of ["doctype", "documentElement", "rootElement"] as const) {
     binding.attribute(binding.documentPrototype, name, (thisValue) => {
       const document = binding.document(thisValue);
       return document === null
