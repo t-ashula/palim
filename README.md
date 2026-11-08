@@ -107,6 +107,32 @@ The goal is to make these capabilities coexist without requiring applications th
 - `@palim/engine262` provides the engine262 backend and is the only package that depends on engine262.
 - `palim` provides the full browser-like environment and re-exports DOMParser from `@palim/core`.
 
+## Capability matrix
+
+This table summarizes the current capabilities of the full `palim` package.
+`OK` means there is a usable implementation, not that every specification
+requirement is implemented. `Partial` means that a narrower subset is available,
+and `NG` means that the capability is not currently provided.
+
+| Capability                         | Status  | Current scope                                                                 |
+| ---------------------------------- | :-----: | ----------------------------------------------------------------------------- |
+| HTML and XML DOM parsing           |   OK    | Document and fragment parsing, DOM construction, and serialization            |
+| DOM tree APIs                      |   OK    | Queries, mutation, traversal, ranges, events, and mutation observers          |
+| CSS selectors                      |   OK    | Selector matching and `querySelector`-family APIs                             |
+| Window environment                 |   OK    | `open()` creates a `Window` and its active `Document`                         |
+| JavaScript scripting               |   OK    | Opt-in inline and external classic scripts; disabled by default               |
+| Document and subresource loading   | Partial | Initial documents and selected subresources, without a full browser lifecycle |
+| `iframe`                           | Partial | The `src` resource is accessed, but no child document, load event, or nested browsing context is created |
+| Shadow DOM and custom elements     | Partial | Core tree, registry, and reaction behavior; platform coverage remains limited |
+| CSS stylesheets, cascade, and layout |   NG    | Inline style declarations exist, but style calculation and layout do not      |
+| JavaScript modules                 |   NG    | Module scripts are not executed                                               |
+| Navigation and session history     |   NG    | No complete navigation or history model                                       |
+| Rendering and painting             |   NG    | No visual rendering pipeline                                                  |
+
+This is a qualitative feature map. Quantitative interoperability results belong
+in the [WPT progress report](./reports/wpt/report.md). See
+[Capability details](./docs/capabilities.md) for a more detailed breakdown.
+
 ## Project status
 
 **Experimental — under active development.**
