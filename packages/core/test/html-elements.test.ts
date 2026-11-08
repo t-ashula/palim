@@ -195,6 +195,38 @@ describe("HTML element interfaces", () => {
     expect(enabled.getAttribute("translate")).toBe("no");
   });
 
+  it("reflects enumerated global attribute states", () => {
+    const document = parse(
+      '<main dir="RTL" hidden="UNTIL-FOUND"></main><a></a><a id="link" href="/next"></a><img>',
+    );
+    const main = select(document, "main");
+    const anchor = select(document, "a");
+    const link = select(document, "#link");
+    const image = select(document, "img");
+    if (
+      !(main instanceof HTMLElement) ||
+      !(anchor instanceof HTMLElement) ||
+      !(link instanceof HTMLElement) ||
+      !(image instanceof HTMLElement)
+    ) {
+      throw new Error("expected HTML elements");
+    }
+
+    expect(main.dir).toBe("rtl");
+    main.setAttribute("dir", "sideways");
+    expect(main.dir).toBe("");
+
+    expect(main.hidden).toBe("until-found");
+    main.hidden = "UnTiL-FoUnD";
+    expect(main.getAttribute("hidden")).toBe("until-found");
+    main.hidden = Number.NaN;
+    expect(main.hasAttribute("hidden")).toBe(false);
+
+    expect(anchor.draggable).toBe(false);
+    expect(link.draggable).toBe(true);
+    expect(image.draggable).toBe(true);
+  });
+
   it("uses document structure interfaces and their members", () => {
     const document = parse(
       '<html version="5"><head><title>before</title></head><body></body></html>',

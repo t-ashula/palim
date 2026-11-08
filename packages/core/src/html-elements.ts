@@ -539,7 +539,8 @@ export class HTMLElement extends Element {
   }
 
   get dir(): string {
-    return reflectedString(this, "dir");
+    const value = asciiLowercase(reflectedString(this, "dir"));
+    return value === "ltr" || value === "rtl" || value === "auto" ? value : "";
   }
 
   set dir(value: string) {
@@ -548,14 +549,20 @@ export class HTMLElement extends Element {
 
   get hidden(): boolean | number | string | null {
     const value = this.getAttribute("hidden");
-    return value === null ? false : value === "until-found" ? value : true;
+    return value === null
+      ? false
+      : asciiLowercase(value) === "until-found"
+        ? "until-found"
+        : true;
   }
 
   set hidden(value: boolean | number | string | null) {
-    if (!value) {
+    if (typeof value === "string" && asciiLowercase(value) === "until-found") {
+      this.setAttribute("hidden", "until-found");
+    } else if (!value || (typeof value === "number" && Number.isNaN(value))) {
       this.removeAttribute("hidden");
     } else {
-      this.setAttribute("hidden", value === "until-found" ? value : "");
+      this.setAttribute("hidden", "");
     }
   }
 
@@ -573,7 +580,10 @@ export class HTMLElement extends Element {
     if (value === "false") {
       return false;
     }
-    return this.localName === "img" || this.localName === "a";
+    return (
+      this.localName === "img" ||
+      (this.localName === "a" && this.hasAttribute("href"))
+    );
   }
 
   set draggable(value: boolean) {

@@ -70,6 +70,95 @@ export function installHTMLElementMembers(
       return binding.undefined();
     },
   );
+  for (const name of ["lang", "accessKey", "dir"] as const) {
+    binding.attribute(
+      binding.htmlElementPrototype,
+      name,
+      (thisValue) => {
+        const element = binding.htmlElement(thisValue);
+        return element === null
+          ? binding.typeError("Invalid HTMLElement receiver")
+          : binding.primitive(element[name]);
+      },
+      (thisValue, argumentsList) => {
+        const element = binding.htmlElement(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid HTMLElement receiver");
+        }
+        const value = binding.stringArgument(argumentsList, 0, name);
+        if (value.type === "throw") {
+          return value;
+        }
+        element[name] = value.value;
+        return binding.undefined();
+      },
+    );
+  }
+  for (const name of [
+    "translate",
+    "inert",
+    "draggable",
+    "spellcheck",
+  ] as const) {
+    binding.attribute(
+      binding.htmlElementPrototype,
+      name,
+      (thisValue) => {
+        const element = binding.htmlElement(thisValue);
+        return element === null
+          ? binding.typeError("Invalid HTMLElement receiver")
+          : binding.primitive(element[name]);
+      },
+      (thisValue, argumentsList) => {
+        const element = binding.htmlElement(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid HTMLElement receiver");
+        }
+        const value = argumentsList[0];
+        element[name] =
+          value === undefined ? false : binding.engine.toBoolean(value);
+        return binding.undefined();
+      },
+    );
+  }
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "hidden",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.hidden);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      const value = argumentsList[0];
+      if (
+        value === undefined ||
+        binding.engine.isUndefined(value) ||
+        binding.engine.isNull(value)
+      ) {
+        element.hidden = null;
+        return binding.undefined();
+      }
+      const stringValue = binding.engine.asString(value);
+      element.hidden = stringValue ?? binding.engine.toBoolean(value);
+      return binding.undefined();
+    },
+  );
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "accessKeyLabel",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.accessKeyLabel);
+    },
+  );
   binding.attribute(binding.htmlElementPrototype, "dataset", (thisValue) => {
     const element = binding.htmlElement(thisValue);
     return element === null

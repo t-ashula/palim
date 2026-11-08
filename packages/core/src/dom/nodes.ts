@@ -844,6 +844,23 @@ export class Document extends Node {
     title.textContent = converted;
   }
 
+  get dir(): string {
+    const root = this.documentElement;
+    if (root?.namespaceURI !== HTML_NAMESPACE || root.localName !== "html") {
+      return "";
+    }
+    const value = asciiLowercase(root.getAttribute("dir") ?? "");
+    return value === "ltr" || value === "rtl" || value === "auto" ? value : "";
+  }
+
+  set dir(value: string) {
+    const converted = domString(value);
+    const root = this.documentElement;
+    if (root?.namespaceURI === HTML_NAMESPACE && root.localName === "html") {
+      root.setAttribute("dir", converted);
+    }
+  }
+
   readonly location = null;
 
   get defaultView(): Window | null {

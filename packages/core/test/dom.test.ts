@@ -2204,6 +2204,23 @@ describe("Document metadata", () => {
     expect(document.querySelector("title")?.textContent).toBe("Updated title");
   });
 
+  it("reflects dir on the HTML document element", () => {
+    const document = parse('<html dir="LTR"><head></head><body></body></html>');
+
+    expect(document.dir).toBe("ltr");
+    document.dir = "x-garbage";
+    expect(document.dir).toBe("");
+    expect(document.documentElement?.getAttribute("dir")).toBe("x-garbage");
+
+    const xmlDocument = new DOMParser().parseFromString(
+      '<root dir="rtl"></root>',
+      "application/xml",
+    );
+    expect(xmlDocument.dir).toBe("");
+    xmlDocument.dir = "ltr";
+    expect(xmlDocument.documentElement?.getAttribute("dir")).toBe("rtl");
+  });
+
   it("uses only the HTML title element in an HTML document", () => {
     const document = parse(
       "<svg><title>SVG title</title></svg><title>HTML title</title>",

@@ -1626,6 +1626,28 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       return binding.undefined();
     },
   );
+  binding.attribute(
+    binding.documentPrototype,
+    "dir",
+    (thisValue) => {
+      const document = binding.document(thisValue);
+      return document === null
+        ? binding.typeError("Invalid Document receiver")
+        : binding.primitive(document.dir);
+    },
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "dir");
+      if (value.type === "throw") {
+        return value;
+      }
+      document.dir = value.value;
+      return binding.undefined();
+    },
+  );
   for (const name of [
     "URL",
     "documentURI",

@@ -338,6 +338,19 @@ describe("DOMRealmBinding", () => {
     expect(document.querySelector("main")?.getAttribute("title")).toBe("7");
   });
 
+  it("connects global attribute reflection in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<html dir="LTR"><body><main lang="en" hidden="UNTIL-FOUND"></main><a href="/"></a><span spellcheck="FaLsE"></span></body></html>',
+    );
+
+    evaluate(engine, realm, fixture("connects-global-attribute-reflection.js"));
+
+    const main = document.querySelector("main");
+    expect(main?.getAttribute("lang")).toBe("ja");
+    expect(main?.getAttribute("translate")).toBe("no");
+    expect(main?.getAttribute("hidden")).toBeNull();
+  });
+
   it("binds HTMLElement.innerText in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<main id="target">before <span>child</span></main>',
