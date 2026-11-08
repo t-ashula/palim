@@ -865,13 +865,16 @@ export class Document extends Node {
   }
 
   get head(): Element | null {
+    const root = this.documentElement;
+    if (root?.namespaceURI !== HTML_NAMESPACE || root.localName !== "html") {
+      return null;
+    }
     return (
-      (this.documentElement === null
-        ? []
-        : childNodes(this.documentElement)
-      ).find(
+      childNodes(root).find(
         (node): node is Element =>
-          node instanceof Element && node.localName === "head",
+          node instanceof Element &&
+          node.namespaceURI === HTML_NAMESPACE &&
+          node.localName === "head",
       ) ?? null
     );
   }

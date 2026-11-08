@@ -2062,6 +2062,28 @@ describe("Node mutation", () => {
 });
 
 describe("Document metadata", () => {
+  it("gets the first HTML head child of an HTML root", () => {
+    const foreignRootDocument = new Document();
+    const foreignRoot = foreignRootDocument.createElementNS(
+      "urn:example",
+      "html",
+    );
+    foreignRootDocument.appendChild(foreignRoot);
+    foreignRoot.appendChild(
+      foreignRootDocument.createElementNS(HTML_NAMESPACE, "head"),
+    );
+    expect(foreignRootDocument.head).toBeNull();
+
+    const document = new Document();
+    const root = document.createElementNS(HTML_NAMESPACE, "html");
+    const foreignHead = document.createElementNS("urn:example", "head");
+    const head = document.createElementNS(HTML_NAMESPACE, "head");
+    document.appendChild(root);
+    root.append(foreignHead, head);
+
+    expect(document.head).toBe(head);
+  });
+
   it("gets the first HTML body or frameset child of an HTML root", () => {
     const foreignRootDocument = new Document();
     const foreignRoot = foreignRootDocument.createElementNS(

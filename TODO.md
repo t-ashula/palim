@@ -44,7 +44,7 @@
 ### Document surface
 
 - [x] `document.body`
-- [ ] `document.head`
+- [x] `document.head`
 - [ ] `document.title`
 - [ ] XML document の legacy `rootElement` surface
 - [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
