@@ -52,7 +52,7 @@
 - [x] Window named properties と `id` / `name` mutation に追従する supported property names
 - [x] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
 - [x] `DOMStringMap` の property-name conversion、get / set / delete、supported property names
-- [ ] `HTMLDocument` interface constructor と HTML document の prototype relationship
+- [x] `HTMLDocument` interface constructor と HTML document の prototype relationship
 - [ ] Selection API の `getSelection()` と DOM mutation / atomic move に対する range 保持
 
 ## Events

@@ -229,6 +229,12 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("exposes-all-html-element-interfaces.js"));
   });
 
+  it("exposes HTMLDocument as the Document constructor alias", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("exposes-html-document-alias.js"));
+  });
+
   it("converts DOM operation failures into realm DOMExceptions", () => {
     const { engine, realm } = createTestRealm('<main id="target"></main>');
 

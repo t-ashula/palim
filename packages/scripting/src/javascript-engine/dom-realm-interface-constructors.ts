@@ -119,6 +119,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     0,
     () => normal(binding.wrap(new Document())),
   );
+  binding.context.interfaceProperty("HTMLDocument", documentConstructor);
   for (const [name, unsafe] of [
     ["parseHTML", false],
     ["parseHTMLUnsafe", true],
