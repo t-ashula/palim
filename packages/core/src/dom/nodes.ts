@@ -732,6 +732,12 @@ function stripAndCollapseASCIIWhitespace(value: string): string {
 }
 
 export class Document extends Node {
+  #forms: HTMLCollection | null = null;
+  #images: HTMLCollection | null = null;
+  #links: HTMLCollection | null = null;
+  #scripts: HTMLCollection | null = null;
+  #embeds: HTMLCollection | null = null;
+
   readonly readyState = "complete";
 
   static parseHTML(html: string, options: HTMLParsingOptions = {}): Document {
@@ -934,6 +940,60 @@ export class Document extends Node {
       );
     }
     root.appendChild(value);
+  }
+
+  get forms(): HTMLCollection {
+    this.#forms ??= createDescendantElementCollection(
+      this,
+      (element) =>
+        element.namespaceURI === HTML_NAMESPACE && element.localName === "form",
+    );
+    return this.#forms;
+  }
+
+  get images(): HTMLCollection {
+    this.#images ??= createDescendantElementCollection(
+      this,
+      (element) =>
+        element.namespaceURI === HTML_NAMESPACE && element.localName === "img",
+    );
+    return this.#images;
+  }
+
+  get links(): HTMLCollection {
+    this.#links ??= createHTMLCollection(() =>
+      descendantElements(this).filter(
+        (element) =>
+          element.namespaceURI === HTML_NAMESPACE &&
+          (element.localName === "a" || element.localName === "area") &&
+          element.hasAttribute("href"),
+      ),
+    );
+    return this.#links;
+  }
+
+  get scripts(): HTMLCollection {
+    this.#scripts ??= createDescendantElementCollection(
+      this,
+      (element) =>
+        element.namespaceURI === HTML_NAMESPACE &&
+        element.localName === "script",
+    );
+    return this.#scripts;
+  }
+
+  get embeds(): HTMLCollection {
+    this.#embeds ??= createDescendantElementCollection(
+      this,
+      (element) =>
+        element.namespaceURI === HTML_NAMESPACE &&
+        element.localName === "embed",
+    );
+    return this.#embeds;
+  }
+
+  get plugins(): HTMLCollection {
+    return this.embeds;
   }
 
   get compatMode(): "BackCompat" | "CSS1Compat" {

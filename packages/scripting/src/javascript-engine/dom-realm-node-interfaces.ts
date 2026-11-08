@@ -1583,6 +1583,21 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         : binding.platformValue(document[name]);
     });
   }
+  for (const name of [
+    "forms",
+    "images",
+    "links",
+    "scripts",
+    "embeds",
+    "plugins",
+  ] as const) {
+    binding.attribute(binding.documentPrototype, name, (thisValue) => {
+      const document = binding.document(thisValue);
+      return document === null
+        ? binding.typeError("Invalid Document receiver")
+        : binding.platformValue(document[name]);
+    });
+  }
   binding.attribute(binding.documentPrototype, "location", (thisValue) => {
     const document = binding.document(thisValue);
     return document === null

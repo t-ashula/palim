@@ -2062,6 +2062,36 @@ describe("Node mutation", () => {
 });
 
 describe("Document metadata", () => {
+  it("exposes same-object live document element collections", () => {
+    const document = parse(`
+      <form id="form"></form>
+      <img id="image">
+      <a id="link" href=""></a><area id="area"><a id="no-href"></a>
+      <script id="script"></script><embed id="embed">
+      <svg><a id="foreign-link" href=""></a><script id="foreign-script"></script></svg>
+    `);
+    const ids = (collection: Iterable<Element>): string[] =>
+      Array.from(collection, (element) => element.id);
+
+    expect(ids(document.forms)).toEqual(["form"]);
+    expect(ids(document.images)).toEqual(["image"]);
+    expect(ids(document.links)).toEqual(["link"]);
+    expect(ids(document.scripts)).toEqual(["script"]);
+    expect(ids(document.embeds)).toEqual(["embed"]);
+    expect(document.plugins).toBe(document.embeds);
+    expect(document.forms).toBe(document.forms);
+
+    const area = select(document, "#area");
+    area.setAttribute("href", "");
+    const form = document.createElement("form");
+    document.body?.appendChild(form);
+
+    expect(ids(document.links)).toEqual(["link", "area"]);
+    expect(document.forms.length).toBe(2);
+    form.remove();
+    expect(document.forms.length).toBe(1);
+  });
+
   it("gets an SVG document root through the legacy rootElement", () => {
     const svg = new DOMParser().parseFromString(
       '<svg xmlns="http://www.w3.org/2000/svg"></svg>',

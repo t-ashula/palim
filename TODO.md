@@ -47,7 +47,7 @@
 - [x] `document.head`
 - [x] `document.title`
 - [x] XML document の legacy `rootElement` surface
-- [ ] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
+- [x] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
 - [ ] `Document` named properties と `id` / `name` mutation、adoption、tree order に追従する collection
 - [ ] Window named properties と `id` / `name` mutation に追従する supported property names
 - [ ] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`

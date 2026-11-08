@@ -208,6 +208,14 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("exposes-document-root-element.js"));
   });
 
+  it("exposes live document element collections", () => {
+    const { engine, realm } = createTestRealm(`
+      <form id="form"></form><img><a href=""></a><script></script><embed>
+    `);
+
+    evaluate(engine, realm, fixture("exposes-document-collections.js"));
+  });
+
   it("exposes every HTML element interface in the engine realm", () => {
     const concreteInterfaces = Object.values(HTML).filter(
       isConcreteHTMLElementInterface,
