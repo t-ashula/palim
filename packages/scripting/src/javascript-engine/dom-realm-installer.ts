@@ -12,6 +12,7 @@ import {
   installDOMImplementationMembers,
   installDOMParserMembers,
   installDOMTokenListMembers,
+  installDocumentNamedElementMembers,
   installElementMembers,
   installEventMembers,
   installEventTargetMembers,
@@ -55,6 +56,7 @@ export function installDOMRealmInterfaces(
   installElementMembers(binding);
   installForeignAnchorMembers(binding);
   installHTMLElementMembers(binding);
+  installDocumentNamedElementMembers(binding);
   installHTMLAnchorElementMembers(binding);
   installHTMLAreaElementMembers(binding);
   installHTMLButtonElementMembers(binding);

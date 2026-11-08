@@ -50,6 +50,7 @@ export function installHTMLCollectionMembers(
     (thisValue) => binding.htmlCollection(thisValue),
     "HTMLCollection",
   );
+  binding.interfaceTag(binding.htmlCollectionPrototype, "HTMLCollection");
 }
 
 export function installNamedNodeMapMembers(

@@ -1,5 +1,10 @@
 import { foreignAnchorRelList } from "@palim/core/internal/dom/foreign-anchor.js";
 import {
+  HTMLEmbedElement,
+  HTMLFormElement,
+  HTMLIFrameElement,
+  HTMLImageElement,
+  HTMLObjectElement,
   HTMLScriptElement,
   HTMLSlotElement,
 } from "@palim/core/internal/html-elements.js";
@@ -120,6 +125,43 @@ export function installHTMLElementMembers(
       return binding.undefined();
     },
   );
+}
+
+export function installDocumentNamedElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  for (const constructor of [
+    HTMLEmbedElement,
+    HTMLFormElement,
+    HTMLIFrameElement,
+    HTMLImageElement,
+    HTMLObjectElement,
+  ] as const) {
+    const prototype = binding.htmlElementInterfacePrototype(constructor);
+    const interfaceName = constructor.name;
+    binding.attribute(
+      prototype,
+      "name",
+      (thisValue) => {
+        const element = binding.htmlElement(thisValue);
+        return element === null || !(element instanceof constructor)
+          ? binding.typeError(`Invalid ${interfaceName} receiver`)
+          : binding.primitive(element.getAttribute("name") ?? "");
+      },
+      (thisValue, argumentsList) => {
+        const element = binding.htmlElement(thisValue);
+        if (element === null || !(element instanceof constructor)) {
+          return binding.typeError(`Invalid ${interfaceName} receiver`);
+        }
+        const value = binding.stringArgument(argumentsList, 0, "name");
+        if (value.type === "throw") {
+          return value;
+        }
+        element.setAttribute("name", value.value);
+        return binding.undefined();
+      },
+    );
+  }
 }
 
 export function installHTMLSlotElementMembers(
@@ -321,6 +363,14 @@ export function installHTMLIFrameElementMembers(
         : normal(binding.wrap(iframe.sandbox));
     },
   );
+  for (const name of ["contentDocument", "contentWindow"] as const) {
+    binding.attribute(binding.htmlIFrameElementPrototype, name, (thisValue) => {
+      const iframe = binding.htmlIFrameElement(thisValue);
+      return iframe === null
+        ? binding.typeError("Invalid HTMLIFrameElement receiver")
+        : binding.platformValue(iframe[name]);
+    });
+  }
 }
 
 export function installHTMLLinkElementMembers(

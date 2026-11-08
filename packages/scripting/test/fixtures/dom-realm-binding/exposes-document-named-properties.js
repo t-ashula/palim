@@ -5,7 +5,7 @@ if ("imageId" in testDocument) {
   throw new Error("an unnamed image was exposed by id");
 }
 
-image.setAttribute("name", "imageName");
+image.name = "imageName";
 if (
   testDocument.imageId !== image ||
   testDocument.imageName !== image ||
@@ -13,7 +13,7 @@ if (
 ) {
   throw new Error("a named image was not exposed by id and name");
 }
-image.removeAttribute("name");
+image.name = "";
 if ("imageId" in testDocument || "imageName" in testDocument) {
   throw new Error("an image remained exposed after removing its name");
 }
@@ -44,7 +44,7 @@ if (
 
 const form = testDocument.createElement("form");
 form.setAttribute("id", "formId");
-form.setAttribute("name", "formName");
+form.name = "formName";
 testDocument.body.appendChild(form);
 if ("formId" in testDocument || testDocument.formName !== form) {
   throw new Error("form Document named item matching is invalid");
@@ -55,4 +55,17 @@ numeric.setAttribute("id", "42");
 testDocument.body.appendChild(numeric);
 if (testDocument[42] !== numeric || !(42 in testDocument)) {
   throw new Error("a numeric Document named property was not exposed");
+}
+
+for (const localName of ["embed", "iframe", "object"]) {
+  const element = testDocument.createElement(localName);
+  element.name = `${localName}Name`;
+  testDocument.body.appendChild(element);
+  if (
+    element.name !== `${localName}Name` ||
+    testDocument[`${localName}Name`] !==
+      (localName === "iframe" ? element.contentWindow : element)
+  ) {
+    throw new Error(`${localName} name reflection is not connected`);
+  }
 }

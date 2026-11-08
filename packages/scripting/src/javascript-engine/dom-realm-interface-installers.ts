@@ -22,6 +22,7 @@ export {
 
 export {
   installForeignAnchorMembers,
+  installDocumentNamedElementMembers,
   installHTMLElementMembers,
   installHTMLAnchorElementMembers,
   installHTMLAreaElementMembers,
