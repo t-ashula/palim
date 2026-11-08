@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
-import { Node } from "../src/dom.js";
-import type { Document } from "../src/dom.js";
+import { Node } from "../packages/core/src/dom.js";
+import type { Document } from "../packages/core/src/dom.js";
 
 export interface DocumentInspection {
   readonly nodeCount: number;

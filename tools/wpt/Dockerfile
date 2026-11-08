@@ -5,11 +5,16 @@ FROM node:24-bookworm-slim AS build
 WORKDIR /workspace
 
 COPY package.json package-lock.json .npmrc ./
+COPY packages/core/package.json packages/core/package.json
+COPY packages/palim/package.json packages/palim/package.json
 COPY vendor/engine262 vendor/engine262
 RUN npm ci
 
-COPY tsconfig.json tsconfig.build.json ./
-COPY src src
+COPY tsconfig.json ./
+COPY packages/core/tsconfig.build.json packages/core/tsconfig.build.json
+COPY packages/palim/tsconfig.build.json packages/palim/tsconfig.build.json
+COPY packages/core/src packages/core/src
+COPY packages/palim/src packages/palim/src
 COPY tools/conformance/report.ts tools/conformance/report.ts
 COPY tools/conformance/wpt-progress.ts tools/conformance/wpt-progress.ts
 COPY tools/conformance/wpt-report.ts tools/conformance/wpt-report.ts
@@ -36,7 +41,10 @@ RUN apt-get update \
 
 WORKDIR /workspace
 
-COPY --from=wpt-node-modules /workspace/dist dist
+COPY --from=wpt-node-modules /workspace/packages/core/package.json packages/core/package.json
+COPY --from=wpt-node-modules /workspace/packages/core/dist packages/core/dist
+COPY --from=wpt-node-modules /workspace/packages/palim/package.json packages/palim/package.json
+COPY --from=wpt-node-modules /workspace/packages/palim/dist packages/palim/dist
 COPY --from=wpt-node-modules /workspace/node_modules node_modules
 COPY --from=build /workspace/wpt-report.mjs tools/conformance/wpt-report.mjs
 COPY tools/wpt/container-entrypoint.sh tools/wpt/container-entrypoint.sh

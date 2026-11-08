@@ -4,7 +4,7 @@ import { TextDecoder } from "node:util";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../../src/index.js";
+import { DOMParser } from "../../packages/palim/src/index.js";
 import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 
 const PARSER_ERROR_NAMESPACE =

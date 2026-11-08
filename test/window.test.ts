@@ -1,17 +1,17 @@
 import { describe, expect, it } from "vitest";
 
-import type { Element, EventTarget } from "../src/index.js";
-import { DOMParser, Event } from "../src/index.js";
-import { setDocumentURL } from "../src/dom/nodes.js";
+import type { Element, EventTarget } from "../packages/palim/src/index.js";
+import { DOMParser, Event } from "../packages/palim/src/index.js";
+import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
 import {
   createWindow,
   scheduleWindowMicrotask,
   type Window,
-} from "../src/window.js";
+} from "../packages/palim/src/window.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
-} from "../src/window-named-properties.js";
+} from "../packages/palim/src/window-named-properties.js";
 
 describe("Window", () => {
   it("owns microtask scheduling in the Window runtime", async () => {

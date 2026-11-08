@@ -3,9 +3,9 @@ import { describe, expect, it } from "vitest";
 import {
   CustomElementRegistry,
   setDocumentCustomElementRegistry,
-} from "../src/dom/custom-elements.js";
-import { createCustomHTMLElementBase } from "../src/html-elements.js";
-import { DOMParser } from "../src/index.js";
+} from "@palim/core/internal/dom/custom-elements.js";
+import { createCustomHTMLElementBase } from "@palim/core/internal/html-elements.js";
+import { DOMParser } from "../packages/palim/src/index.js";
 
 describe("custom element reactions", () => {
   it("uses disconnected and connected callbacks for an atomic move", () => {

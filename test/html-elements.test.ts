@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 
-import * as Palim from "../src/index.js";
+import * as Palim from "../packages/palim/src/index.js";
 import {
   Event,
   HTMLAnchorElement,
@@ -23,7 +23,7 @@ import {
   HTMLSelectElement,
   HTMLTextAreaElement,
   HTMLTrackElement,
-} from "../src/index.js";
+} from "../packages/palim/src/index.js";
 
 import {
   DOMParser,
@@ -50,8 +50,8 @@ import {
   HTMLTitleElement,
   HTMLUListElement,
   HTMLUnknownElement,
-} from "../src/index.js";
-import type { Document } from "../src/index.js";
+} from "../packages/palim/src/index.js";
+import type { Document } from "../packages/palim/src/index.js";
 
 function parse(input: string): Document {
   return new DOMParser().parseFromString(input, "text/html");

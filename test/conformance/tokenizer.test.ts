@@ -4,12 +4,12 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import { tokenize } from "../../src/html/tokenizer.js";
+import { tokenize } from "@palim/core/internal/html/tokenizer.js";
 import type {
   ParseError,
   Token,
   TokenizerState,
-} from "../../src/html/tokenizer.js";
+} from "@palim/core/internal/html/tokenizer.js";
 import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 
 type FixtureToken =

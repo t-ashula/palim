@@ -60,7 +60,7 @@ These are development goals, not a commitment to complete browser compatibility.
 The following illustrates the intended API, not necessarily the current implementation.
 
 ```js
-import { DOMParser } from "palim";
+import { DOMParser } from "@palim/core";
 
 const document = new DOMParser().parseFromString(
   "<html><body><h1>Hello, world!</h1></body></html>",
@@ -90,6 +90,11 @@ const context = await open("https://example.test/");
 ```
 
 The goal is to make these capabilities coexist without requiring applications that only need HTML parsing to pay the cost of a full browser environment.
+
+## Packages
+
+- `@palim/core` provides DOMParser and the DOM implementation required by parsed documents. It does not include Window, resource loading, JavaScript realm binding, or engine262.
+- `palim` provides the full browser-like environment through `open()` and re-exports DOMParser from `@palim/core`.
 
 ## Project status
 

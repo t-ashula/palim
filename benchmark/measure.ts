@@ -22,8 +22,8 @@ import type {
   SpeedMode,
   SpeedRawRecord,
 } from "./report.js";
-import { DOMParser } from "../src/index.js";
-import type { Document } from "../src/dom.js";
+import { DOMParser } from "../packages/core/src/index.js";
+import type { Document } from "../packages/core/src/dom.js";
 
 function requiredEnvironment(name: string): string {
   const value = process.env[name];

@@ -8,8 +8,8 @@ import {
   Element,
   ProcessingInstruction,
   Text,
-} from "../src/index.js";
-import type { DOMParserSupportedType } from "../src/index.js";
+} from "../packages/palim/src/index.js";
+import type { DOMParserSupportedType } from "../packages/palim/src/index.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";

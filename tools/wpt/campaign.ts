@@ -586,9 +586,9 @@ function readURLs(path: string): string[] {
 async function ensureFixtures(): Promise<void> {
   const required = [
     resolve(repositoryRoot, "conformance/wpt/wpt"),
-    resolve(repositoryRoot, "src/html/entities.json"),
-    resolve(repositoryRoot, "src/url/idna-mapping.json"),
-    resolve(repositoryRoot, "src/url/idna-properties.json"),
+    resolve(repositoryRoot, "packages/core/src/html/entities.json"),
+    resolve(repositoryRoot, "packages/core/src/url/idna-mapping.json"),
+    resolve(repositoryRoot, "packages/core/src/url/idna-properties.json"),
     resolve(repositoryRoot, "vendor/engine262/package.json"),
   ];
   if (required.every(existsSync)) {

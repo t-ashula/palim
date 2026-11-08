@@ -1,0 +1,11 @@
+export * from "@palim/core/internal/public-dom-interfaces.js";
+export * from "@palim/core/internal/public-html-interfaces.js";
+export { DOMException } from "@palim/core/internal/dom-exception.js";
+export { DOMParser } from "@palim/core";
+export type { DOMParserSupportedType } from "@palim/core";
+export { XMLSerializer } from "@palim/core/internal/xml-serializer.js";
+export { parseErrors } from "@palim/core/internal/html/parse-errors.js";
+export type { PalimParseError } from "@palim/core/internal/html/parse-errors.js";
+export { decodeHTMLBytes } from "./html-byte-input.js";
+export { open } from "./open.js";
+export type { OpenHTMLOptions, OpenResult } from "./open.js";

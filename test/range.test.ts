@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, Element, Text } from "../src/index.js";
-import type { Node, Range } from "../src/index.js";
+import {
+  DOMParser,
+  Document,
+  Element,
+  Text,
+} from "../packages/palim/src/index.js";
+import type { Node, Range } from "../packages/palim/src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {

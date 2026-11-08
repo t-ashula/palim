@@ -9,8 +9,8 @@ import {
   HTMLTemplateElement,
   ProcessingInstruction,
   Text,
-} from "../../src/index.js";
-import type { Node } from "../../src/index.js";
+} from "../../packages/palim/src/index.js";
+import type { Node } from "../../packages/palim/src/index.js";
 
 export type ScriptingMode = "disabled" | "enabled";
 

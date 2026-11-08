@@ -4,6 +4,10 @@
     "lib": ["ES2024"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "paths": {
+      "@palim/core": ["./packages/core/src/index.ts"],
+      "@palim/core/internal/*": ["./packages/core/src/*"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -15,7 +19,7 @@
   },
   "include": [
     "benchmark/**/*.ts",
-    "src/**/*.ts",
+    "packages/*/src/**/*.ts",
     "test/**/*.ts",
     "tools/**/*.ts",
     "vitest.config.ts"

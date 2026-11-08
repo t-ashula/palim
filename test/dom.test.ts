@@ -21,17 +21,17 @@ import {
   ProcessingInstruction,
   Text,
   XMLDocument,
-} from "../src/index.js";
-import { setDocumentURL } from "../src/dom/nodes.js";
-import { documentImplementation } from "../src/dom/node-implementation.js";
+} from "../packages/palim/src/index.js";
+import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
+import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import {
   documentNamedItem,
   documentNamedPropertyNames,
-} from "../src/dom/document-named-properties.js";
+} from "@palim/core/internal/dom/document-named-properties.js";
 import {
   foreignAnchorRelList,
   isForeignAnchorElement,
-} from "../src/dom/foreign-anchor.js";
+} from "@palim/core/internal/dom/foreign-anchor.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";

@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../src/index.js";
-import type { HTMLElement, HTMLSlotElement } from "../src/html-elements.js";
+import { DOMParser } from "../packages/palim/src/index.js";
+import type {
+  HTMLElement,
+  HTMLSlotElement,
+} from "@palim/core/internal/html-elements.js";
 
 describe("slot assignment", () => {
   it("updates named slot assignment across atomic moves", async () => {

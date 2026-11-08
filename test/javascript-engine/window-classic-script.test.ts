@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { normal } from "../../src/javascript-engine/adapter.js";
-import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
-import type { WindowEnvironmentSettings } from "../../src/javascript-engine/window-classic-script.js";
-import { WindowScriptEnvironment } from "../../src/javascript-engine/window-classic-script.js";
-import { OpaqueOrigin } from "../../src/origin.js";
-import { URL } from "../../src/url/index.js";
-import { createWindow } from "../../src/window.js";
-import { WindowExecutionEnvironment } from "../../src/window-javascript.js";
+import { normal } from "../../packages/palim/src/javascript-engine/adapter.js";
+import { Engine262Adapter } from "../../packages/palim/src/javascript-engine/engine262-adapter.js";
+import type { WindowEnvironmentSettings } from "../../packages/palim/src/javascript-engine/window-classic-script.js";
+import { WindowScriptEnvironment } from "../../packages/palim/src/javascript-engine/window-classic-script.js";
+import { OpaqueOrigin } from "@palim/core/internal/origin.js";
+import { URL } from "@palim/core/internal/url/index.js";
+import { createWindow } from "../../packages/palim/src/window.js";
+import { WindowExecutionEnvironment } from "../../packages/palim/src/window-javascript.js";
 
 class TrackingEngine262Adapter extends Engine262Adapter {
   checkpoints = 0;

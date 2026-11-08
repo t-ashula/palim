@@ -1,4 +1,4 @@
-import { open } from "../../dist/index.js";
+import { open } from "../../packages/palim/dist/index.js";
 
 const url = process.argv[2];
 const resultPrefix = "ALERT: RESULT: ";

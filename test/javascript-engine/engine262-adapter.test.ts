@@ -3,12 +3,12 @@ import { describe, expect, it } from "vitest";
 import {
   FORWARD_PROXY_TRAP,
   normal,
-} from "../../src/javascript-engine/adapter.js";
+} from "../../packages/palim/src/javascript-engine/adapter.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
-} from "../../src/javascript-engine/adapter.js";
-import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
+} from "../../packages/palim/src/javascript-engine/adapter.js";
+import { Engine262Adapter } from "../../packages/palim/src/javascript-engine/engine262-adapter.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

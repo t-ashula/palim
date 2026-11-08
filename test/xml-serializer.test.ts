@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, XMLSerializer } from "../src/index.js";
-import type { Element } from "../src/index.js";
+import {
+  DOMParser,
+  Document,
+  XMLSerializer,
+} from "../packages/palim/src/index.js";
+import type { Element } from "../packages/palim/src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 const XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";

@@ -2,16 +2,16 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../../src/index.js";
-import type { Document } from "../../src/index.js";
-import * as HTML from "../../src/html-elements.js";
+import { DOMParser } from "../../packages/palim/src/index.js";
+import type { Document } from "../../packages/palim/src/index.js";
+import * as HTML from "@palim/core/internal/html-elements.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
-} from "../../src/javascript-engine/adapter.js";
-import { DOMRealmBinding } from "../../src/javascript-engine/dom-realm-binding.js";
-import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
-import { htmlElementInterfaceConstructors } from "../../src/javascript-engine/html-element-interface-constructors.js";
+} from "../../packages/palim/src/javascript-engine/adapter.js";
+import { DOMRealmBinding } from "../../packages/palim/src/javascript-engine/dom-realm-binding.js";
+import { Engine262Adapter } from "../../packages/palim/src/javascript-engine/engine262-adapter.js";
+import { htmlElementInterfaceConstructors } from "../../packages/palim/src/javascript-engine/html-element-interface-constructors.js";
 
 interface TestRealm {
   readonly binding: DOMRealmBinding;

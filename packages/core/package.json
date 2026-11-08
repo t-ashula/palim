@@ -1,0 +1,38 @@
+{
+  "name": "@palim/core",
+  "version": "0.0.0",
+  "description": "The parser-only DOM implementation for palim.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./internal/*.js": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/t-ashula/palim.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/t-ashula/palim/issues"
+  },
+  "homepage": "https://github.com/t-ashula/palim#readme"
+}

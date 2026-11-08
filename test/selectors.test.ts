@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import type { Document } from "../src/index.js";
+import type { Document } from "../packages/palim/src/index.js";
 import {
   DocumentFragment,
   DOMException,
   DOMParser,
   Element,
   HTMLInputElement,
-} from "../src/index.js";
+} from "../packages/palim/src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 const FIXTURE = `<!doctype html>

@@ -3,8 +3,11 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, describe, expect, it } from "vitest";
 
-import { Document, parseErrors } from "../../src/index.js";
-import { parseHTML, parseHTMLFragment } from "../../src/html/parser.js";
+import { Document, parseErrors } from "../../packages/palim/src/index.js";
+import {
+  parseHTML,
+  parseHTMLFragment,
+} from "@palim/core/internal/html/parser.js";
 import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 import {
   canonicalTree,

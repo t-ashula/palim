@@ -5,7 +5,7 @@ set -eu
 fixture=${1:?html-build checkout path is required}
 root=${PALIM_REPOSITORY_ROOT:-$(git rev-parse --show-toplevel)}
 output_directory=$(mktemp -d)
-output_file="$root/src/html/entities.json"
+output_file="$root/packages/core/src/html/entities.json"
 
 trap 'rm -rf -- "$output_directory"' EXIT HUP INT TERM
 

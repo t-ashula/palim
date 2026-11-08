@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { Element } from "../src/index.js";
-import { DOMParser, DOMTokenList } from "../src/index.js";
+import type { Element } from "../packages/palim/src/index.js";
+import { DOMParser, DOMTokenList } from "../packages/palim/src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 function element(input = "<main></main>"): Element {

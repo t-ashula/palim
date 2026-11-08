@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../src/index.js";
+import { DOMParser } from "../packages/palim/src/index.js";
 
 describe("HTML parser", () => {
   it("continues with siblings after a style raw text element", () => {

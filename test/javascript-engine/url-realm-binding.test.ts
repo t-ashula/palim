@@ -6,12 +6,12 @@ import type {
   EngineRealm,
   EngineValue,
   JavaScriptEngineAdapter,
-} from "../../src/javascript-engine/adapter.js";
-import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
-import { URLRealmBinding } from "../../src/javascript-engine/url-realm-binding.js";
-import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
-import { URL } from "../../src/url/index.js";
-import { createWindow } from "../../src/window.js";
+} from "../../packages/palim/src/javascript-engine/adapter.js";
+import { Engine262Adapter } from "../../packages/palim/src/javascript-engine/engine262-adapter.js";
+import { URLRealmBinding } from "../../packages/palim/src/javascript-engine/url-realm-binding.js";
+import { WindowRealmBinding } from "../../packages/palim/src/javascript-engine/window-realm-binding.js";
+import { URL } from "@palim/core/internal/url/index.js";
+import { createWindow } from "../../packages/palim/src/window.js";
 
 const fixtureDirectory = resolve(
   import.meta.dirname,

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../src/index.js";
+import { DOMParser } from "../packages/palim/src/index.js";
 
 function documentWithTarget() {
   const document = new DOMParser().parseFromString(

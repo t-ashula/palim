@@ -1,34 +1,28 @@
 {
-  "name": "palim",
+  "name": "palim-workspace",
   "version": "0.0.0",
-  "description": "A lightweight, standards-compliant HTML and DOM implementation for JavaScript.",
   "license": "MIT",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "engines": {
     "node": ">=24.0.0"
   },
   "packageManager": "npm@12.2.1",
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
   "scripts": {
     "benchmark": "sh benchmark/run.sh",
     "benchmark:memory": "sh benchmark/run.sh memory",
     "benchmark:speed": "sh benchmark/run.sh speed",
-    "build": "tsc -p tsconfig.build.json",
-    "check": "npm run format && npm run lint && npm run typecheck && npm test && npm run build",
+    "build": "npm run build --workspace @palim/core && npm run build --workspace palim",
+    "check": "npm run format && npm run lint && npm run typecheck && npm test",
     "conformance:sync": "sh tools/conformance/sync.sh",
     "conformance:sync:force": "sh tools/conformance/sync.sh --force",
     "conformance:test": "sh tools/conformance/run.sh",
     "format": "prettier --check --write .",
     "lint": "eslint . --fix",
+    "pretest": "npm run build",
     "test": "vitest run --project project",
     "test:watch": "vitest --project project",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -52,8 +46,5 @@
     "typescript": "^6.0.2",
     "typescript-eslint": "^8.72.1",
     "vitest": "^5.0.5"
-  },
-  "dependencies": {
-    "@engine262/engine262": "file:vendor/engine262"
   }
 }

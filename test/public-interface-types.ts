@@ -10,9 +10,9 @@ import {
   ProcessingInstruction,
   Text,
   open,
-} from "../src/index.js";
-import type { OpenResult } from "../src/index.js";
-import { Window, createWindow } from "../src/window.js";
+} from "../packages/palim/src/index.js";
+import type { OpenResult } from "../packages/palim/src/index.js";
+import { Window, createWindow } from "../packages/palim/src/window.js";
 
 type Assert<T extends true> = T;
 export type NodeHasNoRemove = Assert<

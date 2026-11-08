@@ -21,8 +21,8 @@ import {
   ProcessingInstruction,
   Text,
   TimeRanges,
-} from "../src/index.js";
-import { Window, createWindow } from "../src/window.js";
+} from "../packages/palim/src/index.js";
+import { Window, createWindow } from "../packages/palim/src/window.js";
 
 describe("public standard interface boundaries", () => {
   it("uses the standard constructors that are available", () => {

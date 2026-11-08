@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Document, MutationObserver } from "../src/index.js";
+import { Document, MutationObserver } from "../packages/palim/src/index.js";
 
 describe("MutationObserver", () => {
   it("queues removal and insertion records for an atomic move", async () => {

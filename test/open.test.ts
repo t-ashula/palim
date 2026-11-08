@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it, vi } from "vitest";
 
-import { open } from "../src/index.js";
+import { open } from "../packages/palim/src/index.js";
 
 function fixture(name: string): string {
   return readFileSync(

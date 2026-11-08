@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, ShadowRoot } from "../src/index.js";
+import { DOMParser, ShadowRoot } from "../packages/palim/src/index.js";
 
 describe("ShadowRoot", () => {
   it("supports atomic moves within and across a shadow tree", () => {

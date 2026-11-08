@@ -3,12 +3,17 @@ import { join } from "node:path";
 
 import { Readability } from "@mozilla/readability";
 
-import { DOMParser, Element, Node, type Document } from "../../../src/index.js";
+import {
+  DOMParser,
+  Element,
+  Node,
+  type Document,
+} from "../../../packages/palim/src/index.js";
 import {
   documentIsQuirks,
   setDocumentQuirks,
   setDocumentURL,
-} from "../../../src/dom/nodes.js";
+} from "@palim/core/internal/dom/nodes.js";
 
 interface ExpectedMetadata {
   readonly title: string | null;

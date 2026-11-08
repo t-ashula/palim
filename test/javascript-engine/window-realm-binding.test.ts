@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 
-import { Document, Event } from "../../src/index.js";
-import { normal } from "../../src/javascript-engine/adapter.js";
+import { Document, Event } from "../../packages/palim/src/index.js";
+import { normal } from "../../packages/palim/src/javascript-engine/adapter.js";
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
-} from "../../src/javascript-engine/adapter.js";
-import { Engine262Adapter } from "../../src/javascript-engine/engine262-adapter.js";
-import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
-import { createWindow } from "../../src/window.js";
+} from "../../packages/palim/src/javascript-engine/adapter.js";
+import { Engine262Adapter } from "../../packages/palim/src/javascript-engine/engine262-adapter.js";
+import { WindowRealmBinding } from "../../packages/palim/src/javascript-engine/window-realm-binding.js";
+import { createWindow } from "../../packages/palim/src/window.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

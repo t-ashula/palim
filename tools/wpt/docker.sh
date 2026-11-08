@@ -7,9 +7,9 @@ image=palim-wpt
 
 sync_required=false
 if [ ! -d "$root/conformance/wpt/wpt" ] \
-  || [ ! -f "$root/src/html/entities.json" ] \
-  || [ ! -f "$root/src/url/idna-mapping.json" ] \
-  || [ ! -f "$root/src/url/idna-properties.json" ] \
+  || [ ! -f "$root/packages/core/src/html/entities.json" ] \
+  || [ ! -f "$root/packages/core/src/url/idna-mapping.json" ] \
+  || [ ! -f "$root/packages/core/src/url/idna-properties.json" ] \
   || [ ! -f "$root/vendor/engine262/package.json" ]; then
   sync_required=true
 fi

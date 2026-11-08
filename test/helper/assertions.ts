@@ -1,6 +1,6 @@
 import { expect } from "vitest";
 
-import { DOMException } from "../../src/index.js";
+import { DOMException } from "../../packages/palim/src/index.js";
 
 export function expectDOMException(
   operation: () => unknown,

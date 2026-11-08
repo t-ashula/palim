@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { inspectDocument, loadCorpus } from "../benchmark/corpus.js";
-import { DOMParser } from "../src/index.js";
+import { DOMParser } from "../packages/palim/src/index.js";
 
 describe("benchmark corpus", () => {
   it("loads corpus files and verifies DOMParser output", () => {

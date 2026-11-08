@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { Document, Element } from "../src/index.js";
+import type { Document, Element } from "../packages/palim/src/index.js";
 import {
   DOMParser,
   HTMLTableCaptionElement,
@@ -9,7 +9,7 @@ import {
   HTMLTableElement,
   HTMLTableRowElement,
   HTMLTableSectionElement,
-} from "../src/index.js";
+} from "../packages/palim/src/index.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 interface ElementInterface<T extends Element> {

@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
-import { WindowExecutionEnvironment } from "../../src/window-javascript.js";
+import { WindowExecutionEnvironment } from "../../packages/palim/src/window-javascript.js";
 
 function fixture(name: string): string {
   return readFileSync(

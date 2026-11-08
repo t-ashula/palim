@@ -33,14 +33,14 @@ cd "$root"
 
 revision=$(git rev-parse HEAD)
 tree_state=clean
-if [ -n "$(git status --porcelain -- src benchmark package.json package-lock.json tsconfig.json)" ]; then
+if [ -n "$(git status --porcelain -- packages/core/src benchmark package.json packages/core/package.json package-lock.json tsconfig.json)" ]; then
   tree_state=dirty
 fi
 
 source_digest=$(
   {
-    find src benchmark -type f \( -name '*.ts' -o -name '*.sh' \) -exec sha256sum {} +
-    sha256sum package.json package-lock.json tsconfig.json
+    find packages/core/src benchmark -type f \( -name '*.ts' -o -name '*.sh' \) -exec sha256sum {} +
+    sha256sum package.json packages/core/package.json package-lock.json tsconfig.json
   } | sort | sha256sum | cut -d ' ' -f 1
 )
 corpus_digest=$(

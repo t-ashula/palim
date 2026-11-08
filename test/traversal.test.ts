@@ -1,13 +1,17 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, NodeFilter } from "../src/index.js";
+import {
+  DOMParser,
+  Document,
+  NodeFilter,
+} from "../packages/palim/src/index.js";
 import type {
   Element,
   Node,
   NodeFilter as NodeFilterCallback,
   NodeIterator,
-} from "../src/index.js";
-import { descendantElements } from "../src/dom/traversal.js";
+} from "../packages/palim/src/index.js";
+import { descendantElements } from "@palim/core/internal/dom/traversal.js";
 import { expectDOMException } from "./helper/assertions.js";
 
 function parse(input: string): Document {

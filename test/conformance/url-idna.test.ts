@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { URL } from "../../src/url/index.js";
+import { URL } from "@palim/core/internal/url/index.js";
 import type { ConformanceCaseMetadata } from "../../tools/conformance/report.js";
 
 interface IDNACase {
