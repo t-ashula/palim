@@ -46,3 +46,4 @@
 - [ADR-0043: WPT DOM shell profile による適合度計測](./0043-wpt-dom-shell-profile.md)
 - [ADR-0044: WPT DOM shell profile の廃止](./0044-remove-wpt-dom-shell-profile.md)
 - [ADR-0045: WPT 対象範囲の拡張](./0045-expand-wpt-scope-for-exposed-web-apis.md)
+- [ADR-0046: パッケージ分離と capability 合成](./0046-multi-package-capability-boundaries.md)
