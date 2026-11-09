@@ -566,24 +566,14 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       deleteProperty: 2,
     };
     const steps: NativeSteps = (argumentsList) => {
-      try {
-        const rawArguments = Array.from(argumentsList.values());
-        const result = trap(
-          rawArguments.map((argument) => this.#wrap(argument)),
-        );
-        if (result.type === "forward") {
-          return this.#forwardProxyTrap(name, rawArguments);
-        }
-        return result.type === "throw"
-          ? ThrowCompletion(this.#value(result.value))
-          : this.#value(result.value);
-      } catch (error) {
-        const message =
-          error instanceof Error ? error.message : "Proxy trap failed";
-        return ThrowCompletion(
-          this.#value(this.createTypeError(realm, message)),
-        );
+      const rawArguments = Array.from(argumentsList.values());
+      const result = trap(rawArguments.map((argument) => this.#wrap(argument)));
+      if (result.type === "forward") {
+        return this.#forwardProxyTrap(name, rawArguments);
       }
+      return result.type === "throw"
+        ? ThrowCompletion(this.#value(result.value))
+        : this.#value(result.value);
     };
     return CreateBuiltinFunction(steps, lengths[name], name, [], realm.realm);
   }
@@ -662,29 +652,21 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     const realmHandle = this.#realm(realm);
     return this.#withRealm(realmHandle, () => {
       const steps: NativeSteps = (argumentsList, context) => {
-        try {
-          if (constructor && context.NewTarget === Value.undefined) {
-            return ThrowCompletion(
-              this.#value(
-                this.createTypeError(realmHandle, `${name} requires 'new'`),
-              ),
-            );
-          }
-          const values: EngineValue[] = [];
-          for (const value of argumentsList.values()) {
-            values.push(this.#wrap(value));
-          }
-          const result = callback(this.#wrap(context.thisValue), values);
-          return result.type === "throw"
-            ? ThrowCompletion(this.#value(result.value))
-            : this.#value(result.value);
-        } catch (error) {
-          const message =
-            error instanceof Error ? error.message : "Host operation failed";
+        if (constructor && context.NewTarget === Value.undefined) {
           return ThrowCompletion(
-            this.#value(this.createTypeError(realmHandle, message)),
+            this.#value(
+              this.createTypeError(realmHandle, `${name} requires 'new'`),
+            ),
           );
         }
+        const values: EngineValue[] = [];
+        for (const value of argumentsList.values()) {
+          values.push(this.#wrap(value));
+        }
+        const result = callback(this.#wrap(context.thisValue), values);
+        return result.type === "throw"
+          ? ThrowCompletion(this.#value(result.value))
+          : this.#value(result.value);
       };
       const behavior = constructor
         ? markBuiltinFunctionAsConstructor(steps)

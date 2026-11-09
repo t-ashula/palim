@@ -9,6 +9,8 @@ import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 
+export type RealmExceptionReporter = (value: EngineValue) => void;
+
 export class DOMRealmBinding {
   readonly #context: DOMRealmBindingContext;
 
@@ -17,8 +19,13 @@ export class DOMRealmBinding {
     realm: EngineRealm,
     associatedDocument: Document | null = null,
     context = new RealmBindingContext(engine, realm),
+    reportException: RealmExceptionReporter = () => undefined,
   ) {
-    this.#context = new DOMRealmBindingContext(context, associatedDocument);
+    this.#context = new DOMRealmBindingContext(
+      context,
+      associatedDocument,
+      reportException,
+    );
     installDOMRealmInterfaces(this.#context);
   }
 

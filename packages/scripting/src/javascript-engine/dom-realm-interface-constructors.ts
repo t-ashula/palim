@@ -254,9 +254,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
         );
         binding.engine.performPromiseCheckpoint();
         if (result.type === "throw") {
-          throw new Error(
-            binding.engine.exceptionMessage(binding.realm, result.value),
-          );
+          binding.reportException(result.value);
         }
       });
       return normal(binding.wrap(observer));

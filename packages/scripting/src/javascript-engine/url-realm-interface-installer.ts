@@ -49,13 +49,20 @@ function installInterfaces(state: URLInterfaceInstallationState): void {
       if (base.type === "throw") {
         return base;
       }
-      return normal(
-        state.domain.wrapURL(
-          base.value === undefined
-            ? new URL(input.value)
-            : new URL(input.value, base.value),
-        ),
-      );
+      try {
+        return normal(
+          state.domain.wrapURL(
+            base.value === undefined
+              ? new URL(input.value)
+              : new URL(input.value, base.value),
+          ),
+        );
+      } catch (error: unknown) {
+        if (error instanceof TypeError) {
+          return state.context.typeError(error.message);
+        }
+        throw error;
+      }
     },
   );
   state.context.installInterface(

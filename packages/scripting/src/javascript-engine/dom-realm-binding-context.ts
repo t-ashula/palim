@@ -112,6 +112,7 @@ import {
   htmlElementInterfaceConstructors,
   type HTMLElementInterfaceConstructor,
 } from "./html-element-interface-constructors.js";
+import type { RealmExceptionReporter } from "./dom-realm-binding.js";
 
 const DATA_PROPERTY = {
   configurable: true,
@@ -269,6 +270,7 @@ export class DOMRealmBindingContext {
   constructor(
     context: RealmBindingContext,
     readonly associatedDocument: Document | null = null,
+    readonly reportException: RealmExceptionReporter = () => undefined,
   ) {
     this.engine = context.engine;
     this.realm = context.realm;
@@ -528,19 +530,24 @@ export class DOMRealmBindingContext {
     const callback = (
       callbackName:
         "connectedCallback" | "disconnectedCallback" | "connectedMoveCallback",
-    ): ((element: Element) => void) | null => {
+    ): EngineResult<((element: Element) => void) | null> => {
       const value = this.engine.get(this.realm, prototype, callbackName);
       if (value.type === "throw") {
-        throw new Error(this.engine.exceptionMessage(this.realm, value.value));
+        return value;
       }
       if (this.engine.isUndefined(value.value)) {
-        return null;
+        return normal(null);
       }
       const callable = this.engine.asCallable(value.value);
       if (callable === null) {
-        throw new TypeError(`${callbackName} is not callable`);
+        return thrown(
+          this.engine.createTypeError(
+            this.realm,
+            `${callbackName} is not callable`,
+          ),
+        );
       }
-      return (element) => {
+      return normal((element) => {
         const result = this.engine.call(
           this.realm,
           callable,
@@ -548,12 +555,22 @@ export class DOMRealmBindingContext {
           [],
         );
         if (result.type === "throw") {
-          throw new Error(
-            this.engine.exceptionMessage(this.realm, result.value),
-          );
+          this.reportException(result.value);
         }
-      };
+      });
     };
+    const connectedCallback = callback("connectedCallback");
+    if (connectedCallback.type === "throw") {
+      return connectedCallback;
+    }
+    const disconnectedCallback = callback("disconnectedCallback");
+    if (disconnectedCallback.type === "throw") {
+      return disconnectedCallback;
+    }
+    const connectedMoveCallback = callback("connectedMoveCallback");
+    if (connectedMoveCallback.type === "throw") {
+      return connectedMoveCallback;
+    }
     try {
       this.customElementRegistry.define({
         name,
@@ -568,23 +585,26 @@ export class DOMRealmBindingContext {
           try {
             const result = this.engine.construct(this.realm, constructor, []);
             if (result.type === "throw") {
-              throw new Error(
-                this.engine.exceptionMessage(this.realm, result.value),
-              );
+              this.reportException(result.value);
+              return element;
             }
             if (this.interfaceObject(result.value) !== element) {
-              throw new TypeError(
-                "Custom element constructor returned a different object",
+              this.reportException(
+                this.engine.createTypeError(
+                  this.realm,
+                  "Custom element constructor returned a different object",
+                ),
               );
+              return element;
             }
             return element;
           } finally {
             this.customElementConstructionStack.pop();
           }
         },
-        connectedCallback: callback("connectedCallback"),
-        disconnectedCallback: callback("disconnectedCallback"),
-        connectedMoveCallback: callback("connectedMoveCallback"),
+        connectedCallback: connectedCallback.value,
+        disconnectedCallback: disconnectedCallback.value,
+        connectedMoveCallback: connectedMoveCallback.value,
       });
     } catch (error: unknown) {
       return this.typeError(
@@ -2089,7 +2109,7 @@ export class DOMRealmBindingContext {
         [this.wrap(event)],
       );
       if (result.type === "throw") {
-        throw new Error(this.engine.exceptionMessage(this.realm, result.value));
+        this.reportException(result.value);
       }
     };
     listeners.set(callback, listener);

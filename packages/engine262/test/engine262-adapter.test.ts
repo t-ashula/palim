@@ -104,6 +104,24 @@ describe("Engine262Adapter", () => {
     }
   });
 
+  it("leaves host function failures as host failures", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const hostFunction = engine.createFunction(realm, "hostFunction", 0, () => {
+      throw new Error("host function failed");
+    });
+    engine.defineDataProperty(
+      engine.globalObject(realm),
+      "hostFunction",
+      hostFunction,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    expect(() => engine.evaluate(realm, "hostFunction()")).toThrow(
+      "host function failed",
+    );
+  });
+
   it("compiles and runs scripts as separate operations", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
@@ -246,6 +264,26 @@ describe("Engine262Adapter", () => {
           throw new Error("proxy forwarding was not preserved");
         }
       `,
+    );
+  });
+
+  it("leaves host proxy trap failures as host failures", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const target = engine.createObject(realm, engine.objectPrototype(realm));
+    const proxy = engine.createProxy(realm, target, {
+      get: () => {
+        throw new Error("proxy trap failed");
+      },
+    });
+    engine.defineDataProperty(engine.globalObject(realm), "testProxy", proxy, {
+      configurable: true,
+      enumerable: true,
+      writable: true,
+    });
+
+    expect(() => engine.evaluate(realm, "testProxy.value")).toThrow(
+      "proxy trap failed",
     );
   });
 

@@ -7,6 +7,7 @@ import type { Document } from "@palim/core/internal/public-dom-interfaces.js";
 import * as HTML from "@palim/core/internal/html-elements.js";
 import type {
   EngineRealm,
+  EngineValue,
   JavaScriptEngineAdapter,
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import { DOMRealmBinding } from "@palim/scripting/internal/javascript-engine/dom-realm-binding.js";
@@ -29,11 +30,20 @@ function fixture(file: string): string {
   return readFileSync(resolve(fixtureDirectory, file), "utf8");
 }
 
-function createTestRealm(input: string): TestRealm {
+function createTestRealm(
+  input: string,
+  reportException: (value: EngineValue) => void = () => undefined,
+): TestRealm {
   const document = new DOMParser().parseFromString(input, "text/html");
   const engine = new Engine262Adapter();
   const realm = engine.createRealm();
-  const binding = new DOMRealmBinding(engine, realm, document);
+  const binding = new DOMRealmBinding(
+    engine,
+    realm,
+    document,
+    undefined,
+    reportException,
+  );
   binding.expose("testDocument", document);
   return { binding, document, engine, realm };
 }
@@ -131,6 +141,66 @@ describe("DOMRealmBinding", () => {
     const { engine, realm } = createTestRealm("<section></section>");
 
     evaluate(engine, realm, fixture("connects-custom-element-reactions.js"));
+  });
+
+  it("preserves exceptions raised while reading custom element callbacks", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const failure = {};
+        class FailingElement extends HTMLElement {}
+        Object.defineProperty(FailingElement.prototype, "connectedCallback", {
+          get() { throw failure; },
+        });
+        let caught;
+        try {
+          customElements.define("x-failing-callback", FailingElement);
+        } catch (error) {
+          caught = error;
+        }
+        if (caught !== failure) {
+          throw new Error("custom element callback exception identity changed");
+        }
+      `,
+    );
+  });
+
+  it("reports event listener exceptions and continues dispatch", () => {
+    const reported: EngineValue[] = [];
+    const { document, engine, realm } = createTestRealm(
+      "<main></main>",
+      (value) => reported.push(value),
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.listenerFailure = {};
+        testDocument.addEventListener("failure", () => {
+          throw listenerFailure;
+        });
+        testDocument.addEventListener("failure", () => {
+          testDocument.body.setAttribute("data-after-listener", "yes");
+        });
+        testDocument.dispatchEvent(new Event("failure"));
+      `,
+    );
+    const failure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "listenerFailure",
+    );
+
+    expect(failure.type).toBe("normal");
+    expect(reported).toHaveLength(1);
+    if (failure.type === "normal") {
+      expect(reported[0]).toBe(failure.value);
+    }
+    expect(document.body?.getAttribute("data-after-listener")).toBe("yes");
   });
 
   it("connects slot assignment", () => {

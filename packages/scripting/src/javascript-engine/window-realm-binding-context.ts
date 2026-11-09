@@ -1,4 +1,4 @@
-import { Window } from "@palim/window/internal/window.js";
+import { reportWindowError, Window } from "@palim/window/internal/window.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
@@ -17,6 +17,7 @@ import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-objec
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
+import { windowErrorReport } from "./window-error-report.js";
 
 export class WindowRealmBindingContext {
   readonly engine: JavaScriptEngineAdapter;
@@ -45,6 +46,9 @@ export class WindowRealmBindingContext {
       this.realm,
       this.window.document,
       this.context,
+      (value) => {
+        this.reportException(value);
+      },
     );
     this.url = new URLRealmBinding(this.engine, this.realm, this.context);
     this.formData = new FormDataRealmBindingContext(this.context);
@@ -89,6 +93,18 @@ export class WindowRealmBindingContext {
     return text.type === "throw"
       ? text
       : normal(Math.max(0, Number(text.value) || 0));
+  }
+
+  reportException(value: EngineValue): void {
+    reportWindowError(
+      this.window,
+      windowErrorReport(
+        this.engine,
+        this.realm,
+        value,
+        this.window.document.URL,
+      ),
+    );
   }
 
   timerId(value: EngineValue | undefined): EngineResult<number> {

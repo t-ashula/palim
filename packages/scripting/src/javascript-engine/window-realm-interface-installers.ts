@@ -1,7 +1,6 @@
 import {
   clearWindowTimeout,
   reportWindowConsole,
-  reportWindowError,
   scheduleWindowMicrotask,
   scheduleWindowTimeout,
 } from "@palim/window/internal/window.js";
@@ -144,10 +143,7 @@ export function installTimers(binding: WindowRealmBindingContext): void {
       );
       binding.engine.performPromiseCheckpoint();
       if (result.type === "throw") {
-        reportWindowError(binding.window, {
-          message: binding.engine.exceptionMessage(binding.realm, result.value),
-          url: binding.window.document.URL,
-        });
+        binding.reportException(result.value);
       }
     });
     return binding.context.undefined();
@@ -174,13 +170,7 @@ export function installTimers(binding: WindowRealmBindingContext): void {
         );
         binding.engine.performPromiseCheckpoint();
         if (result.type === "throw") {
-          reportWindowError(binding.window, {
-            message: binding.engine.exceptionMessage(
-              binding.realm,
-              result.value,
-            ),
-            url: binding.window.document.URL,
-          });
+          binding.reportException(result.value);
         }
       },
       delay.value,

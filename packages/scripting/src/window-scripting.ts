@@ -23,6 +23,7 @@ import {
   WindowScriptEnvironment,
   type WindowScriptEventLoop,
 } from "./javascript-engine/window-classic-script.js";
+import { windowErrorReport } from "./javascript-engine/window-error-report.js";
 
 export {
   ClassicScript,
@@ -261,15 +262,15 @@ export class WindowScriptingEnvironment
         result,
       });
       if (result.type === "throw") {
-        const stack = exceptionStack(this, result.value);
-        reportWindowError(this.window, {
-          message: this.engine.exceptionMessage(
+        reportWindowError(
+          this.window,
+          windowErrorReport(
+            this.engine,
             this.settings.realm,
             result.value,
+            sourceURL,
           ),
-          url: sourceURL,
-          ...(stack === undefined ? {} : { stack }),
-        });
+        );
       }
     } finally {
       implementation.currentScript = previousCurrentScript;
@@ -283,29 +284,6 @@ export class WindowScriptingEnvironment
   ): void {
     this.scriptResults.push({ type: "load-error", element, url, error });
   }
-}
-
-function exceptionStack(
-  environment: WindowScriptingEnvironment,
-  value: EngineValue,
-): string | undefined {
-  const object = environment.engine.asObject(value);
-  if (object === null) {
-    return undefined;
-  }
-  const stack = environment.engine.get(
-    environment.settings.realm,
-    object,
-    "stack",
-  );
-  if (stack.type === "throw" || environment.engine.isUndefined(stack.value)) {
-    return undefined;
-  }
-  const text = environment.engine.toString(
-    environment.settings.realm,
-    stack.value,
-  );
-  return text.type === "normal" ? text.value : undefined;
 }
 
 const JAVASCRIPT_MIME_TYPE_ESSENCES = new Set([
