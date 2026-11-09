@@ -44,17 +44,17 @@ interface WindowInterface {
 }
 
 class BrowsingContext {
-  readonly parent: BrowsingContext | null = null;
-
   constructor(
     readonly window: Window,
     readonly windowProxy: Window,
     readonly activeDocument: Document,
     readonly creationURL: URL,
+    readonly parent: BrowsingContext | null,
+    readonly frameElement: Element | null,
   ) {}
 
-  get top(): this {
-    return this;
+  get top(): BrowsingContext {
+    return this.parent?.top ?? this;
   }
 }
 
@@ -84,10 +84,30 @@ class WindowPlatform extends EventTarget implements Window {
     const document = construction.document ?? parseHTML("");
     const url = new URL(construction.options.url ?? "about:blank");
     const implementation = documentImplementation(document);
+    const parentContext =
+      construction.parent === null
+        ? null
+        : windowEnvironment(construction.parent).browsingContext;
     implementation.url = url;
-    implementation.origin = originFromURL(url);
+    if (parentContext === null) {
+      implementation.origin = originFromURL(url);
+    } else {
+      implementation.origin = documentImplementation(
+        parentContext.activeDocument,
+      ).origin;
+      implementation.aboutBaseURL = new URL(
+        parentContext.activeDocument.baseURI,
+      );
+    }
     const environment = {
-      browsingContext: new BrowsingContext(this, proxy, document, url),
+      browsingContext: new BrowsingContext(
+        this,
+        proxy,
+        document,
+        url,
+        parentContext,
+        construction.frameElement,
+      ),
       location: new LocationPlatform(proxy),
       consoleHandler: construction.options.consoleHandler ?? null,
       errorHandlers: new Set<WindowErrorHandler>(),
@@ -132,7 +152,9 @@ class WindowPlatform extends EventTarget implements Window {
     return (context.parent ?? context).windowProxy;
   }
 
-  readonly frameElement: Element | null = null;
+  get frameElement(): Element | null {
+    return windowEnvironment(this).browsingContext.frameElement;
+  }
 
   onerror(handler: WindowErrorHandler): () => void {
     if (typeof handler !== "function") {
@@ -183,6 +205,8 @@ class WindowConstruction {
   constructor(
     readonly options: WindowOptions,
     readonly document?: Document,
+    readonly parent: Window | null = null,
+    readonly frameElement: Element | null = null,
   ) {}
 }
 
@@ -202,6 +226,20 @@ export function createWindowForDocument(
   options: WindowOptions = {},
 ): Window {
   return new WindowPlatform(new WindowConstruction(options, document));
+}
+
+export function createChildWindow(
+  parent: Window,
+  frameElement: Element,
+  options: WindowOptions = {},
+): Window {
+  return new WindowPlatform(
+    new WindowConstruction(options, undefined, parent, frameElement),
+  );
+}
+
+export function detachWindow(window: Window): void {
+  documentImplementation(window.document).defaultView = null;
 }
 
 export function reportWindowError(

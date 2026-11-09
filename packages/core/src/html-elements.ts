@@ -55,6 +55,7 @@ import {
 import { HTML_NAMESPACE } from "./namespaces.js";
 import { requireArguments, toLong } from "./web-idl.js";
 import { URL } from "./url/index.js";
+import type { Window } from "./window-types.js";
 
 interface URLValue {
   href: string;
@@ -76,6 +77,7 @@ const INLINE_STYLE_DECLARATIONS = new WeakMap<
   CSSStyleProperties
 >();
 const INLINE_STYLE_CONSTRUCTION = Symbol("inline style construction");
+const IFRAME_CONTENT_WINDOWS = new WeakMap<HTMLIFrameElement, Window>();
 
 const DIRECT_HTML_ELEMENT_NAMES = new Set([
   "abbr",
@@ -1977,8 +1979,13 @@ export class HTMLIFrameElement extends HTMLElement {
     this.setAttribute("loading", value);
   }
 
-  readonly contentDocument: Document | null = null;
-  readonly contentWindow = null;
+  get contentDocument(): Document | null {
+    return IFRAME_CONTENT_WINDOWS.get(this)?.document ?? null;
+  }
+
+  get contentWindow(): Window | null {
+    return IFRAME_CONTENT_WINDOWS.get(this) ?? null;
+  }
 
   getSVGDocument(): Document | null {
     return null;
@@ -2030,6 +2037,17 @@ export class HTMLIFrameElement extends HTMLElement {
 
   set marginWidth(value: string) {
     this.setAttribute("marginwidth", value);
+  }
+}
+
+export function setHTMLIFrameElementContentWindow(
+  element: HTMLIFrameElement,
+  window: Window | null,
+): void {
+  if (window === null) {
+    IFRAME_CONTENT_WINDOWS.delete(element);
+  } else {
+    IFRAME_CONTENT_WINDOWS.set(element, window);
   }
 }
 

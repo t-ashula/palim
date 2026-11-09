@@ -17,12 +17,12 @@ for quantitative interoperability results.
 
 ## Parsing and serialization
 
-| Capability                    | Status  | Current scope and limitations                                                         |
-| ----------------------------- | :-----: | ------------------------------------------------------------------------------------- |
-| HTML document parsing         |   OK    | `DOMParser`, `open()`, and HTML byte input construct HTML documents                   |
+| Capability                    | Status  | Current scope and limitations                                                          |
+| ----------------------------- | :-----: | -------------------------------------------------------------------------------------- |
+| HTML document parsing         |   OK    | `DOMParser`, `open()`, and HTML byte input construct HTML documents                    |
 | XML document parsing          |   OK    | XML, XHTML, and SVG XML MIME types are accepted; `open()` also recognizes `+xml` types |
-| Fragment parsing              |   OK    | `innerHTML`, `outerHTML`, `insertAdjacentHTML`, and contextual fragment parsing       |
-| HTML and XML serialization    |   OK    | HTML markup serialization and `XMLSerializer`                                         |
+| Fragment parsing              |   OK    | `innerHTML`, `outerHTML`, `insertAdjacentHTML`, and contextual fragment parsing        |
+| HTML and XML serialization    |   OK    | HTML markup serialization and `XMLSerializer`                                          |
 | Streaming HTML input          | Partial | Incremental parsing exists, but does not provide a complete browser loading lifecycle  |
 
 ## DOM APIs
@@ -48,8 +48,8 @@ for quantitative interoperability results.
 | Initial document loading         |   OK    | A URL can be fetched, decoded, and parsed as HTML or XML                                  |
 | Subresource loading              | Partial | Selected element resources are discovered and loaded without a complete fetch policy     |
 | `Location`                       | Partial | A read-only view of the active document URL is exposed; navigation is unavailable        |
-| `iframe`                         | Partial | The `src` resource is accessed, but its content is not applied and no `load` event fires |
-| Nested browsing contexts         |   NG    | An iframe does not receive a child `Window`; `contentWindow` and `contentDocument` are null |
+| `iframe`                         | Partial | `src` and `srcdoc` create child documents, run classic scripts when enabled, and fire `load`; sandbox, lazy loading, and cross-origin enforcement are not implemented |
+| Nested browsing contexts         | Partial | Child `Window` objects expose `parent`, `top`, and `frameElement`; navigation and session history remain incomplete |
 | Navigation and session history   |   NG    | No complete navigation algorithm, history stack, or document replacement model           |
 | Page networking APIs             |   NG    | `fetch`, `XMLHttpRequest`, WebSocket, and browser networking policy are not exposed       |
 

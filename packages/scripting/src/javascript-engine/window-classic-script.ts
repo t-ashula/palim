@@ -40,8 +40,11 @@ export class WindowEnvironmentSettings {
     this.#document = this.window.document;
     const implementation = documentImplementation(this.#document);
     this.#creationURL = new URL(implementation.url.href);
-    this.#topLevelCreationURL = new URL(implementation.url.href);
-    this.#topLevelOrigin = implementation.origin;
+    const topLevelImplementation = documentImplementation(
+      this.window.top.document,
+    );
+    this.#topLevelCreationURL = new URL(topLevelImplementation.url.href);
+    this.#topLevelOrigin = topLevelImplementation.origin;
   }
 
   get creationURL(): URL {
@@ -164,9 +167,13 @@ export class WindowScriptEnvironment {
   constructor(
     readonly engine: JavaScriptEngineAdapter,
     readonly window: Window,
+    eventLoop?: WindowScriptEventLoop,
   ) {
     this.binding = new WindowRealmBinding(this.engine, this.window);
-    this.eventLoop = new WindowScriptEventLoop(this.engine);
+    if (eventLoop !== undefined && eventLoop.engine !== this.engine) {
+      throw new TypeError("A Window event loop cannot use another engine");
+    }
+    this.eventLoop = eventLoop ?? new WindowScriptEventLoop(this.engine);
     this.settings = new WindowEnvironmentSettings(
       this.window,
       this.binding,

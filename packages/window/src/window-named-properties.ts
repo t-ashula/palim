@@ -10,6 +10,7 @@ import type { Window } from "./window.js";
 const WINDOW_NAMED_ELEMENT_LOCAL_NAMES = new Set([
   "embed",
   "form",
+  "iframe",
   "img",
   "object",
 ]);
@@ -55,14 +56,17 @@ export function windowNamedPropertyNames(window: Window): readonly string[] {
 export function windowNamedPropertyValue(
   window: Window,
   name: string,
-): object | undefined {
+): object | null | undefined {
   const document = window.document;
   const elements = windowNamedElements(document, name);
   if (elements.length === 0) {
     return undefined;
   }
   if (elements.length === 1) {
-    return elements[0];
+    const element = elements[0];
+    return element?.localName === "iframe"
+      ? iframeContentWindow(element)
+      : element;
   }
   const implementation = documentImplementation(document);
   let collections = WINDOW_NAMED_ITEM_COLLECTIONS.get(implementation);
@@ -87,6 +91,11 @@ function windowNamedElements(document: Document, name: string): Element[] {
       (isWindowNamedElement(element) &&
         element.getAttributeNS(null, "name") === name),
   );
+}
+
+function iframeContentWindow(element: Element): object | null {
+  return (element as Element & { readonly contentWindow: object | null })
+    .contentWindow;
 }
 
 function isWindowNamedElement(element: Element): boolean {

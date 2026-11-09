@@ -1,16 +1,25 @@
 import { Event } from "@palim/core/internal/dom/events.js";
+import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import type { Document, Element } from "@palim/core/internal/dom/nodes.js";
 import { descendantElements } from "@palim/core/internal/dom/traversal.js";
-import { HTMLScriptElement } from "@palim/core/internal/html-elements.js";
+import {
+  HTMLIFrameElement,
+  HTMLScriptElement,
+  setHTMLIFrameElementContentWindow,
+} from "@palim/core/internal/html-elements.js";
+import { originFromURL } from "@palim/core/internal/origin.js";
 import { parseHTMLIntoDocumentAsync } from "@palim/core/internal/html/parser.js";
 import { URL } from "@palim/core/internal/url/index.js";
 
 import {
+  createChildWindow,
   createWindow,
   createWindowForDocument,
+  detachWindow,
   type Window,
   type WindowOptions,
 } from "./window.js";
+import { decodeHTMLBytes } from "./html-byte-input.js";
 
 export interface Resource {
   readonly body: Uint8Array;
@@ -23,6 +32,10 @@ export interface ResourceLoader {
 }
 
 export interface WindowScripting {
+  createChild(
+    window: Window,
+    resourceLoader: ResourceLoader | null,
+  ): WindowScripting;
   processScript(element: unknown): Promise<void>;
   waitForPendingScripts(): Promise<void>;
 }
@@ -31,23 +44,48 @@ export interface WindowDocumentOptions extends WindowOptions {
   readonly resourceLoader?: ResourceLoader;
 }
 
+interface IFrameState {
+  readonly loader: WindowDocumentLoader;
+  readonly scripting: WindowScripting | null;
+  navigation: number;
+}
+
 export class WindowDocumentLoader {
   readonly window: Window;
   readonly resourceLoader: ResourceLoader | null;
   readonly #pendingResourceLoads: Promise<void>[] = [];
+  readonly #iframeStates = new Map<HTMLIFrameElement, IFrameState>();
+  readonly #options: WindowDocumentOptions;
+  #scripting: WindowScripting | null = null;
+  #active = true;
 
-  constructor(options: WindowDocumentOptions = {}, document?: Document) {
-    this.window =
-      document === undefined
-        ? createWindow(options)
-        : createWindowForDocument(document, options);
+  constructor(
+    options: WindowDocumentOptions = {},
+    document?: Document,
+    parent?: Window,
+    frameElement?: Element,
+  ) {
+    this.#options = options;
+    if (parent !== undefined) {
+      if (frameElement === undefined) {
+        throw new TypeError("A child Window requires a frame element");
+      }
+      this.window = createChildWindow(parent, frameElement, options);
+    } else {
+      this.window =
+        document === undefined
+          ? createWindow(options)
+          : createWindowForDocument(document, options);
+    }
     this.resourceLoader = options.resourceLoader ?? null;
+    this.#installDocumentHooks();
   }
 
   async loadHTML(
     source: string,
     scripting: WindowScripting | null,
   ): Promise<Document> {
+    this.#scripting = scripting;
     this.#pendingResourceLoads.length = 0;
     const document = await parseHTMLIntoDocumentAsync(
       source,
@@ -64,6 +102,7 @@ export class WindowDocumentLoader {
   async loadParsedDocument(
     scripting: WindowScripting | null,
   ): Promise<Document> {
+    this.#scripting = scripting;
     this.#pendingResourceLoads.length = 0;
     const document = this.window.document;
     for (const element of descendantElements(document)) {
@@ -75,12 +114,244 @@ export class WindowDocumentLoader {
   }
 
   async #finish(scripting: WindowScripting | null): Promise<void> {
-    await Promise.all(this.#pendingResourceLoads);
+    await this.#waitForPendingResources();
     await scripting?.waitForPendingScripts();
+    await this.#waitForPendingResources();
     this.window.dispatchEvent(new Event("load"));
   }
 
+  async #waitForPendingResources(): Promise<void> {
+    let index = 0;
+    while (index < this.#pendingResourceLoads.length) {
+      const pending = this.#pendingResourceLoads.slice(index);
+      index = this.#pendingResourceLoads.length;
+      await Promise.all(pending);
+    }
+  }
+
+  #installDocumentHooks(): void {
+    const implementation = documentImplementation(this.window.document);
+    const previousPostConnectionSteps = implementation.postConnectionSteps;
+    implementation.postConnectionSteps = (node) => {
+      previousPostConnectionSteps?.(node);
+      if (this.#active && node instanceof HTMLIFrameElement) {
+        this.#connectIFrame(node);
+      }
+    };
+
+    const previousRemovingSteps = implementation.removingSteps;
+    implementation.removingSteps = (node, isSubtreeRoot, oldAncestor) => {
+      previousRemovingSteps?.(node, isSubtreeRoot, oldAncestor);
+      if (this.#active && node instanceof HTMLIFrameElement) {
+        this.#disconnectIFrame(node);
+      }
+    };
+
+    const previousAttributeChangedSteps = implementation.attributeChangedSteps;
+    implementation.attributeChangedSteps = (element, localName, namespace) => {
+      previousAttributeChangedSteps?.(element, localName, namespace);
+      if (
+        this.#active &&
+        namespace === null &&
+        element instanceof HTMLIFrameElement &&
+        element.isConnected &&
+        (localName === "srcdoc" ||
+          (localName === "src" && !element.hasAttribute("srcdoc")))
+      ) {
+        const state = this.#iframeStates.get(element);
+        if (state !== undefined) {
+          this.#queueIFrameNavigation(element, state, false);
+        }
+      }
+    };
+  }
+
+  #connectIFrame(element: HTMLIFrameElement): void {
+    if (this.#iframeStates.has(element)) {
+      return;
+    }
+    const loader = new WindowDocumentLoader(
+      {
+        ...(this.#options.consoleHandler === undefined
+          ? {}
+          : { consoleHandler: this.#options.consoleHandler }),
+        ...(this.resourceLoader === null
+          ? {}
+          : { resourceLoader: this.resourceLoader }),
+      },
+      undefined,
+      this.window,
+      element,
+    );
+    const state = {
+      loader,
+      scripting:
+        this.#scripting?.createChild(loader.window, this.resourceLoader) ??
+        null,
+      navigation: 0,
+    };
+    this.#iframeStates.set(element, state);
+    setHTMLIFrameElementContentWindow(element, loader.window);
+    this.#queueIFrameNavigation(element, state, true);
+  }
+
+  #disconnectIFrame(element: HTMLIFrameElement): void {
+    const state = this.#iframeStates.get(element);
+    if (state === undefined) {
+      return;
+    }
+    state.navigation += 1;
+    state.loader.#dispose();
+    detachWindow(state.loader.window);
+    setHTMLIFrameElementContentWindow(element, null);
+    this.#iframeStates.delete(element);
+  }
+
+  #dispose(): void {
+    if (!this.#active) {
+      return;
+    }
+    this.#active = false;
+    for (const [element, state] of this.#iframeStates) {
+      state.navigation += 1;
+      state.loader.#dispose();
+      detachWindow(state.loader.window);
+      setHTMLIFrameElementContentWindow(element, null);
+    }
+    this.#iframeStates.clear();
+  }
+
+  #queueIFrameNavigation(
+    element: HTMLIFrameElement,
+    state: IFrameState,
+    initialInsertion: boolean,
+  ): void {
+    state.navigation += 1;
+    const navigation = state.navigation;
+    this.#pendingResourceLoads.push(
+      this.#navigateIFrame(element, state, navigation, initialInsertion),
+    );
+  }
+
+  async #navigateIFrame(
+    element: HTMLIFrameElement,
+    state: IFrameState,
+    navigation: number,
+    initialInsertion: boolean,
+  ): Promise<void> {
+    if (element.hasAttribute("srcdoc")) {
+      this.#prepareChildDocument(element, state, new URL("about:srcdoc"), true);
+      await state.loader.loadHTML(
+        element.getAttribute("srcdoc") ?? "",
+        state.scripting,
+      );
+      this.#finishIFrameNavigation(element, state, navigation);
+      return;
+    }
+
+    const source = element.getAttribute("src");
+    let url = new URL("about:blank");
+    if (source !== null && source.trim() !== "") {
+      try {
+        url = new URL(source, element.ownerDocument?.baseURI ?? "about:blank");
+      } catch {
+        // An invalid src leaves the initial about:blank document in place.
+      }
+    }
+
+    if (inclusiveAncestorWindowHasURL(this.window, url)) {
+      return;
+    }
+
+    if (url.href === "about:blank" && initialInsertion) {
+      this.#finishIFrameNavigation(element, state, navigation);
+      return;
+    }
+    if (url.href === "about:blank") {
+      this.#prepareChildDocument(element, state, url, true);
+      await state.loader.loadHTML("", state.scripting);
+      this.#finishIFrameNavigation(element, state, navigation);
+      return;
+    }
+
+    if (this.resourceLoader === null) {
+      this.#finishIFrameNavigation(element, state, navigation);
+      return;
+    }
+    try {
+      const resource = await this.resourceLoader.load(new URL(url.href));
+      if (!this.#isCurrentIFrameNavigation(element, state, navigation)) {
+        return;
+      }
+      if (!(resource.body instanceof Uint8Array)) {
+        this.#finishIFrameNavigation(element, state, navigation);
+        return;
+      }
+      const finalURL =
+        resource.url === undefined ? url : new URL(resource.url, url);
+      const decoded = decodeHTMLBytes(resource.body, {
+        ...(resource.encoding === undefined
+          ? {}
+          : { transportEncoding: resource.encoding }),
+      });
+      this.#prepareChildDocument(element, state, finalURL, false);
+      documentImplementation(state.loader.window.document).encoding =
+        decoded.encoding;
+      await state.loader.loadHTML(decoded.text, state.scripting);
+    } catch {
+      // Like browsers, iframe load does not expose network failure details.
+    }
+    this.#finishIFrameNavigation(element, state, navigation);
+  }
+
+  #prepareChildDocument(
+    element: HTMLIFrameElement,
+    state: IFrameState,
+    url: URL,
+    inheritsOrigin: boolean,
+  ): void {
+    const implementation = documentImplementation(state.loader.window.document);
+    implementation.url = new URL(url.href);
+    implementation.aboutBaseURL = inheritsOrigin
+      ? new URL(element.ownerDocument?.baseURI ?? this.window.document.baseURI)
+      : null;
+    implementation.origin = inheritsOrigin
+      ? documentImplementation(this.window.document).origin
+      : originFromURL(url);
+    implementation.scriptingMode =
+      state.scripting === null ? "disabled" : "enabled";
+  }
+
+  #finishIFrameNavigation(
+    element: HTMLIFrameElement,
+    state: IFrameState,
+    navigation: number,
+  ): void {
+    if (this.#isCurrentIFrameNavigation(element, state, navigation)) {
+      element.dispatchEvent(new Event("load"));
+    }
+  }
+
+  #isCurrentIFrameNavigation(
+    element: HTMLIFrameElement,
+    state: IFrameState,
+    navigation: number,
+  ): boolean {
+    return (
+      this.#active &&
+      element.isConnected &&
+      this.#iframeStates.get(element) === state &&
+      state.navigation === navigation
+    );
+  }
+
   #processElement(element: Element): void {
+    if (element instanceof HTMLIFrameElement) {
+      if (element.isConnected) {
+        this.#connectIFrame(element);
+      }
+      return;
+    }
     for (const value of resourceURLs(element)) {
       this.#pendingResourceLoads.push(this.#loadResource(element, value));
     }
@@ -102,6 +373,26 @@ export class WindowDocumentLoader {
       // A subresource failure does not abort loading the document.
     }
   }
+}
+
+function inclusiveAncestorWindowHasURL(window: Window, url: URL): boolean {
+  const target = urlWithoutFragment(url);
+  let ancestor = window;
+  for (;;) {
+    if (urlWithoutFragment(new URL(ancestor.document.URL)) === target) {
+      return true;
+    }
+    if (ancestor.parent === ancestor) {
+      return false;
+    }
+    ancestor = ancestor.parent;
+  }
+}
+
+function urlWithoutFragment(url: URL): string {
+  const copy = new URL(url.href);
+  copy.hash = "";
+  return copy.href;
 }
 
 function baseURL(element: Element): URL {
@@ -144,7 +435,6 @@ function resourceURLs(element: Element): string[] {
       return (element.getAttribute("type") ?? "").toLowerCase() === "image"
         ? resourceAttribute(element, "src")
         : [];
-    case "iframe":
     case "frame":
     case "embed":
     case "audio":

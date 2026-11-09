@@ -122,7 +122,7 @@ and `NG` means that the capability is not currently provided.
 | Window environment                 |   OK    | `open()` creates a `Window` and its active `Document`                         |
 | JavaScript scripting               |   OK    | Opt-in inline and external classic scripts; disabled by default               |
 | Document and subresource loading   | Partial | Initial documents and selected subresources, without a full browser lifecycle |
-| `iframe`                           | Partial | The `src` resource is accessed, but no child document, load event, or nested browsing context is created |
+| `iframe`                           | Partial | Child documents, Window relationships, `src`/`srcdoc`, load events, and classic scripts; without sandbox or cross-origin enforcement |
 | Shadow DOM and custom elements     | Partial | Core tree, registry, and reaction behavior; platform coverage remains limited |
 | CSS stylesheets, cascade, and layout |   NG    | Inline style declarations exist, but style calculation and layout do not      |
 | JavaScript modules                 |   NG    | Module scripts are not executed                                               |

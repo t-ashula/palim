@@ -147,6 +147,10 @@ const sharedImplementationsByEngine = new WeakMap<
   JavaScriptEngineAdapter,
   WeakMap<EngineObject, object>
 >();
+const sharedPlatformObjectsByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<object, EngineObject>
+>();
 
 function documentRealmBindings(
   engine: JavaScriptEngineAdapter,
@@ -173,6 +177,18 @@ function sharedImplementations(
   const implementations = new WeakMap<EngineObject, object>();
   sharedImplementationsByEngine.set(engine, implementations);
   return implementations;
+}
+
+function sharedPlatformObjects(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<object, EngineObject> {
+  const existing = sharedPlatformObjectsByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const platformObjects = new WeakMap<object, EngineObject>();
+  sharedPlatformObjectsByEngine.set(engine, platformObjects);
+  return platformObjects;
 }
 
 export class DOMRealmBindingContext {
@@ -588,6 +604,7 @@ export class DOMRealmBindingContext {
   ): void {
     const implementation = implementationFor(interfaceObject);
     this.platformObjects.set(implementation, platformObject);
+    sharedPlatformObjects(this.engine).set(implementation, platformObject);
     this.implementations.set(platformObject, implementation);
     sharedImplementations(this.engine).set(platformObject, implementation);
   }
@@ -1406,6 +1423,10 @@ export class DOMRealmBindingContext {
     const existing = this.platformObjects.get(implementation);
     if (existing !== undefined) {
       return existing;
+    }
+    const shared = sharedPlatformObjects(this.engine).get(implementation);
+    if (shared !== undefined) {
+      return shared;
     }
     const prototype = this.prototype(interfaceObject);
     const target = this.engine.createObject(this.realm, prototype);

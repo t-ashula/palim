@@ -442,6 +442,39 @@ export function installHTMLButtonElementMembers(
 export function installHTMLIFrameElementMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  for (const name of [
+    "src",
+    "srcdoc",
+    "name",
+    "allow",
+    "width",
+    "height",
+    "referrerPolicy",
+    "loading",
+  ] as const) {
+    binding.attribute(
+      binding.htmlIFrameElementPrototype,
+      name,
+      (thisValue) => {
+        const iframe = binding.htmlIFrameElement(thisValue);
+        return iframe === null
+          ? binding.typeError("Invalid HTMLIFrameElement receiver")
+          : binding.primitive(iframe[name]);
+      },
+      (thisValue, argumentsList) => {
+        const iframe = binding.htmlIFrameElement(thisValue);
+        if (iframe === null) {
+          return binding.typeError("Invalid HTMLIFrameElement receiver");
+        }
+        const value = binding.stringArgument(argumentsList, 0, name);
+        if (value.type === "throw") {
+          return value;
+        }
+        iframe[name] = value.value;
+        return binding.undefined();
+      },
+    );
+  }
   binding.attribute(
     binding.htmlIFrameElementPrototype,
     "sandbox",

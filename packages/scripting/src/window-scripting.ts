@@ -19,7 +19,10 @@ import type {
   JavaScriptEngineAdapter,
 } from "./javascript-engine/adapter.js";
 import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
-import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
+import {
+  WindowScriptEnvironment,
+  type WindowScriptEventLoop,
+} from "./javascript-engine/window-classic-script.js";
 
 export {
   ClassicScript,
@@ -69,20 +72,38 @@ export class WindowScriptingEnvironment
     engine: JavaScriptEngineAdapter,
     window: Window,
     resourceLoader: ResourceLoader | null,
+    eventLoop?: WindowScriptEventLoop,
   ) {
-    super(engine, window);
+    super(engine, window, eventLoop);
     this.#resourceLoader = resourceLoader;
+    documentImplementation(this.window.document).scriptingMode = "enabled";
     const implementation = documentImplementation(this.window.document);
+    const previousChildrenChangedSteps = implementation.childrenChangedSteps;
     implementation.childrenChangedSteps = (node) => {
+      previousChildrenChangedSteps?.(node);
       this.#processDynamicScript(node);
     };
+    const previousPostConnectionSteps = implementation.postConnectionSteps;
     implementation.postConnectionSteps = (node) => {
+      previousPostConnectionSteps?.(node);
       this.#processDynamicScript(node);
     };
   }
 
   async waitForPendingScripts(): Promise<void> {
     await Promise.all(this.#pendingResourceLoads);
+  }
+
+  createChild(
+    window: Window,
+    resourceLoader: ResourceLoader | null,
+  ): WindowScriptingEnvironment {
+    return new WindowScriptingEnvironment(
+      this.engine,
+      window,
+      resourceLoader,
+      this.eventLoop,
+    );
   }
 
   async processScript(element: unknown): Promise<void> {

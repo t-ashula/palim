@@ -1484,6 +1484,16 @@ function invalidateDocumentNamedProperties(node: NodeImplementation): void {
   nodeDocumentImplementation(node).namedPropertyVersion += 1;
 }
 
+function notifyAttributeChange(
+  element: Element,
+  localName: string,
+  namespace: string | null,
+): void {
+  nodeDocumentImplementation(
+    nodeImplementation(element),
+  ).attributeChangedSteps?.(element, localName, namespace);
+}
+
 function fallbackBaseURL(document: DocumentImplementation): URL {
   if (
     (document.url.href === "about:blank" ||
@@ -1699,8 +1709,12 @@ export class Attr extends Node {
     if (implementation.ownerElement !== null) {
       invalidateDocumentNamedProperties(implementation.ownerElement);
       respondToBaseHrefChange(implementation.ownerElement, implementation);
-      updateSlotAssignmentsForMutation(
-        elementInterface(implementation.ownerElement),
+      const element = elementInterface(implementation.ownerElement);
+      updateSlotAssignmentsForMutation(element);
+      notifyAttributeChange(
+        element,
+        implementation.localName,
+        implementation.namespaceURI,
       );
     }
   }
@@ -2133,6 +2147,7 @@ export class Element extends Node {
     const attribute = findAttributeByName(this, name);
     if (attribute !== null) {
       attribute.value = convertedValue;
+      notifyAttributeChange(this, attribute.localName, attribute.namespaceURI);
       return;
     }
     setAttributeNode(
@@ -2160,6 +2175,7 @@ export class Element extends Node {
     );
     if (attribute !== null) {
       attribute.value = convertedValue;
+      notifyAttributeChange(this, attribute.localName, attribute.namespaceURI);
       return;
     }
     setAttributeNode(
@@ -2946,6 +2962,7 @@ export function setAttributeNode(
     respondToBaseHrefChange(implementation, valueImplementation);
     respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
     updateSlotAssignmentsForMutation(element);
+    notifyAttributeChange(element, value.localName, value.namespaceURI);
     return null;
   }
   const oldImplementation = attrImplementation(oldAttribute);
@@ -2956,6 +2973,7 @@ export function setAttributeNode(
   respondToBaseHrefChange(implementation, valueImplementation);
   respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
   updateSlotAssignmentsForMutation(element);
+  notifyAttributeChange(element, value.localName, value.namespaceURI);
   return oldAttribute;
 }
 
@@ -2994,6 +3012,7 @@ export function removeAttributeNode(element: Element, attribute: Attr): void {
   invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, attributeImplementation);
   updateSlotAssignmentsForMutation(element);
+  notifyAttributeChange(element, attribute.localName, attribute.namespaceURI);
 }
 
 export function setAttributes(

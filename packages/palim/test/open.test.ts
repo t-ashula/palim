@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 
 import { describe, expect, it, vi } from "vitest";
 
-import { open } from "palim";
+import { HTMLIFrameElement, open } from "palim";
 
 function fixture(name: string): string {
   return readFileSync(
@@ -241,6 +241,146 @@ describe("open", () => {
     expect(
       second.window.document.body?.getAttribute("data-context"),
     ).toBeNull();
+  });
+
+  it("connects an iframe inserted by a parent document script", async () => {
+    const context = await open(
+      {
+        html: [
+          "<body><script>",
+          'const frame = document.createElement("iframe");',
+          'frame.name = "childFrame";',
+          "frame.srcdoc = [",
+          '  "<body><p>child</p><script>",',
+          '  "document.body.setAttribute(\\"data-executed\\", \\"yes\\");",',
+          '  "parent.document.body.setAttribute(\\"data-child-parent\\", \\"yes\\");",',
+          '  "if (top !== parent || frameElement !== parent.document.querySelector(\\"iframe\\")) {",',
+          '  "  throw new Error(\\"invalid child Window relationships\\");",',
+          '  "}",',
+          '  "<\\/script></body>",',
+          '].join("");',
+          'frame.addEventListener("load", () => {',
+          '  document.body.setAttribute("data-frame-load", "yes");',
+          "});",
+          "document.body.append(frame);",
+          'document.body.setAttribute("data-content-parent",',
+          "  String(frame.contentWindow.parent === window));",
+          'document.body.setAttribute("data-content-document",',
+          "  String(frame.contentWindow.document === frame.contentDocument));",
+          'document.body.setAttribute("data-window-named",',
+          "  String(window.childFrame === frame.contentWindow));",
+          'document.body.setAttribute("data-document-named",',
+          "  String(document.childFrame === frame.contentWindow));",
+          "</script></body>",
+        ].join(""),
+      },
+      { scripting: "enabled" },
+    );
+    const iframe = context.window.document.querySelector("iframe");
+
+    expect(iframe).toBeInstanceOf(HTMLIFrameElement);
+    expect(
+      iframe instanceof HTMLIFrameElement
+        ? iframe.contentDocument?.querySelector("p")?.textContent
+        : null,
+    ).toBe("child");
+    expect(
+      iframe instanceof HTMLIFrameElement
+        ? iframe.contentDocument?.body?.getAttribute("data-executed")
+        : null,
+    ).toBe("yes");
+    expect(
+      context.window.document.body?.getAttribute("data-child-parent"),
+    ).toBe("yes");
+    expect(context.window.document.body?.getAttribute("data-frame-load")).toBe(
+      "yes",
+    );
+    for (const name of [
+      "data-content-parent",
+      "data-content-document",
+      "data-window-named",
+      "data-document-named",
+    ]) {
+      expect(context.window.document.body?.getAttribute(name), name).toBe(
+        "true",
+      );
+    }
+
+    if (!(iframe instanceof HTMLIFrameElement)) {
+      throw new TypeError("Expected an iframe element");
+    }
+    const contentWindow = iframe.contentWindow;
+    const navigationLoad = new Promise<void>((resolve) => {
+      iframe.addEventListener(
+        "load",
+        () => {
+          resolve();
+        },
+        { once: true },
+      );
+    });
+    iframe.srcdoc = [
+      "<body><script>",
+      'document.body.setAttribute("data-second-script", "yes");',
+      "</script></body>",
+    ].join("");
+    await navigationLoad;
+    expect(iframe.contentWindow).toBe(contentWindow);
+    expect(
+      iframe.contentDocument?.body?.getAttribute("data-second-script"),
+    ).toBe("yes");
+  });
+
+  it("runs inline and external classic scripts in an iframe src document", async () => {
+    const fetchMock = vi.fn((input: string | URL) => {
+      const url = input.toString();
+      return Promise.resolve(
+        url.endsWith("/child.js")
+          ? new Response(
+              'document.body.setAttribute("data-order", "external");',
+              { headers: { "content-type": "text/javascript" } },
+            )
+          : new Response(
+              [
+                "<body>",
+                '<script src="child.js"></script>',
+                "<script>",
+                'document.body.setAttribute("data-order",',
+                '  document.body.getAttribute("data-order") + ",inline");',
+                'parent.document.body.setAttribute("data-child-src", "yes");',
+                "</script></body>",
+              ].join(""),
+              { headers: { "content-type": "text/html; charset=utf-8" } },
+            ),
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const context = await open(
+        {
+          html: '<body><iframe src="child.html"></iframe></body>',
+          baseURL: "https://example.test/path/page.html",
+        },
+        { scripting: "enabled" },
+      );
+      const iframe = context.window.document.querySelector("iframe");
+
+      expect(fetchMock.mock.calls.map(([input]) => input.toString())).toEqual([
+        "https://example.test/path/child.html",
+        "https://example.test/path/child.js",
+      ]);
+      expect(
+        iframe instanceof HTMLIFrameElement
+          ? iframe.contentDocument?.body?.getAttribute("data-order")
+          : null,
+      ).toBe("external,inline");
+      expect(context.window.document.body?.getAttribute("data-child-src")).toBe(
+        "yes",
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 
   it("reports page errors and forwards page console calls to the host", async () => {
