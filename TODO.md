@@ -53,7 +53,8 @@
 - [x] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
 - [x] `DOMStringMap` の property-name conversion、get / set / delete、supported property names
 - [x] `HTMLDocument` interface constructor と HTML document の prototype relationship
-- [ ] Selection API の `getSelection()` と DOM mutation / atomic move に対する range 保持
+- [ ] Selection API の `Selection` object、Document / Window の `getSelection()`、コードによる range の関連付けと保持
+- [ ] pointer 操作を含むユーザー操作による Selection の生成と DOM mutation / atomic move 時の選択補正
 
 ## Events
 
@@ -143,6 +144,8 @@
 ## Conformance infrastructure
 
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
+- [ ] 同一 revision / image で full WPT campaign の jobs 10と20を比較し、timeoutを増やさない並列数と資源条件を決める
+- [ ] WPT test 並列実行時の timeout の影響を、安定した jobs 設定と終了後の直列再実行で軽減する
 
 ## Web IDL bindings
 
