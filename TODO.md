@@ -24,8 +24,8 @@
 
 - [ ] media loading・再生状態・track
 - [ ] canvas rendering context
-- [ ] iframe/object/embed の browsing context
-- [ ] iframe の独立 realm と cross-realm DOM object binding
+- [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
+- [ ] frame/object/embed の browsing context
 - [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
@@ -43,16 +43,6 @@
 
 ### Document surface
 
-- [x] `document.body`
-- [x] `document.head`
-- [x] `document.title`
-- [x] XML document の legacy `rootElement` surface
-- [x] `document.forms` / `images` / `links` / `scripts` / `embeds` / `plugins`
-- [x] `Document` named properties と `id` / `name` mutation、adoption、tree order に追従する collection
-- [x] Window named properties と `id` / `name` mutation に追従する supported property names
-- [x] global attribute reflection、`hidden`、`dir`、`draggable`、`spellcheck`、`translate`
-- [x] `DOMStringMap` の property-name conversion、get / set / delete、supported property names
-- [x] `HTMLDocument` interface constructor と HTML document の prototype relationship
 - [ ] Selection API の `Selection` object、Document / Window の `getSelection()`、コードによる range の関連付けと保持
 - [ ] pointer 操作を含むユーザー操作による Selection の生成と DOM mutation / atomic move 時の選択補正
 
@@ -89,7 +79,6 @@
 
 ### Window and browsing context
 
-- [ ] `Window`
 - [ ] host 側の `onerror` を initial document の実行前に設定し、過去の error を再送しない
 - [ ] page execution error を蓄積し、全件取得できる API を `onerror` と分けて提供する
 - [ ] `Document.defaultView`

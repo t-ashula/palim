@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261109t012815152z-3865877",
+    "id": "20261109t072900920z-151872",
     "state": "completed",
     "palim": {
-      "revision": "08da6eff9c130f73cf0d9a80bac179cfb91c1216",
-      "dirty": true,
-      "imageId": "sha256:84d87fd4eb93b93ba5222d8ba4917474d5c2b4add0d5f81b1a09389b2622e7ec"
+      "revision": "6bd3a442c832d37d75f1fac161ccdca918b9239e",
+      "dirty": false,
+      "imageId": "sha256:e67342d422e57a101b64268a5fbc8508c01d50fdcaf8efd10bfaa6b8a15e1716"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-09T02:13:11.349Z",
+    "snapshotAt": "2026-11-09T08:40:37.378Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 566,
-    "fail": 682,
+    "pass": 591,
+    "fail": 680,
     "skip": 0,
-    "error": 227,
-    "timeout": 451,
+    "error": 223,
+    "timeout": 432,
     "pending": 0
   },
   "areas": [
@@ -65,10 +65,10 @@
         "total": 196,
         "executed": 196,
         "pass": 8,
-        "fail": 116,
+        "fail": 120,
         "skip": 0,
-        "error": 20,
-        "timeout": 52,
+        "error": 18,
+        "timeout": 50,
         "pending": 0
       }
     },
@@ -91,10 +91,10 @@
         "total": 214,
         "executed": 214,
         "pass": 24,
-        "fail": 66,
+        "fail": 67,
         "skip": 0,
         "error": 7,
-        "timeout": 117,
+        "timeout": 116,
         "pending": 0
       }
     },
@@ -116,11 +116,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 260,
-        "fail": 91,
+        "pass": 270,
+        "fail": 94,
         "skip": 0,
         "error": 6,
-        "timeout": 51,
+        "timeout": 38,
         "pending": 0
       }
     },
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 20,
-        "fail": 25,
+        "pass": 24,
+        "fail": 33,
         "skip": 0,
-        "error": 3,
-        "timeout": 21,
+        "error": 2,
+        "timeout": 10,
         "pending": 0
       }
     },
@@ -142,11 +142,11 @@
       "totals": {
         "total": 15,
         "executed": 15,
-        "pass": 12,
+        "pass": 15,
         "fail": 0,
         "skip": 0,
         "error": 0,
-        "timeout": 3,
+        "timeout": 0,
         "pending": 0
       }
     },
@@ -156,10 +156,10 @@
         "total": 91,
         "executed": 91,
         "pass": 46,
-        "fail": 18,
+        "fail": 19,
         "skip": 0,
         "error": 1,
-        "timeout": 26,
+        "timeout": 25,
         "pending": 0
       }
     },
@@ -168,8 +168,8 @@
       "totals": {
         "total": 57,
         "executed": 57,
-        "pass": 53,
-        "fail": 3,
+        "pass": 54,
+        "fail": 2,
         "skip": 0,
         "error": 0,
         "timeout": 1,
@@ -181,8 +181,8 @@
       "totals": {
         "total": 70,
         "executed": 70,
-        "pass": 21,
-        "fail": 34,
+        "pass": 22,
+        "fail": 33,
         "skip": 0,
         "error": 1,
         "timeout": 14,
@@ -194,11 +194,11 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 21,
-        "fail": 19,
+        "pass": 22,
+        "fail": 8,
         "skip": 0,
-        "error": 175,
-        "timeout": 21,
+        "error": 174,
+        "timeout": 32,
         "pending": 0
       }
     },
@@ -233,11 +233,11 @@
       "totals": {
         "total": 314,
         "executed": 314,
-        "pass": 34,
-        "fail": 233,
+        "pass": 39,
+        "fail": 227,
         "skip": 0,
         "error": 8,
-        "timeout": 39,
+        "timeout": 40,
         "pending": 0
       }
     },
@@ -295,12 +295,12 @@
     }
   ],
   "subtests": {
-    "total": 34578,
-    "pass": 18473,
-    "fail": 10516,
+    "total": 71785,
+    "pass": 52877,
+    "fail": 13381,
     "skip": 0,
-    "error": 5158,
-    "timeout": 431
+    "error": 5107,
+    "timeout": 420
   },
   "nonPassingTests": [
     {
@@ -351,12 +351,12 @@
     {
       "url": "/custom-elements/ElementInternals-accessibility.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/ElementInternals-accessibility.tentative.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/ElementInternals-role.html",
@@ -431,7 +431,7 @@
     {
       "url": "/custom-elements/element-internals-aria-element-reflection.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/element-internals-behaviors.tentative.html",
@@ -461,7 +461,7 @@
     {
       "url": "/custom-elements/form-associated/ElementInternals-form.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/form-associated/ElementInternals-labels.html",
@@ -471,7 +471,7 @@
     {
       "url": "/custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/form-associated/ElementInternals-setFormValue.html",
@@ -506,7 +506,7 @@
     {
       "url": "/custom-elements/form-associated/disabled-delegatesFocus.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/form-associated/fieldset-elements-after-upgrade.html",
@@ -531,7 +531,7 @@
     {
       "url": "/custom-elements/form-associated/form-associated-callback.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/form-associated/form-disabled-callback.html",
@@ -571,7 +571,7 @@
     {
       "url": "/custom-elements/microtasks-and-constructors.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/overwritten-customElements-global.html",
@@ -596,12 +596,12 @@
     {
       "url": "/custom-elements/parser/parser-fallsback-to-unknown-element.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:256\n                            throw new TypeError(\"Custom element constructor returned a different object\");\n                                  ^\n\nTypeError: Custom element constructor returned a different object\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:256:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:266\n                            throw new TypeError(\"Custom element constructor returned a different object\");\n                                  ^\n\nTypeError: Custom element constructor returned a different object\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:266:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/parser/parser-sets-attributes-after-autonomous-constructor.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:253:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3795:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263\n                            throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                                  ^\n\nError: TypeError: The childList option must be true\n    at Object.construct (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:263:35)\n    at createDefinedCustomElement (file:///workspace/packages/core/dist/dom/custom-elements.js:34:32)\n    at DocumentImplementation.createElementForDocument [as elementFactory] (file:///workspace/packages/core/dist/html-elements.js:3808:17)\n    at createElementForDocument (file:///workspace/packages/core/dist/dom/nodes.js:750:45)\n    at #element (file:///workspace/packages/core/dist/html/parser.js:2261:25)\n    at #insert (file:///workspace/packages/core/dist/html/parser.js:2316:38)\n    at #inBody (file:///workspace/packages/core/dist/html/parser.js:1332:29)\n    at #process (file:///workspace/packages/core/dist/html/parser.js:733:33)\n    at #processNextDocumentToken (file:///workspace/packages/core/dist/html/parser.js:383:22)\n    at TreeBuilder.parseAsync (file:///workspace/packages/core/dist/html/parser.js:363:46)\n\nNode.js v24.15.0"
     },
     {
       "url": "/custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html",
@@ -990,8 +990,8 @@
     },
     {
       "url": "/custom-elements/registries/Document-importNode-cross-document.window.html",
-      "status": "error",
-      "message": "Test named 'Cloning with global registry' specified 1 'cleanup' function, and 1 failed."
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
     },
     {
       "url": "/custom-elements/registries/Document-importNode.html",
@@ -1030,8 +1030,8 @@
     },
     {
       "url": "/custom-elements/registries/adoption.window.html",
-      "status": "error",
-      "message": "Test named 'Adoption with global registry' specified 1 'cleanup' function, and 1 failed."
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
     },
     {
       "url": "/custom-elements/registries/constructor-direct-call-fallback-registry.window.html",
@@ -1050,13 +1050,13 @@
     },
     {
       "url": "/custom-elements/registries/define-customized-builtins.html",
-      "status": "timeout",
-      "message": "b'TypeError: Cannot convert null to object\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/registries/define-customized-builtins.html:47:22)\\n    at http://web-platform.test:8000/custom-elements/registries/define-customized-builtins.html:3:2'"
+      "status": "fail",
+      "message": "assert_throws_dom: function \"() =>  {\n        customElements.define('test-define-extend-valid-name', class {}, { extends: name });\n      }\" did not throw"
     },
     {
       "url": "/custom-elements/registries/define.html",
-      "status": "timeout",
-      "message": "b'TypeError: Cannot convert null to object\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/registries/define.html:9:22)\\n    at http://web-platform.test:8000/custom-elements/registries/define.html:3:2'"
+      "status": "fail",
+      "message": "The custom element name is invalid"
     },
     {
       "url": "/custom-elements/registries/element-mutation-null-registry-removal.html",
@@ -1076,7 +1076,7 @@
     {
       "url": "/custom-elements/registries/initial-about-blank.window.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/custom-elements/registries/per-document.html",
@@ -1346,7 +1346,7 @@
     {
       "url": "/dom/events/Event-dispatch-redispatch.html",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:39:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:23:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: ReferenceError: \"requestAnimationFrame\" is not defined\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:60:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:42:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1430,13 +1430,13 @@
     },
     {
       "url": "/dom/events/EventListener-addEventListener.sub.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "The event listener is not callable"
     },
     {
       "url": "/dom/events/EventListener-handleEvent-cross-realm.html",
       "status": "fail",
-      "message": "\"eventListenerGlobalObject\" is not defined"
+      "message": "The event listener is not callable"
     },
     {
       "url": "/dom/events/EventListener-handleEvent.html",
@@ -2203,11 +2203,6 @@
       "message": "assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) \"1 + 2\""
     },
     {
-      "url": "/dom/nodes/DOMImplementation-createHTMLDocument-with-saved-implementation.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
       "url": "/dom/nodes/Document-URL.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -2252,13 +2247,13 @@
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_bmp.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"image/bmp\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_css.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"text/css\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html",
@@ -2267,48 +2262,38 @@
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_gif.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Document-contentType/contentType/contenttype_html.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"image/gif\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"text/html\" but got \"\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_jpg.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"image/jpeg\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_mimeheader_01.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Document-contentType/contentType/contenttype_mimeheader_02.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"text/xml\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_png.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"image/png\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_txt.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"text/plain\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_xml.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"application/xml\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/xhr_responseType_document.html",
@@ -2328,12 +2313,12 @@
     {
       "url": "/dom/nodes/Document-createElement.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: XML document didn't load expected \"Dummy XML document\" but got \"Dummy XML document\\n\""
     },
     {
       "url": "/dom/nodes/Document-createElementNS.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: expected \"Dummy XML document\" but got \"Dummy XML document\\n\""
     },
     {
       "url": "/dom/nodes/Document-createEvent.https.html",
@@ -2476,11 +2461,6 @@
       "message": "assert_throws_js: function \"function() { document.body.insertBefore(document.createTextNode(\"child\")) }\" did not throw"
     },
     {
-      "url": "/dom/nodes/Node-isConnected.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
       "url": "/dom/nodes/Node-isEqualNode-xhtml.xhtml",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -2566,14 +2546,9 @@
       "message": "assert_throws_dom: function \"() => document.adoptNode(df)\" did not throw"
     },
     {
-      "url": "/dom/nodes/attach-shadow-realm-after-adoption.html",
-      "status": "timeout",
-      "message": "b'TypeError: Cannot convert null to object\\n    at http://web-platform.test:8000/dom/nodes/attach-shadow-realm-after-adoption.html:10:1'"
-    },
-    {
       "url": "/dom/nodes/create-element-realm-after-adoption.html",
-      "status": "timeout",
-      "message": "b'TypeError: Cannot convert null to object\\n    at http://web-platform.test:8000/dom/nodes/create-element-realm-after-adoption.html:11:1'"
+      "status": "fail",
+      "message": "customElements.get is not a function. (In \"customElements.get(\"x-baz\")\", it is undefined)"
     },
     {
       "url": "/dom/nodes/getElementById-namespaced-id.html",
@@ -2599,11 +2574,6 @@
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html",
       "status": "fail",
       "message": "\"getComputedStyle\" is not defined"
-    },
-    {
-      "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-iframe.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"iframe with content window\" but got \"contentWindow is null\""
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html",
@@ -2633,7 +2603,7 @@
     {
       "url": "/dom/nodes/insertion-removing-steps/frame-post-connection-steps.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: The frame window is created in post-connection order expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html",
@@ -2653,7 +2623,7 @@
     {
       "url": "/dom/nodes/moveBefore/Node-moveBefore.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
     },
     {
       "url": "/dom/nodes/moveBefore/child-style-preserve.html",
@@ -2866,14 +2836,8 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/moveBefore/throws-exception.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
       "url": "/dom/nodes/name-validation.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "timeout"
     },
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
@@ -2883,27 +2847,12 @@
     {
       "url": "/dom/nodes/node-creation-realm.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/dom/nodes/node-realm-adoption-after-frame-removal.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "Right-hand side of \"instanceof\" (undefined) is not an object"
     },
     {
       "url": "/dom/nodes/node-realm-mixed-across-adoption.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/dom/nodes/node-realm-preserved-across-adoption.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/dom/nodes/node-realm-preserved-across-frameless-adoption.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "window.customElements.get is not a function. (In \"window.customElements.get(\"x-mixed\")\", it is undefined)"
     },
     {
       "url": "/dom/nodes/post-connection-steps-shadow-tree.html",
@@ -2941,13 +2890,11 @@
     },
     {
       "url": "/dom/ranges/Range-compareBoundaryPoints.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-comparePoint.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-deleteContents-around-shadow.tentative.html",
@@ -2971,7 +2918,7 @@
     {
       "url": "/dom/ranges/Range-extractContents-dynamic-end.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/dom/ranges/Range-extractContents.html",
@@ -2980,44 +2927,39 @@
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:39:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:23:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:60:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:42:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open",
       "status": "error",
-      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1382:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:39:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:23:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
+      "message": "file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397\n                throw new Error(this.engine.exceptionMessage(this.realm, result.value));\n                      ^\n\nError: TypeError: Cannot convert null to object\n    at Proxy.listener (file:///workspace/packages/scripting/dist/javascript-engine/dom-realm-binding-context.js:1397:23)\n    at invokeEventListeners (file:///workspace/packages/core/dist/dom/events.js:315:35)\n    at Proxy.dispatchEvent (file:///workspace/packages/core/dist/dom/events.js:231:17)\n    at #finish (file:///workspace/packages/window/dist/document-loader.js:60:21)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async WindowDocumentLoader.loadHTML (file:///workspace/packages/window/dist/document-loader.js:42:9)\n    at async file:///workspace/packages/window/dist/open.js:40:13\n    at async file:///workspace/tools/wpt/node-runner.mjs:20:20\n\nNode.js v24.15.0"
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
       "status": "timeout"
     },
     {
-      "url": "/dom/ranges/Range-intersectsNode.html",
+      "url": "/dom/ranges/Range-isPointInRange.html",
       "status": "timeout"
     },
     {
-      "url": "/dom/ranges/Range-isPointInRange.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/ranges/Range-mutations-appendChild.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-appendData.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-mutations-dataChange.html",
       "status": "timeout",
-      "message": "palim execution timed out"
+      "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-mutations-deleteData.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
@@ -3027,52 +2969,36 @@
     },
     {
       "url": "/dom/ranges/Range-mutations-insertData.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-removeChild.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceChild.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-replaceData.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
       "url": "/dom/ranges/Range-mutations-splitText.html",
-      "status": "timeout",
+      "status": "fail",
       "message": "\"getSelection\" is not defined"
     },
     {
-      "url": "/dom/ranges/Range-selectNode.html",
-      "status": "error",
-      "message": "TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/ranges/Range-selectNode.html:58:20"
-    },
-    {
       "url": "/dom/ranges/Range-set.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/ranges/Range-stringifier.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "timeout"
     },
     {
       "url": "/dom/ranges/Range-surroundContents.html",
       "status": "timeout"
-    },
-    {
-      "url": "/dom/ranges/StaticRange-constructor.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-auto-disconnect.html",
@@ -3168,18 +3094,6 @@
       "url": "/dom/ranges/tentative/OpaqueRange-validation.html",
       "status": "fail",
       "message": "assert_throws_dom: function \"() => textarea.createValueRange(10, 15)\" threw object \"TypeError: textarea.createValueRange is not a function. (In \"textarea.createValueRange(10, 15)\", it is undefined)\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
-    },
-    {
-      "url": "/dom/traversal/NodeIterator-removal.html",
-      "status": "timeout"
-    },
-    {
-      "url": "/dom/traversal/NodeIterator.html",
-      "status": "timeout"
-    },
-    {
-      "url": "/dom/traversal/TreeWalker.html",
-      "status": "timeout"
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-stylesheets.html",
@@ -3393,8 +3307,8 @@
     },
     {
       "url": "/domparsing/tentative/stream-tokenizer-context.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected (string) \"<b>Hello <world> & test</b>\" but got (undefined) undefined"
     },
     {
       "url": "/domparsing/tentative/unclosed-script-already-started.html",
@@ -3412,11 +3326,6 @@
       "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\\n{\\n ^\\nReferenceError: \"undefinedfn\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\\nReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nTypeError: undefined is not a function\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
     },
     {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-insertion-attr-mutation.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html",
       "status": "fail",
       "message": "assert_equals: expected (function) function \"function Document() { [native code] }\" but got (object) Element node <img name=\"constructor\"></img>"
@@ -3424,7 +3333,7 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-setattribute-attr-mutation.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
@@ -3490,11 +3399,6 @@
       "url": "/html/dom/elements/global-attributes/id-name-specialcase.html",
       "status": "fail",
       "message": "assert_equals: expected (string) \"123\" but got (undefined) undefined"
-    },
-    {
-      "url": "/html/dom/elements/global-attributes/lang-attribute-document-element-replacement.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
     },
     {
       "url": "/html/dom/elements/global-attributes/lang-attribute-shadow.window.html",
@@ -3749,7 +3653,7 @@
     {
       "url": "/html/syntax/parsing/form-element-pointer-in-template.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "doc.open is not a function. (In \"doc.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/foster-parenting-into-document-with-element-child.html",
@@ -4649,12 +4553,7 @@
     {
       "url": "/html/syntax/parsing/insert-into-nonempty-document.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/html/syntax/parsing/named-character-references.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "message": "doc.open is not a function. (In \"doc.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/no-doctype-name.html",
@@ -4663,58 +4562,58 @@
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/generating-of-implied-end-tags.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-body-token.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-frameset-token.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-head-token.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-html-token.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/start-tag-html.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/template-end-tag-without-start-one.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-frameset-insertion-mode/end-tag-frameset.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/generating-of-implied-end-tags.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/template-end-tag-without-start-one.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html",
@@ -4728,8 +4627,8 @@
     },
     {
       "url": "/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html",
-      "status": "error",
-      "message": "TypeError: Cannot convert null to object\n    at newIFrame (http://web-platform.test:8000/html/resources/common.js:98:24)\n    at newRenderedHTMLDocument (http://web-platform.test:8000/html/resources/common.js:105:27)\n    at <anonymous> (http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:172:47)\n    at Array#forEach (native)\n    at http://web-platform.test:8000/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html:168:28"
+      "status": "timeout",
+      "message": "Test timed out"
     },
     {
       "url": "/html/syntax/parsing/the-end.html",
@@ -5089,7 +4988,7 @@
     {
       "url": "/shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
     },
     {
       "url": "/shadow-dom/declarative/gethtml-ordering.html",
@@ -6154,47 +6053,27 @@
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: attachShadow() method should establish the context object as the shadow host of the ShadowRoot object expected (number) 0 but got (undefined) undefined"
     },
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/activeElement-confirm-return-null.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: activeElement attribute of the ShadowRoot must return null if there's no focused element expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-007.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-009.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-010.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "inp.focus is not a function. (In \"inp.focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-011.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-012.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
-      "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-013.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_true: ShadowRoot styleSheets attribute shouldn't be null expected true got false"
     },
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-004.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "s.getSelection is not a function. (In \"s.getSelection()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-006.html",
@@ -6209,17 +6088,17 @@
     {
       "url": "/shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-010.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: Wrong exception type expected (number) 9 but got (undefined) undefined"
     },
     {
       "url": "/shadow-dom/untriaged/events/event-dispatch/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "The event interface \"MouseEvents\" is not supported"
     },
     {
       "url": "/shadow-dom/untriaged/events/event-dispatch/test-003.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "input1.focus is not a function. (In \"input1.focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/events/event-retargeting/test-001.html",
@@ -6227,39 +6106,34 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/shadow-dom/untriaged/events/event-retargeting/test-003.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
-    },
-    {
       "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "inp1.focus is not a function. (In \"inp1.focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "roots.playerShadowRoot.querySelector('.volume-slider').focus is not a function. (In \"roots.playerShadowRoot.querySelector('.volume-slider').focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-003.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "d.querySelector('#outside-control').focus is not a function. (In \"d.querySelector('#outside-control').focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "The event interface \"MouseEvents\" is not supported"
     },
     {
       "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "The event interface \"MouseEvents\" is not supported"
     },
     {
       "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "\"MouseEvent\" is not defined"
     },
     {
       "url": "/shadow-dom/untriaged/events/test-001.html",
@@ -6268,18 +6142,18 @@
     },
     {
       "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html",
-      "status": "fail",
-      "message": "Cannot convert null to object"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "link.click is not a function. (In \"link.click()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/dom-tree-accessors-001.html",
@@ -6299,52 +6173,52 @@
     {
       "url": "/shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/test-011.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/shadow-dom/untriaged/styles/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_true: CSS styles declared in enclosing tree must not be applied in a shadow tree if the apply-author-styles flag is set to false expected true got false"
     },
     {
       "url": "/shadow-dom/untriaged/styles/test-003.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "Cannot convert undefined to object"
     },
     {
       "url": "/shadow-dom/untriaged/styles/test-005.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_true: CSS styles declared in shadow tree must not be applied to the elements in the document tree expected true got false"
     },
     {
       "url": "/shadow-dom/untriaged/styles/test-008.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: Element should not be rendered expected (number) 0 but got (undefined) undefined"
     },
     {
       "url": "/shadow-dom/untriaged/user-interaction/active-element/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "inp.focus is not a function. (In \"inp.focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/user-interaction/active-element/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "inp.focus is not a function. (In \"inp.focus()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/user-interaction/editing/inheritance-of-content-editable-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "assert_equals: expected (string) \"inherit\" but got (undefined) undefined"
     },
     {
       "url": "/shadow-dom/untriaged/user-interaction/ranges-and-selections/test-001.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "window.getSelection is not a function. (In \"window.getSelection()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/user-interaction/ranges-and-selections/test-002.html",
       "status": "fail",
-      "message": "Cannot convert null to object"
+      "message": "d.defaultView.getSelection is not a function. (In \"d.defaultView.getSelection()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/wheel-event-related-target.html",
@@ -6359,7 +6233,7 @@
     {
       "url": "/streams/writable-streams/aborting.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:92) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/aborting.any.sharedworker.html",
@@ -6379,7 +6253,7 @@
     {
       "url": "/streams/writable-streams/bad-strategies.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:101) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:94) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/bad-strategies.any.sharedworker.html",
@@ -6399,7 +6273,7 @@
     {
       "url": "/streams/writable-streams/bad-underlying-sinks.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:101) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/bad-underlying-sinks.any.sharedworker.html",
@@ -6419,7 +6293,7 @@
     {
       "url": "/streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:104) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html",
@@ -6519,7 +6393,7 @@
     {
       "url": "/streams/writable-streams/error.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:99) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/error.any.sharedworker.html",
@@ -6539,7 +6413,7 @@
     {
       "url": "/streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:100) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html",
@@ -6579,7 +6453,7 @@
     {
       "url": "/streams/writable-streams/general.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:102) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/general.any.sharedworker.html",
@@ -6639,7 +6513,7 @@
     {
       "url": "/streams/writable-streams/start.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:100) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/start.any.sharedworker.html",
@@ -6659,7 +6533,7 @@
     {
       "url": "/streams/writable-streams/write.any.serviceworker.html",
       "status": "timeout",
-      "message": "b\"(node:97) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
+      "message": "b\"(node:93) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.\\n(Use `node --trace-warnings ...` to show where the warning was created)\""
     },
     {
       "url": "/streams/writable-streams/write.any.sharedworker.html",
