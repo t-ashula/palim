@@ -168,6 +168,227 @@ describe("Window classic script execution", () => {
     expect(observed).toEqual([environment.settings, environment.settings]);
   });
 
+  it("uses callback realm settings and preserves entry and incumbent settings", () => {
+    const engine = new TrackingEngine262Adapter();
+    const first = new WindowScriptEnvironment(engine, createWindow());
+    const second = new WindowScriptEnvironment(
+      engine,
+      createWindow(),
+      first.eventLoop,
+    );
+    const observations: {
+      readonly label: string;
+      readonly current: WindowEnvironmentSettings | null;
+      readonly entry: WindowEnvironmentSettings | null;
+      readonly incumbent: WindowEnvironmentSettings | null;
+    }[] = [];
+    const record = (label: string) =>
+      engine.createFunction(first.settings.realm, label, 0, () => {
+        observations.push({
+          label,
+          current: first.runtime.currentSettings,
+          entry: first.runtime.entrySettings,
+          incumbent: first.runtime.incumbentSettings,
+        });
+        return normal(engine.fromPrimitive(undefined));
+      });
+    engine.initializeDataProperty(
+      engine.globalObject(first.settings.realm),
+      "recordOuter",
+      record("outer"),
+      { configurable: true, enumerable: true, writable: true },
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(first.settings.realm),
+      "recordNested",
+      record("nested"),
+      { configurable: true, enumerable: true, writable: true },
+    );
+    expect(
+      first.runClassicScript(
+        first.createClassicScript(`
+          globalThis.callbackFailure = {};
+          globalThis.crossRealmCallback = () => {
+            recordOuter();
+            new URLSearchParams("nested=1").forEach(() => recordNested());
+            document.body.setAttribute("data-callback", "first");
+            throw callbackFailure;
+          };
+        `),
+      ).type,
+    ).toBe("normal");
+    const copyToSecond = (name: string): void => {
+      const value = engine.get(
+        first.settings.realm,
+        engine.globalObject(first.settings.realm),
+        name,
+      );
+      expect(value.type).toBe("normal");
+      if (value.type === "normal") {
+        engine.initializeDataProperty(
+          engine.globalObject(second.settings.realm),
+          name,
+          value.value,
+          { configurable: true, enumerable: true, writable: true },
+        );
+      }
+    };
+    copyToSecond("callbackFailure");
+    copyToSecond("crossRealmCallback");
+    const recordAfter = engine.createFunction(
+      second.settings.realm,
+      "recordAfter",
+      0,
+      () => {
+        observations.push({
+          label: "after",
+          current: second.runtime.currentSettings,
+          entry: second.runtime.entrySettings,
+          incumbent: second.runtime.incumbentSettings,
+        });
+        return normal(engine.fromPrimitive(undefined));
+      },
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(second.settings.realm),
+      "recordAfter",
+      recordAfter,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    const result = second.runClassicScript(
+      second.createClassicScript(`
+        let caught;
+        try {
+          new URLSearchParams("value=1").forEach(crossRealmCallback);
+        } catch (error) {
+          caught = error;
+        }
+        if (caught !== callbackFailure) {
+          throw new Error("callback exception identity changed");
+        }
+        recordAfter();
+      `),
+    );
+
+    expect(result.type).toBe("normal");
+    expect(observations).toEqual([
+      {
+        label: "outer",
+        current: first.settings,
+        entry: second.settings,
+        incumbent: second.settings,
+      },
+      {
+        label: "nested",
+        current: first.settings,
+        entry: second.settings,
+        incumbent: first.settings,
+      },
+      {
+        label: "after",
+        current: second.settings,
+        entry: second.settings,
+        incumbent: second.settings,
+      },
+    ]);
+    expect(first.window.document.body?.getAttribute("data-callback")).toBe(
+      "first",
+    );
+    expect(second.runtime.currentSettings).toBeNull();
+    expect(second.runtime.entrySettings).toBeNull();
+    expect(second.runtime.incumbentSettings).toBeNull();
+  });
+
+  it("restores settings after a callback host failure", () => {
+    const engine = new TrackingEngine262Adapter();
+    const first = new WindowScriptEnvironment(engine, createWindow());
+    const second = new WindowScriptEnvironment(
+      engine,
+      createWindow(),
+      first.eventLoop,
+    );
+    const callback = engine.createFunction(
+      first.settings.realm,
+      "hostFailureCallback",
+      0,
+      () => {
+        throw new Error("host callback failed");
+      },
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(second.settings.realm),
+      "hostFailureCallback",
+      callback,
+      { configurable: true, enumerable: true, writable: true },
+    );
+    const script = second.createClassicScript(
+      'new URLSearchParams("value=1").forEach(hostFailureCallback)',
+    );
+
+    expect(() => second.runClassicScript(script)).toThrow(
+      "host callback failed",
+    );
+    expect(second.runtime.currentSettings).toBeNull();
+    expect(second.runtime.entrySettings).toBeNull();
+    expect(second.runtime.incumbentSettings).toBeNull();
+    expect(
+      second.runClassicScript(second.createClassicScript("1 + 1")).type,
+    ).toBe("normal");
+  });
+
+  it("reports a cross-realm timer failure to the scheduling Window", async () => {
+    const engine = new TrackingEngine262Adapter();
+    const first = new WindowScriptEnvironment(engine, createWindow());
+    const second = new WindowScriptEnvironment(
+      engine,
+      createWindow(),
+      first.eventLoop,
+    );
+    const firstReports: string[] = [];
+    const secondReports: string[] = [];
+    first.window.onerror((report) => {
+      firstReports.push(report.message);
+    });
+    second.window.onerror((report) => {
+      secondReports.push(report.message);
+    });
+    expect(
+      first.runClassicScript(
+        first.createClassicScript(`
+          globalThis.timerCallback = () => {
+            throw new Error("cross-realm timer failure");
+          };
+        `),
+      ).type,
+    ).toBe("normal");
+    const callback = engine.get(
+      first.settings.realm,
+      engine.globalObject(first.settings.realm),
+      "timerCallback",
+    );
+    expect(callback.type).toBe("normal");
+    if (callback.type === "throw") {
+      return;
+    }
+    engine.initializeDataProperty(
+      engine.globalObject(second.settings.realm),
+      "timerCallback",
+      callback.value,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    expect(
+      second.runClassicScript(
+        second.createClassicScript("setTimeout(timerCallback, 0)"),
+      ).type,
+    ).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(firstReports).toEqual([]);
+    expect(secondReports).toEqual(["Error: cross-realm timer failure"]);
+  });
+
   it("runs one checkpoint after the outermost reentrant script", () => {
     const engine = new TrackingEngine262Adapter();
     const environment = new WindowScriptEnvironment(engine, createWindow());

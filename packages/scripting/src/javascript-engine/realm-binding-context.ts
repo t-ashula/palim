@@ -12,6 +12,11 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import {
+  RealmExecutionRuntime,
+  type CallbackRecord,
+  type CallbackRecordOptions,
+} from "./realm-execution-runtime.js";
 
 const INTERFACE_PROPERTY = {
   configurable: true,
@@ -37,10 +42,22 @@ const TAG_PROPERTY = {
 } as const;
 
 export class RealmBindingContext {
+  readonly engine: JavaScriptEngineAdapter;
+  readonly realm: EngineRealm;
+  readonly runtime: RealmExecutionRuntime;
+
   constructor(
-    readonly engine: JavaScriptEngineAdapter,
-    readonly realm: EngineRealm,
-  ) {}
+    engine: JavaScriptEngineAdapter,
+    realm: EngineRealm,
+    runtime?: RealmExecutionRuntime,
+  ) {
+    this.engine = engine;
+    this.realm = realm;
+    this.runtime = runtime ?? new RealmExecutionRuntime(engine);
+    if (runtime === undefined) {
+      this.runtime.registerSettings({ realm });
+    }
+  }
 
   installInterface(
     name: string,
@@ -227,9 +244,12 @@ export class RealmBindingContext {
   requiredCallable(
     value: EngineValue | undefined,
     message: string,
-  ): EngineResult<EngineCallable> {
+    options: CallbackRecordOptions = {},
+  ): EngineResult<CallbackRecord> {
     const callable = value === undefined ? null : this.engine.asCallable(value);
-    return callable === null ? this.typeError(message) : normal(callable);
+    return callable === null
+      ? this.typeError(message)
+      : this.runtime.createCallbackRecord(this.realm, callable, options);
   }
 
   call(
@@ -237,7 +257,15 @@ export class RealmBindingContext {
     thisValue: EngineValue,
     argumentsList: readonly EngineValue[],
   ): EngineResult<EngineValue> {
-    return this.engine.call(this.realm, callable, thisValue, argumentsList);
+    return this.runtime.call(this.realm, callable, thisValue, argumentsList);
+  }
+
+  invokeCallback(
+    callback: CallbackRecord,
+    thisValue: EngineValue,
+    argumentsList: readonly EngineValue[],
+  ): EngineResult<EngineValue> {
+    return this.runtime.invokeCallback(callback, thisValue, argumentsList);
   }
 
   iterableValues(

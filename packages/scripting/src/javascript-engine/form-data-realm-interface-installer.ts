@@ -190,11 +190,15 @@ function installMembers(state: InstallationState): void {
         argumentsList[1] ?? state.engine.fromPrimitive(undefined);
       const platformObject = state.domain.wrap(formData);
       for (const [name, value] of formData) {
-        const result = state.context.call(callback.value, callbackThis, [
-          state.engine.fromPrimitive(value),
-          state.engine.fromPrimitive(name),
-          platformObject,
-        ]);
+        const result = state.context.invokeCallback(
+          callback.value,
+          callbackThis,
+          [
+            state.engine.fromPrimitive(value),
+            state.engine.fromPrimitive(name),
+            platformObject,
+          ],
+        );
         if (result.type === "throw") {
           return result;
         }

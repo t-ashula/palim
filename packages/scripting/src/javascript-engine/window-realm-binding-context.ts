@@ -16,6 +16,7 @@ import { DOMRealmBinding } from "./dom-realm-binding.js";
 import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
+import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
 import { windowErrorReport } from "./window-error-report.js";
 
@@ -34,11 +35,23 @@ export class WindowRealmBindingContext {
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
 
-  constructor(engine: JavaScriptEngineAdapter, window: Window) {
+  constructor(
+    engine: JavaScriptEngineAdapter,
+    window: Window,
+    runtime?: RealmExecutionRuntime,
+  ) {
     this.engine = engine;
     this.window = window;
     this.realm = this.engine.createRealm({ forwardingGlobalThis: true });
-    this.context = new RealmBindingContext(engine, this.realm);
+    const executionRuntime = runtime ?? new RealmExecutionRuntime(engine);
+    this.context = new RealmBindingContext(
+      engine,
+      this.realm,
+      executionRuntime,
+    );
+    if (runtime === undefined) {
+      executionRuntime.registerSettings({ realm: this.realm });
+    }
     this.globalObject = this.engine.globalObject(this.realm);
     this.globalThis = this.engine.globalThis(this.realm);
     this.dom = new DOMRealmBinding(

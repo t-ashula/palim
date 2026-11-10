@@ -80,6 +80,10 @@ export interface JavaScriptEngineAdapter {
   asString(value: EngineValue): string | null;
   asObject(value: EngineValue): EngineObject | null;
   asCallable(value: EngineValue): EngineCallable | null;
+  callableRealm(
+    realm: EngineRealm,
+    callable: EngineCallable,
+  ): EngineResult<EngineRealm>;
   isNull(value: EngineValue): boolean;
   isUndefined(value: EngineValue): boolean;
   createObject(

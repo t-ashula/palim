@@ -3,6 +3,7 @@ import type { EngineRealm, JavaScriptEngineAdapter } from "./adapter.js";
 import type { DOMRealmBinding } from "./dom-realm-binding.js";
 import type { URLRealmBinding } from "./url-realm-binding.js";
 import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
+import type { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import {
   installConsole,
@@ -16,8 +17,12 @@ import {
 export class WindowRealmBinding {
   readonly #binding: WindowRealmBindingContext;
 
-  constructor(engine: JavaScriptEngineAdapter, window: Window) {
-    this.#binding = new WindowRealmBindingContext(engine, window);
+  constructor(
+    engine: JavaScriptEngineAdapter,
+    window: Window,
+    runtime?: RealmExecutionRuntime,
+  ) {
+    this.#binding = new WindowRealmBindingContext(engine, window, runtime);
     installFormDataInterface(this.#binding.context, this.#binding.formData);
     installWindowInterface(this.#binding);
     installLocationInterface(this.#binding);

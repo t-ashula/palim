@@ -9,6 +9,7 @@ import {
   EnumerableOwnProperties,
   FromPropertyDescriptor,
   Get,
+  GetFunctionRealm,
   IsCallable,
   JSStringValue,
   ManagedRealm,
@@ -33,6 +34,7 @@ import type {
   NativeSteps,
   PropertyKeyValue,
   ProxyObject,
+  Realm,
   ScriptRecord,
   Value as Engine262Value,
 } from "@engine262/engine262";
@@ -112,6 +114,7 @@ type Engine262ObjectHandle = Engine262Object | Engine262Callable;
 export class Engine262Adapter implements JavaScriptEngineAdapter {
   readonly #agent = new Agent({ startEventLoop: false });
   readonly #objects = new WeakMap<ObjectValue, Engine262ObjectHandle>();
+  readonly #realms = new WeakMap<Realm, Engine262Realm>();
   readonly #forwardingObjects = new WeakSet<ObjectValue>();
 
   createRealm(options: EngineRealmOptions = {}): EngineRealm {
@@ -131,11 +134,13 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       this.#forwardingObjects.add(forwardingGlobalThis);
       return [globalObject, forwardingGlobalThis];
     });
-    return new Engine262Realm(
+    const handle = new Engine262Realm(
       this,
       realm,
       forwardingGlobalThis ?? realm.GlobalObject,
     );
+    this.#realms.set(realm, handle);
+    return handle;
   }
 
   globalObject(realm: EngineRealm): EngineObject {
@@ -209,6 +214,28 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   asCallable(value: EngineValue): EngineCallable | null {
     const engineValue = this.#value(value);
     return IsCallable(engineValue) ? this.#wrapCallable(engineValue) : null;
+  }
+
+  callableRealm(
+    realm: EngineRealm,
+    callable: EngineCallable,
+  ): EngineResult<EngineRealm> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = GetFunctionRealm(this.#callable(callable));
+      if (completion instanceof ThrowCompletion) {
+        return thrown(this.#wrap(completion.Value));
+      }
+      const callableRealm = this.#realms.get(
+        ValueOfNormalCompletion(completion),
+      );
+      if (callableRealm === undefined) {
+        throw new TypeError(
+          "The callable realm is not managed by this adapter",
+        );
+      }
+      return normal(callableRealm);
+    });
   }
 
   isNull(value: EngineValue): boolean {
@@ -832,8 +859,14 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   #withRealm<T>(realm: Engine262Realm, callback: () => T): T {
     this.#activate();
     const pop = realm.realm.pushTopContext();
+    const activeDepth = this.#agent.executionContextStack.length;
     try {
       return callback();
+    } catch (error: unknown) {
+      if (this.#agent.executionContextStack.length > activeDepth) {
+        this.#agent.executionContextStack.length = activeDepth;
+      }
+      throw error;
     } finally {
       pop?.();
     }

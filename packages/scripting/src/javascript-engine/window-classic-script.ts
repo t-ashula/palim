@@ -11,6 +11,7 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import { WindowRealmBinding } from "./window-realm-binding.js";
+import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 
 type ClassicScriptCompilation =
   | { readonly type: "compiled"; readonly script: EngineScript }
@@ -77,36 +78,43 @@ export class WindowEnvironmentSettings {
 }
 
 export class WindowScriptEventLoop {
-  readonly #settingsStack: WindowEnvironmentSettings[] = [];
+  readonly runtime: RealmExecutionRuntime;
   #performingCheckpoint = false;
 
-  constructor(readonly engine: JavaScriptEngineAdapter) {}
+  constructor(readonly engine: JavaScriptEngineAdapter) {
+    this.runtime = new RealmExecutionRuntime(this.engine, () => {
+      if (this.#performingCheckpoint) {
+        return;
+      }
+      this.#performingCheckpoint = true;
+      try {
+        this.engine.performPromiseCheckpoint();
+      } finally {
+        this.#performingCheckpoint = false;
+      }
+    });
+  }
 
   get currentSettings(): WindowEnvironmentSettings | null {
-    return this.#settingsStack.at(-1) ?? null;
+    const settings = this.runtime.currentSettings;
+    return settings instanceof WindowEnvironmentSettings ? settings : null;
+  }
+
+  get entrySettings(): WindowEnvironmentSettings | null {
+    const settings = this.runtime.entrySettings;
+    return settings instanceof WindowEnvironmentSettings ? settings : null;
+  }
+
+  get incumbentSettings(): WindowEnvironmentSettings | null {
+    const settings = this.runtime.incumbentSettings;
+    return settings instanceof WindowEnvironmentSettings ? settings : null;
   }
 
   runScript(
     settings: WindowEnvironmentSettings,
     callback: () => EngineResult<EngineValue>,
   ): EngineResult<EngineValue> {
-    this.#settingsStack.push(settings);
-    try {
-      return callback();
-    } finally {
-      const removed = this.#settingsStack.pop();
-      if (removed !== settings) {
-        throw new TypeError("Window settings stack is inconsistent");
-      }
-      if (this.#settingsStack.length === 0 && !this.#performingCheckpoint) {
-        this.#performingCheckpoint = true;
-        try {
-          this.engine.performPromiseCheckpoint();
-        } finally {
-          this.#performingCheckpoint = false;
-        }
-      }
-    }
+    return this.runtime.run(settings, settings, callback);
   }
 }
 
@@ -118,6 +126,14 @@ export class WindowClassicScriptRuntime {
 
   get currentSettings(): WindowEnvironmentSettings | null {
     return this.settings.responsibleEventLoop.currentSettings;
+  }
+
+  get entrySettings(): WindowEnvironmentSettings | null {
+    return this.settings.responsibleEventLoop.entrySettings;
+  }
+
+  get incumbentSettings(): WindowEnvironmentSettings | null {
+    return this.settings.responsibleEventLoop.incumbentSettings;
   }
 
   createClassicScript(
@@ -169,16 +185,21 @@ export class WindowScriptEnvironment {
     readonly window: Window,
     eventLoop?: WindowScriptEventLoop,
   ) {
-    this.binding = new WindowRealmBinding(this.engine, this.window);
     if (eventLoop !== undefined && eventLoop.engine !== this.engine) {
       throw new TypeError("A Window event loop cannot use another engine");
     }
     this.eventLoop = eventLoop ?? new WindowScriptEventLoop(this.engine);
+    this.binding = new WindowRealmBinding(
+      this.engine,
+      this.window,
+      this.eventLoop.runtime,
+    );
     this.settings = new WindowEnvironmentSettings(
       this.window,
       this.binding,
       this.eventLoop,
     );
+    this.eventLoop.runtime.registerSettings(this.settings);
     this.runtime = new WindowClassicScriptRuntime(this.engine, this.settings);
   }
 

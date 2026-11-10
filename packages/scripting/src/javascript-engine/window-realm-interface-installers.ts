@@ -131,20 +131,20 @@ export function installTimers(binding: WindowRealmBindingContext): void {
     const callback = binding.context.requiredCallable(
       argumentsList[0],
       "queueMicrotask callback must be callable",
+      {
+        exceptionBehavior: "report",
+        reportException: (value) => { binding.reportException(value); },
+      },
     );
     if (callback.type === "throw") {
       return callback;
     }
     scheduleWindowMicrotask(binding.window, () => {
-      const result = binding.context.call(
+      binding.context.invokeCallback(
         callback.value,
         binding.engine.fromPrimitive(undefined),
         [],
       );
-      binding.engine.performPromiseCheckpoint();
-      if (result.type === "throw") {
-        binding.reportException(result.value);
-      }
     });
     return binding.context.undefined();
   });
@@ -152,6 +152,10 @@ export function installTimers(binding: WindowRealmBindingContext): void {
     const callback = binding.context.requiredCallable(
       argumentsList[0],
       "setTimeout callback must be callable",
+      {
+        exceptionBehavior: "report",
+        reportException: (value) => { binding.reportException(value); },
+      },
     );
     if (callback.type === "throw") {
       return callback;
@@ -163,15 +167,11 @@ export function installTimers(binding: WindowRealmBindingContext): void {
     const id = scheduleWindowTimeout(
       binding.window,
       () => {
-        const result = binding.context.call(
+        binding.context.invokeCallback(
           callback.value,
           binding.globalThis,
           argumentsList.slice(2),
         );
-        binding.engine.performPromiseCheckpoint();
-        if (result.type === "throw") {
-          binding.reportException(result.value);
-        }
       },
       delay.value,
     );

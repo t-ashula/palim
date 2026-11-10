@@ -105,6 +105,70 @@ describe("Engine262Adapter", () => {
     }
   });
 
+  it("returns callable realms for bound functions and proxies", () => {
+    const engine = new Engine262Adapter();
+    const functionRealm = engine.createRealm();
+    const operationRealm = engine.createRealm();
+    evaluate(
+      engine,
+      functionRealm,
+      `
+        globalThis.boundCallback = (() => undefined).bind(null);
+        globalThis.proxyCallback = new Proxy(() => undefined, {});
+        const revocable = Proxy.revocable(() => undefined, {});
+        globalThis.revokedCallback = revocable.proxy;
+        revocable.revoke();
+      `,
+    );
+
+    const callback = (name: string) => {
+      const value = engine.get(
+        functionRealm,
+        engine.globalObject(functionRealm),
+        name,
+      );
+      expect(value.type).toBe("normal");
+      if (value.type === "throw") {
+        return null;
+      }
+      const callable = engine.asCallable(value.value);
+      expect(callable).not.toBeNull();
+      return callable;
+    };
+    const bound = callback("boundCallback");
+    const proxy = callback("proxyCallback");
+    const revoked = callback("revokedCallback");
+    if (bound === null || proxy === null || revoked === null) {
+      return;
+    }
+
+    expect(engine.callableRealm(operationRealm, bound)).toEqual(
+      normal(functionRealm),
+    );
+    expect(engine.callableRealm(operationRealm, proxy)).toEqual(
+      normal(functionRealm),
+    );
+    const revokedResult = engine.callableRealm(operationRealm, revoked);
+    expect(revokedResult.type).toBe("throw");
+    if (revokedResult.type === "throw") {
+      engine.initializeDataProperty(
+        engine.globalObject(operationRealm),
+        "revokedError",
+        revokedResult.value,
+        { configurable: true, enumerable: true, writable: true },
+      );
+      evaluate(
+        engine,
+        operationRealm,
+        `
+          if (!(revokedError instanceof TypeError)) {
+            throw new Error("revoked Proxy used the wrong TypeError realm");
+          }
+        `,
+      );
+    }
+  });
+
   it("leaves host function failures as host failures", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();

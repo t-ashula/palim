@@ -110,7 +110,7 @@ describe("RealmBindingContext", () => {
     );
     expect(callback.type).toBe("normal");
     if (callback.type === "normal") {
-      const result = binding.call(
+      const result = binding.invokeCallback(
         callback.value,
         engine.fromPrimitive(undefined),
         [engine.fromPrimitive("realm")],
@@ -148,6 +148,69 @@ describe("RealmBindingContext", () => {
           bindingTypeError.message !== "realm type error"
         ) {
           throw new Error("exceptions were not created in the caller realm");
+        }
+      `,
+    );
+  });
+
+  it("returns callback conversion errors in the operation realm", () => {
+    const engine = new Engine262Adapter();
+    const operationRealm = engine.createRealm();
+    const sourceRealm = engine.createRealm();
+    const binding = new RealmBindingContext(engine, operationRealm);
+    evaluate(
+      engine,
+      sourceRealm,
+      `
+        globalThis.plainObject = {};
+        globalThis.nullPrototypeObject = Object.create(null);
+        const revocable = Proxy.revocable(() => undefined, {});
+        globalThis.revokedCallback = revocable.proxy;
+        revocable.revoke();
+      `,
+    );
+
+    for (const name of [
+      "plainObject",
+      "nullPrototypeObject",
+      "revokedCallback",
+    ]) {
+      const value = engine.get(
+        sourceRealm,
+        engine.globalObject(sourceRealm),
+        name,
+      );
+      expect(value.type).toBe("normal");
+      if (value.type === "throw") {
+        continue;
+      }
+      const callback = binding.requiredCallable(
+        value.value,
+        `${name} is not callable`,
+      );
+      expect(callback.type).toBe("throw");
+      if (callback.type === "throw") {
+        engine.initializeDataProperty(
+          engine.globalObject(operationRealm),
+          `${name}Error`,
+          callback.value,
+          { configurable: true, enumerable: true, writable: true },
+        );
+      }
+    }
+
+    evaluate(
+      engine,
+      operationRealm,
+      `
+        for (const error of [
+          plainObjectError,
+          nullPrototypeObjectError,
+          revokedCallbackError,
+        ]) {
+          if (!(error instanceof TypeError)) {
+            throw new Error("callback conversion used the wrong TypeError realm");
+          }
         }
       `,
     );

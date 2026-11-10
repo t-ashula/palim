@@ -386,11 +386,15 @@ function installURLSearchParamsMembers(
         argumentsList[1] ?? state.engine.fromPrimitive(undefined);
       const platformObject = state.domain.wrapSearchParams(params);
       for (const [name, value] of params) {
-        const result = state.context.call(callback.value, callbackThis, [
-          state.engine.fromPrimitive(value),
-          state.engine.fromPrimitive(name),
-          platformObject,
-        ]);
+        const result = state.context.invokeCallback(
+          callback.value,
+          callbackThis,
+          [
+            state.engine.fromPrimitive(value),
+            state.engine.fromPrimitive(name),
+            platformObject,
+          ],
+        );
         if (result.type === "throw") {
           return result;
         }
