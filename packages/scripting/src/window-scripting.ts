@@ -10,7 +10,6 @@ import type {
   ResourceLoader,
   WindowScripting,
 } from "@palim/window/internal/document-loader.js";
-import { reportWindowError } from "@palim/window/internal/window.js";
 import type { Window } from "@palim/window/internal/window.js";
 
 import type {
@@ -23,7 +22,6 @@ import {
   WindowScriptEnvironment,
   type WindowScriptEventLoop,
 } from "./javascript-engine/window-classic-script.js";
-import { windowErrorReport } from "./javascript-engine/window-error-report.js";
 
 export {
   ClassicScript,
@@ -262,14 +260,10 @@ export class WindowScriptingEnvironment
         result,
       });
       if (result.type === "throw") {
-        reportWindowError(
-          this.window,
-          windowErrorReport(
-            this.engine,
-            this.settings.realm,
-            result.value,
-            sourceURL,
-          ),
+        this.binding.reportException(
+          result.value,
+          sourceURL,
+          script.mutedErrors,
         );
       }
     } finally {

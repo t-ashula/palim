@@ -4,6 +4,7 @@ import {
   CustomEvent,
   Document,
   DocumentFragment,
+  ErrorEvent,
   Event,
   EventTarget,
   MutationObserver,
@@ -462,6 +463,25 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       );
     }
   }
+  binding.installInterface(
+    "ErrorEvent",
+    binding.errorEventPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const type = binding.stringArgument(argumentsList, 0, "ErrorEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      const eventInit = binding.errorEventInit(argumentsList[1]);
+      if (eventInit.type === "throw") {
+        return eventInit;
+      }
+      const { error, ...hostInit } = eventInit.value;
+      const event = new ErrorEvent(type.value, hostInit);
+      binding.errorEventErrors.set(event, error);
+      return normal(binding.wrap(event));
+    },
+  );
   binding.installInterface(
     "CustomEvent",
     binding.customEventPrototype,

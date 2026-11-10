@@ -11,6 +11,7 @@ import {
   DOMImplementation,
   DOMTokenList,
   Element,
+  ErrorEvent,
   Event,
   EventTarget,
   HTMLCollection,
@@ -30,6 +31,7 @@ import type {
   TreeWalker,
   Sanitizer,
 } from "@palim/core/internal/dom.js";
+import { dispatchEvent as dispatchDOMEvent } from "@palim/core/internal/dom/events.js";
 import type { Range, StaticRange } from "@palim/core/internal/dom/range.js";
 import {
   isRange,
@@ -198,10 +200,12 @@ export class DOMRealmBindingContext {
   readonly platformObjects = new WeakMap<object, EngineObject>();
   readonly implementations = new WeakMap<EngineObject, object>();
   readonly customEventDetails = new WeakMap<CustomEvent, EngineValue>();
+  readonly errorEventErrors = new WeakMap<ErrorEvent, EngineValue>();
   readonly listeners = new WeakMap<
     EventTarget,
     Map<EngineCallable, (event: Event) => void>
   >();
+  readonly eventHandlers = new WeakMap<EventTarget, (event: Event) => void>();
   readonly eventTargetPrototype: EngineObject;
   readonly abortSignalPrototype: EngineObject;
   readonly abortControllerPrototype: EngineObject;
@@ -240,6 +244,7 @@ export class DOMRealmBindingContext {
   readonly writableStreamDefaultWriterPrototype: EngineObject;
   readonly xmlDocumentPrototype: EngineObject;
   readonly eventPrototype: EngineObject;
+  readonly errorEventPrototype: EngineObject;
   readonly customEventPrototype: EngineObject;
   readonly htmlCollectionPrototype: EngineObject;
   readonly namedNodeMapPrototype: EngineObject;
@@ -413,6 +418,10 @@ export class DOMRealmBindingContext {
       this.documentPrototype,
     );
     this.eventPrototype = this.engine.createObject(this.realm, objectPrototype);
+    this.errorEventPrototype = this.engine.createObject(
+      this.realm,
+      this.eventPrototype,
+    );
     this.customEventPrototype = this.engine.createObject(
       this.realm,
       this.eventPrototype,
@@ -1575,6 +1584,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof CustomEvent) {
       return this.customEventPrototype;
     }
+    if (interfaceObject instanceof ErrorEvent) {
+      return this.errorEventPrototype;
+    }
     if (interfaceObject instanceof XMLDocument) {
       return this.xmlDocumentPrototype;
     }
@@ -1851,6 +1863,11 @@ export class DOMRealmBindingContext {
     return interfaceObject instanceof CustomEvent ? interfaceObject : null;
   }
 
+  errorEvent(value: EngineValue): ErrorEvent | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof ErrorEvent ? interfaceObject : null;
+  }
+
   htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof HTMLCollection
@@ -2116,6 +2133,94 @@ export class DOMRealmBindingContext {
     });
   }
 
+  errorEventInit(value: EngineValue | undefined): EngineResult<{
+    bubbles: boolean;
+    cancelable: boolean;
+    composed: boolean;
+    message: string;
+    filename: string;
+    lineno: number;
+    colno: number;
+    error: EngineValue;
+  }> {
+    const eventInit = this.eventInit(value);
+    if (eventInit.type === "throw") {
+      return eventInit;
+    }
+    if (
+      value === undefined ||
+      this.engine.isUndefined(value) ||
+      this.engine.isNull(value)
+    ) {
+      return normal({
+        ...eventInit.value,
+        message: "",
+        filename: "",
+        lineno: 0,
+        colno: 0,
+        error: this.engine.fromPrimitive(undefined),
+      });
+    }
+    const object = this.engine.asObject(value);
+    if (object === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "ErrorEvent init is not an object",
+        ),
+      );
+    }
+    const messageValue = this.engine.get(this.realm, object, "message");
+    if (messageValue.type === "throw") {
+      return messageValue;
+    }
+    const message = this.context.string(messageValue.value);
+    if (message.type === "throw") {
+      return message;
+    }
+    const filenameValue = this.engine.get(this.realm, object, "filename");
+    if (filenameValue.type === "throw") {
+      return filenameValue;
+    }
+    const filename = this.context.string(filenameValue.value, true);
+    if (filename.type === "throw") {
+      return filename;
+    }
+    const numbers: number[] = [];
+    for (const name of ["lineno", "colno"] as const) {
+      const numberValue = this.engine.get(this.realm, object, name);
+      if (numberValue.type === "throw") {
+        return numberValue;
+      }
+      const converted = this.engine.toNumber(this.realm, numberValue.value);
+      if (converted.type === "throw") {
+        return converted;
+      }
+      if (!Number.isFinite(converted.value) || converted.value === 0) {
+        numbers.push(0);
+      } else {
+        const integer = Math.trunc(converted.value);
+        numbers.push(
+          ((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000,
+        );
+      }
+    }
+    const error = this.engine.get(this.realm, object, "error");
+    if (error.type === "throw") {
+      return error;
+    }
+    return normal({
+      ...eventInit.value,
+      message: this.engine.isUndefined(messageValue.value) ? "" : message.value,
+      filename: this.engine.isUndefined(filenameValue.value)
+        ? ""
+        : filename.value,
+      lineno: numbers[0] ?? 0,
+      colno: numbers[1] ?? 0,
+      error: error.value,
+    });
+  }
+
   eventListener(
     target: EventTarget,
     callback: EngineCallable,
@@ -2143,6 +2248,17 @@ export class DOMRealmBindingContext {
     };
     listeners.set(callback, listener);
     return listener;
+  }
+
+  setEventHandler(target: EventTarget, handler: (event: Event) => void): void {
+    this.eventHandlers.set(target, handler);
+  }
+
+  dispatchEvent(target: EventTarget, event: Event): boolean {
+    const handler = this.eventHandlers.get(target);
+    return handler === undefined
+      ? target.dispatchEvent(event)
+      : dispatchDOMEvent(target, event, handler);
   }
 
   platformValue(interfaceObject: object | null): EngineResult<EngineValue> {

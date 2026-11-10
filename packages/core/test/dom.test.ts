@@ -11,6 +11,7 @@ import {
   DocumentFragment,
   DocumentType,
   Element,
+  ErrorEvent,
   Event,
   EventTarget,
   HTMLElement,
@@ -127,6 +128,27 @@ describe("Node child access", () => {
 });
 
 describe("EventTarget", () => {
+  it("constructs error events with diagnostic fields", () => {
+    const error = { reason: "failure" };
+    const event = new ErrorEvent("error", {
+      cancelable: true,
+      message: "failed",
+      filename: "https://example.test/script.js",
+      lineno: 12,
+      colno: 34,
+      error,
+    });
+
+    expect(event).toBeInstanceOf(Event);
+    expect(event.type).toBe("error");
+    expect(event.cancelable).toBe(true);
+    expect(event.message).toBe("failed");
+    expect(event.filename).toBe("https://example.test/script.js");
+    expect(event.lineno).toBe(12);
+    expect(event.colno).toBe(34);
+    expect(event.error).toBe(error);
+  });
+
   it("constructs custom events with detail", () => {
     const event = new CustomEvent("custom", {
       bubbles: true,

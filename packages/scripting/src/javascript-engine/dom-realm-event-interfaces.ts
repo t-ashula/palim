@@ -107,7 +107,7 @@ export function installEventTargetMembers(
         return binding.typeError("The argument is not an Event");
       }
       return binding.domOperationResult(() =>
-        binding.primitive(target.dispatchEvent(event)),
+        binding.primitive(binding.dispatchEvent(target, event)),
       );
     },
   );
@@ -271,6 +271,24 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
     return normal(
       binding.customEventDetails.get(event) ??
         binding.engine.fromPrimitive(null),
+    );
+  });
+  for (const name of ["message", "filename", "lineno", "colno"] as const) {
+    binding.attribute(binding.errorEventPrototype, name, (thisValue) => {
+      const event = binding.errorEvent(thisValue);
+      return event === null
+        ? binding.typeError(`Invalid ErrorEvent receiver for ${name}`)
+        : binding.primitive(event[name]);
+    });
+  }
+  binding.attribute(binding.errorEventPrototype, "error", (thisValue) => {
+    const event = binding.errorEvent(thisValue);
+    if (event === null) {
+      return binding.typeError("Invalid ErrorEvent receiver for error");
+    }
+    return normal(
+      binding.errorEventErrors.get(event) ??
+        binding.engine.fromPrimitive(undefined),
     );
   });
   binding.method(

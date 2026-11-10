@@ -6,17 +6,37 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 
-export function windowErrorReport(
+export interface WindowErrorInformation {
+  readonly message: string;
+  readonly filename: string;
+  readonly lineno: number;
+  readonly colno: number;
+  readonly stack?: string;
+}
+
+export function extractWindowErrorInformation(
   engine: JavaScriptEngineAdapter,
   realm: EngineRealm,
   value: EngineValue,
-  url: string,
-): WindowErrorReport {
+  filename: string,
+): WindowErrorInformation {
   const stack = exceptionStack(engine, realm, value);
   return {
     message: engine.exceptionMessage(realm, value),
-    url,
+    filename,
+    lineno: 0,
+    colno: 0,
     ...(stack === undefined ? {} : { stack }),
+  };
+}
+
+export function windowErrorReport(
+  information: WindowErrorInformation,
+): WindowErrorReport {
+  return {
+    message: information.message,
+    url: information.filename,
+    ...(information.stack === undefined ? {} : { stack: information.stack }),
   };
 }
 

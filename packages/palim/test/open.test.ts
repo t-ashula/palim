@@ -396,6 +396,17 @@ describe("open", () => {
             "  typeof window.onerror,",
             ");",
             'console.log("page output", 7);',
+            "window.onerror = function (message, source, lineno, colno, error) {",
+            '  document.body.setAttribute("data-page-error", [',
+            "    this === window,",
+            '    message === "TypeError: page failure",',
+            '    source === "https://example.test/page.html",',
+            "    lineno === 0,",
+            "    colno === 0,",
+            "    error instanceof TypeError,",
+            '  ].join(","));',
+            "  return true;",
+            "};",
             'throw new TypeError("page failure");',
             "</script><script>",
             'document.body.setAttribute("data-after-error", "executed");',
@@ -413,7 +424,10 @@ describe("open", () => {
 
       expect(
         context.window.document.body?.getAttribute("data-host-members"),
-      ).toBe("undefined");
+      ).toBe("object");
+      expect(
+        context.window.document.body?.getAttribute("data-page-error"),
+      ).toBe("true,true,true,true,true,true");
       expect(
         context.window.document.body?.getAttribute("data-after-error"),
       ).toBe("executed");

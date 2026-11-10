@@ -348,6 +348,200 @@ describe("WindowRealmBinding", () => {
     expect(window.document.body?.getAttribute("data-event")).toBe("ready");
   });
 
+  it("exposes ErrorEvent values in the page realm", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const error = { reason: "failure" };
+        const event = new ErrorEvent("error", {
+          bubbles: true,
+          cancelable: true,
+          message: "failed",
+          filename: "https://example.test/script.js",
+          lineno: 12,
+          colno: 34,
+          error,
+        });
+        if (
+          !(event instanceof ErrorEvent) ||
+          !(event instanceof Event) ||
+          event.message !== "failed" ||
+          event.filename !== "https://example.test/script.js" ||
+          event.lineno !== 12 ||
+          event.colno !== 34 ||
+          event.error !== error ||
+          !event.bubbles ||
+          !event.cancelable
+        ) {
+          throw new Error("ErrorEvent is invalid");
+        }
+      `,
+    );
+  });
+
+  it("reports page values through ErrorEvent and the special onerror call", () => {
+    const window = createWindow({ url: "https://example.test/page.html" });
+    const reports: { message: string; url: string }[] = [];
+    window.onerror((report) => {
+      reports.push(report);
+    });
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        if (onerror !== null || typeof reportError !== "function") {
+          throw new Error("Window error members are invalid");
+        }
+        const error = { reason: "failure" };
+        let reportedEvent;
+        let listenerCalls = 0;
+        addEventListener("error", function (event) {
+          listenerCalls += 1;
+          reportedEvent = event;
+          if (
+            !(event instanceof ErrorEvent) ||
+            event.error !== error ||
+            event.message !== "[object Object]" ||
+            event.filename !== "https://example.test/page.html" ||
+            event.lineno !== 0 ||
+            event.colno !== 0
+          ) {
+            throw new Error("reported ErrorEvent is invalid");
+          }
+        });
+        onerror = function (message, source, lineno, colno, value) {
+          if (
+            this !== window ||
+            message !== "[object Object]" ||
+            source !== "https://example.test/page.html" ||
+            lineno !== 0 ||
+            colno !== 0 ||
+            value !== error
+          ) {
+            throw new Error("onerror arguments are invalid");
+          }
+          return true;
+        };
+        reportError(error);
+        if (listenerCalls !== 1 || !reportedEvent.defaultPrevented) {
+          throw new Error("error event cancellation is invalid");
+        }
+      `,
+    );
+
+    expect(reports).toEqual([
+      {
+        message: "[object Object]",
+        url: "https://example.test/page.html",
+      },
+    ]);
+  });
+
+  it("prevents recursive error events while retaining host reports", () => {
+    const window = createWindow({ url: "https://example.test/page.html" });
+    const reports: string[] = [];
+    window.onerror((report) => {
+      reports.push(report.message);
+    });
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const eventErrors = [];
+        addEventListener("error", (event) => {
+          eventErrors.push(event.error.message);
+        });
+        onerror = (_message, _source, _line, _column, error) => {
+          if (error.message === "outer") {
+            throw new Error("inner");
+          }
+        };
+        reportError(new Error("outer"));
+        if (eventErrors.join(",") !== "outer") {
+          throw new Error("recursive error event was dispatched");
+        }
+      `,
+    );
+
+    expect(reports).toEqual(["Error: inner", "Error: outer"]);
+  });
+
+  it("keeps the reported value when diagnostic property access fails", () => {
+    const window = createWindow();
+    const reports: { message: string; url: string; stack?: string }[] = [];
+    window.onerror((report) => {
+      reports.push(report);
+    });
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const marker = {};
+        const error = {
+          get stack() {
+            reportError(new Error("diagnostic reentry"));
+            throw marker;
+          },
+          [Symbol.toPrimitive]() { throw marker; },
+        };
+        let eventCalls = 0;
+        addEventListener("error", (event) => {
+          eventCalls += 1;
+          if (event.error !== error) {
+            throw new Error("reported value identity changed");
+          }
+        });
+        onerror = (_message, _source, _line, _column, value) => {
+          if (value !== error) {
+            throw new Error("onerror value identity changed");
+          }
+          return true;
+        };
+        reportError(error);
+        if (eventCalls !== 1) {
+          throw new Error("diagnostic failure was reported recursively");
+        }
+      `,
+    );
+
+    expect(reports.map((report) => report.message)).toEqual([
+      "Error: diagnostic reentry",
+      "JavaScript execution failed",
+    ]);
+    expect(reports[1]).toEqual({
+      message: "JavaScript execution failed",
+      url: "about:blank",
+    });
+  });
+
+  it("does not convert a host observer failure into a page exception", () => {
+    const window = createWindow();
+    const hostFailure = new Error("host observer failure");
+    window.onerror(() => {
+      throw hostFailure;
+    });
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    expect(() => engine.evaluate(binding.realm, "reportError({})")).toThrow(
+      hostFailure,
+    );
+  });
+
   it("runs Window timer callbacks", async () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

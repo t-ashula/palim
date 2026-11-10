@@ -87,6 +87,28 @@ export function installWindowMembers(binding: WindowRealmBindingContext): void {
         : binding.dom.platformObject(binding.window.frameElement),
     true,
   );
+  binding.context.attribute(
+    binding.globalObject,
+    "onerror",
+    (thisValue) =>
+      binding.receiver(thisValue) === null
+        ? binding.context.typeError("Invalid Window receiver for onerror")
+        : normal(binding.windowErrorHandler()),
+    (thisValue, argumentsList) =>
+      binding.receiver(thisValue) === null
+        ? binding.context.typeError("Invalid Window receiver for onerror")
+        : binding.setWindowErrorHandler(
+            argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+          ),
+  );
+  binding.operation("reportError", 1, (_thisValue, argumentsList) => {
+    const value = argumentsList[0];
+    if (value === undefined) {
+      return binding.context.typeError("reportError requires 1 argument");
+    }
+    binding.reportException(value);
+    return binding.context.undefined();
+  });
 }
 
 export function installLocationInterface(
@@ -133,7 +155,9 @@ export function installTimers(binding: WindowRealmBindingContext): void {
       "queueMicrotask callback must be callable",
       {
         exceptionBehavior: "report",
-        reportException: (value) => { binding.reportException(value); },
+        reportException: (value) => {
+          binding.reportException(value);
+        },
       },
     );
     if (callback.type === "throw") {
@@ -154,7 +178,9 @@ export function installTimers(binding: WindowRealmBindingContext): void {
       "setTimeout callback must be callable",
       {
         exceptionBehavior: "report",
-        reportException: (value) => { binding.reportException(value); },
+        reportException: (value) => {
+          binding.reportException(value);
+        },
       },
     );
     if (callback.type === "throw") {

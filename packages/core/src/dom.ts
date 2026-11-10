@@ -2,12 +2,14 @@ export {
   AbortController,
   AbortSignal,
   CustomEvent,
+  ErrorEvent,
   Event,
   EventTarget,
 } from "./dom/events.js";
 export type {
   AddEventListenerOptions,
   CustomEventInit,
+  ErrorEventInit,
   EventInit,
   EventListener,
   EventListenerObject,

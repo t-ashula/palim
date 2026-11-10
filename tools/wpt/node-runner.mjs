@@ -8,12 +8,14 @@ if (url === undefined) {
 }
 
 let failed = false;
+let resultSeen = false;
 const hostLog = console.log.bind(console);
 
 console.log = (...data) => {
   hostLog(...data);
   if (typeof data[0] === "string" && data[0].startsWith(resultPrefix)) {
-    process.stdout.write("", () => process.exit(failed ? 1 : 0));
+    resultSeen = true;
+    process.stdout.write("", () => process.exit(0));
   }
 };
 
@@ -26,4 +28,4 @@ window.onerror((error) => {
   );
 });
 
-process.exitCode = failed ? 1 : 0;
+process.exitCode = resultSeen ? 0 : failed ? 1 : 0;

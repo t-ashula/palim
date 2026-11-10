@@ -1,10 +1,12 @@
 import { reportWindowError, Window } from "@palim/window/internal/window.js";
+import { ErrorEvent, type Event } from "@palim/core/internal/dom/events.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
 } from "@palim/window/internal/window-named-properties.js";
 import { normal } from "./adapter.js";
 import type {
+  EngineCallable,
   EngineHostFunction,
   EngineObject,
   EngineRealm,
@@ -18,7 +20,11 @@ import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.j
 import { RealmBindingContext } from "./realm-binding-context.js";
 import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
-import { windowErrorReport } from "./window-error-report.js";
+import {
+  extractWindowErrorInformation,
+  windowErrorReport,
+  type WindowErrorInformation,
+} from "./window-error-report.js";
 
 export class WindowRealmBindingContext {
   readonly engine: JavaScriptEngineAdapter;
@@ -34,6 +40,8 @@ export class WindowRealmBindingContext {
   readonly formData: FormDataRealmBindingContext;
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
+  #windowErrorHandler: EngineCallable | null = null;
+  #reportingException = false;
 
   constructor(
     engine: JavaScriptEngineAdapter,
@@ -96,6 +104,9 @@ export class WindowRealmBindingContext {
     this.engine.initializePrototypeOf(this.globalObject, this.windowPrototype);
     this.dom.associatePlatformObject(this.window, this.globalObject);
     this.dom.bindPlatformObject(this.window, this.globalThis);
+    this.dom.setEventHandler(this.window, (event) => {
+      this.invokeWindowErrorHandler(event);
+    });
   }
 
   timerDelay(value: EngineValue | undefined): EngineResult<number> {
@@ -108,16 +119,95 @@ export class WindowRealmBindingContext {
       : normal(Math.max(0, Number(text.value) || 0));
   }
 
-  reportException(value: EngineValue): void {
-    reportWindowError(
-      this.window,
-      windowErrorReport(
+  reportException(
+    value: EngineValue,
+    filename = this.window.document.URL,
+    mutedErrors = false,
+  ): void {
+    const dispatchErrorEvent = !this.#reportingException;
+    if (dispatchErrorEvent) {
+      this.#reportingException = true;
+    }
+    let information: WindowErrorInformation;
+    try {
+      const extracted = extractWindowErrorInformation(
         this.engine,
         this.realm,
         value,
-        this.window.document.URL,
-      ),
-    );
+        filename,
+      );
+      information = mutedErrors
+        ? {
+            message: "Script error.",
+            filename: "",
+            lineno: 0,
+            colno: 0,
+          }
+        : extracted;
+      if (dispatchErrorEvent) {
+        const event = new ErrorEvent("error", {
+          cancelable: true,
+          message: information.message,
+          filename: information.filename,
+          lineno: information.lineno,
+          colno: information.colno,
+        });
+        this.dom.setErrorEventError(
+          event,
+          mutedErrors ? this.engine.fromPrimitive(null) : value,
+        );
+        this.dom.dispatchEvent(this.window, event);
+      }
+    } finally {
+      if (dispatchErrorEvent) {
+        this.#reportingException = false;
+      }
+    }
+    reportWindowError(this.window, windowErrorReport(information));
+  }
+
+  windowErrorHandler(): EngineValue {
+    return this.#windowErrorHandler ?? this.engine.fromPrimitive(null);
+  }
+
+  setWindowErrorHandler(value: EngineValue): EngineResult<EngineValue> {
+    if (this.engine.asObject(value) === null) {
+      this.#windowErrorHandler = null;
+      return this.context.undefined();
+    }
+    const callable = this.engine.asCallable(value);
+    if (callable === null) {
+      return this.context.typeError("Window.onerror must be callable or null");
+    }
+    this.#windowErrorHandler = callable;
+    return this.context.undefined();
+  }
+
+  private invokeWindowErrorHandler(event: Event): void {
+    const handler = this.#windowErrorHandler;
+    if (handler === null) {
+      return;
+    }
+    const errorEvent = event instanceof ErrorEvent ? event : null;
+    const argumentsList =
+      errorEvent === null
+        ? [this.dom.platformObject(event)]
+        : [
+            this.engine.fromPrimitive(errorEvent.message),
+            this.engine.fromPrimitive(errorEvent.filename),
+            this.engine.fromPrimitive(errorEvent.lineno),
+            this.engine.fromPrimitive(errorEvent.colno),
+            this.dom.errorEventError(errorEvent) ??
+              this.engine.fromPrimitive(undefined),
+          ];
+    const result = this.context.call(handler, this.globalThis, argumentsList);
+    if (result.type === "throw") {
+      this.reportException(result.value);
+      return;
+    }
+    if (this.engine.toBoolean(result.value) === (errorEvent !== null)) {
+      event.preventDefault();
+    }
   }
 
   timerId(value: EngineValue | undefined): EngineResult<number> {

@@ -4,7 +4,12 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
-import type { Document } from "@palim/core/internal/dom.js";
+import type {
+  Document,
+  ErrorEvent,
+  Event,
+  EventTarget,
+} from "@palim/core/internal/dom.js";
 import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
@@ -57,5 +62,21 @@ export class DOMRealmBinding {
 
   interfaceObject(value: EngineValue): object | null {
     return this.#context.interfaceObject(value);
+  }
+
+  setErrorEventError(event: ErrorEvent, value: EngineValue): void {
+    this.#context.errorEventErrors.set(event, value);
+  }
+
+  errorEventError(event: ErrorEvent): EngineValue | undefined {
+    return this.#context.errorEventErrors.get(event);
+  }
+
+  setEventHandler(target: EventTarget, handler: (event: Event) => void): void {
+    this.#context.setEventHandler(target, handler);
+  }
+
+  dispatchEvent(target: EventTarget, event: Event): boolean {
+    return this.#context.dispatchEvent(target, event);
   }
 }

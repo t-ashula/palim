@@ -96,6 +96,42 @@ describe("parser-inserted classic scripts", () => {
     expect(document.querySelector("#parsed-after-errors")).not.toBeNull();
   });
 
+  it("reports syntax and runtime exceptions to page and host handlers", async () => {
+    const environment = new WindowExecutionEnvironment({
+      url: "https://example.test/page.html",
+    });
+    const hostReports: string[] = [];
+    environment.window.onerror((report) => {
+      hostReports.push(report.message);
+    });
+
+    const document = await environment.loadHTML(
+      [
+        "<body><script>",
+        "window.pageReports = [];",
+        "window.onerror = function (message, source, line, column, error) {",
+        "  pageReports.push([message, source, line, column, error?.name]);",
+        "  return true;",
+        "};",
+        "</script><script>",
+        "const = 1;",
+        "</script><script>",
+        'throw new TypeError("runtime failure");',
+        "</script><script>",
+        'document.body.setAttribute("data-page-reports",',
+        '  pageReports.map((report) => report.join("|")).join(","));',
+        "</script></body>",
+      ].join("\n"),
+    );
+
+    expect(document.body?.getAttribute("data-page-reports")).toMatch(
+      /^SyntaxError:.*\|https:\/\/example\.test\/page\.html\|0\|0\|SyntaxError,TypeError: runtime failure\|https:\/\/example\.test\/page\.html\|0\|0\|TypeError$/,
+    );
+    expect(hostReports).toHaveLength(2);
+    expect(hostReports[0]).toMatch(/^SyntaxError:/);
+    expect(hostReports[1]).toBe("TypeError: runtime failure");
+  });
+
   it("loads an external script before parsing subsequent markup", async () => {
     const requests: string[] = [];
     const resource = Promise.withResolvers<{ body: Uint8Array }>();

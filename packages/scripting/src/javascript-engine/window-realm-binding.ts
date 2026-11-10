@@ -1,5 +1,9 @@
 import type { Window } from "@palim/window/internal/window.js";
-import type { EngineRealm, JavaScriptEngineAdapter } from "./adapter.js";
+import type {
+  EngineRealm,
+  EngineValue,
+  JavaScriptEngineAdapter,
+} from "./adapter.js";
 import type { DOMRealmBinding } from "./dom-realm-binding.js";
 import type { URLRealmBinding } from "./url-realm-binding.js";
 import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
@@ -42,5 +46,13 @@ export class WindowRealmBinding {
 
   get realm(): EngineRealm {
     return this.#binding.realm;
+  }
+
+  reportException(
+    value: EngineValue,
+    filename?: string,
+    mutedErrors?: boolean,
+  ): void {
+    this.#binding.reportException(value, filename, mutedErrors);
   }
 }

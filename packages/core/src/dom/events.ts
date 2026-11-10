@@ -24,6 +24,14 @@ export interface CustomEventInit<T = unknown> extends EventInit {
   readonly detail?: T;
 }
 
+export interface ErrorEventInit<T = unknown> extends EventInit {
+  readonly message?: string;
+  readonly filename?: string;
+  readonly lineno?: number;
+  readonly colno?: number;
+  readonly error?: T;
+}
+
 export class Event {
   static readonly NONE = 0;
   static readonly CAPTURING_PHASE = 1;
@@ -173,6 +181,23 @@ export class CustomEvent<T = unknown> extends Event {
   }
 }
 
+export class ErrorEvent<T = unknown> extends Event {
+  readonly message: string;
+  readonly filename: string;
+  readonly lineno: number;
+  readonly colno: number;
+  readonly error: T;
+
+  constructor(type: string, eventInit: ErrorEventInit<T> = {}) {
+    super(type, eventInit);
+    this.message = domString(eventInit.message ?? "");
+    this.filename = domString(eventInit.filename ?? "").toWellFormed();
+    this.lineno = toUnsignedLong(eventInit.lineno ?? 0);
+    this.colno = toUnsignedLong(eventInit.colno ?? 0);
+    this.error = eventInit.error as T;
+  }
+}
+
 export function createLegacyEvent(interfaceName: string): Event {
   let event: Event;
   switch (asciiLowercase(domString(interfaceName))) {
@@ -301,45 +326,57 @@ export class EventTarget {
   }
 
   dispatchEvent(event: Event): boolean {
-    if (!(event instanceof Event)) {
-      throw new TypeError("The event is not an Event");
+    return dispatchEvent(this, event);
+  }
+}
+
+export function dispatchEvent(
+  target: EventTarget,
+  event: Event,
+  eventHandler?: (event: Event) => void,
+): boolean {
+  if (!(event instanceof Event)) {
+    throw new TypeError("The event is not an Event");
+  }
+  const implementation = eventImplementation(event);
+  if (implementation.dispatching || !implementation.initialized) {
+    throw new DOMException(
+      "The event is dispatching or is not initialized",
+      "InvalidStateError",
+    );
+  }
+  const targetImplementation = eventTargetImplementation(target);
+  const path: EventTargetImplementation[] = [targetImplementation];
+  if (event.bubbles) {
+    let parent = targetImplementation.parent;
+    while (parent !== null) {
+      path.push(parent);
+      parent = parent.parent;
     }
-    const implementation = eventImplementation(event);
-    if (implementation.dispatching || !implementation.initialized) {
-      throw new DOMException(
-        "The event is dispatching or is not initialized",
-        "InvalidStateError",
+  }
+  implementation.dispatching = true;
+  try {
+    implementation.target = targetImplementation;
+    implementation.path = path;
+    for (const [index, pathTarget] of path.entries()) {
+      if (implementation.stopPropagation && index > 0) {
+        break;
+      }
+      implementation.currentTarget = pathTarget;
+      implementation.eventPhase =
+        index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
+      invokeEventListeners(
+        pathTarget,
+        event,
+        index === 0 ? eventHandler : undefined,
       );
     }
-    const targetImplementation = eventTargetImplementation(this);
-    const path: EventTargetImplementation[] = [targetImplementation];
-    if (event.bubbles) {
-      let parent = targetImplementation.parent;
-      while (parent !== null) {
-        path.push(parent);
-        parent = parent.parent;
-      }
-    }
-    implementation.dispatching = true;
-    try {
-      implementation.target = targetImplementation;
-      implementation.path = path;
-      for (const [index, target] of path.entries()) {
-        if (implementation.stopPropagation && index > 0) {
-          break;
-        }
-        implementation.currentTarget = target;
-        implementation.eventPhase =
-          index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
-        invokeEventListeners(target, event);
-      }
-    } finally {
-      implementation.currentTarget = null;
-      implementation.eventPhase = Event.NONE;
-      implementation.dispatching = false;
-    }
-    return !event.defaultPrevented;
+  } finally {
+    implementation.currentTarget = null;
+    implementation.eventPhase = Event.NONE;
+    implementation.dispatching = false;
   }
+  return !event.defaultPrevented;
 }
 
 interface AbortSignalState {
@@ -431,6 +468,7 @@ function removeAbortAlgorithm(
 function invokeEventListeners(
   targetImplementation: EventTargetImplementation,
   event: Event,
+  eventHandler?: (event: Event) => void,
 ): void {
   const target = eventTargetInterface(targetImplementation);
   const listeners = [...(targetImplementation.listeners.get(event.type) ?? [])];
@@ -462,9 +500,22 @@ function invokeEventListeners(
     }
   }
   if (!implementation.stopImmediatePropagation) {
-    const handler: unknown = Reflect.get(target, `on${event.type}`);
-    if (typeof handler === "function") {
-      handler.call(target, event);
+    if (eventHandler !== undefined) {
+      eventHandler(event);
+    } else {
+      const handler: unknown = Reflect.get(target, `on${event.type}`);
+      if (typeof handler === "function") {
+        handler.call(target, event);
+      }
     }
   }
+}
+
+function toUnsignedLong(value: unknown): number {
+  const number = Number(value);
+  if (!Number.isFinite(number) || number === 0) {
+    return 0;
+  }
+  const integer = Math.trunc(number);
+  return ((integer % 0x1_0000_0000) + 0x1_0000_0000) % 0x1_0000_0000;
 }
