@@ -49,3 +49,4 @@
 - [ADR-0046: パッケージ分離と capability 合成](./0046-multi-package-capability-boundaries.md)
 - [ADR-0047: Window と scripting のパッケージ分離](./0047-window-scripting-separation.md)
 - [ADR-0048: page realm の例外を host exception に変換しない](./0048-page-realm-exception-boundary.md)
+- [ADR-0049: page realm の実行境界と completion 契約](./0049-page-realm-execution-contract.md)
