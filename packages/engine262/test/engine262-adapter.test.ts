@@ -260,6 +260,92 @@ describe("Engine262Adapter", () => {
     engine.removeJobEnqueueCallback(onEnqueue);
   });
 
+  it("runs consecutive async resumptions after host-created promises", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const promiseValue = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "Promise",
+    );
+    expect(promiseValue.type).toBe("normal");
+    if (promiseValue.type === "throw") {
+      return;
+    }
+    const promise = engine.asObject(promiseValue.value);
+    expect(promise).not.toBeNull();
+    if (promise === null) {
+      return;
+    }
+    const resolveValue = engine.get(realm, promise, "resolve");
+    expect(resolveValue.type).toBe("normal");
+    if (resolveValue.type === "throw") {
+      return;
+    }
+    const resolve = engine.asCallable(resolveValue.value);
+    expect(resolve).not.toBeNull();
+    if (resolve === null) {
+      return;
+    }
+    const hostPromise = engine.createFunction(realm, "hostPromise", 0, () =>
+      engine.call(realm, resolve, promise, [engine.fromPrimitive(undefined)]),
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "hostPromise",
+      hostPromise,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.asyncResult = "pending";
+        (async () => {
+          await hostPromise();
+          await hostPromise();
+          globalThis.asyncResult = "complete";
+        })();
+      `,
+    );
+    for (;;) {
+      const job = engine.dequeueJob();
+      if (job === null) {
+        break;
+      }
+      expect(engine.runJob(job).type).toBe("normal");
+    }
+    const result = engine.get(realm, engine.globalObject(realm), "asyncResult");
+    expect(result.type).toBe("normal");
+    if (result.type === "normal") {
+      expect(engine.toString(realm, result.value)).toEqual(normal("complete"));
+    }
+  });
+
+  it("restores the execution stack after a Promise job host failure", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const hostFailure = engine.createFunction(realm, "hostFailure", 0, () => {
+      throw new Error("Promise job host failure");
+    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "hostFailure",
+      hostFailure,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    evaluate(engine, realm, "Promise.resolve().then(() => hostFailure())");
+    const job = engine.dequeueJob();
+    expect(job).not.toBeNull();
+    if (job === null) {
+      return;
+    }
+    expect(() => engine.runJob(job)).toThrow("Promise job host failure");
+    expect(engine.evaluate(realm, "1 + 1").type).toBe("normal");
+  });
+
   it("reports Promise reject and handle with original values", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();

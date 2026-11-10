@@ -775,22 +775,29 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   runJob(job: EngineJob): EngineResult<EngineValue> {
     this.#activate();
     const record = this.#job(job);
+    const stack = this.#agent.executionContextStack;
+    const previousDepth = stack.length;
     const context =
       record.callerRealm === undefined ? null : new ExecutionContext();
     if (context !== null && record.callerRealm !== undefined) {
       context.Function = Value.null;
       context.Realm = record.callerRealm;
       context.ScriptOrModule = record.callerScriptOrModule;
-      this.#agent.executionContextStack.push(context);
+      stack.push(context);
     }
     try {
       const completion = skipDebugger(record.job());
       return completion instanceof ThrowCompletion
         ? thrown(this.#wrap(completion.Value as Engine262Value))
         : normal(this.fromPrimitive(undefined));
+    } catch (error: unknown) {
+      if (stack.length > previousDepth) {
+        stack.length = previousDepth;
+      }
+      throw error;
     } finally {
-      if (context !== null) {
-        this.#agent.executionContextStack.pop(context);
+      if (context !== null && stack.length > previousDepth) {
+        stack.pop(context);
       }
       ClearKeptObjects();
     }

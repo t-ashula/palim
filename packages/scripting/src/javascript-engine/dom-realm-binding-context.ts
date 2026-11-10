@@ -1494,7 +1494,7 @@ export class DOMRealmBindingContext {
     const callable = this.engine.asCallable(iterator.value);
     return callable === null
       ? this.typeError("Array iterator is not callable")
-      : this.engine.call(this.realm, callable, array, []);
+      : this.context.call(callable, array, []);
   }
 
   wrap(interfaceObject: object): EngineObject {

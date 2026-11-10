@@ -342,6 +342,84 @@ describe("Window classic script execution", () => {
     ).toBe("normal");
   });
 
+  it("runs a replaced collection iterator in its associated settings", () => {
+    const engine = new TrackingEngine262Adapter();
+    const first = new WindowScriptEnvironment(engine, createWindow());
+    const second = new WindowScriptEnvironment(
+      engine,
+      createWindow(),
+      first.eventLoop,
+    );
+    const observations: {
+      readonly current: WindowEnvironmentSettings | null;
+      readonly entry: WindowEnvironmentSettings | null;
+      readonly incumbent: WindowEnvironmentSettings | null;
+    }[] = [];
+    const iterator = engine.createFunction(
+      first.settings.realm,
+      "iterator",
+      0,
+      () => {
+        observations.push({
+          current: first.runtime.currentSettings,
+          entry: first.runtime.entrySettings,
+          incumbent: first.runtime.incumbentSettings,
+        });
+        return normal(engine.createObject(first.settings.realm, null));
+      },
+    );
+    const arrayValue = engine.get(
+      second.settings.realm,
+      engine.globalObject(second.settings.realm),
+      "Array",
+    );
+    expect(arrayValue.type).toBe("normal");
+    if (arrayValue.type === "throw") {
+      return;
+    }
+    const array = engine.asObject(arrayValue.value);
+    expect(array).not.toBeNull();
+    if (array === null) {
+      return;
+    }
+    const prototypeValue = engine.get(
+      second.settings.realm,
+      array,
+      "prototype",
+    );
+    expect(prototypeValue.type).toBe("normal");
+    if (prototypeValue.type === "throw") {
+      return;
+    }
+    const prototype = engine.asObject(prototypeValue.value);
+    expect(prototype).not.toBeNull();
+    if (prototype === null) {
+      return;
+    }
+    expect(
+      engine.defineDataProperty(
+        second.settings.realm,
+        prototype,
+        engine.wellKnownSymbol("iterator"),
+        iterator,
+        { configurable: true, enumerable: false, writable: true },
+      ).type,
+    ).toBe("normal");
+
+    expect(
+      second.runClassicScript(
+        second.createClassicScript("document.body.children[Symbol.iterator]()"),
+      ).type,
+    ).toBe("normal");
+    expect(observations).toEqual([
+      {
+        current: first.settings,
+        entry: second.settings,
+        incumbent: second.settings,
+      },
+    ]);
+  });
+
   it("reports a cross-realm timer failure to the scheduling Window", async () => {
     const engine = new TrackingEngine262Adapter();
     const first = new WindowScriptEnvironment(engine, createWindow());
@@ -587,6 +665,32 @@ describe("Window classic script execution", () => {
     expect(
       environment.window.document.body?.getAttribute("data-after-host-failure"),
     ).toBe("complete");
+  });
+
+  it("runs async resumptions after realm HTML stream operations", () => {
+    const environment = new WindowScriptEnvironment(
+      new TrackingEngine262Adapter(),
+      createWindow(),
+    );
+
+    expect(
+      environment.runClassicScript(
+        environment.createClassicScript(`
+          (async () => {
+            const target = document.createElement("div");
+            const writer = target.streamHTML({
+              sanitizer: { removeElements: ["span"] },
+            }).getWriter();
+            await writer.write("<div>A</div><span>B</span>");
+            await writer.close();
+            document.body.setAttribute("data-stream-result", target.textContent);
+          })();
+        `),
+      ).type,
+    ).toBe("normal");
+    expect(
+      environment.window.document.body?.getAttribute("data-stream-result"),
+    ).toBe("A");
   });
 
   it("does not notify rejections handled in the same checkpoint", async () => {
