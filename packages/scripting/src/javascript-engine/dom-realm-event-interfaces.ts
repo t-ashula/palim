@@ -295,6 +295,38 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
         binding.engine.fromPrimitive(undefined),
     );
   });
+  binding.attribute(
+    binding.promiseRejectionEventPrototype,
+    "promise",
+    (thisValue) => {
+      const event = binding.promiseRejectionEvent(thisValue);
+      if (event === null) {
+        return binding.typeError(
+          "Invalid PromiseRejectionEvent receiver for promise",
+        );
+      }
+      return normal(
+        binding.promiseRejectionEventPromises.get(event) ??
+          binding.engine.fromPrimitive(undefined),
+      );
+    },
+  );
+  binding.attribute(
+    binding.promiseRejectionEventPrototype,
+    "reason",
+    (thisValue) => {
+      const event = binding.promiseRejectionEvent(thisValue);
+      if (event === null) {
+        return binding.typeError(
+          "Invalid PromiseRejectionEvent receiver for reason",
+        );
+      }
+      return normal(
+        binding.promiseRejectionEventReasons.get(event) ??
+          binding.engine.fromPrimitive(undefined),
+      );
+    },
+  );
   binding.method(
     binding.customEventPrototype,
     "initCustomEvent",

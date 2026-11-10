@@ -260,6 +260,53 @@ describe("Engine262Adapter", () => {
     engine.removeJobEnqueueCallback(onEnqueue);
   });
 
+  it("reports Promise reject and handle with original values", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const tracked: {
+      readonly promise: object;
+      readonly reason: object;
+      readonly operation: "handle" | "reject";
+    }[] = [];
+    engine.addPromiseRejectionTracker((promise, reason, operation) => {
+      tracked.push({ promise, reason, operation });
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.rejectionReason = {};
+        globalThis.rejectedPromise = Promise.reject(rejectionReason);
+      `,
+    );
+    const promise = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "rejectedPromise",
+    );
+    const reason = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "rejectionReason",
+    );
+    expect(promise.type).toBe("normal");
+    expect(reason.type).toBe("normal");
+    if (promise.type === "throw" || reason.type === "throw") {
+      return;
+    }
+    expect(engine.isPromise(promise.value)).toBe(true);
+    expect(tracked).toEqual([
+      { promise: promise.value, reason: reason.value, operation: "reject" },
+    ]);
+
+    evaluate(engine, realm, "rejectedPromise.catch(() => undefined)");
+    expect(tracked).toEqual([
+      { promise: promise.value, reason: reason.value, operation: "reject" },
+      { promise: promise.value, reason: reason.value, operation: "handle" },
+    ]);
+  });
+
   it("keeps forwarding global this identity while changing its target", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm({ forwardingGlobalThis: true });

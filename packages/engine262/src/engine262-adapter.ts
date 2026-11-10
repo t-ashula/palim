@@ -14,6 +14,7 @@ import {
   Get,
   GetFunctionRealm,
   IsCallable,
+  isPromiseObject,
   JSStringValue,
   ManagedRealm,
   markBuiltinFunctionAsConstructor,
@@ -34,6 +35,7 @@ import {
 } from "@engine262/engine262";
 import type {
   FunctionObject,
+  HostPromiseRejectionTracker,
   Job,
   NativeSteps,
   PropertyKeyValue,
@@ -57,6 +59,7 @@ import type {
   EngineDataPropertyAttributes,
   EngineHostFunction,
   EngineJobEnqueueCallback,
+  EnginePromiseRejectionTracker,
   EnginePrimitive,
   EnginePropertyKey,
   EnginePropertyAttributes,
@@ -128,7 +131,26 @@ type Engine262ObjectHandle = Engine262Object | Engine262Callable;
 
 export class Engine262Adapter implements JavaScriptEngineAdapter {
   readonly #jobQueue = new BasicJobQueue();
+  readonly #promiseRejectionTrackers = new Set<EnginePromiseRejectionTracker>();
+  readonly #hostPromiseRejectionTrackers = new Set<HostPromiseRejectionTracker>(
+    [
+      (promise, operation) => {
+        const reason = promise.PromiseResult;
+        if (reason === undefined) {
+          throw new TypeError("A tracked Promise has no result");
+        }
+        const promiseHandle = this.#wrapObject(promise);
+        const reasonHandle = this.#wrap(reason);
+        for (const tracker of this.#promiseRejectionTrackers) {
+          tracker(promiseHandle, reasonHandle, operation);
+        }
+      },
+    ],
+  );
   readonly #agent = new Agent({
+    hostHooks: {
+      HostPromiseRejectionTrackers: this.#hostPromiseRejectionTrackers,
+    },
     jobQueue: this.#jobQueue,
     startEventLoop: false,
   });
@@ -226,6 +248,17 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
 
   toBoolean(value: EngineValue): boolean {
     return ToBoolean(this.#value(value));
+  }
+
+  asBoolean(value: EngineValue): boolean | null {
+    const engineValue = this.#value(value);
+    if (engineValue === Value.true) {
+      return true;
+    }
+    if (engineValue === Value.false) {
+      return false;
+    }
+    return null;
   }
 
   asString(value: EngineValue): string | null {
@@ -676,6 +709,18 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     return result.type === "normal"
       ? result.value
       : "JavaScript execution failed";
+  }
+
+  isPromise(value: EngineValue): boolean {
+    return isPromiseObject(this.#value(value));
+  }
+
+  addPromiseRejectionTracker(tracker: EnginePromiseRejectionTracker): void {
+    this.#promiseRejectionTrackers.add(tracker);
+  }
+
+  removePromiseRejectionTracker(tracker: EnginePromiseRejectionTracker): void {
+    this.#promiseRejectionTrackers.delete(tracker);
   }
 
   addJobEnqueueCallback(callback: EngineJobEnqueueCallback): void {

@@ -10,6 +10,7 @@ import type {
   ErrorEvent,
   Event,
   EventTarget,
+  PromiseRejectionEvent,
 } from "@palim/core/internal/dom.js";
 import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
@@ -77,6 +78,15 @@ export class DOMRealmBinding {
 
   errorEventError(event: ErrorEvent): EngineValue | undefined {
     return this.#context.errorEventErrors.get(event);
+  }
+
+  setPromiseRejectionEventValues(
+    event: PromiseRejectionEvent,
+    promise: EngineObject,
+    reason: EngineValue,
+  ): void {
+    this.#context.promiseRejectionEventPromises.set(event, promise);
+    this.#context.promiseRejectionEventReasons.set(event, reason);
   }
 
   setEventHandler(target: EventTarget, handler: (event: Event) => void): void {

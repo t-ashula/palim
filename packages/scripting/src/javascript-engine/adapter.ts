@@ -52,6 +52,12 @@ export type EngineHostFunction = (
 ) => EngineResult<EngineValue>;
 
 export type EngineJobEnqueueCallback = (job: EngineJob) => void;
+export type EnginePromiseRejectionOperation = "reject" | "handle";
+export type EnginePromiseRejectionTracker = (
+  promise: EngineObject,
+  reason: EngineValue,
+  operation: EnginePromiseRejectionOperation,
+) => void;
 
 export const FORWARD_PROXY_TRAP = { type: "forward" } as const;
 
@@ -83,6 +89,7 @@ export interface JavaScriptEngineAdapter {
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
   toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number>;
   toBoolean(value: EngineValue): boolean;
+  asBoolean(value: EngineValue): boolean | null;
   asString(value: EngineValue): string | null;
   asObject(value: EngineValue): EngineObject | null;
   asCallable(value: EngineValue): EngineCallable | null;
@@ -193,6 +200,9 @@ export interface JavaScriptEngineAdapter {
   ): EngineResult<EngineObject>;
   createTypeError(realm: EngineRealm, message: string): EngineValue;
   exceptionMessage(realm: EngineRealm, value: EngineValue): string;
+  isPromise(value: EngineValue): boolean;
+  addPromiseRejectionTracker(tracker: EnginePromiseRejectionTracker): void;
+  removePromiseRejectionTracker(tracker: EnginePromiseRejectionTracker): void;
   addJobEnqueueCallback(callback: EngineJobEnqueueCallback): void;
   removeJobEnqueueCallback(callback: EngineJobEnqueueCallback): void;
   enqueueJob(realm: EngineRealm, callback: () => void): EngineJob;

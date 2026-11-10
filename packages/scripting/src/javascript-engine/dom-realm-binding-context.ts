@@ -22,6 +22,7 @@ import {
   NodeFilter,
   NodeList,
   ProcessingInstruction,
+  PromiseRejectionEvent,
   ShadowRoot,
   Text,
   XMLDocument,
@@ -207,6 +208,14 @@ export class DOMRealmBindingContext {
   readonly implementations = new WeakMap<EngineObject, object>();
   readonly customEventDetails = new WeakMap<CustomEvent, EngineValue>();
   readonly errorEventErrors = new WeakMap<ErrorEvent, EngineValue>();
+  readonly promiseRejectionEventPromises = new WeakMap<
+    PromiseRejectionEvent,
+    EngineObject
+  >();
+  readonly promiseRejectionEventReasons = new WeakMap<
+    PromiseRejectionEvent,
+    EngineValue
+  >();
   readonly listeners = new WeakMap<
     EventTarget,
     Map<EngineObject, (event: Event) => void>
@@ -256,6 +265,7 @@ export class DOMRealmBindingContext {
   readonly xmlDocumentPrototype: EngineObject;
   readonly eventPrototype: EngineObject;
   readonly errorEventPrototype: EngineObject;
+  readonly promiseRejectionEventPrototype: EngineObject;
   readonly customEventPrototype: EngineObject;
   readonly htmlCollectionPrototype: EngineObject;
   readonly namedNodeMapPrototype: EngineObject;
@@ -430,6 +440,10 @@ export class DOMRealmBindingContext {
     );
     this.eventPrototype = this.engine.createObject(this.realm, objectPrototype);
     this.errorEventPrototype = this.engine.createObject(
+      this.realm,
+      this.eventPrototype,
+    );
+    this.promiseRejectionEventPrototype = this.engine.createObject(
       this.realm,
       this.eventPrototype,
     );
@@ -1605,6 +1619,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof ErrorEvent) {
       return this.errorEventPrototype;
     }
+    if (interfaceObject instanceof PromiseRejectionEvent) {
+      return this.promiseRejectionEventPrototype;
+    }
     if (interfaceObject instanceof XMLDocument) {
       return this.xmlDocumentPrototype;
     }
@@ -1884,6 +1901,13 @@ export class DOMRealmBindingContext {
   errorEvent(value: EngineValue): ErrorEvent | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof ErrorEvent ? interfaceObject : null;
+  }
+
+  promiseRejectionEvent(value: EngineValue): PromiseRejectionEvent | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof PromiseRejectionEvent
+      ? interfaceObject
+      : null;
   }
 
   htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {
@@ -2236,6 +2260,62 @@ export class DOMRealmBindingContext {
       lineno: numbers[0] ?? 0,
       colno: numbers[1] ?? 0,
       error: error.value,
+    });
+  }
+
+  promiseRejectionEventInit(value: EngineValue | undefined): EngineResult<{
+    bubbles: boolean;
+    cancelable: boolean;
+    composed: boolean;
+    promise: EngineObject;
+    reason: EngineValue;
+  }> {
+    const eventInit = this.eventInit(value);
+    if (eventInit.type === "throw") {
+      return eventInit;
+    }
+    if (
+      value === undefined ||
+      this.engine.isUndefined(value) ||
+      this.engine.isNull(value)
+    ) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "PromiseRejectionEvent init requires a promise",
+        ),
+      );
+    }
+    const object = this.engine.asObject(value);
+    if (object === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "PromiseRejectionEvent init is not an object",
+        ),
+      );
+    }
+    const promise = this.engine.get(this.realm, object, "promise");
+    if (promise.type === "throw") {
+      return promise;
+    }
+    const promiseObject = this.engine.asObject(promise.value);
+    if (promiseObject === null || !this.engine.isPromise(promiseObject)) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "PromiseRejectionEvent promise is not a Promise",
+        ),
+      );
+    }
+    const reason = this.engine.get(this.realm, object, "reason");
+    if (reason.type === "throw") {
+      return reason;
+    }
+    return normal({
+      ...eventInit.value,
+      promise: promiseObject,
+      reason: reason.value,
     });
   }
 

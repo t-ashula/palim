@@ -10,6 +10,7 @@ import {
   MutationObserver,
   Node,
   NodeFilter,
+  PromiseRejectionEvent,
   Sanitizer,
   Text,
 } from "@palim/core/internal/dom.js";
@@ -483,6 +484,34 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       const { error, ...hostInit } = eventInit.value;
       const event = new ErrorEvent(type.value, hostInit);
       binding.errorEventErrors.set(event, error);
+      return normal(binding.wrap(event));
+    },
+  );
+  binding.installInterface(
+    "PromiseRejectionEvent",
+    binding.promiseRejectionEventPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const type = binding.stringArgument(
+        argumentsList,
+        0,
+        "PromiseRejectionEvent",
+      );
+      if (type.type === "throw") {
+        return type;
+      }
+      const eventInit = binding.promiseRejectionEventInit(argumentsList[1]);
+      if (eventInit.type === "throw") {
+        return eventInit;
+      }
+      const { promise, reason, ...hostInit } = eventInit.value;
+      const event = new PromiseRejectionEvent(type.value, {
+        ...hostInit,
+        promise: undefined,
+        reason: undefined,
+      });
+      binding.promiseRejectionEventPromises.set(event, promise);
+      binding.promiseRejectionEventReasons.set(event, reason);
       return normal(binding.wrap(event));
     },
   );

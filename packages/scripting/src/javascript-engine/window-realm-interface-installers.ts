@@ -101,6 +101,23 @@ export function installWindowMembers(binding: WindowRealmBindingContext): void {
             argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
           ),
   );
+  for (const type of ["unhandledrejection", "rejectionhandled"] as const) {
+    binding.context.attribute(
+      binding.globalObject,
+      `on${type}`,
+      (thisValue) =>
+        binding.receiver(thisValue) === null
+          ? binding.context.typeError(`Invalid Window receiver for on${type}`)
+          : normal(binding.promiseRejectionHandler(type)),
+      (thisValue, argumentsList) =>
+        binding.receiver(thisValue) === null
+          ? binding.context.typeError(`Invalid Window receiver for on${type}`)
+          : binding.setPromiseRejectionHandler(
+              type,
+              argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+            ),
+    );
+  }
   binding.operation("reportError", 1, (_thisValue, argumentsList) => {
     const value = argumentsList[0];
     if (value === undefined) {

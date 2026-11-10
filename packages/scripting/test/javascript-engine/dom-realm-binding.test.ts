@@ -251,6 +251,45 @@ describe("DOMRealmBinding", () => {
     expect(document.body?.getAttribute("data-after-listener")).toBe("yes");
   });
 
+  it("constructs PromiseRejectionEvent with Promise and reason identity", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const promise = Promise.resolve("value");
+        const reason = {};
+        const event = new PromiseRejectionEvent("unhandledrejection", {
+          cancelable: true,
+          promise,
+          reason,
+        });
+        if (
+          !(event instanceof PromiseRejectionEvent) ||
+          !(event instanceof Event) ||
+          event.type !== "unhandledrejection" ||
+          event.cancelable !== true ||
+          event.promise !== promise ||
+          event.reason !== reason
+        ) {
+          throw new Error("PromiseRejectionEvent identity changed");
+        }
+        for (const init of [undefined, {}, { promise: {} }]) {
+          let caught;
+          try {
+            new PromiseRejectionEvent("invalid", init);
+          } catch (error) {
+            caught = error;
+          }
+          if (!(caught instanceof TypeError)) {
+            throw new Error("invalid PromiseRejectionEvent init was accepted");
+          }
+        }
+      `,
+    );
+  });
+
   it("supports EventListener objects and reads handleEvent when invoked", () => {
     const reported: EngineValue[] = [];
     const { engine, realm } = createTestRealm("", (value) => {

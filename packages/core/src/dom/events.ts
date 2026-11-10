@@ -32,6 +32,14 @@ export interface ErrorEventInit<T = unknown> extends EventInit {
   readonly error?: T;
 }
 
+export interface PromiseRejectionEventInit<
+  TPromise = unknown,
+  TReason = unknown,
+> extends EventInit {
+  readonly promise: TPromise;
+  readonly reason?: TReason;
+}
+
 export class Event {
   static readonly NONE = 0;
   static readonly CAPTURING_PHASE = 1;
@@ -195,6 +203,23 @@ export class ErrorEvent<T = unknown> extends Event {
     this.lineno = toUnsignedLong(eventInit.lineno ?? 0);
     this.colno = toUnsignedLong(eventInit.colno ?? 0);
     this.error = eventInit.error as T;
+  }
+}
+
+export class PromiseRejectionEvent<
+  TPromise = unknown,
+  TReason = unknown,
+> extends Event {
+  readonly promise: TPromise;
+  readonly reason: TReason;
+
+  constructor(
+    type: string,
+    eventInit: PromiseRejectionEventInit<TPromise, TReason>,
+  ) {
+    super(type, eventInit);
+    this.promise = eventInit.promise;
+    this.reason = eventInit.reason as TReason;
   }
 }
 

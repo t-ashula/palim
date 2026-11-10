@@ -1,5 +1,9 @@
 import { reportWindowError, Window } from "@palim/window/internal/window.js";
-import { ErrorEvent, type Event } from "@palim/core/internal/dom/events.js";
+import {
+  ErrorEvent,
+  PromiseRejectionEvent,
+  type Event,
+} from "@palim/core/internal/dom/events.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
@@ -41,6 +45,10 @@ export class WindowRealmBindingContext {
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
   #windowErrorHandler: EngineCallable | null = null;
+  readonly #promiseRejectionHandlers = new Map<
+    "rejectionhandled" | "unhandledrejection",
+    EngineCallable
+  >();
   #reportingException = false;
 
   constructor(
@@ -105,7 +113,11 @@ export class WindowRealmBindingContext {
     this.dom.associatePlatformObject(this.window, this.globalObject);
     this.dom.bindPlatformObject(this.window, this.globalThis);
     this.dom.setEventHandler(this.window, (event) => {
-      this.invokeWindowErrorHandler(event);
+      if (event instanceof ErrorEvent) {
+        this.invokeWindowErrorHandler(event);
+      } else if (event instanceof PromiseRejectionEvent) {
+        this.invokePromiseRejectionHandler(event);
+      }
     });
   }
 
@@ -183,6 +195,57 @@ export class WindowRealmBindingContext {
     return this.context.undefined();
   }
 
+  promiseRejectionHandler(
+    type: "rejectionhandled" | "unhandledrejection",
+  ): EngineValue {
+    return (
+      this.#promiseRejectionHandlers.get(type) ??
+      this.engine.fromPrimitive(null)
+    );
+  }
+
+  setPromiseRejectionHandler(
+    type: "rejectionhandled" | "unhandledrejection",
+    value: EngineValue,
+  ): EngineResult<EngineValue> {
+    if (this.engine.asObject(value) === null) {
+      this.#promiseRejectionHandlers.delete(type);
+      return this.context.undefined();
+    }
+    const callable = this.engine.asCallable(value);
+    if (callable === null) {
+      return this.context.typeError(
+        `Window.on${type} must be callable or null`,
+      );
+    }
+    this.#promiseRejectionHandlers.set(type, callable);
+    return this.context.undefined();
+  }
+
+  dispatchPromiseRejectionEvent(
+    type: "rejectionhandled" | "unhandledrejection",
+    promise: EngineObject,
+    reason: EngineValue,
+  ): boolean {
+    const event = new PromiseRejectionEvent(type, {
+      cancelable: type === "unhandledrejection",
+      promise: undefined,
+      reason: undefined,
+    });
+    this.dom.setPromiseRejectionEventValues(event, promise, reason);
+    return this.dom.dispatchEvent(this.window, event);
+  }
+
+  reportUnhandledRejection(reason: EngineValue): void {
+    const information = extractWindowErrorInformation(
+      this.engine,
+      this.realm,
+      reason,
+      this.window.document.URL,
+    );
+    reportWindowError(this.window, windowErrorReport(information));
+  }
+
   private invokeWindowErrorHandler(event: Event): void {
     const handler = this.#windowErrorHandler;
     if (handler === null) {
@@ -206,6 +269,27 @@ export class WindowRealmBindingContext {
       return;
     }
     if (this.engine.toBoolean(result.value) === (errorEvent !== null)) {
+      event.preventDefault();
+    }
+  }
+
+  private invokePromiseRejectionHandler(event: PromiseRejectionEvent): void {
+    const type =
+      event.type === "unhandledrejection"
+        ? "unhandledrejection"
+        : "rejectionhandled";
+    const handler = this.#promiseRejectionHandlers.get(type);
+    if (handler === undefined) {
+      return;
+    }
+    const result = this.context.call(handler, this.globalThis, [
+      this.dom.platformObject(event),
+    ]);
+    if (result.type === "throw") {
+      this.reportException(result.value);
+      return;
+    }
+    if (this.engine.asBoolean(result.value) === false) {
       event.preventDefault();
     }
   }

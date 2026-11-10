@@ -2,12 +2,14 @@ import { documentImplementation } from "@palim/core/internal/dom/node-implementa
 import type { Document } from "@palim/core/internal/dom/nodes.js";
 import type { Origin } from "@palim/core/internal/origin.js";
 import {
+  scheduleWindowTimeout,
   setWindowMicrotaskScheduler,
   type Window,
 } from "@palim/window/internal/window.js";
 import { URL } from "@palim/core/internal/url/index.js";
-import { thrown } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type {
+  EngineObject,
   EngineResult,
   EngineScript,
   EngineValue,
@@ -79,6 +81,18 @@ export class WindowEnvironmentSettings {
     this.binding.reportException(value);
   }
 
+  dispatchPromiseRejectionEvent(
+    type: "rejectionhandled" | "unhandledrejection",
+    promise: EngineObject,
+    reason: EngineValue,
+  ): boolean {
+    return this.binding.dispatchPromiseRejectionEvent(type, promise, reason);
+  }
+
+  reportUnhandledRejection(reason: EngineValue): void {
+    this.binding.reportUnhandledRejection(reason);
+  }
+
   hasActiveDocument(): boolean {
     return this.window.document === this.#document;
   }
@@ -87,6 +101,8 @@ export class WindowEnvironmentSettings {
 export class WindowScriptEventLoop {
   readonly runtime: RealmExecutionRuntime;
   #performingCheckpoint = false;
+  readonly #rejections = new WeakMap<EngineObject, PromiseRejectionRecord>();
+  readonly #pendingRejections = new Set<PromiseRejectionRecord>();
 
   constructor(readonly engine: JavaScriptEngineAdapter) {
     this.runtime = new RealmExecutionRuntime(this.engine, () => {
@@ -96,8 +112,41 @@ export class WindowScriptEventLoop {
       this.#performingCheckpoint = true;
       try {
         this.runtime.performMicrotaskCheckpoint();
+        this.#notifyRejectedPromises();
       } finally {
         this.#performingCheckpoint = false;
+      }
+    });
+    this.engine.addPromiseRejectionTracker((promise, reason, operation) => {
+      const settings = this.currentSettings;
+      if (settings === null) {
+        return;
+      }
+      if (operation === "reject") {
+        const record: PromiseRejectionRecord = {
+          promise,
+          reason,
+          settings,
+          state: "pending",
+        };
+        this.#rejections.set(promise, record);
+        this.#pendingRejections.add(record);
+        return;
+      }
+      const record = this.#rejections.get(promise);
+      if (record === undefined) {
+        return;
+      }
+      this.#pendingRejections.delete(record);
+      this.#rejections.delete(promise);
+      if (record.state === "notifying" || record.state === "notified") {
+        this.#queueTask(record.settings, () => {
+          record.settings.dispatchPromiseRejectionEvent(
+            "rejectionhandled",
+            record.promise,
+            record.reason,
+          );
+        });
       }
     });
   }
@@ -133,6 +182,57 @@ export class WindowScriptEventLoop {
     }
     this.runtime.enqueueMicrotask(settings, callback);
   }
+
+  #notifyRejectedPromises(): void {
+    const records = Array.from(this.#pendingRejections);
+    this.#pendingRejections.clear();
+    for (const record of records) {
+      if (this.#rejections.get(record.promise) !== record) {
+        continue;
+      }
+      record.state = "queued";
+      this.#queueTask(record.settings, () => {
+        if (
+          this.#rejections.get(record.promise) !== record ||
+          record.state !== "queued"
+        ) {
+          return;
+        }
+        record.state = "notifying";
+        record.settings.dispatchPromiseRejectionEvent(
+          "unhandledrejection",
+          record.promise,
+          record.reason,
+        );
+        if (this.#rejections.get(record.promise) === record) {
+          record.state = "notified";
+        }
+        record.settings.reportUnhandledRejection(record.reason);
+      });
+    }
+  }
+
+  #queueTask(settings: WindowEnvironmentSettings, callback: () => void): void {
+    scheduleWindowTimeout(
+      settings.window,
+      () => {
+        this.runtime.run(settings, settings, () => {
+          callback();
+          return normal(this.engine.fromPrimitive(undefined));
+        });
+      },
+      0,
+    );
+  }
+}
+
+type PromiseRejectionState = "pending" | "queued" | "notifying" | "notified";
+
+interface PromiseRejectionRecord {
+  readonly promise: EngineObject;
+  readonly reason: EngineValue;
+  readonly settings: WindowEnvironmentSettings;
+  state: PromiseRejectionState;
 }
 
 export class WindowClassicScriptRuntime {

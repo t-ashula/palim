@@ -1,5 +1,6 @@
 import type { Window } from "@palim/window/internal/window.js";
 import type {
+  EngineObject,
   EngineRealm,
   EngineValue,
   JavaScriptEngineAdapter,
@@ -54,5 +55,17 @@ export class WindowRealmBinding {
     mutedErrors?: boolean,
   ): void {
     this.#binding.reportException(value, filename, mutedErrors);
+  }
+
+  dispatchPromiseRejectionEvent(
+    type: "rejectionhandled" | "unhandledrejection",
+    promise: EngineObject,
+    reason: EngineValue,
+  ): boolean {
+    return this.#binding.dispatchPromiseRejectionEvent(type, promise, reason);
+  }
+
+  reportUnhandledRejection(reason: EngineValue): void {
+    this.#binding.reportUnhandledRejection(reason);
   }
 }

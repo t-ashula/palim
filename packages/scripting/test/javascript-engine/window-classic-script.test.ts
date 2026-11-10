@@ -589,6 +589,174 @@ describe("Window classic script execution", () => {
     ).toBe("complete");
   });
 
+  it("does not notify rejections handled in the same checkpoint", async () => {
+    const environment = new WindowExecutionEnvironment();
+    const reports: string[] = [];
+    environment.window.onerror((report) => {
+      reports.push(report.message);
+    });
+    const script = environment.createClassicScript(`
+      addEventListener("unhandledrejection", () => {
+        document.body.setAttribute("data-unhandled", "unexpected");
+      });
+      Promise.reject("handled synchronously").catch(() => undefined);
+      const handledByMicrotask = Promise.reject("handled by microtask");
+      queueMicrotask(() => handledByMicrotask.catch(() => undefined));
+    `);
+
+    expect(environment.runClassicScript(script).type).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(
+      environment.window.document.body?.getAttribute("data-unhandled"),
+    ).toBeNull();
+    expect(reports).toEqual([]);
+  });
+
+  it("dispatches cancelable unhandledrejection before host reporting", async () => {
+    const environment = new WindowExecutionEnvironment();
+    const reports: string[] = [];
+    environment.window.onerror((report) => {
+      reports.push(report.message);
+    });
+    const script = environment.createClassicScript(`
+      globalThis.rejectionReason = {};
+      globalThis.rejectedPromise = Promise.reject(rejectionReason);
+      onunhandledrejection = (event) => {
+        if (
+          event.promise !== rejectedPromise ||
+          event.reason !== rejectionReason ||
+          event.cancelable !== true
+        ) {
+          throw new Error("unhandledrejection identity changed");
+        }
+        document.body.setAttribute("data-unhandled", "canceled");
+        return false;
+      };
+    `);
+
+    expect(environment.runClassicScript(script).type).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(
+      environment.window.document.body?.getAttribute("data-unhandled"),
+    ).toBe("canceled");
+    expect(reports).toHaveLength(1);
+  });
+
+  it("dispatches rejectionhandled after notification", async () => {
+    const environment = new WindowExecutionEnvironment();
+    const script = environment.createClassicScript(`
+      globalThis.rejectionReason = {};
+      globalThis.rejectedPromise = Promise.reject(rejectionReason);
+      addEventListener("unhandledrejection", (event) => {
+        if (
+          event.promise !== rejectedPromise ||
+          event.reason !== rejectionReason
+        ) {
+          throw new Error("unhandled rejection identity changed");
+        }
+        document.body.setAttribute("data-unhandled", "notified");
+        rejectedPromise.catch(() => undefined);
+      });
+      addEventListener("rejectionhandled", (event) => {
+        if (
+          event.promise !== rejectedPromise ||
+          event.reason !== rejectionReason ||
+          event.cancelable !== false
+        ) {
+          throw new Error("handled rejection identity changed");
+        }
+        document.body.setAttribute("data-handled", "notified");
+      });
+    `);
+
+    expect(environment.runClassicScript(script).type).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    expect(
+      environment.window.document.body?.getAttribute("data-unhandled"),
+    ).toBe("notified");
+    expect(environment.window.document.body?.getAttribute("data-handled")).toBe(
+      "notified",
+    );
+  });
+
+  it("reports handler failures and continues rejection listeners", async () => {
+    const environment = new WindowExecutionEnvironment();
+    const reports: string[] = [];
+    environment.window.onerror((report) => {
+      reports.push(report.message);
+    });
+    const script = environment.createClassicScript(`
+      onunhandledrejection = () => {
+        throw new Error("rejection handler failure");
+      };
+      addEventListener("unhandledrejection", () => {
+        document.body.setAttribute("data-after-handler", "continued");
+      });
+      Promise.reject("original rejection");
+    `);
+
+    expect(environment.runClassicScript(script).type).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(
+      environment.window.document.body?.getAttribute("data-after-handler"),
+    ).toBe("continued");
+    expect(reports).toContain("Error: rejection handler failure");
+    expect(reports).toContain("original rejection");
+  });
+
+  it("preserves a rejection reason from another realm", async () => {
+    const engine = new TrackingEngine262Adapter();
+    const first = new WindowScriptEnvironment(engine, createWindow());
+    const second = new WindowScriptEnvironment(
+      engine,
+      createWindow(),
+      first.eventLoop,
+    );
+    expect(
+      first.runClassicScript(
+        first.createClassicScript("globalThis.foreignReason = {}"),
+      ).type,
+    ).toBe("normal");
+    const reason = engine.get(
+      first.settings.realm,
+      engine.globalObject(first.settings.realm),
+      "foreignReason",
+    );
+    expect(reason.type).toBe("normal");
+    if (reason.type === "throw") {
+      return;
+    }
+    engine.initializeDataProperty(
+      engine.globalObject(second.settings.realm),
+      "foreignReason",
+      reason.value,
+      { configurable: true, enumerable: true, writable: true },
+    );
+    const script = second.createClassicScript(`
+      globalThis.rejectedPromise = Promise.reject(foreignReason);
+      addEventListener("unhandledrejection", (event) => {
+        if (
+          event.reason !== foreignReason ||
+          event.promise !== rejectedPromise
+        ) {
+          throw new Error("cross-realm rejection identity changed");
+        }
+        document.body.setAttribute("data-cross-realm", "preserved");
+      });
+    `);
+
+    expect(second.runClassicScript(script).type).toBe("normal");
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
+    expect(second.window.document.body?.getAttribute("data-cross-realm")).toBe(
+      "preserved",
+    );
+  });
+
   it("does not share state between Window execution environments", () => {
     const first = new WindowExecutionEnvironment();
     const second = new WindowExecutionEnvironment();
