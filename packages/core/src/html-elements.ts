@@ -5109,10 +5109,10 @@ export function createElementForDocument(
   prefix: string | null,
 ): Element {
   if (namespaceURI === HTML_NAMESPACE) {
-    return (
-      createDefinedCustomElement(document, localName, prefix) ??
-      createHTMLElement(document, localName, prefix)
-    );
+    const defined = createDefinedCustomElement(document, localName, prefix);
+    return defined?.type === "success"
+      ? defined.value
+      : createHTMLElement(document, localName, prefix);
   }
   return createElementInterface(document, localName, namespaceURI, prefix);
 }

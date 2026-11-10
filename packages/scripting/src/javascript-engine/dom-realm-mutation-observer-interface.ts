@@ -25,13 +25,10 @@ export function installMutationObserverMembers(
       if (options.type === "throw") {
         return options;
       }
-      try {
-        observer.observe(target, options.value);
-      } catch (error: unknown) {
-        return binding.typeError(
-          error instanceof Error ? error.message : "Invalid observer options",
-        );
+      if (options.value.childList !== true) {
+        return binding.typeError("The childList option must be true");
       }
+      observer.observe(target, options.value);
       return binding.undefined();
     },
   );

@@ -239,24 +239,20 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       if (callback === null) {
         return binding.typeError("MutationObserver callback must be callable");
       }
+      const callbackRecord = binding.reportingCallback(callback);
+      if (callbackRecord.type === "throw") {
+        return callbackRecord;
+      }
       const observer = new MutationObserver((records, currentObserver) => {
         const platformObserver = binding.wrap(currentObserver);
-        const result = binding.engine.call(
-          binding.realm,
-          callback,
+        binding.context.invokeCallback(callbackRecord.value, platformObserver, [
+          binding.engine.createArray(
+            binding.realm,
+            records.map((record) => binding.wrap(record)),
+          ),
           platformObserver,
-          [
-            binding.engine.createArray(
-              binding.realm,
-              records.map((record) => binding.wrap(record)),
-            ),
-            platformObserver,
-          ],
-        );
+        ]);
         binding.engine.performPromiseCheckpoint();
-        if (result.type === "throw") {
-          binding.reportException(result.value);
-        }
       });
       return normal(binding.wrap(observer));
     },

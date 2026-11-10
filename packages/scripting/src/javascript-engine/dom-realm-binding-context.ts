@@ -32,6 +32,10 @@ import type {
   Sanitizer,
 } from "@palim/core/internal/dom.js";
 import { dispatchEvent as dispatchDOMEvent } from "@palim/core/internal/dom/events.js";
+import {
+  callbackFailure,
+  callbackSuccess,
+} from "@palim/core/internal/callback-result.js";
 import type { Range, StaticRange } from "@palim/core/internal/dom/range.js";
 import {
   isRange,
@@ -115,6 +119,7 @@ import {
   type DOMLegacyPlatformObjectConfiguration,
 } from "./dom-realm-legacy-platform-object.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
+import type { CallbackRecord } from "./realm-execution-runtime.js";
 import {
   htmlElementInterfaceConstructors,
   type HTMLElementInterfaceConstructor,
@@ -203,7 +208,7 @@ export class DOMRealmBindingContext {
   readonly errorEventErrors = new WeakMap<ErrorEvent, EngineValue>();
   readonly listeners = new WeakMap<
     EventTarget,
-    Map<EngineCallable, (event: Event) => void>
+    Map<EngineObject, (event: Event) => void>
   >();
   readonly eventHandlers = new WeakMap<EventTarget, (event: Event) => void>();
   readonly eventTargetPrototype: EngineObject;
@@ -536,6 +541,13 @@ export class DOMRealmBindingContext {
     if (prototype === null) {
       return this.typeError("Custom element constructor has no prototype");
     }
+    const constructorRecord = this.context.runtime.createCallbackRecord(
+      this.realm,
+      constructor,
+    );
+    if (constructorRecord.type === "throw") {
+      return constructorRecord;
+    }
     const callback = (
       callbackName:
         "connectedCallback" | "disconnectedCallback" | "connectedMoveCallback",
@@ -556,16 +568,12 @@ export class DOMRealmBindingContext {
           ),
         );
       }
+      const record = this.reportingCallback(callable);
+      if (record.type === "throw") {
+        return record;
+      }
       return normal((element) => {
-        const result = this.engine.call(
-          this.realm,
-          callable,
-          this.wrap(element),
-          [],
-        );
-        if (result.type === "throw") {
-          this.reportException(result.value);
-        }
+        this.context.invokeCallback(record.value, this.wrap(element), []);
       });
     };
     const connectedCallback = callback("connectedCallback");
@@ -596,7 +604,7 @@ export class DOMRealmBindingContext {
           );
           if (prototypeResult.type === "throw") {
             this.reportException(prototypeResult.value);
-            return element;
+            return callbackFailure();
           }
           if (!prototypeResult.value) {
             this.reportException(
@@ -605,14 +613,17 @@ export class DOMRealmBindingContext {
                 "Custom element prototype was rejected",
               ),
             );
-            return element;
+            return callbackFailure();
           }
           this.customElementConstructionStack.push(element);
           try {
-            const result = this.engine.construct(this.realm, constructor, []);
+            const result = this.context.runtime.invokeConstructor(
+              constructorRecord.value,
+              [],
+            );
             if (result.type === "throw") {
               this.reportException(result.value);
-              return element;
+              return callbackFailure();
             }
             if (this.interfaceObject(result.value) !== element) {
               this.reportException(
@@ -621,9 +632,9 @@ export class DOMRealmBindingContext {
                   "Custom element constructor returned a different object",
                 ),
               );
-              return element;
+              return callbackFailure();
             }
-            return element;
+            return callbackSuccess(element);
           } finally {
             this.customElementConstructionStack.pop();
           }
@@ -633,9 +644,10 @@ export class DOMRealmBindingContext {
         connectedMoveCallback: connectedMoveCallback.value,
       });
     } catch (error: unknown) {
-      return this.typeError(
-        error instanceof Error ? error.message : "Invalid custom element",
-      );
+      if (error instanceof HostDOMException) {
+        return thrown(this.createDOMException(error.message, error.name));
+      }
+      throw error;
     }
     return this.undefined();
   }
@@ -2223,31 +2235,72 @@ export class DOMRealmBindingContext {
 
   eventListener(
     target: EventTarget,
-    callback: EngineCallable,
-  ): (event: Event) => void {
+    callbackObject: EngineObject,
+  ): EngineResult<(event: Event) => void> {
     let listeners = this.listeners.get(target);
     if (listeners === undefined) {
       listeners = new Map();
       this.listeners.set(target, listeners);
     }
-    const existing = listeners.get(callback);
+    const existing = listeners.get(callbackObject);
     if (existing !== undefined) {
-      return existing;
+      return normal(existing);
+    }
+    const callback = this.engine.asCallable(callbackObject);
+    const callbackRecord =
+      callback === null ? null : this.reportingCallback(callback);
+    if (callbackRecord?.type === "throw") {
+      return callbackRecord;
     }
     const listener = (event: Event): void => {
       const currentTarget = event.currentTarget ?? target;
-      const result = this.engine.call(
-        this.realm,
-        callback,
-        this.wrap(currentTarget),
-        [this.wrap(event)],
-      );
-      if (result.type === "throw") {
-        this.reportException(result.value);
+      if (callbackRecord !== null) {
+        this.context.invokeCallback(
+          callbackRecord.value,
+          this.wrap(currentTarget),
+          [this.wrap(event)],
+        );
+        return;
       }
+      const operation = this.engine.get(
+        this.realm,
+        callbackObject,
+        "handleEvent",
+      );
+      if (operation.type === "throw") {
+        this.reportException(operation.value);
+        return;
+      }
+      const callable = this.engine.asCallable(operation.value);
+      if (callable === null) {
+        this.reportException(
+          this.engine.createTypeError(
+            this.realm,
+            "EventListener.handleEvent is not callable",
+          ),
+        );
+        return;
+      }
+      const operationRecord = this.reportingCallback(callable);
+      if (operationRecord.type === "throw") {
+        this.reportException(operationRecord.value);
+        return;
+      }
+      this.context.invokeCallback(operationRecord.value, callbackObject, [
+        this.wrap(event),
+      ]);
     };
-    listeners.set(callback, listener);
-    return listener;
+    listeners.set(callbackObject, listener);
+    return normal(listener);
+  }
+
+  reportingCallback(callback: EngineCallable): EngineResult<CallbackRecord> {
+    return this.context.runtime.createCallbackRecord(this.realm, callback, {
+      exceptionBehavior: "report",
+      reportException: (value) => {
+        this.reportException(value);
+      },
+    });
   }
 
   setEventHandler(target: EventTarget, handler: (event: Event) => void): void {

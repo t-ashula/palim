@@ -284,13 +284,7 @@ function streamOperation(
     callback();
     return promise(binding, "resolve", binding.engine.fromPrimitive(undefined));
   } catch (error: unknown) {
-    const value =
-      error instanceof HostDOMException
-        ? binding.createDOMException(error.message, error.name)
-        : binding.engine.createTypeError(
-            binding.realm,
-            error instanceof Error ? error.message : String(error),
-          );
+    const value = streamErrorValue(binding, error);
     realmErrors.set(state, value);
     return promise(binding, "reject", value);
   }
@@ -305,15 +299,22 @@ function errorValue(
     return existing;
   }
   const error = state.error;
-  const value =
-    error instanceof HostDOMException
-      ? binding.createDOMException(error.message, error.name)
-      : binding.engine.createTypeError(
-          binding.realm,
-          error instanceof Error ? error.message : String(error),
-        );
+  const value = streamErrorValue(binding, error);
   realmErrors.set(state, value);
   return value;
+}
+
+function streamErrorValue(
+  binding: DOMRealmBindingContext,
+  error: unknown,
+): EngineValue {
+  if (error instanceof HostDOMException) {
+    return binding.createDOMException(error.message, error.name);
+  }
+  if (error instanceof TypeError) {
+    return binding.engine.createTypeError(binding.realm, error.message);
+  }
+  throw error;
 }
 
 function rejectedTypeError(

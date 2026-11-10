@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { DOMParser } from "@palim/core";
+import { Event } from "@palim/core/internal/dom/events.js";
 import type { Document } from "@palim/core/internal/public-dom-interfaces.js";
 import * as HTML from "@palim/core/internal/html-elements.js";
 import type {
@@ -119,6 +120,10 @@ describe("DOMRealmBinding", () => {
             super();
             this.setAttribute("constructed", "yes");
           }
+
+          connectedCallback() {
+            this.setAttribute("connected-in-first-realm", "yes");
+          }
         });
       `,
     );
@@ -134,6 +139,11 @@ describe("DOMRealmBinding", () => {
 
     expect(
       document.querySelector("x-shared")?.getAttribute("constructed"),
+    ).toBe("yes");
+    expect(
+      document
+        .querySelector("x-shared")
+        ?.getAttribute("connected-in-first-realm"),
     ).toBe("yes");
   });
 
@@ -163,6 +173,44 @@ describe("DOMRealmBinding", () => {
         }
         if (caught !== failure) {
           throw new Error("custom element callback exception identity changed");
+        }
+      `,
+    );
+  });
+
+  it("converts custom element registry failures to realm DOMExceptions", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        class RegisteredElement extends HTMLElement {}
+        let invalidNameError;
+        try {
+          customElements.define("invalid", RegisteredElement);
+        } catch (error) {
+          invalidNameError = error;
+        }
+        if (
+          !(invalidNameError instanceof DOMException) ||
+          invalidNameError.name !== "SyntaxError"
+        ) {
+          throw new Error("invalid custom element name was not a SyntaxError");
+        }
+
+        customElements.define("x-registered", RegisteredElement);
+        let duplicateNameError;
+        try {
+          customElements.define("x-registered", RegisteredElement);
+        } catch (error) {
+          duplicateNameError = error;
+        }
+        if (
+          !(duplicateNameError instanceof DOMException) ||
+          duplicateNameError.name !== "NotSupportedError"
+        ) {
+          throw new Error("duplicate custom element name was not supported");
         }
       `,
     );
@@ -203,6 +251,167 @@ describe("DOMRealmBinding", () => {
     expect(document.body?.getAttribute("data-after-listener")).toBe("yes");
   });
 
+  it("supports EventListener objects and reads handleEvent when invoked", () => {
+    const reported: EngineValue[] = [];
+    const { engine, realm } = createTestRealm("", (value) => {
+      reported.push(value);
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.handleEventFailure = {};
+        let getterCalls = 0;
+        let objectCalls = 0;
+        let laterCalls = 0;
+        const listener = {
+          get handleEvent() {
+            getterCalls += 1;
+            if (getterCalls === 1) throw handleEventFailure;
+            return function (event) {
+              if (this !== listener || event.type !== "object-listener") {
+                throw new Error("EventListener object invocation is invalid");
+              }
+              objectCalls += 1;
+            };
+          },
+        };
+        testDocument.addEventListener("object-listener", listener);
+        testDocument.addEventListener("object-listener", listener);
+        testDocument.addEventListener("object-listener", () => {
+          laterCalls += 1;
+        });
+        testDocument.dispatchEvent(new Event("object-listener"));
+        testDocument.dispatchEvent(new Event("object-listener"));
+        testDocument.removeEventListener("object-listener", listener);
+        testDocument.dispatchEvent(new Event("object-listener"));
+        if (
+          getterCalls !== 2 ||
+          objectCalls !== 1 ||
+          laterCalls !== 3
+        ) {
+          throw new Error("EventListener object identity is invalid");
+        }
+      `,
+    );
+    const failure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "handleEventFailure",
+    );
+
+    expect(failure.type).toBe("normal");
+    expect(reported).toHaveLength(1);
+    if (failure.type === "normal") {
+      expect(reported[0]).toBe(failure.value);
+    }
+  });
+
+  it("reports page listener exceptions during host dispatch", () => {
+    const reported: EngineValue[] = [];
+    const { document, engine, realm } = createTestRealm("", (value) => {
+      reported.push(value);
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.hostDispatchFailure = {};
+        testDocument.addEventListener("host-dispatch", () => {
+          throw hostDispatchFailure;
+        });
+        testDocument.addEventListener("host-dispatch", () => {
+          testDocument.body.setAttribute("data-host-dispatch", "continued");
+        });
+      `,
+    );
+    document.dispatchEvent(new Event("host-dispatch"));
+    const failure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "hostDispatchFailure",
+    );
+
+    expect(failure.type).toBe("normal");
+    expect(reported).toHaveLength(1);
+    if (failure.type === "normal") {
+      expect(reported[0]).toBe(failure.value);
+    }
+    expect(document.body?.getAttribute("data-host-dispatch")).toBe("continued");
+  });
+
+  it("separates custom element construction and reaction failures", () => {
+    const reported: EngineValue[] = [];
+    const { document, engine, realm } = createTestRealm("", (value) => {
+      reported.push(value);
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.constructorFailure = {};
+        globalThis.reactionFailure = {};
+        let failedElementReactions = 0;
+        class FailingElement extends HTMLElement {
+          constructor() {
+            super();
+            throw constructorFailure;
+          }
+
+          connectedCallback() {
+            failedElementReactions += 1;
+          }
+        }
+        customElements.define("x-construction-failure", FailingElement);
+        const failed = testDocument.createElement("x-construction-failure");
+        if (failed instanceof FailingElement) {
+          throw new Error("failed constructor retained its custom prototype");
+        }
+        testDocument.body.append(failed);
+        if (failedElementReactions !== 0) {
+          throw new Error("failed custom element ran a reaction");
+        }
+
+        class FailingReactionElement extends HTMLElement {
+          connectedCallback() {
+            throw reactionFailure;
+          }
+        }
+        customElements.define("x-reaction-failure", FailingReactionElement);
+        testDocument.body.append(
+          testDocument.createElement("x-reaction-failure"),
+        );
+        testDocument.body.setAttribute("data-after-reaction", "continued");
+      `,
+    );
+    const constructorFailure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "constructorFailure",
+    );
+    const reactionFailure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "reactionFailure",
+    );
+
+    expect(constructorFailure.type).toBe("normal");
+    expect(reactionFailure.type).toBe("normal");
+    expect(reported).toHaveLength(2);
+    if (constructorFailure.type === "normal") {
+      expect(reported[0]).toBe(constructorFailure.value);
+    }
+    if (reactionFailure.type === "normal") {
+      expect(reported[1]).toBe(reactionFailure.value);
+    }
+    expect(document.body?.getAttribute("data-after-reaction")).toBe(
+      "continued",
+    );
+  });
+
   it("connects slot assignment", () => {
     const { engine, realm } = createTestRealm("<div></div><p></p>");
 
@@ -221,6 +430,64 @@ describe("DOMRealmBinding", () => {
     `);
 
     evaluate(engine, realm, fixture("connects-mutation-observer.js"));
+  });
+
+  it("converts invalid MutationObserver options to a realm TypeError", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const observer = new MutationObserver(() => {});
+        let caught;
+        try {
+          observer.observe(testDocument.body, {});
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof TypeError)) {
+          throw new Error("invalid observer options were not a TypeError");
+        }
+      `,
+    );
+  });
+
+  it("reports MutationObserver exceptions and continues notification", async () => {
+    const reported: EngineValue[] = [];
+    const { document, engine, realm } = createTestRealm("", (value) => {
+      reported.push(value);
+    });
+
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.observerFailure = {};
+        const first = new MutationObserver(() => {
+          throw observerFailure;
+        });
+        const second = new MutationObserver(() => {
+          testDocument.body.setAttribute("data-observer", "continued");
+        });
+        first.observe(testDocument.body, { childList: true });
+        second.observe(testDocument.body, { childList: true });
+        testDocument.body.append(testDocument.createElement("p"));
+      `,
+    );
+    await Promise.resolve();
+    const failure = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "observerFailure",
+    );
+
+    expect(failure.type).toBe("normal");
+    expect(reported).toHaveLength(1);
+    if (failure.type === "normal") {
+      expect(reported[0]).toBe(failure.value);
+    }
+    expect(document.body?.getAttribute("data-observer")).toBe("continued");
   });
 
   it("updates a button form owner after an atomic move", () => {

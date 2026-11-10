@@ -1,6 +1,7 @@
 import { normal } from "./adapter.js";
 import type {
   EngineCallable,
+  EngineObject,
   EngineRealm,
   EngineResult,
   EngineValue,
@@ -135,6 +136,29 @@ export class RealmExecutionRuntime {
     }
     callback.reportException?.(result.value);
     return normal(this.engine.fromPrimitive(undefined));
+  }
+
+  invokeConstructor(
+    callback: CallbackRecord,
+    argumentsList: readonly EngineValue[],
+  ): EngineResult<EngineObject> {
+    if (callback.exceptionBehavior !== "rethrow") {
+      throw new TypeError("Constructor callbacks must rethrow exceptions");
+    }
+    const invoke = (): EngineResult<EngineObject> =>
+      this.engine.construct(
+        callback.associatedRealm,
+        callback.callable,
+        argumentsList,
+      );
+    const relevantSettings = callback.relevantSettings;
+    return relevantSettings === null
+      ? invoke()
+      : this.run(
+          relevantSettings,
+          callback.incumbentSettings ?? relevantSettings,
+          invoke,
+        );
   }
 
   call(

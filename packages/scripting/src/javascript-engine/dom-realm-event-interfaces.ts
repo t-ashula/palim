@@ -30,9 +30,9 @@ export function installEventTargetMembers(
       ) {
         return binding.undefined();
       }
-      const callback = binding.engine.asCallable(callbackValue);
-      if (callback === null) {
-        return binding.typeError("The event listener is not callable");
+      const callbackObject = binding.engine.asObject(callbackValue);
+      if (callbackObject === null) {
+        return binding.typeError("The event listener is not an object");
       }
       const signal = options.value.signal;
       const listenerOptions =
@@ -48,11 +48,11 @@ export function installEventTargetMembers(
               passive: options.value.passive,
               signal,
             };
-      target.addEventListener(
-        type.value,
-        binding.eventListener(target, callback),
-        listenerOptions,
-      );
+      const listener = binding.eventListener(target, callbackObject);
+      if (listener.type === "throw") {
+        return listener;
+      }
+      target.addEventListener(type.value, listener.value, listenerOptions);
       return binding.undefined();
     },
   );
@@ -74,14 +74,18 @@ export function installEventTargetMembers(
         return type;
       }
       const callbackValue = argumentsList[1];
-      if (callbackValue === undefined) {
+      if (
+        callbackValue === undefined ||
+        binding.engine.isNull(callbackValue) ||
+        binding.engine.isUndefined(callbackValue)
+      ) {
         return binding.undefined();
       }
-      const callback = binding.engine.asCallable(callbackValue);
+      const callbackObject = binding.engine.asObject(callbackValue);
       const listener =
-        callback === null
+        callbackObject === null
           ? undefined
-          : binding.listeners.get(target)?.get(callback);
+          : binding.listeners.get(target)?.get(callbackObject);
       if (listener !== undefined) {
         const options = binding.eventListenerOptions(argumentsList[2], false);
         if (options.type === "throw") {

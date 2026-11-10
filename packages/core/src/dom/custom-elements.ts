@@ -1,3 +1,5 @@
+import type { CallbackResult } from "../callback-result.js";
+import { DOMException } from "../dom-exception.js";
 import type { Document, Element } from "./nodes.js";
 
 export interface CustomElementDefinition {
@@ -6,7 +8,7 @@ export interface CustomElementDefinition {
     document: Document,
     localName: string,
     prefix: string | null,
-  ) => Element;
+  ) => CallbackResult<Element>;
   readonly connectedCallback: ((element: Element) => void) | null;
   readonly disconnectedCallback: ((element: Element) => void) | null;
   readonly connectedMoveCallback: ((element: Element) => void) | null;
@@ -22,10 +24,16 @@ export class CustomElementRegistry {
 
   define(definition: CustomElementDefinition): void {
     if (!isValidCustomElementName(definition.name)) {
-      throw new SyntaxError("The custom element name is invalid");
+      throw new DOMException(
+        "The custom element name is invalid",
+        "SyntaxError",
+      );
     }
     if (this.#definitions.has(definition.name)) {
-      throw new Error("The custom element name is already defined");
+      throw new DOMException(
+        "The custom element name is already defined",
+        "NotSupportedError",
+      );
     }
     this.#definitions.set(definition.name, definition);
   }
@@ -57,14 +65,16 @@ export function createDefinedCustomElement(
   document: Document,
   localName: string,
   prefix: string | null,
-): Element | null {
+): CallbackResult<Element> | null {
   const definition = DOCUMENT_REGISTRIES.get(document)?.definition(localName);
   if (definition === null || definition === undefined) {
     return null;
   }
-  const element = definition.construct(document, localName, prefix);
-  CUSTOM_ELEMENT_DEFINITIONS.set(element, definition);
-  return element;
+  const result = definition.construct(document, localName, prefix);
+  if (result.type === "success") {
+    CUSTOM_ELEMENT_DEFINITIONS.set(result.value, definition);
+  }
+  return result;
 }
 
 export function enqueueCustomElementConnectedReaction(element: Element): void {
