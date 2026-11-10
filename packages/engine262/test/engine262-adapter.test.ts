@@ -169,7 +169,7 @@ describe("Engine262Adapter", () => {
     }
   });
 
-  it("leaves host function failures as host failures", () => {
+  it("returns host function failures to the page as Error values", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
     const hostFunction = engine.createFunction(realm, "hostFunction", 0, () => {
@@ -182,9 +182,40 @@ describe("Engine262Adapter", () => {
       { configurable: true, enumerable: true, writable: true },
     );
 
-    expect(() => engine.evaluate(realm, "hostFunction()")).toThrow(
-      "host function failed",
+    const compilation = engine.compileScript(
+      realm,
+      `
+        function pageCaller() {
+          hostFunction();
+        }
+        let caught;
+        try {
+          pageCaller();
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof Error) || caught instanceof TypeError) {
+          throw new Error("host failure did not become a page Error");
+        }
+        if (caught.message !== "host function failed") {
+          throw new Error("host failure message was not preserved");
+        }
+        const stack = String(caught.stack);
+        if (
+          !stack.includes("(native)") ||
+          !stack.includes("pageCaller (https://example.test/host-failure.js") ||
+          stack.includes("file://") ||
+          stack.includes("node:")
+        ) {
+          throw new Error("host failure did not use the page stack: " + stack);
+        }
+      `,
+      "https://example.test/host-failure.js",
     );
+    expect(compilation.type).toBe("normal");
+    if (compilation.type === "normal") {
+      expect(engine.runScript(realm, compilation.value).type).toBe("normal");
+    }
   });
 
   it("compiles and runs scripts as separate operations", () => {
@@ -260,6 +291,27 @@ describe("Engine262Adapter", () => {
     engine.removeJobEnqueueCallback(onEnqueue);
   });
 
+  it("returns generic job host failures as page Error values", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    engine.enqueueJob(realm, () => {
+      throw new Error("generic job host failure");
+    });
+
+    const job = engine.dequeueJob();
+    expect(job).not.toBeNull();
+    if (job === null) {
+      return;
+    }
+    const result = engine.runJob(job);
+    expect(result.type).toBe("throw");
+    if (result.type === "throw") {
+      expect(engine.exceptionMessage(realm, result.value)).toBe(
+        "Error: generic job host failure",
+      );
+    }
+  });
+
   it("runs consecutive async resumptions after host-created promises", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
@@ -323,7 +375,7 @@ describe("Engine262Adapter", () => {
     }
   });
 
-  it("restores the execution stack after a Promise job host failure", () => {
+  it("rejects a Promise with a page Error after a host function failure", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
     const hostFailure = engine.createFunction(realm, "hostFailure", 0, () => {
@@ -336,14 +388,40 @@ describe("Engine262Adapter", () => {
       { configurable: true, enumerable: true, writable: true },
     );
 
-    evaluate(engine, realm, "Promise.resolve().then(() => hostFailure())");
-    const job = engine.dequeueJob();
-    expect(job).not.toBeNull();
-    if (job === null) {
-      return;
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.hostFailureHandled = false;
+        Promise.resolve()
+          .then(() => hostFailure())
+          .catch((error) => {
+            if (!(error instanceof Error) || error instanceof TypeError) {
+              throw new Error("Promise used the wrong host failure value");
+            }
+            if (error.message !== "Promise job host failure") {
+              throw new Error("Promise lost the host failure message");
+            }
+            globalThis.hostFailureHandled = true;
+          });
+      `,
+    );
+    for (;;) {
+      const job = engine.dequeueJob();
+      if (job === null) {
+        break;
+      }
+      expect(engine.runJob(job).type).toBe("normal");
     }
-    expect(() => engine.runJob(job)).toThrow("Promise job host failure");
-    expect(engine.evaluate(realm, "1 + 1").type).toBe("normal");
+    const handled = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "hostFailureHandled",
+    );
+    expect(handled.type).toBe("normal");
+    if (handled.type === "normal") {
+      expect(engine.asBoolean(handled.value)).toBe(true);
+    }
   });
 
   it("reports Promise reject and handle with original values", () => {
@@ -489,7 +567,7 @@ describe("Engine262Adapter", () => {
     );
   });
 
-  it("leaves host proxy trap failures as host failures", () => {
+  it("returns host proxy trap failures to the page as Error values", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
     const target = engine.createObject(realm, engine.objectPrototype(realm));
@@ -509,8 +587,23 @@ describe("Engine262Adapter", () => {
       },
     );
 
-    expect(() => engine.evaluate(realm, "testProxy.value")).toThrow(
-      "proxy trap failed",
+    evaluate(
+      engine,
+      realm,
+      `
+        let caught;
+        try {
+          testProxy.value;
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof Error) || caught instanceof TypeError) {
+          throw new Error("proxy trap failure did not become a page Error");
+        }
+        if (caught.message !== "proxy trap failed") {
+          throw new Error("proxy trap failure message was not preserved");
+        }
+      `,
     );
   });
 

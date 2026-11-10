@@ -138,6 +138,46 @@ describe("Window classic script execution", () => {
     }
   });
 
+  it("returns a host DOM failure to the page script", () => {
+    const environment = new WindowScriptEnvironment(
+      new TrackingEngine262Adapter(),
+      createWindow(),
+    );
+    const reports: string[] = [];
+    environment.window.onerror((report) => {
+      reports.push(report.message);
+    });
+
+    const result = environment.runClassicScript(
+      environment.createClassicScript(`
+        let caught;
+        try {
+          const detachedDocument = new Document();
+          const container = detachedDocument.createElementNS(
+            "http://www.w3.org/1999/xhtml",
+            "div",
+          );
+          container.innerHTML = "<span></span>";
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof Error) || caught instanceof TypeError) {
+          throw new Error("DOM host failure used the wrong page error");
+        }
+        if (caught.message !== "Document has no fragment parser") {
+          throw new Error("DOM host failure message was not preserved");
+        }
+        const stack = String(caught.stack);
+        if (stack.includes("file://") || !stack.includes("(native)")) {
+          throw new Error("DOM host failure used the host stack: " + stack);
+        }
+      `),
+    );
+
+    expect(result.type).toBe("normal");
+    expect(reports).toEqual([]);
+  });
+
   it("sets and restores current settings for normal and abrupt completion", () => {
     const engine = new TrackingEngine262Adapter();
     const environment = new WindowScriptEnvironment(engine, createWindow());
@@ -305,7 +345,7 @@ describe("Window classic script execution", () => {
     expect(second.runtime.incumbentSettings).toBeNull();
   });
 
-  it("restores settings after a callback host failure", () => {
+  it("returns a callback host failure to the page and restores settings", () => {
     const engine = new TrackingEngine262Adapter();
     const first = new WindowScriptEnvironment(engine, createWindow());
     const second = new WindowScriptEnvironment(
@@ -327,13 +367,22 @@ describe("Window classic script execution", () => {
       callback,
       { configurable: true, enumerable: true, writable: true },
     );
-    const script = second.createClassicScript(
-      'new URLSearchParams("value=1").forEach(hostFailureCallback)',
-    );
+    const script = second.createClassicScript(`
+      let caught;
+      try {
+        new URLSearchParams("value=1").forEach(hostFailureCallback);
+      } catch (error) {
+        caught = error;
+      }
+      if (caught?.name !== "Error") {
+        throw new Error("callback host failure used the wrong page error");
+      }
+      if (caught.message !== "host callback failed") {
+        throw new Error("callback host failure message was not preserved");
+      }
+    `);
 
-    expect(() => second.runClassicScript(script)).toThrow(
-      "host callback failed",
-    );
+    expect(second.runClassicScript(script).type).toBe("normal");
     expect(second.runtime.currentSettings).toBeNull();
     expect(second.runtime.entrySettings).toBeNull();
     expect(second.runtime.incumbentSettings).toBeNull();
@@ -627,7 +676,7 @@ describe("Window classic script execution", () => {
     ]);
   });
 
-  it("restores job settings after a host failure", () => {
+  it("reports a job host failure and restores settings", () => {
     const engine = new TrackingEngine262Adapter();
     const environment = new WindowScriptEnvironment(engine, createWindow());
     const hostFailure = engine.createFunction(
@@ -644,12 +693,17 @@ describe("Window classic script execution", () => {
       hostFailure,
       { configurable: true, enumerable: true, writable: true },
     );
+    const reports: string[] = [];
+    environment.window.onerror((report) => {
+      reports.push(report.message);
+    });
 
-    expect(() =>
+    expect(
       environment.runClassicScript(
         environment.createClassicScript("queueMicrotask(hostFailure)"),
-      ),
-    ).toThrow("job host failure");
+      ).type,
+    ).toBe("normal");
+    expect(reports).toEqual(["Error: job host failure"]);
     expect(environment.runtime.currentSettings).toBeNull();
     expect(environment.runtime.entrySettings).toBeNull();
     expect(environment.runtime.incumbentSettings).toBeNull();

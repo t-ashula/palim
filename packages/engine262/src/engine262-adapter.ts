@@ -734,11 +734,17 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   enqueueJob(realm: EngineRealm, callback: () => void): EngineJob {
     this.#activate();
     const realmHandle = this.#realm(realm);
+    const pageErrorCompletion = (error: unknown): ThrowCompletion =>
+      this.#pageErrorCompletion(realmHandle, error);
     const job: Job = {
       queueName: "Microtasks",
       job: function* job() {
-        callback();
-        return Value.undefined;
+        try {
+          callback();
+          return Value.undefined;
+        } catch (error: unknown) {
+          return pageErrorCompletion(error);
+        }
       },
       callerRealm: realmHandle.realm,
       callerScriptOrModule: null,
@@ -834,14 +840,20 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       deleteProperty: 2,
     };
     const steps: NativeSteps = (argumentsList) => {
-      const rawArguments = Array.from(argumentsList.values());
-      const result = trap(rawArguments.map((argument) => this.#wrap(argument)));
-      if (result.type === "forward") {
-        return this.#forwardProxyTrap(name, rawArguments);
+      try {
+        const rawArguments = Array.from(argumentsList.values());
+        const result = trap(
+          rawArguments.map((argument) => this.#wrap(argument)),
+        );
+        if (result.type === "forward") {
+          return this.#forwardProxyTrap(name, rawArguments);
+        }
+        return result.type === "throw"
+          ? ThrowCompletion(this.#value(result.value))
+          : this.#value(result.value);
+      } catch (error: unknown) {
+        return this.#pageErrorCompletion(realm, error);
       }
-      return result.type === "throw"
-        ? ThrowCompletion(this.#value(result.value))
-        : this.#value(result.value);
     };
     return CreateBuiltinFunction(steps, lengths[name], name, [], realm.realm);
   }
@@ -920,21 +932,25 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     const realmHandle = this.#realm(realm);
     return this.#withRealm(realmHandle, () => {
       const steps: NativeSteps = (argumentsList, context) => {
-        if (constructor && context.NewTarget === Value.undefined) {
-          return ThrowCompletion(
-            this.#value(
-              this.createTypeError(realmHandle, `${name} requires 'new'`),
-            ),
-          );
+        try {
+          if (constructor && context.NewTarget === Value.undefined) {
+            return ThrowCompletion(
+              this.#value(
+                this.createTypeError(realmHandle, `${name} requires 'new'`),
+              ),
+            );
+          }
+          const values: EngineValue[] = [];
+          for (const value of argumentsList.values()) {
+            values.push(this.#wrap(value));
+          }
+          const result = callback(this.#wrap(context.thisValue), values);
+          return result.type === "throw"
+            ? ThrowCompletion(this.#value(result.value))
+            : this.#value(result.value);
+        } catch (error: unknown) {
+          return this.#pageErrorCompletion(realmHandle, error);
         }
-        const values: EngineValue[] = [];
-        for (const value of argumentsList.values()) {
-          values.push(this.#wrap(value));
-        }
-        const result = callback(this.#wrap(context.thisValue), values);
-        return result.type === "throw"
-          ? ThrowCompletion(this.#value(result.value))
-          : this.#value(result.value);
       };
       const behavior = constructor
         ? markBuiltinFunctionAsConstructor(steps)
@@ -947,6 +963,21 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
 
   #activate(): void {
     setSurroundingAgent(this.#agent);
+  }
+
+  #pageErrorCompletion(realm: Engine262Realm, error: unknown): ThrowCompletion {
+    let message = "Host execution failed";
+    try {
+      message = error instanceof Error ? error.message : String(error);
+    } catch {
+      // Keep the fallback message if inspecting the host exception fails.
+    }
+    const completion = skipDebugger(
+      Construct(realm.realm.Intrinsics["%Error%"], [Value(message)]),
+    );
+    return completion instanceof ThrowCompletion
+      ? completion
+      : ThrowCompletion(ValueOfNormalCompletion(completion));
   }
 
   #realm(realm: EngineRealm): Engine262Realm {

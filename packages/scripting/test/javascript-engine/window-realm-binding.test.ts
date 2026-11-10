@@ -528,18 +528,32 @@ describe("WindowRealmBinding", () => {
     });
   });
 
-  it("does not convert a host observer failure into a page exception", () => {
+  it("returns an unhandled host observer failure to the page", () => {
     const window = createWindow();
-    const hostFailure = new Error("host observer failure");
     window.onerror(() => {
-      throw hostFailure;
+      throw new Error("host observer failure");
     });
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
-    expect(() => engine.evaluate(binding.realm, "reportError({})")).toThrow(
-      hostFailure,
+    const result = engine.evaluate(
+      binding.realm,
+      `
+        let caught;
+        try {
+          reportError({});
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof Error) || caught instanceof TypeError) {
+          throw new Error("host observer failure used the wrong page error");
+        }
+        if (caught.message !== "host observer failure") {
+          throw new Error("host observer failure message was not preserved");
+        }
+      `,
     );
+    expect(result.type).toBe("normal");
   });
 
   it("runs Window timer callbacks", async () => {
