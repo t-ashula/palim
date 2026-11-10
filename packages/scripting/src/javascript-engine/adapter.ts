@@ -110,7 +110,15 @@ export interface JavaScriptEngineAdapter {
     realm: EngineRealm,
     object: EngineObject,
   ): EngineResult<readonly EngineValue[]>;
-  setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void;
+  setPrototypeOf(
+    realm: EngineRealm,
+    object: EngineObject,
+    prototype: EngineObject | null,
+  ): EngineResult<boolean>;
+  initializePrototypeOf(
+    object: EngineObject,
+    prototype: EngineObject | null,
+  ): void;
   setForwardingTarget(object: EngineObject, target: EngineObject): void;
   createFunction(
     realm: EngineRealm,
@@ -125,12 +133,27 @@ export interface JavaScriptEngineAdapter {
     callback: EngineHostFunction,
   ): EngineCallable;
   defineDataProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    name: EnginePropertyKey,
+    value: EngineValue,
+    attributes: EngineDataPropertyAttributes,
+  ): EngineResult<boolean>;
+  initializeDataProperty(
     object: EngineObject,
     name: EnginePropertyKey,
     value: EngineValue,
     attributes: EngineDataPropertyAttributes,
   ): void;
   defineAccessorProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    name: string,
+    getter: EngineCallable | null,
+    setter: EngineCallable | null,
+    attributes: EnginePropertyAttributes,
+  ): EngineResult<boolean>;
+  initializeAccessorProperty(
     object: EngineObject,
     name: string,
     getter: EngineCallable | null,

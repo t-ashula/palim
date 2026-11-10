@@ -496,7 +496,7 @@ export class DOMRealmBindingContext {
   }
 
   expose(name: string, interfaceObject: object): void {
-    this.engine.defineDataProperty(
+    this.engine.initializeDataProperty(
       this.engine.globalObject(this.realm),
       name,
       this.wrap(interfaceObject),
@@ -580,7 +580,24 @@ export class DOMRealmBindingContext {
             localName,
             prefix,
           );
-          this.engine.setPrototypeOf(this.wrap(element), prototype);
+          const prototypeResult = this.engine.setPrototypeOf(
+            this.realm,
+            this.wrap(element),
+            prototype,
+          );
+          if (prototypeResult.type === "throw") {
+            this.reportException(prototypeResult.value);
+            return element;
+          }
+          if (!prototypeResult.value) {
+            this.reportException(
+              this.engine.createTypeError(
+                this.realm,
+                "Custom element prototype was rejected",
+              ),
+            );
+            return element;
+          }
           this.customElementConstructionStack.push(element);
           try {
             const result = this.engine.construct(this.realm, constructor, []);
@@ -1365,7 +1382,7 @@ export class DOMRealmBindingContext {
     collection: (value: EngineValue) => Iterable<object> | null,
     interfaceName: string,
   ): void {
-    this.engine.defineDataProperty(
+    this.engine.initializeDataProperty(
       prototype,
       this.engine.wellKnownSymbol("iterator"),
       this.engine.createFunction(this.realm, "values", 0, (thisValue) => {

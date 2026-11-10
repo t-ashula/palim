@@ -61,7 +61,7 @@ describe("WindowRealmBinding", () => {
         return normal(engine.fromPrimitive(undefined));
       },
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(binding.realm),
       "recordConstructedDocument",
       record,
@@ -173,6 +173,83 @@ describe("WindowRealmBinding", () => {
           ) {
             throw new Error(name + " was not replaced by a data property");
           }
+        }
+      `,
+    );
+  });
+
+  it("creates replaceable property failures in the setter realm", () => {
+    const engine = new Engine262Adapter();
+    const first = new WindowRealmBinding(engine, createWindow());
+    const second = new WindowRealmBinding(engine, createWindow());
+
+    evaluate(
+      engine,
+      first.realm,
+      `
+        const selfDescriptor = Object.getOwnPropertyDescriptor(
+          globalThis,
+          "self",
+        );
+        Object.defineProperty(globalThis, "self", {
+          ...selfDescriptor,
+          configurable: false,
+        });
+        globalThis.savedSelfSetter = selfDescriptor.set;
+      `,
+    );
+    const setter = engine.get(
+      first.realm,
+      engine.globalObject(first.realm),
+      "savedSelfSetter",
+    );
+    const firstTypeError = engine.get(
+      first.realm,
+      engine.globalObject(first.realm),
+      "TypeError",
+    );
+    expect(setter.type).toBe("normal");
+    expect(firstTypeError.type).toBe("normal");
+    if (setter.type === "throw" || firstTypeError.type === "throw") {
+      return;
+    }
+    engine.initializeDataProperty(
+      engine.globalObject(second.realm),
+      "firstWindow",
+      engine.globalThis(first.realm),
+      { configurable: true, enumerable: true, writable: true },
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(second.realm),
+      "firstSelfSetter",
+      setter.value,
+      { configurable: true, enumerable: true, writable: true },
+    );
+    engine.initializeDataProperty(
+      engine.globalObject(second.realm),
+      "FirstTypeError",
+      firstTypeError.value,
+      { configurable: true, enumerable: true, writable: true },
+    );
+
+    evaluate(
+      engine,
+      second.realm,
+      `
+        let replacementError;
+        try {
+          firstSelfSetter.call(firstWindow, "replacement");
+        } catch (error) {
+          replacementError = error;
+        }
+        if (!(replacementError instanceof FirstTypeError)) {
+          throw new Error("replacement did not throw the setter realm TypeError");
+        }
+        if (replacementError instanceof TypeError) {
+          throw new Error("replacement used the caller realm TypeError");
+        }
+        if (firstWindow.self !== firstWindow) {
+          throw new Error("rejected replacement changed Window.self");
         }
       `,
     );

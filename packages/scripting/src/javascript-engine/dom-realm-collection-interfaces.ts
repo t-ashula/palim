@@ -179,7 +179,7 @@ export function installNodeListMembers(binding: DOMRealmBindingContext): void {
         binding.engine.exceptionMessage(binding.realm, method.value),
       );
     }
-    binding.engine.defineDataProperty(
+    binding.engine.initializeDataProperty(
       binding.nodeListPrototype,
       name,
       method.value,
@@ -192,13 +192,13 @@ export function installNodeListMembers(binding: DOMRealmBindingContext): void {
       binding.engine.exceptionMessage(binding.realm, values.value),
     );
   }
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     binding.nodeListPrototype,
     binding.engine.wellKnownSymbol("iterator"),
     values.value,
     DATA_PROPERTY,
   );
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     binding.nodeListPrototype,
     binding.engine.wellKnownSymbol("toStringTag"),
     binding.engine.fromPrimitive("NodeList"),
@@ -376,7 +376,7 @@ export function installDOMTokenListMembers(
         binding.engine.exceptionMessage(binding.realm, method.value),
       );
     }
-    binding.engine.defineDataProperty(
+    binding.engine.initializeDataProperty(
       binding.domTokenListPrototype,
       name,
       method.value,
@@ -393,13 +393,13 @@ export function installDOMTokenListMembers(
       binding.engine.exceptionMessage(binding.realm, iterator.value),
     );
   }
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     binding.domTokenListPrototype,
     binding.engine.wellKnownSymbol("iterator"),
     iterator.value,
     DATA_PROPERTY,
   );
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     binding.domTokenListPrototype,
     binding.engine.wellKnownSymbol("toStringTag"),
     binding.engine.fromPrimitive("DOMTokenList"),

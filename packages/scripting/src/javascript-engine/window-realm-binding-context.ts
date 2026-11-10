@@ -80,7 +80,7 @@ export class WindowRealmBindingContext {
       this.locationPrototype,
     );
 
-    this.engine.setPrototypeOf(this.globalObject, this.windowPrototype);
+    this.engine.initializePrototypeOf(this.globalObject, this.windowPrototype);
     this.dom.associatePlatformObject(this.window, this.globalObject);
     this.dom.bindPlatformObject(this.window, this.globalThis);
   }
@@ -142,7 +142,8 @@ export class WindowRealmBindingContext {
               `Invalid Window receiver for ${name}`,
             );
           }
-          this.engine.defineDataProperty(
+          const result = this.engine.defineDataProperty(
+            this.realm,
             receiver,
             name,
             argumentsList[0] ?? this.engine.fromPrimitive(undefined),
@@ -152,10 +153,14 @@ export class WindowRealmBindingContext {
               writable: true,
             },
           );
-          return this.context.undefined();
+          return result.type === "throw"
+            ? result
+            : result.value
+              ? this.context.undefined()
+              : this.context.typeError(`Cannot replace Window.${name}`);
         }
       : null;
-    this.engine.defineAccessorProperty(
+    this.engine.initializeAccessorProperty(
       this.globalObject,
       name,
       this.engine.createFunction(this.realm, `get ${name}`, 0, getter),

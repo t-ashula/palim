@@ -461,12 +461,12 @@ function installURLSearchParamsIteratorMembers(
         state.realm,
         state.engine.objectPrototype(state.realm),
       );
-      state.engine.defineDataProperty(object, "value", value, {
+      state.engine.initializeDataProperty(object, "value", value, {
         configurable: true,
         enumerable: true,
         writable: true,
       });
-      state.engine.defineDataProperty(
+      state.engine.initializeDataProperty(
         object,
         "done",
         state.engine.fromPrimitive(result.done ?? false),

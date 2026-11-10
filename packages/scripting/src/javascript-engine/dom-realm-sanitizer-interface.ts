@@ -177,7 +177,7 @@ function configurationObject(
 ): EngineObject {
   const object = createObject(binding);
   const define = (name: string, value: EngineValue): void => {
-    binding.engine.defineDataProperty(object, name, value, PROPERTY);
+    binding.engine.initializeDataProperty(object, name, value, PROPERTY);
   };
   if (config.elements !== undefined) {
     define(
@@ -235,7 +235,7 @@ function elementObject(
 ): EngineObject {
   const object = nameObject(binding, element);
   if (element.attributes !== undefined) {
-    binding.engine.defineDataProperty(
+    binding.engine.initializeDataProperty(
       object,
       "attributes",
       array(
@@ -246,7 +246,7 @@ function elementObject(
     );
   }
   if (element.removeAttributes !== undefined) {
-    binding.engine.defineDataProperty(
+    binding.engine.initializeDataProperty(
       object,
       "removeAttributes",
       array(
@@ -264,13 +264,13 @@ function nameObject(
   value: CanonicalSanitizerName,
 ): EngineObject {
   const object = createObject(binding);
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     object,
     "name",
     binding.engine.fromPrimitive(value.name),
     PROPERTY,
   );
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     object,
     "namespace",
     binding.engine.fromPrimitive(value.namespace),
@@ -284,7 +284,7 @@ function piObject(
   value: CanonicalSanitizerPI,
 ): EngineObject {
   const object = createObject(binding);
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     object,
     "target",
     binding.engine.fromPrimitive(value.target),

@@ -48,17 +48,17 @@ export class RealmBindingContext {
     prototype: EngineObject,
     target = this.engine.globalObject(this.realm),
   ): void {
-    this.engine.defineDataProperty(constructor, "prototype", prototype, {
+    this.engine.initializeDataProperty(constructor, "prototype", prototype, {
       configurable: false,
       enumerable: false,
       writable: false,
     });
-    this.engine.defineDataProperty(prototype, "constructor", constructor, {
+    this.engine.initializeDataProperty(prototype, "constructor", constructor, {
       configurable: true,
       enumerable: false,
       writable: true,
     });
-    this.engine.defineDataProperty(
+    this.engine.initializeDataProperty(
       target,
       name,
       constructor,
@@ -88,7 +88,7 @@ export class RealmBindingContext {
     value: EngineValue,
     attributes: EngineDataPropertyAttributes = MEMBER_PROPERTY,
   ): void {
-    this.engine.defineDataProperty(object, name, value, attributes);
+    this.engine.initializeDataProperty(object, name, value, attributes);
   }
 
   interfaceProperty(
@@ -112,7 +112,7 @@ export class RealmBindingContext {
       length,
       callback,
     );
-    this.engine.defineDataProperty(object, name, method, attributes);
+    this.engine.initializeDataProperty(object, name, method, attributes);
     return method;
   }
 
@@ -132,7 +132,7 @@ export class RealmBindingContext {
     setter: EngineHostFunction | null = null,
     attributes: EnginePropertyAttributes = ATTRIBUTE_PROPERTY,
   ): void {
-    this.engine.defineAccessorProperty(
+    this.engine.initializeAccessorProperty(
       object,
       name,
       this.engine.createFunction(this.realm, `get ${name}`, 0, getter),
@@ -144,7 +144,7 @@ export class RealmBindingContext {
   }
 
   tag(prototype: EngineObject, value: string): void {
-    this.engine.defineDataProperty(
+    this.engine.initializeDataProperty(
       prototype,
       this.engine.wellKnownSymbol("toStringTag"),
       this.engine.fromPrimitive(value),

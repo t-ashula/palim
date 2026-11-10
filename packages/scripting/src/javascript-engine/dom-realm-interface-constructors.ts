@@ -59,7 +59,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     "DOCUMENT_POSITION_IMPLEMENTATION_SPECIFIC",
   ] as const) {
     for (const target of [nodeConstructor, binding.nodePrototype]) {
-      binding.engine.defineDataProperty(
+      binding.engine.initializeDataProperty(
         target,
         name,
         binding.engine.fromPrimitive(Node[name]),
@@ -265,7 +265,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     "CustomElementRegistry",
     binding.customElementRegistryPrototype,
   );
-  binding.engine.defineDataProperty(
+  binding.engine.initializeDataProperty(
     binding.engine.globalObject(binding.realm),
     "customElements",
     binding.customElementRegistryObject,
@@ -290,7 +290,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     ["END_TO_START", 3],
   ] as const) {
     for (const target of [rangeConstructor, binding.rangePrototype]) {
-      binding.engine.defineDataProperty(
+      binding.engine.initializeDataProperty(
         target,
         name,
         binding.engine.fromPrimitive(value),
@@ -407,7 +407,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       domExceptionConstructor,
       binding.domExceptionPrototype,
     ]) {
-      binding.engine.defineDataProperty(
+      binding.engine.initializeDataProperty(
         target,
         name,
         binding.engine.fromPrimitive(value),
@@ -450,7 +450,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     ["BUBBLING_PHASE", Event.BUBBLING_PHASE],
   ] as const) {
     for (const target of [eventConstructor, binding.eventPrototype]) {
-      binding.engine.defineDataProperty(
+      binding.engine.initializeDataProperty(
         target,
         name,
         binding.engine.fromPrimitive(value),
@@ -488,7 +488,7 @@ export function installNodeFilter(binding: DOMRealmBindingContext): void {
     binding.engine.objectPrototype(binding.realm),
   );
   for (const [name, value] of Object.entries(NodeFilter)) {
-    binding.engine.defineDataProperty(
+    binding.engine.initializeDataProperty(
       nodeFilter,
       name,
       binding.engine.fromPrimitive(value),

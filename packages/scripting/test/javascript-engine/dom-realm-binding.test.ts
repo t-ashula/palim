@@ -74,7 +74,7 @@ function copyRealmGlobal(
   if (value.type === "throw") {
     throw new Error(engine.exceptionMessage(sourceRealm, value.value));
   }
-  engine.defineDataProperty(
+  engine.initializeDataProperty(
     engine.globalObject(targetRealm),
     targetName,
     value.value,

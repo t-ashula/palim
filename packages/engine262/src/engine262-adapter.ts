@@ -345,18 +345,39 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     });
   }
 
-  setPrototypeOf(object: EngineObject, prototype: EngineObject | null): void {
+  setPrototypeOf(
+    realm: EngineRealm,
+    object: EngineObject,
+    prototype: EngineObject | null,
+  ): EngineResult<boolean> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        this.#object(object).SetPrototypeOf(
+          prototype === null ? Value.null : this.#object(prototype),
+        ),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(ValueOfNormalCompletion(completion));
+    });
+  }
+
+  initializePrototypeOf(
+    object: EngineObject,
+    prototype: EngineObject | null,
+  ): void {
     this.#activate();
     const completion = skipDebugger(
       this.#object(object).SetPrototypeOf(
         prototype === null ? Value.null : this.#object(prototype),
       ),
     );
-    if (completion instanceof ThrowCompletion) {
-      throw new TypeError("Cannot set the object prototype");
-    }
-    if (!ValueOfNormalCompletion(completion)) {
-      throw new TypeError("The object prototype was rejected");
+    if (
+      completion instanceof ThrowCompletion ||
+      !ValueOfNormalCompletion(completion)
+    ) {
+      throw new TypeError("Cannot initialize the object prototype");
     }
   }
 
@@ -387,6 +408,32 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   }
 
   defineDataProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    name: EnginePropertyKey,
+    value: EngineValue,
+    attributes: EngineDataPropertyAttributes,
+  ): EngineResult<boolean> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        this.#object(object).DefineOwnProperty(
+          this.#propertyKey(name),
+          Descriptor({
+            Value: this.#value(value),
+            Writable: attributes.writable,
+            Enumerable: attributes.enumerable,
+            Configurable: attributes.configurable,
+          }),
+        ),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(ValueOfNormalCompletion(completion));
+    });
+  }
+
+  initializeDataProperty(
     object: EngineObject,
     name: EnginePropertyKey,
     value: EngineValue,
@@ -394,8 +441,7 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   ): void {
     this.#activate();
     const completion = skipDebugger(
-      DefinePropertyOrThrow(
-        this.#object(object),
+      this.#object(object).DefineOwnProperty(
         this.#propertyKey(name),
         Descriptor({
           Value: this.#value(value),
@@ -405,12 +451,42 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
         }),
       ),
     );
-    if (completion instanceof ThrowCompletion) {
-      throw new TypeError("Cannot define data property");
+    if (
+      completion instanceof ThrowCompletion ||
+      !ValueOfNormalCompletion(completion)
+    ) {
+      throw new TypeError("Cannot initialize data property");
     }
   }
 
   defineAccessorProperty(
+    realm: EngineRealm,
+    object: EngineObject,
+    name: string,
+    getter: EngineCallable | null,
+    setter: EngineCallable | null,
+    attributes: EnginePropertyAttributes,
+  ): EngineResult<boolean> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(
+        this.#object(object).DefineOwnProperty(
+          name,
+          Descriptor({
+            Get: getter === null ? Value.undefined : this.#callable(getter),
+            Set: setter === null ? Value.undefined : this.#callable(setter),
+            Enumerable: attributes.enumerable,
+            Configurable: attributes.configurable,
+          }),
+        ),
+      );
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value))
+        : normal(ValueOfNormalCompletion(completion));
+    });
+  }
+
+  initializeAccessorProperty(
     object: EngineObject,
     name: string,
     getter: EngineCallable | null,
@@ -431,7 +507,7 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       ),
     );
     if (completion instanceof ThrowCompletion) {
-      throw new TypeError(`Cannot define property ${name}`);
+      throw new TypeError(`Cannot initialize property ${name}`);
     }
   }
 

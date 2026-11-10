@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   FORWARD_PROXY_TRAP,
   normal,
+  thrown,
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import type {
   EngineRealm,
@@ -26,13 +27,13 @@ describe("Engine262Adapter", () => {
     const engine = new Engine262Adapter();
     const firstRealm = engine.createRealm();
     const secondRealm = engine.createRealm();
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(firstRealm),
       "realmValue",
       engine.fromPrimitive("first"),
       { configurable: true, enumerable: true, writable: true },
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(secondRealm),
       "realmValue",
       engine.fromPrimitive("second"),
@@ -61,7 +62,7 @@ describe("Engine262Adapter", () => {
       (_thisValue, argumentsList) =>
         normal(argumentsList[0] ?? engine.fromPrimitive(undefined)),
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(realm),
       "hostFunction",
       hostFunction,
@@ -110,7 +111,7 @@ describe("Engine262Adapter", () => {
     const hostFunction = engine.createFunction(realm, "hostFunction", 0, () => {
       throw new Error("host function failed");
     });
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(realm),
       "hostFunction",
       hostFunction,
@@ -163,11 +164,16 @@ describe("Engine262Adapter", () => {
       calls += 1;
       return normal(engine.fromPrimitive(undefined));
     });
-    engine.defineDataProperty(engine.globalObject(realm), "record", record, {
-      configurable: true,
-      enumerable: false,
-      writable: true,
-    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "record",
+      record,
+      {
+        configurable: true,
+        enumerable: false,
+        writable: true,
+      },
+    );
 
     evaluate(engine, realm, "Promise.resolve().then(record)");
     expect(calls).toBe(0);
@@ -184,7 +190,7 @@ describe("Engine262Adapter", () => {
       realm,
       engine.objectPrototype(realm),
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       replacement,
       "marker",
       engine.fromPrimitive("replacement"),
@@ -207,7 +213,7 @@ describe("Engine262Adapter", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
     const target = engine.createObject(realm, engine.objectPrototype(realm));
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       target,
       "existing",
       engine.fromPrimitive("target"),
@@ -241,11 +247,16 @@ describe("Engine262Adapter", () => {
           ? normal(engine.fromPrimitive(false))
           : FORWARD_PROXY_TRAP,
     });
-    engine.defineDataProperty(engine.globalObject(realm), "testProxy", proxy, {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "testProxy",
+      proxy,
+      {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      },
+    );
 
     evaluate(
       engine,
@@ -276,15 +287,125 @@ describe("Engine262Adapter", () => {
         throw new Error("proxy trap failed");
       },
     });
-    engine.defineDataProperty(engine.globalObject(realm), "testProxy", proxy, {
-      configurable: true,
-      enumerable: true,
-      writable: true,
-    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "testProxy",
+      proxy,
+      {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      },
+    );
 
     expect(() => engine.evaluate(realm, "testProxy.value")).toThrow(
       "proxy trap failed",
     );
+  });
+
+  it("returns property operation exceptions as their original engine values", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const failure = engine.createObject(realm, engine.objectPrototype(realm));
+    const target = engine.createObject(realm, engine.objectPrototype(realm));
+    const proxy = engine.createProxy(realm, target, {
+      defineProperty: () => thrown(failure),
+    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "prototypeFailure",
+      failure,
+      { configurable: true, enumerable: true, writable: true },
+    );
+    evaluate(
+      engine,
+      realm,
+      `
+        globalThis.prototypeProxy = new Proxy({}, {
+          setPrototypeOf() {
+            throw prototypeFailure;
+          },
+        });
+      `,
+    );
+    const prototypeProxyValue = engine.get(
+      realm,
+      engine.globalObject(realm),
+      "prototypeProxy",
+    );
+    expect(prototypeProxyValue.type).toBe("normal");
+    if (prototypeProxyValue.type === "throw") {
+      return;
+    }
+    const prototypeProxy = engine.asObject(prototypeProxyValue.value);
+    expect(prototypeProxy).not.toBeNull();
+    if (prototypeProxy === null) {
+      return;
+    }
+
+    const dataResult = engine.defineDataProperty(
+      realm,
+      proxy,
+      "data",
+      engine.fromPrimitive(1),
+      { configurable: true, enumerable: true, writable: true },
+    );
+    const accessorResult = engine.defineAccessorProperty(
+      realm,
+      proxy,
+      "accessor",
+      null,
+      null,
+      { configurable: true, enumerable: true },
+    );
+    const prototypeResult = engine.setPrototypeOf(
+      realm,
+      prototypeProxy,
+      engine.createObject(realm, engine.objectPrototype(realm)),
+    );
+
+    expect(dataResult).toEqual(thrown(failure));
+    expect(accessorResult).toEqual(thrown(failure));
+    expect(prototypeResult).toEqual(thrown(failure));
+  });
+
+  it("keeps normal property operation rejection separate from exceptions", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+    const target = engine.createObject(realm, engine.objectPrototype(realm));
+    const proxy = engine.createProxy(realm, target, {
+      defineProperty: () => normal(engine.fromPrimitive(false)),
+    });
+    engine.initializeDataProperty(
+      engine.globalObject(realm),
+      "target",
+      target,
+      { configurable: true, enumerable: true, writable: true },
+    );
+    evaluate(engine, realm, "Object.preventExtensions(target)");
+
+    expect(
+      engine.defineDataProperty(
+        realm,
+        proxy,
+        "value",
+        engine.fromPrimitive(1),
+        { configurable: true, enumerable: true, writable: true },
+      ),
+    ).toEqual(normal(false));
+    expect(
+      engine.defineAccessorProperty(realm, proxy, "accessor", null, null, {
+        configurable: true,
+        enumerable: true,
+      }),
+    ).toEqual(normal(false));
+    expect(
+      engine.setPrototypeOf(
+        realm,
+        target,
+        engine.createObject(realm, engine.objectPrototype(realm)),
+      ),
+    ).toEqual(normal(false));
   });
 
   it("rejects handles from another adapter instance", () => {
@@ -295,6 +416,7 @@ describe("Engine262Adapter", () => {
 
     expect(() => {
       second.defineDataProperty(
+        secondRealm,
         first.globalObject(firstRealm),
         "value",
         second.fromPrimitive(1),

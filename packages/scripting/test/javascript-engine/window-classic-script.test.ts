@@ -149,7 +149,7 @@ describe("Window classic script execution", () => {
         return normal(engine.fromPrimitive(undefined));
       },
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(environment.settings.realm),
       "recordSettings",
       recordSettings,
@@ -187,7 +187,7 @@ describe("Window classic script execution", () => {
         return result;
       },
     );
-    engine.defineDataProperty(
+    engine.initializeDataProperty(
       engine.globalObject(environment.settings.realm),
       "runNested",
       runNested,
