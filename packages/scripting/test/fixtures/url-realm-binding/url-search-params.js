@@ -58,12 +58,40 @@ copy.forEach(function (value, name, parent) {
 if (receiver.count !== 28) {
   throw new Error("forEach did not visit each pair");
 }
+const paramsCallbackFailure = {};
+try {
+  copy.forEach(() => {
+    throw paramsCallbackFailure;
+  });
+  throw new Error("URLSearchParams callback failure was ignored");
+} catch (error) {
+  if (error !== paramsCallbackFailure) {
+    throw error;
+  }
+}
 
 copy[Symbol.iterator] = function* () {
   yield ["custom", "iterator"];
 };
 if (new URLSearchParams(copy).toString() !== "custom=iterator") {
   throw new Error("custom iterator was not used");
+}
+const iteratorFailure = {};
+try {
+  new URLSearchParams({
+    [Symbol.iterator]() {
+      return {
+        next() {
+          throw iteratorFailure;
+        },
+      };
+    },
+  });
+  throw new Error("iterator failure was ignored");
+} catch (error) {
+  if (error !== iteratorFailure) {
+    throw error;
+  }
 }
 
 copy.delete("first", "1");
@@ -87,6 +115,17 @@ const formData = new FormData();
 formData.append("first", "one");
 formData.append("first", "two");
 formData.set("last", "three");
+const formDataCallbackFailure = {};
+try {
+  formData.forEach(() => {
+    throw formDataCallbackFailure;
+  });
+  throw new Error("FormData callback failure was ignored");
+} catch (error) {
+  if (error !== formDataCallbackFailure) {
+    throw error;
+  }
+}
 if (
   !(formData instanceof FormData) ||
   formData.get("first") !== "one" ||

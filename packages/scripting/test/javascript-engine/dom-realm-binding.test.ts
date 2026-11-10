@@ -521,6 +521,164 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("preserves traversal callback completions and state", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const root = testDocument.createElement("main");
+        root.append(
+          testDocument.createElement("a"),
+          testDocument.createElement("b"),
+          testDocument.createElement("c"),
+        );
+        const thrownValues = [
+          {},
+          Symbol("failure"),
+          1n,
+          false,
+          0,
+          "",
+          undefined,
+          null,
+        ];
+        for (const thrownValue of thrownValues) {
+          let shouldThrow = true;
+          const iterator = testDocument.createNodeIterator(
+            root,
+            NodeFilter.SHOW_ALL,
+            () => {
+              if (shouldThrow) {
+                throw thrownValue;
+              }
+              return NodeFilter.FILTER_ACCEPT;
+            },
+          );
+          let caught = "not thrown";
+          try {
+            iterator.nextNode();
+          } catch (error) {
+            caught = error;
+          }
+          if (!Object.is(caught, thrownValue)) {
+            throw new Error("traversal throw identity changed");
+          }
+          if (iterator.referenceNode !== root ||
+              !iterator.pointerBeforeReferenceNode) {
+            throw new Error("failed traversal changed iterator state");
+          }
+          shouldThrow = false;
+          if (iterator.nextNode() !== root) {
+            throw new Error("iterator did not recover after failure");
+          }
+        }
+
+        const getterFailure = {};
+        const filter = {};
+        Object.defineProperty(filter, "acceptNode", {
+          configurable: true,
+          get() { throw getterFailure; },
+        });
+        const walker = testDocument.createTreeWalker(
+          root,
+          NodeFilter.SHOW_ALL,
+          filter,
+        );
+        let getterCaught;
+        try {
+          walker.nextNode();
+        } catch (error) {
+          getterCaught = error;
+        }
+        if (getterCaught !== getterFailure || walker.currentNode !== root) {
+          throw new Error("acceptNode getter failure was not preserved");
+        }
+        Object.defineProperty(filter, "acceptNode", {
+          value: () => NodeFilter.FILTER_ACCEPT,
+        });
+        if (walker.nextNode() !== root.firstChild) {
+          throw new Error("TreeWalker did not recover after getter failure");
+        }
+
+        const conversionFailure = {};
+        let failConversion = true;
+        const converting = testDocument.createNodeIterator(
+          root,
+          NodeFilter.SHOW_ALL,
+          () => failConversion
+            ? { valueOf() { throw conversionFailure; } }
+            : NodeFilter.FILTER_ACCEPT,
+        );
+        let conversionCaught;
+        try {
+          converting.nextNode();
+        } catch (error) {
+          conversionCaught = error;
+        }
+        if (conversionCaught !== conversionFailure) {
+          throw new Error("filter result conversion changed the exception");
+        }
+        failConversion = false;
+        if (converting.nextNode() !== root) {
+          throw new Error("iterator did not recover after conversion failure");
+        }
+        for (const unconvertible of [Symbol("result"), 1n]) {
+          const invalidResult = testDocument.createNodeIterator(
+            root,
+            NodeFilter.SHOW_ALL,
+            () => unconvertible,
+          );
+          let typeError;
+          try {
+            invalidResult.nextNode();
+          } catch (error) {
+            typeError = error;
+          }
+          if (!(typeError instanceof TypeError) ||
+              invalidResult.referenceNode !== root ||
+              !invalidResult.pointerBeforeReferenceNode) {
+            throw new Error("invalid filter result was not rejected safely");
+          }
+        }
+
+        const mutationFailure = {};
+        const removed = root.children[1];
+        let failAfterMutation = true;
+        const mutating = testDocument.createNodeIterator(
+          root,
+          NodeFilter.SHOW_ELEMENT,
+          (node) => {
+            if (node === removed && failAfterMutation) {
+              removed.remove();
+              throw mutationFailure;
+            }
+            return NodeFilter.FILTER_ACCEPT;
+          },
+        );
+        if (mutating.nextNode() !== root ||
+            mutating.nextNode() !== root.firstChild) {
+          throw new Error("iterator setup failed");
+        }
+        let mutationCaught;
+        try {
+          mutating.nextNode();
+        } catch (error) {
+          mutationCaught = error;
+        }
+        if (mutationCaught !== mutationFailure ||
+            mutating.referenceNode !== root.firstChild) {
+          throw new Error("mutation failure changed iterator state");
+        }
+        failAfterMutation = false;
+        if (mutating.nextNode() !== root.lastChild) {
+          throw new Error("iterator did not recover after mutation failure");
+        }
+      `,
+    );
+  });
+
   it("exposes getElementsByTagName collections in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<meta name="first"><main><meta name="second"></main>',

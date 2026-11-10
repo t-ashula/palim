@@ -1,3 +1,7 @@
+import {
+  traverseNodeIterator,
+  traverseTreeWalker,
+} from "@palim/core/internal/dom/traversal.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -34,7 +38,12 @@ export function installNodeIteratorMembers(
       const iterator = binding.nodeIterator(thisValue);
       return iterator === null
         ? binding.typeError("Invalid NodeIterator receiver")
-        : binding.traversalResult(() => iterator[name]());
+        : binding.traversalCompletion(() =>
+            traverseNodeIterator(
+              iterator,
+              name === "nextNode" ? "next" : "previous",
+            ),
+          );
     });
   }
   binding.method(binding.nodeIteratorPrototype, "detach", 0, (thisValue) => {
@@ -105,7 +114,7 @@ export function installTreeWalkerMembers(
       const walker = binding.treeWalker(thisValue);
       return walker === null
         ? binding.typeError("Invalid TreeWalker receiver")
-        : binding.traversalResult(() => walker[name]());
+        : binding.traversalCompletion(() => traverseTreeWalker(walker, name));
     });
   }
   binding.interfaceTag(binding.treeWalkerPrototype, "TreeWalker");

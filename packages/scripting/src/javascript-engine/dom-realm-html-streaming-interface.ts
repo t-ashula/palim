@@ -363,5 +363,5 @@ function promise(
       ),
     );
   }
-  return binding.engine.call(binding.realm, method, constructor, [value]);
+  return binding.context.call(method, constructor, [value]);
 }

@@ -25,6 +25,27 @@ export const NodeFilter = Object.freeze({
 export type NodeFilter =
   ((node: Node) => number) | { acceptNode(node: Node): number };
 
+export type TraversalResult<T> =
+  | { readonly type: "normal"; readonly value: T }
+  | { readonly type: "abrupt"; readonly token: object };
+
+export type TraversalFilterCallback = (node: Node) => TraversalResult<number>;
+
+export function traversalNormal<T>(value: T): TraversalResult<T> {
+  return { type: "normal", value };
+}
+
+export function traversalAbrupt(token: object): TraversalResult<never> {
+  return { type: "abrupt", token };
+}
+
+function traversalValue<T>(result: TraversalResult<T>): T {
+  if (result.type === "abrupt") {
+    throw new TypeError("Unexpected internal traversal interruption");
+  }
+  return result.value;
+}
+
 export interface NodeIterator {
   readonly root: Node;
   readonly referenceNode: Node;
@@ -61,15 +82,22 @@ class TraversalFilter {
   readonly root: Node;
   readonly whatToShow: number;
   readonly filter: NodeFilter | null;
+  readonly #callback: TraversalFilterCallback | null;
   #active = false;
 
-  constructor(root: Node, whatToShow: unknown, filter: unknown) {
+  constructor(
+    root: Node,
+    whatToShow: unknown,
+    filter: unknown,
+    callback: TraversalFilterCallback | null,
+  ) {
     this.root = root;
     this.whatToShow = toUnsignedLong(whatToShow);
     this.filter = toNodeFilter(filter);
+    this.#callback = callback;
   }
 
-  evaluate(node: Node): number {
+  evaluate(node: Node): TraversalResult<number> {
     if (this.#active) {
       throw new DOMException(
         "The traversal filter is already active",
@@ -78,19 +106,27 @@ class TraversalFilter {
     }
     const mask = 2 ** (node.nodeType - 1);
     if ((this.whatToShow & mask) === 0) {
-      return NodeFilter.FILTER_SKIP;
+      return traversalNormal(NodeFilter.FILTER_SKIP);
     }
-    if (this.filter === null) {
-      return NodeFilter.FILTER_ACCEPT;
+    if (this.filter === null && this.#callback === null) {
+      return traversalNormal(NodeFilter.FILTER_ACCEPT);
     }
 
     this.#active = true;
     try {
       const result =
-        typeof this.filter === "function"
-          ? this.filter(node)
-          : this.filter.acceptNode(node);
-      return toUnsignedShort(result);
+        this.#callback !== null
+          ? this.#callback(node)
+          : traversalNormal(
+              this.filter === null
+                ? NodeFilter.FILTER_ACCEPT
+                : typeof this.filter === "function"
+                  ? this.filter(node)
+                  : this.filter.acceptNode(node),
+            );
+      return result.type === "abrupt"
+        ? result
+        : traversalNormal(toUnsignedShort(result.value));
     } finally {
       this.#active = false;
     }
@@ -102,9 +138,14 @@ class NodeIteratorImplementation implements NodeIterator {
   #reference: NodePointer;
   #candidate: NodePointer | null = null;
 
-  constructor(root: Node, whatToShow: unknown, filter: unknown) {
+  constructor(
+    root: Node,
+    whatToShow: unknown,
+    filter: unknown,
+    callback: TraversalFilterCallback | null,
+  ) {
     bindDOMInterface(this, this);
-    this.#traversal = new TraversalFilter(root, whatToShow, filter);
+    this.#traversal = new TraversalFilter(root, whatToShow, filter, callback);
     this.#reference = { node: root, before: true };
     registerNodeIterator(this);
   }
@@ -130,11 +171,11 @@ class NodeIteratorImplementation implements NodeIterator {
   }
 
   nextNode(): Node | null {
-    return this.#traverse("next");
+    return traversalValue(this.traverse("next"));
   }
 
   previousNode(): Node | null {
-    return this.#traverse("previous");
+    return traversalValue(this.traverse("previous"));
   }
 
   detach(): void {
@@ -148,7 +189,7 @@ class NodeIteratorImplementation implements NodeIterator {
     }
   }
 
-  #traverse(direction: "next" | "previous"): Node | null {
+  traverse(direction: "next" | "previous"): TraversalResult<Node | null> {
     let node = this.#reference.node;
     let before = this.#reference.before;
 
@@ -159,14 +200,14 @@ class NodeIteratorImplementation implements NodeIterator {
         } else {
           const next = followingNode(node, this.root);
           if (next === null) {
-            return null;
+            return traversalNormal(null);
           }
           node = next;
         }
       } else if (before) {
         const previous = precedingNode(node, this.root);
         if (previous === null) {
-          return null;
+          return traversalNormal(null);
         }
         node = previous;
       } else {
@@ -175,19 +216,23 @@ class NodeIteratorImplementation implements NodeIterator {
 
       this.#candidate = { node, before };
       const filteredNode = node;
-      let result: number;
+      let result: TraversalResult<number>;
       try {
         result = this.#traversal.evaluate(filteredNode);
       } catch (error: unknown) {
         this.#candidate = null;
         throw error;
       }
+      if (result.type === "abrupt") {
+        this.#candidate = null;
+        return result;
+      }
       node = this.#candidate.node;
       before = this.#candidate.before;
-      if (result === NodeFilter.FILTER_ACCEPT) {
+      if (result.value === NodeFilter.FILTER_ACCEPT) {
         this.#reference = this.#candidate;
         this.#candidate = null;
-        return filteredNode;
+        return traversalNormal(filteredNode);
       }
       this.#candidate = null;
     }
@@ -198,9 +243,14 @@ class TreeWalkerImplementation implements TreeWalker {
   readonly #traversal: TraversalFilter;
   #current: Node;
 
-  constructor(root: Node, whatToShow: unknown, filter: unknown) {
+  constructor(
+    root: Node,
+    whatToShow: unknown,
+    filter: unknown,
+    callback: TraversalFilterCallback | null,
+  ) {
     bindDOMInterface(this, this);
-    this.#traversal = new TraversalFilter(root, whatToShow, filter);
+    this.#traversal = new TraversalFilter(root, whatToShow, filter, callback);
     this.#current = root;
   }
 
@@ -228,114 +278,164 @@ class TreeWalkerImplementation implements TreeWalker {
   }
 
   parentNode(): Node | null {
+    return traversalValue(this.traverseParent());
+  }
+
+  firstChild(): Node | null {
+    return traversalValue(this.traverseChildren("first"));
+  }
+
+  lastChild(): Node | null {
+    return traversalValue(this.traverseChildren("last"));
+  }
+
+  previousSibling(): Node | null {
+    return traversalValue(this.traverseSiblings("previous"));
+  }
+
+  nextSibling(): Node | null {
+    return traversalValue(this.traverseSiblings("next"));
+  }
+
+  previousNode(): Node | null {
+    return traversalValue(this.traversePrevious());
+  }
+
+  nextNode(): Node | null {
+    return traversalValue(this.traverseNext());
+  }
+
+  traverseParent(): TraversalResult<Node | null> {
     let node = this.#current;
     while (node !== this.root) {
       const parent = node.parentNode;
       if (parent === null) {
-        return null;
+        return traversalNormal(null);
       }
       node = parent;
-      if (this.#traversal.evaluate(node) === NodeFilter.FILTER_ACCEPT) {
+      const result = this.#traversal.evaluate(node);
+      if (result.type === "abrupt") {
+        return result;
+      }
+      if (result.value === NodeFilter.FILTER_ACCEPT) {
         this.#current = node;
-        return node;
+        return traversalNormal(node);
       }
     }
-    return null;
+    return traversalNormal(null);
   }
 
-  firstChild(): Node | null {
-    return this.#traverseChildren("first");
+  traverseChildren(direction: "first" | "last"): TraversalResult<Node | null> {
+    return this.#traverseChildren(direction);
   }
 
-  lastChild(): Node | null {
-    return this.#traverseChildren("last");
+  traverseSiblings(
+    direction: "next" | "previous",
+  ): TraversalResult<Node | null> {
+    return this.#traverseSiblings(direction);
   }
 
-  previousSibling(): Node | null {
-    return this.#traverseSiblings("previous");
-  }
-
-  nextSibling(): Node | null {
-    return this.#traverseSiblings("next");
-  }
-
-  previousNode(): Node | null {
+  traversePrevious(): TraversalResult<Node | null> {
     let node = this.#current;
     while (node !== this.root) {
       let sibling = node.previousSibling;
       while (sibling !== null) {
         node = sibling;
         let result = this.#traversal.evaluate(node);
-        while (result !== NodeFilter.FILTER_REJECT && node.lastChild !== null) {
+        if (result.type === "abrupt") {
+          return result;
+        }
+        while (
+          result.value !== NodeFilter.FILTER_REJECT &&
+          node.lastChild !== null
+        ) {
           node = node.lastChild;
           result = this.#traversal.evaluate(node);
+          if (result.type === "abrupt") {
+            return result;
+          }
         }
-        if (result === NodeFilter.FILTER_ACCEPT) {
+        if (result.value === NodeFilter.FILTER_ACCEPT) {
           this.#current = node;
-          return node;
+          return traversalNormal(node);
         }
         sibling = node.previousSibling;
       }
       const parent = node.parentNode;
       if (parent === null) {
-        return null;
+        return traversalNormal(null);
       }
       node = parent;
-      if (this.#traversal.evaluate(node) === NodeFilter.FILTER_ACCEPT) {
+      const result = this.#traversal.evaluate(node);
+      if (result.type === "abrupt") {
+        return result;
+      }
+      if (result.value === NodeFilter.FILTER_ACCEPT) {
         this.#current = node;
-        return node;
+        return traversalNormal(node);
       }
     }
-    return null;
+    return traversalNormal(null);
   }
 
-  nextNode(): Node | null {
+  traverseNext(): TraversalResult<Node | null> {
     let node = this.#current;
     let result: number = NodeFilter.FILTER_ACCEPT;
     for (;;) {
       while (result !== NodeFilter.FILTER_REJECT && node.firstChild !== null) {
         node = node.firstChild;
-        result = this.#traversal.evaluate(node);
+        const evaluation = this.#traversal.evaluate(node);
+        if (evaluation.type === "abrupt") {
+          return evaluation;
+        }
+        result = evaluation.value;
         if (result === NodeFilter.FILTER_ACCEPT) {
           this.#current = node;
-          return node;
+          return traversalNormal(node);
         }
       }
 
       let sibling: Node | null = null;
       while (sibling === null) {
         if (node === this.root) {
-          return null;
+          return traversalNormal(null);
         }
         sibling = node.nextSibling;
         if (sibling === null) {
           const parent = node.parentNode;
           if (parent === null) {
-            return null;
+            return traversalNormal(null);
           }
           node = parent;
         }
       }
 
       node = sibling;
-      result = this.#traversal.evaluate(node);
+      const evaluation = this.#traversal.evaluate(node);
+      if (evaluation.type === "abrupt") {
+        return evaluation;
+      }
+      result = evaluation.value;
       if (result === NodeFilter.FILTER_ACCEPT) {
         this.#current = node;
-        return node;
+        return traversalNormal(node);
       }
     }
   }
 
-  #traverseChildren(direction: "first" | "last"): Node | null {
+  #traverseChildren(direction: "first" | "last"): TraversalResult<Node | null> {
     const current = this.#current;
     let node = direction === "first" ? current.firstChild : current.lastChild;
     while (node !== null) {
       const result = this.#traversal.evaluate(node);
-      if (result === NodeFilter.FILTER_ACCEPT) {
-        this.#current = node;
-        return node;
+      if (result.type === "abrupt") {
+        return result;
       }
-      if (result === NodeFilter.FILTER_SKIP) {
+      if (result.value === NodeFilter.FILTER_ACCEPT) {
+        this.#current = node;
+        return traversalNormal(node);
+      }
+      if (result.value === NodeFilter.FILTER_SKIP) {
         const child = direction === "first" ? node.firstChild : node.lastChild;
         if (child !== null) {
           node = child;
@@ -351,18 +451,20 @@ class TreeWalkerImplementation implements TreeWalker {
         }
         const parent: Node | null = node.parentNode;
         if (parent === null || parent === this.root || parent === current) {
-          return null;
+          return traversalNormal(null);
         }
         node = parent;
       }
     }
-    return null;
+    return traversalNormal(null);
   }
 
-  #traverseSiblings(direction: "next" | "previous"): Node | null {
+  #traverseSiblings(
+    direction: "next" | "previous",
+  ): TraversalResult<Node | null> {
     let node = this.#current;
     if (node === this.root) {
-      return null;
+      return traversalNormal(null);
     }
     for (;;) {
       let sibling =
@@ -370,12 +472,15 @@ class TreeWalkerImplementation implements TreeWalker {
       while (sibling !== null) {
         node = sibling;
         const result = this.#traversal.evaluate(node);
-        if (result === NodeFilter.FILTER_ACCEPT) {
+        if (result.type === "abrupt") {
+          return result;
+        }
+        if (result.value === NodeFilter.FILTER_ACCEPT) {
           this.#current = node;
-          return node;
+          return traversalNormal(node);
         }
         sibling =
-          result === NodeFilter.FILTER_REJECT
+          result.value === NodeFilter.FILTER_REJECT
             ? null
             : direction === "next"
               ? node.firstChild
@@ -386,11 +491,15 @@ class TreeWalkerImplementation implements TreeWalker {
 
       const parent = node.parentNode;
       if (parent === null || parent === this.root) {
-        return null;
+        return traversalNormal(null);
       }
       node = parent;
-      if (this.#traversal.evaluate(node) === NodeFilter.FILTER_ACCEPT) {
-        return null;
+      const result = this.#traversal.evaluate(node);
+      if (result.type === "abrupt") {
+        return result;
+      }
+      if (result.value === NodeFilter.FILTER_ACCEPT) {
+        return traversalNormal(null);
       }
     }
   }
@@ -405,16 +514,60 @@ export function createNodeIterator(
   root: Node,
   whatToShow: unknown,
   filter: unknown,
+  callback: TraversalFilterCallback | null = null,
 ): NodeIterator {
-  return new NodeIteratorImplementation(root, whatToShow, filter);
+  return new NodeIteratorImplementation(root, whatToShow, filter, callback);
 }
 
 export function createTreeWalker(
   root: Node,
   whatToShow: unknown,
   filter: unknown,
+  callback: TraversalFilterCallback | null = null,
 ): TreeWalker {
-  return new TreeWalkerImplementation(root, whatToShow, filter);
+  return new TreeWalkerImplementation(root, whatToShow, filter, callback);
+}
+
+export function traverseNodeIterator(
+  iterator: NodeIterator,
+  direction: "next" | "previous",
+): TraversalResult<Node | null> {
+  if (!(iterator instanceof NodeIteratorImplementation)) {
+    throw new TypeError("Invalid NodeIterator implementation");
+  }
+  return iterator.traverse(direction);
+}
+
+export function traverseTreeWalker(
+  walker: TreeWalker,
+  operation:
+    | "parentNode"
+    | "firstChild"
+    | "lastChild"
+    | "previousSibling"
+    | "nextSibling"
+    | "previousNode"
+    | "nextNode",
+): TraversalResult<Node | null> {
+  if (!(walker instanceof TreeWalkerImplementation)) {
+    throw new TypeError("Invalid TreeWalker implementation");
+  }
+  switch (operation) {
+    case "parentNode":
+      return walker.traverseParent();
+    case "firstChild":
+      return walker.traverseChildren("first");
+    case "lastChild":
+      return walker.traverseChildren("last");
+    case "previousSibling":
+      return walker.traverseSiblings("previous");
+    case "nextSibling":
+      return walker.traverseSiblings("next");
+    case "previousNode":
+      return walker.traversePrevious();
+    case "nextNode":
+      return walker.traverseNext();
+  }
 }
 
 export function isNodeIterator(value: object): value is NodeIterator {

@@ -88,9 +88,14 @@ import {
 } from "@palim/core/internal/dom/document-named-properties.js";
 import { isForeignAnchorElement } from "@palim/core/internal/dom/foreign-anchor.js";
 import {
+  createNodeIterator,
+  createTreeWalker,
   isNodeIterator,
   isTreeWalker,
-  type NodeFilter as NodeFilterCallback,
+  traversalAbrupt,
+  traversalNormal,
+  type TraversalFilterCallback,
+  type TraversalResult,
 } from "@palim/core/internal/dom/traversal.js";
 import { toLong } from "@palim/core/internal/web-idl.js";
 import { normal, thrown } from "./adapter.js";
@@ -120,14 +125,8 @@ const DATA_PROPERTY = {
   writable: true,
 } as const;
 
-class EngineRealmException extends Error {
-  constructor(readonly value: EngineValue) {
-    super("JavaScript realm exception");
-  }
-}
-
 interface TraversalFilterArgument {
-  readonly callback: NodeFilterCallback | null;
+  readonly callback: TraversalFilterCallback | null;
   readonly value: EngineValue | null;
 }
 
@@ -266,6 +265,7 @@ export class DOMRealmBindingContext {
   readonly domExceptions = new WeakMap<EngineObject, DOMExceptionState>();
   readonly customElementRegistry: CustomElementRegistry;
   readonly customElementConstructionStack: HTMLElement[] = [];
+  readonly traversalAbruptValues = new WeakMap<object, EngineValue>();
 
   constructor(
     context: RealmBindingContext,
@@ -710,16 +710,13 @@ export class DOMRealmBindingContext {
     }
     const traversal =
       kind === "iterator"
-        ? document.createNodeIterator(
+        ? createNodeIterator(
             root,
             whatToShow.value,
+            null,
             filter.value.callback,
           )
-        : document.createTreeWalker(
-            root,
-            whatToShow.value,
-            filter.value.callback,
-          );
+        : createTreeWalker(root, whatToShow.value, null, filter.value.callback);
     if (filter.value.value !== null) {
       this.traversalFilters.set(traversal, filter.value.value);
     }
@@ -1207,23 +1204,26 @@ export class DOMRealmBindingContext {
     });
   }
 
-  callTraversalFilter(filter: EngineValue, node: Node): number {
+  callTraversalFilter(
+    filter: EngineValue,
+    node: Node,
+  ): TraversalResult<number> {
     let callable = this.engine.asCallable(filter);
     let receiver = this.engine.fromPrimitive(undefined);
     if (callable === null) {
       const object = this.engine.asObject(filter);
       if (object === null) {
-        throw new EngineRealmException(
+        return this.traversalAbrupt(
           this.engine.createTypeError(this.realm, "Invalid NodeFilter"),
         );
       }
       const acceptNode = this.engine.get(this.realm, object, "acceptNode");
       if (acceptNode.type === "throw") {
-        throw new EngineRealmException(acceptNode.value);
+        return this.traversalAbrupt(acceptNode.value);
       }
       callable = this.engine.asCallable(acceptNode.value);
       if (callable === null) {
-        throw new EngineRealmException(
+        return this.traversalAbrupt(
           this.engine.createTypeError(
             this.realm,
             "NodeFilter.acceptNode is not callable",
@@ -1232,17 +1232,21 @@ export class DOMRealmBindingContext {
       }
       receiver = filter;
     }
-    const result = this.engine.call(this.realm, callable, receiver, [
-      this.wrap(node),
-    ]);
+    const result = this.context.call(callable, receiver, [this.wrap(node)]);
     if (result.type === "throw") {
-      throw new EngineRealmException(result.value);
+      return this.traversalAbrupt(result.value);
     }
     const converted = this.engine.toNumber(this.realm, result.value);
     if (converted.type === "throw") {
-      throw new EngineRealmException(converted.value);
+      return this.traversalAbrupt(converted.value);
     }
-    return converted.value;
+    return traversalNormal(converted.value);
+  }
+
+  traversalAbrupt(value: EngineValue): TraversalResult<never> {
+    const token = {};
+    this.traversalAbruptValues.set(token, value);
+    return traversalAbrupt(token);
   }
 
   installParentNodeMutationMembers(
@@ -1331,13 +1335,21 @@ export class DOMRealmBindingContext {
     });
   }
 
-  traversalResult(callback: () => Node | null): EngineResult<EngineValue> {
+  traversalCompletion(
+    callback: () => TraversalResult<Node | null>,
+  ): EngineResult<EngineValue> {
     try {
-      return this.platformValue(callback());
-    } catch (error: unknown) {
-      if (error instanceof EngineRealmException) {
-        return thrown(error.value);
+      const result = callback();
+      if (result.type === "normal") {
+        return this.platformValue(result.value);
       }
+      const value = this.traversalAbruptValues.get(result.token);
+      this.traversalAbruptValues.delete(result.token);
+      if (value === undefined) {
+        throw new TypeError("Unknown traversal interruption token");
+      }
+      return thrown(value);
+    } catch (error: unknown) {
       if (error instanceof HostDOMException) {
         return thrown(this.createDOMException(error.message, error.name));
       }
