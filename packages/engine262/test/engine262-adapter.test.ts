@@ -220,9 +220,14 @@ describe("Engine262Adapter", () => {
     }
   });
 
-  it("performs Promise jobs only at an explicit checkpoint", () => {
+  it("exposes Promise jobs for explicit execution", () => {
     const engine = new Engine262Adapter();
     const realm = engine.createRealm();
+    const enqueued = new Set();
+    const onEnqueue = (job: object): void => {
+      enqueued.add(job);
+    };
+    engine.addJobEnqueueCallback(onEnqueue);
     let calls = 0;
     const record = engine.createFunction(realm, "record", 0, () => {
       calls += 1;
@@ -241,9 +246,18 @@ describe("Engine262Adapter", () => {
 
     evaluate(engine, realm, "Promise.resolve().then(record)");
     expect(calls).toBe(0);
+    expect(enqueued).toHaveLength(1);
 
-    engine.performPromiseCheckpoint();
+    const job = engine.dequeueJob();
+    expect(job).not.toBeNull();
+    if (job === null) {
+      return;
+    }
+    expect(engine.jobRealm(job)).toBe(realm);
+    expect(engine.runJob(job).type).toBe("normal");
     expect(calls).toBe(1);
+    expect(engine.dequeueJob()).toBeNull();
+    engine.removeJobEnqueueCallback(onEnqueue);
   });
 
   it("keeps forwarding global this identity while changing its target", () => {

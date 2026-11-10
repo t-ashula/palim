@@ -1,15 +1,18 @@
 import { normal } from "./adapter.js";
 import type {
   EngineCallable,
+  EngineJob,
   EngineObject,
   EngineRealm,
   EngineResult,
+  EngineScript,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 
 export interface RealmExecutionSettings {
   readonly realm: EngineRealm;
+  readonly reportException?: (value: EngineValue) => void;
 }
 
 export type CallbackExceptionBehavior = "rethrow" | "report";
@@ -36,6 +39,14 @@ interface ExecutionScope {
 export class RealmExecutionRuntime {
   readonly #settings = new WeakMap<EngineRealm, RealmExecutionSettings>();
   readonly #scopes: ExecutionScope[] = [];
+  readonly #jobIncumbentSettings = new WeakMap<
+    EngineJob,
+    RealmExecutionSettings
+  >();
+  readonly #scriptSettings = new WeakMap<
+    EngineScript,
+    RealmExecutionSettings
+  >();
 
   constructor(
     readonly engine: JavaScriptEngineAdapter,
@@ -60,6 +71,53 @@ export class RealmExecutionRuntime {
       throw new TypeError("The realm already has execution settings");
     }
     this.#settings.set(settings.realm, settings);
+  }
+
+  registerScriptSettings(
+    script: EngineScript,
+    settings: RealmExecutionSettings,
+  ): void {
+    this.#scriptSettings.set(script, settings);
+  }
+
+  enqueueMicrotask(
+    settings: RealmExecutionSettings,
+    callback: () => void,
+  ): void {
+    const job = this.engine.enqueueJob(settings.realm, callback);
+    this.#jobIncumbentSettings.set(job, settings);
+  }
+
+  performMicrotaskCheckpoint(): void {
+    for (;;) {
+      const job = this.engine.dequeueJob();
+      if (job === null) {
+        return;
+      }
+      const realm = this.engine.jobRealm(job);
+      const relevantSettings =
+        realm === null ? null : this.settingsForRealm(realm);
+      const script = this.engine.jobScript(job);
+      const incumbentSettings =
+        this.#jobIncumbentSettings.get(job) ??
+        (script === null ? null : this.#scriptSettings.get(script)) ??
+        relevantSettings;
+      const run = (): EngineResult<EngineValue> => this.engine.runJob(job);
+      const result =
+        relevantSettings === null
+          ? run()
+          : this.run(
+              relevantSettings,
+              incumbentSettings ?? relevantSettings,
+              run,
+            );
+      if (result.type === "throw") {
+        if (relevantSettings?.reportException === undefined) {
+          throw new TypeError("The engine job has no exception reporter");
+        }
+        relevantSettings.reportException(result.value);
+      }
+    }
   }
 
   settingsForRealm(realm: EngineRealm): RealmExecutionSettings | null {

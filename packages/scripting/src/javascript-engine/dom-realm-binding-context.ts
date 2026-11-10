@@ -27,6 +27,7 @@ import {
   XMLDocument,
 } from "@palim/core/internal/dom.js";
 import type {
+  MutationObserverMicrotaskScheduler,
   NodeIterator,
   TreeWalker,
   Sanitizer,
@@ -211,6 +212,11 @@ export class DOMRealmBindingContext {
     Map<EngineObject, (event: Event) => void>
   >();
   readonly eventHandlers = new WeakMap<EventTarget, (event: Event) => void>();
+  mutationObserverMicrotaskScheduler: MutationObserverMicrotaskScheduler = (
+    callback,
+  ) => {
+    void Promise.resolve().then(callback);
+  };
   readonly eventTargetPrototype: EngineObject;
   readonly abortSignalPrototype: EngineObject;
   readonly abortControllerPrototype: EngineObject;

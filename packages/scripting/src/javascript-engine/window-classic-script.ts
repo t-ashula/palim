@@ -1,7 +1,10 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import type { Document } from "@palim/core/internal/dom/nodes.js";
 import type { Origin } from "@palim/core/internal/origin.js";
-import type { Window } from "@palim/window/internal/window.js";
+import {
+  setWindowMicrotaskScheduler,
+  type Window,
+} from "@palim/window/internal/window.js";
 import { URL } from "@palim/core/internal/url/index.js";
 import { thrown } from "./adapter.js";
 import type {
@@ -72,6 +75,10 @@ export class WindowEnvironmentSettings {
     return this.binding.realm;
   }
 
+  reportException(value: EngineValue): void {
+    this.binding.reportException(value);
+  }
+
   hasActiveDocument(): boolean {
     return this.window.document === this.#document;
   }
@@ -88,7 +95,7 @@ export class WindowScriptEventLoop {
       }
       this.#performingCheckpoint = true;
       try {
-        this.engine.performPromiseCheckpoint();
+        this.runtime.performMicrotaskCheckpoint();
       } finally {
         this.#performingCheckpoint = false;
       }
@@ -115,6 +122,16 @@ export class WindowScriptEventLoop {
     callback: () => EngineResult<EngineValue>,
   ): EngineResult<EngineValue> {
     return this.runtime.run(settings, settings, callback);
+  }
+
+  enqueueMicrotask(
+    settings: WindowEnvironmentSettings,
+    callback: () => void,
+  ): void {
+    if (settings.responsibleEventLoop !== this) {
+      throw new TypeError("The settings use another event loop");
+    }
+    this.runtime.enqueueMicrotask(settings, callback);
   }
 }
 
@@ -148,6 +165,12 @@ export class WindowClassicScriptRuntime {
       sourceText,
       baseURL.href,
     );
+    if (compilation.type === "normal") {
+      this.settings.responsibleEventLoop.runtime.registerScriptSettings(
+        compilation.value,
+        this.settings,
+      );
+    }
     return new ClassicScript(
       sourceText,
       this.settings,
@@ -200,6 +223,11 @@ export class WindowScriptEnvironment {
       this.eventLoop,
     );
     this.eventLoop.runtime.registerSettings(this.settings);
+    const enqueueMicrotask = (callback: () => void): void => {
+      this.eventLoop.enqueueMicrotask(this.settings, callback);
+    };
+    setWindowMicrotaskScheduler(this.window, enqueueMicrotask);
+    this.binding.dom.setMutationObserverMicrotaskScheduler(enqueueMicrotask);
     this.runtime = new WindowClassicScriptRuntime(this.engine, this.settings);
   }
 

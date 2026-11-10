@@ -243,17 +243,25 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       if (callbackRecord.type === "throw") {
         return callbackRecord;
       }
-      const observer = new MutationObserver((records, currentObserver) => {
-        const platformObserver = binding.wrap(currentObserver);
-        binding.context.invokeCallback(callbackRecord.value, platformObserver, [
-          binding.engine.createArray(
-            binding.realm,
-            records.map((record) => binding.wrap(record)),
-          ),
-          platformObserver,
-        ]);
-        binding.engine.performPromiseCheckpoint();
-      });
+      const observer = new MutationObserver(
+        (records, currentObserver) => {
+          const platformObserver = binding.wrap(currentObserver);
+          binding.context.invokeCallback(
+            callbackRecord.value,
+            platformObserver,
+            [
+              binding.engine.createArray(
+                binding.realm,
+                records.map((record) => binding.wrap(record)),
+              ),
+              platformObserver,
+            ],
+          );
+        },
+        (callback) => {
+          binding.mutationObserverMicrotaskScheduler(callback);
+        },
+      );
       return normal(binding.wrap(observer));
     },
   );

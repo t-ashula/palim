@@ -27,6 +27,7 @@ export type {
 export { MutationObserver, MutationRecord } from "./dom/mutation-observer.js";
 export type {
   MutationCallback,
+  MutationObserverMicrotaskScheduler,
   MutationObserverInit,
 } from "./dom/mutation-observer.js";
 export {

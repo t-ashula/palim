@@ -1,12 +1,15 @@
 import {
   Agent,
+  BasicJobQueue,
   Call,
+  ClearKeptObjects,
   Construct,
   CreateArrayFromList,
   CreateBuiltinFunction,
   DefinePropertyOrThrow,
   Descriptor,
   EnumerableOwnProperties,
+  ExecutionContext,
   FromPropertyDescriptor,
   Get,
   GetFunctionRealm,
@@ -31,6 +34,7 @@ import {
 } from "@engine262/engine262";
 import type {
   FunctionObject,
+  Job,
   NativeSteps,
   PropertyKeyValue,
   ProxyObject,
@@ -41,6 +45,7 @@ import type {
 
 import {
   EngineCallable,
+  EngineJob,
   EngineObject,
   EngineRealm,
   EngineScript,
@@ -51,6 +56,7 @@ import {
 import type {
   EngineDataPropertyAttributes,
   EngineHostFunction,
+  EngineJobEnqueueCallback,
   EnginePrimitive,
   EnginePropertyKey,
   EnginePropertyAttributes,
@@ -109,13 +115,38 @@ class Engine262Script extends EngineScript {
   }
 }
 
+class Engine262Job extends EngineJob {
+  constructor(
+    readonly owner: Engine262Adapter,
+    readonly job: Job,
+  ) {
+    super();
+  }
+}
+
 type Engine262ObjectHandle = Engine262Object | Engine262Callable;
 
 export class Engine262Adapter implements JavaScriptEngineAdapter {
-  readonly #agent = new Agent({ startEventLoop: false });
+  readonly #jobQueue = new BasicJobQueue();
+  readonly #agent = new Agent({
+    jobQueue: this.#jobQueue,
+    startEventLoop: false,
+  });
   readonly #objects = new WeakMap<ObjectValue, Engine262ObjectHandle>();
   readonly #realms = new WeakMap<Realm, Engine262Realm>();
   readonly #forwardingObjects = new WeakSet<ObjectValue>();
+  readonly #jobs = new WeakMap<Job, Engine262Job>();
+  readonly #scripts = new WeakMap<ScriptRecord, Engine262Script>();
+  readonly #jobEnqueueCallbacks = new Set<EngineJobEnqueueCallback>();
+
+  constructor() {
+    this.#jobQueue.onNewJob.add((job) => {
+      const handle = this.#wrapJob(job);
+      for (const callback of this.#jobEnqueueCallbacks) {
+        callback(handle);
+      }
+    });
+  }
 
   createRealm(options: EngineRealmOptions = {}): EngineRealm {
     this.#activate();
@@ -548,15 +579,13 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     const completion = realmHandle.realm.compileScript(source, {
       specifier: sourceURL,
     });
-    return completion instanceof ThrowCompletion
-      ? thrown(this.#wrap(completion.Value))
-      : normal(
-          new Engine262Script(
-            this,
-            realmHandle,
-            ValueOfNormalCompletion(completion),
-          ),
-        );
+    if (completion instanceof ThrowCompletion) {
+      return thrown(this.#wrap(completion.Value));
+    }
+    const record = ValueOfNormalCompletion(completion);
+    const script = new Engine262Script(this, realmHandle, record);
+    this.#scripts.set(record, script);
+    return normal(script);
   }
 
   runScript(
@@ -649,9 +678,93 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
       : "JavaScript execution failed";
   }
 
-  performPromiseCheckpoint(): void {
+  addJobEnqueueCallback(callback: EngineJobEnqueueCallback): void {
+    this.#jobEnqueueCallbacks.add(callback);
+  }
+
+  removeJobEnqueueCallback(callback: EngineJobEnqueueCallback): void {
+    this.#jobEnqueueCallbacks.delete(callback);
+  }
+
+  enqueueJob(realm: EngineRealm, callback: () => void): EngineJob {
     this.#activate();
-    this.#agent.eventLoop.runOnce();
+    const realmHandle = this.#realm(realm);
+    const job: Job = {
+      queueName: "Microtasks",
+      job: function* job() {
+        callback();
+        return Value.undefined;
+      },
+      callerRealm: realmHandle.realm,
+      callerScriptOrModule: null,
+    };
+    this.#jobQueue.enqueueGenericJob(job);
+    return this.#wrapJob(job);
+  }
+
+  dequeueJob(): EngineJob | null {
+    this.#activate();
+    const job = this.#jobQueue.shift();
+    return job === undefined ? null : this.#wrapJob(job);
+  }
+
+  jobRealm(job: EngineJob): EngineRealm | null {
+    const realm = this.#job(job).callerRealm;
+    if (realm === undefined) {
+      return null;
+    }
+    const handle = this.#realms.get(realm);
+    if (handle === undefined) {
+      throw new TypeError("The job realm is not owned by this adapter");
+    }
+    return handle;
+  }
+
+  jobScript(job: EngineJob): EngineScript | null {
+    const script = this.#job(job).callerScriptOrModule;
+    return script === null
+      ? null
+      : (this.#scripts.get(script as ScriptRecord) ?? null);
+  }
+
+  runJob(job: EngineJob): EngineResult<EngineValue> {
+    this.#activate();
+    const record = this.#job(job);
+    const context =
+      record.callerRealm === undefined ? null : new ExecutionContext();
+    if (context !== null && record.callerRealm !== undefined) {
+      context.Function = Value.null;
+      context.Realm = record.callerRealm;
+      context.ScriptOrModule = record.callerScriptOrModule;
+      this.#agent.executionContextStack.push(context);
+    }
+    try {
+      const completion = skipDebugger(record.job());
+      return completion instanceof ThrowCompletion
+        ? thrown(this.#wrap(completion.Value as Engine262Value))
+        : normal(this.fromPrimitive(undefined));
+    } finally {
+      if (context !== null) {
+        this.#agent.executionContextStack.pop(context);
+      }
+      ClearKeptObjects();
+    }
+  }
+
+  #wrapJob(job: Job): Engine262Job {
+    let handle = this.#jobs.get(job);
+    if (handle === undefined) {
+      handle = new Engine262Job(this, job);
+      this.#jobs.set(job, handle);
+    }
+    return handle;
+  }
+
+  #job(job: EngineJob): Job {
+    if (!(job instanceof Engine262Job) || job.owner !== this) {
+      throw new TypeError("The job is not owned by this adapter");
+    }
+    return job.job;
   }
 
   #proxyTrapFunction(

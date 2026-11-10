@@ -4,6 +4,7 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import type { MutationObserverMicrotaskScheduler } from "@palim/core/internal/dom.js";
 import type {
   Document,
   ErrorEvent,
@@ -58,6 +59,12 @@ export class DOMRealmBinding {
     platformObject: EngineObject,
   ): void {
     this.#context.associatePlatformObject(interfaceObject, platformObject);
+  }
+
+  setMutationObserverMicrotaskScheduler(
+    scheduler: MutationObserverMicrotaskScheduler,
+  ): void {
+    this.#context.mutationObserverMicrotaskScheduler = scheduler;
   }
 
   interfaceObject(value: EngineValue): object | null {

@@ -18,6 +18,10 @@ export abstract class EngineScript {
   declare private readonly engineScript: never;
 }
 
+export abstract class EngineJob {
+  declare private readonly engineJob: never;
+}
+
 export type EnginePrimitive =
   undefined | null | boolean | string | number | bigint;
 
@@ -46,6 +50,8 @@ export type EngineHostFunction = (
   thisValue: EngineValue,
   argumentsList: readonly EngineValue[],
 ) => EngineResult<EngineValue>;
+
+export type EngineJobEnqueueCallback = (job: EngineJob) => void;
 
 export const FORWARD_PROXY_TRAP = { type: "forward" } as const;
 
@@ -187,7 +193,13 @@ export interface JavaScriptEngineAdapter {
   ): EngineResult<EngineObject>;
   createTypeError(realm: EngineRealm, message: string): EngineValue;
   exceptionMessage(realm: EngineRealm, value: EngineValue): string;
-  performPromiseCheckpoint(): void;
+  addJobEnqueueCallback(callback: EngineJobEnqueueCallback): void;
+  removeJobEnqueueCallback(callback: EngineJobEnqueueCallback): void;
+  enqueueJob(realm: EngineRealm, callback: () => void): EngineJob;
+  dequeueJob(): EngineJob | null;
+  jobRealm(job: EngineJob): EngineRealm | null;
+  jobScript(job: EngineJob): EngineScript | null;
+  runJob(job: EngineJob): EngineResult<EngineValue>;
 }
 
 export function normal<T>(value: T): EngineResult<T> {

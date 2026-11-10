@@ -65,10 +65,11 @@ interface WindowEnvironment {
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
   readonly timers: Map<number, unknown>;
-  readonly microtasks: (() => void)[];
-  microtaskScheduled: boolean;
+  microtaskScheduler: WindowMicrotaskScheduler;
   nextTimerId: number;
 }
+
+export type WindowMicrotaskScheduler = (callback: () => void) => void;
 
 const WINDOW_ENVIRONMENTS = new WeakMap<object, WindowEnvironment>();
 
@@ -113,8 +114,9 @@ class WindowPlatform extends EventTarget implements Window {
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
       timers: new Map<number, unknown>(),
-      microtasks: [],
-      microtaskScheduled: false,
+      microtaskScheduler: (callback: () => void) => {
+        hostMicrotasks().queueMicrotask(callback);
+      },
       nextTimerId: 1,
     };
     WINDOW_ENVIRONMENTS.set(this, environment);
@@ -288,22 +290,14 @@ export function scheduleWindowMicrotask(
   window: Window,
   callback: () => void,
 ): void {
-  const environment = windowEnvironment(window);
-  environment.microtasks.push(callback);
-  if (environment.microtaskScheduled) {
-    return;
-  }
-  environment.microtaskScheduled = true;
-  hostMicrotasks().queueMicrotask(() => {
-    environment.microtaskScheduled = false;
-    for (;;) {
-      const task = environment.microtasks.shift();
-      if (task === undefined) {
-        return;
-      }
-      task();
-    }
-  });
+  windowEnvironment(window).microtaskScheduler(callback);
+}
+
+export function setWindowMicrotaskScheduler(
+  window: Window,
+  scheduler: WindowMicrotaskScheduler,
+): void {
+  windowEnvironment(window).microtaskScheduler = scheduler;
 }
 
 function windowEnvironment(window: Window): WindowEnvironment {

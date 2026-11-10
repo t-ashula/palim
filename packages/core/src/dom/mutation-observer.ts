@@ -12,6 +12,9 @@ export type MutationCallback = (
   observer: MutationObserver,
 ) => void;
 
+export type MutationObserverMicrotaskScheduler = (callback: () => void) => void;
+type MicrotaskScheduler = MutationObserverMicrotaskScheduler;
+
 interface RegisteredObserver {
   readonly observer: MutationObserver;
   readonly target: Node;
@@ -20,8 +23,14 @@ interface RegisteredObserver {
 }
 
 const REGISTERED_OBSERVERS = new WeakMap<Node, Set<RegisteredObserver>>();
-const PENDING_OBSERVERS = new Set<MutationObserver>();
-let mutationObserverMicrotaskQueued = false;
+const HOST_SCHEDULER: MicrotaskScheduler = (callback) => {
+  void Promise.resolve().then(callback);
+};
+const PENDING_OBSERVERS = new WeakMap<
+  MicrotaskScheduler,
+  Set<MutationObserver>
+>();
+const QUEUED_SCHEDULERS = new WeakSet<MicrotaskScheduler>();
 
 export class MutationRecord {
   readonly type = "childList";
@@ -47,7 +56,10 @@ export class MutationObserver {
   readonly #records: MutationRecord[] = [];
   readonly #registrations = new Set<RegisteredObserver>();
 
-  constructor(readonly callback: MutationCallback) {
+  constructor(
+    readonly callback: MutationCallback,
+    readonly microtaskScheduler: MicrotaskScheduler = HOST_SCHEDULER,
+  ) {
     bindDOMInterface(this, this);
   }
 
@@ -85,8 +97,8 @@ export class MutationObserver {
 
   enqueue(record: MutationRecord): void {
     this.#records.push(record);
-    PENDING_OBSERVERS.add(this);
-    queueMutationObserverMicrotask();
+    pendingObservers(this.microtaskScheduler).add(this);
+    queueMutationObserverMicrotask(this.microtaskScheduler);
   }
 
   addTransientRegistration(target: Node, source: RegisteredObserver): void {
@@ -185,18 +197,32 @@ function addTransientRegisteredObservers(
   }
 }
 
-function queueMutationObserverMicrotask(): void {
-  if (mutationObserverMicrotaskQueued) {
-    return;
+function pendingObservers(
+  scheduler: MicrotaskScheduler,
+): Set<MutationObserver> {
+  let observers = PENDING_OBSERVERS.get(scheduler);
+  if (observers === undefined) {
+    observers = new Set();
+    PENDING_OBSERVERS.set(scheduler, observers);
   }
-  mutationObserverMicrotaskQueued = true;
-  void Promise.resolve().then(notifyMutationObservers);
+  return observers;
 }
 
-function notifyMutationObservers(): void {
-  mutationObserverMicrotaskQueued = false;
-  const observers = Array.from(PENDING_OBSERVERS);
-  PENDING_OBSERVERS.clear();
+function queueMutationObserverMicrotask(scheduler: MicrotaskScheduler): void {
+  if (QUEUED_SCHEDULERS.has(scheduler)) {
+    return;
+  }
+  QUEUED_SCHEDULERS.add(scheduler);
+  scheduler(() => {
+    notifyMutationObservers(scheduler);
+  });
+}
+
+function notifyMutationObservers(scheduler: MicrotaskScheduler): void {
+  QUEUED_SCHEDULERS.delete(scheduler);
+  const pending = pendingObservers(scheduler);
+  const observers = Array.from(pending);
+  pending.clear();
   for (const observer of observers) {
     observer.removeTransientRegistrations();
     const records = observer.takeRecords();
