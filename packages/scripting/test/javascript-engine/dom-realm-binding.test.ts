@@ -1113,6 +1113,14 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("binds-namednodemap-mutation-methods.js"));
   });
 
+  it("binds the NamedNodeMap iterator", () => {
+    const { engine, realm } = createTestRealm(
+      '<main id="target" class="value"></main>',
+    );
+
+    evaluate(engine, realm, fixture("binds-namednodemap-iterator.js"));
+  });
+
   it("binds live NodeList iterable methods", () => {
     const { engine, realm } = createTestRealm(
       '<main><b id="first"></b></main>',

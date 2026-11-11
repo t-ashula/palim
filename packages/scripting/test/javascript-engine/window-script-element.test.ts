@@ -43,6 +43,24 @@ describe("parser-inserted classic scripts", () => {
     ).toEqual(["normal", "normal"]);
   });
 
+  it("returns parser script writes to the active document parser session", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      [
+        '<body><p id="before">before</p><script>',
+        'document.write("<p id=written>written</p>");',
+        '</script><p id="after">after</p></body>',
+      ].join(""),
+    );
+
+    expect(
+      Array.from(document.body?.children ?? [], (element) => element?.id),
+    ).toEqual(["before", "", "written", "after"]);
+    expect(document.querySelector("#written")?.textContent).toBe("written");
+    expect(environment.scriptResults).toHaveLength(1);
+  });
+
   it("keeps DOMParser metadata and parsed scripts inactive", async () => {
     const environment = new WindowExecutionEnvironment({
       url: "https://example.test/path/page.html",

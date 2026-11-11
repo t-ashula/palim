@@ -3,6 +3,7 @@ import {
   nodeImplementation,
 } from "@palim/core/internal/dom/node-implementation.js";
 import type { Element, Node } from "@palim/core/internal/dom/nodes.js";
+import type { Event, EventTarget } from "@palim/core/internal/dom/events.js";
 import { HTMLScriptElement } from "@palim/core/internal/html-elements.js";
 import { URL } from "@palim/core/internal/url/index.js";
 import type {
@@ -113,6 +114,10 @@ export class WindowScriptingEnvironment
 
   async waitForPendingScripts(): Promise<void> {
     await Promise.all(this.#pendingResourceLoads);
+  }
+
+  dispatchEvent(target: EventTarget, event: Event): boolean {
+    return this.binding.dom.dispatchEvent(target, event);
   }
 
   createChild(

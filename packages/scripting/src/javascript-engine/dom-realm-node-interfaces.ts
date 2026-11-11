@@ -1667,6 +1667,63 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
   }
   binding.method(
     binding.documentPrototype,
+    "open",
+    0,
+    (thisValue, argumentsList) => {
+      const document = binding.document(thisValue);
+      if (document === null) {
+        return binding.typeError("Invalid Document receiver");
+      }
+      const converted: string[] = [];
+      for (const value of argumentsList.slice(0, 2)) {
+        const result = binding.context.string(value);
+        if (result.type === "throw") {
+          return result;
+        }
+        converted.push(result.value);
+      }
+      return binding.domOperationResult(() =>
+        normal(binding.wrap(document.open(...converted))),
+      );
+    },
+  );
+  binding.method(binding.documentPrototype, "close", 0, (thisValue) => {
+    const document = binding.document(thisValue);
+    if (document === null) {
+      return binding.typeError("Invalid Document receiver");
+    }
+    return binding.domOperationResult(() => {
+      document.close();
+      return binding.undefined();
+    });
+  });
+  for (const name of ["write", "writeln"] as const) {
+    binding.method(
+      binding.documentPrototype,
+      name,
+      0,
+      (thisValue, argumentsList) => {
+        const document = binding.document(thisValue);
+        if (document === null) {
+          return binding.typeError("Invalid Document receiver");
+        }
+        const converted: string[] = [];
+        for (const value of argumentsList) {
+          const result = binding.context.string(value);
+          if (result.type === "throw") {
+            return result;
+          }
+          converted.push(result.value);
+        }
+        return binding.domOperationResult(() => {
+          document[name](...converted);
+          return binding.undefined();
+        });
+      },
+    );
+  }
+  binding.method(
+    binding.documentPrototype,
     "querySelector",
     1,
     (thisValue, argumentsList) => {

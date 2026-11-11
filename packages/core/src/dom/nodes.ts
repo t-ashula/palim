@@ -160,11 +160,30 @@ type HTMLDocumentParser = (
   sanitizerConfig: CanonicalSanitizerConfig | null,
 ) => Document;
 
+export interface HTMLDocumentParserSession {
+  readonly finished: Promise<Document>;
+  readonly state: "writable" | "closed" | "aborted" | "errored";
+  write(input: string): void;
+  close(): void;
+  abort(): void;
+}
+
+export interface HTMLDocumentParserSessionOptions {
+  readonly onElement?: (element: Element) => void;
+  readonly onScript?: (element: Element) => Promise<void> | void;
+  readonly onClosed?: () => Promise<void> | void;
+}
+
 interface HTMLStreamingParserSession {
   write(input: string): void;
   close(): void;
   abort(): void;
 }
+
+type HTMLDocumentParserSessionFactory = (
+  document: Document,
+  options: HTMLDocumentParserSessionOptions,
+) => HTMLDocumentParserSession;
 
 type HTMLStreamingParserFactory = (
   target: Element | DocumentFragment,
@@ -175,16 +194,62 @@ type HTMLStreamingParserFactory = (
 
 let htmlInsertionFragmentParser: FragmentParser | null = null;
 let htmlDocumentParser: HTMLDocumentParser | null = null;
+let htmlDocumentParserSessionFactory: HTMLDocumentParserSessionFactory | null =
+  null;
 let htmlStreamingParserFactory: HTMLStreamingParserFactory | null = null;
+const activeHTMLDocumentParserSessions = new WeakMap<
+  Document,
+  HTMLDocumentParserSession
+>();
 
 export function setHTMLParsingAlgorithms(
   fragmentParser: FragmentParser,
   documentParser: HTMLDocumentParser,
+  documentParserSessionFactory: HTMLDocumentParserSessionFactory,
   streamingParserFactory: HTMLStreamingParserFactory,
 ): void {
   htmlInsertionFragmentParser = fragmentParser;
   htmlDocumentParser = documentParser;
+  htmlDocumentParserSessionFactory = documentParserSessionFactory;
   htmlStreamingParserFactory = streamingParserFactory;
+}
+
+export function startHTMLDocumentParserSession(
+  document: Document,
+  options: HTMLDocumentParserSessionOptions = {},
+): HTMLDocumentParserSession {
+  if (htmlDocumentParserSessionFactory === null) {
+    throw new TypeError("No HTML document parser session is registered");
+  }
+  const active = activeHTMLDocumentParserSessions.get(document);
+  if (active?.state === "writable") {
+    active.abort();
+  }
+  const implementation = documentImplementation(document);
+  const onElement = options.onElement ?? implementation.parserElementSteps;
+  const onScript = options.onScript ?? implementation.parserScriptSteps;
+  const onClosed = options.onClosed ?? implementation.parserClosedSteps;
+  const session = htmlDocumentParserSessionFactory(document, {
+    ...(onElement === null ? {} : { onElement }),
+    ...(onScript === null ? {} : { onScript }),
+    ...(onClosed === null ? {} : { onClosed }),
+  });
+  activeHTMLDocumentParserSessions.set(document, session);
+  void session.finished
+    .finally(() => {
+      if (activeHTMLDocumentParserSessions.get(document) === session) {
+        activeHTMLDocumentParserSessions.delete(document);
+      }
+    })
+    .catch(() => undefined);
+  return session;
+}
+
+export function activeHTMLDocumentParserSession(
+  document: Document,
+): HTMLDocumentParserSession | null {
+  const session = activeHTMLDocumentParserSessions.get(document) ?? null;
+  return session?.state === "writable" ? session : null;
 }
 
 export interface ElementCreationOptions {
@@ -761,6 +826,55 @@ export class Document extends Node {
             documentElementFactory,
           ),
     );
+  }
+
+  open(unused1?: string, unused2?: string): this {
+    if (arguments.length > 0) {
+      domString(unused1);
+    }
+    if (arguments.length > 1) {
+      domString(unused2);
+    }
+    if (this.contentType !== "text/html") {
+      throw new DOMException(
+        "Dynamic markup insertion requires an HTML document",
+        "InvalidStateError",
+      );
+    }
+    startHTMLDocumentParserSession(this);
+    return this;
+  }
+
+  close(): void {
+    activeHTMLDocumentParserSession(this)?.close();
+  }
+
+  write(...text: string[]): void {
+    this.#writeDynamicMarkup(text, false);
+  }
+
+  writeln(...text: string[]): void {
+    this.#writeDynamicMarkup(text, true);
+  }
+
+  #writeDynamicMarkup(text: string[], line: boolean): void {
+    if (this.contentType !== "text/html") {
+      throw new DOMException(
+        "Dynamic markup insertion requires an HTML document",
+        "InvalidStateError",
+      );
+    }
+    const input =
+      text.map((value) => domString(value)).join("") + (line ? "\n" : "");
+    let active = activeHTMLDocumentParserSession(this);
+    if (active === null) {
+      this.open();
+      active = activeHTMLDocumentParserSession(this);
+    }
+    if (active === null) {
+      throw new TypeError("Document parser session did not start");
+    }
+    active.write(input);
   }
 
   get implementation(): DOMImplementation {

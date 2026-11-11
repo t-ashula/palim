@@ -65,6 +65,10 @@ export class DocumentImplementation extends NodeImplementation {
   origin: Origin = originFromURL(this.url);
   quirks = false;
   parseErrors: readonly PalimParseError[] = [];
+  parserOpenedSteps: (() => void) | null = null;
+  parserElementSteps: ((element: Element) => void) | null = null;
+  parserScriptSteps: ((element: Element) => Promise<void> | void) | null = null;
+  parserClosedSteps: (() => Promise<void> | void) | null = null;
   childrenChangedSteps: ((node: Node) => void) | null = null;
   attributeChangedSteps:
     | ((element: Element, localName: string, namespace: string | null) => void)

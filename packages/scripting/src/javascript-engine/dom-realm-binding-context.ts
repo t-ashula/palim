@@ -2395,9 +2395,39 @@ export class DOMRealmBindingContext {
 
   dispatchEvent(target: EventTarget, event: Event): boolean {
     const handler = this.eventHandlers.get(target);
-    return handler === undefined
-      ? target.dispatchEvent(event)
-      : dispatchDOMEvent(target, event, handler);
+    if (handler !== undefined) {
+      return dispatchDOMEvent(target, event, handler);
+    }
+    return dispatchDOMEvent(target, event, (dispatchedEvent) => {
+      const coreHandler: unknown = Reflect.get(
+        target,
+        `on${dispatchedEvent.type}`,
+      );
+      if (typeof coreHandler === "function") {
+        Reflect.apply(coreHandler, target, [dispatchedEvent]);
+      }
+      const callback = this.engine.get(
+        this.realm,
+        this.wrap(target),
+        `on${dispatchedEvent.type}`,
+      );
+      if (callback.type === "throw") {
+        this.reportException(callback.value);
+        return;
+      }
+      const callable = this.engine.asCallable(callback.value);
+      if (callable === null) {
+        return;
+      }
+      const callbackRecord = this.reportingCallback(callable);
+      if (callbackRecord.type === "throw") {
+        this.reportException(callbackRecord.value);
+        return;
+      }
+      this.context.invokeCallback(callbackRecord.value, this.wrap(target), [
+        this.wrap(dispatchedEvent),
+      ]);
+    });
   }
 
   platformValue(interfaceObject: object | null): EngineResult<EngineValue> {

@@ -71,6 +71,47 @@ describe("DOM interface binding", () => {
   });
 });
 
+describe("Document dynamic markup insertion", () => {
+  it("keeps one document parser session across open, write, writeln, and close", () => {
+    const document = parse("<p>old</p>");
+
+    expect(document.open()).toBe(document);
+    document.write("<!doctype html><main><p>one");
+    expect(document.querySelector("main")?.textContent).toBe("one");
+    document.writeln("</p><p>two</p></main>");
+    document.close();
+
+    expect(document.querySelector("p")?.textContent).toBe("one");
+    expect(document.querySelectorAll("p").item(1)?.textContent).toBe("two");
+    expect(document.querySelector("script")).toBeNull();
+  });
+
+  it("implicitly opens a closed document and keeps scripts inert", () => {
+    const document = parse("<p>old</p>");
+
+    document.write(
+      '<script>document.body.setAttribute("data-ran", "yes")</script>',
+      "<p>new</p>",
+    );
+    document.close();
+
+    expect(document.body?.getAttribute("data-ran")).toBeNull();
+    expect(document.querySelector("p")?.textContent).toBe("new");
+  });
+
+  it("rejects dynamic markup insertion for XML documents", () => {
+    const document = new DOMParser().parseFromString(
+      "<root />",
+      "application/xml",
+    );
+
+    expectDOMException(() => document.open(), "InvalidStateError");
+    expectDOMException(() => {
+      document.write("<next />");
+    }, "InvalidStateError");
+  });
+});
+
 describe("Document named properties", () => {
   it("computes supported names and live values outside a realm binding", () => {
     const document = parse('<img id="first" name="target">');

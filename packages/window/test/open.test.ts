@@ -20,6 +20,31 @@ describe("open", () => {
     ).toBe("fallback");
   });
 
+  it("parses host document writes without executing scripts", async () => {
+    const context = await open({ html: "<p>old</p>" });
+    const loaded = new Promise<void>((resolve) => {
+      context.window.addEventListener(
+        "load",
+        () => {
+          resolve();
+        },
+        { once: true },
+      );
+    });
+
+    context.window.document.open();
+    context.window.document.write(
+      '<main>new<script>document.body.dataset.ran = "yes"</script></main>',
+    );
+    context.window.document.close();
+    await loaded;
+
+    expect(context.window.document.querySelector("main")?.textContent).toBe(
+      'newdocument.body.dataset.ran = "yes"',
+    );
+    expect(context.window.document.body?.getAttribute("data-ran")).toBeNull();
+  });
+
   it("does not fetch script resources when scripting is disabled", async () => {
     const fetchMock = vi.fn((_input: string | URL) =>
       Promise.resolve(

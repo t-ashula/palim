@@ -1,4 +1,4 @@
-import { Event } from "@palim/core/internal/dom/events.js";
+import { Event, type EventTarget } from "@palim/core/internal/dom/events.js";
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import type { Document, Element } from "@palim/core/internal/dom/nodes.js";
 import { descendantElements } from "@palim/core/internal/dom/traversal.js";
@@ -38,6 +38,7 @@ export interface WindowScripting {
   ): WindowScripting;
   processScript(element: unknown): Promise<void>;
   waitForPendingScripts(): Promise<void>;
+  dispatchEvent(target: EventTarget, event: Event): boolean;
 }
 
 export interface WindowDocumentOptions extends WindowOptions {
@@ -56,7 +57,10 @@ export class WindowDocumentLoader {
   readonly #pendingResourceLoads: Promise<void>[] = [];
   readonly #iframeStates = new Map<HTMLIFrameElement, IFrameState>();
   readonly #options: WindowDocumentOptions;
+  readonly #frameElement: Element | undefined;
+  readonly #parentLoader: WindowDocumentLoader | undefined;
   #scripting: WindowScripting | null = null;
+  #loadingHTML = false;
   #active = true;
 
   constructor(
@@ -64,8 +68,11 @@ export class WindowDocumentLoader {
     document?: Document,
     parent?: Window,
     frameElement?: Element,
+    parentLoader?: WindowDocumentLoader,
   ) {
     this.#options = options;
+    this.#frameElement = frameElement;
+    this.#parentLoader = parentLoader;
     if (parent !== undefined) {
       if (frameElement === undefined) {
         throw new TypeError("A child Window requires a frame element");
@@ -87,16 +94,19 @@ export class WindowDocumentLoader {
   ): Promise<Document> {
     this.#scripting = scripting;
     this.#pendingResourceLoads.length = 0;
-    const document = await parseHTMLIntoDocumentAsync(
-      source,
-      this.window.document,
-      async (element) => scripting?.processScript(element),
-      (element) => {
-        this.#processElement(element);
-      },
-    );
-    await this.#finish(scripting);
-    return document;
+    this.#loadingHTML = true;
+    try {
+      return await parseHTMLIntoDocumentAsync(
+        source,
+        this.window.document,
+        async (element) => scripting?.processScript(element),
+        (element) => {
+          this.#processElement(element);
+        },
+      );
+    } finally {
+      this.#loadingHTML = false;
+    }
   }
 
   async loadParsedDocument(
@@ -131,6 +141,42 @@ export class WindowDocumentLoader {
 
   #installDocumentHooks(): void {
     const implementation = documentImplementation(this.window.document);
+    const previousParserOpenedSteps = implementation.parserOpenedSteps;
+    implementation.parserOpenedSteps = () => {
+      previousParserOpenedSteps?.();
+      if (this.#active) {
+        this.#pendingResourceLoads.length = 0;
+      }
+    };
+    const previousParserElementSteps = implementation.parserElementSteps;
+    implementation.parserElementSteps = (element) => {
+      previousParserElementSteps?.(element);
+      if (this.#active) {
+        this.#processElement(element);
+      }
+    };
+    const previousParserScriptSteps = implementation.parserScriptSteps;
+    implementation.parserScriptSteps = async (element) => {
+      await previousParserScriptSteps?.(element);
+      if (this.#active) {
+        await this.#scripting?.processScript(element);
+      }
+    };
+    const previousParserClosedSteps = implementation.parserClosedSteps;
+    implementation.parserClosedSteps = async () => {
+      await previousParserClosedSteps?.();
+      if (this.#active) {
+        await this.#finish(this.#scripting);
+        if (!this.#loadingHTML && this.#frameElement !== undefined) {
+          if (this.#parentLoader !== undefined) {
+            this.#parentLoader.#dispatchEvent(
+              this.#frameElement,
+              new Event("load"),
+            );
+          }
+        }
+      }
+    };
     const previousPostConnectionSteps = implementation.postConnectionSteps;
     implementation.postConnectionSteps = (node) => {
       previousPostConnectionSteps?.(node);
@@ -182,6 +228,7 @@ export class WindowDocumentLoader {
       undefined,
       this.window,
       element,
+      this,
     );
     const state = {
       loader,
@@ -190,6 +237,7 @@ export class WindowDocumentLoader {
         null,
       navigation: 0,
     };
+    loader.#scripting = state.scripting;
     this.#iframeStates.set(element, state);
     setHTMLIFrameElementContentWindow(element, loader.window);
     this.#queueIFrameNavigation(element, state, true);
@@ -328,8 +376,15 @@ export class WindowDocumentLoader {
     navigation: number,
   ): void {
     if (this.#isCurrentIFrameNavigation(element, state, navigation)) {
-      element.dispatchEvent(new Event("load"));
+      this.#dispatchEvent(element, new Event("load"));
     }
+  }
+
+  #dispatchEvent(target: EventTarget, event: Event): boolean {
+    return (
+      this.#scripting?.dispatchEvent(target, event) ??
+      target.dispatchEvent(event)
+    );
   }
 
   #isCurrentIFrameNavigation(

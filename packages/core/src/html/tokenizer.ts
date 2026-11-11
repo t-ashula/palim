@@ -259,6 +259,18 @@ export class HTMLTokenizer {
     this.#waitingForInput = false;
   }
 
+  insert(input: string): void {
+    if (this.#closed) {
+      throw new TypeError("The tokenizer input stream is closed");
+    }
+    const inserted = this.#normalizeInput(input, false);
+    this.#input =
+      this.#input.slice(0, this.#position) +
+      inserted +
+      this.#input.slice(this.#position);
+    this.#waitingForInput = false;
+  }
+
   close(): void {
     if (this.#pendingCarriageReturn) {
       this.#input += "\n";

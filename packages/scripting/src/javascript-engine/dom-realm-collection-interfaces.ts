@@ -147,6 +147,12 @@ export function installNamedNodeMapMembers(
           );
     },
   );
+  binding.installIterator(
+    binding.namedNodeMapPrototype,
+    (thisValue) => binding.namedNodeMap(thisValue),
+    "NamedNodeMap",
+  );
+  binding.interfaceTag(binding.namedNodeMapPrototype, "NamedNodeMap");
 }
 
 export function installNodeListMembers(binding: DOMRealmBindingContext): void {

@@ -6,6 +6,10 @@ import type {
 } from "../dom.js";
 import { DOMException } from "../dom-exception.js";
 import type { FragmentParseOptions, FragmentParser } from "../dom/nodes.js";
+import type {
+  HTMLDocumentParserSession,
+  HTMLDocumentParserSessionOptions,
+} from "../dom/nodes.js";
 import {
   sanitizerAction,
   sanitizerAllowsAttribute,
@@ -38,6 +42,7 @@ import {
   setDocumentParseErrors,
   setDocumentQuirks,
   setHTMLParsingAlgorithms,
+  startHTMLDocumentParserSession,
   setTemplateContents,
   templateContents,
 } from "../dom/nodes.js";
@@ -69,6 +74,7 @@ interface TreeBuilderOptions {
   readonly runScripts?: boolean;
   readonly sanitizerConfig?: CanonicalSanitizerConfig;
   readonly scriptingMode?: ScriptingMode;
+  readonly streamingDocument?: boolean;
   readonly streamingInsertion?: {
     readonly parent: Node;
     readonly reference: Node | null;
@@ -375,6 +381,7 @@ class TreeBuilder {
     readonly parent: Node;
     readonly reference: Node | null;
   } | null;
+  readonly #streamingDocument: boolean;
   readonly #scripting: boolean;
   readonly #stack: Element[] = [];
   readonly #formatting: (Element | null)[] = [];
@@ -404,6 +411,12 @@ class TreeBuilder {
   #streamingRoot: Element | null = null;
   #streamingFinished = false;
   #streamingRunning = false;
+  #documentStreamingRunning = false;
+  #documentStreamingPending: Promise<void> | null = null;
+  #documentStreamingState: HTMLDocumentParserSession["state"] = "writable";
+  readonly #documentStreamingFinished: Promise<Document>;
+  readonly #resolveDocumentStreaming: (document: Document) => void;
+  readonly #rejectDocumentStreaming: (error: unknown) => void;
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
@@ -416,6 +429,17 @@ class TreeBuilder {
     this.#runScripts = options.runScripts ?? false;
     this.#sanitizerConfig = options.sanitizerConfig ?? null;
     this.#streamingInsertion = options.streamingInsertion ?? null;
+    this.#streamingDocument = options.streamingDocument ?? false;
+    let resolveDocumentStreaming!: (document: Document) => void;
+    let rejectDocumentStreaming!: (error: unknown) => void;
+    this.#documentStreamingFinished = new Promise<Document>(
+      (resolve, reject) => {
+        resolveDocumentStreaming = resolve;
+        rejectDocumentStreaming = reject;
+      },
+    );
+    this.#resolveDocumentStreaming = resolveDocumentStreaming;
+    this.#rejectDocumentStreaming = rejectDocumentStreaming;
     const implementation = documentImplementation(this.document);
     const scriptingMode = options.scriptingMode ?? implementation.scriptingMode;
     implementation.scriptingMode = scriptingMode;
@@ -437,7 +461,7 @@ class TreeBuilder {
     }
     this.#tokenizer = new HTMLTokenizer(input, {
       initialState: this.#initialTokenizerState(),
-      streaming: this.#streamingInsertion !== null,
+      streaming: this.#streamingInsertion !== null || this.#streamingDocument,
     });
     if (this.#context !== null) {
       if (context instanceof Element) {
@@ -549,6 +573,111 @@ class TreeBuilder {
       appendNode(fragment, root.firstChild);
     }
     return fragment;
+  }
+
+  get documentStreamingFinished(): Promise<Document> {
+    return this.#documentStreamingFinished;
+  }
+
+  get documentStreamingState(): HTMLDocumentParserSession["state"] {
+    return this.#documentStreamingState;
+  }
+
+  writeStreamingDocument(input: string): void {
+    if (
+      !this.#streamingDocument ||
+      this.#documentStreamingState !== "writable"
+    ) {
+      throw new TypeError("The document parser session is not writable");
+    }
+    this.#tokenizer.insert(input);
+    this.#runStreamingDocument();
+  }
+
+  closeStreamingDocument(): void {
+    if (
+      !this.#streamingDocument ||
+      this.#documentStreamingState !== "writable"
+    ) {
+      return;
+    }
+    this.#tokenizer.close();
+    this.#runStreamingDocument();
+  }
+
+  abortStreamingDocument(): void {
+    if (
+      !this.#streamingDocument ||
+      this.#documentStreamingState !== "writable"
+    ) {
+      return;
+    }
+    this.#tokenizer.discard();
+    this.#documentStreamingState = "aborted";
+    this.#resolveDocumentStreaming(this.document);
+  }
+
+  #runStreamingDocument(): void {
+    if (
+      this.#documentStreamingRunning ||
+      this.#documentStreamingPending !== null ||
+      this.#documentStreamingState !== "writable"
+    ) {
+      return;
+    }
+    this.#documentStreamingRunning = true;
+    try {
+      for (;;) {
+        this.#tokenizer.setAllowCdata(
+          this.#current() !== null &&
+            this.#current()?.namespaceURI !== HTML_NAMESPACE,
+        );
+        const token = this.#nextToken();
+        if (token === null) {
+          if (this.#tokenizer.closed) {
+            const document = this.#finishDocument();
+            this.#documentStreamingState = "closed";
+            this.#completeStreamingDocument(document);
+          }
+          return;
+        }
+        this.#process(token);
+        const pendingScript = this.#pendingScript;
+        this.#pendingScript = null;
+        if (pendingScript !== null) {
+          this.#documentStreamingPending = pendingScript;
+          void pendingScript.then(
+            () => {
+              this.#documentStreamingPending = null;
+              this.#runStreamingDocument();
+            },
+            (error: unknown) => {
+              this.#documentStreamingPending = null;
+              this.#failStreamingDocument(error);
+            },
+          );
+          return;
+        }
+      }
+    } catch (error: unknown) {
+      this.#failStreamingDocument(error);
+      throw error;
+    } finally {
+      this.#documentStreamingRunning = false;
+    }
+  }
+
+  #completeStreamingDocument(document: Document): void {
+    this.#resolveDocumentStreaming(document);
+  }
+
+  #failStreamingDocument(error: unknown): void {
+    if (this.#documentStreamingState !== "writable") {
+      return;
+    }
+    this.#documentStreamingState = "errored";
+    this.#tokenizer.discard();
+    this.#rejectDocumentStreaming(error);
   }
 
   writeStreamingFragment(input: string): void {
@@ -3446,15 +3575,54 @@ export async function parseHTMLIntoDocumentAsync(
   onScript: (element: Element) => Promise<void> | void,
   onElement?: (element: Element) => void,
 ): Promise<Document> {
+  const session = startHTMLDocumentParserSession(document, {
+    ...(onElement === undefined ? {} : { onElement }),
+    onScript,
+  });
+  session.write(input);
+  session.close();
+  return session.finished;
+}
+
+export function createHTMLDocumentParserSession(
+  document: Document,
+  options: HTMLDocumentParserSessionOptions = {},
+): HTMLDocumentParserSession {
+  documentImplementation(document).parserOpenedSteps?.();
   while (document.firstChild !== null) {
     removeNode(document.firstChild);
   }
-  return new TreeBuilder(input, {
+  const implementation = documentImplementation(document);
+  const builder = new TreeBuilder("", {
     document,
-    ...(onElement === undefined ? {} : { onElement }),
-    onScript,
-    scriptingMode: documentImplementation(document).scriptingMode,
-  }).parseAsync();
+    ...(options.onElement === undefined
+      ? {}
+      : { onElement: options.onElement }),
+    ...(options.onScript === undefined ? {} : { onScript: options.onScript }),
+    scriptingMode: implementation.scriptingMode,
+    streamingDocument: true,
+  });
+  const finished = builder.documentStreamingFinished.then(async (result) => {
+    if (builder.documentStreamingState === "closed") {
+      await options.onClosed?.();
+    }
+    return result;
+  });
+  return {
+    get state() {
+      return builder.documentStreamingState;
+    },
+    finished,
+    write(input) {
+      builder.writeStreamingDocument(input);
+    },
+    close() {
+      builder.closeStreamingDocument();
+    },
+    abort() {
+      builder.abortStreamingDocument();
+    },
+  };
 }
 
 export function parseHTMLFragment(
@@ -3507,5 +3675,6 @@ setHTMLParsingAlgorithms(
   htmlFragmentParser,
   (input, allow, sanitizerConfig) =>
     parseHTML(input, "disabled", allow, sanitizerConfig),
+  createHTMLDocumentParserSession,
   createHTMLStreamingParser,
 );
