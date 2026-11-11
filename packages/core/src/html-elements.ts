@@ -5661,8 +5661,8 @@ function setInlineStyleDeclarations(
 }
 
 function reflectedURL(element: Element, name: string): string {
-  const value = element.getAttribute(name) ?? "";
-  if (value === "") {
+  const value = element.getAttribute(name);
+  if (value === null) {
     return "";
   }
   try {
@@ -5775,12 +5775,12 @@ function setNullableString(
 type URLComponent = Exclude<keyof URLValue, "href" | "origin">;
 
 function hyperlinkURL(element: Element): URLValue | null {
-  const value = element.getAttribute("href") ?? "";
-  if (value === "") {
+  const value = element.getAttribute("href");
+  if (value === null) {
     return null;
   }
   try {
-    return new URL(value);
+    return new URL(value, element.baseURI);
   } catch {
     return null;
   }
@@ -5790,7 +5790,8 @@ function hyperlinkComponent(
   element: Element,
   component: URLComponent | "origin",
 ): string {
-  return hyperlinkURL(element)?.[component] ?? "";
+  const url = hyperlinkURL(element);
+  return url === null ? (component === "protocol" ? ":" : "") : url[component];
 }
 
 function setHyperlinkComponent(

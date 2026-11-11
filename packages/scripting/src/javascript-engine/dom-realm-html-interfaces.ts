@@ -1,5 +1,6 @@
 import { foreignAnchorRelList } from "@palim/core/internal/dom/foreign-anchor.js";
 import {
+  HTMLBaseElement,
   HTMLEmbedElement,
   HTMLFormElement,
   HTMLIFrameElement,
@@ -8,7 +9,12 @@ import {
   HTMLScriptElement,
   HTMLSlotElement,
 } from "@palim/core/internal/html-elements.js";
+import type {
+  HTMLAnchorElement,
+  HTMLAreaElement,
+} from "@palim/core/internal/html-elements.js";
 import { normal } from "./adapter.js";
+import type { EngineObject, EngineValue } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installForeignAnchorMembers(
@@ -381,36 +387,12 @@ export function installHTMLAnchorElementMembers(
         : normal(binding.wrap(anchor.relList));
     },
   );
-  binding.attribute(
+  installHTMLHyperlinkElementMembers(
+    binding,
     binding.htmlAnchorElementPrototype,
-    "href",
-    (thisValue) => {
-      const anchor = binding.htmlAnchorElement(thisValue);
-      return anchor === null
-        ? binding.typeError("Invalid HTMLAnchorElement receiver")
-        : binding.primitive(anchor.href);
-    },
-    (thisValue, argumentsList) => {
-      const anchor = binding.htmlAnchorElement(thisValue);
-      if (anchor === null) {
-        return binding.typeError("Invalid HTMLAnchorElement receiver");
-      }
-      const value = binding.stringArgument(argumentsList, 0, "href");
-      if (value.type === "throw") {
-        return value;
-      }
-      anchor.href = value.value;
-      return binding.undefined();
-    },
+    "HTMLAnchorElement",
+    (value) => binding.htmlAnchorElement(value),
   );
-  for (const name of ["pathname", "search", "hash"] as const) {
-    binding.attribute(binding.htmlAnchorElementPrototype, name, (thisValue) => {
-      const anchor = binding.htmlAnchorElement(thisValue);
-      return anchor === null
-        ? binding.typeError("Invalid HTMLAnchorElement receiver")
-        : binding.primitive(anchor[name]);
-    });
-  }
 }
 
 export function installHTMLAreaElementMembers(
@@ -426,6 +408,118 @@ export function installHTMLAreaElementMembers(
         : normal(binding.wrap(area.relList));
     },
   );
+  installHTMLHyperlinkElementMembers(
+    binding,
+    binding.htmlAreaElementPrototype,
+    "HTMLAreaElement",
+    (value) => binding.htmlAreaElement(value),
+  );
+}
+
+export function installHTMLBaseElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  const prototype = binding.htmlElementInterfacePrototype(HTMLBaseElement);
+  const receiver = (value: EngineValue): HTMLBaseElement | null => {
+    const element = binding.htmlElement(value);
+    return element instanceof HTMLBaseElement ? element : null;
+  };
+  for (const name of ["href", "target"] as const) {
+    binding.attribute(
+      prototype,
+      name,
+      (thisValue) => {
+        const element = receiver(thisValue);
+        return element === null
+          ? binding.typeError("Invalid HTMLBaseElement receiver")
+          : binding.primitive(element[name]);
+      },
+      (thisValue, argumentsList) => {
+        const element = receiver(thisValue);
+        if (element === null) {
+          return binding.typeError("Invalid HTMLBaseElement receiver");
+        }
+        const value = binding.stringArgument(argumentsList, 0, name);
+        if (value.type === "throw") {
+          return value;
+        }
+        element[name] = value.value;
+        return binding.undefined();
+      },
+    );
+  }
+}
+
+function installHTMLHyperlinkElementMembers(
+  binding: DOMRealmBindingContext,
+  prototype: EngineObject,
+  interfaceName: "HTMLAnchorElement" | "HTMLAreaElement",
+  receiver: (
+    value: EngineValue,
+  ) => HTMLAnchorElement | HTMLAreaElement | null,
+): void {
+  binding.attribute(
+    prototype,
+    "href",
+    (thisValue) => {
+      const element = receiver(thisValue);
+      return element === null
+        ? binding.typeError(`Invalid ${interfaceName} receiver`)
+        : binding.primitive(element.href);
+    },
+    (thisValue, argumentsList) => {
+      const element = receiver(thisValue);
+      if (element === null) {
+        return binding.typeError(`Invalid ${interfaceName} receiver`);
+      }
+      const value = binding.stringArgument(argumentsList, 0, "href");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.href = value.value;
+      return binding.undefined();
+    },
+  );
+  binding.attribute(prototype, "origin", (thisValue) => {
+    const element = receiver(thisValue);
+    return element === null
+      ? binding.typeError(`Invalid ${interfaceName} receiver`)
+      : binding.primitive(element.origin);
+  });
+  for (const name of [
+    "protocol",
+    "username",
+    "password",
+    "host",
+    "hostname",
+    "port",
+    "pathname",
+    "search",
+    "hash",
+  ] as const) {
+    binding.attribute(
+      prototype,
+      name,
+      (thisValue) => {
+        const element = receiver(thisValue);
+        return element === null
+          ? binding.typeError(`Invalid ${interfaceName} receiver`)
+          : binding.primitive(element[name]);
+      },
+      (thisValue, argumentsList) => {
+        const element = receiver(thisValue);
+        if (element === null) {
+          return binding.typeError(`Invalid ${interfaceName} receiver`);
+        }
+        const value = binding.stringArgument(argumentsList, 0, name);
+        if (value.type === "throw") {
+          return value;
+        }
+        element[name] = value.value;
+        return binding.undefined();
+      },
+    );
+  }
 }
 
 export function installHTMLButtonElementMembers(

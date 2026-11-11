@@ -385,15 +385,15 @@ function parseRelative(input: string, base: URLRecord): URLRecord | null {
   }
   const url = cloneURLRecord(base);
   url.fragment = null;
-  if (input === "") {
-    return url;
-  }
   if (input.startsWith("#")) {
     url.fragment = utf8PercentEncode(input.slice(1), fragmentPercentEncode);
     return url;
   }
   if (hasOpaquePath(url)) {
     return null;
+  }
+  if (input === "") {
+    return url;
   }
   if (input.startsWith("?")) {
     const [query, fragment] = splitFragment(input.slice(1));

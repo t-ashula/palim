@@ -171,8 +171,15 @@ function installURLMembers(state: URLInterfaceInstallationState): void {
         if (value.type === "throw") {
           return value;
         }
-        url[name] = value.value;
-        return state.context.undefined();
+        try {
+          url[name] = value.value;
+          return state.context.undefined();
+        } catch (error: unknown) {
+          if (error instanceof TypeError) {
+            return state.context.typeError(error.message);
+          }
+          throw error;
+        }
       },
     );
   }
@@ -424,6 +431,7 @@ function installURLSearchParamsMembers(
     state.domain.searchParamsPrototype,
     state.engine.wellKnownSymbol("iterator"),
     entries,
+    { configurable: true, enumerable: false, writable: true },
   );
   state.context.method(
     state.domain.searchParamsPrototype,

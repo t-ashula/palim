@@ -1207,8 +1207,10 @@ describe("DOMRealmBinding", () => {
     expect(document.querySelector("main")?.firstChild?.nodeName).toBe("SECOND");
   });
 
-  it("exposes HTMLAnchorElement URL attributes in the engine realm", () => {
-    const { engine, realm } = createTestRealm('<a id="target"></a>');
+  it("exposes HTML hyperlink URL attributes in the engine realm", () => {
+    const { engine, realm } = createTestRealm(
+      '<base href="https://example.test/base/"><a id="target"></a><area id="area">',
+    );
 
     evaluate(
       engine,

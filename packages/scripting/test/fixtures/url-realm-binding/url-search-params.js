@@ -47,6 +47,18 @@ const iterator = copy.entries();
 if (iterator[Symbol.iterator]() !== iterator) {
   throw new Error("URLSearchParams iterator is not iterable");
 }
+const iteratorDescriptor = Object.getOwnPropertyDescriptor(
+  URLSearchParams.prototype,
+  Symbol.iterator,
+);
+if (
+  iteratorDescriptor.value !== URLSearchParams.prototype.entries ||
+  iteratorDescriptor.enumerable ||
+  !iteratorDescriptor.configurable ||
+  !iteratorDescriptor.writable
+) {
+  throw new Error("URLSearchParams iterator descriptor is invalid");
+}
 
 const receiver = { count: 0 };
 copy.forEach(function (value, name, parent) {

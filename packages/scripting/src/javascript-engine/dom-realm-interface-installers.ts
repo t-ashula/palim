@@ -26,6 +26,7 @@ export {
   installHTMLElementMembers,
   installHTMLAnchorElementMembers,
   installHTMLAreaElementMembers,
+  installHTMLBaseElementMembers,
   installHTMLButtonElementMembers,
   installHTMLIFrameElementMembers,
   installHTMLLinkElementMembers,
