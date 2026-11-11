@@ -2,6 +2,8 @@ import type {
   HostServices,
   RealmCallable,
   RealmHostFunction,
+  RealmInterface,
+  RealmObject,
   RealmPrimitive,
   RealmPromiseCapability,
   RealmResult,
@@ -100,26 +102,161 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     );
   }
 
-  function(
+  number(value: RealmValue): RealmResult<number> {
+    return toRealmResult(
+      this.context.engine.toNumber(this.context.realm, toEngineValue(value)),
+    );
+  }
+
+  boolean(value: RealmValue): boolean {
+    return this.context.engine.toBoolean(toEngineValue(value));
+  }
+
+  isUndefined(value: RealmValue): boolean {
+    return this.context.engine.isUndefined(toEngineValue(value));
+  }
+
+  isNull(value: RealmValue): boolean {
+    return this.context.engine.isNull(toEngineValue(value));
+  }
+
+  object(value: RealmValue): RealmObject | null {
+    const object = this.context.engine.asObject(toEngineValue(value));
+    return object === null ? null : toRealmObject(object);
+  }
+
+  callable(value: RealmValue): RealmCallable | null {
+    const callable = this.context.engine.asCallable(toEngineValue(value));
+    return callable === null ? null : (toRealmValue(callable) as RealmCallable);
+  }
+
+  get(object: RealmObject, name: string): RealmResult<RealmValue> {
+    return engineResultToRealm(
+      this.context.engine.get(this.context.realm, toEngineObject(object), name),
+    );
+  }
+
+  ownEnumerablePropertyNames(
+    object: RealmObject,
+  ): RealmResult<readonly string[]> {
+    return toRealmResult(
+      this.context.engine.ownEnumerablePropertyNames(
+        this.context.realm,
+        toEngineObject(object),
+      ),
+    );
+  }
+
+  iterableValues(
+    object: RealmObject,
+  ): RealmResult<readonly RealmValue[] | null> {
+    const result = this.context.iterableValues(toEngineObject(object));
+    return result.type === "throw"
+      ? { type: "throw", value: toRealmValue(result.value) }
+      : {
+          type: "normal",
+          value:
+            result.value === null
+              ? null
+              : result.value.map((value) => toRealmValue(value)),
+        };
+  }
+
+  array(values: readonly RealmValue[]): RealmObject {
+    return toRealmObject(
+      this.context.engine.createArray(
+        this.context.realm,
+        values.map(toEngineValue),
+      ),
+    );
+  }
+
+  iterator(values: readonly RealmValue[]): RealmResult<RealmObject> {
+    const array = this.context.engine.createArray(
+      this.context.realm,
+      values.map(toEngineValue),
+    );
+    const method = this.context.engine.get(
+      this.context.realm,
+      array,
+      this.context.engine.wellKnownSymbol("iterator"),
+    );
+    if (method.type === "throw") {
+      return { type: "throw", value: toRealmValue(method.value) };
+    }
+    const callable = this.context.engine.asCallable(method.value);
+    if (callable === null) {
+      return {
+        type: "throw",
+        value: this.createTypeError("Array iterator is not callable"),
+      };
+    }
+    const result = this.context.call(callable, array, []);
+    if (result.type === "throw") {
+      return { type: "throw", value: toRealmValue(result.value) };
+    }
+    const iterator = this.context.engine.asObject(result.value);
+    return iterator === null
+      ? {
+          type: "throw",
+          value: this.createTypeError(
+            "Array iterator did not return an object",
+          ),
+        }
+      : { type: "normal", value: toRealmObject(iterator) };
+  }
+
+  call(
+    callable: RealmCallable,
+    thisValue: RealmValue,
+    argumentsList: readonly RealmValue[],
+  ): RealmResult<RealmValue> {
+    return engineResultToRealm(
+      this.context.call(
+        toEngineCallable(callable),
+        toEngineValue(thisValue),
+        argumentsList.map(toEngineValue),
+      ),
+    );
+  }
+
+  defineGlobalFunction(
     name: string,
     length: number,
     callback: RealmHostFunction,
   ): RealmCallable {
-    return this.context.function(name, length, (thisValue, argumentsList) =>
-      realmResultToEngine(
-        callback(toRealmValue(thisValue), argumentsList.map(toRealmValue)),
-      ),
-    ) as unknown as RealmCallable;
-  }
-
-  defineGlobal(name: string, value: RealmValue): void {
-    this.context.interfaceProperty(name, toEngineValue(value));
-  }
-
-  evaluate(source: string): RealmResult<RealmValue> {
-    return engineResultToRealm(
-      this.context.engine.evaluate(this.context.realm, source),
+    const callable = this.context.function(
+      name,
+      length,
+      (thisValue, argumentsList) =>
+        realmResultToEngine(
+          callback(toRealmValue(thisValue), argumentsList.map(toRealmValue)),
+        ),
     );
+    this.context.interfaceProperty(name, callable);
+    return toRealmValue(callable) as RealmCallable;
+  }
+
+  defineInterface(
+    name: string,
+    length: number,
+    construct: RealmHostFunction,
+  ): RealmInterface {
+    const prototype = this.context.engine.createObject(
+      this.context.realm,
+      this.context.engine.objectPrototype(this.context.realm),
+    );
+    const constructor = this.context.createConstructor(
+      name,
+      length,
+      (thisValue, argumentsList) =>
+        realmResultToEngine(
+          construct(toRealmValue(thisValue), argumentsList.map(toRealmValue)),
+        ),
+    );
+    this.context.installInterface(name, constructor, prototype);
+    this.context.tag(prototype, name);
+    return new ScriptingRealmInterface(this.context, constructor, prototype);
   }
 
   createTypeError(message: string): RealmValue {
@@ -128,23 +265,105 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     );
   }
 
-  promise(): RealmPromiseCapability {
-    const capability = this.#object(
-      this.context.engine.evaluate(
-        this.context.realm,
-        "(() => { let resolve; let reject; const promise = new Promise((a, b) => { resolve = a; reject = b; }); return { promise, resolve, reject }; })()",
-      ),
-      "Could not create a realm Promise",
+  createRangeError(message: string): RealmValue {
+    return toRealmValue(
+      this.context.engine.createRangeError(this.context.realm, message),
     );
-    const promise = this.#property(capability, "promise");
-    const resolve = this.#callable(capability, "resolve");
-    const reject = this.#callable(capability, "reject");
+  }
+
+  parseJSON(value: string): RealmResult<RealmValue> {
+    return this.#callGlobalMethod("JSON", "parse", [this.primitive(value)]);
+  }
+
+  stringifyJSON(value: RealmValue): RealmResult<string> {
+    const result = this.#callGlobalMethod("JSON", "stringify", [value]);
+    return result.type === "throw" ? result : this.string(result.value);
+  }
+
+  arrayBuffer(bytes: Uint8Array): RealmResult<RealmObject> {
+    const constructor = this.#globalCallable("Uint8Array");
+    if (constructor.type === "throw") {
+      return constructor;
+    }
+    const values = this.context.engine.createArray(
+      this.context.realm,
+      Array.from(bytes, (byte) => this.context.engine.fromPrimitive(byte)),
+    );
+    const typedArray = this.context.engine.construct(
+      this.context.realm,
+      toEngineCallable(constructor.value),
+      [values],
+    );
+    if (typedArray.type === "throw") {
+      return { type: "throw", value: toRealmValue(typedArray.value) };
+    }
+    const buffer = this.context.engine.get(
+      this.context.realm,
+      typedArray.value,
+      "buffer",
+    );
+    if (buffer.type === "throw") {
+      return { type: "throw", value: toRealmValue(buffer.value) };
+    }
+    const object = this.context.engine.asObject(buffer.value);
+    return object === null
+      ? {
+          type: "throw",
+          value: this.createTypeError("Uint8Array buffer is not an object"),
+        }
+      : { type: "normal", value: toRealmObject(object) };
+  }
+
+  promise(): RealmPromiseCapability {
+    const functions: {
+      resolve?: EngineCallable;
+      reject?: EngineCallable;
+    } = {};
+    const executor = this.context.function(
+      "",
+      2,
+      (_thisValue, argumentsList) => {
+        const resolve =
+          argumentsList[0] === undefined
+            ? null
+            : this.context.engine.asCallable(argumentsList[0]);
+        const reject =
+          argumentsList[1] === undefined
+            ? null
+            : this.context.engine.asCallable(argumentsList[1]);
+        if (resolve !== null) {
+          functions.resolve = resolve;
+        }
+        if (reject !== null) {
+          functions.reject = reject;
+        }
+        return normal(this.context.engine.fromPrimitive(undefined));
+      },
+    );
+    const promiseConstructor = this.#globalCallable("Promise");
+    if (promiseConstructor.type === "throw") {
+      throw new TypeError("Promise is unavailable in the Window realm");
+    }
+    const promise = this.context.engine.construct(
+      this.context.realm,
+      toEngineCallable(promiseConstructor.value),
+      [executor],
+    );
+    if (
+      promise.type === "throw" ||
+      functions.resolve === undefined ||
+      functions.reject === undefined
+    ) {
+      throw new TypeError("Could not create a realm Promise");
+    }
+    const resolveFunction = functions.resolve;
+    const rejectFunction = functions.reject;
     return {
-      promise: toRealmValue(promise),
+      promise: toRealmValue(promise.value),
       resolve: (value) =>
         engineResultToRealm(
           this.context.call(
-            resolve,
+            resolveFunction,
             this.context.engine.fromPrimitive(undefined),
             [toEngineValue(value)],
           ),
@@ -152,7 +371,7 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
       reject: (reason) =>
         engineResultToRealm(
           this.context.call(
-            reject,
+            rejectFunction,
             this.context.engine.fromPrimitive(undefined),
             [toEngineValue(reason)],
           ),
@@ -160,38 +379,140 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     };
   }
 
-  #object(result: EngineResult<EngineValue>, message: string): EngineObject {
-    if (result.type === "throw") {
-      throw new TypeError(
-        `${message}: ${this.context.engine.exceptionMessage(this.context.realm, result.value)}`,
-      );
+  #callGlobalMethod(
+    objectName: string,
+    methodName: string,
+    argumentsList: readonly RealmValue[],
+  ): RealmResult<RealmValue> {
+    const object = this.#globalObject(objectName);
+    if (object.type === "throw") {
+      return object;
     }
-    const object = this.context.engine.asObject(result.value);
-    if (object === null) {
-      throw new TypeError(message);
-    }
-    return object;
-  }
-
-  #property(object: EngineObject, name: string): EngineValue {
-    const result = this.context.engine.get(this.context.realm, object, name);
-    if (result.type === "throw") {
-      throw new TypeError(
-        `Could not read Promise capability ${name}: ${this.context.engine.exceptionMessage(this.context.realm, result.value)}`,
-      );
-    }
-    return result.value;
-  }
-
-  #callable(object: EngineObject, name: string): EngineCallable {
-    const callable = this.context.engine.asCallable(
-      this.#property(object, name),
+    const method = this.context.engine.get(
+      this.context.realm,
+      toEngineObject(object.value),
+      methodName,
     );
-    if (callable === null) {
-      throw new TypeError(`Promise capability ${name} is not callable`);
+    if (method.type === "throw") {
+      return { type: "throw", value: toRealmValue(method.value) };
     }
-    return callable;
+    const callable = this.context.engine.asCallable(method.value);
+    return callable === null
+      ? {
+          type: "throw",
+          value: this.createTypeError(
+            `${objectName}.${methodName} is not callable`,
+          ),
+        }
+      : engineResultToRealm(
+          this.context.call(
+            callable,
+            toEngineObject(object.value),
+            argumentsList.map(toEngineValue),
+          ),
+        );
   }
+
+  #globalCallable(name: string): RealmResult<RealmCallable> {
+    const value = this.context.engine.get(
+      this.context.realm,
+      this.context.engine.globalObject(this.context.realm),
+      name,
+    );
+    if (value.type === "throw") {
+      return { type: "throw", value: toRealmValue(value.value) };
+    }
+    const callable = this.context.engine.asCallable(value.value);
+    return callable === null
+      ? {
+          type: "throw",
+          value: this.createTypeError(`${name} is not callable`),
+        }
+      : { type: "normal", value: toRealmValue(callable) as RealmCallable };
+  }
+
+  #globalObject(name: string): RealmResult<RealmObject> {
+    const value = this.context.engine.get(
+      this.context.realm,
+      this.context.engine.globalObject(this.context.realm),
+      name,
+    );
+    if (value.type === "throw") {
+      return { type: "throw", value: toRealmValue(value.value) };
+    }
+    const object = this.context.engine.asObject(value.value);
+    return object === null
+      ? {
+          type: "throw",
+          value: this.createTypeError(`${name} is not an object`),
+        }
+      : { type: "normal", value: toRealmObject(object) };
+  }
+}
+
+class ScriptingRealmInterface implements RealmInterface {
+  constructor(
+    readonly context: RealmBindingContext,
+    readonly constructorValue: EngineCallable,
+    readonly prototype: EngineObject,
+  ) {}
+
+  create(): RealmObject {
+    return toRealmObject(
+      this.context.engine.createObject(this.context.realm, this.prototype),
+    );
+  }
+
+  method(name: string, length: number, callback: RealmHostFunction): void {
+    this.context.method(this.prototype, name, length, realmCallback(callback));
+  }
+
+  attribute(
+    name: string,
+    getter: RealmHostFunction,
+    setter?: RealmHostFunction,
+  ): void {
+    this.context.attribute(
+      this.prototype,
+      name,
+      realmCallback(getter),
+      setter === undefined ? null : realmCallback(setter),
+    );
+  }
+
+  staticMethod(
+    name: string,
+    length: number,
+    callback: RealmHostFunction,
+  ): void {
+    this.context.interfaceMethod(
+      this.constructorValue,
+      name,
+      length,
+      realmCallback(callback),
+    );
+  }
+
+  iterator(callback: RealmHostFunction): void {
+    const method = this.context.function(
+      "[Symbol.iterator]",
+      0,
+      realmCallback(callback),
+    );
+    this.context.engine.initializeDataProperty(
+      this.prototype,
+      this.context.engine.wellKnownSymbol("iterator"),
+      method,
+      { configurable: true, enumerable: false, writable: true },
+    );
+  }
+}
+
+function realmCallback(callback: RealmHostFunction) {
+  return (thisValue: EngineValue, argumentsList: readonly EngineValue[]) =>
+    realmResultToEngine(
+      callback(toRealmValue(thisValue), argumentsList.map(toRealmValue)),
+    );
 }
 
 function toRealmValue(value: EngineValue): RealmValue {
@@ -200,6 +521,18 @@ function toRealmValue(value: EngineValue): RealmValue {
 
 function toEngineValue(value: RealmValue): EngineValue {
   return value as unknown as EngineValue;
+}
+
+function toRealmObject(value: EngineObject): RealmObject {
+  return value as unknown as RealmObject;
+}
+
+function toEngineObject(value: RealmObject): EngineObject {
+  return value as unknown as EngineObject;
+}
+
+function toEngineCallable(value: RealmCallable): EngineCallable {
+  return value as unknown as EngineCallable;
 }
 
 function toRealmResult<T>(result: EngineResult<T>): RealmResult<T> {

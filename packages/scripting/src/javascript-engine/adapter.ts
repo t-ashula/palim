@@ -199,6 +199,7 @@ export interface JavaScriptEngineAdapter {
     argumentsList: readonly EngineValue[],
   ): EngineResult<EngineObject>;
   createTypeError(realm: EngineRealm, message: string): EngineValue;
+  createRangeError(realm: EngineRealm, message: string): EngineValue;
   exceptionMessage(realm: EngineRealm, value: EngineValue): string;
   isPromise(value: EngineValue): boolean;
   addPromiseRejectionTracker(tracker: EnginePromiseRejectionTracker): void;

@@ -690,15 +690,25 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   }
 
   createTypeError(realm: EngineRealm, message: string): EngineValue {
+    return this.#createError(realm, "%TypeError%", message);
+  }
+
+  createRangeError(realm: EngineRealm, message: string): EngineValue {
+    return this.#createError(realm, "%RangeError%", message);
+  }
+
+  #createError(
+    realm: EngineRealm,
+    intrinsic: "%TypeError%" | "%RangeError%",
+    message: string,
+  ): EngineValue {
     const realmHandle = this.#realm(realm);
     return this.#withRealm(realmHandle, () => {
       const completion = skipDebugger(
-        Construct(realmHandle.realm.Intrinsics["%TypeError%"], [
-          Value(message),
-        ]),
+        Construct(realmHandle.realm.Intrinsics[intrinsic], [Value(message)]),
       );
       if (completion instanceof ThrowCompletion) {
-        throw new TypeError("Cannot create a JavaScript TypeError");
+        throw new TypeError(`Cannot create a JavaScript ${intrinsic}`);
       }
       return this.#wrap(ValueOfNormalCompletion(completion));
     });

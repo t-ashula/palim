@@ -1,6 +1,7 @@
 declare const SERVICE_TYPE: unique symbol;
 declare const REALM_VALUE: unique symbol;
 declare const REALM_CALLABLE: unique symbol;
+declare const REALM_OBJECT: unique symbol;
 
 export interface HostServiceKey<T> {
   readonly name: string;
@@ -59,6 +60,10 @@ export interface RealmCallable extends RealmValue {
   readonly [REALM_CALLABLE]: never;
 }
 
+export interface RealmObject extends RealmValue {
+  readonly [REALM_OBJECT]: never;
+}
+
 export type RealmPrimitive =
   undefined | null | boolean | string | number | bigint;
 
@@ -77,17 +82,56 @@ export interface RealmPromiseCapability {
   reject(reason: RealmValue): RealmResult<RealmValue>;
 }
 
+export interface RealmInterface {
+  create(): RealmObject;
+  method(name: string, length: number, callback: RealmHostFunction): void;
+  attribute(
+    name: string,
+    getter: RealmHostFunction,
+    setter?: RealmHostFunction,
+  ): void;
+  staticMethod(name: string, length: number, callback: RealmHostFunction): void;
+  iterator(callback: RealmHostFunction): void;
+}
+
 export interface WindowRealmInstaller {
   primitive(value: RealmPrimitive): RealmValue;
   string(value: RealmValue): RealmResult<string>;
-  function(
+  number(value: RealmValue): RealmResult<number>;
+  boolean(value: RealmValue): boolean;
+  isUndefined(value: RealmValue): boolean;
+  isNull(value: RealmValue): boolean;
+  object(value: RealmValue): RealmObject | null;
+  callable(value: RealmValue): RealmCallable | null;
+  get(object: RealmObject, name: string): RealmResult<RealmValue>;
+  ownEnumerablePropertyNames(
+    object: RealmObject,
+  ): RealmResult<readonly string[]>;
+  iterableValues(
+    object: RealmObject,
+  ): RealmResult<readonly RealmValue[] | null>;
+  array(values: readonly RealmValue[]): RealmObject;
+  iterator(values: readonly RealmValue[]): RealmResult<RealmObject>;
+  call(
+    callable: RealmCallable,
+    thisValue: RealmValue,
+    argumentsList: readonly RealmValue[],
+  ): RealmResult<RealmValue>;
+  defineGlobalFunction(
     name: string,
     length: number,
     callback: RealmHostFunction,
   ): RealmCallable;
-  defineGlobal(name: string, value: RealmValue): void;
-  evaluate(source: string): RealmResult<RealmValue>;
+  defineInterface(
+    name: string,
+    length: number,
+    construct: RealmHostFunction,
+  ): RealmInterface;
   createTypeError(message: string): RealmValue;
+  createRangeError(message: string): RealmValue;
+  parseJSON(value: string): RealmResult<RealmValue>;
+  stringifyJSON(value: RealmValue): RealmResult<string>;
+  arrayBuffer(bytes: Uint8Array): RealmResult<RealmObject>;
   promise(): RealmPromiseCapability;
 }
 
