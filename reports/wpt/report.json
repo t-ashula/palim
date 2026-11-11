@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261110t121915688z-448589",
+    "id": "20261111t113421707z-1122404",
     "state": "completed",
     "palim": {
-      "revision": "c15c556e6ec5c57ac03165a89c58cc5c3686ef67",
-      "dirty": true,
-      "imageId": "sha256:9c349b450ac847542afe3d63d0df408eee9750646b3448ee8aab414899f31d06"
+      "revision": "86f6f8fd94ad6f4b2bc47aa3958d260ef9bfca7d",
+      "dirty": false,
+      "imageId": "sha256:268d973423676bbfec55944d69f730956e77dc7dda9eccb3b2480b4e7cf8730a"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-10T13:03:45.663Z",
+    "snapshotAt": "2026-11-11T12:22:05.523Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 591,
-    "fail": 679,
+    "pass": 603,
+    "fail": 838,
     "skip": 0,
-    "error": 381,
-    "timeout": 275,
+    "error": 207,
+    "timeout": 278,
     "pending": 0
   },
   "areas": [
@@ -117,9 +117,9 @@
         "total": 408,
         "executed": 408,
         "pass": 271,
-        "fail": 93,
+        "fail": 94,
         "skip": 0,
-        "error": 6,
+        "error": 5,
         "timeout": 38,
         "pending": 0
       }
@@ -195,9 +195,9 @@
         "total": 236,
         "executed": 236,
         "pass": 22,
-        "fail": 8,
+        "fail": 181,
         "skip": 0,
-        "error": 174,
+        "error": 1,
         "timeout": 32,
         "pending": 0
       }
@@ -220,8 +220,8 @@
       "totals": {
         "total": 50,
         "executed": 50,
-        "pass": 15,
-        "fail": 17,
+        "pass": 17,
+        "fail": 15,
         "skip": 0,
         "error": 16,
         "timeout": 2,
@@ -259,11 +259,11 @@
       "totals": {
         "total": 77,
         "executed": 77,
-        "pass": 16,
-        "fail": 32,
+        "pass": 26,
+        "fail": 19,
         "skip": 0,
         "error": 28,
-        "timeout": 1,
+        "timeout": 4,
         "pending": 0
       }
     },
@@ -295,12 +295,12 @@
     }
   ],
   "subtests": {
-    "total": 78904,
-    "pass": 52928,
-    "fail": 20467,
+    "total": 89743,
+    "pass": 55746,
+    "fail": 28658,
     "skip": 0,
-    "error": 5246,
-    "timeout": 263
+    "error": 5073,
+    "timeout": 266
   },
   "nonPassingTests": [
     {
@@ -2542,8 +2542,8 @@
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "assert_equals: preMetaReferrer is the full URL; by the time the first script runs in its post-insertion steps, the later-inserted meta tag has not run its post-insertion steps, which is where meta tags are processed expected \"http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html\" but got \"\""
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html",
@@ -3158,12 +3158,12 @@
     {
       "url": "/domparsing/tentative/stream-append-html-unsafe.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
     },
     {
       "url": "/domparsing/tentative/stream-append-html.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
     },
     {
       "url": "/domparsing/tentative/stream-fragment-context.html",
@@ -3208,7 +3208,7 @@
     {
       "url": "/domparsing/tentative/stream-html-unsafe.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
     },
     {
       "url": "/domparsing/tentative/stream-html-with-declarative-shadow-root.html",
@@ -3268,7 +3268,7 @@
     {
       "url": "/domparsing/tentative/stream-html.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Response\" is not defined\""
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
     },
     {
       "url": "/domparsing/tentative/stream-sanitizer-customized-builtins.html",
@@ -3283,7 +3283,7 @@
     {
       "url": "/domparsing/tentative/stream-sanitizer-resource-fetch.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+      "message": "assert_equals: Server SHOULD observe request in control case expected \"1\" but got \"0\""
     },
     {
       "url": "/domparsing/tentative/stream-tokenizer-context.html",
@@ -3657,868 +3657,868 @@
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=adoption02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=blocks",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=comments01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=doctype01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=domjs-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=entities01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=entities02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=foreign-fragment",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=html5test-com",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=inbody01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=isindex",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=main-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=math",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=menuitem-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=processing-instructions",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=quirks01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=ruby",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scriptdata01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_ark",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_foster01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=search-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=svg",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tables01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=template",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests1",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests10",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests11",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests12",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests14",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests15",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests16",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests17",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests18",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests19",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests2",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests20",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests21",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests22",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests23",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests24",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests25",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests26",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests3",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests4",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests5",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests6",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests7",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests8",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests9",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tricky01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=void-in-phrasing",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=webkit02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "\"Blob\" is not defined"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=adoption02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=blocks",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=comments01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=doctype01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=domjs-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=entities01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=entities02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=html5test-com",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=inbody01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=isindex",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=main-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=menuitem-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=processing-instructions",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=quirks01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=ruby",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scriptdata01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_ark",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_foster01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=search-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tables01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=template",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests1",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests10",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests11",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests12",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests14",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests15",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests16",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests17",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests18",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests19",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests2",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests20",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests21",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests22",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests23",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests24",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests25",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests26",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests3",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests5",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests6",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests7",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests8",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tests9",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=tricky01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=void-in-phrasing",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=webkit02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=blocks",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=comments01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=doctype01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=html5test-com",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=inbody01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=isindex",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=main-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=menuitem-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=processing-instructions",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=quirks01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=ruby",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scriptdata01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_ark",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=search-element",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tables01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=template",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests1",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests10",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests11",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests12",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests14",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests15",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests16",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests17",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests18",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests19",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests2",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests20",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests21",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests22",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests23",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests24",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests25",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests26",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests3",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests5",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests6",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests7",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests8",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests9",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tricky01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit01",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit02",
-      "status": "error",
-      "message": "ReferenceError: \"fetch\" is not defined"
+      "status": "fail",
+      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
     },
     {
       "url": "/html/syntax/parsing/html_content_in_foreign_context.html",
@@ -4693,7 +4693,7 @@
     {
       "url": "/sanitizer-api/sanitizer-in-adoption-agency.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_true: [object Object].isEqual([object Object]) fails. Path: <DIV> / <DIV>. expected true got false"
     },
     {
       "url": "/sanitizer-api/sanitizer-inert-document.html",
@@ -4709,11 +4709,6 @@
       "url": "/sanitizer-api/sanitizer-parseHTML.html",
       "status": "fail",
       "message": "assert_throws_js: function \"() => Document.parseHTML(testcase.data, config)\" threw object \"Error: Invalid SanitizerConfig\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
-    },
-    {
-      "url": "/sanitizer-api/sanitizer-script-tokenizer.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
     },
     {
       "url": "/sanitizer-api/sanitizer-svg-animate.html",
@@ -4736,11 +4731,6 @@
       "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected:div\"] length 2, got [] length 0"
     },
     {
-      "url": "/sanitizer-api/sethtml-safety.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
-    },
-    {
       "url": "/sanitizer-api/sethtml-scoped-custom-element-registry.html",
       "status": "fail",
       "message": "[Function CustomElementRegistry] is not a constructor"
@@ -4748,7 +4738,7 @@
     {
       "url": "/sanitizer-api/sethtml-tree-construction.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: Expect exception TypeError, but got Error: Invalid SanitizerConfig. expected \"TypeError\" but got \"Error\""
     },
     {
       "url": "/sanitizer-api/sethtml-with-custom-elements.html",
@@ -4808,7 +4798,7 @@
     {
       "url": "/sanitizer-api/sethtmlunsafe-toplevel-template-script.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"fetch\" is not defined\""
+      "message": "assert_false: Additional nodes at the of node2.\n expected false got true"
     },
     {
       "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html",
@@ -6546,64 +6536,59 @@
       "message": "ReferenceError: \"Worker\" is not defined"
     },
     {
-      "url": "/url/IdnaTestV2-removed.any.html",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
       "url": "/url/IdnaTestV2.any.html",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/url/a-element-origin-xhtml.xhtml",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: origin expected (string) \"http://example.org\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element-origin.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: origin expected (string) \"http://example.org\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element-xhtml.xhtml?exclude=(file|javascript|mailto)",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/url/a-element-xhtml.xhtml?include=file",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"file:\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element-xhtml.xhtml?include=javascript",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"javascript:\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element-xhtml.xhtml?include=mailto",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"mailto:\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element.html?exclude=(file|javascript|mailto)",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "status": "timeout",
+      "message": "palim execution timed out"
     },
     {
       "url": "/url/a-element.html?include=file",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"file:\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element.html?include=javascript",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"javascript:\" but got (undefined) undefined"
     },
     {
       "url": "/url/a-element.html?include=mailto",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: protocol expected (string) \"mailto:\" but got (undefined) undefined"
     },
     {
       "url": "/url/data-uri-fragment.html",
@@ -6613,7 +6598,7 @@
     {
       "url": "/url/failure.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_throws_js: function \"() => url.href = test.input\" threw object \"Error: Invalid URL\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
     },
     {
       "url": "/url/historical.any.html",
@@ -6628,7 +6613,7 @@
     {
       "url": "/url/idlharness.any.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: @@iterator enumerable expected false but got true"
     },
     {
       "url": "/url/idlharness.any.worker.html",
@@ -6643,32 +6628,12 @@
     {
       "url": "/url/percent-encoding.window.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "\"TextEncoder\" is not defined"
     },
     {
       "url": "/url/toascii.window.html",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-constructor.any.html?exclude=(file|javascript|mailto)",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-constructor.any.html?include=file",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-constructor.any.html?include=javascript",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-constructor.any.html?include=mailto",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: expected \"xn--a---kp0a\" but got \"a†--\""
     },
     {
       "url": "/url/url-constructor.any.worker.html?exclude=(file|javascript|mailto)",
@@ -6691,11 +6656,6 @@
       "message": "ReferenceError: \"Worker\" is not defined"
     },
     {
-      "url": "/url/url-origin.any.html",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
       "url": "/url/url-origin.any.worker.html",
       "status": "error",
       "message": "ReferenceError: \"Worker\" is not defined"
@@ -6708,47 +6668,27 @@
     {
       "url": "/url/url-setters-a-area.window.html?exclude=(file|javascript|mailto)",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: expected \"a:\" but got \"\""
     },
     {
       "url": "/url/url-setters-a-area.window.html?include=file",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: expected \"file:\" but got \"http\""
     },
     {
       "url": "/url/url-setters-a-area.window.html?include=javascript",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: expected \"defuse:alert(1)\" but got \"javascript:alert(1)\""
     },
     {
       "url": "/url/url-setters-a-area.window.html?include=mailto",
       "status": "fail",
-      "message": "\"fetch\" is not defined"
+      "message": "assert_equals: expected \"mailto:\" but got \"http\""
     },
     {
       "url": "/url/url-setters-stripping.any.worker.html",
       "status": "error",
       "message": "ReferenceError: \"Worker\" is not defined"
-    },
-    {
-      "url": "/url/url-setters.any.html?exclude=(file|javascript|mailto)",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-setters.any.html?include=file",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-setters.any.html?include=javascript",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
-    },
-    {
-      "url": "/url/url-setters.any.html?include=mailto",
-      "status": "fail",
-      "message": "\"fetch\" is not defined"
     },
     {
       "url": "/url/url-setters.any.worker.html?exclude=(file|javascript|mailto)",
@@ -6788,7 +6728,7 @@
     {
       "url": "/url/urlencoded-parser.any.html",
       "status": "fail",
-      "message": "\"Request\" is not defined"
+      "message": "undefined is not a function"
     },
     {
       "url": "/url/urlencoded-parser.any.worker.html",

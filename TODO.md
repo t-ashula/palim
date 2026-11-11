@@ -25,6 +25,7 @@
 - [ ] media loading・再生状態・track
 - [ ] canvas rendering context
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
+- [ ] iframe navigation で response MIME type を保持し、HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
 - [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
@@ -97,10 +98,11 @@
 
 - [ ] resource loading
 - [ ] `Blob` / `File` / `FileList` の page realm 公開と `FormData` の binary entry
+- [ ] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、`blob:` resource loading
 - [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
 - [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
-- [ ] `fetch`
-- [ ] `Request` / `Response` / `Headers` と fetch 関連 global の realm 公開
+- [ ] Fetch の redirect / network error / abort、credentials・referrer・mode、streaming response
+- [ ] `Request` / `Response` の `formData()`、URL-encoded / multipart body、Blob・FormData・ArrayBuffer body conversion
 - [ ] `XMLHttpRequest`
 
 ### Storage and state

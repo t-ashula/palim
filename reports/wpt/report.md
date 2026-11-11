@@ -4,15 +4,15 @@ Run status: failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261110t121915688z-448589
+Campaign: 20261111t113421707z-1122404
 
 Campaign state: completed
 
-Palim: c15c556e6ec5c57ac03165a89c58cc5c3686ef67 (dirty)
+Palim: 86f6f8fd94ad6f4b2bc47aa3958d260ef9bfca7d
 
-Container image: sha256:9c349b450ac847542afe3d63d0df408eee9750646b3448ee8aab414899f31d06
+Container image: sha256:268d973423676bbfec55944d69f730956e77dc7dda9eccb3b2480b4e7cf8730a
 
-Snapshot: 2026-11-10T13:03:45.663Z
+Snapshot: 2026-11-11T12:22:05.523Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
@@ -20,23 +20,23 @@ Attempts: 1926; worker failures: 0; retries: 0
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 591 | 679 | 0 | 381 | 275 | 0 | 100.00% | 30.69% |
+| All | 1926 | 1926 | 603 | 838 | 0 | 207 | 278 | 0 | 100.00% | 31.31% |
 | /custom-elements/ | 196 | 196 | 8 | 119 | 0 | 29 | 40 | 0 | 100.00% | 4.08% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 28 | 68 | 0 | 21 | 97 | 0 | 100.00% | 13.08% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 271 | 93 | 0 | 6 | 38 | 0 | 100.00% | 66.42% |
+| /dom/nodes/ | 408 | 408 | 271 | 94 | 0 | 5 | 38 | 0 | 100.00% | 66.42% |
 | /dom/ranges/ | 69 | 69 | 24 | 33 | 0 | 2 | 10 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 91 | 91 | 45 | 21 | 0 | 16 | 9 | 0 | 100.00% | 49.45% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 54 | 2 | 0 | 0 | 1 | 0 | 100.00% | 94.74% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 236 | 236 | 22 | 8 | 0 | 174 | 32 | 0 | 100.00% | 9.32% |
+| /html/syntax/parsing/ | 236 | 236 | 22 | 181 | 0 | 1 | 32 | 0 | 100.00% | 9.32% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 6 | 1 | 0 | 2 | 4 | 0 | 100.00% | 46.15% |
-| /sanitizer-api/ | 50 | 50 | 15 | 17 | 0 | 16 | 2 | 0 | 100.00% | 30.00% |
+| /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
 | /shadow-dom/ | 314 | 314 | 36 | 224 | 0 | 15 | 39 | 0 | 100.00% | 11.46% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 16 | 32 | 0 | 28 | 1 | 0 | 100.00% | 20.78% |
+| /url/ | 77 | 77 | 26 | 19 | 0 | 28 | 4 | 0 | 100.00% | 33.77% |
 | /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
@@ -44,7 +44,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 78904 | 52928 | 20467 | 0 | 5246 | 263 | 67.08% |
+| 89743 | 55746 | 28658 | 0 | 5073 | 266 | 62.12% |
 
 ## Non-passing executed tests
 
@@ -498,7 +498,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/create-element-realm-after-adoption.html | fail | <code>customElements.get is not a function. (In "customElements.get("x-baz")", it is undefined)</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /dom/nodes/getElementsByClassName-31.htm | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | error | <code>ReferenceError: "fetch" is not defined</code> |
+| /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | fail | <code>assert_equals: preMetaReferrer is the full URL; by the time the first script runs in its post-insertion steps, the later-inserted meta tag has not run its post-insertion steps, which is where meta tags are processed expected "http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html" but got ""</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html | fail | <code>assert_array_equals: expected property 0 to be "sheet" but got null (expected array ["sheet", 2] got [null, undefined])</code> |
@@ -623,8 +623,8 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/positional-methods-with-trusted-types.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/stream-html-reentrancy.html | fail | <code>assert_array_equals: lengths differ, expected array ["connected"] length 1, got [] length 0</code> |
 | /domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
-| /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Response" is not defined"</code> |
-| /domparsing/tentative/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Response" is not defined"</code> |
+| /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/tentative/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/tentative/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /domparsing/tentative/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
 | /domparsing/tentative/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
@@ -633,7 +633,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/tentative/stream-html-element.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/tentative/stream-html-parser-blocking-script.html | timeout | <code>assert_array_equals: lengths differ, expected array ["slow", "inline"] length 2, got ["inline"] length 1</code> |
 | /domparsing/tentative/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Response" is not defined"</code> |
+| /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/tentative/stream-html-with-declarative-shadow-root.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: doc.open is not a function. (In "doc.open()", it is undefined)"</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-adopt.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -645,10 +645,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Response" is not defined"</code> |
+| /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/tentative/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
 | /domparsing/tentative/stream-sanitizer-img-ctor.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Image" is not defined"</code> |
-| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "fetch" is not defined"</code> |
+| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server SHOULD observe request in control case expected "1" but got "0"</code> |
 | /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
 | /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -723,179 +723,179 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/syntax/parsing/foster-parenting-into-template-element.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/foster-parenting-moved-table.window.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/html-integration-point.html | fail | <code>rawTextElement.textContent.substr is not a function. (In "rawTextElement.textContent.substr(0, 4)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=adoption02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=blocks | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=comments01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=doctype01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=domjs-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=entities01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=entities02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=foreign-fragment | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=html5test-com | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=inbody01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=isindex | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=main-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=math | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=menuitem-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=processing-instructions | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=quirks01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=ruby | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scriptdata01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_ark | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_foster01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=search-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=svg | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tables01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=template | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests1 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests10 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests11 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests12 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests14 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests15 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests16 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests17 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests18 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests19 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests2 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests20 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests21 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests22 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests23 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests24 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests25 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests26 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests3 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests4 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests5 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests6 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests7 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests8 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests9 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tricky01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=void-in-phrasing | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=webkit02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=adoption02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=blocks | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=comments01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=doctype01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=domjs-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=entities01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=entities02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=html5test-com | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=inbody01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=isindex | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=main-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=menuitem-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=processing-instructions | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=quirks01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=ruby | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scriptdata01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_ark | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=search-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tables01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=template | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests1 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests10 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests11 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests12 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests14 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests15 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests16 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests17 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests18 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests19 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests2 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests20 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests21 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests22 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests23 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests24 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests25 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests26 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests3 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests5 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests6 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests7 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests8 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests9 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tricky01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=void-in-phrasing | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=webkit02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=adoption02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=blocks | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=comments01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=inbody01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=isindex | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=main-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=menuitem-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=processing-instructions | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=quirks01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=ruby | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scriptdata01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_ark | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=search-element | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tables01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=template | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests1 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests10 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests11 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests12 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests14 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests15 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests16 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests17 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests18 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests19 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests2 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests20 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests21 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests22 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests23 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests24 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests25 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests26 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests3 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests5 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests6 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests7 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests8 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests9 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tricky01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=webkit01 | error | <code>ReferenceError: "fetch" is not defined</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=webkit02 | error | <code>ReferenceError: "fetch" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=adoption01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=adoption02 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=blocks | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=comments01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=doctype01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=domjs-unsafe | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=entities01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=entities02 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=foreign-fragment | fail | <code>[object Object] is not iterable</code> |
+| /html/syntax/parsing/html5lib_url.html?file=html5test-com | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=inbody01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=isindex | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=main-element | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=math | fail | <code>[object Object] is not iterable</code> |
+| /html/syntax/parsing/html5lib_url.html?file=menuitem-element | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=processing-instructions | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=quirks01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=ruby | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scriptdata01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_adoption01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_ark | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_foster01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=search-element | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=svg | fail | <code>[object Object] is not iterable</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tables01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=template | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests1 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests10 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests11 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests12 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests14 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests15 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests16 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests17 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests18 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests19 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests2 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests20 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests21 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests22 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests23 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests24 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests25 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests26 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests3 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests4 | fail | <code>[object Object] is not iterable</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests5 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests6 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests7 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests8 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests9 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1 | fail | <code>[object Object] is not iterable</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tricky01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=void-in-phrasing | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=webkit01 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=webkit02 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_write.html?file=adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=adoption02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=blocks | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=comments01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=doctype01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=domjs-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=entities01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=entities02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=html5test-com | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=inbody01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=isindex | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=main-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=menuitem-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=processing-instructions | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=quirks01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=ruby | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scriptdata01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_ark | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=search-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tables01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=template | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests1 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests10 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests11 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests12 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests14 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests15 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests16 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests17 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests18 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests19 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests2 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests20 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests21 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests22 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests23 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests24 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests25 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests26 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests3 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests5 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests6 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests7 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests8 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tests9 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=tricky01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=void-in-phrasing | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=webkit02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=adoption02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=blocks | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=comments01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=inbody01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=isindex | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=main-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=menuitem-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=processing-instructions | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=quirks01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=ruby | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scriptdata01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_ark | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=search-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tables01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=template | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests1 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests10 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests11 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests12 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests14 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests15 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests16 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests17 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests18 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests19 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests2 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests20 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests21 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests22 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests23 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests24 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests25 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests26 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests3 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests5 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests6 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests7 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests8 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests9 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tricky01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=webkit02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
 | /html/syntax/parsing/html_content_in_foreign_context.html | fail | <code>e.substr is not a function. (In "e.substr(1)", it is undefined)</code> |
 | /html/syntax/parsing/inhead-noscript-head.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/insert-into-nonempty-document.html | fail | <code>doc.open is not a function. (In "doc.open()", it is undefined)</code> |
@@ -930,18 +930,16 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-custom-elements-constructor.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
 | /sanitizer-api/sanitizer-custom-elements-is.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
-| /sanitizer-api/sanitizer-in-adoption-agency.html | fail | <code>"fetch" is not defined</code> |
+| /sanitizer-api/sanitizer-in-adoption-agency.html | fail | <code>assert_true: [object Object].isEqual([object Object]) fails. Path: &lt;DIV&gt; / &lt;DIV&gt;. expected true got false</code> |
 | /sanitizer-api/sanitizer-inert-document.html | timeout | <code>palim execution timed out</code> |
 | /sanitizer-api/sanitizer-modifiers.html | fail | <code>assert_false: If the intersection of config["attributes"] and element["attributes"] with default « » is not empty, then return false. (element: id) expected false got true</code> |
 | /sanitizer-api/sanitizer-parseHTML.html | fail | <code>assert_throws_js: function "() =&gt; Document.parseHTML(testcase.data, config)" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /sanitizer-api/sanitizer-script-tokenizer.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "fetch" is not defined"</code> |
 | /sanitizer-api/sanitizer-svg-animate.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /sanitizer-api/sethtml-custom-element-reactions.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /sanitizer-api/sethtml-form-owner.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="f"&gt;&lt;input name="i"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /sanitizer-api/sethtml-replace-with-children.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected:div"] length 2, got [] length 0</code> |
-| /sanitizer-api/sethtml-safety.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "fetch" is not defined"</code> |
 | /sanitizer-api/sethtml-scoped-custom-element-registry.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /sanitizer-api/sethtml-tree-construction.html | fail | <code>"fetch" is not defined</code> |
+| /sanitizer-api/sethtml-tree-construction.html | fail | <code>assert_equals: Expect exception TypeError, but got Error: Invalid SanitizerConfig. expected "TypeError" but got "Error"</code> |
 | /sanitizer-api/sethtml-with-custom-elements.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
 | /sanitizer-api/sethtml-with-declarative-shadow-root.html | fail | <code>assert_equals: expected (string) "open" but got (undefined) undefined</code> |
 | /sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -953,7 +951,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /sanitizer-api/sethtml-xml-document-sanitizer-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/sethtml-xml-document-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/sethtml-xml-document.html | fail | <code>A shadow root cannot be attached to this element</code> |
-| /sanitizer-api/sethtmlunsafe-toplevel-template-script.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "fetch" is not defined"</code> |
+| /sanitizer-api/sethtmlunsafe-toplevel-template-script.html | fail | <code>assert_false: Additional nodes at the of node2.<br> expected false got true</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -1301,47 +1299,37 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /streams/writable-streams/write.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/write.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
 | /streams/writable-streams/write.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/IdnaTestV2-removed.any.html | fail | <code>"fetch" is not defined</code> |
-| /url/IdnaTestV2.any.html | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-origin-xhtml.xhtml | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-origin.html | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-xhtml.xhtml?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-xhtml.xhtml?include=file | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-xhtml.xhtml?include=javascript | fail | <code>"fetch" is not defined</code> |
-| /url/a-element-xhtml.xhtml?include=mailto | fail | <code>"fetch" is not defined</code> |
-| /url/a-element.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
-| /url/a-element.html?include=file | fail | <code>"fetch" is not defined</code> |
-| /url/a-element.html?include=javascript | fail | <code>"fetch" is not defined</code> |
-| /url/a-element.html?include=mailto | fail | <code>"fetch" is not defined</code> |
+| /url/IdnaTestV2.any.html | timeout | <code>palim execution timed out</code> |
+| /url/a-element-origin-xhtml.xhtml | fail | <code>assert_equals: origin expected (string) "http://example.org" but got (undefined) undefined</code> |
+| /url/a-element-origin.html | fail | <code>assert_equals: origin expected (string) "http://example.org" but got (undefined) undefined</code> |
+| /url/a-element-xhtml.xhtml?exclude=(file|javascript|mailto) | timeout | <code>palim execution timed out</code> |
+| /url/a-element-xhtml.xhtml?include=file | fail | <code>assert_equals: protocol expected (string) "file:" but got (undefined) undefined</code> |
+| /url/a-element-xhtml.xhtml?include=javascript | fail | <code>assert_equals: protocol expected (string) "javascript:" but got (undefined) undefined</code> |
+| /url/a-element-xhtml.xhtml?include=mailto | fail | <code>assert_equals: protocol expected (string) "mailto:" but got (undefined) undefined</code> |
+| /url/a-element.html?exclude=(file|javascript|mailto) | timeout | <code>palim execution timed out</code> |
+| /url/a-element.html?include=file | fail | <code>assert_equals: protocol expected (string) "file:" but got (undefined) undefined</code> |
+| /url/a-element.html?include=javascript | fail | <code>assert_equals: protocol expected (string) "javascript:" but got (undefined) undefined</code> |
+| /url/a-element.html?include=mailto | fail | <code>assert_equals: protocol expected (string) "mailto:" but got (undefined) undefined</code> |
 | /url/data-uri-fragment.html | timeout | <code>palim execution timed out</code> |
-| /url/failure.html | fail | <code>"fetch" is not defined</code> |
+| /url/failure.html | fail | <code>assert_throws_js: function "() =&gt; url.href = test.input" threw object "Error: Invalid URL" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /url/historical.any.html | fail | <code>assert_throws_js: function "function() {<br>    url.href = "./bar";<br>  }" threw object "Error: Invalid URL" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /url/historical.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/idlharness.any.html | fail | <code>"fetch" is not defined</code> |
+| /url/idlharness.any.html | fail | <code>assert_equals: @@iterator enumerable expected false but got true</code> |
 | /url/idlharness.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/javascript-urls.window.html | fail | <code>anchor.click is not a function. (In "anchor.click()", it is undefined)</code> |
-| /url/percent-encoding.window.html | fail | <code>"fetch" is not defined</code> |
-| /url/toascii.window.html | fail | <code>"fetch" is not defined</code> |
-| /url/url-constructor.any.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
-| /url/url-constructor.any.html?include=file | fail | <code>"fetch" is not defined</code> |
-| /url/url-constructor.any.html?include=javascript | fail | <code>"fetch" is not defined</code> |
-| /url/url-constructor.any.html?include=mailto | fail | <code>"fetch" is not defined</code> |
+| /url/percent-encoding.window.html | fail | <code>"TextEncoder" is not defined</code> |
+| /url/toascii.window.html | fail | <code>assert_equals: expected "xn--a---kp0a" but got "a†--"</code> |
 | /url/url-constructor.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=javascript | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=mailto | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-origin.any.html | fail | <code>"fetch" is not defined</code> |
 | /url/url-origin.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-searchparams.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters-a-area.window.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters-a-area.window.html?include=file | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters-a-area.window.html?include=javascript | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters-a-area.window.html?include=mailto | fail | <code>"fetch" is not defined</code> |
+| /url/url-setters-a-area.window.html?exclude=(file|javascript|mailto) | fail | <code>assert_equals: expected "a:" but got ""</code> |
+| /url/url-setters-a-area.window.html?include=file | fail | <code>assert_equals: expected "file:" but got "http"</code> |
+| /url/url-setters-a-area.window.html?include=javascript | fail | <code>assert_equals: expected "defuse:alert(1)" but got "javascript:alert(1)"</code> |
+| /url/url-setters-a-area.window.html?include=mailto | fail | <code>assert_equals: expected "mailto:" but got "http"</code> |
 | /url/url-setters-stripping.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters.any.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters.any.html?include=file | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters.any.html?include=javascript | fail | <code>"fetch" is not defined</code> |
-| /url/url-setters.any.html?include=mailto | fail | <code>"fetch" is not defined</code> |
 | /url/url-setters.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-setters.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-setters.any.worker.html?include=javascript | error | <code>ReferenceError: "Worker" is not defined</code> |
@@ -1349,7 +1337,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /url/url-statics-canparse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-statics-parse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-tojson.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlencoded-parser.any.html | fail | <code>"Request" is not defined</code> |
+| /url/urlencoded-parser.any.html | fail | <code>undefined is not a function</code> |
 | /url/urlencoded-parser.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/urlsearchparams-append.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/urlsearchparams-constructor.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
