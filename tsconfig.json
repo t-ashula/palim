@@ -12,7 +12,9 @@
       "@palim/scripting": ["./packages/scripting/src/index.ts"],
       "@palim/scripting/internal/*": ["./packages/scripting/src/*"],
       "@palim/engine262": ["./packages/engine262/src/index.ts"],
-      "@palim/engine262/internal/*": ["./packages/engine262/src/*"]
+      "@palim/engine262/internal/*": ["./packages/engine262/src/*"],
+      "@palim/polyfills": ["./packages/polyfills/src/index.ts"],
+      "@palim/polyfills/*": ["./packages/polyfills/src/*.ts"]
     },
     "resolveJsonModule": true,
     "strict": true,

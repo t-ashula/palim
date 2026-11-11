@@ -1,6 +1,8 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import { parseXML } from "@palim/core/internal/xml/parser.js";
 import type { URL } from "@palim/core/internal/url/index.js";
+import { createExtensionHostServices } from "@palim/polyfills";
+import type { HostServices, WindowExtension } from "@palim/polyfills";
 
 import { WindowDocumentLoader } from "./document-loader.js";
 import type {
@@ -18,6 +20,7 @@ export interface OpenHTMLOptions {
 
 export interface OpenOptions {
   readonly scripting?: "enabled";
+  readonly extensions?: readonly WindowExtension[];
 }
 
 export interface OpenResult {
@@ -32,6 +35,8 @@ export type Open = (
 export type ScriptingFactory = (
   window: Window,
   resourceLoader: ResourceLoader | null,
+  extensions: readonly WindowExtension[],
+  hostServices: HostServices,
 ) => Promise<WindowScripting> | WindowScripting;
 
 interface HostResponse {
@@ -47,6 +52,10 @@ interface HostResponse {
 export function createOpen(scriptingFactory?: ScriptingFactory): Open {
   return async (input, options = {}) => {
     const scriptingEnabled = options.scripting === "enabled";
+    const extensions = options.extensions ?? [];
+    if (!scriptingEnabled && extensions.length > 0) {
+      throw new TypeError("Window extensions require scripting to be enabled");
+    }
     if (scriptingEnabled && scriptingFactory === undefined) {
       throw new TypeError("Scripting is not available in @palim/window");
     }
@@ -82,7 +91,12 @@ export function createOpen(scriptingFactory?: ScriptingFactory): Open {
     implementation.scriptingMode = scriptingEnabled ? "enabled" : "disabled";
     const scripting =
       scriptingEnabled && scriptingFactory !== undefined
-        ? await scriptingFactory(environment.window, loader)
+        ? await scriptingFactory(
+            environment.window,
+            loader,
+            extensions,
+            createExtensionHostServices(extensions),
+          )
         : null;
     if (xmlDocument === undefined) {
       await environment.loadHTML(initial.source, scripting);

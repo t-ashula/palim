@@ -1,0 +1,34 @@
+{
+  "name": "@palim/polyfills",
+  "version": "0.0.0",
+  "description": "Optional Window polyfills for palim.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./network": {
+      "types": "./dist/network.d.ts",
+      "import": "./dist/network.js"
+    },
+    "./fetch": {
+      "types": "./dist/fetch.d.ts",
+      "import": "./dist/fetch.js"
+    }
+  },
+  "scripts": {
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --root ../.. --config vitest.config.ts --project polyfills"
+  }
+}

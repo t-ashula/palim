@@ -71,6 +71,26 @@ describe("open", () => {
     }
   });
 
+  it("rejects a non-empty extension list when scripting is disabled", async () => {
+    const extension = vi.fn();
+
+    await expect(
+      open({ html: "<body></body>" }, { extensions: [extension] }),
+    ).rejects.toThrow("Window extensions require scripting to be enabled");
+    expect(extension).not.toHaveBeenCalled();
+  });
+
+  it("allows an empty extension list when scripting is disabled", async () => {
+    const context = await open(
+      { html: "<body><p>loaded</p></body>" },
+      { extensions: [] },
+    );
+
+    expect(context.window.document.querySelector("p")?.textContent).toBe(
+      "loaded",
+    );
+  });
+
   it("creates a child Window and document for a connected iframe", async () => {
     const context = await open({
       html: [

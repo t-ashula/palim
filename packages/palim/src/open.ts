@@ -7,10 +7,17 @@ export type {
   OpenResult,
 } from "@palim/window";
 
-export const open = createOpen(async (window, resourceLoader) => {
-  const [{ Engine262Adapter }, { createWindowScripting }] = await Promise.all([
-    import("@palim/engine262"),
-    import("@palim/scripting"),
-  ]);
-  return createWindowScripting(new Engine262Adapter(), window, resourceLoader);
-});
+export const open = createOpen(
+  async (window, resourceLoader, extensions, hostServices) => {
+    const [{ Engine262Adapter }, { createWindowScripting }] = await Promise.all(
+      [import("@palim/engine262"), import("@palim/scripting")],
+    );
+    return createWindowScripting(
+      new Engine262Adapter(),
+      window,
+      resourceLoader,
+      extensions,
+      hostServices,
+    );
+  },
+);

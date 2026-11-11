@@ -12,7 +12,7 @@ const REJECT_ENGINE_IMPORT = new URL(
 ).href;
 
 function packageDependencies(
-  name: "engine262" | "palim" | "scripting" | "window",
+  name: "engine262" | "palim" | "polyfills" | "scripting" | "window",
 ): Record<string, string> {
   const manifest = JSON.parse(
     readFileSync(
@@ -124,15 +124,18 @@ describe("capability import boundaries", () => {
   it("keeps engine262 in the backend package", () => {
     expect(packageDependencies("window")).toEqual({
       "@palim/core": "0.0.0",
+      "@palim/polyfills": "0.0.0",
     });
     expect(packageDependencies("scripting")).toEqual({
       "@palim/core": "0.0.0",
+      "@palim/polyfills": "0.0.0",
       "@palim/window": "0.0.0",
     });
     expect(packageDependencies("engine262")).toEqual({
       "@engine262/engine262": "file:../../vendor/engine262",
       "@palim/scripting": "0.0.0",
     });
+    expect(packageDependencies("polyfills")).toEqual({});
     expect(packageDependencies("palim")).toEqual({
       "@palim/core": "0.0.0",
       "@palim/engine262": "0.0.0",

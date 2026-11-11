@@ -42,6 +42,13 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "polyfills",
+          include: ["packages/polyfills/test/**/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "integration",
           include: ["test/**/*.test.ts"],
         },

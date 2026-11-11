@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@palim/core": "0.0.0",
+    "@palim/polyfills": "0.0.0",
     "@palim/window": "0.0.0"
   }
 }

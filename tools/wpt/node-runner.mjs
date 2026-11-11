@@ -1,4 +1,5 @@
 import { open } from "../../packages/palim/dist/index.js";
+import { fetchPolyfill } from "../../packages/polyfills/dist/fetch.js";
 
 const url = process.argv[2];
 const resultPrefix = "ALERT: RESULT: ";
@@ -19,7 +20,10 @@ console.log = (...data) => {
   }
 };
 
-const { window } = await open(url, { scripting: "enabled" });
+const { window } = await open(url, {
+  scripting: "enabled",
+  extensions: [fetchPolyfill()],
+});
 
 window.onerror((error) => {
   failed = true;

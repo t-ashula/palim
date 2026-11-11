@@ -8,6 +8,7 @@ import type {
 import type { DOMRealmBinding } from "./dom-realm-binding.js";
 import type { URLRealmBinding } from "./url-realm-binding.js";
 import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
+import type { RealmBindingContext } from "./realm-binding-context.js";
 import type { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import {
@@ -47,6 +48,10 @@ export class WindowRealmBinding {
 
   get realm(): EngineRealm {
     return this.#binding.realm;
+  }
+
+  get context(): RealmBindingContext {
+    return this.#binding.context;
   }
 
   reportException(

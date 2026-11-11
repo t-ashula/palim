@@ -11,6 +11,8 @@ import type {
   WindowScripting,
 } from "@palim/window/internal/document-loader.js";
 import type { Window } from "@palim/window/internal/window.js";
+import { createHostServices } from "@palim/polyfills";
+import type { HostServices, WindowExtension } from "@palim/polyfills";
 
 import type {
   EngineResult,
@@ -18,10 +20,9 @@ import type {
   JavaScriptEngineAdapter,
 } from "./javascript-engine/adapter.js";
 import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
-import {
-  WindowScriptEnvironment,
-  type WindowScriptEventLoop,
-} from "./javascript-engine/window-classic-script.js";
+import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
+import type { WindowScriptEventLoop } from "./javascript-engine/window-classic-script.js";
+import { installWindowExtensions } from "./javascript-engine/window-extension-context.js";
 
 export {
   ClassicScript,
@@ -55,8 +56,16 @@ export function createWindowScripting(
   engine: JavaScriptEngineAdapter,
   window: Window,
   resourceLoader: ResourceLoader | null,
+  extensions: readonly WindowExtension[] = [],
+  hostServices: HostServices = createHostServices(),
 ): WindowScriptingEnvironment {
-  return new WindowScriptingEnvironment(engine, window, resourceLoader);
+  return new WindowScriptingEnvironment(
+    engine,
+    window,
+    resourceLoader,
+    extensions,
+    hostServices,
+  );
 }
 
 export class WindowScriptingEnvironment
@@ -65,16 +74,29 @@ export class WindowScriptingEnvironment
 {
   readonly scriptResults: ParserInsertedScriptResult[] = [];
   readonly #resourceLoader: ResourceLoader | null;
+  readonly #extensions: readonly WindowExtension[];
+  readonly #hostServices: HostServices;
   readonly #pendingResourceLoads: Promise<void>[] = [];
 
   constructor(
     engine: JavaScriptEngineAdapter,
     window: Window,
     resourceLoader: ResourceLoader | null,
+    extensions: readonly WindowExtension[] = [],
+    hostServices: HostServices = createHostServices(),
     eventLoop?: WindowScriptEventLoop,
   ) {
     super(engine, window, eventLoop);
     this.#resourceLoader = resourceLoader;
+    this.#extensions = extensions;
+    this.#hostServices = hostServices;
+    installWindowExtensions(
+      this.#extensions,
+      this.binding,
+      this.settings,
+      this.eventLoop,
+      this.#hostServices,
+    );
     documentImplementation(this.window.document).scriptingMode = "enabled";
     const implementation = documentImplementation(this.window.document);
     const previousChildrenChangedSteps = implementation.childrenChangedSteps;
@@ -101,6 +123,8 @@ export class WindowScriptingEnvironment
       this.engine,
       window,
       resourceLoader,
+      this.#extensions,
+      this.#hostServices,
       this.eventLoop,
     );
   }
