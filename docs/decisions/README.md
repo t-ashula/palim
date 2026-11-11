@@ -52,3 +52,4 @@
 - [ADR-0049: page realm の実行境界と completion 契約](./0049-page-realm-execution-contract.md)
 - [ADR-0050: page execution 中の host exception の処理](./0050-page-execution-host-exceptions.md)
 - [ADR-0051: Window extension と host services による polyfill](./0051-window-polyfill-injection.md)
+- [ADR-0052: Document dynamic markup insertion と parser session](./0052-document-dynamic-markup-insertion.md)
