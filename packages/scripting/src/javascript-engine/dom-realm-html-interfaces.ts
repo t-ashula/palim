@@ -1,6 +1,8 @@
 import { foreignAnchorRelList } from "@palim/core/internal/dom/foreign-anchor.js";
+import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
 import {
   HTMLBaseElement,
+  HTMLBodyElement,
   HTMLEmbedElement,
   HTMLFormElement,
   HTMLIFrameElement,
@@ -17,6 +19,16 @@ import { normal } from "./adapter.js";
 import type { EngineObject, EngineValue } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
+const BODY_WINDOW_EVENT_HANDLER_NAMES = [
+  ...WINDOW_EVENT_HANDLER_NAMES,
+  "blur",
+  "error",
+  "focus",
+  "load",
+  "resize",
+  "scroll",
+] as const;
+
 export function installForeignAnchorMembers(
   binding: DOMRealmBindingContext,
 ): void {
@@ -32,6 +44,53 @@ export function installForeignAnchorMembers(
 export function installHTMLElementMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  const bodyPrototype = binding.htmlElementInterfacePrototype(HTMLBodyElement);
+  for (const eventType of BODY_WINDOW_EVENT_HANDLER_NAMES) {
+    const property = `on${eventType}`;
+    binding.attribute(
+      bodyPrototype,
+      property,
+      (thisValue) => {
+        const element = binding.htmlElement(thisValue);
+        if (!(element instanceof HTMLBodyElement)) {
+          return binding.typeError(
+            `Invalid HTMLBodyElement receiver for ${property}`,
+          );
+        }
+        return binding.primitive(null);
+      },
+      (thisValue, argumentsList) => {
+        const element = binding.htmlElement(thisValue);
+        if (!(element instanceof HTMLBodyElement)) {
+          return binding.typeError(
+            `Invalid HTMLBodyElement receiver for ${property}`,
+          );
+        }
+        const window = element.ownerDocument?.defaultView;
+        if (window === null || window === undefined) {
+          return binding.undefined();
+        }
+        const receiver = binding.engine.asObject(thisValue);
+        if (receiver === null) {
+          return binding.typeError(
+            `Invalid HTMLBodyElement receiver for ${property}`,
+          );
+        }
+        const result = binding.engine.defineDataProperty(
+          binding.realm,
+          receiver,
+          property,
+          argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+          { configurable: true, enumerable: true, writable: true },
+        );
+        return result.type === "throw"
+          ? result
+          : result.value
+            ? binding.undefined()
+            : binding.typeError(`Cannot set HTMLBodyElement.${property}`);
+      },
+    );
+  }
   binding.attribute(
     binding.htmlElementPrototype,
     "title",

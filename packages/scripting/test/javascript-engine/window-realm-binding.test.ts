@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 
 import { Document } from "@palim/core/internal/public-dom-interfaces.js";
 import { Event } from "@palim/core/internal/dom/events.js";
+import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
 import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import type {
   EngineRealm,
@@ -82,6 +83,36 @@ describe("WindowRealmBinding", () => {
 
     expect(documents).toHaveLength(1);
     expect(documents[0]?.documentElement?.localName).toBe("root");
+  });
+
+  it("keeps body Window event handlers null without a browsing context", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+    const names = [
+      ...WINDOW_EVENT_HANDLER_NAMES,
+      "blur",
+      "error",
+      "focus",
+      "load",
+      "resize",
+      "scroll",
+    ].map((eventType) => `on${eventType}`);
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const detached = document.implementation.createHTMLDocument();
+        const names = ${JSON.stringify(names)};
+        for (const name of names) {
+          detached.body[name] = "1 + 2";
+          if (detached.body[name] !== null) {
+            throw new Error(name + " was retained without a Window");
+          }
+        }
+      `,
+    );
   });
 
   it("uses Window and WindowProxy as the realm globals", () => {
