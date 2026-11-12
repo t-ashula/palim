@@ -4789,7 +4789,9 @@ function insertNodes(
       );
     }
     invalidateDescendantText(parentImplementation);
-    for (const inclusiveDescendant of inclusiveDescendantNodes(inserted)) {
+    for (const inclusiveDescendant of shadowIncludingInclusiveDescendantNodes(
+      inserted,
+    )) {
       documentImplementationValue.insertionSteps?.(inclusiveDescendant);
     }
   }
@@ -4818,6 +4820,22 @@ function inclusiveDescendantNodes(node: Node): Node[] {
   const result = [node];
   for (const child of childNodes(node)) {
     result.push(...inclusiveDescendantNodes(child));
+  }
+  return result;
+}
+
+function shadowIncludingInclusiveDescendantNodes(node: Node): Node[] {
+  const result = [node];
+  if (node instanceof Element) {
+    const shadowRoot = elementImplementation(node).shadowRoot;
+    if (shadowRoot !== null) {
+      result.push(
+        ...shadowIncludingInclusiveDescendantNodes(nodeInterface(shadowRoot)),
+      );
+    }
+  }
+  for (const child of childNodes(node)) {
+    result.push(...shadowIncludingInclusiveDescendantNodes(child));
   }
   return result;
 }

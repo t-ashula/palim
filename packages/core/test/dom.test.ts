@@ -2069,6 +2069,28 @@ describe("Node mutation", () => {
     ]);
   });
 
+  it("runs insertion steps in shadow-including tree order", () => {
+    const document = parse("<main></main>");
+    const main = select(document, "main");
+    const host = document.createElement("section");
+    host.id = "host";
+    const shadowRoot = host.attachShadow({ mode: "open" });
+    const shadowChild = document.createElement("span");
+    shadowChild.id = "shadow";
+    shadowRoot.append(shadowChild);
+    const lightChild = document.createElement("aside");
+    lightChild.id = "light";
+    host.append(lightChild);
+    const events: string[] = [];
+    documentImplementation(document).insertionSteps = (node) => {
+      events.push(node instanceof Element ? node.id : node.nodeName);
+    };
+
+    main.append(host);
+
+    expect(events).toEqual(["host", "#document-fragment", "shadow", "light"]);
+  });
+
   it("runs removing steps in tree order after detaching the subtree", () => {
     const document = parse(
       "<main><section><span></span></section><aside></aside></main>",
