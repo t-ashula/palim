@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261111t233030714z-29078
+Campaign: 20261112t112450732z-1010329
 
 Campaign state: completed
 
-Palim: 7ad615fa98c42e1535bc399cde3028443c3bc63d (dirty)
+Palim: df3ec7f92c16dab53e39558282e18244516b3425 (dirty)
 
-Container image: sha256:4a0a9e9a377117046208c8d395ff08f63a345d4a12e615d52a626a28a2a09c82
+Container image: sha256:5e2544b1bbfcdd19fc2a964cd25a1627fd6f523fd091153d0bd7e5f1c9415914
 
-Snapshot: 2026-11-12T00:11:14.150Z
+Snapshot: 2026-11-12T12:05:18.413Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
@@ -22,12 +22,12 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 720 | 809 | 0 | 211 | 186 | 0 | 100.00% | 37.38% |
+| All | 1926 | 1926 | 739 | 792 | 0 | 210 | 185 | 0 | 100.00% | 38.37% |
 | /custom-elements/ | 196 | 196 | 10 | 152 | 0 | 29 | 5 | 0 | 100.00% | 5.10% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 29 | 70 | 0 | 21 | 94 | 0 | 100.00% | 13.55% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 279 | 98 | 0 | 7 | 24 | 0 | 100.00% | 68.38% |
+| /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
 | /dom/ranges/ | 69 | 69 | 24 | 36 | 0 | 2 | 7 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 91 | 91 | 50 | 21 | 0 | 17 | 3 | 0 | 100.00% | 54.95% |
@@ -36,9 +36,9 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
-| /shadow-dom/ | 314 | 314 | 38 | 225 | 0 | 15 | 36 | 0 | 100.00% | 12.10% |
+| /shadow-dom/ | 314 | 314 | 39 | 224 | 0 | 15 | 36 | 0 | 100.00% | 12.42% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 42 | 5 | 0 | 28 | 2 | 0 | 100.00% | 54.55% |
+| /url/ | 77 | 77 | 43 | 4 | 0 | 28 | 2 | 0 | 100.00% | 55.84% |
 | /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
@@ -48,12 +48,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1794 | 1794 | 711 | 737 | 0 | 188 | 158 | 0 | 100.00% | 39.63% |
+| All | 1794 | 1794 | 730 | 720 | 0 | 187 | 157 | 0 | 100.00% | 40.69% |
 | /custom-elements/ | 189 | 189 | 10 | 150 | 0 | 24 | 5 | 0 | 100.00% | 5.29% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 29 | 69 | 0 | 21 | 92 | 0 | 100.00% | 13.74% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 279 | 98 | 0 | 7 | 24 | 0 | 100.00% | 68.38% |
+| /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
 | /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 56 | 56 | 42 | 5 | 0 | 6 | 3 | 0 | 100.00% | 75.00% |
@@ -62,9 +62,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
-| /shadow-dom/ | 254 | 254 | 38 | 196 | 0 | 9 | 11 | 0 | 100.00% | 14.96% |
+| /shadow-dom/ | 254 | 254 | 39 | 195 | 0 | 9 | 11 | 0 | 100.00% | 15.35% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 42 | 5 | 0 | 28 | 2 | 0 | 100.00% | 54.55% |
+| /url/ | 77 | 77 | 43 | 4 | 0 | 28 | 2 | 0 | 100.00% | 55.84% |
 | /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 91706 | 65174 | 26204 | 0 | 177 | 151 | 71.07% |
+| 91713 | 65792 | 25595 | 0 | 176 | 150 | 71.74% |
 
 ### Non-passing executed tests
 
@@ -259,7 +259,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/upgrading/upgrading-parser-created-element.html | fail | <code>assert_true: Calling customElements.define must upgrade existing custom elements expected true got false</code> |
 | /dom/events/AddEventListenerOptions-passive.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/AddEventListenerOptions-signal.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/Body-FrameSet-Event-Handlers.html | fail | <code>assert_equals: Initially null expected (object) null but got (undefined) undefined</code> |
+| /dom/events/Body-FrameSet-Event-Handlers.html | fail | <code>assert_equals: Return null after setting string expected (object) null but got (string) ""</code> |
 | /dom/events/Event-cancelBubble.html | fail | <code>assert_false: cancelBubble must be false after an event has been dispatched. expected false got true</code> |
 | /dom/events/Event-constructors.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/Event-dispatch-bubble-canceled.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
@@ -439,26 +439,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/webkit-transition-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/window-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /dom/events/window-event-restored-after-throwing-onerror.html | fail | <code>assert_equals: window.event is the outer event before the nested dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/nodes/DOMImplementation-createDocument-no-browsing-context.html | fail | <code>assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) "1 + 2"</code> |
-| /dom/nodes/Document-URL.html | fail | <code>assert_equals: expected "undefined/common/blank.html" but got "http://web-platform.test:8000/common/blank.html"</code> |
-| /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>assert_throws_dom: function "() =&gt; target.adoptNode(root)" did not throw</code> |
-| /dom/nodes/Document-base-url-not-live.window.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>assert_equals: inner content owner document tracks outer content owner document expected Document node with 0 children but got Document node with 0 children</code> |
 | /dom/nodes/Document-cloneNode-base-url.window.html | fail | <code>assert_equals: source expected "http://web-platform.test:8000/dom/nodes/sub/" but got "about:blank"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_bmp.html | fail | <code>assert_equals: expected "image/bmp" but got "text/html"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_css.html | fail | <code>assert_equals: expected "text/css" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_gif.html | fail | <code>assert_equals: expected "image/gif" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html | fail | <code>assert_equals: expected "text/html" but got ""</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_jpg.html | fail | <code>assert_equals: expected "image/jpeg" but got "text/html"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_mimeheader_01.html | fail | <code>assert_equals: expected "text/xml" but got "text/html"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_png.html | fail | <code>assert_equals: expected "image/png" but got "text/html"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_txt.html | fail | <code>assert_equals: expected "text/plain" but got "text/html"</code> |
-| /dom/nodes/Document-contentType/contentType/contenttype_xml.html | fail | <code>assert_equals: expected "application/xml" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
-| /dom/nodes/Document-createCDATASection-xhtml.xhtml | error | <code>ReferenceError: "CDATASection" is not defined</code> |
-| /dom/nodes/Document-createElement-namespace.html | fail | <code>assert_equals: Wrong MIME type returned from doc.contentType expected "application/xhtml+xml" but got "text/html"</code> |
-| /dom/nodes/Document-createElement.html | fail | <code>assert_equals: XML document didn't load expected "Dummy XML document" but got "Dummy XML document\n"</code> |
-| /dom/nodes/Document-createElementNS.html | fail | <code>assert_equals: expected "Dummy XML document" but got "Dummy XML document\n"</code> |
 | /dom/nodes/Document-createEvent.https.html | error | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
 | /dom/nodes/DocumentFragment-constructor.html | fail | <code>assert_equals: expected Document node with 2 children but got Document node with 0 children</code> |
 | /dom/nodes/Element-classlist.html | fail | <code>The childList option must be true</code> |
@@ -502,7 +487,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>assert_equals: querySelector with :host pseudo-class should find the element expected Element node &lt;article&gt;&lt;/article&gt; but got null</code> |
 | /dom/nodes/ParentNode-replaceChildren.html | timeout | <code>b'at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:172:42)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:210:42)'</code> |
 | /dom/nodes/ProcessingInstruction-escapes-1.xhtml | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/adoption.window.html | fail | <code>assert_throws_dom: function "() =&gt; document.adoptNode(df)" did not throw</code> |
 | /dom/nodes/create-element-realm-after-adoption.html | fail | <code>customElements.get is not a function. (In "customElements.get("x-baz")", it is undefined)</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | fail | <code>assert_equals: preMetaReferrer is the full URL; by the time the first script runs in its post-insertion steps, the later-inserted meta tag has not run its post-insertion steps, which is where meta tags are processed expected "http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html" but got ""</code> |
@@ -561,7 +545,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/name-validation.html | timeout |  |
 | /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected "green" but got ""</code> |
-| /dom/nodes/node-creation-realm.html | fail | <code>Right-hand side of "instanceof" (undefined) is not an object</code> |
 | /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>window.customElements.get is not a function. (In "window.customElements.get("x-mixed")", it is undefined)</code> |
 | /dom/nodes/post-connection-steps-shadow-tree.html | fail | <code>assert_equals: script runs when its shadow-including tree becomes connected expected 1 but got 0</code> |
 | /dom/nodes/processing-instruction-attributes.html | fail | <code>pi.getAttribute is not a function. (In "pi.getAttribute("a")", it is undefined)</code> |
@@ -823,7 +806,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /shadow-dom/Document-prototype-adoptNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.adoptNode(shadowRoot);<br>        }" did not throw</code> |
 | /shadow-dom/Document-prototype-currentScript.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/Document-prototype-importNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.importNode(shadowRoot);<br>        }" did not throw</code> |
 | /shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html | fail | <code>document.elementFromPoint is not a function. (In "document.elementFromPoint(...pointInElement(host))", it is undefined)</code> |
@@ -1125,7 +1107,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /url/url-statics-canparse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-statics-parse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-tojson.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlencoded-parser.any.html | fail | <code>undefined is not a function</code> |
 | /url/urlencoded-parser.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/urlsearchparams-append.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/urlsearchparams-constructor.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |

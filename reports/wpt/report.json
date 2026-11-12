@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261111t233030714z-29078",
+    "id": "20261112t112450732z-1010329",
     "state": "completed",
     "palim": {
-      "revision": "7ad615fa98c42e1535bc399cde3028443c3bc63d",
+      "revision": "df3ec7f92c16dab53e39558282e18244516b3425",
       "dirty": true,
-      "imageId": "sha256:4a0a9e9a377117046208c8d395ff08f63a345d4a12e615d52a626a28a2a09c82"
+      "imageId": "sha256:5e2544b1bbfcdd19fc2a964cd25a1627fd6f523fd091153d0bd7e5f1c9415914"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-12T00:11:14.150Z",
+    "snapshotAt": "2026-11-12T12:05:18.413Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 720,
-    "fail": 809,
+    "pass": 739,
+    "fail": 792,
     "skip": 0,
-    "error": 211,
-    "timeout": 186,
+    "error": 210,
+    "timeout": 185,
     "pending": 0
   },
   "areas": [
@@ -116,11 +116,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 279,
-        "fail": 98,
+        "pass": 296,
+        "fail": 83,
         "skip": 0,
-        "error": 7,
-        "timeout": 24,
+        "error": 6,
+        "timeout": 23,
         "pending": 0
       }
     },
@@ -233,8 +233,8 @@
       "totals": {
         "total": 314,
         "executed": 314,
-        "pass": 38,
-        "fail": 225,
+        "pass": 39,
+        "fail": 224,
         "skip": 0,
         "error": 15,
         "timeout": 36,
@@ -259,8 +259,8 @@
       "totals": {
         "total": 77,
         "executed": 77,
-        "pass": 42,
-        "fail": 5,
+        "pass": 43,
+        "fail": 4,
         "skip": 0,
         "error": 28,
         "timeout": 2,
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 93260,
-    "pass": 66033,
-    "fail": 26807,
+    "total": 93267,
+    "pass": 66651,
+    "fail": 26198,
     "skip": 0,
-    "error": 241,
-    "timeout": 179
+    "error": 240,
+    "timeout": 178
   },
   "nonTentative": {
     "totals": {
       "total": 1794,
       "executed": 1794,
-      "pass": 711,
-      "fail": 737,
+      "pass": 730,
+      "fail": 720,
       "skip": 0,
-      "error": 188,
-      "timeout": 158,
+      "error": 187,
+      "timeout": 157,
       "pending": 0
     },
     "areas": [
@@ -371,11 +371,11 @@
         "totals": {
           "total": 408,
           "executed": 408,
-          "pass": 279,
-          "fail": 98,
+          "pass": 296,
+          "fail": 83,
           "skip": 0,
-          "error": 7,
-          "timeout": 24,
+          "error": 6,
+          "timeout": 23,
           "pending": 0
         }
       },
@@ -488,8 +488,8 @@
         "totals": {
           "total": 254,
           "executed": 254,
-          "pass": 38,
-          "fail": 196,
+          "pass": 39,
+          "fail": 195,
           "skip": 0,
           "error": 9,
           "timeout": 11,
@@ -514,8 +514,8 @@
         "totals": {
           "total": 77,
           "executed": 77,
-          "pass": 42,
-          "fail": 5,
+          "pass": 43,
+          "fail": 4,
           "skip": 0,
           "error": 28,
           "timeout": 2,
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 91706,
-      "pass": 65174,
-      "fail": 26204,
+      "total": 91713,
+      "pass": 65792,
+      "fail": 25595,
       "skip": 0,
-      "error": 177,
-      "timeout": 151
+      "error": 176,
+      "timeout": 150
     },
     "nonPassingTests": [
       {
@@ -1466,7 +1466,7 @@
       {
         "url": "/dom/events/Body-FrameSet-Event-Handlers.html",
         "status": "fail",
-        "message": "assert_equals: Initially null expected (object) null but got (undefined) undefined"
+        "message": "assert_equals: Return null after setting string expected (object) null but got (string) \"\""
       },
       {
         "url": "/dom/events/Event-cancelBubble.html",
@@ -2363,24 +2363,9 @@
         "message": "assert_equals: window.event is the outer event before the nested dispatch expected (object) object \"[object Object]\" but got (undefined) undefined"
       },
       {
-        "url": "/dom/nodes/DOMImplementation-createDocument-no-browsing-context.html",
-        "status": "fail",
-        "message": "assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) \"1 + 2\""
-      },
-      {
-        "url": "/dom/nodes/Document-URL.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"undefined/common/blank.html\" but got \"http://web-platform.test:8000/common/blank.html\""
-      },
-      {
         "url": "/dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html",
         "status": "fail",
-        "message": "assert_throws_dom: function \"() => target.adoptNode(root)\" did not throw"
-      },
-      {
-        "url": "/dom/nodes/Document-base-url-not-live.window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "message": "assert_equals: inner content owner document tracks outer content owner document expected Document node with 0 children but got Document node with 0 children"
       },
       {
         "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
@@ -2388,24 +2373,9 @@
         "message": "assert_equals: source expected \"http://web-platform.test:8000/dom/nodes/sub/\" but got \"about:blank\""
       },
       {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_bmp.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"image/bmp\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_css.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"text/css\" but got \"text/html\""
-      },
-      {
         "url": "/dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html",
         "status": "timeout",
         "message": "palim execution timed out"
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_gif.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"image/gif\" but got \"text/html\""
       },
       {
         "url": "/dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html",
@@ -2413,54 +2383,9 @@
         "message": "assert_equals: expected \"text/html\" but got \"\""
       },
       {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_jpg.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"image/jpeg\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_mimeheader_01.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"text/xml\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_png.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"image/png\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_txt.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"text/plain\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-contentType/contentType/contenttype_xml.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"application/xml\" but got \"text/html\""
-      },
-      {
         "url": "/dom/nodes/Document-contentType/contentType/xhr_responseType_document.html",
         "status": "fail",
         "message": "\"XMLHttpRequest\" is not defined"
-      },
-      {
-        "url": "/dom/nodes/Document-createCDATASection-xhtml.xhtml",
-        "status": "error",
-        "message": "ReferenceError: \"CDATASection\" is not defined"
-      },
-      {
-        "url": "/dom/nodes/Document-createElement-namespace.html",
-        "status": "fail",
-        "message": "assert_equals: Wrong MIME type returned from doc.contentType expected \"application/xhtml+xml\" but got \"text/html\""
-      },
-      {
-        "url": "/dom/nodes/Document-createElement.html",
-        "status": "fail",
-        "message": "assert_equals: XML document didn't load expected \"Dummy XML document\" but got \"Dummy XML document\\n\""
-      },
-      {
-        "url": "/dom/nodes/Document-createElementNS.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"Dummy XML document\" but got \"Dummy XML document\\n\""
       },
       {
         "url": "/dom/nodes/Document-createEvent.https.html",
@@ -2676,11 +2601,6 @@
         "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
         "status": "fail",
         "message": "Cannot convert undefined to object"
-      },
-      {
-        "url": "/dom/nodes/adoption.window.html",
-        "status": "fail",
-        "message": "assert_throws_dom: function \"() => document.adoptNode(df)\" did not throw"
       },
       {
         "url": "/dom/nodes/create-element-realm-after-adoption.html",
@@ -2970,11 +2890,6 @@
         "url": "/dom/nodes/namespaced-attribute-mutations.html",
         "status": "fail",
         "message": "assert_equals: expected \"green\" but got \"\""
-      },
-      {
-        "url": "/dom/nodes/node-creation-realm.html",
-        "status": "fail",
-        "message": "Right-hand side of \"instanceof\" (undefined) is not an object"
       },
       {
         "url": "/dom/nodes/node-realm-mixed-across-adoption.html",
@@ -4276,11 +4191,6 @@
         "url": "/sanitizer-api/trustedhtml-unvetted-parser-options.html",
         "status": "error",
         "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/shadow-dom/Document-prototype-adoptNode.html",
-        "status": "fail",
-        "message": "assert_throws_dom: function \"function () {\n            var element = document.createElement('div');\n            var shadowRoot = element.attachShadow({mode: mode});\n            newDocument.adoptNode(shadowRoot);\n        }\" did not throw"
       },
       {
         "url": "/shadow-dom/Document-prototype-currentScript.html",
@@ -5786,11 +5696,6 @@
         "url": "/url/url-tojson.any.worker.html",
         "status": "error",
         "message": "ReferenceError: \"Worker\" is not defined"
-      },
-      {
-        "url": "/url/urlencoded-parser.any.html",
-        "status": "fail",
-        "message": "undefined is not a function"
       },
       {
         "url": "/url/urlencoded-parser.any.worker.html",

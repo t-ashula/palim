@@ -4,7 +4,6 @@
 
 ### Node tree mutation
 
-- [x] `Document.adoptNode()` が `ShadowRoot` を `HierarchyRequestError` で拒否する
 - [ ] `HTMLTemplateElement` の adopting steps で nested template contents の owner document を再帰的に更新する
 
 ### Parsing and serialization
@@ -34,7 +33,6 @@
 - [ ] media loading・再生状態・track
 - [ ] canvas rendering context
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
-- [x] nested iframe の initial `about:blank` が ancestor document と同じ URL の場合も child navigable 作成後に `load` event を発火する
 - [ ] iframe navigation で response MIME type を保持し、`data:` URL の body と fragment を分離して HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
 - [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
