@@ -1,5 +1,6 @@
 import { bindDOMInterface } from "./binding.js";
-import { createNodeList, type NodeList } from "./collections.js";
+import type { NodeList } from "./collections.js";
+import { createNodeList } from "./collections.js";
 import type { Node } from "./nodes.js";
 
 export interface MutationObserverInit {

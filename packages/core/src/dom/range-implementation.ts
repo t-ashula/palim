@@ -3,29 +3,29 @@ import { HTML_NAMESPACE } from "../namespaces.js";
 import { requireArguments } from "../web-idl.js";
 import { bindDOMInterface } from "./binding.js";
 import { domString } from "./conversions.js";
-import type { Range, StaticRange, StaticRangeInit } from "./range.js";
 import {
+  appendNode,
   Attr,
   CharacterData,
+  childNodes,
+  cloneNodeIntoDocument,
   Comment,
+  createDocumentFragment,
+  createElementForDocument,
   Document,
   DocumentFragment,
   DocumentType,
   Element,
-  Node,
-  ProcessingInstruction,
-  Text,
-  appendNode,
-  childNodes,
-  cloneNodeIntoDocument,
-  createDocumentFragment,
-  createElementForDocument,
   fragmentParserForDocument,
   insertNodeBefore,
+  Node,
+  ProcessingInstruction,
   removeNode,
   replaceCharacterData,
+  Text,
   validatePreInsertion,
 } from "./nodes.js";
+import type { Range, StaticRange, StaticRangeInit } from "./range.js";
 
 const START_TO_START = 0;
 const START_TO_END = 1;

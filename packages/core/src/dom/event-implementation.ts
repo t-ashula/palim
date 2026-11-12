@@ -3,7 +3,6 @@ import {
   implementationFor,
   interfaceFor,
 } from "./binding.js";
-
 import type {
   AbortSignal,
   Event,

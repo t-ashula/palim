@@ -8,13 +8,13 @@ import {
   setURLPathname,
   setURLQuery,
 } from "./parser.js";
+import type { URLRecord } from "./record.js";
 import {
   cloneURLRecord,
   defaultPort,
   hasOpaquePath,
   isSpecialScheme,
 } from "./record.js";
-import type { URLRecord } from "./record.js";
 import {
   replaceURLSearchParams,
   setURLSearchParamsUpdate,

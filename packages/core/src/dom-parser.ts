@@ -7,8 +7,8 @@ import { descendantElements } from "./dom/traversal.js";
 import { parseHTML } from "./html/parser.js";
 import { HTML_NAMESPACE, SVG_NAMESPACE } from "./namespaces.js";
 import { URL } from "./url/index.js";
-import { parseXML } from "./xml/parser.js";
 import type { XMLMIMEType } from "./xml/parser.js";
+import { parseXML } from "./xml/parser.js";
 
 export type DOMParserSupportedType = "text/html" | XMLMIMEType;
 

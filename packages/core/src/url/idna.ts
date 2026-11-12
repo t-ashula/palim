@@ -1,10 +1,13 @@
-import { IDNA_MAPPING_TABLE, type IDNAMappingRange } from "./idna-mapping.js";
+import type { IDNAMappingRange } from "./idna-mapping.js";
+import { IDNA_MAPPING_TABLE } from "./idna-mapping.js";
+import type {
+  IDNACodePointRange,
+  IDNAPropertyRange,
+} from "./idna-properties.js";
 import {
   IDNA_BIDI_CLASS_RANGES,
   IDNA_JOINING_TYPE_RANGES,
   IDNA_VIRAMA_RANGES,
-  type IDNACodePointRange,
-  type IDNAPropertyRange,
 } from "./idna-properties.js";
 import { punycodeDecode, punycodeEncode } from "./punycode.js";
 

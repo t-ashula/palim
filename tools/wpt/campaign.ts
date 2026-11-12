@@ -3,8 +3,8 @@ import { createHash } from "node:crypto";
 import {
   existsSync,
   mkdirSync,
-  readFileSync,
   readdirSync,
+  readFileSync,
   renameSync,
   rmSync,
   unlinkSync,
@@ -14,16 +14,16 @@ import { dirname, relative, resolve } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import {
-  buildWPTProgressReport,
-  renderWPTProgressMarkdown,
-  selectWPTURLs,
-} from "../conformance/wpt-progress.js";
 import type {
   WPTCampaignReport,
   WPTProgressReport,
   WPTSubtestResult,
   WPTTestResult,
+} from "../conformance/wpt-progress.js";
+import {
+  buildWPTProgressReport,
+  renderWPTProgressMarkdown,
+  selectWPTURLs,
 } from "../conformance/wpt-progress.js";
 
 type CampaignLifecycle = WPTCampaignReport["state"];

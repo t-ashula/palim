@@ -1,14 +1,14 @@
-import { reportWindowError, Window } from "@palim/window/internal/window.js";
+import type { Event } from "@palim/core/internal/dom/events.js";
 import {
   ErrorEvent,
   PromiseRejectionEvent,
-  type Event,
 } from "@palim/core/internal/dom/events.js";
+import { reportWindowError, Window } from "@palim/window/internal/window.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
 } from "@palim/window/internal/window-named-properties.js";
-import { normal } from "./adapter.js";
+
 import type {
   EngineCallable,
   EngineHostFunction,
@@ -18,16 +18,17 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import { normal } from "./adapter.js";
 import { DOMRealmBinding } from "./dom-realm-binding.js";
 import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { URLRealmBinding } from "./url-realm-binding.js";
+import type { WindowErrorInformation } from "./window-error-report.js";
 import {
   extractWindowErrorInformation,
   windowErrorReport,
-  type WindowErrorInformation,
 } from "./window-error-report.js";
 
 export class WindowRealmBindingContext {

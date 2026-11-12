@@ -1,13 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  buildReport,
-  classifyFailureKind,
-  renderMarkdown,
-  type FixtureRevisions,
-  type RawCaseResult,
-  type SuiteImplementation,
+import type {
+  FixtureRevisions,
+  RawCaseResult,
+  SuiteImplementation,
 } from "../report.js";
+import { buildReport, classifyFailureKind, renderMarkdown } from "../report.js";
 
 const fixtures: FixtureRevisions = {
   "readability/readability": {

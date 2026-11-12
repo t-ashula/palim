@@ -4,8 +4,9 @@ import type {
   CanonicalSanitizerName,
   CanonicalSanitizerPI,
 } from "@palim/core/internal/dom/sanitizer.js";
-import { normal } from "./adapter.js";
+
 import type { EngineObject, EngineValue } from "./adapter.js";
+import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 const PROPERTY = {

@@ -1,10 +1,10 @@
-import { createHTMLCollection } from "./collections.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
 import type { HTMLCollection } from "./collections.js";
-import { documentImplementation } from "./node-implementation.js";
+import { createHTMLCollection } from "./collections.js";
 import type { DocumentImplementation } from "./node-implementation.js";
+import { documentImplementation } from "./node-implementation.js";
 import type { Document, Element } from "./nodes.js";
 import { descendantElements } from "./traversal.js";
-import { HTML_NAMESPACE } from "../namespaces.js";
 
 const DOCUMENT_NAMED_ELEMENT_LOCAL_NAMES = new Set([
   "embed",

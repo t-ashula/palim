@@ -1,7 +1,8 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { describe, expect, it } from "vitest";
 
+import { URL } from "@palim/core/internal/url/index.js";
+import { Engine262Adapter } from "@palim/engine262";
 import type {
   EngineRealm,
   EngineValue,
@@ -9,9 +10,8 @@ import type {
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import { URLRealmBinding } from "@palim/scripting/internal/javascript-engine/url-realm-binding.js";
 import { WindowRealmBinding } from "@palim/scripting/internal/javascript-engine/window-realm-binding.js";
-import { Engine262Adapter } from "@palim/engine262";
-import { URL } from "@palim/core/internal/url/index.js";
 import { createWindow } from "@palim/window/internal/window.js";
+import { describe, expect, it } from "vitest";
 
 const fixtureDirectory = resolve(
   import.meta.dirname,

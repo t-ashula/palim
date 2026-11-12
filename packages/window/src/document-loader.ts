@@ -1,37 +1,34 @@
-import { Event, type EventTarget } from "@palim/core/internal/dom/events.js";
+import type { EventTarget } from "@palim/core/internal/dom/events.js";
+import { Event } from "@palim/core/internal/dom/events.js";
 import {
   DocumentImplementation,
   documentImplementation,
 } from "@palim/core/internal/dom/node-implementation.js";
-import {
-  Document,
-  XMLDocument,
-  type Element,
-} from "@palim/core/internal/dom/nodes.js";
+import type { Element } from "@palim/core/internal/dom/nodes.js";
+import { Document, XMLDocument } from "@palim/core/internal/dom/nodes.js";
 import { descendantElements } from "@palim/core/internal/dom/traversal.js";
+import {
+  parseHTML,
+  parseHTMLIntoDocumentAsync,
+} from "@palim/core/internal/html/parser.js";
 import {
   HTMLIFrameElement,
   HTMLScriptElement,
   setHTMLIFrameElementContentWindow,
 } from "@palim/core/internal/html-elements.js";
-import {
-  parseHTML,
-  parseHTMLIntoDocumentAsync,
-} from "@palim/core/internal/html/parser.js";
 import { originFromURL } from "@palim/core/internal/origin.js";
-import { parseXML } from "@palim/core/internal/xml/parser.js";
 import { URL } from "@palim/core/internal/url/index.js";
+import { parseXML } from "@palim/core/internal/xml/parser.js";
 
+import { decodeHTMLBytes } from "./html-byte-input.js";
+import type { Window, WindowOptions } from "./window.js";
 import {
   createChildWindow,
   createWindow,
   createWindowForDocument,
   detachWindow,
   replaceWindowDocument,
-  type Window,
-  type WindowOptions,
 } from "./window.js";
-import { decodeHTMLBytes } from "./html-byte-input.js";
 
 export interface Resource {
   readonly body: Uint8Array;

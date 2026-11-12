@@ -1,17 +1,18 @@
 import type {
+  Document,
+  ErrorEvent,
+  Event,
+  EventTarget,
+  MutationObserverMicrotaskScheduler,
+  PromiseRejectionEvent,
+} from "@palim/core/internal/dom.js";
+
+import type {
   EngineObject,
   EngineRealm,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
-import type { MutationObserverMicrotaskScheduler } from "@palim/core/internal/dom.js";
-import type {
-  Document,
-  ErrorEvent,
-  Event,
-  EventTarget,
-  PromiseRejectionEvent,
-} from "@palim/core/internal/dom.js";
 import { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";

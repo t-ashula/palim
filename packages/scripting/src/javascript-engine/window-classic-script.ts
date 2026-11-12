@@ -1,13 +1,13 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import type { Document } from "@palim/core/internal/dom/nodes.js";
 import type { Origin } from "@palim/core/internal/origin.js";
+import { URL } from "@palim/core/internal/url/index.js";
+import type { Window } from "@palim/window/internal/window.js";
 import {
   scheduleWindowTimeout,
   setWindowMicrotaskScheduler,
-  type Window,
 } from "@palim/window/internal/window.js";
-import { URL } from "@palim/core/internal/url/index.js";
-import { normal, thrown } from "./adapter.js";
+
 import type {
   EngineObject,
   EngineResult,
@@ -15,8 +15,9 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
-import { WindowRealmBinding } from "./window-realm-binding.js";
+import { normal, thrown } from "./adapter.js";
 import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
+import { WindowRealmBinding } from "./window-realm-binding.js";
 
 type ClassicScriptCompilation =
   | { readonly type: "compiled"; readonly script: EngineScript }

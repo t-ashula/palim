@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { expectDOMException } from "./helper/assertions.js";
 import type { Document } from "./public-test-api.js";
 import {
   DocumentFragment,
@@ -8,7 +9,6 @@ import {
   Element,
   HTMLInputElement,
 } from "./public-test-api.js";
-import { expectDOMException } from "./helper/assertions.js";
 
 const FIXTURE = `<!doctype html>
 <html lang="en">

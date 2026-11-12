@@ -1,28 +1,30 @@
+import type { Event, EventTarget } from "@palim/core/internal/dom/events.js";
 import {
   documentImplementation,
   nodeImplementation,
 } from "@palim/core/internal/dom/node-implementation.js";
 import type { Element, Node } from "@palim/core/internal/dom/nodes.js";
-import type { Event, EventTarget } from "@palim/core/internal/dom/events.js";
 import { HTMLScriptElement } from "@palim/core/internal/html-elements.js";
 import { URL } from "@palim/core/internal/url/index.js";
+import type { HostServices, WindowExtension } from "@palim/polyfills";
+import { createHostServices } from "@palim/polyfills";
 import type {
   Resource,
   ResourceLoader,
   WindowScripting,
 } from "@palim/window/internal/document-loader.js";
 import type { Window } from "@palim/window/internal/window.js";
-import { createHostServices } from "@palim/polyfills";
-import type { HostServices, WindowExtension } from "@palim/polyfills";
 
 import type {
   EngineResult,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./javascript-engine/adapter.js";
-import type { ClassicScript } from "./javascript-engine/window-classic-script.js";
+import type {
+  ClassicScript,
+  WindowScriptEventLoop,
+} from "./javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
-import type { WindowScriptEventLoop } from "./javascript-engine/window-classic-script.js";
 import { installWindowExtensions } from "./javascript-engine/window-extension-context.js";
 
 export {

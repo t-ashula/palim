@@ -1,7 +1,7 @@
+import type { FormUrlEncodedPair } from "./form-urlencoded.js";
 import {
   parseFormUrlEncodedString,
   serializeFormUrlEncoded,
-  type FormUrlEncodedPair,
 } from "./form-urlencoded.js";
 
 type Pair = FormUrlEncodedPair;

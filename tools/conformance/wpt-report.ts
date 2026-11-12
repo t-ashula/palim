@@ -2,18 +2,20 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { relative, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-import {
-  type Classification,
-  type FixtureRevisions,
-  type RawCaseResult,
+import type {
+  Classification,
+  FixtureRevisions,
+  RawCaseResult,
 } from "./report.js";
+import type {
+  WPTProgressReport,
+  WPTReport,
+  WPTTestResult,
+} from "./wpt-progress.js";
 import {
   buildWPTProgressReport,
   renderWPTProgressMarkdown,
   selectWPTURLs,
-  type WPTProgressReport,
-  type WPTReport,
-  type WPTTestResult,
 } from "./wpt-progress.js";
 
 interface ConformanceManifest {

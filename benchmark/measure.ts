@@ -1,8 +1,11 @@
 import { spawn } from "node:child_process";
 import { cpus } from "node:os";
-import { fileURLToPath } from "node:url";
 import { hrtime, memoryUsage, resourceUsage, versions } from "node:process";
+import { fileURLToPath } from "node:url";
 
+import type { Document } from "../packages/core/src/dom.js";
+import { DOMParser } from "../packages/core/src/index.js";
+import type { CorpusCase } from "./corpus.js";
 import {
   inspectDocument,
   loadCorpus,
@@ -10,7 +13,6 @@ import {
   loadCorpusCase,
   verifyDocument,
 } from "./corpus.js";
-import type { CorpusCase } from "./corpus.js";
 import type {
   MeasurementIdentity,
   MemoryMode,
@@ -22,8 +24,6 @@ import type {
   SpeedMode,
   SpeedRawRecord,
 } from "./report.js";
-import { DOMParser } from "../packages/core/src/index.js";
-import type { Document } from "../packages/core/src/dom.js";
 
 function requiredEnvironment(name: string): string {
   const value = process.env[name];

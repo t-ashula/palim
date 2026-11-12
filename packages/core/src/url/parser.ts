@@ -8,6 +8,7 @@ import {
   utf8PercentEncode,
 } from "./encoding.js";
 import { parseHost, serializeHost } from "./host.js";
+import type { URLRecord } from "./record.js";
 import {
   cloneURLRecord,
   defaultPort,
@@ -15,7 +16,6 @@ import {
   hasOpaquePath,
   isSpecialScheme,
 } from "./record.js";
-import type { URLRecord } from "./record.js";
 
 function preprocess(input: string): string {
   return input

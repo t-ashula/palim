@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 
+import type { Node } from "../public-test-api.js";
 import {
   Comment,
   Document,
@@ -10,7 +11,6 @@ import {
   ProcessingInstruction,
   Text,
 } from "../public-test-api.js";
-import type { Node } from "../public-test-api.js";
 
 export type ScriptingMode = "disabled" | "enabled";
 

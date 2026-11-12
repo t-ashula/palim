@@ -1,13 +1,12 @@
-import { describe, expect, it } from "vitest";
-
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
+import { Engine262Adapter } from "@palim/engine262";
 import type {
   EngineRealm,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { Engine262Adapter } from "@palim/engine262";
+import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import { RealmBindingContext } from "@palim/scripting/internal/javascript-engine/realm-binding-context.js";
+import { describe, expect, it } from "vitest";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

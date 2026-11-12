@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { expectDOMException } from "./helper/assertions.js";
 import type { Document, Element } from "./public-test-api.js";
 import {
   DOMParser,
@@ -10,7 +11,6 @@ import {
   HTMLTableRowElement,
   HTMLTableSectionElement,
 } from "./public-test-api.js";
-import { expectDOMException } from "./helper/assertions.js";
 
 interface ElementInterface<T extends Element> {
   [Symbol.hasInstance](value: unknown): value is T;

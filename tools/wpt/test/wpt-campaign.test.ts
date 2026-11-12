@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { selectLatestCampaignResults } from "../campaign.js";
 import {
   buildWPTProgressReport,
   renderWPTProgressMarkdown,
 } from "../../conformance/wpt-progress.js";
+import { selectLatestCampaignResults } from "../campaign.js";
 
 describe("WPT campaign reporting", () => {
   it("selects the latest completed valid attempt for each selected URL", () => {

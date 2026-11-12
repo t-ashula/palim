@@ -1,4 +1,3 @@
-import { normal, thrown } from "./adapter.js";
 import type {
   EngineCallable,
   EngineDataPropertyAttributes,
@@ -12,11 +11,12 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
-import {
-  RealmExecutionRuntime,
-  type CallbackRecord,
-  type CallbackRecordOptions,
+import { normal, thrown } from "./adapter.js";
+import type {
+  CallbackRecord,
+  CallbackRecordOptions,
 } from "./realm-execution-runtime.js";
+import { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 
 const INTERFACE_PROPERTY = {
   configurable: true,

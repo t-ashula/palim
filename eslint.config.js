@@ -1,4 +1,5 @@
 import { defineConfig } from "eslint/config";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
@@ -23,6 +24,9 @@ export default defineConfig(
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
+    },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
     },
     rules: {
       "@typescript-eslint/no-unused-vars": [
@@ -49,6 +53,20 @@ export default defineConfig(
         },
       ],
       curly: ["error", "all"],
+      "no-duplicate-imports": [
+        "error",
+        {
+          allowSeparateTypeImports: true,
+        },
+      ],
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "ImportSpecifier[importKind='type']",
+          message: "Use a top-level import type declaration.",
+        },
+      ],
+      "simple-import-sort/imports": "error",
     },
   },
 );

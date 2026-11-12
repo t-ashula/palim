@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
+import * as Core from "@palim/core";
 import { describe, expect, it } from "vitest";
 
-import * as Core from "@palim/core";
 import * as Palim from "../packages/palim/src/index.js";
 
 const REJECT_ENGINE_IMPORT = new URL(

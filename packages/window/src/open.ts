@@ -1,16 +1,16 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import { XMLDocument } from "@palim/core/internal/dom/nodes.js";
-import { parseXML } from "@palim/core/internal/xml/parser.js";
 import type { URL } from "@palim/core/internal/url/index.js";
-import { createExtensionHostServices } from "@palim/polyfills";
+import { parseXML } from "@palim/core/internal/xml/parser.js";
 import type { HostServices, WindowExtension } from "@palim/polyfills";
+import { createExtensionHostServices } from "@palim/polyfills";
 
-import { WindowDocumentLoader } from "./document-loader.js";
 import type {
   Resource,
   ResourceLoader,
   WindowScripting,
 } from "./document-loader.js";
+import { WindowDocumentLoader } from "./document-loader.js";
 import { decodeHTMLBytes } from "./html-byte-input.js";
 import type { Window, WindowConsoleCall } from "./window.js";
 

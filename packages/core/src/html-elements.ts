@@ -1,4 +1,6 @@
-import type { Node, Document, DocumentFragment, DOMTokenList } from "./dom.js";
+import type { CSSToken } from "./css-syntax.js";
+import { tokenizeCSS } from "./css-syntax.js";
+import type { Document, DocumentFragment, DOMTokenList, Node } from "./dom.js";
 import {
   Element,
   Event,
@@ -7,20 +9,13 @@ import {
   NodeList,
   Text,
 } from "./dom.js";
-import { DOMException } from "./dom-exception.js";
-import {
-  GLOBAL_EVENT_HANDLER_NAMES,
-  WINDOW_EVENT_HANDLER_NAMES,
-} from "./event-handler-names.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
-import { createDefinedCustomElement } from "./dom/custom-elements.js";
-import { tokenizeCSS } from "./css-syntax.js";
-import type { CSSToken } from "./css-syntax.js";
 import {
   createCollectionImplementation,
   createHTMLCollection,
   createNodeList,
 } from "./dom/collections.js";
+import { createDefinedCustomElement } from "./dom/custom-elements.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
 import { nodeImplementation } from "./dom/node-implementation.js";
 import {
@@ -35,6 +30,11 @@ import {
   templateContentsDocument,
 } from "./dom/nodes.js";
 import { createDOMTokenList } from "./dom/token-list.js";
+import { DOMException } from "./dom-exception.js";
+import {
+  GLOBAL_EVENT_HANDLER_NAMES,
+  WINDOW_EVENT_HANDLER_NAMES,
+} from "./event-handler-names.js";
 import {
   deleteTableItem,
   insertTableRow as insertTableRowAt,
@@ -53,8 +53,8 @@ import {
   tableSectionRows,
 } from "./html-table.js";
 import { HTML_NAMESPACE } from "./namespaces.js";
-import { requireArguments, toLong } from "./web-idl.js";
 import { URL } from "./url/index.js";
+import { requireArguments, toLong } from "./web-idl.js";
 import type { Window } from "./window-types.js";
 
 interface URLValue {

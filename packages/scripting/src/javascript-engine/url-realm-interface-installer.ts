@@ -1,14 +1,17 @@
 import { URL, URLSearchParams } from "@palim/core/internal/url/index.js";
-import { normal } from "./adapter.js";
+
 import type {
   EngineRealm,
   EngineResult,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import { normal } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
-import type { URLRealmBindingContext } from "./url-realm-binding-context.js";
-import { type SearchParamsIteratorKind } from "./url-realm-binding-context.js";
+import type {
+  SearchParamsIteratorKind,
+  URLRealmBindingContext,
+} from "./url-realm-binding-context.js";
 
 type SearchParamsPair = readonly [string, string];
 

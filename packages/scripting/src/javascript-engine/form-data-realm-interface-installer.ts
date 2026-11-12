@@ -1,10 +1,10 @@
-import { normal } from "./adapter.js";
 import type {
   EngineRealm,
   EngineResult,
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import { normal } from "./adapter.js";
 import type {
   FormDataIteratorKind,
   FormDataRealmBindingContext,

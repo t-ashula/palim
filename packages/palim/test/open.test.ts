@@ -1,8 +1,7 @@
 import { readFileSync } from "node:fs";
 
-import { describe, expect, it, vi } from "vitest";
-
 import { HTMLIFrameElement, open } from "palim";
+import { describe, expect, it, vi } from "vitest";
 
 function fixture(name: string): string {
   return readFileSync(

@@ -8,16 +8,18 @@ import { relative, resolve } from "node:path";
 
 import type { Reporter, TestCase, TestRunEndReason } from "vitest/node";
 
+import type {
+  ConformanceCaseMetadata,
+  FixtureRevisions,
+  RawCaseResult,
+  RawError,
+  SuiteImplementation,
+} from "./report.js";
 import {
   buildReport,
   classifyFailureKind,
   classifyResult,
   renderMarkdown,
-  type ConformanceCaseMetadata,
-  type FixtureRevisions,
-  type RawCaseResult,
-  type RawError,
-  type SuiteImplementation,
 } from "./report.js";
 
 interface ConformanceManifest {

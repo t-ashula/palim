@@ -1,3 +1,4 @@
+import { createWindow, Window } from "@palim/window/internal/window.js";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -22,7 +23,6 @@ import {
   Text,
   TimeRanges,
 } from "../packages/palim/src/index.js";
-import { Window, createWindow } from "@palim/window/internal/window.js";
 
 describe("public standard interface boundaries", () => {
   it("uses the standard constructors that are available", () => {

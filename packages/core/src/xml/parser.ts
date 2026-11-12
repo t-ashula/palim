@@ -1,10 +1,10 @@
-import { DOMException } from "../dom-exception.js";
-import type { Document } from "../dom/nodes.js";
-import {
-  type DocumentFragment,
-  type Element,
-  type FragmentParser,
-  type Node,
+import { nodeImplementation } from "../dom/node-implementation.js";
+import type {
+  Document,
+  DocumentFragment,
+  Element,
+  FragmentParser,
+  Node,
 } from "../dom/nodes.js";
 import {
   appendNode,
@@ -18,7 +18,7 @@ import {
   createText,
   setAttributes,
 } from "../dom/nodes.js";
-import { nodeImplementation } from "../dom/node-implementation.js";
+import { DOMException } from "../dom-exception.js";
 import { createElementForDocument } from "../html-elements.js";
 import {
   HTML_NAMESPACE,
@@ -26,8 +26,8 @@ import {
   XML_NAMESPACE,
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
-import { parseInternalSubset } from "./dtd.js";
 import type { DTDDefaultAttribute } from "./dtd.js";
+import { parseInternalSubset } from "./dtd.js";
 import {
   isXMLCharacter,
   isXMLNameCharacter,

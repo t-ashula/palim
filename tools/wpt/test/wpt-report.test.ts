@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { convertWPTReport } from "../../conformance/wpt-report.js";
 import {
   buildWPTProgressReport,
   isTentativeWPTURL,
   renderWPTProgressMarkdown,
   selectWPTURLs,
 } from "../../conformance/wpt-progress.js";
+import { convertWPTReport } from "../../conformance/wpt-report.js";
 
 describe("WPT conformance report conversion", () => {
   it("records subtests and a failing harness in the conformance format", () => {

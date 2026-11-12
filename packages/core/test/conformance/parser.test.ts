@@ -1,14 +1,15 @@
 import { globSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { afterAll, describe, expect, it } from "vitest";
 
-import { Document, parseErrors } from "../public-test-api.js";
 import {
   parseHTML,
   parseHTMLFragment,
 } from "@palim/core/internal/html/parser.js";
+import { afterAll, describe, expect, it } from "vitest";
+
 import type { ConformanceCaseMetadata } from "../../../../tools/conformance/report.js";
+import { Document, parseErrors } from "../public-test-api.js";
 import {
   canonicalTree,
   parseTreeConstructionFixture,

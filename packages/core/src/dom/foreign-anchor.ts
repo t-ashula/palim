@@ -1,6 +1,7 @@
 import { MATHML_NAMESPACE, SVG_NAMESPACE } from "../namespaces.js";
 import type { Element } from "./nodes.js";
-import { createDOMTokenList, type DOMTokenList } from "./token-list.js";
+import type { DOMTokenList } from "./token-list.js";
+import { createDOMTokenList } from "./token-list.js";
 
 const FOREIGN_ANCHOR_REL_LISTS = new WeakMap<Element, DOMTokenList>();
 

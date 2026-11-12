@@ -1,4 +1,3 @@
-import { normal } from "./adapter.js";
 import type {
   EngineCallable,
   EngineJob,
@@ -9,6 +8,7 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import { normal } from "./adapter.js";
 
 export interface RealmExecutionSettings {
   readonly realm: EngineRealm;

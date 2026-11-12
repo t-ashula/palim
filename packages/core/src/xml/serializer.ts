@@ -1,18 +1,18 @@
-import { DOMException } from "../dom-exception.js";
+import type { Node } from "../dom/nodes.js";
 import {
   Attr,
   CDATASection,
+  childNodes,
   Comment,
   Document,
   DocumentFragment,
   DocumentType,
   Element,
   ProcessingInstruction,
-  Text,
-  childNodes,
   templateContents,
+  Text,
 } from "../dom/nodes.js";
-import type { Node } from "../dom/nodes.js";
+import { DOMException } from "../dom-exception.js";
 import {
   HTML_NAMESPACE,
   XML_NAMESPACE,

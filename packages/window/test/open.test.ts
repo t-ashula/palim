@@ -1,6 +1,5 @@
-import { describe, expect, it, vi } from "vitest";
-
 import { HTMLIFrameElement, open } from "@palim/window";
+import { describe, expect, it, vi } from "vitest";
 
 describe("open", () => {
   it("keeps scripting disabled when the option is omitted", async () => {

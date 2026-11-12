@@ -1,18 +1,18 @@
 import { DOMException } from "../dom-exception.js";
 import { asciiLowercase, domString } from "./conversions.js";
+import type { RegisteredEventListener } from "./event-implementation.js";
 import {
   AbortControllerImplementation,
-  EventImplementation,
-  EventTargetImplementation,
   abortControllerImplementation,
   bindAbortController,
   bindEvent,
   bindEventTarget,
+  EventImplementation,
   eventImplementation,
+  EventTargetImplementation,
   eventTargetImplementation,
   eventTargetInterface,
 } from "./event-implementation.js";
-import type { RegisteredEventListener } from "./event-implementation.js";
 
 export interface EventInit {
   readonly bubbles?: boolean;

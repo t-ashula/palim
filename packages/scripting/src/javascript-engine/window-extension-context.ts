@@ -1,3 +1,4 @@
+import { parseFormUrlEncoded } from "@palim/core/internal/url/index.js";
 import type {
   HostServices,
   RealmCallable,
@@ -14,16 +15,15 @@ import type {
   WindowRealmInstaller,
   WindowTaskScheduler,
 } from "@palim/polyfills";
-import { parseFormUrlEncoded } from "@palim/core/internal/url/index.js";
 import { scheduleWindowTimeout } from "@palim/window/internal/window.js";
 
-import { normal } from "./adapter.js";
 import type {
   EngineCallable,
   EngineObject,
   EngineResult,
   EngineValue,
 } from "./adapter.js";
+import { normal } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 import type {
   WindowEnvironmentSettings,

@@ -1,24 +1,16 @@
-import { Document } from "../dom.js";
 import type { AttributeData, DocumentFragment, Node } from "../dom.js";
-import { DOMException } from "../dom-exception.js";
+import { Document, Element, Text } from "../dom.js";
+import type { ScriptingMode } from "../dom/node-implementation.js";
+import {
+  documentImplementation,
+  nodeImplementation,
+} from "../dom/node-implementation.js";
 import type {
   FragmentParseOptions,
   FragmentParser,
   HTMLDocumentParserSession,
   HTMLDocumentParserSessionOptions,
 } from "../dom/nodes.js";
-import {
-  sanitizerAction,
-  sanitizerAllowsAttribute,
-  sanitizerAllowsComments,
-  sanitizerAllowsPI,
-  type CanonicalSanitizerConfig,
-} from "../dom/sanitizer.js";
-import {
-  documentImplementation,
-  nodeImplementation,
-  type ScriptingMode,
-} from "../dom/node-implementation.js";
 import {
   appendCharacterData,
   appendNode,
@@ -39,11 +31,19 @@ import {
   setDocumentParseErrors,
   setDocumentQuirks,
   setHTMLParsingAlgorithms,
-  startHTMLDocumentParserSession,
   setTemplateContents,
+  startHTMLDocumentParserSession,
   templateContents,
 } from "../dom/nodes.js";
-import { Element, Text } from "../dom.js";
+import type { CanonicalSanitizerConfig } from "../dom/sanitizer.js";
+import {
+  sanitizerAction,
+  sanitizerAllowsAttribute,
+  sanitizerAllowsComments,
+  sanitizerAllowsPI,
+} from "../dom/sanitizer.js";
+import { DOMException } from "../dom-exception.js";
+import { createElementForDocument } from "../html-elements.js";
 import {
   HTML_NAMESPACE,
   MATHML_NAMESPACE,
@@ -52,10 +52,9 @@ import {
   XML_NAMESPACE,
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
-import { createElementForDocument } from "../html-elements.js";
+import type { PalimParseError } from "./parse-errors.js";
 import type { Token, TokenizerState } from "./tokenizer.js";
 import { HTMLTokenizer } from "./tokenizer.js";
-import type { PalimParseError } from "./parse-errors.js";
 
 export interface HTMLFragmentContext {
   readonly namespaceURI: string;

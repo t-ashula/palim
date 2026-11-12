@@ -1,10 +1,10 @@
-import { describe, expect, it } from "vitest";
-
-import { DOMParser } from "./public-test-api.js";
 import type {
   HTMLElement,
   HTMLSlotElement,
 } from "@palim/core/internal/html-elements.js";
+import { describe, expect, it } from "vitest";
+
+import { DOMParser } from "./public-test-api.js";
 
 describe("slot assignment", () => {
   it("updates named slot assignment across atomic moves", async () => {

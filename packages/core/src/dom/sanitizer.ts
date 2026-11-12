@@ -1,13 +1,13 @@
 import {
+  GLOBAL_EVENT_HANDLER_NAMES,
+  WINDOW_EVENT_HANDLER_NAMES,
+} from "../event-handler-names.js";
+import {
   HTML_NAMESPACE,
   MATHML_NAMESPACE,
   SVG_NAMESPACE,
   XLINK_NAMESPACE,
 } from "../namespaces.js";
-import {
-  GLOBAL_EVENT_HANDLER_NAMES,
-  WINDOW_EVENT_HANDLER_NAMES,
-} from "../event-handler-names.js";
 
 export interface SanitizerName {
   readonly name: string;

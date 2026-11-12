@@ -1,11 +1,11 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { describe, expect, it } from "vitest";
 
 import { DOMParser } from "@palim/core";
 import { Event } from "@palim/core/internal/dom/events.js";
-import type { Document } from "@palim/core/internal/public-dom-interfaces.js";
 import * as HTML from "@palim/core/internal/html-elements.js";
+import type { Document } from "@palim/core/internal/public-dom-interfaces.js";
+import { Engine262Adapter } from "@palim/engine262";
 import type {
   EngineRealm,
   EngineValue,
@@ -13,7 +13,7 @@ import type {
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import { DOMRealmBinding } from "@palim/scripting/internal/javascript-engine/dom-realm-binding.js";
 import { htmlElementInterfaceConstructors } from "@palim/scripting/internal/javascript-engine/html-element-interface-constructors.js";
-import { Engine262Adapter } from "@palim/engine262";
+import { describe, expect, it } from "vitest";
 
 interface TestRealm {
   readonly binding: DOMRealmBinding;

@@ -1,3 +1,14 @@
+import type {
+  FunctionObject,
+  HostPromiseRejectionTracker,
+  Job,
+  NativeSteps,
+  PropertyKeyValue,
+  ProxyObject,
+  Realm,
+  ScriptRecord,
+  Value as Engine262Value,
+} from "@engine262/engine262";
 import {
   Agent,
   BasicJobQueue,
@@ -34,17 +45,20 @@ import {
   X,
 } from "@engine262/engine262";
 import type {
-  FunctionObject,
-  HostPromiseRejectionTracker,
-  Job,
-  NativeSteps,
-  PropertyKeyValue,
-  ProxyObject,
-  Realm,
-  ScriptRecord,
-  Value as Engine262Value,
-} from "@engine262/engine262";
-
+  EngineDataPropertyAttributes,
+  EngineHostFunction,
+  EngineJobEnqueueCallback,
+  EnginePrimitive,
+  EnginePromiseRejectionTracker,
+  EnginePropertyAttributes,
+  EnginePropertyKey,
+  EngineProxyHandler,
+  EngineProxyTrap,
+  EngineRealmOptions,
+  EngineResult,
+  EngineWellKnownSymbol,
+  JavaScriptEngineAdapter,
+} from "@palim/scripting/internal/javascript-engine/adapter.js";
 import {
   EngineCallable,
   EngineJob,
@@ -54,21 +68,6 @@ import {
   EngineValue,
   normal,
   thrown,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import type {
-  EngineDataPropertyAttributes,
-  EngineHostFunction,
-  EngineJobEnqueueCallback,
-  EnginePromiseRejectionTracker,
-  EnginePrimitive,
-  EnginePropertyKey,
-  EnginePropertyAttributes,
-  EngineRealmOptions,
-  EngineResult,
-  EngineProxyHandler,
-  EngineProxyTrap,
-  EngineWellKnownSymbol,
-  JavaScriptEngineAdapter,
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 
 class Engine262Realm extends EngineRealm {

@@ -1,4 +1,5 @@
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 import {
   installAbortMembers,
   installAttrMembers,
@@ -8,11 +9,11 @@ import {
   installCustomElementRegistryMembers,
   installDocumentFragmentMembers,
   installDocumentMembers,
+  installDocumentNamedElementMembers,
   installDocumentTypeMembers,
   installDOMImplementationMembers,
   installDOMParserMembers,
   installDOMTokenListMembers,
-  installDocumentNamedElementMembers,
   installElementMembers,
   installEventMembers,
   installEventTargetMembers,
@@ -43,7 +44,6 @@ import {
   installTreeWalkerMembers,
   installXMLSerializerMembers,
 } from "./dom-realm-interface-installers.js";
-import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 
 export function installDOMRealmInterfaces(
   binding: DOMRealmBindingContext,

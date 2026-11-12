@@ -1,15 +1,26 @@
+import {
+  documentNamedItem,
+  documentNamedPropertyNames,
+} from "@palim/core/internal/dom/document-named-properties.js";
+import {
+  foreignAnchorRelList,
+  isForeignAnchorElement,
+} from "@palim/core/internal/dom/foreign-anchor.js";
+import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
+import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
 import { describe, expect, it } from "vitest";
 
+import { expectDOMException } from "./helper/assertions.js";
 import {
   AbortController,
   Attr,
   CDATASection,
   Comment,
   CustomEvent,
-  DOMParser,
   Document,
   DocumentFragment,
   DocumentType,
+  DOMParser,
   Element,
   ErrorEvent,
   Event,
@@ -23,17 +34,6 @@ import {
   Text,
   XMLDocument,
 } from "./public-test-api.js";
-import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import {
-  documentNamedItem,
-  documentNamedPropertyNames,
-} from "@palim/core/internal/dom/document-named-properties.js";
-import {
-  foreignAnchorRelList,
-  isForeignAnchorElement,
-} from "@palim/core/internal/dom/foreign-anchor.js";
-import { expectDOMException } from "./helper/assertions.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";

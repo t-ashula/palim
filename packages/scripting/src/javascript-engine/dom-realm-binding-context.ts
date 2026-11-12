@@ -1,4 +1,14 @@
 import {
+  callbackFailure,
+  callbackSuccess,
+} from "@palim/core/internal/callback-result.js";
+import type {
+  MutationObserverMicrotaskScheduler,
+  NodeIterator,
+  Sanitizer,
+  TreeWalker,
+} from "@palim/core/internal/dom.js";
+import {
   AbortController,
   AbortSignal,
   Attr,
@@ -28,23 +38,61 @@ import {
   Text,
   XMLDocument,
 } from "@palim/core/internal/dom.js";
-import type {
-  MutationObserverMicrotaskScheduler,
-  NodeIterator,
-  TreeWalker,
-  Sanitizer,
-} from "@palim/core/internal/dom.js";
-import { dispatchEvent as dispatchDOMEvent } from "@palim/core/internal/dom/events.js";
 import {
-  callbackFailure,
-  callbackSuccess,
-} from "@palim/core/internal/callback-result.js";
+  implementationFor,
+  interfaceFor,
+} from "@palim/core/internal/dom/binding.js";
+import {
+  htmlCollectionSupportedPropertyNames,
+  namedNodeMapSupportedPropertyNames,
+} from "@palim/core/internal/dom/collections.js";
+import {
+  CustomElementRegistry,
+  documentCustomElementRegistry,
+} from "@palim/core/internal/dom/custom-elements.js";
+import {
+  documentNamedItem,
+  documentNamedPropertyNames,
+} from "@palim/core/internal/dom/document-named-properties.js";
+import { dispatchEvent as dispatchDOMEvent } from "@palim/core/internal/dom/events.js";
+import { isForeignAnchorElement } from "@palim/core/internal/dom/foreign-anchor.js";
+import {
+  DocumentImplementation,
+  documentImplementation,
+  nodeImplementation,
+} from "@palim/core/internal/dom/node-implementation.js";
+import type { HTMLParsingOptions } from "@palim/core/internal/dom/nodes.js";
 import type { Range, StaticRange } from "@palim/core/internal/dom/range.js";
 import {
   isRange,
   isStaticRange,
 } from "@palim/core/internal/dom/range-implementation.js";
+import type {
+  SanitizerAttribute,
+  SanitizerConfig,
+  SanitizerElement,
+  SanitizerElementInput,
+  SanitizerPI,
+} from "@palim/core/internal/dom/sanitizer.js";
+import type {
+  TraversalFilterCallback,
+  TraversalResult,
+} from "@palim/core/internal/dom/traversal.js";
 import {
+  createNodeIterator,
+  createTreeWalker,
+  isNodeIterator,
+  isTreeWalker,
+  traversalAbrupt,
+  traversalNormal,
+} from "@palim/core/internal/dom/traversal.js";
+import {
+  DOMException as HostDOMException,
+  domExceptionCode,
+} from "@palim/core/internal/dom-exception.js";
+import type { DOMParser } from "@palim/core/internal/dom-parser.js";
+import {
+  createCustomHTMLElementBase,
   CSSStyleDeclaration,
   CSSStyleProperties,
   DOMStringMap,
@@ -59,55 +107,9 @@ import {
   HTMLTableRowElement,
   HTMLTableSectionElement,
   HTMLTemplateElement,
-  createCustomHTMLElementBase,
 } from "@palim/core/internal/html-elements.js";
-import {
-  CustomElementRegistry,
-  documentCustomElementRegistry,
-} from "@palim/core/internal/dom/custom-elements.js";
-import {
-  implementationFor,
-  interfaceFor,
-} from "@palim/core/internal/dom/binding.js";
-import {
-  DocumentImplementation,
-  documentImplementation,
-  nodeImplementation,
-} from "@palim/core/internal/dom/node-implementation.js";
-import type { HTMLParsingOptions } from "@palim/core/internal/dom/nodes.js";
-import type {
-  SanitizerAttribute,
-  SanitizerConfig,
-  SanitizerElement,
-  SanitizerElementInput,
-  SanitizerPI,
-} from "@palim/core/internal/dom/sanitizer.js";
-import {
-  DOMException as HostDOMException,
-  domExceptionCode,
-} from "@palim/core/internal/dom-exception.js";
-import type { DOMParser } from "@palim/core/internal/dom-parser.js";
-import {
-  htmlCollectionSupportedPropertyNames,
-  namedNodeMapSupportedPropertyNames,
-} from "@palim/core/internal/dom/collections.js";
-import {
-  documentNamedItem,
-  documentNamedPropertyNames,
-} from "@palim/core/internal/dom/document-named-properties.js";
-import { isForeignAnchorElement } from "@palim/core/internal/dom/foreign-anchor.js";
-import {
-  createNodeIterator,
-  createTreeWalker,
-  isNodeIterator,
-  isTreeWalker,
-  traversalAbrupt,
-  traversalNormal,
-  type TraversalFilterCallback,
-  type TraversalResult,
-} from "@palim/core/internal/dom/traversal.js";
 import { toLong } from "@palim/core/internal/web-idl.js";
-import { normal, thrown } from "./adapter.js";
+
 import type {
   EngineCallable,
   EngineHostFunction,
@@ -117,17 +119,14 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
-import {
-  createDOMLegacyPlatformObject,
-  type DOMLegacyPlatformObjectConfiguration,
-} from "./dom-realm-legacy-platform-object.js";
+import { normal, thrown } from "./adapter.js";
+import type { RealmExceptionReporter } from "./dom-realm-binding.js";
+import type { DOMLegacyPlatformObjectConfiguration } from "./dom-realm-legacy-platform-object.js";
+import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
+import type { HTMLElementInterfaceConstructor } from "./html-element-interface-constructors.js";
+import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 import type { CallbackRecord } from "./realm-execution-runtime.js";
-import {
-  htmlElementInterfaceConstructors,
-  type HTMLElementInterfaceConstructor,
-} from "./html-element-interface-constructors.js";
-import type { RealmExceptionReporter } from "./dom-realm-binding.js";
 
 const DATA_PROPERTY = {
   configurable: true,

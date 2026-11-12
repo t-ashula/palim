@@ -1,11 +1,12 @@
 import { globSync, readFileSync } from "node:fs";
 import { dirname, relative, resolve, sep } from "node:path";
-import { TextDecoder } from "node:util";
 import { fileURLToPath } from "node:url";
+import { TextDecoder } from "node:util";
+
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../public-test-api.js";
 import type { ConformanceCaseMetadata } from "../../../../tools/conformance/report.js";
+import { DOMParser } from "../public-test-api.js";
 
 const PARSER_ERROR_NAMESPACE =
   "http://www.mozilla.org/newlayout/xml/parsererror.xml";

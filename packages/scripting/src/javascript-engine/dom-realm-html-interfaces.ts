@@ -1,5 +1,9 @@
 import { foreignAnchorRelList } from "@palim/core/internal/dom/foreign-anchor.js";
 import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
+import type {
+  HTMLAnchorElement,
+  HTMLAreaElement,
+} from "@palim/core/internal/html-elements.js";
 import {
   HTMLBaseElement,
   HTMLBodyElement,
@@ -11,12 +15,9 @@ import {
   HTMLScriptElement,
   HTMLSlotElement,
 } from "@palim/core/internal/html-elements.js";
-import type {
-  HTMLAnchorElement,
-  HTMLAreaElement,
-} from "@palim/core/internal/html-elements.js";
-import { normal } from "./adapter.js";
+
 import type { EngineObject, EngineValue } from "./adapter.js";
+import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 const BODY_WINDOW_EVENT_HANDLER_NAMES = [

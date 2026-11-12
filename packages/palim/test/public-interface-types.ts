@@ -1,3 +1,6 @@
+import type { open as openWindow } from "@palim/window";
+import { createWindow, Window } from "@palim/window/internal/window.js";
+import type { OpenResult } from "palim";
 import {
   Attr,
   Comment,
@@ -7,13 +10,10 @@ import {
   Element,
   HTMLElement,
   Node,
+  open,
   ProcessingInstruction,
   Text,
-  open,
 } from "palim";
-import type { OpenResult } from "palim";
-import type { open as openWindow } from "@palim/window";
-import { Window, createWindow } from "@palim/window/internal/window.js";
 
 type Assert<T extends true> = T;
 export type NodeHasNoRemove = Assert<

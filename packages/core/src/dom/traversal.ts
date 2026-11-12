@@ -1,7 +1,7 @@
 import { DOMException } from "../dom-exception.js";
 import { bindDOMInterface } from "./binding.js";
-import { Node } from "./nodes.js";
 import type { Document, Element } from "./nodes.js";
+import { Node } from "./nodes.js";
 
 export const NodeFilter = Object.freeze({
   FILTER_ACCEPT: 1,

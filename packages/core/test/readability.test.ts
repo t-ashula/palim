@@ -1,8 +1,9 @@
-import { Readability, isProbablyReaderable } from "@mozilla/readability";
+import { isProbablyReaderable, Readability } from "@mozilla/readability";
+import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, type Document } from "./public-test-api.js";
-import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
+import type { Document } from "./public-test-api.js";
+import { DOMParser } from "./public-test-api.js";
 
 function readabilityDocument(document: Document): never {
   return document as never;

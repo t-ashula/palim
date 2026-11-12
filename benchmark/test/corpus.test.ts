@@ -1,6 +1,6 @@
+import { DOMParser } from "@palim/core";
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "@palim/core";
 import { inspectDocument, loadCorpus } from "../corpus.js";
 
 describe("benchmark corpus", () => {

@@ -1,4 +1,3 @@
-import { createWindowExtension, hostService } from "./index.js";
 import type {
   RealmInterface,
   RealmObject,
@@ -8,13 +7,14 @@ import type {
   WindowExtension,
   WindowExtensionContext,
 } from "./index.js";
-import { hostNetworkService } from "./network.js";
+import { createWindowExtension, hostService } from "./index.js";
 import type {
   HostCancellation,
   HostNetwork,
   HostNetworkRequest,
   HostNetworkResponse,
 } from "./network.js";
+import { hostNetworkService } from "./network.js";
 
 interface HostFetchResponse {
   readonly url: string;

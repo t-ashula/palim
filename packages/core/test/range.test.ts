@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, Element, Text } from "./public-test-api.js";
-import type { Node, Range } from "./public-test-api.js";
 import { expectDOMException } from "./helper/assertions.js";
+import type { Node, Range } from "./public-test-api.js";
+import { Document, DOMParser, Element, Text } from "./public-test-api.js";
 
 function parse(input: string): Document {
   return new DOMParser().parseFromString(input, "text/html");

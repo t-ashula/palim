@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, Document, XMLSerializer } from "./public-test-api.js";
-import type { Element } from "./public-test-api.js";
 import { expectDOMException } from "./helper/assertions.js";
+import type { Element } from "./public-test-api.js";
+import { Document, DOMParser, XMLSerializer } from "./public-test-api.js";
 
 const XHTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 

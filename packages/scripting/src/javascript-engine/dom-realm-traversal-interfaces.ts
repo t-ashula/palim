@@ -2,6 +2,7 @@ import {
   traverseNodeIterator,
   traverseTreeWalker,
 } from "@palim/core/internal/dom/traversal.js";
+
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 

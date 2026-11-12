@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, HTMLTemplateElement } from "./public-test-api.js";
 import type { Document, Element } from "./public-test-api.js";
+import { DOMParser, HTMLTemplateElement } from "./public-test-api.js";
 
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
 const XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";

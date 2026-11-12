@@ -1,10 +1,15 @@
+import type { PalimParseError } from "../html/parse-errors.js";
+import type { Origin } from "../origin.js";
+import { originFromURL } from "../origin.js";
+import { URL } from "../url/index.js";
+import type { Window } from "../window-types.js";
 import {
   bindDOMInterface,
   implementationFor,
   interfaceFor,
 } from "./binding.js";
+import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
 import { EventTargetImplementation } from "./event-implementation.js";
-
 import type {
   Attr,
   CharacterData,
@@ -16,13 +21,7 @@ import type {
   FragmentParser,
   Node,
 } from "./nodes.js";
-import type { PalimParseError } from "../html/parse-errors.js";
-import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
 import type { DOMTokenList } from "./token-list.js";
-import type { Window } from "../window-types.js";
-import { originFromURL } from "../origin.js";
-import type { Origin } from "../origin.js";
-import { URL } from "../url/index.js";
 
 export class NodeImplementation extends EventTargetImplementation {
   readonly children: NodeImplementation[] = [];

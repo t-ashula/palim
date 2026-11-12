@@ -1,5 +1,6 @@
-import { normal } from "./adapter.js";
 import { eventImplementation } from "@palim/core/internal/dom/event-implementation.js";
+
+import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installEventTargetMembers(

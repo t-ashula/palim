@@ -1,10 +1,10 @@
-import type { Attr, Document, DocumentFragment, Element, Node } from "./dom.js";
-import { DOMException } from "./dom-exception.js";
-import { tokenizeCSS } from "./css-syntax.js";
 import type { CSSToken } from "./css-syntax.js";
-import { HTML_NAMESPACE, SVG_NAMESPACE } from "./namespaces.js";
-import { descendantElements } from "./dom/traversal.js";
+import { tokenizeCSS } from "./css-syntax.js";
+import type { Attr, Document, DocumentFragment, Element, Node } from "./dom.js";
 import { attributeNodes, childNodes, documentIsQuirks } from "./dom/nodes.js";
+import { descendantElements } from "./dom/traversal.js";
+import { DOMException } from "./dom-exception.js";
+import { HTML_NAMESPACE, SVG_NAMESPACE } from "./namespaces.js";
 
 const ASCII_WHITESPACE = /[\t\n\f\r ]+/;
 

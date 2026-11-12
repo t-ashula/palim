@@ -1,4 +1,5 @@
 import type { MutationObserverInit } from "@palim/core/internal/dom.js";
+
 import type { EngineResult, EngineValue } from "./adapter.js";
 import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";

@@ -1,10 +1,9 @@
-import {
-  closest as closestSelector,
-  matches as matchesSelector,
-  querySelector as selectFirst,
-  querySelectorAll as selectAll,
-} from "../selectors.js";
 import { DOMException } from "../dom-exception.js";
+import type { PalimParseError } from "../html/parse-errors.js";
+import {
+  serializeHTMLElement,
+  serializeHTMLFragment,
+} from "../html/serializer.js";
 import {
   HTML_NAMESPACE,
   SVG_NAMESPACE,
@@ -12,8 +11,22 @@ import {
   XMLNS_NAMESPACE,
 } from "../namespaces.js";
 import { originFromURL } from "../origin.js";
-import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
+import {
+  closest as closestSelector,
+  matches as matchesSelector,
+  querySelector as selectFirst,
+  querySelectorAll as selectAll,
+} from "../selectors.js";
 import { URL } from "../url/index.js";
+import { requireArguments } from "../web-idl.js";
+import type { Window } from "../window-types.js";
+import { WritableStreamState } from "../writable-stream-state.js";
+import {
+  serializeXMLElement,
+  serializeXMLFragment,
+} from "../xml/serializer.js";
+import { bindDOMInterface } from "./binding.js";
+import type { HTMLCollection, NamedNodeMap, NodeList } from "./collections.js";
 import {
   createHTMLCollection,
   createNamedNodeMap,
@@ -24,38 +37,42 @@ import {
   asciiUppercase,
   domString,
   normalizeNamespace,
-  validateAttributeLocalName,
   validateAndExtract,
   validateAndExtractElement,
+  validateAttributeLocalName,
   validateDoctypeName,
   validateElementLocalName,
   validateName,
 } from "./conversions.js";
+import {
+  enqueueCustomElementConnectedReaction,
+  enqueueCustomElementDisconnectedReaction,
+  enqueueCustomElementMoveReaction,
+} from "./custom-elements.js";
 import { createLegacyEvent, Event, EventTarget } from "./events.js";
+import { queueTreeMutationRecord } from "./mutation-observer.js";
 import {
   AttrImplementation,
-  CharacterDataImplementation,
-  DocumentImplementation,
-  DocumentTypeImplementation,
-  ElementImplementation,
-  NodeImplementation,
-  ShadowRootImplementation,
   attrImplementation,
   attrInterface,
   bindNode,
+  CharacterDataImplementation,
   characterDataImplementation,
+  DocumentImplementation,
   documentImplementation,
   documentInterface,
+  DocumentTypeImplementation,
   documentTypeImplementation,
+  ElementImplementation,
   elementImplementation,
   elementInterface,
+  NodeImplementation,
   nodeImplementation,
   nodeInterface,
+  ShadowRootImplementation,
   shadowRootImplementation,
 } from "./node-implementation.js";
-import type { DOMTokenList } from "./token-list.js";
-import { createDOMTokenList } from "./token-list.js";
-import { bindDOMInterface } from "./binding.js";
+import type { Range } from "./range.js";
 import {
   adjustLiveRangesForData,
   adjustLiveRangesForInsertion,
@@ -65,49 +82,34 @@ import {
   preRemoveLiveRanges,
   transferLiveRanges,
 } from "./range-implementation.js";
-import type { Range } from "./range.js";
-import {
-  createNodeIterator,
-  createTreeWalker,
-  descendantElements,
-  invalidateDescendantElements,
-  preRemoveNodeIterators,
-  transferNodeIterators,
-} from "./traversal.js";
-import { NodeFilter } from "./traversal.js";
 import type {
-  NodeFilter as NodeFilterCallback,
-  NodeIterator,
-  TreeWalker,
-} from "./traversal.js";
-import type { PalimParseError } from "../html/parse-errors.js";
-import type { Window } from "../window-types.js";
-import {
-  serializeHTMLFragment,
-  serializeHTMLElement,
-} from "../html/serializer.js";
-import {
-  serializeXMLFragment,
-  serializeXMLElement,
-} from "../xml/serializer.js";
-import { requireArguments } from "../web-idl.js";
-import { WritableStreamState } from "../writable-stream-state.js";
-import { queueTreeMutationRecord } from "./mutation-observer.js";
-import {
-  enqueueCustomElementConnectedReaction,
-  enqueueCustomElementDisconnectedReaction,
-  enqueueCustomElementMoveReaction,
-} from "./custom-elements.js";
-import type { Sanitizer } from "./sanitizer.js";
+  CanonicalSanitizerConfig,
+  Sanitizer,
+  SanitizerConfig,
+} from "./sanitizer.js";
 import {
   sanitizerAction,
   sanitizerAllowsAttribute,
   sanitizerAllowsComments,
   sanitizerAllowsPI,
   sanitizerConfigForParsing,
-  type CanonicalSanitizerConfig,
-  type SanitizerConfig,
 } from "./sanitizer.js";
+import type { DOMTokenList } from "./token-list.js";
+import { createDOMTokenList } from "./token-list.js";
+import type {
+  NodeFilter as NodeFilterCallback,
+  NodeIterator,
+  TreeWalker,
+} from "./traversal.js";
+import {
+  createNodeIterator,
+  createTreeWalker,
+  descendantElements,
+  invalidateDescendantElements,
+  NodeFilter,
+  preRemoveNodeIterators,
+  transferNodeIterators,
+} from "./traversal.js";
 
 export { Sanitizer } from "./sanitizer.js";
 export type {

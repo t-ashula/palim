@@ -1,5 +1,3 @@
-import { describe, expect, it } from "vitest";
-
 import {
   callbackFailure,
   callbackSuccess,
@@ -9,6 +7,8 @@ import {
   setDocumentCustomElementRegistry,
 } from "@palim/core/internal/dom/custom-elements.js";
 import { createCustomHTMLElementBase } from "@palim/core/internal/html-elements.js";
+import { describe, expect, it } from "vitest";
+
 import { DOMParser } from "./public-test-api.js";
 
 describe("custom element reactions", () => {

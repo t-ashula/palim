@@ -1,3 +1,13 @@
+import { DOMException } from "../dom-exception.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
+import { requireArguments } from "../web-idl.js";
+import { bindDOMInterface, implementationFor } from "./binding.js";
+import {
+  asciiLowercase,
+  domString,
+  normalizeNamespace,
+} from "./conversions.js";
+import type { Attr, Element, Node } from "./nodes.js";
 import {
   attributeNodes,
   findAttributeByName,
@@ -6,16 +16,6 @@ import {
   removeAttributeByNamespace,
   setAttributeNode,
 } from "./nodes.js";
-import type { Attr, Element, Node } from "./nodes.js";
-import { DOMException } from "../dom-exception.js";
-import { HTML_NAMESPACE } from "../namespaces.js";
-import { requireArguments } from "../web-idl.js";
-import {
-  asciiLowercase,
-  domString,
-  normalizeNamespace,
-} from "./conversions.js";
-import { bindDOMInterface, implementationFor } from "./binding.js";
 
 interface LegacyPlatformObjectConfiguration {
   readonly indexedValues: () => readonly unknown[];

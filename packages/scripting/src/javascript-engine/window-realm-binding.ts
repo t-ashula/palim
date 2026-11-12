@@ -1,4 +1,5 @@
 import type { Window } from "@palim/window/internal/window.js";
+
 import type {
   EngineObject,
   EngineRealm,
@@ -6,11 +7,11 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import type { DOMRealmBinding } from "./dom-realm-binding.js";
-import type { URLRealmBinding } from "./url-realm-binding.js";
-import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
+import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 import type { RealmExecutionRuntime } from "./realm-execution-runtime.js";
-import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
+import type { URLRealmBinding } from "./url-realm-binding.js";
+import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
 import {
   installConsole,
   installLocationInterface,

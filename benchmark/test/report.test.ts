@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { aggregateMemory, aggregateSpeed } from "../report.js";
 import type {
   MemoryRawRecord,
   MemoryRole,
   MemorySnapshot,
   SpeedRawRecord,
 } from "../report.js";
+import { aggregateMemory, aggregateSpeed } from "../report.js";
 
 function snapshot(heapUsed: number): MemorySnapshot {
   return {

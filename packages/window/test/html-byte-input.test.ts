@@ -1,6 +1,5 @@
-import { describe, expect, it } from "vitest";
-
 import { decodeHTMLBytes } from "@palim/window";
+import { describe, expect, it } from "vitest";
 
 function ascii(value: string): Uint8Array {
   return Uint8Array.from(value, (character) => character.charCodeAt(0));

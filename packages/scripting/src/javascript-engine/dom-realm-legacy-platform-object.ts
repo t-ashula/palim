@@ -1,10 +1,10 @@
-import { FORWARD_PROXY_TRAP, normal } from "./adapter.js";
 import type {
   EngineObject,
   EngineProxyHandler,
   EngineResult,
   EngineValue,
 } from "./adapter.js";
+import { FORWARD_PROXY_TRAP, normal } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 
 type LegacyPlatformValue =

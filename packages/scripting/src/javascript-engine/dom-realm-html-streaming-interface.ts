@@ -1,5 +1,3 @@
-import { DOMException as HostDOMException } from "@palim/core/internal/dom-exception.js";
-import { createHTMLStreamingSink } from "@palim/core/internal/dom/nodes.js";
 import type {
   CharacterData,
   Element,
@@ -7,9 +5,12 @@ import type {
   HTMLStreamingOperation,
   ShadowRoot,
 } from "@palim/core/internal/dom/nodes.js";
+import { createHTMLStreamingSink } from "@palim/core/internal/dom/nodes.js";
+import { DOMException as HostDOMException } from "@palim/core/internal/dom-exception.js";
 import { WritableStreamState } from "@palim/core/internal/writable-stream-state.js";
-import { normal, thrown } from "./adapter.js";
+
 import type { EngineObject, EngineResult, EngineValue } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 interface WriterState {

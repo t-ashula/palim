@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { expectDOMException } from "./helper/assertions.js";
 import type { Element } from "./public-test-api.js";
 import { DOMParser, DOMTokenList } from "./public-test-api.js";
-import { expectDOMException } from "./helper/assertions.js";
 
 function element(input = "<main></main>"): Element {
   const document = new DOMParser().parseFromString(input, "text/html");

@@ -14,13 +14,14 @@ import {
   Sanitizer,
   Text,
 } from "@palim/core/internal/dom.js";
+import { parseHTMLDocument } from "@palim/core/internal/dom/nodes.js";
+import { createStaticRange } from "@palim/core/internal/dom/range-implementation.js";
+import { DOM_EXCEPTION_CONSTANTS } from "@palim/core/internal/dom-exception.js";
 import {
   associateDOMParser,
   DOMParser,
 } from "@palim/core/internal/dom-parser.js";
-import { DOM_EXCEPTION_CONSTANTS } from "@palim/core/internal/dom-exception.js";
-import { createStaticRange } from "@palim/core/internal/dom/range-implementation.js";
-import { parseHTMLDocument } from "@palim/core/internal/dom/nodes.js";
+
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";

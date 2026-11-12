@@ -1,12 +1,9 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import type { Document } from "@palim/core/internal/dom/nodes.js";
-
 import { Engine262Adapter } from "@palim/engine262";
 import { WindowScriptingEnvironment } from "@palim/scripting/internal/window-scripting.js";
-import {
-  WindowDocumentLoader,
-  type WindowDocumentOptions,
-} from "@palim/window/internal/document-loader.js";
+import type { WindowDocumentOptions } from "@palim/window/internal/document-loader.js";
+import { WindowDocumentLoader } from "@palim/window/internal/document-loader.js";
 
 export class WindowExecutionEnvironment extends WindowScriptingEnvironment {
   readonly #loader: WindowDocumentLoader;
