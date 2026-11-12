@@ -38,6 +38,7 @@ export type WindowConsoleHandler = (call: WindowConsoleCall) => void;
 
 export interface Location {
   readonly href: string;
+  readonly origin: string;
   readonly pathname: string;
   readonly search: string;
   readonly hash: string;

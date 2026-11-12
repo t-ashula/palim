@@ -145,7 +145,13 @@ export function installLocationInterface(
 export function installLocationMembers(
   binding: WindowRealmBindingContext,
 ): void {
-  for (const name of ["href", "pathname", "search", "hash"] as const) {
+  for (const name of [
+    "href",
+    "origin",
+    "pathname",
+    "search",
+    "hash",
+  ] as const) {
     binding.context.attribute(binding.locationPrototype, name, (thisValue) =>
       thisValue === binding.locationObject
         ? normal(binding.engine.fromPrimitive(binding.window.location[name]))

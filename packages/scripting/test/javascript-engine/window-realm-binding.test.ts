@@ -300,6 +300,7 @@ describe("WindowRealmBinding", () => {
         if (
           !(location instanceof Location) ||
           location.href !== "https://example.com/path?query#fragment" ||
+          location.origin !== "https://example.com" ||
           location.pathname !== "/path" ||
           location.search !== "?query" ||
           location.hash !== "#fragment" ||

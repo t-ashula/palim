@@ -54,6 +54,7 @@ describe("Window", () => {
     });
 
     expect(window.location.href).toBe("https://example.test/first?q=1#old");
+    expect(window.location.origin).toBe("https://example.test");
     expect(window.location.pathname).toBe("/first");
     expect(window.location.search).toBe("?q=1");
     expect(window.location.hash).toBe("#old");

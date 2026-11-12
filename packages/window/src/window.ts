@@ -186,6 +186,10 @@ class LocationPlatform implements Location {
     return this.url().href;
   }
 
+  get origin(): string {
+    return this.url().origin;
+  }
+
   get pathname(): string {
     return this.url().pathname;
   }
