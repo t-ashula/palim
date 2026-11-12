@@ -3,6 +3,74 @@ import { describe, expect, it } from "vitest";
 import { Document, MutationObserver } from "./public-test-api.js";
 
 describe("MutationObserver", () => {
+  it("queues replacement mutation records in replace algorithm order", () => {
+    const document = new Document();
+
+    const parent = document.createElement("main");
+    const before = document.createElement("before");
+    const replaced = document.createElement("replaced");
+    const after = document.createElement("after");
+    const replacement = document.createElement("replacement");
+    parent.append(before, replaced, after);
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(parent, { childList: true });
+
+    parent.replaceChild(replacement, replaced);
+
+    const replacementRecords = observer.takeRecords();
+    expect(replacementRecords).toHaveLength(1);
+    expect(replacementRecords[0]).toMatchObject({
+      target: parent,
+      previousSibling: before,
+      nextSibling: after,
+    });
+    expect(Array.from(replacementRecords[0]?.addedNodes ?? [])).toEqual([
+      replacement,
+    ]);
+    expect(Array.from(replacementRecords[0]?.removedNodes ?? [])).toEqual([
+      replaced,
+    ]);
+
+    const movingParent = document.createElement("section");
+    const first = document.createElement("first");
+    const last = document.createElement("last");
+    movingParent.append(first, last);
+    observer.observe(movingParent, { childList: true });
+
+    movingParent.replaceChild(last, first);
+
+    const movingRecords = observer.takeRecords();
+    expect(movingRecords).toHaveLength(2);
+    expect(movingRecords[0]).toMatchObject({
+      target: movingParent,
+      previousSibling: first,
+      nextSibling: null,
+    });
+    expect(Array.from(movingRecords[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(movingRecords[0]?.removedNodes ?? [])).toEqual([last]);
+    expect(movingRecords[1]).toMatchObject({
+      target: movingParent,
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(movingRecords[1]?.addedNodes ?? [])).toEqual([last]);
+    expect(Array.from(movingRecords[1]?.removedNodes ?? [])).toEqual([first]);
+
+    const selfParent = document.createElement("article");
+    const self = document.createElement("self");
+    selfParent.append(self);
+    observer.observe(selfParent, { childList: true });
+
+    selfParent.replaceChild(self, self);
+
+    const selfRecords = observer.takeRecords();
+    expect(selfRecords).toHaveLength(2);
+    expect(Array.from(selfRecords[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(selfRecords[0]?.removedNodes ?? [])).toEqual([self]);
+    expect(Array.from(selfRecords[1]?.addedNodes ?? [])).toEqual([self]);
+    expect(Array.from(selfRecords[1]?.removedNodes ?? [])).toEqual([]);
+  });
+
   it("queues one removal and insertion record for a document fragment", () => {
     const document = new Document();
     const parent = document.createElement("main");

@@ -606,8 +606,26 @@ export class Node extends EventTarget {
     if (reference === node) {
       reference = node.nextSibling;
     }
-    removeNode(child);
-    insertNodes(node, this, reference);
+    const previousSibling = child.previousSibling;
+    const document = this instanceof Document ? this : this.ownerDocument;
+    if (document === null) {
+      throw new TypeError("Parent Node has no owner document");
+    }
+    adopt(node, document);
+    const removedNodes: Node[] = [];
+    if (child.parentNode !== null) {
+      removedNodes.push(child);
+      removeNode(child, true);
+    }
+    const nodes = insertionNodes(node);
+    insertNodes(node, this, reference, true);
+    queueTreeMutationRecord(
+      this,
+      nodes,
+      removedNodes,
+      previousSibling,
+      reference,
+    );
     return child;
   }
 
@@ -4713,7 +4731,12 @@ function validateDocumentInsertion(
   }
 }
 
-function insertNodes(node: Node, parent: Node, child: Node | null): void {
+function insertNodes(
+  node: Node,
+  parent: Node,
+  child: Node | null,
+  suppressObservers = false,
+): void {
   const nodes = insertionNodes(node);
   if (nodes.length === 0) {
     return;
@@ -4770,7 +4793,9 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       documentImplementationValue.insertionSteps?.(inclusiveDescendant);
     }
   }
-  queueTreeMutationRecord(parent, nodes, [], previousSibling, child);
+  if (!suppressObservers) {
+    queueTreeMutationRecord(parent, nodes, [], previousSibling, child);
+  }
   documentImplementationValue.childrenChangedSteps?.(parent);
   const staticNodeList = nodes.flatMap(inclusiveDescendantNodes);
   for (const connectedNode of staticNodeList) {
