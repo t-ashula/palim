@@ -14,6 +14,7 @@ import type {
   WindowRealmInstaller,
   WindowTaskScheduler,
 } from "@palim/polyfills";
+import { parseFormUrlEncoded } from "@palim/core/internal/url/index.js";
 import { scheduleWindowTimeout } from "@palim/window/internal/window.js";
 
 import { normal } from "./adapter.js";
@@ -55,7 +56,7 @@ function createExtensionContext(
   eventLoop: WindowScriptEventLoop,
   host: HostServices,
 ): WindowExtensionContext {
-  const realm = new ScriptingWindowRealmInstaller(binding.context);
+  const realm = new ScriptingWindowRealmInstaller(binding);
   const window: WindowEnvironment = {
     get url() {
       return settings.apiBaseURL.href;
@@ -90,7 +91,11 @@ function createExtensionContext(
 }
 
 class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
-  constructor(readonly context: RealmBindingContext) {}
+  readonly context: RealmBindingContext;
+
+  constructor(readonly binding: WindowRealmBinding) {
+    this.context = binding.context;
+  }
 
   primitive(value: RealmPrimitive): RealmValue {
     return toRealmValue(this.context.engine.fromPrimitive(value));
@@ -217,6 +222,12 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
         toEngineValue(thisValue),
         argumentsList.map(toEngineValue),
       ),
+    );
+  }
+
+  formDataFromURLEncoded(bytes: Uint8Array): RealmObject {
+    return toRealmObject(
+      this.binding.createFormData(parseFormUrlEncoded(bytes)),
     );
   }
 

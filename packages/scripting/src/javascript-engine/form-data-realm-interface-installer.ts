@@ -1,4 +1,3 @@
-import { FormData } from "../form-data.js";
 import { normal } from "./adapter.js";
 import type {
   EngineRealm,
@@ -46,7 +45,7 @@ function installInterface(state: InstallationState): void {
           "Constructing FormData from a form is not supported",
         );
       }
-      return normal(state.domain.wrap(new FormData()));
+      return normal(state.domain.create());
     },
   );
   state.context.installInterface(

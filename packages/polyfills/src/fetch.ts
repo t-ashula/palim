@@ -44,13 +44,13 @@ interface HeadersState {
 
 interface BodyState {
   readonly body: Uint8Array | null;
+  readonly headers: RealmObject;
   bodyUsed: boolean;
 }
 
 interface RequestState extends BodyState {
   readonly url: string;
   readonly method: string;
-  readonly headers: RealmObject;
   readonly signal: RealmValue;
   readonly referrer: string;
   readonly referrerPolicy: string;
@@ -68,7 +68,6 @@ interface ResponseState extends BodyState {
   redirected: boolean;
   status: number;
   readonly statusText: string;
-  readonly headers: RealmObject;
 }
 
 const tokenPattern = /^[!#$%&'*+.^_|~0-9A-Za-z-]+$/;
@@ -397,7 +396,13 @@ function installFetch(
       return realm.primitive(null);
     }),
   );
-  installBodyMethods(context, requestInterface, requestStates, requestObject);
+  installBodyMethods(
+    context,
+    requestInterface,
+    requestStates,
+    headersStates,
+    requestObject,
+  );
   requestInterface.method("clone", 0, (thisValue) =>
     operation(context, () => {
       const object = requestObject(thisValue, "clone");
@@ -508,6 +513,7 @@ function installFetch(
     context,
     responseInterface,
     responseStates,
+    headersStates,
     responseObject,
   );
   responseInterface.method("clone", 0, (thisValue) =>
@@ -655,6 +661,7 @@ function installBodyMethods<T extends BodyState>(
   context: WindowExtensionContext,
   interfaceObject: RealmInterface,
   states: WeakMap<RealmObject, T>,
+  headersStates: WeakMap<RealmObject, HeadersState>,
   branded: (value: RealmValue, operationName: string) => RealmObject,
 ): void {
   for (const kind of ["text", "json", "arrayBuffer"] as const) {
@@ -676,6 +683,50 @@ function installBodyMethods<T extends BodyState>(
       }),
     );
   }
+  interfaceObject.method("formData", 0, (thisValue) =>
+    operation(context, () => {
+      const state = stateFor(states, branded(thisValue, "formData"));
+      if (state.bodyUsed) {
+        return rejectedPromise(
+          context,
+          context.realm.createTypeError("Body has already been consumed"),
+        ).promise;
+      }
+      state.bodyUsed = true;
+      const contentType = stateFor(headersStates, state.headers).values.get(
+        "content-type",
+      );
+      if (
+        mimeTypeEssence(contentType) !== "application/x-www-form-urlencoded"
+      ) {
+        return rejectedPromise(
+          context,
+          context.realm.createTypeError("Body MIME type is not supported"),
+        ).promise;
+      }
+      try {
+        return resolvedPromise(
+          context,
+          context.realm.formDataFromURLEncoded(state.body ?? new Uint8Array()),
+        ).promise;
+      } catch (error: unknown) {
+        return rejectedPromise(
+          context,
+          error instanceof RealmThrown
+            ? error.value
+            : context.realm.createTypeError(errorMessage(error)),
+        ).promise;
+      }
+    }),
+  );
+}
+
+function mimeTypeEssence(value: string | undefined): string | null {
+  if (value === undefined) {
+    return null;
+  }
+  const essence = value.split(";", 1)[0]?.trim().toLowerCase();
+  return essence === "" || essence === undefined ? null : essence;
 }
 
 function resolvedPromise(
@@ -684,6 +735,15 @@ function resolvedPromise(
 ): RealmPromiseCapability {
   const capability = context.realm.promise();
   unwrap(capability.resolve(result));
+  return capability;
+}
+
+function rejectedPromise(
+  context: WindowExtensionContext,
+  reason: RealmValue,
+): RealmPromiseCapability {
+  const capability = context.realm.promise();
+  unwrap(capability.reject(reason));
   return capability;
 }
 

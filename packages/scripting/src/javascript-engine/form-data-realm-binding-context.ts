@@ -1,4 +1,7 @@
-import type { FormData, FormDataEntry } from "../form-data.js";
+import {
+  FormData,
+  type FormDataEntry,
+} from "@palim/window/internal/form-data.js";
 import type { EngineObject, EngineValue } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 
@@ -22,6 +25,10 @@ export class FormDataRealmBindingContext {
       binding.realm,
       binding.engine.iteratorPrototype(binding.realm),
     );
+  }
+
+  create(entries: Iterable<readonly [string, string]> = []): EngineObject {
+    return this.wrap(new FormData(entries));
   }
 
   wrap(formData: FormData): EngineObject {

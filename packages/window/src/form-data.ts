@@ -1,8 +1,11 @@
 export type FormDataEntry = [name: string, value: string];
 
 export class FormData implements Iterable<FormDataEntry> {
-  constructor() {
-    ENTRY_LISTS.set(this, []);
+  constructor(entries: Iterable<readonly [string, string]> = []) {
+    ENTRY_LISTS.set(
+      this,
+      Array.from(entries, ([name, value]): FormDataEntry => [name, value]),
+    );
   }
 
   append(name: string, value: string): void {

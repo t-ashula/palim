@@ -54,6 +54,10 @@ export class WindowRealmBinding {
     return this.#binding.context;
   }
 
+  createFormData(entries: Iterable<readonly [string, string]>): EngineObject {
+    return this.#binding.formData.create(entries);
+  }
+
   reportException(
     value: EngineValue,
     filename?: string,

@@ -42,7 +42,7 @@ export const userinfoPercentEncode: PercentEncodePredicate = (byte) =>
   byte === 0x5d ||
   byte === 0x7c;
 
-function utf8Bytes(value: string): number[] {
+export function utf8Encode(value: string): number[] {
   const bytes: number[] = [];
   for (const character of value.toWellFormed()) {
     const point = character.codePointAt(0) ?? 0xfffd;
@@ -78,7 +78,7 @@ export function utf8PercentEncode(
   spaceAsPlus = false,
 ): string {
   let output = "";
-  for (const byte of utf8Bytes(value)) {
+  for (const byte of utf8Encode(value)) {
     output +=
       spaceAsPlus && byte === 0x20
         ? "+"
@@ -102,8 +102,7 @@ function hexValue(code: number): number | null {
   return null;
 }
 
-export function percentDecode(value: string): number[] {
-  const bytes = utf8Bytes(value);
+export function percentDecodeBytes(bytes: readonly number[]): number[] {
   const output: number[] = [];
   for (let index = 0; index < bytes.length; index += 1) {
     const first = bytes[index] ?? 0;
@@ -117,6 +116,10 @@ export function percentDecode(value: string): number[] {
     }
   }
   return output;
+}
+
+export function percentDecode(value: string): number[] {
+  return percentDecodeBytes(utf8Encode(value));
 }
 
 export function utf8DecodeWithoutBOM(bytes: readonly number[]): string {

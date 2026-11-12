@@ -163,6 +163,104 @@ describe("fetchPolyfill", () => {
     });
   });
 
+  it("parses URL-encoded Request and Response bodies as realm FormData", async () => {
+    const { window } = await open(
+      {
+        baseURL: "https://example.test/",
+        html: `<body><script>
+          window.onerror = (message, source, line, column, error) => {
+            document.body.dataset.error = error && error.message || message;
+          };
+          const body = "%EF%BB%BFtest=%EF%BB%BF&bad=%C2x&raw=†&empty&plus=a+b";
+          const headers = {
+            "Content-Type": "application/x-www-form-urlencoded;charset=shift_jis"
+          };
+          const request = new Request("/submit", {
+            method: "POST",
+            headers,
+            body
+          });
+          const response = new Response(body, { headers });
+          const RealmFormData = FormData;
+          window.FormData = class FormDataReplacement {
+            constructor() {
+              throw new Error("replaced FormData constructor was called");
+            }
+          };
+          window.URLSearchParams = class URLSearchParamsReplacement {
+            constructor() {
+              throw new Error("replaced URLSearchParams constructor was called");
+            }
+          };
+          const requestResult = request.formData();
+          const responseResult = response.formData();
+          document.body.dataset.promises = String(
+            requestResult instanceof Promise && responseResult instanceof Promise
+          );
+          const values = [];
+          const record = formData => {
+            values.push({
+              identity: formData instanceof RealmFormData,
+              entries: Array.from(formData)
+            });
+            if (values.length === 2) {
+              document.body.dataset.entries = JSON.stringify(values);
+            }
+          };
+          requestResult.then(formData => {
+            record(formData);
+            document.body.dataset.used = String(
+              request.bodyUsed && response.bodyUsed
+            );
+          }, error => {
+            document.body.dataset.error = error && error.message;
+          });
+          responseResult.then(record, error => {
+            document.body.dataset.error = error && error.message;
+          });
+        </script></body>`,
+      },
+      { scripting: "enabled", extensions: [fetchPolyfill()] },
+    );
+
+    expect({
+      promises: window.document.body?.getAttribute("data-promises"),
+      error: window.document.body?.getAttribute("data-error"),
+    }).toEqual({ promises: "true", error: null });
+    await vi.waitFor(() => {
+      expect(
+        window.document.body?.getAttribute("data-entries") ??
+          window.document.body?.getAttribute("data-error"),
+      ).not.toBeNull();
+    });
+    expect(window.document.body?.getAttribute("data-used")).toBe("true");
+    expect(window.document.body?.getAttribute("data-error")).toBeNull();
+    expect(
+      JSON.parse(window.document.body?.getAttribute("data-entries") ?? "null"),
+    ).toEqual([
+      {
+        identity: true,
+        entries: [
+          ["\ufefftest", "\ufeff"],
+          ["bad", "\ufffdx"],
+          ["raw", "†"],
+          ["empty", ""],
+          ["plus", "a b"],
+        ],
+      },
+      {
+        identity: true,
+        entries: [
+          ["\ufefftest", "\ufeff"],
+          ["bad", "\ufffdx"],
+          ["raw", "†"],
+          ["empty", ""],
+          ["plus", "a b"],
+        ],
+      },
+    ]);
+  });
+
   it("uses neutral request and response data while returning realm values", async () => {
     const fetchMock = vi.fn(
       (input: string, init: RequestInit): Promise<Response> => {

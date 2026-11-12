@@ -104,7 +104,7 @@
 - [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
 - [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
 - [ ] Fetch の redirect / network error / abort、credentials・referrer・mode、streaming response
-- [ ] `Request` / `Response` の `formData()`、URL-encoded / multipart body、Blob・FormData・ArrayBuffer body conversion
+- [ ] `Request` / `Response` の multipart `formData()`、Blob・FormData・ArrayBuffer body conversion
 - [ ] `XMLHttpRequest`
 
 ### Storage and state

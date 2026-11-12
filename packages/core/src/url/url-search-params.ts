@@ -1,54 +1,16 @@
 import {
-  percentDecode,
-  utf8DecodeWithoutBOM,
-  utf8PercentEncode,
-} from "./encoding.js";
+  parseFormUrlEncodedString,
+  serializeFormUrlEncoded,
+  type FormUrlEncodedPair,
+} from "./form-urlencoded.js";
 
-type Pair = [name: string, value: string];
-
-const formPercentEncode = (byte: number): boolean =>
-  !(
-    (byte >= 0x30 && byte <= 0x39) ||
-    (byte >= 0x41 && byte <= 0x5a) ||
-    (byte >= 0x61 && byte <= 0x7a) ||
-    byte === 0x2a ||
-    byte === 0x2d ||
-    byte === 0x2e ||
-    byte === 0x5f
-  );
+type Pair = FormUrlEncodedPair;
 
 function scalarString(value: unknown): string {
   if (typeof value === "symbol") {
     throw new TypeError("Cannot convert a Symbol value to a string");
   }
   return String(value).toWellFormed();
-}
-
-function parse(input: string): Pair[] {
-  if (input === "") {
-    return [];
-  }
-  return input
-    .split("&")
-    .filter((sequence) => sequence !== "")
-    .map((sequence): Pair => {
-      const equals = sequence.indexOf("=");
-      const name = equals < 0 ? sequence : sequence.slice(0, equals);
-      const value = equals < 0 ? "" : sequence.slice(equals + 1);
-      return [
-        utf8DecodeWithoutBOM(percentDecode(name.replaceAll("+", " "))),
-        utf8DecodeWithoutBOM(percentDecode(value.replaceAll("+", " "))),
-      ];
-    });
-}
-
-function serialize(list: readonly Pair[]): string {
-  return list
-    .map(
-      ([name, value]) =>
-        `${utf8PercentEncode(name, formPercentEncode, true)}=${utf8PercentEncode(value, formPercentEncode, true)}`,
-    )
-    .join("&");
 }
 
 export class URLSearchParams implements Iterable<Pair> {
@@ -62,12 +24,15 @@ export class URLSearchParams implements Iterable<Pair> {
       | boolean = "",
   ) {
     if (typeof init === "string") {
-      LISTS.set(this, parse(init.startsWith("?") ? init.slice(1) : init));
+      LISTS.set(
+        this,
+        parseFormUrlEncodedString(init.startsWith("?") ? init.slice(1) : init),
+      );
     } else if (
       init === null ||
       (typeof init !== "object" && typeof init !== "function")
     ) {
-      LISTS.set(this, parse(scalarString(init)));
+      LISTS.set(this, parseFormUrlEncodedString(scalarString(init)));
     } else if (Symbol.iterator in init) {
       const list: Pair[] = [];
       LISTS.set(this, list);
@@ -187,7 +152,7 @@ export class URLSearchParams implements Iterable<Pair> {
   }
 
   toString(): string {
-    return serialize(listFor(this));
+    return serializeFormUrlEncoded(listFor(this));
   }
 
   #updated(): void {
@@ -211,7 +176,7 @@ export function replaceURLSearchParams(
   value: string,
 ): void {
   const list = listFor(params);
-  list.splice(0, list.length, ...parse(value));
+  list.splice(0, list.length, ...parseFormUrlEncodedString(value));
 }
 
 export function setURLSearchParamsUpdate(

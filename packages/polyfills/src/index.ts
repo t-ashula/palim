@@ -117,6 +117,7 @@ export interface WindowRealmInstaller {
     thisValue: RealmValue,
     argumentsList: readonly RealmValue[],
   ): RealmResult<RealmValue>;
+  formDataFromURLEncoded(bytes: Uint8Array): RealmObject;
   defineGlobalFunction(
     name: string,
     length: number,
