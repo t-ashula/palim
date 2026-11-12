@@ -5,12 +5,16 @@
 DOM 操作の仕様適合度と WPT 適合度を継続的に上げる。
 実装判断では仕様への適合を優先し、WPT の通過自体を目的にしない。
 WPT は仕様適合を観測し、変更前後を比較するための検証手段として扱う。
+WPT は page realm と周辺 capability を含む統合結果であり、DOM implementation 単独の適合度には使用しない。
+
+DOM behavior の実装状況と検証状況は、[DOM 仕様適合性監査の作業方針](./dom-conformance-workflow.md) に従って層別に記録する。
+実装修正の順序を WPT report の掲載順だけで決めない。
 
 ## 原則
 
 - 特定の WPT URL、fixture、failure message、または期待値だけを満たす分岐や特別扱いを実装しない
 - WPT の期待結果だけから要件を決めず、対応する仕様本文と algorithm を確認する
-‐ page realm 二機能やアルゴリズムを実装するのではなく palim 本体に実装し，必要に応じて page 側と接続する
+- page realm に機能や algorithm を重複実装せず、engine 非依存の実装へ package interface と page realm の両方を接続する
 - Living Standard と WPT の期待が一致しない場合は、次節の扱いに従う
 - WPT status が改善しても、仕様適合を確認できなければ TODO を完了にしない
 - TODO への対応で WPT ファイル内の別の問題が発生してもその修正を完了条件とはしない
@@ -29,11 +33,29 @@ WPT は仕様適合を観測し、変更前後を比較するための検証手�
 
 WPT 進捗レポートでは、全選択 URL の実行進捗を保持したうえで、tentative test の集計と不通過一覧を non-tentative test から分離する。tentative test の結果は、現在の Living Standard に対する成功率へ含めない。
 
+## WPT failure の分類
+
+WPT failure を実装項目へ変換する前に、次のいずれかへ分類する。
+
+- DOM の状態または standard algorithm
+- package interface と DOM implementation の接続
+- Web IDL conversion、interface exposure、descriptor、callback、exception、または realm identity
+- Window、Document lifecycle、script、task、resource loading、または navigation の統合
+- CSS、layout、network、storage、media などの周辺 capability
+- runner、testharness、timeout、または JavaScript engine parser
+- Living Standard と固定 WPT revision の期待の不一致
+- 未分類
+
+周辺 capability、runner、または仕様差によって評価できない test は、DOM algorithm の failure として扱わない。
+未分類の failure は pass、unsupported、または DOM の欠落へ推測で割り当てない。
+一つの WPT file に複数の原因がある場合は、subtest または到達段階ごとに分けて記録する。
+
 ## 作業範囲
 
 一回の作業範囲は、選択した TODO と、対象となるファイルの状況から決める
 
 - 未完了の TODO から一項目を選び、その項目で改善する対象 behavior を変更前に明記する
+- WPT report の掲載順ではなく、DOM behavior の監査結果、依存関係、および blocker の分類から項目を選ぶ
 - interface 名、WPT directory、仕様領域、または実装 module の境界を、そのまま作業範囲にしない
 - 対象 behavior を仕様どおりにするために必要な変更は、複数の仕様や実装 module にまたがっても対象に含める
 - WPT を先へ進めるためだけに必要で、対象 behavior 自体の仕様適合には必要でない機能は、その項目では実装しない
@@ -57,7 +79,9 @@ report には少なくとも次を記録する。
 - 対象 TODO と対象 behavior
 - 参照する仕様の section
 - 対応する WPT URL または file
+- WPT failure の層別分類
 - 変更前の WPT 結果と failure message
+- package interface と page realm の変更前の検証結果
 - 修正方針
 - 変更内容
 - 変更後の WPT 結果と変更前との差
@@ -75,6 +99,7 @@ report の template は `tmp/todo/README.md` に置く。
 
 `TODO.md` から未完了項目を一つ選ぶ。
 `tmp/todo/<todo-slug>.md` を作り、対象 behavior と今回扱わない独立した behavior を明記する。
+DOM behavior manifest が存在する領域では behavior ID、対象層、および依存 behavior も記録する。
 
 ### 2. 変更前の確認
 
@@ -86,6 +111,7 @@ npm run wpt:test -- <test-url-or-path>
 
 実行 command、WPT revision、対象 URL、status、関係する subtest の結果、および failure message を report に記録する。
 対象 behavior と独立した先行 blocker がある場合は、その事実と今回評価できる範囲も記録する。
+実行前または failure 到達後に原因を層別分類し、WPT だけでは対象 behavior を評価できない場合は `blocked` と理由を記録する。
 
 ### 3. 仕様確認と修正方針
 
@@ -96,6 +122,7 @@ WPT の期待結果から仕様要件を推測するだけでなく、該当す�
 
 変更前に定めた対象 behavior を仕様どおりにするための修正だけを行う。
 作業中に見つけた独立した課題は TODO に記録し、現在の修正へ混ぜない。
+DOM algorithm を page realm binding 内へ実装せず、package interface と page realm が同じ engine 非依存の実装を使用する構成を維持する。
 
 ### 5. 変更後の確認
 
@@ -104,6 +131,9 @@ WPT の期待結果から仕様要件を推測するだけでなく、該当す�
 
 仕様本文と algorithm に照らして対象 behavior が適合したことを、実装の確認と test 結果の両方で評価する。
 対象とした failure の解消、対象 behavior の通過数の増加、または対象 behavior を越えた後続段階への到達は、WPT 上の改善として記録する。
+
+package interface と page realm の両方へ公開する behavior は、両経路の結果を確認する。
+WPT の改善だけでは DOM behavior を検証済みとせず、DOM 仕様適合性監査の status も更新する。
 
 同じ WPT file に残る、対象 behavior と独立した subtest が失敗しても作業は終了する
 対象 behavior に仕様上または WPT 上の改善がない場合は TODO を完了にせず、report に結果と blocker を残す。
@@ -143,3 +173,6 @@ commit が完了したら次の TODO 一項目へ進み、同じ手順を繰り�
 - [ADR-0033: wptrunner との接続](./decisions/0033-wptrunner-product-integration.md)
 - [ADR-0038: WPT 進捗レポートの集計方針](./decisions/0038-wpt-progress-report.md)
 - [ADR-0040: WPT の分割 campaign 実行と累積レポート](./decisions/0040-wpt-partitioned-campaign.md)
+- [ADR-0041: Web IDL realm binding の実装境界と分割](./decisions/0041-web-idl-realm-binding-boundary.md)
+- [ADR-0045: WPT 対象範囲の拡張](./decisions/0045-expand-wpt-scope-for-exposed-web-apis.md)
+- [ADR-0053: DOM 仕様適合性の層別計測](./decisions/0053-layered-dom-conformance-measurement.md)

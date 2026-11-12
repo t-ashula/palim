@@ -156,6 +156,13 @@
 
 ## Standards compliance measurement
 
+- [ ] DOM behavior manifest の schema、stable ID、仕様参照、依存関係、層別 status を定義する
+- [ ] `Node` / `Element` / `Document` の tree mutation behavior を仕様から列挙し、初期監査の母数を固定する
+- [ ] tree mutation behavior に implementation、package interface、page realm binding、project test、fixture、WPT を対応付ける
+- [ ] package interface と page realm に同じ behavior case を適用する検証経路を用意する
+- [ ] implementation status と verification status を分離した DOM 適合度 report を生成する
+- [ ] WPT failure を DOM algorithm、package interface、Web IDL binding、Window 統合、周辺 capability、runner、仕様差へ分類する
+- [ ] Web IDL と WPT interface fixture から公開 interface / member / descriptor の監査対象を抽出する
 - [ ] Selector API の適合度計測方法
 - [ ] Selector API 適合度レポート
 - [ ] Living Standard 更新時の差分検出

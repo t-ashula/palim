@@ -15,6 +15,25 @@ The status labels have the following meanings:
 standard is implemented. See the [WPT progress report](../reports/wpt/report.md)
 for quantitative interoperability results.
 
+Capability status, implementation status, and conformance verification are
+different observations:
+
+- This document records whether an application can use a capability in the
+  scope described below.
+- The presence of an interface or method does not show that every standard
+  algorithm, state transition, Web IDL rule, or realm binding has been
+  verified.
+- The WPT progress report records page-realm integration results and can
+  include failures caused by Window lifecycle, CSS, layout, networking,
+  JavaScript engine, or runner limitations outside a DOM algorithm.
+- DOM conformance is audited per standard behavior and per implementation,
+  package-interface, realm-binding, and integration layer as described in the
+  [DOM conformance workflow](./dom-conformance-workflow.md).
+
+Until a behavior has conformance evidence, its capability status must not be
+read as `verified`. Conversely, a WPT blocked by an unrelated browser
+capability does not by itself change the usable scope recorded here.
+
 ## Parsing and serialization
 
 | Capability                    | Status  | Current scope and limitations                                                          |
