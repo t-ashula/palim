@@ -140,6 +140,7 @@
 
 ## Conformance infrastructure
 
+- [ ] `packages/*/test/fixtures/**/*.js` を ESLint 対象に含め、fixture として分離した page script も検査する
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
 - [ ] 同一 revision / image で full WPT campaign の jobs 10と20を比較し、timeoutを増やさない並列数と資源条件を決める
 - [ ] WPT test 並列実行時の timeout の影響を、安定した jobs 設定と終了後の直列再実行で軽減する

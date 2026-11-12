@@ -4863,10 +4863,21 @@ function replaceChildrenWithNodes(
 ): void {
   const node = convertNodesIntoNode(nodes, parentNodeDocument(parent));
   ensurePreInsertionValidity(node, parent, null, childNodes(parent));
+  replaceAll(node, parent);
+}
+
+function replaceAll(node: Node | null, parent: Node): void {
+  const removedNodes = childNodes(parent);
+  const addedNodes = node === null ? [] : insertionNodes(node);
   for (const child of childNodes(parent)) {
-    removeNode(child);
+    removeNode(child, true);
   }
-  insertNodes(node, parent, null);
+  if (node !== null) {
+    insertNodes(node, parent, null, true);
+  }
+  if (addedNodes.length > 0 || removedNodes.length > 0) {
+    queueTreeMutationRecord(parent, addedNodes, removedNodes, null, null);
+  }
 }
 
 function moveNodeBefore(

@@ -3,6 +3,69 @@ import { describe, expect, it } from "vitest";
 import { Document, MutationObserver } from "./public-test-api.js";
 
 describe("MutationObserver", () => {
+  it("queues one combined record when replacing all children", () => {
+    const document = new Document();
+    const parent = document.createElement("main");
+    const first = document.createElement("first");
+    const retained = document.createElement("retained");
+    const last = document.createElement("last");
+    parent.append(first, retained, last);
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(parent, { childList: true });
+
+    parent.replaceChildren(retained);
+
+    const retainedRecords = observer.takeRecords();
+    expect(retainedRecords).toHaveLength(1);
+    expect(retainedRecords[0]).toMatchObject({
+      target: parent,
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(retainedRecords[0]?.addedNodes ?? [])).toEqual([
+      retained,
+    ]);
+    expect(Array.from(retainedRecords[0]?.removedNodes ?? [])).toEqual([
+      first,
+      retained,
+      last,
+    ]);
+
+    const source = document.createElement("source");
+    const moved = document.createElement("moved");
+    source.append(moved);
+    const replaced = document.createElement("replaced");
+    parent.replaceChildren(replaced);
+    observer.takeRecords();
+    observer.observe(source, { childList: true });
+
+    parent.replaceChildren(moved);
+
+    const movedRecords = observer.takeRecords();
+    expect(movedRecords).toHaveLength(2);
+    expect(movedRecords[0]).toMatchObject({
+      target: source,
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(movedRecords[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(movedRecords[0]?.removedNodes ?? [])).toEqual([moved]);
+    expect(movedRecords[1]).toMatchObject({
+      target: parent,
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(movedRecords[1]?.addedNodes ?? [])).toEqual([moved]);
+    expect(Array.from(movedRecords[1]?.removedNodes ?? [])).toEqual([replaced]);
+
+    parent.replaceChildren();
+
+    const removalRecords = observer.takeRecords();
+    expect(removalRecords).toHaveLength(1);
+    expect(Array.from(removalRecords[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(removalRecords[0]?.removedNodes ?? [])).toEqual([moved]);
+  });
+
   it("queues replacement mutation records in replace algorithm order", () => {
     const document = new Document();
 

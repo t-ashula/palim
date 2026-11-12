@@ -40,3 +40,31 @@ if (replacementRecords[0].previousSibling !== before)
   throw new Error("wrong replacement previous sibling");
 if (replacementRecords[0].nextSibling !== after)
   throw new Error("wrong replacement next sibling");
+
+const replaceAllParent = testDocument.createElement("replace-all-parent");
+const replaceAllFirst = testDocument.createElement("replace-all-first");
+const replaceAllRetained = testDocument.createElement("replace-all-retained");
+const replaceAllLast = testDocument.createElement("replace-all-last");
+replaceAllParent.append(replaceAllFirst, replaceAllRetained, replaceAllLast);
+const replaceAllObserver = new MutationObserver(() => {});
+replaceAllObserver.observe(replaceAllParent, { childList: true });
+
+replaceAllParent.replaceChildren(replaceAllRetained);
+
+const replaceAllRecords = replaceAllObserver.takeRecords();
+if (replaceAllRecords.length !== 1)
+  throw new Error("expected one replace-all mutation record");
+if (replaceAllRecords[0].target !== replaceAllParent)
+  throw new Error("wrong replace-all target");
+if (
+  replaceAllRecords[0].addedNodes.length !== 1 ||
+  replaceAllRecords[0].addedNodes[0] !== replaceAllRetained
+)
+  throw new Error("wrong replace-all added nodes");
+if (
+  replaceAllRecords[0].removedNodes.length !== 3 ||
+  replaceAllRecords[0].removedNodes[0] !== replaceAllFirst ||
+  replaceAllRecords[0].removedNodes[1] !== replaceAllRetained ||
+  replaceAllRecords[0].removedNodes[2] !== replaceAllLast
+)
+  throw new Error("wrong replace-all removed nodes");
