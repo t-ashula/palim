@@ -670,7 +670,7 @@ export function insertNodeBefore(
   invalidateDescendantText(parentImplementation);
 }
 
-export function removeNode(node: Node): void {
+export function removeNode(node: Node, suppressObservers = false): void {
   const implementation = nodeImplementation(node);
   if (implementation.parent === null) {
     return;
@@ -686,7 +686,7 @@ export function removeNode(node: Node): void {
   const document = nodeDocumentImplementation(implementation);
   const index = parent.children.indexOf(implementation);
   if (index >= 0) {
-    removeChildImplementation(parent, implementation, index);
+    removeChildImplementation(parent, implementation, index, suppressObservers);
     invalidateDescendantText(parent);
   }
   for (const [removedIndex, removedNode] of removedNodes.entries()) {
@@ -702,6 +702,7 @@ function insertChildImplementation(
   parent: NodeImplementation,
   child: NodeImplementation,
   index: number,
+  suppressObservers = false,
 ): void {
   const previous = parent.children[index - 1] ?? null;
   const next = parent.children[index] ?? null;
@@ -715,13 +716,15 @@ function insertChildImplementation(
     next.previousSibling = child;
   }
   parent.children.splice(index, 0, child);
-  queueTreeMutationRecord(
-    nodeInterface(parent),
-    [nodeInterface(child)],
-    [],
-    previous === null ? null : nodeInterface(previous),
-    next === null ? null : nodeInterface(next),
-  );
+  if (!suppressObservers) {
+    queueTreeMutationRecord(
+      nodeInterface(parent),
+      [nodeInterface(child)],
+      [],
+      previous === null ? null : nodeInterface(previous),
+      next === null ? null : nodeInterface(next),
+    );
+  }
   if (subtreeContainsHTMLBaseElement(child)) {
     updateFirstBaseElementWithHref(nodeDocumentImplementation(parent));
   }
@@ -735,16 +738,19 @@ function removeChildImplementation(
   parent: NodeImplementation,
   child: NodeImplementation,
   index: number,
+  suppressObservers = false,
 ): void {
   const previous = child.previousSibling;
   const next = child.nextSibling;
-  queueTreeMutationRecord(
-    nodeInterface(parent),
-    [],
-    [nodeInterface(child)],
-    previous === null ? null : nodeInterface(previous),
-    next === null ? null : nodeInterface(next),
-  );
+  if (!suppressObservers) {
+    queueTreeMutationRecord(
+      nodeInterface(parent),
+      [],
+      [nodeInterface(child)],
+      previous === null ? null : nodeInterface(previous),
+      next === null ? null : nodeInterface(next),
+    );
+  }
   if (previous !== null) {
     previous.nextSibling = next;
   }
@@ -4712,6 +4718,14 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
   if (nodes.length === 0) {
     return;
   }
+  if (node instanceof DocumentFragment) {
+    for (const inserted of nodes) {
+      removeNode(inserted, true);
+    }
+    queueTreeMutationRecord(node, [], nodes, null, null);
+  }
+  const previousSibling =
+    child === null ? parent.lastChild : child.previousSibling;
   const document = parent instanceof Document ? parent : parent.ownerDocument;
   for (const inserted of nodes) {
     if (document === null) {
@@ -4740,6 +4754,7 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
         parentImplementation,
         insertedImplementation,
         parentImplementation.children.length,
+        true,
       );
     } else {
       adjustLiveRangesForInsertion(parent, index, 1);
@@ -4747,6 +4762,7 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
         parentImplementation,
         insertedImplementation,
         index,
+        true,
       );
     }
     invalidateDescendantText(parentImplementation);
@@ -4754,6 +4770,7 @@ function insertNodes(node: Node, parent: Node, child: Node | null): void {
       documentImplementationValue.insertionSteps?.(inclusiveDescendant);
     }
   }
+  queueTreeMutationRecord(parent, nodes, [], previousSibling, child);
   documentImplementationValue.childrenChangedSteps?.(parent);
   const staticNodeList = nodes.flatMap(inclusiveDescendantNodes);
   for (const connectedNode of staticNodeList) {

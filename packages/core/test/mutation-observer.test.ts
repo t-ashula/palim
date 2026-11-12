@@ -3,6 +3,48 @@ import { describe, expect, it } from "vitest";
 import { Document, MutationObserver } from "./public-test-api.js";
 
 describe("MutationObserver", () => {
+  it("queues one removal and insertion record for a document fragment", () => {
+    const document = new Document();
+    const parent = document.createElement("main");
+    const before = document.createElement("before");
+    const after = document.createElement("after");
+    const fragment = document.createDocumentFragment();
+    const first = document.createElement("first");
+    const second = document.createElement("second");
+    parent.append(before, after);
+    fragment.append(first, second);
+
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(fragment, { childList: true });
+    observer.observe(parent, { childList: true });
+
+    parent.insertBefore(fragment, after);
+
+    const records = observer.takeRecords();
+    expect(records).toHaveLength(2);
+    expect(records[0]).toMatchObject({
+      target: fragment,
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(records[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(records[0]?.removedNodes ?? [])).toEqual([first, second]);
+    expect(records[1]).toMatchObject({
+      target: parent,
+      previousSibling: before,
+      nextSibling: after,
+    });
+    expect(Array.from(records[1]?.addedNodes ?? [])).toEqual([first, second]);
+    expect(Array.from(records[1]?.removedNodes ?? [])).toEqual([]);
+    expect(fragment.childNodes).toHaveLength(0);
+    expect(Array.from(parent.childNodes)).toEqual([
+      before,
+      first,
+      second,
+      after,
+    ]);
+  });
+
   it("queues removal and insertion records for an atomic move", async () => {
     const document = new Document();
     const root = document.createElement("div");
