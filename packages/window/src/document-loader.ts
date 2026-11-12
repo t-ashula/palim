@@ -1,14 +1,21 @@
 import { Event, type EventTarget } from "@palim/core/internal/dom/events.js";
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import type { Document, Element } from "@palim/core/internal/dom/nodes.js";
+import {
+  DocumentImplementation,
+  documentImplementation,
+} from "@palim/core/internal/dom/node-implementation.js";
+import { Document, type Element } from "@palim/core/internal/dom/nodes.js";
 import { descendantElements } from "@palim/core/internal/dom/traversal.js";
 import {
   HTMLIFrameElement,
   HTMLScriptElement,
   setHTMLIFrameElementContentWindow,
 } from "@palim/core/internal/html-elements.js";
+import {
+  parseHTML,
+  parseHTMLIntoDocumentAsync,
+} from "@palim/core/internal/html/parser.js";
 import { originFromURL } from "@palim/core/internal/origin.js";
-import { parseHTMLIntoDocumentAsync } from "@palim/core/internal/html/parser.js";
+import { parseXML } from "@palim/core/internal/xml/parser.js";
 import { URL } from "@palim/core/internal/url/index.js";
 
 import {
@@ -16,6 +23,7 @@ import {
   createWindow,
   createWindowForDocument,
   detachWindow,
+  replaceWindowDocument,
   type Window,
   type WindowOptions,
 } from "./window.js";
@@ -25,6 +33,27 @@ export interface Resource {
   readonly body: Uint8Array;
   readonly url?: string | URL;
   readonly encoding?: string;
+  readonly mimeType?: string;
+}
+
+function isXMLMIMEType(mimeType: string): boolean {
+  const slash = mimeType.indexOf("/");
+  return (
+    mimeType === "text/xml" ||
+    mimeType === "application/xml" ||
+    (slash > 0 && mimeType.slice(slash + 1).endsWith("+xml"))
+  );
+}
+
+function createHTMLDocumentWithContentType(contentType: string): Document {
+  const template = documentImplementation(parseHTML(""));
+  return new Document(
+    new DocumentImplementation(
+      template.fragmentParser,
+      contentType,
+      template.elementFactory,
+    ),
+  );
 }
 
 export interface ResourceLoader {
@@ -47,7 +76,7 @@ export interface WindowDocumentOptions extends WindowOptions {
 
 interface IFrameState {
   readonly loader: WindowDocumentLoader;
-  readonly scripting: WindowScripting | null;
+  scripting: WindowScripting | null;
   navigation: number;
 }
 
@@ -337,15 +366,33 @@ export class WindowDocumentLoader {
       }
       const finalURL =
         resource.url === undefined ? url : new URL(resource.url, url);
+      const mimeType = resource.mimeType ?? "text/html";
       const decoded = decodeHTMLBytes(resource.body, {
         ...(resource.encoding === undefined
           ? {}
           : { transportEncoding: resource.encoding }),
       });
-      this.#prepareChildDocument(element, state, finalURL, false);
-      documentImplementation(state.loader.window.document).encoding =
-        decoded.encoding;
-      await state.loader.loadHTML(decoded.text, state.scripting);
+      if (isXMLMIMEType(mimeType)) {
+        this.#replaceChildDocument(state, parseXML(decoded.text, mimeType));
+        this.#prepareChildDocument(element, state, finalURL, false);
+        documentImplementation(state.loader.window.document).encoding =
+          decoded.encoding;
+        await state.loader.loadParsedDocument(state.scripting);
+      } else if (mimeType === "text/html") {
+        this.#prepareChildDocument(element, state, finalURL, false);
+        documentImplementation(state.loader.window.document).encoding =
+          decoded.encoding;
+        await state.loader.loadHTML(decoded.text, state.scripting);
+      } else {
+        this.#replaceChildDocument(
+          state,
+          createHTMLDocumentWithContentType(mimeType),
+        );
+        this.#prepareChildDocument(element, state, finalURL, false);
+        documentImplementation(state.loader.window.document).encoding =
+          decoded.encoding;
+        await state.loader.loadHTML("", state.scripting);
+      }
     } catch {
       // Like browsers, iframe load does not expose network failure details.
     }
@@ -368,6 +415,15 @@ export class WindowDocumentLoader {
       : originFromURL(url);
     implementation.scriptingMode =
       state.scripting === null ? "disabled" : "enabled";
+  }
+
+  #replaceChildDocument(state: IFrameState, document: Document): void {
+    replaceWindowDocument(state.loader.window, document);
+    state.loader.#installDocumentHooks();
+    state.scripting =
+      this.#scripting?.createChild(state.loader.window, this.resourceLoader) ??
+      null;
+    state.loader.#scripting = state.scripting;
   }
 
   #finishIFrameNavigation(

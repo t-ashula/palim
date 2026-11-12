@@ -47,11 +47,15 @@ class BrowsingContext {
   constructor(
     readonly window: Window,
     readonly windowProxy: Window,
-    readonly activeDocument: Document,
+    activeDocument: Document,
     readonly creationURL: URL,
     readonly parent: BrowsingContext | null,
     readonly frameElement: Element | null,
-  ) {}
+  ) {
+    this.activeDocument = activeDocument;
+  }
+
+  activeDocument: Document;
 
   get top(): BrowsingContext {
     return this.parent?.top ?? this;
@@ -242,6 +246,16 @@ export function createChildWindow(
 
 export function detachWindow(window: Window): void {
   documentImplementation(window.document).defaultView = null;
+}
+
+export function replaceWindowDocument(
+  window: Window,
+  document: Document,
+): void {
+  const context = windowEnvironment(window).browsingContext;
+  documentImplementation(context.activeDocument).defaultView = null;
+  context.activeDocument = document;
+  documentImplementation(document).defaultView = context.windowProxy;
 }
 
 export function reportWindowError(

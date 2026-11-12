@@ -183,6 +183,45 @@ describe("open", () => {
     }
   });
 
+  it.each([
+    { contentType: "image/bmp", source: "bitmap", root: "html" },
+    { contentType: "text/plain", source: "plain text", root: "html" },
+    {
+      contentType: "application/xml",
+      source: "<root>xml</root>",
+      root: "root",
+    },
+  ])(
+    "uses the iframe response MIME type for $contentType documents",
+    async ({ contentType, source, root }) => {
+      const fetchMock = vi.fn(() =>
+        Promise.resolve(
+          new Response(source, {
+            headers: { "content-type": `${contentType}; charset=utf-8` },
+          }),
+        ),
+      );
+      vi.stubGlobal("fetch", fetchMock);
+
+      try {
+        const context = await open({
+          html: '<iframe src="child"></iframe>',
+          baseURL: "https://example.test/parent",
+        });
+        const iframe = context.window.document.querySelector("iframe");
+        if (!(iframe instanceof HTMLIFrameElement)) {
+          throw new TypeError("Expected an iframe element");
+        }
+
+        expect(iframe.contentDocument?.contentType).toBe(contentType);
+        expect(iframe.contentDocument?.documentElement?.localName).toBe(root);
+        expect(iframe.contentDocument?.defaultView).toBe(iframe.contentWindow);
+      } finally {
+        vi.unstubAllGlobals();
+      }
+    },
+  );
+
   it("navigates when srcdoc changes and detaches on removal", async () => {
     const context = await open({ html: "<main></main>" });
     const iframe = context.window.document.createElement("iframe");

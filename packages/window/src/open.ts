@@ -166,10 +166,12 @@ async function loadInitialDocument(url: string): Promise<{
 
 async function responseResource(response: HostResponse): Promise<Resource> {
   const encoding = contentTypeEncoding(response.headers.get("content-type"));
+  const mimeType = contentTypeEssence(response.headers.get("content-type"));
   return {
     body: new Uint8Array(await response.arrayBuffer()),
     ...(response.url === "" ? {} : { url: response.url }),
     ...(encoding === undefined ? {} : { encoding }),
+    ...(mimeType === undefined ? {} : { mimeType }),
   };
 }
 
