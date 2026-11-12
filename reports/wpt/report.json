@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261112t112450732z-1010329",
+    "id": "20261112t135320383z-1450222",
     "state": "completed",
     "palim": {
-      "revision": "df3ec7f92c16dab53e39558282e18244516b3425",
-      "dirty": true,
-      "imageId": "sha256:5e2544b1bbfcdd19fc2a964cd25a1627fd6f523fd091153d0bd7e5f1c9415914"
+      "revision": "4100645ad466a92311fb9d7fc02cecd457eaca30",
+      "dirty": false,
+      "imageId": "sha256:81cda79f5ce80bae2711e69494dd04257148ecbded8ee443c16666a2fc67c560"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-12T12:05:18.413Z",
+    "snapshotAt": "2026-11-12T14:34:15.716Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,8 +51,8 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 739,
-    "fail": 792,
+    "pass": 740,
+    "fail": 791,
     "skip": 0,
     "error": 210,
     "timeout": 185,
@@ -155,8 +155,8 @@
       "totals": {
         "total": 91,
         "executed": 91,
-        "pass": 50,
-        "fail": 21,
+        "pass": 51,
+        "fail": 20,
         "skip": 0,
         "error": 17,
         "timeout": 3,
@@ -296,8 +296,8 @@
   ],
   "subtests": {
     "total": 93267,
-    "pass": 66651,
-    "fail": 26198,
+    "pass": 66659,
+    "fail": 26190,
     "skip": 0,
     "error": 240,
     "timeout": 178
@@ -306,8 +306,8 @@
     "totals": {
       "total": 1794,
       "executed": 1794,
-      "pass": 730,
-      "fail": 720,
+      "pass": 731,
+      "fail": 719,
       "skip": 0,
       "error": 187,
       "timeout": 157,
@@ -410,8 +410,8 @@
         "totals": {
           "total": 56,
           "executed": 56,
-          "pass": 42,
-          "fail": 5,
+          "pass": 43,
+          "fail": 4,
           "skip": 0,
           "error": 6,
           "timeout": 3,
@@ -551,8 +551,8 @@
     ],
     "subtests": {
       "total": 91713,
-      "pass": 65792,
-      "fail": 25595,
+      "pass": 65800,
+      "fail": 25587,
       "skip": 0,
       "error": 176,
       "timeout": 150
@@ -3056,11 +3056,6 @@
         "url": "/domparsing/DOMParser-parseFromString-url.html",
         "status": "timeout",
         "message": "palim execution timed out"
-      },
-      {
-        "url": "/domparsing/DOMParser-parseFromString-xml.html",
-        "status": "fail",
-        "message": "assert_false: Should not be XMLDocument expected false got true"
       },
       {
         "url": "/domparsing/XMLSerializer-serializeToString.html",

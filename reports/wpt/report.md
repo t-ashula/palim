@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261112t112450732z-1010329
+Campaign: 20261112t135320383z-1450222
 
 Campaign state: completed
 
-Palim: df3ec7f92c16dab53e39558282e18244516b3425 (dirty)
+Palim: 4100645ad466a92311fb9d7fc02cecd457eaca30
 
-Container image: sha256:5e2544b1bbfcdd19fc2a964cd25a1627fd6f523fd091153d0bd7e5f1c9415914
+Container image: sha256:81cda79f5ce80bae2711e69494dd04257148ecbded8ee443c16666a2fc67c560
 
-Snapshot: 2026-11-12T12:05:18.413Z
+Snapshot: 2026-11-12T14:34:15.716Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
@@ -22,7 +22,7 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 739 | 792 | 0 | 210 | 185 | 0 | 100.00% | 38.37% |
+| All | 1926 | 1926 | 740 | 791 | 0 | 210 | 185 | 0 | 100.00% | 38.42% |
 | /custom-elements/ | 196 | 196 | 10 | 152 | 0 | 29 | 5 | 0 | 100.00% | 5.10% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 29 | 70 | 0 | 21 | 94 | 0 | 100.00% | 13.55% |
@@ -30,7 +30,7 @@ This table includes every selected WPT URL, including tentative tests.
 | /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
 | /dom/ranges/ | 69 | 69 | 24 | 36 | 0 | 2 | 7 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 91 | 91 | 50 | 21 | 0 | 17 | 3 | 0 | 100.00% | 54.95% |
+| /domparsing/ | 91 | 91 | 51 | 20 | 0 | 17 | 3 | 0 | 100.00% | 56.04% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
@@ -48,7 +48,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1794 | 1794 | 730 | 720 | 0 | 187 | 157 | 0 | 100.00% | 40.69% |
+| All | 1794 | 1794 | 731 | 719 | 0 | 187 | 157 | 0 | 100.00% | 40.75% |
 | /custom-elements/ | 189 | 189 | 10 | 150 | 0 | 24 | 5 | 0 | 100.00% | 5.29% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 29 | 69 | 0 | 21 | 92 | 0 | 100.00% | 13.74% |
@@ -56,7 +56,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
 | /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 56 | 56 | 42 | 5 | 0 | 6 | 3 | 0 | 100.00% | 75.00% |
+| /domparsing/ | 56 | 56 | 43 | 4 | 0 | 6 | 3 | 0 | 100.00% | 76.79% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 91713 | 65792 | 25595 | 0 | 176 | 150 | 71.74% |
+| 91713 | 65800 | 25587 | 0 | 176 | 150 | 71.75% |
 
 ### Non-passing executed tests
 
@@ -579,7 +579,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/DOMParser-parseFromString-url-moretests.html | fail | <code>Invalid DOMParser receiver</code> |
 | /domparsing/DOMParser-parseFromString-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /domparsing/DOMParser-parseFromString-url.html | timeout | <code>palim execution timed out</code> |
-| /domparsing/DOMParser-parseFromString-xml.html | fail | <code>assert_false: Should not be XMLDocument expected false got true</code> |
 | /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;r xmlns:xx=\"uri\" xmlns:ns1=\"uri2\" ns1:name=\"value\"/&gt;" but got "&lt;r xmlns:xx=\"uri\" xmlns:p=\"uri2\" p:name=\"value\"/&gt;"</code> |
 | /domparsing/innerhtml-05.xhtml | timeout | <code>palim execution timed out</code> |
 | /domparsing/positional-methods-with-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
