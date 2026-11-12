@@ -4,10 +4,12 @@ import {
   CDATASection,
   Comment,
   DOMParser,
+  Document,
   DocumentType,
   Element,
   ProcessingInstruction,
   Text,
+  XMLDocument,
 } from "./public-test-api.js";
 import type { DOMParserSupportedType } from "./public-test-api.js";
 
@@ -29,6 +31,8 @@ describe("DOMParser XML parsing", () => {
   ] as const)("parses %s documents", (type) => {
     const document = parse('<root attr="value" />', type);
 
+    expect(document).toBeInstanceOf(Document);
+    expect(document).not.toBeInstanceOf(XMLDocument);
     expect(document.contentType).toBe(type);
     expect(document.characterSet).toBe("UTF-8");
     expect(document.documentElement?.localName).toBe("root");
@@ -127,6 +131,8 @@ describe("DOMParser XML parsing", () => {
     const document = parse(input);
     const error = document.documentElement;
 
+    expect(document).toBeInstanceOf(Document);
+    expect(document).not.toBeInstanceOf(XMLDocument);
     expect(error?.localName).toBe("parsererror");
     expect(error?.namespaceURI).toBe(PARSER_ERROR_NAMESPACE);
     expect(error?.textContent).not.toBe("");

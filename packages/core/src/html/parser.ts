@@ -1,12 +1,9 @@
-import type {
-  AttributeData,
-  Document,
-  DocumentFragment,
-  Node,
-} from "../dom.js";
+import { Document } from "../dom.js";
+import type { AttributeData, DocumentFragment, Node } from "../dom.js";
 import { DOMException } from "../dom-exception.js";
-import type { FragmentParseOptions, FragmentParser } from "../dom/nodes.js";
 import type {
+  FragmentParseOptions,
+  FragmentParser,
   HTMLDocumentParserSession,
   HTMLDocumentParserSessionOptions,
 } from "../dom/nodes.js";
@@ -421,7 +418,12 @@ class TreeBuilder {
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
       options.document ??
-      createDocument(htmlFragmentParser, "text/html", createElementForDocument);
+      createDocument(
+        htmlFragmentParser,
+        "text/html",
+        createElementForDocument,
+        Document,
+      );
     this.#onElement = options.onElement;
     this.#onScript = options.onScript;
     this.#allowDeclarativeShadowRoots =

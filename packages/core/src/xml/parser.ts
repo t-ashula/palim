@@ -1,10 +1,10 @@
 import { DOMException } from "../dom-exception.js";
-import type {
-  Document,
-  DocumentFragment,
-  Element,
-  FragmentParser,
-  Node,
+import type { Document } from "../dom/nodes.js";
+import {
+  type DocumentFragment,
+  type Element,
+  type FragmentParser,
+  type Node,
 } from "../dom/nodes.js";
 import {
   appendNode,
@@ -830,11 +830,16 @@ const xmlFragmentParser: FragmentParser = {
   },
 };
 
-function parserErrorDocument(type: string, message: string): Document {
+function parserErrorDocument(
+  type: string,
+  message: string,
+  documentConstructor: typeof Document,
+): Document {
   const document = createDocument(
     xmlFragmentParser,
     type,
     createElementForDocument,
+    documentConstructor,
   );
   const error = createDOMElement(
     document,
@@ -846,11 +851,16 @@ function parserErrorDocument(type: string, message: string): Document {
   return document;
 }
 
-export function parseXML(input: string, type: string): Document {
+export function parseXML(
+  input: string,
+  type: string,
+  documentConstructor: typeof Document,
+): Document {
   const document = createDocument(
     xmlFragmentParser,
     type,
     createElementForDocument,
+    documentConstructor,
   );
   try {
     new XMLParserCore(
@@ -862,7 +872,7 @@ export function parseXML(input: string, type: string): Document {
     return document;
   } catch (error: unknown) {
     if (error instanceof XMLParseFailure) {
-      return parserErrorDocument(type, error.message);
+      return parserErrorDocument(type, error.message, documentConstructor);
     }
     throw error;
   }

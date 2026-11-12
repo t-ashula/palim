@@ -1,4 +1,5 @@
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
+import { XMLDocument } from "@palim/core/internal/dom/nodes.js";
 import { parseXML } from "@palim/core/internal/xml/parser.js";
 import type { URL } from "@palim/core/internal/url/index.js";
 import { createExtensionHostServices } from "@palim/polyfills";
@@ -71,7 +72,7 @@ export function createOpen(scriptingFactory?: ScriptingFactory): Open {
             mimeType: "text/html",
           };
     const xmlDocument = isXMLMIMEType(initial.mimeType)
-      ? parseXML(initial.source, initial.mimeType)
+      ? parseXML(initial.source, initial.mimeType, XMLDocument)
       : undefined;
     if (xmlDocument !== undefined) {
       documentImplementation(xmlDocument).scriptingMode = scriptingEnabled

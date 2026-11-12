@@ -1,4 +1,4 @@
-import type { Document } from "./dom.js";
+import { Document } from "./dom.js";
 import {
   documentImplementation,
   nodeImplementation,
@@ -36,7 +36,7 @@ export class DOMParser {
     if (type === "text/html") {
       document = parseHTML(input);
     } else {
-      document = parseXML(input, type);
+      document = parseXML(input, type, Document);
     }
     finalizeDOMParserDocument(this, document);
     return document;

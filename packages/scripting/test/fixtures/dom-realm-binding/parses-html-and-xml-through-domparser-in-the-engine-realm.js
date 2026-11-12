@@ -10,6 +10,7 @@ if (
   throw new Error("DOMParser applied byte encoding sniffing to string input");
 }
 const xml = parser.parseFromString("<root>value</root>", "text/xml");
+const malformedXML = parser.parseFromString("<root>", "text/xml");
 const xmlWithDoctype = parser.parseFromString(
   '<!DOCTYPE root SYSTEM "urn:test"><root/>',
   "text/xml",
@@ -32,6 +33,9 @@ if (
   !(parser instanceof DOMParser) ||
   Object.prototype.toString.call(parser) !== "[object DOMParser]" ||
   !(xml instanceof Document) ||
+  xml instanceof XMLDocument ||
+  !(malformedXML instanceof Document) ||
+  malformedXML instanceof XMLDocument ||
   xml.contentType !== "text/xml" ||
   xml.documentElement.localName !== "root" ||
   xml.documentElement.tagName !== "root" ||

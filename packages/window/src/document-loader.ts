@@ -3,7 +3,11 @@ import {
   DocumentImplementation,
   documentImplementation,
 } from "@palim/core/internal/dom/node-implementation.js";
-import { Document, type Element } from "@palim/core/internal/dom/nodes.js";
+import {
+  Document,
+  XMLDocument,
+  type Element,
+} from "@palim/core/internal/dom/nodes.js";
 import { descendantElements } from "@palim/core/internal/dom/traversal.js";
 import {
   HTMLIFrameElement,
@@ -376,7 +380,10 @@ export class WindowDocumentLoader {
           : { transportEncoding: resource.encoding }),
       });
       if (isXMLMIMEType(mimeType)) {
-        this.#replaceChildDocument(state, parseXML(decoded.text, mimeType));
+        this.#replaceChildDocument(
+          state,
+          parseXML(decoded.text, mimeType, XMLDocument),
+        );
         this.#prepareChildDocument(element, state, finalURL, false);
         documentImplementation(state.loader.window.document).encoding =
           decoded.encoding;

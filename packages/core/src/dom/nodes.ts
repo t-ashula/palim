@@ -342,6 +342,7 @@ export class DOMImplementation {
       source.fragmentParser,
       contentType,
       source.elementFactory,
+      XMLDocument,
     );
     documentImplementation(document).relevantRealmDocument =
       source.relevantRealmDocument;
@@ -366,6 +367,7 @@ export class DOMImplementation {
       source.fragmentParser,
       "text/html",
       source.elementFactory,
+      Document,
     );
     documentImplementation(document).relevantRealmDocument =
       source.relevantRealmDocument;
@@ -1426,9 +1428,9 @@ export function createDocument(
   fragmentParser: FragmentParser | null,
   contentType: string,
   elementFactory: ElementFactory,
+  documentConstructor: typeof Document,
 ): Document {
-  const Interface = contentType === "text/html" ? Document : XMLDocument;
-  return new Interface(
+  return new documentConstructor(
     new DocumentImplementation(fragmentParser, contentType, elementFactory),
   );
 }
@@ -1563,6 +1565,7 @@ export function templateContentsDocument(document: Document): Document {
     implementation.fragmentParser,
     implementation.contentType,
     implementation.elementFactory,
+    document instanceof XMLDocument ? XMLDocument : Document,
   );
   return implementation.templateContentsOwnerDocument;
 }
@@ -3720,6 +3723,7 @@ function cloneSingleNode(node: Node, document: Document): Node {
       implementation.fragmentParser,
       node.contentType,
       implementation.elementFactory,
+      node instanceof XMLDocument ? XMLDocument : Document,
     );
     const copyImplementation = documentImplementation(copy);
     copyImplementation.relevantRealmDocument =
