@@ -4,15 +4,15 @@ Run status: failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261111t113421707z-1122404
+Campaign: 20261111t233030714z-29078
 
 Campaign state: completed
 
-Palim: 86f6f8fd94ad6f4b2bc47aa3958d260ef9bfca7d
+Palim: 7ad615fa98c42e1535bc399cde3028443c3bc63d (dirty)
 
-Container image: sha256:268d973423676bbfec55944d69f730956e77dc7dda9eccb3b2480b4e7cf8730a
+Container image: sha256:4a0a9e9a377117046208c8d395ff08f63a345d4a12e615d52a626a28a2a09c82
 
-Snapshot: 2026-11-11T12:22:05.523Z
+Snapshot: 2026-11-12T00:11:14.150Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
@@ -20,23 +20,23 @@ Attempts: 1926; worker failures: 0; retries: 0
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 603 | 838 | 0 | 207 | 278 | 0 | 100.00% | 31.31% |
-| /custom-elements/ | 196 | 196 | 8 | 119 | 0 | 29 | 40 | 0 | 100.00% | 4.08% |
+| All | 1926 | 1926 | 720 | 809 | 0 | 211 | 186 | 0 | 100.00% | 37.38% |
+| /custom-elements/ | 196 | 196 | 10 | 152 | 0 | 29 | 5 | 0 | 100.00% | 5.10% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 214 | 214 | 28 | 68 | 0 | 21 | 97 | 0 | 100.00% | 13.08% |
+| /dom/events/ | 214 | 214 | 29 | 70 | 0 | 21 | 94 | 0 | 100.00% | 13.55% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 271 | 94 | 0 | 5 | 38 | 0 | 100.00% | 66.42% |
-| /dom/ranges/ | 69 | 69 | 24 | 33 | 0 | 2 | 10 | 0 | 100.00% | 34.78% |
+| /dom/nodes/ | 408 | 408 | 279 | 98 | 0 | 7 | 24 | 0 | 100.00% | 68.38% |
+| /dom/ranges/ | 69 | 69 | 24 | 36 | 0 | 2 | 7 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 91 | 91 | 45 | 21 | 0 | 16 | 9 | 0 | 100.00% | 49.45% |
-| /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 54 | 2 | 0 | 0 | 1 | 0 | 100.00% | 94.74% |
+| /domparsing/ | 91 | 91 | 50 | 21 | 0 | 17 | 3 | 0 | 100.00% | 54.95% |
+| /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 236 | 236 | 22 | 181 | 0 | 1 | 32 | 0 | 100.00% | 9.32% |
-| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 6 | 1 | 0 | 2 | 4 | 0 | 100.00% | 46.15% |
+| /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
+| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
-| /shadow-dom/ | 314 | 314 | 36 | 224 | 0 | 15 | 39 | 0 | 100.00% | 11.46% |
+| /shadow-dom/ | 314 | 314 | 38 | 225 | 0 | 15 | 36 | 0 | 100.00% | 12.10% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 26 | 19 | 0 | 28 | 4 | 0 | 100.00% | 33.77% |
+| /url/ | 77 | 77 | 42 | 5 | 0 | 28 | 2 | 0 | 100.00% | 54.55% |
 | /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
@@ -44,7 +44,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 89743 | 55746 | 28658 | 0 | 5073 | 266 | 62.12% |
+| 93260 | 66033 | 26807 | 0 | 241 | 179 | 70.81% |
 
 ## Non-passing executed tests
 
@@ -52,10 +52,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | --- | --- | --- |
 | /custom-elements/CustomElementRegistry-constructor-and-callbacks-are-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.get is not a function. (In "customElements.get(tagName)", it is undefined)"</code> |
 | /custom-elements/CustomElementRegistry-getName.html | fail | <code>customElements.getName is not a function. (In "customElements.getName(class extends HTMLElement {})", it is undefined)</code> |
-| /custom-elements/CustomElementRegistry.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/CustomElementRegistry.html | fail | <code>assert_array_equals: customElements.define must validate the custom element name before getting the prototype of the constructor lengths differ, expected array [] length 0, got ["prototype"] length 1</code> |
 | /custom-elements/Document-createElement-customized-builtins.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/Document-createElement-svg.svg | fail | <code>Super class [Function HTMLDivElement] is not a constructor</code> |
-| /custom-elements/Document-createElement.html | timeout | <code>b'TypeError: Custom element constructor returned a different object\nTypeError: Custom element constructor returned a different object'</code> |
+| /custom-elements/Document-createElement.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/Document-createElementNS-customized-builtins.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/Document-createElementNS-prefix-timing.html | fail | <code>assert_equals: prefix should be null during constructor (set after construction per step 5.1.3.9) expected (object) null but got (string) "p"</code> |
 | /custom-elements/ElementInternals-accessibility-values.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
@@ -64,21 +64,20 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/ElementInternals-role.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.get is not a function. (In "customElements.get(`${role}-element`)", it is undefined)"</code> |
 | /custom-elements/HTMLElement-attachInternals.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/HTMLElement-constructor.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
-| /custom-elements/adopted-callback.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/append-children-to-new-parent-cycle.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/adopted-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted", Document node with 2 children, Document node with 1 child, "connected"] length 4, got ["connected"] length 1</code> |
 | /custom-elements/attribute-changed-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/builtin-coverage.html | fail | <code>Super class [Function HTMLAnchorElement] is not a constructor</code> |
-| /custom-elements/connected-callbacks-html-fragment-parsing.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/connected-callbacks.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/connected-callbacks-html-fragment-parsing.html | fail | <code>assert_equals: expected 1 but got 0</code> |
+| /custom-elements/connected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/cross-realm-callback-report-exception.html | timeout | <code>b'ReferenceError: "onerrorCalls" is not defined\n    at &lt;anonymous&gt; (http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:4:26)\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:5:21'</code> |
-| /custom-elements/custom-element-reaction-queue.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/custom-element-reaction-queue.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/customized-built-in-constructor-exceptions.html | fail | <code>MyCustomParagraph cannot be used before initialization</code> |
-| /custom-elements/disconnected-callbacks.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/disconnected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-aria-element-reflection.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
 | /custom-elements/element-internals-shadowroot.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | error | <code>Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed.</code> |
 | /custom-elements/form-associated/ElementInternals-form.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
@@ -101,11 +100,11 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/form-associated/form-elements-namedItem.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/form-reset-callback.html | fail | <code>form.reset is not a function. (In "form.reset()", it is undefined)</code> |
 | /custom-elements/form-associated/label-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/htmlconstructor/newtarget-customized-builtins.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/htmlconstructor/newtarget.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/htmlconstructor/newtarget-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: [Function HTMLParagraphElement] is not a constructor"</code> |
+| /custom-elements/htmlconstructor/newtarget.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/microtasks-and-constructors.html | fail | <code>assert_array_equals: lengths differ, expected array ["promise microtask", "MutationObserver microtask"] length 2, got ["promise microtask"] length 1</code> |
 | /custom-elements/overwritten-customElements-global.html | fail | <code>Illegal constructor</code> |
-| /custom-elements/parser/parser-constructs-custom-element-in-document-write.html | error | <code>TypeError: document.write is not a function. (In "document.write('&lt;my-custom-element&gt;hello &lt;b&gt;world&lt;/b&gt;&lt;/my-custom-element&gt;')", it is undefined)</code> |
+| /custom-elements/parser/parser-constructs-custom-element-in-document-write.html | error | <code>Error: The tokenizer input stream is closed</code> |
 | /custom-elements/parser/parser-constructs-custom-elements-with-is.html | fail | <code>assert_true: A resolved custom element must be an instance of that custom element expected true got false</code> |
 | /custom-elements/parser/parser-custom-element-in-foreign-content.html | fail | <code>"SVGElement" is not defined</code> |
 | /custom-elements/parser/parser-fallsback-to-unknown-element.html | fail | <code>assert_true: The fallback element created by HTML parser must be an instance of HTMLUnknownElement expected true got false</code> |
@@ -114,13 +113,13 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/parser/parser-sets-attributes-and-children.html | fail | <code>assert_equals: expected 2 but got 0</code> |
 | /custom-elements/parser/parser-uses-constructed-element.html | fail | <code>assert_not_equals: HTML parser must not insert another instance of the custom element created before super() call got disallowed value Element node &lt;instantiates-itself-before-super&gt;&lt;/instantiates-itself-b...</code> |
 | /custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
-| /custom-elements/parser/parser-uses-registry-of-owner-document.html | error | <code>TypeError: document.write is not a function. (In "document.write('&lt;template&gt;&lt;my-custom-element&gt;&lt;/my-custom-element&gt;&lt;/template&gt;')", it is undefined)</code> |
+| /custom-elements/parser/parser-uses-registry-of-owner-document.html | error | <code>Error: The tokenizer input stream is closed</code> |
 | /custom-elements/parser/serializing-html-fragments-customized-builtins.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
 | /custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
 | /custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
-| /custom-elements/perform-microtask-checkpoint-before-construction.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/pseudo-class-defined-customized-builtins.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/pseudo-class-defined.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/perform-microtask-checkpoint-before-construction.html | fail | <code>assert_equals: expected 1 but got 0</code> |
+| /custom-elements/pseudo-class-defined-customized-builtins.html | fail | <code>assert_equals: matches(":defined") expected false but got true</code> |
+| /custom-elements/pseudo-class-defined.html | fail | <code>assert_true: After construction, instance should match :defined expected true got false</code> |
 | /custom-elements/range-and-constructors.html | fail | <code>assert_array_equals: expected property 0 to be "root-0" but got "" (expected array ["root-0", "root-0-0", "root-1"] got ["", "", ""])</code> |
 | /custom-elements/reaction-timing.html | fail | <code>assert_equals: expected 4 but got 0</code> |
 | /custom-elements/reactions/Animation.html | fail | <code>instance.animate is not a function. (In "instance.animate([{'borderColor': 'rgb(0, 0, 255)'}], 1)", it is undefined)</code> |
@@ -132,25 +131,25 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/reactions/ChildNode.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/DOMStringMap.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/DOMTokenList.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/Document.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/reactions/Document.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/Element.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/ElementContentEditable.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/HTMLAnchorElement.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/reactions/HTMLAnchorElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /custom-elements/reactions/HTMLElement.html | error | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/HTMLOptionElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLOptionsCollection.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLOutputElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLSelectElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLTableElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLTableRowElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLTableSectionElement.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/reactions/HTMLTitleElement.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/reactions/HTMLOptionElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /custom-elements/reactions/HTMLOptionsCollection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /custom-elements/reactions/HTMLOutputElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /custom-elements/reactions/HTMLSelectElement.html | fail | <code>assert_equals: expected (number) 1 but got (undefined) undefined</code> |
+| /custom-elements/reactions/HTMLTableElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got [] length 0</code> |
+| /custom-elements/reactions/HTMLTableRowElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /custom-elements/reactions/HTMLTableSectionElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /custom-elements/reactions/HTMLTitleElement.html | fail | <code>assert_equals: expected 1 but got 2</code> |
 | /custom-elements/reactions/NamedNodeMap.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/Node.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "attributeChanged"] length 2, got ["constructed"] length 1</code> |
 | /custom-elements/reactions/ParentNode.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/Range.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected", "attributeChanged"] length 3, got ["constructed", "connected"] length 2</code> |
 | /custom-elements/reactions/Selection.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
-| /custom-elements/reactions/ShadowRoot.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/reactions/ShadowRoot.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/customized-builtins/HTMLAreaElement.html | fail | <code>Super class [Function HTMLAreaElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLBaseElement.html | fail | <code>Super class [Function HTMLBaseElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLButtonElement.html | fail | <code>Super class [Function HTMLButtonElement] is not a constructor</code> |
@@ -178,7 +177,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/reactions/customized-builtins/HTMLTableCellElement.html | fail | <code>Super class [Function HTMLTableCellElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLTableColElement.html | fail | <code>Super class [Function HTMLTableColElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLTimeElement.html | fail | <code>Super class [Function HTMLTimeElement] is not a constructor</code> |
-| /custom-elements/reactions/with-exceptions.html | timeout | <code>palim execution timed out</code> |
 | /custom-elements/registries/Construct.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/CustomElementRegistry-define.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/CustomElementRegistry-initialize.html | fail | <code>assert_throws_dom: function "() =&gt; window.customElements.initialize(document)" threw object "TypeError: window.customElements.initialize is not a function. (In "window.customElements.initialize(document)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
@@ -205,10 +203,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/registries/element-mutation.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/global.window.html | fail | <code>assert_throws_dom: function "() =&gt; customElements.initialize(contentDocument)" threw object "TypeError: customElements.initialize is not a function. (In "customElements.initialize(contentDocument)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
 | /custom-elements/registries/initial-about-blank.window.html | fail | <code>assert_true: expected true got false</code> |
-| /custom-elements/registries/per-document.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/registries/per-document.html | fail | <code>assert_not_equals: got disallowed value object "[object Object]"</code> |
 | /custom-elements/registries/pseudo-class-defined.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute-in-xhtml.xhtml | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /custom-elements/registries/scoped-registry-append.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /custom-elements/registries/scoped-registry-define-upgrade-criteria.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/scoped-registry-define-upgrade-order.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
@@ -228,15 +226,15 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/state/state-pseudo-class.html | fail | <code>The selector is invalid.</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | timeout | <code>palim execution timed out</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/upgrading.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/upgrading/Document-importNode-customized-builtins.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/upgrading/Document-importNode.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html | fail | <code>assert_true: Must immediately process custom element reactions for setting attributes expected true got false</code> |
+| /custom-elements/upgrading.html | fail | <code>assert_equals: Inserting an element into a document with a browsing context must enqueue a custom element upgrade reaction expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/upgrading/Document-importNode-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Super class [Function HTMLDivElement] is not a constructor"</code> |
+| /custom-elements/upgrading/Document-importNode.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/upgrading/Node-cloneNode-customized-builtins.html | fail | <code>Super class [Function HTMLDivElement] is not a constructor</code> |
-| /custom-elements/upgrading/Node-cloneNode.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/upgrading/Node-cloneNode.html | fail | <code>assert_equals: An upgraded element must have its parentNode set before the custom element constructor is called expected Element node &lt;div&gt;&lt;b&gt;&lt;/b&gt;&lt;my-custom-element&gt;&lt;/my-custom-element&gt;&lt;a&gt;&lt;/a... but got null</code> |
 | /custom-elements/upgrading/upgrade-custom-element-error-event.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
-| /custom-elements/upgrading/upgrading-enqueue-reactions.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/upgrading/upgrading-enqueue-reactions.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/upgrading/upgrading-parser-created-element.html | fail | <code>assert_true: Calling customElements.define must upgrade existing custom elements expected true got false</code> |
 | /dom/events/AddEventListenerOptions-passive.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/AddEventListenerOptions-signal.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
@@ -246,7 +244,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/Event-dispatch-bubble-canceled.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
 | /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
 | /dom/events/Event-dispatch-bubbles-true.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., [...], Document node with 2 children, [...]] length 14</code> |
-| /dom/events/Event-dispatch-click.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/Event-dispatch-click.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-detached-input-and-change.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., [...], Document node with 2 children, [...]] length 14</code> |
@@ -270,7 +268,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/Event-propagation.html | fail | <code>assert_equals: Propagation flag expected false but got true</code> |
 | /dom/events/Event-stopPropagation-cancel-bubbling.html | fail | <code>"MouseEvent" is not defined</code> |
 | /dom/events/Event-subclasses-constructors.html | fail | <code>undefined is not a constructor</code> |
-| /dom/events/Event-timestamp-cross-realm-getter.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/Event-timestamp-high-resolution.html | fail | <code>"performance" is not defined</code> |
 | /dom/events/Event-timestamp-high-resolution.https.html | fail | <code>"performance" is not defined</code> |
 | /dom/events/Event-timestamp-safe-resolution.html | fail | <code>"MouseEvent" is not defined</code> |
@@ -292,15 +289,15 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/element-click.html | fail | <code>button.click is not a function. (In "button.click()", it is undefined)</code> |
 | /dom/events/event-disabled-dynamic.html | fail | <code>e.click is not a function. (In "e.click()", it is undefined)</code> |
 | /dom/events/event-global-event-targets.html | fail | <code>assert_equals: window.event is set during dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/events/event-global-extra.window.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/event-global-extra.window.html | fail | <code>assert_equals: expected (undefined) undefined but got (object) object "[object Object]"</code> |
 | /dom/events/event-global-is-still-set-when-coercing-beforeunload-result.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-is-still-set-when-reporting-exception-onerror.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-set-before-handleEvent-lookup.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /dom/events/event-global.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/event-listener-not-fully-active-adopted-node.html | fail | <code>assert_equals: listeners run while the iframe is attached expected 2 but got 1</code> |
+| /dom/events/event-listener-not-fully-active-adopted-node.html | fail | <code>assert_equals: listeners do not run once the iframe is removed expected 2 but got 4</code> |
 | /dom/events/event-listener-not-fully-active-callback.html | fail | <code>assert_equals: the callback does not run once the iframe is removed expected 1 but got 2</code> |
-| /dom/events/event-listener-not-fully-active-navigated.html | fail | <code>assert_equals: listeners run before the navigation expected 4 but got 3</code> |
+| /dom/events/event-listener-not-fully-active-navigated.html | fail | <code>assert_equals: listeners do not run after the navigation expected 4 but got 8</code> |
 | /dom/events/event-listener-not-fully-active-target.html | fail | <code>assert_equals: listener does not run once the iframe is removed expected 1 but got 2</code> |
 | /dom/events/focus-event-document-move.html | fail | <code>Tried to run in a non-testharness window without a call to set_test_context</code> |
 | /dom/events/handler-count.html?document | timeout | <code>b'Error: Tried to run in a non-testharness window without a call to set_test_context\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testdriver.js:3680:67)\n    at action_sequence (http://web-platform.test:8000/resources/testdriver.js:1664:73)\n    at send (http://web-platform.test:8000/resources/testdriver-actions.js:99:51)\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/dom/events/handler-count.html?document:19:37)\n    at new Promise (native)\n    at resetAndRecordEvents (http://web-platform.test:8000/dom/events/handler-count.html?document:14:29)\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/dom/events/handler-count.html?document:50:9)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:2869:79)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:738:53)\n    at new Promise (native)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testharness.js:737:32)'</code> |
@@ -424,17 +421,11 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/webkit-transition-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/window-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /dom/events/window-event-restored-after-throwing-onerror.html | fail | <code>assert_equals: window.event is the outer event before the nested dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/nodes/Comment-constructor.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/DOMImplementation-createDocument-no-browsing-context.html | fail | <code>assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) "1 + 2"</code> |
-| /dom/nodes/Document-URL.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/Document-URL.html | fail | <code>assert_equals: expected "undefined/common/blank.html" but got "http://web-platform.test:8000/common/blank.html"</code> |
 | /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>assert_throws_dom: function "() =&gt; target.adoptNode(root)" did not throw</code> |
 | /dom/nodes/Document-base-url-not-live.window.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/Document-characterSet-normalization-1.html | timeout |  |
-| /dom/nodes/Document-characterSet-normalization-2.html | timeout |  |
-| /dom/nodes/Document-cloneNode-about-base-url-relative.window.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/Document-cloneNode-about-base-url.window.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-cloneNode-base-url.window.html | fail | <code>assert_equals: source expected "http://web-platform.test:8000/dom/nodes/sub/" but got "about:blank"</code> |
-| /dom/nodes/Document-cloneNode-srcdoc-base-url.window.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_bmp.html | fail | <code>assert_equals: expected "image/bmp" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_css.html | fail | <code>assert_equals: expected "text/css" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html | timeout | <code>palim execution timed out</code> |
@@ -447,7 +438,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/Document-contentType/contentType/contenttype_xml.html | fail | <code>assert_equals: expected "application/xml" but got "text/html"</code> |
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /dom/nodes/Document-createCDATASection-xhtml.xhtml | error | <code>ReferenceError: "CDATASection" is not defined</code> |
-| /dom/nodes/Document-createElement-namespace.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/Document-createElement-namespace.html | fail | <code>assert_equals: Wrong MIME type returned from doc.contentType expected "application/xhtml+xml" but got "text/html"</code> |
 | /dom/nodes/Document-createElement.html | fail | <code>assert_equals: XML document didn't load expected "Dummy XML document" but got "Dummy XML document\n"</code> |
 | /dom/nodes/Document-createElementNS.html | fail | <code>assert_equals: expected "Dummy XML document" but got "Dummy XML document\n"</code> |
 | /dom/nodes/Document-createEvent.https.html | error | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
@@ -456,8 +447,8 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/Element-closest.html | fail | <code>assert_equals: :invalid expected "test2" but got ""</code> |
 | /dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Element-matches-namespaced-elements.html | fail | <code>document.createElementNS("", "element")[method] is not a function. (In "document.createElementNS("", "element")[method]("element")", it is undefined)</code> |
-| /dom/nodes/Element-matches.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/Element-webkitMatchesSelector.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/Element-matches.html | fail | <code>assert_true: The element #attr-presence-i1 should match the selector. expected true got false</code> |
+| /dom/nodes/Element-webkitMatchesSelector.html | fail | <code>assert_idl_attribute: Detached Element supports webkitMatchesSelector property "webkitMatchesSelector" not found in prototype chain</code> |
 | /dom/nodes/MutationObserver-attributes.html | fail | <code>The childList option must be true</code> |
 | /dom/nodes/MutationObserver-callback-arguments.html | fail | <code>The childList option must be true</code> |
 | /dom/nodes/MutationObserver-callback-order.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
@@ -476,7 +467,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/MutationObserver-xml-parser.xhtml | fail | <code>assert_equals: mutation records must match expected 6 but got 0</code> |
 | /dom/nodes/Node-appendChild-cereactions-vs-script.window.html | fail | <code>Super class [Function HTMLScriptElement] is not a constructor</code> |
 | /dom/nodes/Node-appendChild.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html | fail | <code>doc.write is not a function. (In "doc.write('&lt;div&gt;&lt;template shadowrootmode=open&gt;test&lt;/template&gt;&lt;/div&gt;')", it is undefined)</code> |
+| /dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/Node-insertBefore.html | fail | <code>assert_throws_js: function "function() { document.body.insertBefore(document.createTextNode("child")) }" did not throw</code> |
 | /dom/nodes/Node-isEqualNode-xhtml.xhtml | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Node-parentNode.html | timeout | <code>palim execution timed out</code> |
@@ -488,16 +479,14 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/NodeList-static-length-getter-tampered-indexOf-2.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/NodeList-static-length-getter-tampered-indexOf-3.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/ParentNode-properties.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/ParentNode-querySelector-All-xht.xht | timeout | <code>Test timed out</code> |
-| /dom/nodes/ParentNode-querySelector-All.html | timeout | <code>Test timed out</code> |
+| /dom/nodes/ParentNode-querySelector-All-xht.xht | error | <code>ReferenceError: "requestAnimationFrame" is not defined</code> |
+| /dom/nodes/ParentNode-querySelector-All.html | error | <code>ReferenceError: "requestAnimationFrame" is not defined</code> |
 | /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>assert_equals: querySelector with :host pseudo-class should find the element expected Element node &lt;article&gt;&lt;/article&gt; but got null</code> |
 | /dom/nodes/ParentNode-replaceChildren.html | timeout | <code>b'at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:172:42)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:210:42)'</code> |
 | /dom/nodes/ProcessingInstruction-escapes-1.xhtml | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/Text-constructor.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/adoption.window.html | fail | <code>assert_throws_dom: function "() =&gt; document.adoptNode(df)" did not throw</code> |
 | /dom/nodes/create-element-realm-after-adoption.html | fail | <code>customElements.get is not a function. (In "customElements.get("x-baz")", it is undefined)</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
-| /dom/nodes/getElementsByClassName-31.htm | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | fail | <code>assert_equals: preMetaReferrer is the full URL; by the time the first script runs in its post-insertion steps, the later-inserted meta tag has not run its post-insertion steps, which is where meta tags are processed expected "http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html" but got ""</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html | fail | <code>"getComputedStyle" is not defined</code> |
@@ -507,7 +496,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/insertion-removing-steps/blur-event.window.html | fail | <code>input.focus is not a function. (In "input.focus()", it is undefined)</code> |
 | /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.focus is not a function. (In "input.focus()", it is undefined)"</code> |
 | /dom/nodes/insertion-removing-steps/frame-post-connection-steps.html | fail | <code>assert_equals: The frame window is created in post-connection order expected (object) null but got (undefined) undefined</code> |
-| /dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html | fail | <code>assert_true: iframe1 loaded expected true got false</code> |
+| /dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html | fail | <code>assert_equals: iframe1 load event can observe its own participation in the frame tree expected (number) 1 but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html | fail | <code>assert_false: Appending script with invalid type does not trigger execution expected false got true</code> |
 | /dom/nodes/live-collections-batched-mutations.window.html | fail | <code>assert_equals: expected (object) Element node &lt;span&gt;&lt;/span&gt; but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/Node-moveBefore.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
@@ -553,7 +542,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/moveBefore/stylesheet-cascade-order.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/name-validation.html | timeout |  |
-| /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected 1 but got 0</code> |
+| /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected "green" but got ""</code> |
 | /dom/nodes/node-creation-realm.html | fail | <code>Right-hand side of "instanceof" (undefined) is not an object</code> |
 | /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>window.customElements.get is not a function. (In "window.customElements.get("x-mixed")", it is undefined)</code> |
 | /dom/nodes/post-connection-steps-shadow-tree.html | fail | <code>assert_equals: script runs when its shadow-including tree becomes connected expected 1 but got 0</code> |
@@ -562,18 +551,18 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/remove-and-adopt-thcrash.html | fail | <code>window.open is not a function. (In "window.open()", it is undefined)</code> |
 | /dom/nodes/remove-unscopable.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-cloneContents.html | timeout |  |
+| /dom/ranges/Range-cloneContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-compareBoundaryPoints.html | timeout |  |
 | /dom/ranges/Range-comparePoint.html | timeout |  |
 | /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-deleteContents.html | timeout |  |
+| /dom/ranges/Range-deleteContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-expand-shadow.tentative.html | fail | <code>range.expand is not a function. (In "range.expand(unit)", it is undefined)</code> |
 | /dom/ranges/Range-extractContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-extractContents-dynamic-end.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/ranges/Range-extractContents.html | timeout |  |
+| /dom/ranges/Range-extractContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>TypeError: Cannot convert null to object</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open | error | <code>TypeError: Cannot convert null to object</code> |
-| /dom/ranges/Range-insertNode.html | timeout |  |
+| /dom/ranges/Range-insertNode.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-isPointInRange.html | timeout |  |
 | /dom/ranges/Range-mutations-appendChild.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-appendData.html | fail | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
@@ -586,7 +575,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/ranges/Range-mutations-replaceData.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-splitText.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-set.html | timeout |  |
-| /dom/ranges/Range-surroundContents.html | timeout |  |
+| /dom/ranges/Range-surroundContents.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-auto-disconnect.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(1, 4)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-basic.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-disconnect.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(1, 4)", it is undefined)</code> |
@@ -607,17 +596,14 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
 | /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
 | /domparsing/DOMParser-parseFromString-stylesheets.html | fail | <code>Cannot convert undefined to object</code> |
-| /domparsing/DOMParser-parseFromString-url-base-about.window.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/DOMParser-parseFromString-url-base-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /domparsing/DOMParser-parseFromString-url-base.html | timeout | <code>palim execution timed out</code> |
-| /domparsing/DOMParser-parseFromString-url-moretests.html | timeout | <code>palim execution timed out</code> |
+| /domparsing/DOMParser-parseFromString-url-moretests.html | fail | <code>Invalid DOMParser receiver</code> |
 | /domparsing/DOMParser-parseFromString-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /domparsing/DOMParser-parseFromString-url.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/DOMParser-parseFromString-xml.html | fail | <code>assert_false: Should not be XMLDocument expected false got true</code> |
 | /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;r xmlns:xx=\"uri\" xmlns:ns1=\"uri2\" ns1:name=\"value\"/&gt;" but got "&lt;r xmlns:xx=\"uri\" xmlns:p=\"uri2\" p:name=\"value\"/&gt;"</code> |
-| /domparsing/html-insertion-methods-html-element.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/innerhtml-05.xhtml | timeout | <code>palim execution timed out</code> |
-| /domparsing/outerhtml-03.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/positional-methods-with-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/positional-methods-with-trusted-types.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -630,11 +616,9 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/tentative/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
 | /domparsing/tentative/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /domparsing/tentative/stream-html-defer-async-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["immediate"] length 1, got ["defer", "immediate"] length 2</code> |
-| /domparsing/tentative/stream-html-element.html | timeout | <code>palim execution timed out</code> |
-| /domparsing/tentative/stream-html-parser-blocking-script.html | timeout | <code>assert_array_equals: lengths differ, expected array ["slow", "inline"] length 2, got ["inline"] length 1</code> |
+| /domparsing/tentative/stream-html-parser-blocking-script.html | error | <code>Timeout while running cleanup for test named "streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input".</code> |
 | /domparsing/tentative/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-html-with-declarative-shadow-root.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: doc.open is not a function. (In "doc.open()", it is undefined)"</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-adopt.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
@@ -652,9 +636,8 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
 | /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nTypeError: undefined is not a function\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
+| /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nError: The tokenizer input stream is closed\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
-| /html/dom/documents/dom-tree-accessors/nameditem-setattribute-attr-mutation.html | fail | <code>[object Object] is not iterable</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
 | /html/dom/elements/global-attributes/cdata-dir_auto.html | timeout | <code>palim execution timed out</code> |
 | /html/dom/elements/global-attributes/custom-attrs.html | fail | <code>assert_equals: expected 3 but got 2</code> |
@@ -706,22 +689,22 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/syntax/parsing/DOMContentLoaded-defer-task-order.tentative.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/DOMContentLoaded-defer.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/adoption-agency-reparenting-document-target.html | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/adoption-agency-reparenting-document-target.html | fail | <code>assert_equals: the second Document keeps only the &lt;table&gt; as its element child expected (number) 1 but got (undefined) undefined</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-inner-loop-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html | error | <code>pagehide fired synchronously during the adoption agency algorithm</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-shadow-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/adoption-agency-reparenting-template-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/adoption-agency-reparenting.html | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/adoption-agency-reparenting-template-cycle.html | fail | <code>assert_false: furthest block was not moved into the common ancestor expected false got true</code> |
+| /html/syntax/parsing/adoption-agency-reparenting.html | fail | <code>assert_equals: furthest block's document after the algorithm runs expected "main" but got "other"</code> |
 | /html/syntax/parsing/adoption_agency_check_the_end_tag_name.html | fail | <code>assert_equals: expected "&lt;code some-attribute=\"\"&gt;&lt;div&gt;&lt;code&gt;&lt;code&gt;&lt;code&gt;&lt;code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/div&gt;&lt;/code&gt;" but got "&lt;code some-attribute=\"\"&gt;&lt;/code&gt;&lt;div&gt;&lt;code some-attribute=\"\"&gt;&lt;code&gt;&lt;code&gt;&lt;code&gt;&lt;code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/code&gt;&lt;/div&gt;"</code> |
-| /html/syntax/parsing/ambiguous-ampersand.html | error | <code>TypeError: document.write is not a function. (In "document.write(markup.charAt(i))", it is undefined)</code> |
-| /html/syntax/parsing/custom-element-reparenting-shadow-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/custom-element-reparenting-template-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/custom-element-reparenting.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/doctype-system-identifier-distinction.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/form-element-pointer-in-template.html | fail | <code>doc.open is not a function. (In "doc.open()", it is undefined)</code> |
-| /html/syntax/parsing/foster-parenting-into-document-with-element-child.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/foster-parenting-into-template-element.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/foster-parenting-moved-table.window.html | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/ambiguous-ampersand.html | error | <code>Error: The tokenizer input stream is closed</code> |
+| /html/syntax/parsing/custom-element-reparenting-shadow-cycle.html | fail | <code>assert_equals: the html element no longer has a body child expected null but got Element node &lt;body&gt;&lt;/body&gt;</code> |
+| /html/syntax/parsing/custom-element-reparenting-template-cycle.html | fail | <code>assert_equals: the html element no longer has a body child expected null but got Element node &lt;body&gt;&lt;/body&gt;</code> |
+| /html/syntax/parsing/custom-element-reparenting.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /html/syntax/parsing/doctype-system-identifier-distinction.html | fail | <code>assert_equals: compatMode should be BackCompat expected "BackCompat" but got "CSS1Compat"</code> |
+| /html/syntax/parsing/form-element-pointer-in-template.html | fail | <code>assert_equals: the parser associates the &lt;input&gt; with the &lt;form&gt; expected (object) Element node &lt;form&gt;&lt;/form&gt; but got (undefined) undefined</code> |
+| /html/syntax/parsing/foster-parenting-into-document-with-element-child.html | fail | <code>assert_equals: the foster-parented &lt;b&gt; should be dropped on the floor expected "dropped" but got "inserted-into-second-document"</code> |
+| /html/syntax/parsing/foster-parenting-into-template-element.html | fail | <code>assert_equals: the foster-parented element goes into the template's contents (tmpl.content=, tmpl=&lt;b#fostered&gt;["x"]"FOSTERTEXT"&lt;table&gt;[&lt;tbody&gt;[&lt;tr&gt;[&lt;script&gt;]]]) expected "template-contents" but got "template-element"</code> |
+| /html/syntax/parsing/foster-parenting-moved-table.window.html | fail | <code>assert_equals: the script ran while the parser was foster parenting into it expected "foster-parent" but got ""</code> |
 | /html/syntax/parsing/html-integration-point.html | fail | <code>rawTextElement.textContent.substr is not a function. (In "rawTextElement.textContent.substr(0, 4)", it is undefined)</code> |
 | /html/syntax/parsing/html5lib_url.html?file=adoption01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=adoption02 | fail | <code>"Blob" is not defined</code> |
@@ -731,12 +714,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/syntax/parsing/html5lib_url.html?file=domjs-unsafe | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=entities01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=entities02 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=foreign-fragment | fail | <code>[object Object] is not iterable</code> |
 | /html/syntax/parsing/html5lib_url.html?file=html5test-com | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=inbody01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=isindex | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=main-element | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=math | fail | <code>[object Object] is not iterable</code> |
 | /html/syntax/parsing/html5lib_url.html?file=menuitem-element | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes | fail | <code>"Blob" is not defined</code> |
@@ -751,7 +732,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/syntax/parsing/html5lib_url.html?file=scripted_foster01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=search-element | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=svg | fail | <code>[object Object] is not iterable</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tables01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=template | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests1 | fail | <code>"Blob" is not defined</code> |
@@ -773,153 +753,74 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/syntax/parsing/html5lib_url.html?file=tests25 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests26 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests3 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests4 | fail | <code>[object Object] is not iterable</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests5 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests6 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests7 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests8 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests9 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1 | fail | <code>[object Object] is not iterable</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tricky01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=void-in-phrasing | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=webkit01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=webkit02 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_write.html?file=adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=adoption02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=blocks | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=comments01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=doctype01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=domjs-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=entities01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=entities02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=html5test-com | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=inbody01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=isindex | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=main-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=menuitem-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=processing-instructions | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=quirks01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=ruby | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scriptdata01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_ark | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=scripted_webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=search-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tables01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=template | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests1 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests10 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests11 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests12 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests14 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests15 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests16 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests17 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests18 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests19 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests2 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests20 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests21 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests22 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests23 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests24 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests25 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests26 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests3 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests5 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests6 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests7 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests8 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tests9 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=tricky01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=void-in-phrasing | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write.html?file=webkit02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=adoption02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=blocks | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=comments01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=inbody01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=isindex | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=main-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=menuitem-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=processing-instructions | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=quirks01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=ruby | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scriptdata01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_ark | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=search-element | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tables01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=template | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests1 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests10 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests11 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests12 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests14 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests15 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests16 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests17 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests18 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests19 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests2 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests20 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests21 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests22 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests23 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests24 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests25 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests26 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests3 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests5 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests6 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests7 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests8 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tests9 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=tricky01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=webkit01 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=webkit02 | fail | <code>iframe.contentDocument.open is not a function. (In "iframe.contentDocument.open()", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_adoption01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"A\"\n&#124;       \"TEXT\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"B\"\n&#124;       \"TEXT\""</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_ark | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"5\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\""</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"" but got "#document\n&#124; &lt;b&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\""</code> |
+| /html/syntax/parsing/html5lib_write.html?file=scripted_webkit01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"23\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"3\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=blocks | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;address&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;address&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=comments01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;!--  BAR  --&gt;\n&#124;     \"BAZ\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;!--  --BAR -- --&gt;\n&#124;     \"BAZ\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Hello\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Hello\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       \"foo\nbar\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       &lt;!-- C[DATA[foo\nbar]] --&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO&gt;BAR\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOOgt;BAR&amp;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       bar=\"ZZ&gt;YY\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       &amp;=\"\"\n&#124;       bar=\"ZZgt;YY\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=isindex | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;isindex&gt;\n&#124;       \"x\"\n&#124;     \"x\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;isindex&gt;\n&#124;       \"x\"\n&#124;     \"x\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=main-element | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;main&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;main&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=menuitem-element | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;menuitem&gt;\n&#124;       \"A\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;menuitem&gt;\n&#124;       \"A\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;table&gt;\n&#124;       &lt;caption&gt;\n&#124;         &lt;svg svg&gt;\n&#124;           \"foo\"\n&#124;     \"bar\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;table&gt;\n&#124;       &lt;caption&gt;\n&#124;         &lt;svg svg&gt;\n&#124;           \"foo\"\n&#124;     \"bar\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\rZOO\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO#x000D;ZOO&amp;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=quirks01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html \"-//W3C//DTD XHTML 1.0 Frameset//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\"&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;     &lt;table&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Frameset//EN\"\n\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\" --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;table&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scriptdata01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;script&gt;\n&#124;       \"'Hello'\"\n&#124;     \"BAR\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;script&gt;\n&#124;       \"'Hello'\"\n&#124;     \"RAB\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"A\"\n&#124;       \"TEXT\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;         \"&gt;b/\"\n&#124;         &lt;txet&gt;\n&#124;           \"p/&lt;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_ark | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             \"X&gt;p&lt;&gt;4=ezis tnof&lt;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"" but got "#document\n&#124; \"&gt;b&lt;\"\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"23\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"3\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=search-element | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;search&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;search&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tables01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"a\"\n&#124;     &lt;table&gt;" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"a\"\n&#124;     &lt;table&gt;\n&#124;       &lt;!-- odctype html --&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=template | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;template&gt;\n&#124;       content\n&#124;         &lt;script&gt;\n&#124;           \"var i = 1;\"\n&#124;         &lt;td&gt;" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;template&gt;\n&#124;       content\n&#124;         &lt;script&gt;\n&#124;           \"var i = 1;\"\n&#124;         \"&gt;etalpmet/&lt;&gt;dt/&lt;&gt;dt&lt;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests1 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;span&gt;\n&#124;       &lt;button&gt;\n&#124;         \"foobar\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;span&gt;\n&#124;       &lt;button&gt;\n&#124;         \"foobar\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests10 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests11 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       attributeName=\"\"\n&#124;       attributeType=\"\"\n&#124;       baseFrequency=\"\"\n&#124;       baseProfile=\"\"\n&#124;       calcMode=\"\"\n&#124;       clipPathUnits=\"\"\n&#124;       diffuseConstant=\"\"\n&#124;       edgeMode=\"\"\n&#124;       filterUnits=\"\"\n&#124;       glyphRef=\"\"\n&#124;       gradientTransform=\"\"\n&#124;       gradientUnits=\"\"\n&#124;       kernelMatrix=\"\"\n&#124;       kernelUnitLength=\"\"\n&#124;       keyPoints=\"\"\n&#124;       keySplines=\"\"\n&#124;       keyTimes=\"\"\n&#124;       lengthAdjust=\"\"\n&#124;       limitingConeAngle=\"\"\n&#124;       markerHeight=\"\"\n&#124;       markerUnits=\"\"\n&#124;       markerWidth=\"\"\n&#124;       maskContentUnits=\"\"\n&#124;       maskUnits=\"\"\n&#124;       numOctaves=\"\"\n&#124;       pathLength=\"\"\n&#124;       patternContentUnits=\"\"\n&#124;       patternTransform=\"\"\n&#124;       patternUnits=\"\"\n&#124;       pointsAtX=\"\"\n&#124;       pointsAtY=\"\"\n&#124;       pointsAtZ=\"\"\n&#124;       preserveAlpha=\"\"\n&#124;       preserveAspectRatio=\"\"\n&#124;       primitiveUnits=\"\"\n&#124;       refX=\"\"\n&#124;       refY=\"\"\n&#124;       repeatCount=\"\"\n&#124;       repeatDur=\"\"\n&#124;       requiredExtensions=\"\"\n&#124;       requiredFeatures=\"\"\n&#124;       specularConstant=\"\"\n&#124;       specularExponent=\"\"\n&#124;       spreadMethod=\"\"\n&#124;       startOffset=\"\"\n&#124;       stdDeviation=\"\"\n&#124;       stitchTiles=\"\"\n&#124;       surfaceScale=\"\"\n&#124;       systemLanguage=\"\"\n&#124;       tableValues=\"\"\n&#124;       targetX=\"\"\n&#124;       targetY=\"\"\n&#124;       textLength=\"\"\n&#124;       viewBox=\"\"\n&#124;       viewTarget=\"\"\n&#124;       xChannelSelector=\"\"\n&#124;       yChannelSelector=\"\"\n&#124;       zoomAndPan=\"\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       attributeName=\"\"\n&#124;       attributeType=\"\"\n&#124;       baseFrequency=\"\"\n&#124;       baseProfile=\"\"\n&#124;       calcMode=\"\"\n&#124;       clipPathUnits=\"\"\n&#124;       diffuseConstant=\"\"\n&#124;       edgeMode=\"\"\n&#124;       filterUnits=\"\"\n&#124;       glyphRef=\"\"\n&#124;       gradientTransform=\"\"\n&#124;       gradientUnits=\"\"\n&#124;       kernelMatrix=\"\"\n&#124;       kernelUnitLength=\"\"\n&#124;       keyPoints=\"\"\n&#124;       keySplines=\"\"\n&#124;       keyTimes=\"\"\n&#124;       lengthAdjust=\"\"\n&#124;       limitingConeAngle=\"\"\n&#124;       markerHeight=\"\"\n&#124;       markerUnits=\"\"\n&#124;       markerWidth=\"\"\n&#124;       maskContentUnits=\"\"\n&#124;       maskUnits=\"\"\n&#124;       numOctaves=\"\"\n&#124;       pathLength=\"\"\n&#124;       patternContentUnits=\"\"\n&#124;       patternTransform=\"\"\n&#124;       patternUnits=\"\"\n&#124;       pointsAtX=\"\"\n&#124;       pointsAtY=\"\"\n&#124;       pointsAtZ=\"\"\n&#124;       preserveAlpha=\"\"\n&#124;       preserveAspectRatio=\"\"\n&#124;       primitiveUnits=\"\"\n&#124;       refX=\"\"\n&#124;       refY=\"\"\n&#124;       repeatCount=\"\"\n&#124;       repeatDur=\"\"\n&#124;       requiredExtensions=\"\"\n&#124;       requiredFeatures=\"\"\n&#124;       specularConstant=\"\"\n&#124;       specularExponent=\"\"\n&#124;       spreadMethod=\"\"\n&#124;       startOffset=\"\"\n&#124;       stdDeviation=\"\"\n&#124;       stitchTiles=\"\"\n&#124;       surfaceScale=\"\"\n&#124;       systemLanguage=\"\"\n&#124;       tableValues=\"\"\n&#124;       targetX=\"\"\n&#124;       targetY=\"\"\n&#124;       textLength=\"\"\n&#124;       viewBox=\"\"\n&#124;       viewTarget=\"\"\n&#124;       xChannelSelector=\"\"\n&#124;       yChannelSelector=\"\"\n&#124;       zoomAndPan=\"\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests12 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;       &lt;math math&gt;\n&#124;         &lt;math mtext&gt;\n&#124;           &lt;i&gt;\n&#124;             \"baz\"\n&#124;         &lt;math annotation-xml&gt;\n&#124;           &lt;svg svg&gt;\n&#124;             &lt;svg desc&gt;\n&#124;               &lt;b&gt;\n&#124;                 \"eggs\"\n&#124;             &lt;svg g&gt;\n&#124;               &lt;svg foreignObject&gt;\n&#124;                 &lt;p&gt;\n&#124;                   \"spam\"\n&#124;                 &lt;table&gt;\n&#124;                   &lt;tbody&gt;\n&#124;                     &lt;tr&gt;\n&#124;                       &lt;td&gt;\n&#124;                         &lt;img&gt;\n&#124;             &lt;svg g&gt;\n&#124;               \"quux\"\n&#124;       \"bar\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;       &lt;math math&gt;\n&#124;         &lt;math mtext&gt;\n&#124;           &lt;i&gt;\n&#124;             \"baz\"\n&#124;         &lt;math annotation-xml&gt;\n&#124;           &lt;svg svg&gt;\n&#124;             &lt;svg desc&gt;\n&#124;               &lt;b&gt;\n&#124;                 \"eggs\"\n&#124;             &lt;svg g&gt;\n&#124;               &lt;svg foreignObject&gt;\n&#124;                 &lt;p&gt;\n&#124;                   \"spam\"\n&#124;                   &lt;table&gt;\n&#124;                     &lt;tbody&gt;\n&#124;                       &lt;tr&gt;\n&#124;                         &lt;td&gt;\n&#124;                           &lt;img&gt;\n&#124;                   &lt;g&gt;\n&#124;                     \"quux\"\n&#124;                   \"bar\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests14 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;xyz:abc&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;xyz:abc&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests15 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         &lt;i&gt;\n&#124;           &lt;u&gt;\n&#124;     &lt;b&gt;\n&#124;       &lt;i&gt;\n&#124;         &lt;u&gt;\n&#124;           \" \"\n&#124;           &lt;p&gt;\n&#124;             \"X\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         &lt;i&gt;\n&#124;           &lt;u&gt;\n&#124;     &lt;b&gt;\n&#124;       &lt;i&gt;\n&#124;         &lt;u&gt;\n&#124;           \" \"\n&#124;           &lt;p&gt;\n&#124;             \"X\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests16 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;script&gt;\n&#124;   &lt;body&gt;" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;script&gt;\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests17 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;select&gt;\n&#124;     &lt;table&gt;\n&#124;       &lt;tbody&gt;\n&#124;         &lt;tr&gt;" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;select&gt;\n&#124;     &lt;table&gt;\n&#124;       &lt;tbody&gt;\n&#124;         &lt;tr&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests18 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;plaintext&gt;\n&#124;       \"&lt;/plaintext&gt;\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;plaintext&gt;\n&#124;       \"&lt;/plaintext&gt;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests19 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;math math&gt;\n&#124;       &lt;math mn&gt;\n&#124;         definitionURL=\"foo\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;math math&gt;\n&#124;       &lt;math mn&gt;\n&#124;         definitionURL=\"foo\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests2 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Test\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Test\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests20 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;button&gt;\n&#124;       &lt;button&gt;" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;button&gt;\n&#124;       &lt;button&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests21 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       \"foo\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       &lt;!-- C[DATA[foo]] --&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests24 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"≂̸\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"NotEqualTilde;&amp;\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests25 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;foo&gt;\n&#124;       \"A\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;foo&gt;\n&#124;       \"A\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests26 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;a&gt;\n&#124;       href=\"#1\"\n&#124;       &lt;nobr&gt;\n&#124;         \"1\"\n&#124;       &lt;nobr&gt;\n&#124;     &lt;nobr&gt;\n&#124;       &lt;br&gt;\n&#124;       &lt;a&gt;\n&#124;         href=\"#2\"\n&#124;     &lt;a&gt;\n&#124;       href=\"#2\"\n&#124;       &lt;nobr&gt;\n&#124;         \"2\"\n&#124;       &lt;nobr&gt;\n&#124;     &lt;nobr&gt;\n&#124;       &lt;br&gt;\n&#124;       &lt;a&gt;\n&#124;         href=\"#3\"\n&#124;     &lt;a&gt;\n&#124;       href=\"#3\"\n&#124;       &lt;nobr&gt;\n&#124;         \"3\"\n&#124;       &lt;nobr&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;a&gt;\n&#124;       href=\"#1\"\n&#124;       &lt;nobr&gt;\n&#124;         \"1\"\n&#124;       &lt;nobr&gt;\n&#124;     &lt;nobr&gt;\n&#124;       &lt;br&gt;\n&#124;       &lt;a&gt;\n&#124;         href=\"#2\"\n&#124;     &lt;a&gt;\n&#124;       href=\"#2\"\n&#124;       &lt;nobr&gt;\n&#124;         \"2\"\n&#124;       &lt;nobr&gt;\n&#124;     &lt;nobr&gt;\n&#124;       &lt;br&gt;\n&#124;       &lt;a&gt;\n&#124;         href=\"#3\"\n&#124;     &lt;a&gt;\n&#124;       href=\"#3\"\n&#124;       &lt;nobr&gt;\n&#124;         \"3\"\n&#124;       &lt;nobr&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests3 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;style&gt;\n&#124;     &lt;script&gt;\n&#124;   &lt;!--   --&gt;\n&#124;   &lt;!--   --&gt;\n&#124;   &lt;body&gt;" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;style&gt;\n&#124;     &lt;script&gt;\n&#124;   &lt;!--  ---- --&gt;\n&#124;   &lt;!--  ---- --&gt;\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests5 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;script&gt;\n&#124;       \" &lt;!-- \"\n&#124;     \" \"\n&#124;   &lt;body&gt;\n&#124;     \"--&gt; x\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;     &lt;script&gt;\n&#124;       \" &lt;!-- \"\n&#124;   &lt;body&gt;\n&#124;     \"x&gt;tpircs/&lt; &gt;-- \""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests6 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   \" \"\n&#124;   &lt;body&gt;" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   \" \"\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests7 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;title&gt;\n&#124;       \"X\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;title&gt;\n&#124;       \"X\""</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=tests9 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;math math&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;math math&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;br&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;br&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=webkit01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       \"Hello\"\n&#124;     \"\n\"\n&#124;     &lt;script&gt;\n&#124;       \"\nconsole.log(\"PASS\");\n\"\n&#124;     \"\n\"\n&#124;     &lt;div&gt;\n&#124;       \"Bye\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       \"Hello\"\n&#124;     \"\n\"\n&#124;     &lt;script&gt;\n&#124;       \"\nconsole.log(\"PASS\");\n\"\n&#124;     \"&gt;vid/\"\n&#124;     &lt;eyb&gt;\n&#124;       \"vid&lt;\n\""</code> |
 | /html/syntax/parsing/html_content_in_foreign_context.html | fail | <code>e.substr is not a function. (In "e.substr(1)", it is undefined)</code> |
-| /html/syntax/parsing/inhead-noscript-head.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/insert-into-nonempty-document.html | fail | <code>doc.open is not a function. (In "doc.open()", it is undefined)</code> |
+| /html/syntax/parsing/inhead-noscript-head.html | fail | <code>assert_equals: expected "[object HTMLStyleElement]" but got "[object Object]"</code> |
+| /html/syntax/parsing/insert-into-nonempty-document.html | fail | <code>assert_array_equals: a Document cannot have two doctype children lengths differ, expected array [DocumentType node] length 1, got [DocumentType node, DocumentType node] length 2</code> |
 | /html/syntax/parsing/no-doctype-name.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/generating-of-implied-end-tags.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-body-token.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-frameset-token.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-head-token.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-html-token.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/start-tag-html.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/template-end-tag-without-start-one.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-frameset-insertion-mode/end-tag-frameset.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/generating-of-implied-end-tags.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/template-end-tag-without-start-one.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-body-context.html | fail | <code>assert_equals: Table should have no caption expected (object) null but got (undefined) undefined</code> |
 | /html/syntax/parsing/template/clearing-the-stack-back-to-a-given-context/clearing-stack-back-to-a-table-context.html | fail | <code>assert_equals: Table should have no caption expected (object) null but got (undefined) undefined</code> |
-| /html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html | timeout | <code>Test timed out</code> |
+| /html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html | fail | <code>assert_equals: Wrong ownerDocument of the element in template expected Document node with 0 children but got Document node with 2 children</code> |
 | /html/syntax/parsing/the-end.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/truncated-markup-declaration-at-eof.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/unclosed-svg-script.html | fail | <code>assert_true: expected true got false</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base.html | timeout | <code>palim execution timed out</code> |
-| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-moretests.html | timeout | <code>palim execution timed out</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url.html | timeout | <code>palim execution timed out</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-CEReactions.html | fail | <code>assert_equals: myElement1.numConnectedCallback after first setHTMLUnsafe. expected (number) 1 but got (undefined) undefined</code> |
@@ -984,7 +885,7 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/declarative/declarative-shadow-dom-serialization.html | fail | <code>a.getHTML is not a function. (In "a.getHTML({ serializableShadowRoots: true })", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-slot-assignment-serialization.html | fail | <code>assert_equals: expected (string) "manual" but got (undefined) undefined</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-slot-assignment.html | fail | <code>assert_equals: Missing attribute should map to named expected (string) "named" but got (undefined) undefined</code> |
-| /shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html | fail | <code>assert_true: write should create shadowroot expected true got false</code> |
 | /shadow-dom/declarative/gethtml-ordering.html | error | <code>TypeError: host.getHTML is not a function. (In "host.getHTML({shadowRoots: [host.shadowRoot]})", it is undefined)</code> |
 | /shadow-dom/declarative/gethtml.html | error | <code>ReferenceError: "light" is not defined</code> |
 | /shadow-dom/declarative/innerhtml-before-closing-tag.html | fail | <code>assert_true: Declarative shadow template should not be present expected true got false</code> |
@@ -1210,15 +1111,13 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-010.html | fail | <code>assert_equals: Wrong exception type expected (number) 9 but got (undefined) undefined</code> |
 | /shadow-dom/untriaged/events/event-dispatch/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/event-dispatch/test-003.html | fail | <code>input1.focus is not a function. (In "input1.focus()", it is undefined)</code> |
-| /shadow-dom/untriaged/events/event-retargeting/test-001.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/untriaged/events/retargeting-focus-events/test-001.html | fail | <code>inp1.focus is not a function. (In "inp1.focus()", it is undefined)</code> |
 | /shadow-dom/untriaged/events/retargeting-focus-events/test-002.html | fail | <code>roots.playerShadowRoot.querySelector('.volume-slider').focus is not a function. (In "roots.playerShadowRoot.querySelector('.volume-slider').focus()", it is undefined)</code> |
 | /shadow-dom/untriaged/events/retargeting-focus-events/test-003.html | fail | <code>d.querySelector('#outside-control').focus is not a function. (In "d.querySelector('#outside-control').focus()", it is undefined)</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html | fail | <code>"MouseEvent" is not defined</code> |
-| /shadow-dom/untriaged/events/test-001.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html | fail | <code>form.submit is not a function. (In "form.submit()", it is undefined)</code> |
 | /shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-001.html | fail | <code>link.click is not a function. (In "link.click()", it is undefined)</code> |
 | /shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-002.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/dom-tree-accessors-001.html | fail | <code>Cannot convert undefined to object</code> |
@@ -1300,35 +1199,19 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /streams/writable-streams/write.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
 | /streams/writable-streams/write.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/IdnaTestV2.any.html | timeout | <code>palim execution timed out</code> |
-| /url/a-element-origin-xhtml.xhtml | fail | <code>assert_equals: origin expected (string) "http://example.org" but got (undefined) undefined</code> |
-| /url/a-element-origin.html | fail | <code>assert_equals: origin expected (string) "http://example.org" but got (undefined) undefined</code> |
-| /url/a-element-xhtml.xhtml?exclude=(file|javascript|mailto) | timeout | <code>palim execution timed out</code> |
-| /url/a-element-xhtml.xhtml?include=file | fail | <code>assert_equals: protocol expected (string) "file:" but got (undefined) undefined</code> |
-| /url/a-element-xhtml.xhtml?include=javascript | fail | <code>assert_equals: protocol expected (string) "javascript:" but got (undefined) undefined</code> |
-| /url/a-element-xhtml.xhtml?include=mailto | fail | <code>assert_equals: protocol expected (string) "mailto:" but got (undefined) undefined</code> |
-| /url/a-element.html?exclude=(file|javascript|mailto) | timeout | <code>palim execution timed out</code> |
-| /url/a-element.html?include=file | fail | <code>assert_equals: protocol expected (string) "file:" but got (undefined) undefined</code> |
-| /url/a-element.html?include=javascript | fail | <code>assert_equals: protocol expected (string) "javascript:" but got (undefined) undefined</code> |
-| /url/a-element.html?include=mailto | fail | <code>assert_equals: protocol expected (string) "mailto:" but got (undefined) undefined</code> |
 | /url/data-uri-fragment.html | timeout | <code>palim execution timed out</code> |
-| /url/failure.html | fail | <code>assert_throws_js: function "() =&gt; url.href = test.input" threw object "Error: Invalid URL" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /url/historical.any.html | fail | <code>assert_throws_js: function "function() {<br>    url.href = "./bar";<br>  }" threw object "Error: Invalid URL" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
+| /url/failure.html | fail | <code>"XMLHttpRequest" is not defined</code> |
+| /url/historical.any.html | fail | <code>assert_throws_dom: function "() =&gt; self.structuredClone(new URL("about:blank"))" threw object "TypeError: self.structuredClone is not a function. (In "self.structuredClone(new URL("about:blank"))", it is undefined)" that is not a DOMException DataCloneError: property "code" is equal to undefined, expected 25</code> |
 | /url/historical.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/idlharness.any.html | fail | <code>assert_equals: @@iterator enumerable expected false but got true</code> |
 | /url/idlharness.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/javascript-urls.window.html | fail | <code>anchor.click is not a function. (In "anchor.click()", it is undefined)</code> |
 | /url/percent-encoding.window.html | fail | <code>"TextEncoder" is not defined</code> |
-| /url/toascii.window.html | fail | <code>assert_equals: expected "xn--a---kp0a" but got "a†--"</code> |
 | /url/url-constructor.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=javascript | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-constructor.any.worker.html?include=mailto | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-origin.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-searchparams.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters-a-area.window.html?exclude=(file|javascript|mailto) | fail | <code>assert_equals: expected "a:" but got ""</code> |
-| /url/url-setters-a-area.window.html?include=file | fail | <code>assert_equals: expected "file:" but got "http"</code> |
-| /url/url-setters-a-area.window.html?include=javascript | fail | <code>assert_equals: expected "defuse:alert(1)" but got "javascript:alert(1)"</code> |
-| /url/url-setters-a-area.window.html?include=mailto | fail | <code>assert_equals: expected "mailto:" but got "http"</code> |
 | /url/url-setters-stripping.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-setters.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /url/url-setters.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |

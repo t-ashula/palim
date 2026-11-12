@@ -9,6 +9,10 @@
 - [ ] safe / unsafe HTML parsing sink の custom element reaction、form owner、declarative Shadow DOM
 - [ ] streaming HTML setter の chunk insertion、script scheduling、custom element reaction
 - [ ] markup insertion と child removal における script preparation、invalid type、実行済み state
+- [ ] `Document.write()` / `writeln()` の複数呼び出しで tokenizer state と input preprocessing を chunk 境界越しに維持する
+- [ ] parser-inserted script 内の `Document.write()` を active insertion point に再入し、後続 input より先に処理する
+- [ ] active formatting elements に開始タグ token を保持し、reconstruction / adoption agency で live DOM mutation 前の属性から要素を生成する
+- [ ] parser script が document tree を除去・再接続した場合の tree builder state と insertion location の更新
 - [ ] HTML tree builder の adoption agency、foster parenting、form element pointer、foreign content integration
 - [ ] HTML tree builder の template insertion mode と stack clear algorithm
 
@@ -25,7 +29,7 @@
 - [ ] media loading・再生状態・track
 - [ ] canvas rendering context
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
-- [ ] iframe navigation で response MIME type を保持し、HTML / XML / text / image document を生成する
+- [ ] iframe navigation で response MIME type を保持し、`data:` URL の body と fragment を分離して HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
 - [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
@@ -88,9 +92,7 @@
 - [ ] `Navigator`
 - [ ] browsing context
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
-- [ ] `Document.open` / `write` / `writeln` / `close`
 - [ ] `requestAnimationFrame` / `performance`
-- [ ] origin と URL
 - [ ] dialog / popover の top layer と event
 - [ ] `structuredClone`
 

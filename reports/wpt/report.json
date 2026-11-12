@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261111t113421707z-1122404",
+    "id": "20261111t233030714z-29078",
     "state": "completed",
     "palim": {
-      "revision": "86f6f8fd94ad6f4b2bc47aa3958d260ef9bfca7d",
-      "dirty": false,
-      "imageId": "sha256:268d973423676bbfec55944d69f730956e77dc7dda9eccb3b2480b4e7cf8730a"
+      "revision": "7ad615fa98c42e1535bc399cde3028443c3bc63d",
+      "dirty": true,
+      "imageId": "sha256:4a0a9e9a377117046208c8d395ff08f63a345d4a12e615d52a626a28a2a09c82"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-11T12:22:05.523Z",
+    "snapshotAt": "2026-11-12T00:11:14.150Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 603,
-    "fail": 838,
+    "pass": 720,
+    "fail": 809,
     "skip": 0,
-    "error": 207,
-    "timeout": 278,
+    "error": 211,
+    "timeout": 186,
     "pending": 0
   },
   "areas": [
@@ -64,11 +64,11 @@
       "totals": {
         "total": 196,
         "executed": 196,
-        "pass": 8,
-        "fail": 119,
+        "pass": 10,
+        "fail": 152,
         "skip": 0,
         "error": 29,
-        "timeout": 40,
+        "timeout": 5,
         "pending": 0
       }
     },
@@ -90,11 +90,11 @@
       "totals": {
         "total": 214,
         "executed": 214,
-        "pass": 28,
-        "fail": 68,
+        "pass": 29,
+        "fail": 70,
         "skip": 0,
         "error": 21,
-        "timeout": 97,
+        "timeout": 94,
         "pending": 0
       }
     },
@@ -116,11 +116,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 271,
-        "fail": 94,
+        "pass": 279,
+        "fail": 98,
         "skip": 0,
-        "error": 5,
-        "timeout": 38,
+        "error": 7,
+        "timeout": 24,
         "pending": 0
       }
     },
@@ -130,10 +130,10 @@
         "total": 69,
         "executed": 69,
         "pass": 24,
-        "fail": 33,
+        "fail": 36,
         "skip": 0,
         "error": 2,
-        "timeout": 10,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -155,11 +155,11 @@
       "totals": {
         "total": 91,
         "executed": 91,
-        "pass": 45,
+        "pass": 50,
         "fail": 21,
         "skip": 0,
-        "error": 16,
-        "timeout": 9,
+        "error": 17,
+        "timeout": 3,
         "pending": 0
       }
     },
@@ -168,8 +168,8 @@
       "totals": {
         "total": 57,
         "executed": 57,
-        "pass": 54,
-        "fail": 2,
+        "pass": 55,
+        "fail": 1,
         "skip": 0,
         "error": 0,
         "timeout": 1,
@@ -194,11 +194,11 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 22,
-        "fail": 181,
+        "pass": 103,
+        "fail": 124,
         "skip": 0,
-        "error": 1,
-        "timeout": 32,
+        "error": 2,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -207,11 +207,11 @@
       "totals": {
         "total": 13,
         "executed": 13,
-        "pass": 6,
+        "pass": 7,
         "fail": 1,
         "skip": 0,
         "error": 2,
-        "timeout": 4,
+        "timeout": 3,
         "pending": 0
       }
     },
@@ -233,11 +233,11 @@
       "totals": {
         "total": 314,
         "executed": 314,
-        "pass": 36,
-        "fail": 224,
+        "pass": 38,
+        "fail": 225,
         "skip": 0,
         "error": 15,
-        "timeout": 39,
+        "timeout": 36,
         "pending": 0
       }
     },
@@ -259,11 +259,11 @@
       "totals": {
         "total": 77,
         "executed": 77,
-        "pass": 26,
-        "fail": 19,
+        "pass": 42,
+        "fail": 5,
         "skip": 0,
         "error": 28,
-        "timeout": 4,
+        "timeout": 2,
         "pending": 0
       }
     },
@@ -295,12 +295,12 @@
     }
   ],
   "subtests": {
-    "total": 89743,
-    "pass": 55746,
-    "fail": 28658,
+    "total": 93260,
+    "pass": 66033,
+    "fail": 26807,
     "skip": 0,
-    "error": 5073,
-    "timeout": 266
+    "error": 241,
+    "timeout": 179
   },
   "nonPassingTests": [
     {
@@ -315,8 +315,8 @@
     },
     {
       "url": "/custom-elements/CustomElementRegistry.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: customElements.define must validate the custom element name before getting the prototype of the constructor lengths differ, expected array [] length 0, got [\"prototype\"] length 1"
     },
     {
       "url": "/custom-elements/Document-createElement-customized-builtins.html",
@@ -330,8 +330,8 @@
     },
     {
       "url": "/custom-elements/Document-createElement.html",
-      "status": "timeout",
-      "message": "b'TypeError: Custom element constructor returned a different object\\nTypeError: Custom element constructor returned a different object'"
+      "status": "fail",
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/custom-elements/Document-createElementNS-customized-builtins.html",
@@ -375,13 +375,8 @@
     },
     {
       "url": "/custom-elements/adopted-callback.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/custom-elements/append-children-to-new-parent-cycle.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"adopted\", Document node with 2 children, Document node with 1 child, \"connected\"] length 4, got [\"connected\"] length 1"
     },
     {
       "url": "/custom-elements/attribute-changed-callback.html",
@@ -395,13 +390,13 @@
     },
     {
       "url": "/custom-elements/connected-callbacks-html-fragment-parsing.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected 1 but got 0"
     },
     {
       "url": "/custom-elements/connected-callbacks.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"XMLHttpRequest\" is not defined\""
     },
     {
       "url": "/custom-elements/cross-realm-callback-report-exception.html",
@@ -410,8 +405,8 @@
     },
     {
       "url": "/custom-elements/custom-element-reaction-queue.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected object \"[object Object]\" but got object \"[object Object]\""
     },
     {
       "url": "/custom-elements/customized-built-in-constructor-exceptions.html",
@@ -420,8 +415,8 @@
     },
     {
       "url": "/custom-elements/disconnected-callbacks.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"XMLHttpRequest\" is not defined\""
     },
     {
       "url": "/custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html",
@@ -445,8 +440,8 @@
     },
     {
       "url": "/custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Illegal constructor\""
     },
     {
       "url": "/custom-elements/form-associated/ElementInternals-NotSupportedError.html",
@@ -560,13 +555,13 @@
     },
     {
       "url": "/custom-elements/htmlconstructor/newtarget-customized-builtins.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: [Function HTMLParagraphElement] is not a constructor\""
     },
     {
       "url": "/custom-elements/htmlconstructor/newtarget.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Illegal constructor\""
     },
     {
       "url": "/custom-elements/microtasks-and-constructors.html",
@@ -581,7 +576,7 @@
     {
       "url": "/custom-elements/parser/parser-constructs-custom-element-in-document-write.html",
       "status": "error",
-      "message": "TypeError: document.write is not a function. (In \"document.write('<my-custom-element>hello <b>world</b></my-custom-element>')\", it is undefined)"
+      "message": "Error: The tokenizer input stream is closed"
     },
     {
       "url": "/custom-elements/parser/parser-constructs-custom-elements-with-is.html",
@@ -626,7 +621,7 @@
     {
       "url": "/custom-elements/parser/parser-uses-registry-of-owner-document.html",
       "status": "error",
-      "message": "TypeError: document.write is not a function. (In \"document.write('<template><my-custom-element></my-custom-element></template>')\", it is undefined)"
+      "message": "Error: The tokenizer input stream is closed"
     },
     {
       "url": "/custom-elements/parser/serializing-html-fragments-customized-builtins.html",
@@ -645,18 +640,18 @@
     },
     {
       "url": "/custom-elements/perform-microtask-checkpoint-before-construction.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected 1 but got 0"
     },
     {
       "url": "/custom-elements/pseudo-class-defined-customized-builtins.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: matches(\":defined\") expected false but got true"
     },
     {
       "url": "/custom-elements/pseudo-class-defined.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_true: After construction, instance should match :defined expected true got false"
     },
     {
       "url": "/custom-elements/range-and-constructors.html",
@@ -715,8 +710,8 @@
     },
     {
       "url": "/custom-elements/reactions/Document.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"adopted\"] length 1, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/Element.html",
@@ -730,8 +725,8 @@
     },
     {
       "url": "/custom-elements/reactions/HTMLAnchorElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLElement.html",
@@ -740,43 +735,43 @@
     },
     {
       "url": "/custom-elements/reactions/HTMLOptionElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLOptionsCollection.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
     },
     {
       "url": "/custom-elements/reactions/HTMLOutputElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLSelectElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected (number) 1 but got (undefined) undefined"
     },
     {
       "url": "/custom-elements/reactions/HTMLTableElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLTableRowElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLTableSectionElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/HTMLTitleElement.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected 1 but got 2"
     },
     {
       "url": "/custom-elements/reactions/NamedNodeMap.html",
@@ -805,8 +800,8 @@
     },
     {
       "url": "/custom-elements/reactions/ShadowRoot.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [] length 0"
     },
     {
       "url": "/custom-elements/reactions/customized-builtins/HTMLAreaElement.html",
@@ -944,11 +939,6 @@
       "message": "Super class [Function HTMLTimeElement] is not a constructor"
     },
     {
-      "url": "/custom-elements/reactions/with-exceptions.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/custom-elements/registries/Construct.html",
       "status": "fail",
       "message": "[Function CustomElementRegistry] is not a constructor"
@@ -1080,8 +1070,8 @@
     },
     {
       "url": "/custom-elements/registries/per-document.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_not_equals: got disallowed value object \"[object Object]\""
     },
     {
       "url": "/custom-elements/registries/pseudo-class-defined.window.html",
@@ -1095,8 +1085,8 @@
     },
     {
       "url": "/custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected (object) null but got (undefined) undefined"
     },
     {
       "url": "/custom-elements/registries/scoped-registry-append.html",
@@ -1195,28 +1185,28 @@
     },
     {
       "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
     },
     {
       "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_true: Must immediately process custom element reactions for setting attributes expected true got false"
     },
     {
       "url": "/custom-elements/upgrading.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: Inserting an element into a document with a browsing context must enqueue a custom element upgrade reaction expected object \"[object Object]\" but got object \"[object Object]\""
     },
     {
       "url": "/custom-elements/upgrading/Document-importNode-customized-builtins.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Super class [Function HTMLDivElement] is not a constructor\""
     },
     {
       "url": "/custom-elements/upgrading/Document-importNode.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
     },
     {
       "url": "/custom-elements/upgrading/Node-cloneNode-customized-builtins.html",
@@ -1225,8 +1215,8 @@
     },
     {
       "url": "/custom-elements/upgrading/Node-cloneNode.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: An upgraded element must have its parentNode set before the custom element constructor is called expected Element node <div><b></b><my-custom-element></my-custom-element><a></a... but got null"
     },
     {
       "url": "/custom-elements/upgrading/upgrade-custom-element-error-event.html",
@@ -1235,8 +1225,8 @@
     },
     {
       "url": "/custom-elements/upgrading/upgrading-enqueue-reactions.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected object \"[object Object]\" but got object \"[object Object]\""
     },
     {
       "url": "/custom-elements/upgrading/upgrading-parser-created-element.html",
@@ -1285,8 +1275,8 @@
     },
     {
       "url": "/dom/events/Event-dispatch-click.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "input.click is not a function. (In \"input.click()\", it is undefined)"
     },
     {
       "url": "/dom/events/Event-dispatch-click.tentative.html",
@@ -1404,11 +1394,6 @@
       "message": "undefined is not a constructor"
     },
     {
-      "url": "/dom/events/Event-timestamp-cross-realm-getter.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/events/Event-timestamp-high-resolution.html",
       "status": "fail",
       "message": "\"performance\" is not defined"
@@ -1515,8 +1500,8 @@
     },
     {
       "url": "/dom/events/event-global-extra.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected (undefined) undefined but got (object) object \"[object Object]\""
     },
     {
       "url": "/dom/events/event-global-is-still-set-when-coercing-beforeunload-result.html",
@@ -1546,7 +1531,7 @@
     {
       "url": "/dom/events/event-listener-not-fully-active-adopted-node.html",
       "status": "fail",
-      "message": "assert_equals: listeners run while the iframe is attached expected 2 but got 1"
+      "message": "assert_equals: listeners do not run once the iframe is removed expected 2 but got 4"
     },
     {
       "url": "/dom/events/event-listener-not-fully-active-callback.html",
@@ -1556,7 +1541,7 @@
     {
       "url": "/dom/events/event-listener-not-fully-active-navigated.html",
       "status": "fail",
-      "message": "assert_equals: listeners run before the navigation expected 4 but got 3"
+      "message": "assert_equals: listeners do not run after the navigation expected 4 but got 8"
     },
     {
       "url": "/dom/events/event-listener-not-fully-active-target.html",
@@ -2173,19 +2158,14 @@
       "message": "assert_equals: window.event is the outer event before the nested dispatch expected (object) object \"[object Object]\" but got (undefined) undefined"
     },
     {
-      "url": "/dom/nodes/Comment-constructor.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/nodes/DOMImplementation-createDocument-no-browsing-context.html",
       "status": "fail",
       "message": "assert_equals: onafterprint should be null because there is no window expected (object) null but got (string) \"1 + 2\""
     },
     {
       "url": "/dom/nodes/Document-URL.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"undefined/common/blank.html\" but got \"http://web-platform.test:8000/common/blank.html\""
     },
     {
       "url": "/dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html",
@@ -2198,32 +2178,9 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/dom/nodes/Document-characterSet-normalization-1.html",
-      "status": "timeout"
-    },
-    {
-      "url": "/dom/nodes/Document-characterSet-normalization-2.html",
-      "status": "timeout"
-    },
-    {
-      "url": "/dom/nodes/Document-cloneNode-about-base-url-relative.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/dom/nodes/Document-cloneNode-about-base-url.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
       "status": "fail",
       "message": "assert_equals: source expected \"http://web-platform.test:8000/dom/nodes/sub/\" but got \"about:blank\""
-    },
-    {
-      "url": "/dom/nodes/Document-cloneNode-srcdoc-base-url.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
     },
     {
       "url": "/dom/nodes/Document-contentType/contentType/contenttype_bmp.html",
@@ -2287,8 +2244,8 @@
     },
     {
       "url": "/dom/nodes/Document-createElement-namespace.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: Wrong MIME type returned from doc.contentType expected \"application/xhtml+xml\" but got \"text/html\""
     },
     {
       "url": "/dom/nodes/Document-createElement.html",
@@ -2332,13 +2289,13 @@
     },
     {
       "url": "/dom/nodes/Element-matches.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_true: The element #attr-presence-i1 should match the selector. expected true got false"
     },
     {
       "url": "/dom/nodes/Element-webkitMatchesSelector.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_idl_attribute: Detached Element supports webkitMatchesSelector property \"webkitMatchesSelector\" not found in prototype chain"
     },
     {
       "url": "/dom/nodes/MutationObserver-attributes.html",
@@ -2433,7 +2390,7 @@
     {
       "url": "/dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html",
       "status": "fail",
-      "message": "doc.write is not a function. (In \"doc.write('<div><template shadowrootmode=open>test</template></div>')\", it is undefined)"
+      "message": "assert_true: expected true got false"
     },
     {
       "url": "/dom/nodes/Node-insertBefore.html",
@@ -2492,13 +2449,13 @@
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-All-xht.xht",
-      "status": "timeout",
-      "message": "Test timed out"
+      "status": "error",
+      "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-All.html",
-      "status": "timeout",
-      "message": "Test timed out"
+      "status": "error",
+      "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
     },
     {
       "url": "/dom/nodes/ParentNode-querySelector-host-pseudo-class.html",
@@ -2516,11 +2473,6 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/dom/nodes/Text-constructor.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/dom/nodes/adoption.window.html",
       "status": "fail",
       "message": "assert_throws_dom: function \"() => document.adoptNode(df)\" did not throw"
@@ -2534,11 +2486,6 @@
       "url": "/dom/nodes/getElementById-namespaced-id.html",
       "status": "fail",
       "message": "assert_equals: expected (object) Element node <form id=\"owner\" id=\"unrelated\"></form> but got (undefined) undefined"
-    },
-    {
-      "url": "/dom/nodes/getElementsByClassName-31.htm",
-      "status": "timeout",
-      "message": "palim execution timed out"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html",
@@ -2588,7 +2535,7 @@
     {
       "url": "/dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html",
       "status": "fail",
-      "message": "assert_true: iframe1 loaded expected true got false"
+      "message": "assert_equals: iframe1 load event can observe its own participation in the frame tree expected (number) 1 but got (undefined) undefined"
     },
     {
       "url": "/dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html",
@@ -2817,7 +2764,7 @@
     {
       "url": "/dom/nodes/namespaced-attribute-mutations.html",
       "status": "fail",
-      "message": "assert_equals: expected 1 but got 0"
+      "message": "assert_equals: expected \"green\" but got \"\""
     },
     {
       "url": "/dom/nodes/node-creation-realm.html",
@@ -2861,7 +2808,8 @@
     },
     {
       "url": "/dom/ranges/Range-cloneContents.html",
-      "status": "timeout"
+      "status": "fail",
+      "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-compareBoundaryPoints.html",
@@ -2878,7 +2826,8 @@
     },
     {
       "url": "/dom/ranges/Range-deleteContents.html",
-      "status": "timeout"
+      "status": "fail",
+      "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-expand-shadow.tentative.html",
@@ -2897,7 +2846,8 @@
     },
     {
       "url": "/dom/ranges/Range-extractContents.html",
-      "status": "timeout"
+      "status": "fail",
+      "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
@@ -2911,7 +2861,8 @@
     },
     {
       "url": "/dom/ranges/Range-insertNode.html",
-      "status": "timeout"
+      "status": "timeout",
+      "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/Range-isPointInRange.html",
@@ -2973,7 +2924,8 @@
     },
     {
       "url": "/dom/ranges/Range-surroundContents.html",
-      "status": "timeout"
+      "status": "timeout",
+      "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
     },
     {
       "url": "/dom/ranges/tentative/OpaqueRange-auto-disconnect.html",
@@ -3076,11 +3028,6 @@
       "message": "Cannot convert undefined to object"
     },
     {
-      "url": "/domparsing/DOMParser-parseFromString-url-base-about.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/domparsing/DOMParser-parseFromString-url-base-pushstate.html",
       "status": "error",
       "message": "ReferenceError: \"history\" is not defined"
@@ -3092,8 +3039,8 @@
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-url-moretests.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "Invalid DOMParser receiver"
     },
     {
       "url": "/domparsing/DOMParser-parseFromString-url-pushstate.html",
@@ -3116,17 +3063,7 @@
       "message": "assert_equals: expected \"<r xmlns:xx=\\\"uri\\\" xmlns:ns1=\\\"uri2\\\" ns1:name=\\\"value\\\"/>\" but got \"<r xmlns:xx=\\\"uri\\\" xmlns:p=\\\"uri2\\\" p:name=\\\"value\\\"/>\""
     },
     {
-      "url": "/domparsing/html-insertion-methods-html-element.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/domparsing/innerhtml-05.xhtml",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/domparsing/outerhtml-03.html",
       "status": "timeout",
       "message": "palim execution timed out"
     },
@@ -3191,14 +3128,9 @@
       "message": "assert_array_equals: lengths differ, expected array [\"immediate\"] length 1, got [\"defer\", \"immediate\"] length 2"
     },
     {
-      "url": "/domparsing/tentative/stream-html-element.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/domparsing/tentative/stream-html-parser-blocking-script.html",
-      "status": "timeout",
-      "message": "assert_array_equals: lengths differ, expected array [\"slow\", \"inline\"] length 2, got [\"inline\"] length 1"
+      "status": "error",
+      "message": "Timeout while running cleanup for test named \"streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input\"."
     },
     {
       "url": "/domparsing/tentative/stream-html-sanitizer.html",
@@ -3209,11 +3141,6 @@
       "url": "/domparsing/tentative/stream-html-unsafe.html",
       "status": "fail",
       "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
-    },
-    {
-      "url": "/domparsing/tentative/stream-html-with-declarative-shadow-root.html",
-      "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: doc.open is not a function. (In \"doc.open()\", it is undefined)\""
     },
     {
       "url": "/domparsing/tentative/stream-html-with-trusted-types-adopt.html",
@@ -3303,17 +3230,12 @@
     {
       "url": "/html/dom/documents/dom-tree-accessors/Document.currentScript.html",
       "status": "timeout",
-      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\\n{\\n ^\\nReferenceError: \"undefinedfn\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\\nReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nTypeError: undefined is not a function\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
+      "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\\n{\\n ^\\nReferenceError: \"undefinedfn\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\\nReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nError: The tokenizer input stream is closed\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
     },
     {
       "url": "/html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html",
       "status": "fail",
       "message": "assert_equals: expected (function) function \"function Document() { [native code] }\" but got (object) Element node <img name=\"constructor\"></img>"
-    },
-    {
-      "url": "/html/dom/documents/dom-tree-accessors/nameditem-setattribute-attr-mutation.html",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
@@ -3572,8 +3494,8 @@
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-document-target.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the second Document keeps only the <table> as its element child expected (number) 1 but got (undefined) undefined"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-inner-loop-cycle.html",
@@ -3582,8 +3504,8 @@
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "error",
+      "message": "pagehide fired synchronously during the adoption agency algorithm"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-shadow-cycle.html",
@@ -3592,13 +3514,13 @@
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting-template-cycle.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_false: furthest block was not moved into the common ancestor expected false got true"
     },
     {
       "url": "/html/syntax/parsing/adoption-agency-reparenting.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: furthest block's document after the algorithm runs expected \"main\" but got \"other\""
     },
     {
       "url": "/html/syntax/parsing/adoption_agency_check_the_end_tag_name.html",
@@ -3608,47 +3530,47 @@
     {
       "url": "/html/syntax/parsing/ambiguous-ampersand.html",
       "status": "error",
-      "message": "TypeError: document.write is not a function. (In \"document.write(markup.charAt(i))\", it is undefined)"
+      "message": "Error: The tokenizer input stream is closed"
     },
     {
       "url": "/html/syntax/parsing/custom-element-reparenting-shadow-cycle.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the html element no longer has a body child expected null but got Element node <body></body>"
     },
     {
       "url": "/html/syntax/parsing/custom-element-reparenting-template-cycle.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the html element no longer has a body child expected null but got Element node <body></body>"
     },
     {
       "url": "/html/syntax/parsing/custom-element-reparenting.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
     },
     {
       "url": "/html/syntax/parsing/doctype-system-identifier-distinction.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: compatMode should be BackCompat expected \"BackCompat\" but got \"CSS1Compat\""
     },
     {
       "url": "/html/syntax/parsing/form-element-pointer-in-template.html",
       "status": "fail",
-      "message": "doc.open is not a function. (In \"doc.open()\", it is undefined)"
+      "message": "assert_equals: the parser associates the <input> with the <form> expected (object) Element node <form></form> but got (undefined) undefined"
     },
     {
       "url": "/html/syntax/parsing/foster-parenting-into-document-with-element-child.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the foster-parented <b> should be dropped on the floor expected \"dropped\" but got \"inserted-into-second-document\""
     },
     {
       "url": "/html/syntax/parsing/foster-parenting-into-template-element.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the foster-parented element goes into the template's contents (tmpl.content=, tmpl=<b#fostered>[\"x\"]\"FOSTERTEXT\"<table>[<tbody>[<tr>[<script>]]]) expected \"template-contents\" but got \"template-element\""
     },
     {
       "url": "/html/syntax/parsing/foster-parenting-moved-table.window.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: the script ran while the parser was foster parenting into it expected \"foster-parent\" but got \"\""
     },
     {
       "url": "/html/syntax/parsing/html-integration-point.html",
@@ -3696,11 +3618,6 @@
       "message": "\"Blob\" is not defined"
     },
     {
-      "url": "/html/syntax/parsing/html5lib_url.html?file=foreign-fragment",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
-    },
-    {
       "url": "/html/syntax/parsing/html5lib_url.html?file=html5test-com",
       "status": "fail",
       "message": "\"Blob\" is not defined"
@@ -3719,11 +3636,6 @@
       "url": "/html/syntax/parsing/html5lib_url.html?file=main-element",
       "status": "fail",
       "message": "\"Blob\" is not defined"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_url.html?file=math",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=menuitem-element",
@@ -3794,11 +3706,6 @@
       "url": "/html/syntax/parsing/html5lib_url.html?file=search-element",
       "status": "fail",
       "message": "\"Blob\" is not defined"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_url.html?file=svg",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
     },
     {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tables01",
@@ -3906,11 +3813,6 @@
       "message": "\"Blob\" is not defined"
     },
     {
-      "url": "/html/syntax/parsing/html5lib_url.html?file=tests4",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
-    },
-    {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tests5",
       "status": "fail",
       "message": "\"Blob\" is not defined"
@@ -3936,11 +3838,6 @@
       "message": "\"Blob\" is not defined"
     },
     {
-      "url": "/html/syntax/parsing/html5lib_url.html?file=tests_innerHTML_1",
-      "status": "fail",
-      "message": "[object Object] is not iterable"
-    },
-    {
       "url": "/html/syntax/parsing/html5lib_url.html?file=tricky01",
       "status": "fail",
       "message": "\"Blob\" is not defined"
@@ -3961,564 +3858,244 @@
       "message": "\"Blob\" is not defined"
     },
     {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=adoption01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=adoption02",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=blocks",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=comments01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=doctype01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=domjs-unsafe",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=entities01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=entities02",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=html5test-com",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=inbody01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=isindex",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=main-element",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=menuitem-element",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=namespace-sensitivity",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=pending-spec-changes-plain-text-unsafe",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=plain-text-unsafe",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=processing-instructions",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=quirks01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=ruby",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=scriptdata01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_adoption01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"B\\\"\\n|       \\\"TEXT\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_ark",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"5\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_foster01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\" but got \"#document\\n| <b>\\n|   <head>\\n|   <body>\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_webkit01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=search-element",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tables01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=template",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests1",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests10",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests11",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests12",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests14",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests15",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests16",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests17",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests18",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests19",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests2",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests20",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests21",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests22",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests23",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests24",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests25",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests26",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests3",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests5",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests6",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests7",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests8",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tests9",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=tricky01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=void-in-phrasing",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=webkit01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write.html?file=webkit02",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=adoption02",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"23\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"3\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=blocks",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=comments01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <!--  BAR  -->\\n|     \\\"BAZ\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <!--  --BAR -- -->\\n|     \\\"BAZ\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=doctype01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       \\\"foo\\nbar\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       <!-- C[DATA[foo\\nbar]] -->\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO>BAR\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOOgt;BAR&\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities02",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       bar=\\\"ZZ>YY\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       &=\\\"\\\"\\n|       bar=\\\"ZZgt;YY\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=html5test-com",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=inbody01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=isindex",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <isindex>\\n|       \\\"x\\\"\\n|     \\\"x\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <isindex>\\n|       \\\"x\\\"\\n|     \\\"x\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=main-element",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <main>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <main>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=menuitem-element",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=namespace-sensitivity",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <menuitem>\\n|       \\\"A\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <menuitem>\\n|       \\\"A\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes-plain-text-unsafe",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <table>\\n|       <caption>\\n|         <svg svg>\\n|           \\\"foo\\\"\\n|     \\\"bar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <table>\\n|       <caption>\\n|         <svg svg>\\n|           \\\"foo\\\"\\n|     \\\"bar\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=processing-instructions",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\rZOO\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO#x000D;ZOO&\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=quirks01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=ruby",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\" \\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\">\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|     <table>\" but got \"#document\\n| <!-- ODCTYPE html PUBLIC \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\"\\n\\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\" -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <table>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scriptdata01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <script>\\n|       \\\"'Hello'\\\"\\n|     \\\"BAR\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <script>\\n|       \\\"'Hello'\\\"\\n|     \\\"RAB\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|         \\\">b/\\\"\\n|         <txet>\\n|           \\\"p/<\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_ark",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             \\\"X>p<>4=ezis tnof<\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\" but got \"#document\\n| \\\">b<\\\"\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\\n|   <head>\\n|   <body>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"23\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"3\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=search-element",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <search>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <search>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tables01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"a\\\"\\n|     <table>\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"a\\\"\\n|     <table>\\n|       <!-- odctype html -->\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=template",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <script>\\n|           \\\"var i = 1;\\\"\\n|         <td>\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <script>\\n|           \\\"var i = 1;\\\"\\n|         \\\">etalpmet/<>dt/<>dt<\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests1",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <span>\\n|       <button>\\n|         \\\"foobar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <span>\\n|       <button>\\n|         \\\"foobar\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests10",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests11",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       attributeName=\\\"\\\"\\n|       attributeType=\\\"\\\"\\n|       baseFrequency=\\\"\\\"\\n|       baseProfile=\\\"\\\"\\n|       calcMode=\\\"\\\"\\n|       clipPathUnits=\\\"\\\"\\n|       diffuseConstant=\\\"\\\"\\n|       edgeMode=\\\"\\\"\\n|       filterUnits=\\\"\\\"\\n|       glyphRef=\\\"\\\"\\n|       gradientTransform=\\\"\\\"\\n|       gradientUnits=\\\"\\\"\\n|       kernelMatrix=\\\"\\\"\\n|       kernelUnitLength=\\\"\\\"\\n|       keyPoints=\\\"\\\"\\n|       keySplines=\\\"\\\"\\n|       keyTimes=\\\"\\\"\\n|       lengthAdjust=\\\"\\\"\\n|       limitingConeAngle=\\\"\\\"\\n|       markerHeight=\\\"\\\"\\n|       markerUnits=\\\"\\\"\\n|       markerWidth=\\\"\\\"\\n|       maskContentUnits=\\\"\\\"\\n|       maskUnits=\\\"\\\"\\n|       numOctaves=\\\"\\\"\\n|       pathLength=\\\"\\\"\\n|       patternContentUnits=\\\"\\\"\\n|       patternTransform=\\\"\\\"\\n|       patternUnits=\\\"\\\"\\n|       pointsAtX=\\\"\\\"\\n|       pointsAtY=\\\"\\\"\\n|       pointsAtZ=\\\"\\\"\\n|       preserveAlpha=\\\"\\\"\\n|       preserveAspectRatio=\\\"\\\"\\n|       primitiveUnits=\\\"\\\"\\n|       refX=\\\"\\\"\\n|       refY=\\\"\\\"\\n|       repeatCount=\\\"\\\"\\n|       repeatDur=\\\"\\\"\\n|       requiredExtensions=\\\"\\\"\\n|       requiredFeatures=\\\"\\\"\\n|       specularConstant=\\\"\\\"\\n|       specularExponent=\\\"\\\"\\n|       spreadMethod=\\\"\\\"\\n|       startOffset=\\\"\\\"\\n|       stdDeviation=\\\"\\\"\\n|       stitchTiles=\\\"\\\"\\n|       surfaceScale=\\\"\\\"\\n|       systemLanguage=\\\"\\\"\\n|       tableValues=\\\"\\\"\\n|       targetX=\\\"\\\"\\n|       targetY=\\\"\\\"\\n|       textLength=\\\"\\\"\\n|       viewBox=\\\"\\\"\\n|       viewTarget=\\\"\\\"\\n|       xChannelSelector=\\\"\\\"\\n|       yChannelSelector=\\\"\\\"\\n|       zoomAndPan=\\\"\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       attributeName=\\\"\\\"\\n|       attributeType=\\\"\\\"\\n|       baseFrequency=\\\"\\\"\\n|       baseProfile=\\\"\\\"\\n|       calcMode=\\\"\\\"\\n|       clipPathUnits=\\\"\\\"\\n|       diffuseConstant=\\\"\\\"\\n|       edgeMode=\\\"\\\"\\n|       filterUnits=\\\"\\\"\\n|       glyphRef=\\\"\\\"\\n|       gradientTransform=\\\"\\\"\\n|       gradientUnits=\\\"\\\"\\n|       kernelMatrix=\\\"\\\"\\n|       kernelUnitLength=\\\"\\\"\\n|       keyPoints=\\\"\\\"\\n|       keySplines=\\\"\\\"\\n|       keyTimes=\\\"\\\"\\n|       lengthAdjust=\\\"\\\"\\n|       limitingConeAngle=\\\"\\\"\\n|       markerHeight=\\\"\\\"\\n|       markerUnits=\\\"\\\"\\n|       markerWidth=\\\"\\\"\\n|       maskContentUnits=\\\"\\\"\\n|       maskUnits=\\\"\\\"\\n|       numOctaves=\\\"\\\"\\n|       pathLength=\\\"\\\"\\n|       patternContentUnits=\\\"\\\"\\n|       patternTransform=\\\"\\\"\\n|       patternUnits=\\\"\\\"\\n|       pointsAtX=\\\"\\\"\\n|       pointsAtY=\\\"\\\"\\n|       pointsAtZ=\\\"\\\"\\n|       preserveAlpha=\\\"\\\"\\n|       preserveAspectRatio=\\\"\\\"\\n|       primitiveUnits=\\\"\\\"\\n|       refX=\\\"\\\"\\n|       refY=\\\"\\\"\\n|       repeatCount=\\\"\\\"\\n|       repeatDur=\\\"\\\"\\n|       requiredExtensions=\\\"\\\"\\n|       requiredFeatures=\\\"\\\"\\n|       specularConstant=\\\"\\\"\\n|       specularExponent=\\\"\\\"\\n|       spreadMethod=\\\"\\\"\\n|       startOffset=\\\"\\\"\\n|       stdDeviation=\\\"\\\"\\n|       stitchTiles=\\\"\\\"\\n|       surfaceScale=\\\"\\\"\\n|       systemLanguage=\\\"\\\"\\n|       tableValues=\\\"\\\"\\n|       targetX=\\\"\\\"\\n|       targetY=\\\"\\\"\\n|       textLength=\\\"\\\"\\n|       viewBox=\\\"\\\"\\n|       viewTarget=\\\"\\\"\\n|       xChannelSelector=\\\"\\\"\\n|       yChannelSelector=\\\"\\\"\\n|       zoomAndPan=\\\"\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests12",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|       <math math>\\n|         <math mtext>\\n|           <i>\\n|             \\\"baz\\\"\\n|         <math annotation-xml>\\n|           <svg svg>\\n|             <svg desc>\\n|               <b>\\n|                 \\\"eggs\\\"\\n|             <svg g>\\n|               <svg foreignObject>\\n|                 <p>\\n|                   \\\"spam\\\"\\n|                 <table>\\n|                   <tbody>\\n|                     <tr>\\n|                       <td>\\n|                         <img>\\n|             <svg g>\\n|               \\\"quux\\\"\\n|       \\\"bar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|       <math math>\\n|         <math mtext>\\n|           <i>\\n|             \\\"baz\\\"\\n|         <math annotation-xml>\\n|           <svg svg>\\n|             <svg desc>\\n|               <b>\\n|                 \\\"eggs\\\"\\n|             <svg g>\\n|               <svg foreignObject>\\n|                 <p>\\n|                   \\\"spam\\\"\\n|                   <table>\\n|                     <tbody>\\n|                       <tr>\\n|                         <td>\\n|                           <img>\\n|                   <g>\\n|                     \\\"quux\\\"\\n|                   \\\"bar\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests14",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <xyz:abc>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <xyz:abc>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests15",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         <i>\\n|           <u>\\n|     <b>\\n|       <i>\\n|         <u>\\n|           \\\" \\\"\\n|           <p>\\n|             \\\"X\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         <i>\\n|           <u>\\n|     <b>\\n|       <i>\\n|         <u>\\n|           \\\" \\\"\\n|           <p>\\n|             \\\"X\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests16",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|     <script>\\n|   <body>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|     <script>\\n|   <body>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests17",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <select>\\n|     <table>\\n|       <tbody>\\n|         <tr>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <select>\\n|     <table>\\n|       <tbody>\\n|         <tr>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests18",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <plaintext>\\n|       \\\"</plaintext>\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <plaintext>\\n|       \\\"</plaintext>\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests19",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\\n|       <math mn>\\n|         definitionURL=\\\"foo\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\\n|       <math mn>\\n|         definitionURL=\\\"foo\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests2",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Test\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Test\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests20",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <button>\\n|       <button>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <button>\\n|       <button>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests21",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests22",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests23",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       \\\"foo\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       <!-- C[DATA[foo]] -->\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests24",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"≂̸\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"NotEqualTilde;&\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests25",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <foo>\\n|       \\\"A\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <foo>\\n|       \\\"A\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests26",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <a>\\n|       href=\\\"#1\\\"\\n|       <nobr>\\n|         \\\"1\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#2\\\"\\n|     <a>\\n|       href=\\\"#2\\\"\\n|       <nobr>\\n|         \\\"2\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#3\\\"\\n|     <a>\\n|       href=\\\"#3\\\"\\n|       <nobr>\\n|         \\\"3\\\"\\n|       <nobr>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <a>\\n|       href=\\\"#1\\\"\\n|       <nobr>\\n|         \\\"1\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#2\\\"\\n|     <a>\\n|       href=\\\"#2\\\"\\n|       <nobr>\\n|         \\\"2\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#3\\\"\\n|     <a>\\n|       href=\\\"#3\\\"\\n|       <nobr>\\n|         \\\"3\\\"\\n|       <nobr>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests3",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <style>\\n|     <script>\\n|   <!--   -->\\n|   <!--   -->\\n|   <body>\" but got \"#document\\n| <html>\\n|   <head>\\n|     <style>\\n|     <script>\\n|   <!--  ---- -->\\n|   <!--  ---- -->\\n|   <body>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests5",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <script>\\n|       \\\" <!-- \\\"\\n|     \\\" \\\"\\n|   <body>\\n|     \\\"--> x\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|     <script>\\n|       \\\" <!-- \\\"\\n|   <body>\\n|     \\\"x>tpircs/< >-- \\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests6",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   \\\" \\\"\\n|   <body>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   \\\" \\\"\\n|   <body>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests7",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests8",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <title>\\n|       \\\"X\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <title>\\n|       \\\"X\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests9",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=tricky01",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <br>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <br>\""
     },
     {
       "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit01",
       "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
-    },
-    {
-      "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit02",
-      "status": "fail",
-      "message": "iframe.contentDocument.open is not a function. (In \"iframe.contentDocument.open()\", it is undefined)"
+      "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       \\\"Hello\\\"\\n|     \\\"\\n\\\"\\n|     <script>\\n|       \\\"\\nconsole.log(\\\"PASS\\\");\\n\\\"\\n|     \\\"\\n\\\"\\n|     <div>\\n|       \\\"Bye\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       \\\"Hello\\\"\\n|     \\\"\\n\\\"\\n|     <script>\\n|       \\\"\\nconsole.log(\\\"PASS\\\");\\n\\\"\\n|     \\\">vid/\\\"\\n|     <eyb>\\n|       \\\"vid<\\n\\\"\""
     },
     {
       "url": "/html/syntax/parsing/html_content_in_foreign_context.html",
@@ -4527,71 +4104,16 @@
     },
     {
       "url": "/html/syntax/parsing/inhead-noscript-head.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "assert_equals: expected \"[object HTMLStyleElement]\" but got \"[object Object]\""
     },
     {
       "url": "/html/syntax/parsing/insert-into-nonempty-document.html",
       "status": "fail",
-      "message": "doc.open is not a function. (In \"doc.open()\", it is undefined)"
+      "message": "assert_array_equals: a Document cannot have two doctype children lengths differ, expected array [DocumentType node] length 1, got [DocumentType node, DocumentType node] length 2"
     },
     {
       "url": "/html/syntax/parsing/no-doctype-name.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/generating-of-implied-end-tags.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-body-token.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-frameset-token.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-head-token.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/ignore-html-token.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/start-tag-html.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-body-insertion-mode/template-end-tag-without-start-one.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-frameset-insertion-mode/end-tag-frameset.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/generating-of-implied-end-tags.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/additions-to-the-in-head-insertion-mode/template-end-tag-without-start-one.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/template/appending-to-a-template/template-child-nodes.html",
       "status": "timeout",
       "message": "palim execution timed out"
     },
@@ -4607,16 +4129,11 @@
     },
     {
       "url": "/html/syntax/parsing/template/creating-an-element-for-the-token/template-owner-document.html",
-      "status": "timeout",
-      "message": "Test timed out"
+      "status": "fail",
+      "message": "assert_equals: Wrong ownerDocument of the element in template expected Document node with 0 children but got Document node with 2 children"
     },
     {
       "url": "/html/syntax/parsing/the-end.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/syntax/parsing/truncated-markup-declaration-at-eof.html",
       "status": "timeout",
       "message": "palim execution timed out"
     },
@@ -4632,11 +4149,6 @@
     },
     {
       "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-moretests.html",
       "status": "timeout",
       "message": "palim execution timed out"
     },
@@ -4963,7 +4475,7 @@
     {
       "url": "/shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html",
       "status": "fail",
-      "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+      "message": "assert_true: write should create shadowroot expected true got false"
     },
     {
       "url": "/shadow-dom/declarative/gethtml-ordering.html",
@@ -6091,11 +5603,6 @@
       "message": "input1.focus is not a function. (In \"input1.focus()\", it is undefined)"
     },
     {
-      "url": "/shadow-dom/untriaged/events/event-retargeting/test-001.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/shadow-dom/untriaged/events/retargeting-focus-events/test-001.html",
       "status": "fail",
       "message": "inp1.focus is not a function. (In \"inp1.focus()\", it is undefined)"
@@ -6126,14 +5633,9 @@
       "message": "\"MouseEvent\" is not defined"
     },
     {
-      "url": "/shadow-dom/untriaged/events/test-001.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
       "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html",
-      "status": "timeout",
-      "message": "palim execution timed out"
+      "status": "fail",
+      "message": "form.submit is not a function. (In \"form.submit()\", it is undefined)"
     },
     {
       "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-001.html",
@@ -6541,56 +6043,6 @@
       "message": "palim execution timed out"
     },
     {
-      "url": "/url/a-element-origin-xhtml.xhtml",
-      "status": "fail",
-      "message": "assert_equals: origin expected (string) \"http://example.org\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element-origin.html",
-      "status": "fail",
-      "message": "assert_equals: origin expected (string) \"http://example.org\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element-xhtml.xhtml?exclude=(file|javascript|mailto)",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/url/a-element-xhtml.xhtml?include=file",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"file:\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element-xhtml.xhtml?include=javascript",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"javascript:\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element-xhtml.xhtml?include=mailto",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"mailto:\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element.html?exclude=(file|javascript|mailto)",
-      "status": "timeout",
-      "message": "palim execution timed out"
-    },
-    {
-      "url": "/url/a-element.html?include=file",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"file:\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element.html?include=javascript",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"javascript:\" but got (undefined) undefined"
-    },
-    {
-      "url": "/url/a-element.html?include=mailto",
-      "status": "fail",
-      "message": "assert_equals: protocol expected (string) \"mailto:\" but got (undefined) undefined"
-    },
-    {
       "url": "/url/data-uri-fragment.html",
       "status": "timeout",
       "message": "palim execution timed out"
@@ -6598,22 +6050,17 @@
     {
       "url": "/url/failure.html",
       "status": "fail",
-      "message": "assert_throws_js: function \"() => url.href = test.input\" threw object \"Error: Invalid URL\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
+      "message": "\"XMLHttpRequest\" is not defined"
     },
     {
       "url": "/url/historical.any.html",
       "status": "fail",
-      "message": "assert_throws_js: function \"function() {\n    url.href = \"./bar\";\n  }\" threw object \"Error: Invalid URL\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
+      "message": "assert_throws_dom: function \"() => self.structuredClone(new URL(\"about:blank\"))\" threw object \"TypeError: self.structuredClone is not a function. (In \"self.structuredClone(new URL(\"about:blank\"))\", it is undefined)\" that is not a DOMException DataCloneError: property \"code\" is equal to undefined, expected 25"
     },
     {
       "url": "/url/historical.any.worker.html",
       "status": "error",
       "message": "ReferenceError: \"Worker\" is not defined"
-    },
-    {
-      "url": "/url/idlharness.any.html",
-      "status": "fail",
-      "message": "assert_equals: @@iterator enumerable expected false but got true"
     },
     {
       "url": "/url/idlharness.any.worker.html",
@@ -6629,11 +6076,6 @@
       "url": "/url/percent-encoding.window.html",
       "status": "fail",
       "message": "\"TextEncoder\" is not defined"
-    },
-    {
-      "url": "/url/toascii.window.html",
-      "status": "fail",
-      "message": "assert_equals: expected \"xn--a---kp0a\" but got \"a†--\""
     },
     {
       "url": "/url/url-constructor.any.worker.html?exclude=(file|javascript|mailto)",
@@ -6664,26 +6106,6 @@
       "url": "/url/url-searchparams.any.worker.html",
       "status": "error",
       "message": "ReferenceError: \"Worker\" is not defined"
-    },
-    {
-      "url": "/url/url-setters-a-area.window.html?exclude=(file|javascript|mailto)",
-      "status": "fail",
-      "message": "assert_equals: expected \"a:\" but got \"\""
-    },
-    {
-      "url": "/url/url-setters-a-area.window.html?include=file",
-      "status": "fail",
-      "message": "assert_equals: expected \"file:\" but got \"http\""
-    },
-    {
-      "url": "/url/url-setters-a-area.window.html?include=javascript",
-      "status": "fail",
-      "message": "assert_equals: expected \"defuse:alert(1)\" but got \"javascript:alert(1)\""
-    },
-    {
-      "url": "/url/url-setters-a-area.window.html?include=mailto",
-      "status": "fail",
-      "message": "assert_equals: expected \"mailto:\" but got \"http\""
     },
     {
       "url": "/url/url-setters-stripping.any.worker.html",
