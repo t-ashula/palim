@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "paths": {},
+    "types": ["node"]
+  },
+  "include": ["report.ts", "wpt-progress.ts", "wpt-report.ts"]
+}

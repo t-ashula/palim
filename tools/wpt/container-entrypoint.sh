@@ -71,7 +71,7 @@ set +e
   "$@"
 status=$?
 set -e
-node /workspace/tools/conformance/wpt-report.mjs \
+node /workspace/tools/conformance/dist/wpt-report.js \
   "$wpt_report" \
   "$status"
 exit "$status"

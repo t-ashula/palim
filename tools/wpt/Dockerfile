@@ -27,17 +27,13 @@ COPY packages/window/src packages/window/src
 COPY packages/scripting/src packages/scripting/src
 COPY packages/engine262/src packages/engine262/src
 COPY packages/palim/src packages/palim/src
+COPY tools/conformance/tsconfig.build.json tools/conformance/tsconfig.build.json
 COPY tools/conformance/report.ts tools/conformance/report.ts
 COPY tools/conformance/wpt-progress.ts tools/conformance/wpt-progress.ts
 COPY tools/conformance/wpt-report.ts tools/conformance/wpt-report.ts
 
 RUN npm run build \
-  && ./node_modules/.bin/esbuild \
-    tools/conformance/wpt-report.ts \
-    --bundle \
-    --format=esm \
-    --platform=node \
-    --outfile=/workspace/wpt-report.mjs
+  && npm run build:wpt-report
 
 FROM build AS wpt-node-modules
 
@@ -53,6 +49,7 @@ RUN apt-get update \
 
 WORKDIR /workspace
 
+COPY --from=wpt-node-modules /workspace/package.json package.json
 COPY --from=wpt-node-modules /workspace/packages/polyfills/package.json packages/polyfills/package.json
 COPY --from=wpt-node-modules /workspace/packages/polyfills/dist packages/polyfills/dist
 COPY --from=wpt-node-modules /workspace/packages/core/package.json packages/core/package.json
@@ -66,7 +63,7 @@ COPY --from=wpt-node-modules /workspace/packages/engine262/dist packages/engine2
 COPY --from=wpt-node-modules /workspace/packages/palim/package.json packages/palim/package.json
 COPY --from=wpt-node-modules /workspace/packages/palim/dist packages/palim/dist
 COPY --from=wpt-node-modules /workspace/node_modules node_modules
-COPY --from=build /workspace/wpt-report.mjs tools/conformance/wpt-report.mjs
+COPY --from=build /workspace/tools/conformance/dist tools/conformance/dist
 COPY tools/wpt/container-entrypoint.sh tools/wpt/container-entrypoint.sh
 COPY tools/wpt/include.txt tools/wpt/include.txt
 COPY tools/wpt/exclude.txt tools/wpt/exclude.txt

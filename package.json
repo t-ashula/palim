@@ -21,6 +21,7 @@
     "benchmark:memory": "sh benchmark/run.sh memory",
     "benchmark:speed": "sh benchmark/run.sh speed",
     "build": "npm run build --workspaces",
+    "build:wpt-report": "tsc -p tools/conformance/tsconfig.build.json",
     "check": "npm run format && npm run lint && npm run typecheck && npm test",
     "conformance:sync": "sh tools/conformance/sync.sh",
     "conformance:sync:force": "sh tools/conformance/sync.sh --force",
