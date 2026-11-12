@@ -2,6 +2,7 @@ import {
   AbortController,
   AbortSignal,
   Attr,
+  CDATASection,
   CharacterData,
   Comment,
   CustomEvent,
@@ -232,6 +233,7 @@ export class DOMRealmBindingContext {
   readonly nodePrototype: EngineObject;
   readonly characterDataPrototype: EngineObject;
   readonly textPrototype: EngineObject;
+  readonly cdataSectionPrototype: EngineObject;
   readonly commentPrototype: EngineObject;
   readonly processingInstructionPrototype: EngineObject;
   readonly attrPrototype: EngineObject;
@@ -330,6 +332,10 @@ export class DOMRealmBindingContext {
     this.textPrototype = this.engine.createObject(
       this.realm,
       this.characterDataPrototype,
+    );
+    this.cdataSectionPrototype = this.engine.createObject(
+      this.realm,
+      this.textPrototype,
     );
     this.commentPrototype = this.engine.createObject(
       this.realm,
@@ -1639,6 +1645,9 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof DOMImplementation) {
       return this.domImplementationPrototype;
+    }
+    if (interfaceObject instanceof CDATASection) {
+      return this.cdataSectionPrototype;
     }
     if (interfaceObject instanceof Text) {
       return this.textPrototype;

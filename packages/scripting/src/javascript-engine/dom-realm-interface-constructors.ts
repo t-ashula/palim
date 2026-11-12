@@ -85,6 +85,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       return normal(binding.wrap(text));
     },
   );
+  binding.installInterface("CDATASection", binding.cdataSectionPrototype);
   binding.installInterface(
     "Comment",
     binding.commentPrototype,

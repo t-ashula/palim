@@ -114,6 +114,10 @@ const xhtmlDocument = testDocument.implementation.createDocument(
 );
 const htmlDocument = testDocument.implementation.createHTMLDocument("");
 if (
+  !(cdata instanceof CDATASection) ||
+  !(cdata instanceof Text) ||
+  Object.getPrototypeOf(cdata) !== CDATASection.prototype ||
+  Object.getPrototypeOf(CDATASection.prototype) !== Text.prototype ||
   cdata.nodeType !== Node.CDATA_SECTION_NODE ||
   instruction.nodeType !== Node.PROCESSING_INSTRUCTION_NODE ||
   !(foreignDocument instanceof XMLDocument) ||
