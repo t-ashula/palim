@@ -914,6 +914,15 @@ describe("Node cloning and adoption", () => {
       "NotSupportedError",
     );
     expectDOMException(() => document.adoptNode(document), "NotSupportedError");
+
+    const host = document.createElement("div");
+    const shadowRoot = host.attachShadow({ mode: "closed" });
+    const target = parse("");
+    expectDOMException(
+      () => target.adoptNode(shadowRoot),
+      "HierarchyRequestError",
+    );
+    expect(shadowRoot.ownerDocument).toBe(document);
   });
 });
 

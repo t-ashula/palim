@@ -2,6 +2,11 @@
 
 ## DOM and parsing
 
+### Node tree mutation
+
+- [x] `Document.adoptNode()` が `ShadowRoot` を `HierarchyRequestError` で拒否する
+- [ ] `HTMLTemplateElement` の adopting steps で nested template contents の owner document を再帰的に更新する
+
 ### Parsing and serialization
 
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink

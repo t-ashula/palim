@@ -1291,6 +1291,12 @@ export class Document extends Node {
         "NotSupportedError",
       );
     }
+    if (node instanceof ShadowRoot) {
+      throw new DOMException(
+        "A shadow root cannot be adopted",
+        "HierarchyRequestError",
+      );
+    }
     adopt(node, this);
     return node;
   }
