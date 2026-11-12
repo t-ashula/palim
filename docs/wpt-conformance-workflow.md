@@ -11,11 +11,23 @@ WPT は仕様適合を観測し、変更前後を比較するための検証手�
 - 特定の WPT URL、fixture、failure message、または期待値だけを満たす分岐や特別扱いを実装しない
 - WPT の期待結果だけから要件を決めず、対応する仕様本文と algorithm を確認する
 ‐ page realm 二機能やアルゴリズムを実装するのではなく palim 本体に実装し，必要に応じて page 側と接続する
-- 仕様どおりの変更と WPT の期待が一致しない場合は、仕様から外れず、仕様参照と不一致の内容を作業 report に記録し作業を止める
+- Living Standard と WPT の期待が一致しない場合は、次節の扱いに従う
 - WPT status が改善しても、仕様適合を確認できなければ TODO を完了にしない
 - TODO への対応で WPT ファイル内の別の問題が発生してもその修正を完了条件とはしない
 - 新しいオブジェクトの追加や設計の変更が必要になるときは作業を行わない
 - 設計および実装方針はそれまでの ADR を参照して決める
+
+## Living Standard と WPT の不一致
+
+- 実装判断には、確認時点で Living Standard に取り込まれている normative requirement と algorithm を採用する
+- WPT は仕様適合を確認する検証材料であり、Living Standard と異なる期待値だけを根拠に実装を変更しない
+- file 名に `.tentative.` を含む test URL と、`tentative` directory 以下の test URL は、未確定の提案を追跡する test として扱い、現在の Living Standard への適合判定から除外する
+- 関連する仕様変更の pull request が未 merge の場合は、tentative WPT の期待を現在の仕様要件として採用しない
+- 仕様変更が Living Standard へ merge 済みで、固定した WPT revision または fixture の IDL が追随していない場合は、Living Standard に従い、fixture の遅れを別の不一致として記録する
+- 不一致を見つけた場合は実装を変更せず、Living Standard の section、WPT URL、期待値の差、関連 issue または pull request、および判定を作業 report に記録して作業を止める
+- 未 merge の提案を先行して採用する場合は、通常の WPT 修正とは分離し、明示的な設計判断を行う
+
+WPT 進捗レポートでは、全選択 URL の実行進捗を保持したうえで、tentative test の集計と不通過一覧を non-tentative test から分離する。tentative test の結果は、現在の Living Standard に対する成功率へ含めない。
 
 ## 作業範囲
 

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { convertWPTReport } from "../../conformance/wpt-report.js";
 import {
   buildWPTProgressReport,
+  isTentativeWPTURL,
   renderWPTProgressMarkdown,
   selectWPTURLs,
 } from "../../conformance/wpt-progress.js";
@@ -127,9 +128,11 @@ describe("WPT conformance report conversion", () => {
       error: 0,
       timeout: 0,
     });
-    expect(progress.nonPassingTests).toEqual([
+    expect(progress.schemaVersion).toBe(2);
+    expect(progress.nonTentative.nonPassingTests).toEqual([
       { url: "/dom/fail.html", status: "fail", message: failureMessage },
     ]);
+    expect(progress.tentative.totals.total).toBe(0);
     const markdown = renderWPTProgressMarkdown(progress);
     expect(markdown).toContain(
       "| All | 3 | 2 | 1 | 1 | 0 | 0 | 0 | 1 | 66.67% | 50.00% |",
@@ -137,5 +140,86 @@ describe("WPT conformance report conversion", () => {
     expect(markdown).toContain(
       "| /dom/fail.html | fail | <code>expected &lt;main&gt; &#124; got `null`<br>second line &amp; detail</code> |",
     );
+  });
+
+  it("separates tentative URLs from current standard results", () => {
+    const progress = buildWPTProgressReport(
+      {
+        results: [
+          {
+            test: "/dom/pass.html",
+            status: "OK",
+            subtests: [{ name: "passes", status: "PASS" }],
+          },
+          {
+            test: "/dom/proposal.tentative.html",
+            status: "OK",
+            subtests: [
+              { name: "proposed behavior", status: "FAIL", message: "draft" },
+            ],
+          },
+          {
+            test: "/dom/tentative/directory-test.html?variant=1",
+            status: "OK",
+            subtests: [{ name: "passes", status: "PASS" }],
+          },
+        ],
+      },
+      [
+        "/dom/pass.html",
+        "/dom/proposal.tentative.html",
+        "/dom/tentative/directory-test.html?variant=1",
+      ],
+      ["/dom/"],
+      [],
+      "fixture-revision",
+      "failed",
+    );
+
+    expect(progress.totals).toMatchObject({ total: 3, pass: 2, fail: 1 });
+    expect(progress.nonTentative.totals).toMatchObject({
+      total: 1,
+      pass: 1,
+      fail: 0,
+    });
+    expect(progress.nonTentative.nonPassingTests).toEqual([]);
+    expect(progress.nonTentative.subtests).toMatchObject({
+      total: 1,
+      pass: 1,
+      fail: 0,
+    });
+    expect(progress.tentative.totals).toMatchObject({
+      total: 2,
+      pass: 1,
+      fail: 1,
+    });
+    expect(progress.tentative.nonPassingTests).toEqual([
+      {
+        url: "/dom/proposal.tentative.html",
+        status: "fail",
+        message: "draft",
+      },
+    ]);
+    expect(progress.tentative.subtests).toMatchObject({
+      total: 2,
+      pass: 1,
+      fail: 1,
+    });
+
+    const markdown = renderWPTProgressMarkdown(progress);
+    expect(markdown).toContain("## Non-tentative WPT results");
+    expect(markdown).toContain("## Tentative WPT results");
+    expect(markdown).toContain(
+      "These tests track proposed behavior and do not determine current Living Standard conformance.",
+    );
+  });
+
+  it("recognizes both WPT tentative naming conventions", () => {
+    expect(isTentativeWPTURL("/dom/example.tentative.html")).toBe(true);
+    expect(
+      isTentativeWPTURL("/dom/tentative/example.html?variant=window"),
+    ).toBe(true);
+    expect(isTentativeWPTURL("/dom/example.html")).toBe(false);
+    expect(isTentativeWPTURL("/dom/tentatively/example.html")).toBe(false);
   });
 });

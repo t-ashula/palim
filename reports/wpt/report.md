@@ -1,6 +1,6 @@
 # WPT progress report
 
-Run status: failed
+WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
@@ -16,7 +16,9 @@ Snapshot: 2026-11-12T00:11:14.150Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
-## URL progress
+## URL execution progress
+
+This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -40,13 +42,39 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
-## Executed subtests
+## Non-tentative WPT results
+
+Tentative tests are excluded. A WPT result does not override a conflicting current Living Standard requirement.
+
+| Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| All | 1794 | 1794 | 711 | 737 | 0 | 188 | 158 | 0 | 100.00% | 39.63% |
+| /custom-elements/ | 189 | 189 | 10 | 150 | 0 | 24 | 5 | 0 | 100.00% | 5.29% |
+| /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
+| /dom/events/ | 211 | 211 | 29 | 69 | 0 | 21 | 92 | 0 | 100.00% | 13.74% |
+| /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
+| /dom/nodes/ | 408 | 408 | 279 | 98 | 0 | 7 | 24 | 0 | 100.00% | 68.38% |
+| /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
+| /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
+| /domparsing/ | 56 | 56 | 42 | 5 | 0 | 6 | 3 | 0 | 100.00% | 75.00% |
+| /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
+| /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
+| /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
+| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
+| /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
+| /shadow-dom/ | 254 | 254 | 38 | 196 | 0 | 9 | 11 | 0 | 100.00% | 14.96% |
+| /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
+| /url/ | 77 | 77 | 42 | 5 | 0 | 28 | 2 | 0 | 100.00% | 54.55% |
+| /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
+| /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
+
+### Executed subtests
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 93260 | 66033 | 26807 | 0 | 241 | 179 | 70.81% |
+| 91706 | 65174 | 26204 | 0 | 177 | 151 | 71.07% |
 
-## Non-passing executed tests
+### Non-passing executed tests
 
 | URL | Status | Message |
 | --- | --- | --- |
@@ -60,7 +88,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/Document-createElementNS-prefix-timing.html | fail | <code>assert_equals: prefix should be null during constructor (set after construction per step 5.1.3.9) expected (object) null but got (string) "p"</code> |
 | /custom-elements/ElementInternals-accessibility-values.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-accessibility.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/ElementInternals-accessibility.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-role.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.get is not a function. (In "customElements.get(`${role}-element`)", it is undefined)"</code> |
 | /custom-elements/HTMLElement-attachInternals.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/HTMLElement-constructor.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
@@ -73,20 +100,15 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/custom-element-reaction-queue.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/customized-built-in-constructor-exceptions.html | fail | <code>MyCustomParagraph cannot be used before initialization</code> |
 | /custom-elements/disconnected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
-| /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-aria-element-reflection.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
 | /custom-elements/element-internals-shadowroot.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>Illegal constructor</code> |
-| /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | error | <code>Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed.</code> |
 | /custom-elements/form-associated/ElementInternals-form.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-labels.html | fail | <code>assert_equals: expected (object) Element node &lt;my-control&gt;&lt;/my-control&gt; but got (undefined) undefined</code> |
 | /custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-setFormValue.html | error | <code>ReferenceError: "File" is not defined</code> |
 | /custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html | fail | <code>Illegal constructor</code> |
-| /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>Test named 'Custom submit button with form method=dialog closes dialog with behavior value' specified 1 'cleanup' function, and 1 failed.</code> |
-| /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | error | <code>Test named 'HTMLSubmitButtonBehavior properties have correct default values' specified 1 'cleanup' function, and 1 failed.</code> |
 | /custom-elements/form-associated/ElementInternals-target-element-is-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: targetElement.attachInternals is not a function. (In "targetElement.attachInternals()", it is undefined)"</code> |
 | /custom-elements/form-associated/ElementInternals-validation.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/disabled-delegatesFocus.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
@@ -125,7 +147,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /custom-elements/reactions/Animation.html | fail | <code>instance.animate is not a function. (In "instance.animate([{'borderColor': 'rgb(0, 0, 255)'}], 1)", it is undefined)</code> |
 | /custom-elements/reactions/AriaMixin-element-attributes.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/AriaMixin-string-attributes.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/AriaMixin-string-attributes.tentative.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/Attr.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "attributeChanged"] length 2, got ["constructed"] length 1</code> |
 | /custom-elements/reactions/CSSStyleDeclaration.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/ChildNode.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
@@ -245,7 +266,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
 | /dom/events/Event-dispatch-bubbles-true.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., [...], Document node with 2 children, [...]] length 14</code> |
 | /dom/events/Event-dispatch-click.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
-| /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-detached-input-and-change.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., [...], Document node with 2 children, [...]] length 14</code> |
 | /dom/events/Event-dispatch-listener-order.window.html | fail | <code>assert_array_equals: lengths differ, expected array ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "capturing SPAN", "bubbling SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"] length 10, got ["bubbling SPAN", "capturing SPAN", "bubbling P", "capturing P", "bubbling #document-fragment", "capturing #document-fragment"] length 6</code> |
@@ -364,7 +384,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: scroller.getBoundingClientRect is not a function. (In "scroller.getBoundingClientRect()", it is undefined)"</code> |
 | /dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: window.requestAnimationFrame is not a function. (In "window.requestAnimationFrame(() =&gt; {<br>      window.requestAnimationFrame(resolve);<br>    })", it is undefined)"</code> |
 | /dom/events/scrolling/scrollend-event-fired-after-layout-clamping.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: window.requestAnimationFrame is not a function. (In "window.requestAnimationFrame(() =&gt; {<br>      window.requestAnimationFrame(resolve);<br>    })", it is undefined)"</code> |
-| /dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-fired-after-snap.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto | timeout | <code>palim execution timed out</code> |
@@ -396,7 +415,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/events/scrolling/scrollend-event-fires-to-iframe-window.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-for-user-scroll.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-handler-content-attributes.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-fires-to-text-input.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-with-snap-on-fractional-offset.html | fail | <code>assert_equals: test precondition: scroller is not scrolled. expected (number) 0 but got (undefined) undefined</code> |
@@ -550,14 +568,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/nodes/query-target-in-load-event.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/remove-and-adopt-thcrash.html | fail | <code>window.open is not a function. (In "window.open()", it is undefined)</code> |
 | /dom/nodes/remove-unscopable.html | fail | <code>Cannot convert undefined to object</code> |
-| /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-cloneContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-compareBoundaryPoints.html | timeout |  |
 | /dom/ranges/Range-comparePoint.html | timeout |  |
-| /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-deleteContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
-| /dom/ranges/Range-expand-shadow.tentative.html | fail | <code>range.expand is not a function. (In "range.expand(unit)", it is undefined)</code> |
-| /dom/ranges/Range-extractContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-extractContents-dynamic-end.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/ranges/Range-extractContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>TypeError: Cannot convert null to object</code> |
@@ -576,25 +590,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /dom/ranges/Range-mutations-splitText.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-set.html | timeout |  |
 | /dom/ranges/Range-surroundContents.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-auto-disconnect.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(1, 4)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-basic.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-disconnect.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(1, 4)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-display-none.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(1, 4)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-basic.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-multiline.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(0, 5)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-highlight.html | fail | <code>"CSS" is not defined</code> |
-| /dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html | fail | <code>"CSS" is not defined</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
-| /dom/ranges/tentative/OpaqueRange-offset.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(start, end)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-programmatic-updates.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-range-updates.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-supported-elements.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, value.length)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-unsupported-elements.html | fail | <code>assert_throws_dom: createValueRange should throw NotSupportedError for &lt;input&gt; function "() =&gt; {<br>      input.createValueRange(0, 0);<br>    }" threw object "TypeError: input.createValueRange is not a function. (In "input.createValueRange(0, 0)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
-| /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
-| /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
 | /domparsing/DOMParser-parseFromString-stylesheets.html | fail | <code>Cannot convert undefined to object</code> |
 | /domparsing/DOMParser-parseFromString-url-base-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /domparsing/DOMParser-parseFromString-url-base.html | timeout | <code>palim execution timed out</code> |
@@ -608,36 +603,8 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/positional-methods-with-trusted-types.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/stream-html-reentrancy.html | fail | <code>assert_array_equals: lengths differ, expected array ["connected"] length 1, got [] length 0</code> |
-| /domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
-| /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /domparsing/tentative/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
-| /domparsing/tentative/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /domparsing/tentative/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
-| /domparsing/tentative/stream-html-defer-async-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["immediate"] length 1, got ["defer", "immediate"] length 2</code> |
-| /domparsing/tentative/stream-html-parser-blocking-script.html | error | <code>Timeout while running cleanup for test named "streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input".</code> |
-| /domparsing/tentative/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-adopt.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html | fail | <code>assert_throws_js: function "() =&gt; adoptedDiv[method]()" did not throw</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
-| /domparsing/tentative/stream-sanitizer-img-ctor.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Image" is not defined"</code> |
-| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server SHOULD observe request in control case expected "1" but got "0"</code> |
-| /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
-| /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nError: The tokenizer input stream is closed\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
-| /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
 | /html/dom/elements/global-attributes/cdata-dir_auto.html | timeout | <code>palim execution timed out</code> |
 | /html/dom/elements/global-attributes/custom-attrs.html | fail | <code>assert_equals: expected 3 but got 2</code> |
@@ -686,12 +653,10 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /html/dom/elements/the-innertext-and-outertext-properties/innertext-with-white-spaces.html?white-space=pre-wrap&contenteditable=true | error | <code>TypeError: Cannot convert null to object</code> |
 | /html/dom/elements/the-innertext-and-outertext-properties/multiple-text-nodes.window.html | fail | <code>assert_equals: outerText expected (string) "X Y" but got (undefined) undefined</code> |
 | /html/dom/elements/the-innertext-and-outertext-properties/outertext-setter.html | fail | <code>assert_equals: expected "A Replaced" but got "A &lt;span id=\"testReplacePrevious\"&gt;B&lt;/span&gt;"</code> |
-| /html/syntax/parsing/DOMContentLoaded-defer-task-order.tentative.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/DOMContentLoaded-defer.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-cycle.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-document-target.html | fail | <code>assert_equals: the second Document keeps only the &lt;table&gt; as its element child expected (number) 1 but got (undefined) undefined</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-inner-loop-cycle.html | timeout | <code>palim execution timed out</code> |
-| /html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html | error | <code>pagehide fired synchronously during the adoption agency algorithm</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-shadow-cycle.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-template-cycle.html | fail | <code>assert_false: furthest block was not moved into the common ancestor expected false got true</code> |
 | /html/syntax/parsing/adoption-agency-reparenting.html | fail | <code>assert_equals: furthest block's document after the algorithm runs expected "main" but got "other"</code> |
@@ -858,7 +823,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /shadow-dom/Document-caretPositionFromPoint.tentative.html | fail | <code>container.firstChild.getBoundingClientRect is not a function. (In "container.firstChild.getBoundingClientRect()", it is undefined)</code> |
 | /shadow-dom/Document-prototype-adoptNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.adoptNode(shadowRoot);<br>        }" did not throw</code> |
 | /shadow-dom/Document-prototype-currentScript.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/Document-prototype-importNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.importNode(shadowRoot);<br>        }" did not throw</code> |
@@ -871,7 +835,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/Node-prototype-cloneNode.html | fail | <code>assert_throws_dom: cloneNode(false) on a shadow root in open mode must throw a NotSupportedError function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            shadowRoot.cloneNode(false);<br>        }" did not throw</code> |
 | /shadow-dom/ShadowRoot-interface.html | fail | <code>assert_equals: ShadowRoot.host must return null if an open shadow tree does not have a focused element expected (object) null but got (undefined) undefined</code> |
 | /shadow-dom/Slottable-mixin.html | fail | <code>assert_true: assignedSlot must be defined on Element.prototype expected true got false</code> |
-| /shadow-dom/accesskey.tentative.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "navigator" is not defined"</code> |
 | /shadow-dom/attachShadow-with-ShadowRoot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-parser-interaction.html | timeout | <code>palim execution timed out</code> |
@@ -891,49 +854,12 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/declarative/innerhtml-before-closing-tag.html | fail | <code>assert_true: Declarative shadow template should not be present expected true got false</code> |
 | /shadow-dom/declarative/move-template-before-closing-tag.html | fail | <code>assert_true: Declarative shadow template should not be left over expected true got false</code> |
 | /shadow-dom/declarative/script-access.html | fail | <code>assert_equals: expected 3 but got 0</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect-iframe.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-bare-specifier.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-importmap.html | fail | <code>Cannot convert undefined to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-failure.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-clear.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-insertrule.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-same.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-swap.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-remove-middle.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-replacesync.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-ordering.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-shared.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-basic.html | error | <code>TypeError: Cannot convert null to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode-async-fetch.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-fetched-module.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-absent-and-empty.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-feature-detection.html | fail | <code>assert_true: HTMLTemplateElement.prototype must expose shadowRootAdoptedStyleSheets. expected true got false</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-reflection.html | fail | <code>assert_equals: Setting the IDL attribute must set the content attribute. expected (string) "foo bar" but got (object) null</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-invalid-specifier.html | fail | <code>Cannot convert undefined to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-async.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-basic.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-failure.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-identity.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-nested.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-ordering.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-shared.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-multiple.html | error | <code>TypeError: Cannot convert null to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-async.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-sync.html | fail | <code>Cannot convert undefined to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-placeholder-identity.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html | fail | <code>Cannot convert undefined to object</code> |
-| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML(opts)", it is undefined)</code> |
 | /shadow-dom/dragenter-related-target.html | fail | <code>Tried to run in a non-testharness window without a call to set_test_context</code> |
 | /shadow-dom/dragleave-related-target.html | fail | <code>Tried to run in a non-testharness window without a call to set_test_context</code> |
 | /shadow-dom/event-composed-path-after-dom-mutation.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/event-composed-path-with-related-target.html | fail | <code>"FocusEvent" is not defined</code> |
 | /shadow-dom/event-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-composed.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /shadow-dom/event-dispatch-order.tentative.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-inside-shadow-tree.html | fail | <code>assert_equals: EventPath must contain [target, parent, shadow root, shadow host] expected 4 but got 3</code> |
 | /shadow-dom/event-inside-slotted-node.html | fail | <code>assert_equals: EventPath must contain [target, target parent, slot, slot parent, shadow root, shadow host] expected 6 but got 3</code> |
 | /shadow-dom/event-post-dispatch-listenerless.html | fail | <code>assert_equals: target is retargeted to the host expected Element node &lt;div&gt;&lt;/div&gt; but got Element node &lt;div&gt;&lt;/div&gt;</code> |
@@ -962,7 +888,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/focus-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input1.focus is not a function. (In "input1.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/focus-with-negative-index.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/reading-flow/flex-flow.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
@@ -1016,10 +941,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/focus-navigation/reading-flow/normal.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: start.focus is not a function. (In "start.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: scroller.focus is not a function. (In "scroller.focus()", it is undefined)"</code> |
 | /shadow-dom/focus-within-shadow.html | fail | <code>Cannot convert null to object</code> |
 | /shadow-dom/focus/DocumentOrShadowRoot-activeElement.html | fail | <code>focused.focus is not a function. (In "focused.focus()", it is undefined)</code> |
 | /shadow-dom/focus/ShadowRoot-delegatesFocus.html | fail | <code>assert_equals: expected (boolean) false but got (undefined) undefined</code> |
@@ -1074,22 +995,6 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /shadow-dom/manual-slot-assignment-with-details.html | fail | <code>slot.assign is not a function. (In "slot.assign(child)", it is undefined)</code> |
 | /shadow-dom/offsetParent-across-shadow-boundaries.html | fail | <code>assert_equals: expected (object) Element node &lt;div id="relativeParent" style="position: relative; paddi... but got (undefined) undefined</code> |
 | /shadow-dom/offsetTop-offsetLeft-across-shadow-boundaries.html | fail | <code>assert_equals: expected (number) 38 but got (undefined) undefined</code> |
-| /shadow-dom/reference-target/tentative/aria-labelledby.html | error | <code>TypeError: Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/commandfor.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/dom-mutation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
-| /shadow-dom/reference-target/tentative/event-path.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/form.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/gethtml-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML({shadowRoots: [host.shadowRoot]})", it is undefined)</code> |
-| /shadow-dom/reference-target/tentative/interestfor.tentative.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/reference-target/tentative/label-descendant.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/reference-target/tentative/label-for.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/reference-target/tentative/label-lifetime.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /shadow-dom/reference-target/tentative/popovertarget.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/property-reflection-idl-setters.html | fail | <code>assert_array_equals: lengths differ, expected array ["host-id"] length 1, got [] length 0</code> |
-| /shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;&lt;/div&gt; but got null</code> |
-| /shadow-dom/reference-target/tentative/property-reflection.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;<br>        <br>      &lt;/div&gt; but got null</code> |
-| /shadow-dom/reference-target/tentative/reference-target-basics.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/shadowrootreferencetarget-idl-reflection.html | fail | <code>assert_true: HTMLTemplateElement should expose the shadowRootReferenceTarget IDL attribute expected true got false</code> |
 | /shadow-dom/scroll-restore-shadow.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /shadow-dom/scroll-to-the-fragment-in-shadow-tree.html | timeout | <code>b'TypeError: window.scrollTo is not a function. (In "window.scrollTo(0, 0)", it is undefined)\n    at executeNextTest (http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:34:24)\n    at http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:110:1'</code> |
 | /shadow-dom/shadow-root-clonable.html | fail | <code>assert_true: clonable attribute expected true got undefined</code> |
@@ -1256,3 +1161,153 @@ Attempts: 1926; worker failures: 0; retries: 0
 | /xhr/formdata/set.any.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/set.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /xhr/formdata/submitter-coordinate-value.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
+
+## Tentative WPT results
+
+These tests track proposed behavior and do not determine current Living Standard conformance.
+
+| Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| All | 132 | 132 | 9 | 72 | 0 | 23 | 28 | 0 | 100.00% | 6.82% |
+| /custom-elements/ | 7 | 7 | 0 | 2 | 0 | 5 | 0 | 0 | 100.00% | 0.00% |
+| /dom/events/ | 3 | 3 | 0 | 1 | 0 | 0 | 2 | 0 | 100.00% | 0.00% |
+| /dom/ranges/ | 23 | 23 | 0 | 23 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
+| /domparsing/ | 35 | 35 | 8 | 16 | 0 | 11 | 0 | 0 | 100.00% | 22.86% |
+| /html/dom/documents/dom-tree-accessors/ | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
+| /html/syntax/parsing/ | 2 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | 100.00% | 0.00% |
+| /sanitizer-api/ | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
+| /shadow-dom/ | 60 | 60 | 0 | 29 | 0 | 6 | 25 | 0 | 100.00% | 0.00% |
+
+### Executed subtests
+
+| Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1554 | 859 | 603 | 0 | 64 | 28 | 55.28% |
+
+### Non-passing executed tests
+
+| URL | Status | Message |
+| --- | --- | --- |
+| /custom-elements/ElementInternals-accessibility.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
+| /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | error | <code>Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>Test named 'Custom submit button with form method=dialog closes dialog with behavior value' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | error | <code>Test named 'HTMLSubmitButtonBehavior properties have correct default values' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/reactions/AriaMixin-string-attributes.tentative.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
+| /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
+| /dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html | timeout | <code>palim execution timed out</code> |
+| /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/Range-expand-shadow.tentative.html | fail | <code>range.expand is not a function. (In "range.expand(unit)", it is undefined)</code> |
+| /dom/ranges/Range-extractContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/tentative/OpaqueRange-auto-disconnect.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(1, 4)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-basic.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-disconnect.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(1, 4)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-display-none.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(1, 4)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-basic.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-multiline.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(0, 5)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-highlight.html | fail | <code>"CSS" is not defined</code> |
+| /dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html | fail | <code>"CSS" is not defined</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-offset.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(start, end)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-programmatic-updates.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-range-updates.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-supported-elements.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, value.length)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-unsupported-elements.html | fail | <code>assert_throws_dom: createValueRange should throw NotSupportedError for &lt;input&gt; function "() =&gt; {<br>      input.createValueRange(0, 0);<br>    }" threw object "TypeError: input.createValueRange is not a function. (In "input.createValueRange(0, 0)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
+| /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
+| /domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
+| /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/tentative/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/tentative/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /domparsing/tentative/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
+| /domparsing/tentative/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
+| /domparsing/tentative/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /domparsing/tentative/stream-html-defer-async-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["immediate"] length 1, got ["defer", "immediate"] length 2</code> |
+| /domparsing/tentative/stream-html-parser-blocking-script.html | error | <code>Timeout while running cleanup for test named "streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input".</code> |
+| /domparsing/tentative/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
+| /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-adopt.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html | fail | <code>assert_throws_js: function "() =&gt; adoptedDiv[method]()" did not throw</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/tentative/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
+| /domparsing/tentative/stream-sanitizer-img-ctor.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Image" is not defined"</code> |
+| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server SHOULD observe request in control case expected "1" but got "0"</code> |
+| /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
+| /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
+| /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
+| /html/syntax/parsing/DOMContentLoaded-defer-task-order.tentative.html | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html | error | <code>pagehide fired synchronously during the adoption agency algorithm</code> |
+| /shadow-dom/Document-caretPositionFromPoint.tentative.html | fail | <code>container.firstChild.getBoundingClientRect is not a function. (In "container.firstChild.getBoundingClientRect()", it is undefined)</code> |
+| /shadow-dom/accesskey.tentative.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "navigator" is not defined"</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect-iframe.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-bare-specifier.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-importmap.html | fail | <code>Cannot convert undefined to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-failure.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-clear.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-insertrule.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-same.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-reinsert-swap.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-remove-middle.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-mutation-replacesync.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-ordering.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-shared.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-basic.html | error | <code>TypeError: Cannot convert null to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode-async-fetch.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-clonenode.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-fetched-module.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-absent-and-empty.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-feature-detection.html | fail | <code>assert_true: HTMLTemplateElement.prototype must expose shadowRootAdoptedStyleSheets. expected true got false</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-idl-reflection.html | fail | <code>assert_equals: Setting the IDL attribute must set the content attribute. expected (string) "foo bar" but got (object) null</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-invalid-specifier.html | fail | <code>Cannot convert undefined to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-async.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-basic.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-failure.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-identity.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-nested.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-ordering.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-modulepreload-shared.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-multiple.html | error | <code>TypeError: Cannot convert null to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-async.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-nested-sync.html | fail | <code>Cannot convert undefined to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-placeholder-identity.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html | fail | <code>Cannot convert undefined to object</code> |
+| /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML(opts)", it is undefined)</code> |
+| /shadow-dom/event-dispatch-order.tentative.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
+| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: start.focus is not a function. (In "start.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
+| /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: scroller.focus is not a function. (In "scroller.focus()", it is undefined)"</code> |
+| /shadow-dom/reference-target/tentative/aria-labelledby.html | error | <code>TypeError: Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/commandfor.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/dom-mutation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/reference-target/tentative/event-path.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/form.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/gethtml-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML({shadowRoots: [host.shadowRoot]})", it is undefined)</code> |
+| /shadow-dom/reference-target/tentative/interestfor.tentative.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /shadow-dom/reference-target/tentative/label-descendant.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /shadow-dom/reference-target/tentative/label-for.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /shadow-dom/reference-target/tentative/label-lifetime.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /shadow-dom/reference-target/tentative/popovertarget.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/property-reflection-idl-setters.html | fail | <code>assert_array_equals: lengths differ, expected array ["host-id"] length 1, got [] length 0</code> |
+| /shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;&lt;/div&gt; but got null</code> |
+| /shadow-dom/reference-target/tentative/property-reflection.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;<br>        <br>      &lt;/div&gt; but got null</code> |
+| /shadow-dom/reference-target/tentative/reference-target-basics.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/shadowrootreferencetarget-idl-reflection.html | fail | <code>assert_true: HTMLTemplateElement should expose the shadowRootReferenceTarget IDL attribute expected true got false</code> |

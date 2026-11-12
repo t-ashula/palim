@@ -41,6 +41,20 @@ export interface WPTSubtestTotals {
   readonly timeout: number;
 }
 
+export interface WPTProgressBreakdown {
+  readonly totals: WPTProgressTotals;
+  readonly areas: readonly {
+    readonly prefix: string;
+    readonly totals: WPTProgressTotals;
+  }[];
+  readonly subtests: WPTSubtestTotals;
+  readonly nonPassingTests: readonly {
+    readonly url: string;
+    readonly status: Exclude<WPTURLStatus, "pass" | "pending">;
+    readonly message?: string;
+  }[];
+}
+
 export interface WPTCampaignReport {
   readonly id: string;
   readonly state: "running" | "interrupted" | "completed";
@@ -56,7 +70,7 @@ export interface WPTCampaignReport {
 }
 
 export interface WPTProgressReport {
-  readonly schemaVersion: 1;
+  readonly schemaVersion: 2;
   readonly runStatus: "passed" | "failed" | "interrupted";
   readonly source: {
     readonly name: "wpt/wpt";
@@ -73,11 +87,8 @@ export interface WPTProgressReport {
     readonly totals: WPTProgressTotals;
   }[];
   readonly subtests: WPTSubtestTotals;
-  readonly nonPassingTests: readonly {
-    readonly url: string;
-    readonly status: Exclude<WPTURLStatus, "pass" | "pending">;
-    readonly message?: string;
-  }[];
+  readonly nonTentative: WPTProgressBreakdown;
+  readonly tentative: WPTProgressBreakdown;
 }
 
 function classification(status: string): Classification {
@@ -183,15 +194,18 @@ function resultMessage(test: WPTTestResult): string | undefined {
   );
 }
 
-export function buildWPTProgressReport(
+export function isTentativeWPTURL(url: string): boolean {
+  const path = url.split(/[?#]/u, 1)[0] ?? url;
+  return (
+    path.split("/").includes("tentative") || /\.tentative(?:\.|$)/u.test(path)
+  );
+}
+
+function buildProgressBreakdown(
   rawReport: WPTReport,
   selectedURLs: readonly string[],
   include: readonly string[],
-  exclude: readonly string[],
-  revision: string,
-  runStatus: WPTProgressReport["runStatus"],
-  campaign?: WPTCampaignReport,
-): WPTProgressReport {
+): WPTProgressBreakdown {
   const results = new Map(
     rawReport.results.map((result) => [result.test, result]),
   );
@@ -246,16 +260,41 @@ export function buildWPTProgressReport(
     ];
   });
 
+  return { totals, areas, subtests, nonPassingTests };
+}
+
+export function buildWPTProgressReport(
+  rawReport: WPTReport,
+  selectedURLs: readonly string[],
+  include: readonly string[],
+  exclude: readonly string[],
+  revision: string,
+  runStatus: WPTProgressReport["runStatus"],
+  campaign?: WPTCampaignReport,
+): WPTProgressReport {
+  const tentativeURLs = selectedURLs.filter(isTentativeWPTURL);
+  const nonTentativeURLs = selectedURLs.filter(
+    (url) => !isTentativeWPTURL(url),
+  );
+  const all = buildProgressBreakdown(rawReport, selectedURLs, include);
+  const nonTentative = buildProgressBreakdown(
+    rawReport,
+    nonTentativeURLs,
+    include,
+  );
+  const tentative = buildProgressBreakdown(rawReport, tentativeURLs, include);
+
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     runStatus,
     source: { name: "wpt/wpt", revision },
     ...(campaign === undefined ? {} : { campaign }),
     selection: { include, exclude },
-    totals,
-    areas,
-    subtests,
-    nonPassingTests,
+    totals: all.totals,
+    areas: all.areas,
+    subtests: all.subtests,
+    nonTentative,
+    tentative,
   };
 }
 
@@ -335,11 +374,60 @@ function markdownCodeCell(value: string): string {
     .replaceAll(/\r\n?|\n/gu, "<br>")}</code>`;
 }
 
+function appendProgressTable(
+  lines: string[],
+  breakdown: Pick<WPTProgressBreakdown, "totals" | "areas">,
+  omitEmptyAreas = false,
+): void {
+  lines.push(
+    "",
+    "| Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |",
+    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    progressRow("All", breakdown.totals),
+  );
+  for (const area of breakdown.areas) {
+    if (!omitEmptyAreas || area.totals.total > 0) {
+      lines.push(progressRow(area.prefix, area.totals));
+    }
+  }
+}
+
+function appendSubtestTable(
+  lines: string[],
+  subtests: WPTSubtestTotals,
+): void {
+  lines.push(
+    "",
+    "### Executed subtests",
+    "",
+    "| Total | Pass | Fail | Skip | Error | Timeout | Pass rate |",
+    "| ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    `| ${String(subtests.total)} | ${String(subtests.pass)} | ${String(subtests.fail)} | ${String(subtests.skip)} | ${String(subtests.error)} | ${String(subtests.timeout)} | ${percentage(subtests.pass, subtests.total)} |`,
+  );
+}
+
+function appendNonPassingTests(
+  lines: string[],
+  tests: WPTProgressBreakdown["nonPassingTests"],
+): void {
+  lines.push("", "### Non-passing executed tests", "");
+  if (tests.length === 0) {
+    lines.push("None.");
+    return;
+  }
+  lines.push("| URL | Status | Message |", "| --- | --- | --- |");
+  for (const test of tests) {
+    lines.push(
+      `| ${test.url} | ${test.status} | ${markdownCodeCell(test.message ?? "")} |`,
+    );
+  }
+}
+
 export function renderWPTProgressMarkdown(report: WPTProgressReport): string {
   const lines = [
     "# WPT progress report",
     "",
-    `Run status: ${report.runStatus}`,
+    `WPT runner status (includes tentative tests): ${report.runStatus}`,
     "",
     `Source: ${report.source.name}@${report.source.revision}`,
   ];
@@ -361,36 +449,29 @@ export function renderWPTProgressMarkdown(report: WPTProgressReport): string {
   }
   lines.push(
     "",
-    "## URL progress",
+    "## URL execution progress",
     "",
-    "| Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |",
-    "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
-    progressRow("All", report.totals),
+    "This table includes every selected WPT URL, including tentative tests.",
   );
-  for (const area of report.areas) {
-    lines.push(progressRow(area.prefix, area.totals));
-  }
+  appendProgressTable(lines, report);
   lines.push(
     "",
-    "## Executed subtests",
+    "## Non-tentative WPT results",
     "",
-    "| Total | Pass | Fail | Skip | Error | Timeout | Pass rate |",
-    "| ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
-    `| ${String(report.subtests.total)} | ${String(report.subtests.pass)} | ${String(report.subtests.fail)} | ${String(report.subtests.skip)} | ${String(report.subtests.error)} | ${String(report.subtests.timeout)} | ${percentage(report.subtests.pass, report.subtests.total)} |`,
-    "",
-    "## Non-passing executed tests",
-    "",
+    "Tentative tests are excluded. A WPT result does not override a conflicting current Living Standard requirement.",
   );
-  if (report.nonPassingTests.length === 0) {
-    lines.push("None.");
-  } else {
-    lines.push("| URL | Status | Message |", "| --- | --- | --- |");
-    for (const test of report.nonPassingTests) {
-      lines.push(
-        `| ${test.url} | ${test.status} | ${markdownCodeCell(test.message ?? "")} |`,
-      );
-    }
-  }
+  appendProgressTable(lines, report.nonTentative);
+  appendSubtestTable(lines, report.nonTentative.subtests);
+  appendNonPassingTests(lines, report.nonTentative.nonPassingTests);
+  lines.push(
+    "",
+    "## Tentative WPT results",
+    "",
+    "These tests track proposed behavior and do not determine current Living Standard conformance.",
+  );
+  appendProgressTable(lines, report.tentative, true);
+  appendSubtestTable(lines, report.tentative.subtests);
+  appendNonPassingTests(lines, report.tentative.nonPassingTests);
   lines.push("");
   return lines.join("\n");
 }
