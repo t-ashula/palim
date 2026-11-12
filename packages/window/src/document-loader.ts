@@ -337,6 +337,9 @@ export class WindowDocumentLoader {
     }
 
     if (inclusiveAncestorWindowHasURL(this.window, url)) {
+      if (url.href === "about:blank" && initialInsertion) {
+        this.#finishIFrameNavigation(element, state, navigation);
+      }
       return;
     }
 

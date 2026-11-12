@@ -151,6 +151,67 @@ describe("open", () => {
     expect(inner.contentWindow?.frameElement).toBe(inner);
   });
 
+  it("loads nested initial about:blank with a snapshot base URL", async () => {
+    const context = await open({
+      html: "<main></main>",
+      baseURL: "https://example.test/initial/",
+    });
+    const container = context.window.document.createElement("iframe");
+    if (!(container instanceof HTMLIFrameElement)) {
+      throw new TypeError("Expected an iframe element");
+    }
+    const containerLoad = new Promise<void>((resolve) => {
+      container.addEventListener(
+        "load",
+        () => {
+          resolve();
+        },
+        { once: true },
+      );
+    });
+    container.src = "about:blank";
+    context.window.document.body?.append(container);
+    await containerLoad;
+
+    const containerDocument = container.contentDocument;
+    if (containerDocument === null) {
+      throw new TypeError("Expected a container document");
+    }
+    const child = containerDocument.createElement("iframe");
+    if (!(child instanceof HTMLIFrameElement)) {
+      throw new TypeError("Expected a nested iframe element");
+    }
+    const childLoad = new Promise<void>((resolve) => {
+      child.addEventListener(
+        "load",
+        () => {
+          resolve();
+        },
+        { once: true },
+      );
+    });
+    child.src = "about:blank";
+    containerDocument.body?.append(child);
+    await childLoad;
+
+    const childDocument = child.contentDocument;
+    if (childDocument === null) {
+      throw new TypeError("Expected a child document");
+    }
+    expect(childDocument.baseURI).toBe("https://example.test/initial/");
+
+    const containerBase = containerDocument.createElement("base");
+    containerBase.setAttribute("href", "https://example.test/changed/");
+    containerDocument.head?.append(containerBase);
+    expect(containerDocument.baseURI).toBe("https://example.test/changed/");
+
+    const childBase = childDocument.createElement("base");
+    childBase.setAttribute("href", "https://example.test/forced/");
+    childDocument.head?.append(childBase);
+    childBase.remove();
+    expect(childDocument.baseURI).toBe("https://example.test/initial/");
+  });
+
   it("loads an iframe src as a child document before open resolves", async () => {
     const fetchMock = vi.fn(() =>
       Promise.resolve(
