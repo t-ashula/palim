@@ -513,9 +513,7 @@ function installHTMLHyperlinkElementMembers(
   binding: DOMRealmBindingContext,
   prototype: EngineObject,
   interfaceName: "HTMLAnchorElement" | "HTMLAreaElement",
-  receiver: (
-    value: EngineValue,
-  ) => HTMLAnchorElement | HTMLAreaElement | null,
+  receiver: (value: EngineValue) => HTMLAnchorElement | HTMLAreaElement | null,
 ): void {
   binding.attribute(
     prototype,

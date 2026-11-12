@@ -392,10 +392,7 @@ function appendProgressTable(
   }
 }
 
-function appendSubtestTable(
-  lines: string[],
-  subtests: WPTSubtestTotals,
-): void {
+function appendSubtestTable(lines: string[], subtests: WPTSubtestTotals): void {
   lines.push(
     "",
     "### Executed subtests",
