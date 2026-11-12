@@ -4799,7 +4799,7 @@ function insertNodes(
     queueTreeMutationRecord(parent, nodes, [], previousSibling, child);
   }
   documentImplementationValue.childrenChangedSteps?.(parent);
-  const staticNodeList = nodes.flatMap(inclusiveDescendantNodes);
+  const staticNodeList = nodes.flatMap(shadowIncludingInclusiveDescendantNodes);
   for (const connectedNode of staticNodeList) {
     if (connectedNode.isConnected) {
       documentImplementationValue.postConnectionSteps?.(connectedNode);

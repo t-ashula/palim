@@ -2091,6 +2091,34 @@ describe("Node mutation", () => {
     expect(events).toEqual(["host", "#document-fragment", "shadow", "light"]);
   });
 
+  it("runs post-connection steps when a shadow tree becomes connected", () => {
+    const document = parse("<main></main>");
+    const main = select(document, "main");
+    const fragment = document.createDocumentFragment();
+    const host = document.createElement("section");
+    host.id = "host";
+    const shadowRoot = host.attachShadow({ mode: "open" });
+    const shadowChild = document.createElement("span");
+    shadowChild.id = "shadow";
+    shadowRoot.append(shadowChild);
+    const lightChild = document.createElement("aside");
+    lightChild.id = "light";
+    host.append(lightChild);
+    const events: string[] = [];
+    documentImplementation(document).postConnectionSteps = (node) => {
+      expect(node.isConnected).toBe(true);
+      events.push(node instanceof Element ? node.id : node.nodeName);
+    };
+
+    fragment.append(host);
+
+    expect(events).toEqual([]);
+
+    main.append(fragment);
+
+    expect(events).toEqual(["host", "#document-fragment", "shadow", "light"]);
+  });
+
   it("runs removing steps in tree order after detaching the subtree", () => {
     const document = parse(
       "<main><section><span></span></section><aside></aside></main>",

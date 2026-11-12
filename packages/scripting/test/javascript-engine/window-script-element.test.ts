@@ -413,6 +413,29 @@ describe("parser-inserted classic scripts", () => {
     expect(document.body?.getAttribute("data-shadow-script-ran")).toBe("true");
   });
 
+  it("runs a shadow-tree script when its host becomes connected", async () => {
+    const environment = new WindowExecutionEnvironment();
+
+    const document = await environment.loadHTML(
+      [
+        "<body><script>",
+        "window.shadowTreeScriptExecutions = 0;",
+        'const host = document.createElement("div");',
+        'const shadow = host.attachShadow({ mode: "closed" });',
+        'const script = document.createElement("script");',
+        'script.textContent = "window.shadowTreeScriptExecutions++;";',
+        "shadow.append(script);",
+        'document.body.setAttribute("data-shadow-before", String(shadowTreeScriptExecutions));',
+        "document.body.append(host);",
+        'document.body.setAttribute("data-shadow-after", String(shadowTreeScriptExecutions));',
+        "</script></body>",
+      ].join(""),
+    );
+
+    expect(document.body?.getAttribute("data-shadow-before")).toBe("0");
+    expect(document.body?.getAttribute("data-shadow-after")).toBe("1");
+  });
+
   it("defers reentrant streaming operations until the current chunk ends", async () => {
     const environment = new WindowExecutionEnvironment();
 
