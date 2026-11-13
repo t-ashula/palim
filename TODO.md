@@ -142,6 +142,7 @@
 ## Conformance infrastructure
 
 - [ ] `packages/*/test/fixtures/**/*.js` を ESLint 対象に含め、fixture として分離した page script も検査する
+- [ ] テストファイルを実装ファイルと責務に対応づけ、公開 API の入口を使うだけの内部処理テストを分離する（まず `packages/window/test/open.test.ts` の `WindowDocumentLoader` / iframe navigation を対応するテストファイルへ移す）
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する
 - [ ] 同一 revision / image で full WPT campaign の jobs 10と20を比較し、timeoutを増やさない並列数と資源条件を決める
 - [ ] WPT test 並列実行時の timeout の影響を、安定した jobs 設定と終了後の直列再実行で軽減する

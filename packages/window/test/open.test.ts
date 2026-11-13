@@ -1,6 +1,8 @@
 import { HTMLIFrameElement, open } from "@palim/window";
 import { describe, expect, it, vi } from "vitest";
 
+import { assertElement } from "./helper/assertions.js";
+
 describe("open", () => {
   it("keeps scripting disabled when the option is omitted", async () => {
     const context = await open({
@@ -73,11 +75,10 @@ describe("open", () => {
       ].join(""),
     });
     const iframe = context.window.document.querySelector("iframe");
+    assertElement(iframe, HTMLIFrameElement);
 
     expect(
-      iframe instanceof HTMLIFrameElement
-        ? iframe.contentDocument?.body?.getAttribute("data-executed")
-        : null,
+      iframe.contentDocument?.body?.getAttribute("data-executed"),
     ).toBeNull();
   });
 
@@ -126,10 +127,7 @@ describe("open", () => {
     });
     const outer = context.window.document.querySelector("#outer");
 
-    expect(outer).toBeInstanceOf(HTMLIFrameElement);
-    if (!(outer instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected an iframe element");
-    }
+    assertElement(outer, HTMLIFrameElement);
     expect(outer.contentWindow).not.toBeNull();
     expect(outer.contentDocument?.URL).toBe("about:srcdoc");
     expect(outer.contentDocument?.baseURI).toBe(
@@ -140,10 +138,7 @@ describe("open", () => {
     expect(outer.contentWindow?.frameElement).toBe(outer);
 
     const inner = outer.contentDocument?.querySelector("#inner");
-    expect(inner).toBeInstanceOf(HTMLIFrameElement);
-    if (!(inner instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected a nested iframe element");
-    }
+    assertElement(inner, HTMLIFrameElement);
     expect(inner.contentDocument?.body?.textContent).toBe("deep");
     expect(inner.contentWindow?.parent).toBe(outer.contentWindow);
     expect(inner.contentWindow?.top).toBe(context.window);
@@ -155,9 +150,7 @@ describe("open", () => {
     const host = context.window.document.createElement("div");
     const shadowRoot = host.attachShadow({ mode: "closed" });
     const iframe = context.window.document.createElement("iframe");
-    if (!(iframe instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected an iframe element");
-    }
+    assertElement(iframe, HTMLIFrameElement);
     iframe.srcdoc = "<p>child</p>";
     const loaded = new Promise<void>((resolve) => {
       iframe.addEventListener(
@@ -185,9 +178,7 @@ describe("open", () => {
       baseURL: "https://example.test/initial/",
     });
     const container = context.window.document.createElement("iframe");
-    if (!(container instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected an iframe element");
-    }
+    assertElement(container, HTMLIFrameElement);
     const containerLoad = new Promise<void>((resolve) => {
       container.addEventListener(
         "load",
@@ -206,9 +197,7 @@ describe("open", () => {
       throw new TypeError("Expected a container document");
     }
     const child = containerDocument.createElement("iframe");
-    if (!(child instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected a nested iframe element");
-    }
+    assertElement(child, HTMLIFrameElement);
     const childLoad = new Promise<void>((resolve) => {
       child.addEventListener(
         "load",
@@ -261,12 +250,10 @@ describe("open", () => {
       expect(fetchMock).toHaveBeenCalledWith(
         "https://example.test/path/child.html",
       );
-      expect(iframe).toBeInstanceOf(HTMLIFrameElement);
-      expect(
-        iframe instanceof HTMLIFrameElement
-          ? iframe.contentDocument?.querySelector("#child")?.textContent
-          : null,
-      ).toBe("loaded");
+      assertElement(iframe, HTMLIFrameElement);
+      expect(iframe.contentDocument?.querySelector("#child")?.textContent).toBe(
+        "loaded",
+      );
     } finally {
       vi.unstubAllGlobals();
     }
@@ -298,9 +285,7 @@ describe("open", () => {
           baseURL: "https://example.test/parent",
         });
         const iframe = context.window.document.querySelector("iframe");
-        if (!(iframe instanceof HTMLIFrameElement)) {
-          throw new TypeError("Expected an iframe element");
-        }
+        assertElement(iframe, HTMLIFrameElement);
 
         expect(iframe.contentDocument?.contentType).toBe(contentType);
         expect(iframe.contentDocument?.documentElement?.localName).toBe(root);
@@ -320,9 +305,7 @@ describe("open", () => {
       ].join(""),
     });
     const iframe = context.window.document.querySelector("iframe");
-    if (!(iframe instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected an iframe element");
-    }
+    assertElement(iframe, HTMLIFrameElement);
 
     expect(iframe.contentDocument?.contentType).toBe("text/html");
     expect(iframe.contentDocument?.querySelector("p")?.textContent).toBe(
@@ -333,9 +316,7 @@ describe("open", () => {
   it("navigates when srcdoc changes and detaches on removal", async () => {
     const context = await open({ html: "<main></main>" });
     const iframe = context.window.document.createElement("iframe");
-    if (!(iframe instanceof HTMLIFrameElement)) {
-      throw new TypeError("Expected an iframe element");
-    }
+    assertElement(iframe, HTMLIFrameElement);
     iframe.srcdoc = "<p>first</p>";
     const firstLoad = new Promise<void>((resolve) => {
       iframe.addEventListener(
@@ -387,9 +368,7 @@ describe("open", () => {
         baseURL: "https://example.test/path/page.html",
       });
       const iframe = context.window.document.createElement("iframe");
-      if (!(iframe instanceof HTMLIFrameElement)) {
-        throw new TypeError("Expected an iframe element");
-      }
+      assertElement(iframe, HTMLIFrameElement);
       iframe.src = "first.html";
       iframe.srcdoc = "<p>inline</p>";
       const inlineLoad = new Promise<void>((resolve) => {
@@ -474,12 +453,8 @@ describe("open", () => {
       const iframe = context.window.document.querySelector("iframe");
 
       expect(fetchMock).toHaveBeenCalledTimes(1);
-      expect(iframe).toBeInstanceOf(HTMLIFrameElement);
-      expect(
-        iframe instanceof HTMLIFrameElement
-          ? iframe.contentDocument?.URL
-          : null,
-      ).toBe("about:blank");
+      assertElement(iframe, HTMLIFrameElement);
+      expect(iframe.contentDocument?.URL).toBe("about:blank");
     } finally {
       vi.unstubAllGlobals();
     }
@@ -502,19 +477,15 @@ describe("open", () => {
     try {
       const context = await open("https://example.test/path/a.html");
       const outer = context.window.document.querySelector("iframe");
-      const inner =
-        outer instanceof HTMLIFrameElement
-          ? outer.contentDocument?.querySelector("iframe")
-          : null;
+      assertElement(outer, HTMLIFrameElement);
+      const inner = outer.contentDocument?.querySelector("iframe");
 
       expect(fetchMock.mock.calls.map(([input]) => input.toString())).toEqual([
         "https://example.test/path/a.html",
         "https://example.test/path/b.html",
       ]);
-      expect(inner).toBeInstanceOf(HTMLIFrameElement);
-      expect(
-        inner instanceof HTMLIFrameElement ? inner.contentDocument?.URL : null,
-      ).toBe("about:blank");
+      assertElement(inner, HTMLIFrameElement);
+      expect(inner.contentDocument?.URL).toBe("about:blank");
     } finally {
       vi.unstubAllGlobals();
     }
