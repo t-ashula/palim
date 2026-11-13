@@ -16,6 +16,7 @@ import {
   createElementForDocument as createDOMElement,
   createProcessingInstruction,
   createText,
+  removeNode,
   setAttributes,
 } from "../dom/nodes.js";
 import { DOMException } from "../dom-exception.js";
@@ -830,17 +831,10 @@ const xmlFragmentParser: FragmentParser = {
   },
 };
 
-function parserErrorDocument(
-  type: string,
-  message: string,
-  documentConstructor: typeof Document,
-): Document {
-  const document = createDocument(
-    xmlFragmentParser,
-    type,
-    createElementForDocument,
-    documentConstructor,
-  );
+function replaceWithParserError(document: Document, message: string): void {
+  while (document.firstChild !== null) {
+    removeNode(document.firstChild);
+  }
   const error = createDOMElement(
     document,
     "parsererror",
@@ -848,34 +842,48 @@ function parserErrorDocument(
   );
   appendNode(error, createText(document, message));
   appendNode(document, error);
-  return document;
 }
+
+function createXMLDocument(
+  contentType: string,
+  documentConstructor: typeof Document,
+): Document {
+  return createDocument(
+    xmlFragmentParser,
+    contentType,
+    createElementForDocument,
+    documentConstructor,
+  );
+}
+
+export const xmlDocumentParser = {
+  createDocument: createXMLDocument,
+  parseInto(input: string, document: Document): void {
+    try {
+      new XMLParserCore(
+        (input.startsWith("\uFEFF") ? input.slice(1) : input).toWellFormed(),
+        document,
+        null,
+        new Map([["xml", XML_NAMESPACE]]),
+      ).parse();
+    } catch (error: unknown) {
+      if (error instanceof XMLParseFailure) {
+        replaceWithParserError(document, error.message);
+        return;
+      }
+      throw error;
+    }
+  },
+};
 
 export function parseXML(
   input: string,
   type: string,
   documentConstructor: typeof Document,
 ): Document {
-  const document = createDocument(
-    xmlFragmentParser,
-    type,
-    createElementForDocument,
-    documentConstructor,
-  );
-  try {
-    new XMLParserCore(
-      (input.startsWith("\uFEFF") ? input.slice(1) : input).toWellFormed(),
-      document,
-      null,
-      new Map([["xml", XML_NAMESPACE]]),
-    ).parse();
-    return document;
-  } catch (error: unknown) {
-    if (error instanceof XMLParseFailure) {
-      return parserErrorDocument(type, error.message, documentConstructor);
-    }
-    throw error;
-  }
+  const document = xmlDocumentParser.createDocument(type, documentConstructor);
+  xmlDocumentParser.parseInto(input, document);
+  return document;
 }
 
 export function parseXMLFragment(

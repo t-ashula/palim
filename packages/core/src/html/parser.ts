@@ -416,13 +416,7 @@ class TreeBuilder {
 
   constructor(input: string, options: TreeBuilderOptions = {}) {
     this.document =
-      options.document ??
-      createDocument(
-        htmlFragmentParser,
-        "text/html",
-        createElementForDocument,
-        Document,
-      );
+      options.document ?? createHTMLDocument("text/html", Document);
     this.#onElement = options.onElement;
     this.#onScript = options.onScript;
     this.#allowDeclarativeShadowRoots =
@@ -3555,20 +3549,30 @@ export function parseHTML(
   }).parse();
 }
 
-export function parseHTMLIntoDocument(
-  input: string,
-  document: Document,
-  onScript: (element: Element) => void,
+function createHTMLDocument(
+  contentType: string,
+  documentConstructor: typeof Document,
 ): Document {
-  while (document.firstChild !== null) {
-    removeNode(document.firstChild);
-  }
-  return new TreeBuilder(input, {
-    document,
-    onScript,
-    scriptingMode: documentImplementation(document).scriptingMode,
-  }).parse();
+  return createDocument(
+    htmlFragmentParser,
+    contentType,
+    createElementForDocument,
+    documentConstructor,
+  );
 }
+
+export const htmlDocumentParser = {
+  createDocument: createHTMLDocument,
+  parseInto(input: string, document: Document): void {
+    while (document.firstChild !== null) {
+      removeNode(document.firstChild);
+    }
+    new TreeBuilder(input, {
+      document,
+      scriptingMode: documentImplementation(document).scriptingMode,
+    }).parse();
+  },
+};
 
 export async function parseHTMLIntoDocumentAsync(
   input: string,

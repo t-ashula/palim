@@ -8,6 +8,7 @@ import {
 } from "@palim/core/internal/dom/foreign-anchor.js";
 import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
 import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
+import { associateDOMParser } from "@palim/core/internal/dom-parser.js";
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "./helper/assertions.js";
@@ -2471,6 +2472,46 @@ describe("Document metadata", () => {
     setDocumentURL(document, "https://latest.example/root/page.html");
     firstWithoutHref.remove();
     expect(document.baseURI).toBe("https://latest.example/updated/");
+  });
+
+  it("resolves DOMParser base URLs against its associated document", () => {
+    const associatedDocument = parse("");
+    setDocumentURL(
+      associatedDocument,
+      "https://example.test/path/document.html",
+    );
+    const parser = new DOMParser();
+    associateDOMParser(parser, associatedDocument);
+
+    const document = parser.parseFromString(
+      '<!doctype html><base href="sub/">',
+      "text/html",
+    );
+
+    expect(document.URL).toBe("https://example.test/path/document.html");
+    expect(document.baseURI).toBe("https://example.test/path/sub/");
+    expect(document.cloneNode(true).baseURI).toBe(
+      "https://example.test/path/sub/",
+    );
+    expect(document.cloneNode(false).baseURI).toBe(
+      "https://example.test/path/sub/",
+    );
+  });
+
+  it("preserves DOMParser document metadata after an XML parse error", () => {
+    const associatedDocument = parse("");
+    setDocumentURL(
+      associatedDocument,
+      "https://example.test/path/document.html",
+    );
+    const parser = new DOMParser();
+    associateDOMParser(parser, associatedDocument);
+
+    const document = parser.parseFromString("<root>", "application/xml");
+
+    expect(document.URL).toBe("https://example.test/path/document.html");
+    expect(document.baseURI).toBe("https://example.test/path/document.html");
+    expect(document.documentElement?.localName).toBe("parsererror");
   });
 
   it("falls back to the document URL for invalid and forbidden base URLs", () => {
