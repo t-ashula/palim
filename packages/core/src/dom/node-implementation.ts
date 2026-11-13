@@ -52,6 +52,7 @@ export class DocumentImplementation extends NodeImplementation {
   relevantRealmDocument: DocumentImplementation;
   namedPropertyVersion = 0;
   encoding = "UTF-8";
+  isTemplateContentsOwnerDocument = false;
   templateContentsOwnerDocument: Document | null = null;
   currentScript: Element | null = null;
   domImplementation: DOMImplementation | null = null;

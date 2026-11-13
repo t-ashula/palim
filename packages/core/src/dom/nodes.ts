@@ -1587,12 +1587,20 @@ export function createProcessingInstruction(
 
 export function templateContentsDocument(document: Document): Document {
   const implementation = documentImplementation(document);
-  implementation.templateContentsOwnerDocument ??= createDocument(
-    implementation.fragmentParser,
-    implementation.contentType,
-    implementation.elementFactory,
-    document instanceof XMLDocument ? XMLDocument : Document,
-  );
+  if (implementation.isTemplateContentsOwnerDocument) {
+    return document;
+  }
+  if (implementation.templateContentsOwnerDocument === null) {
+    const templateDocument = createDocument(
+      implementation.fragmentParser,
+      implementation.contentType,
+      implementation.elementFactory,
+      document instanceof XMLDocument ? XMLDocument : Document,
+    );
+    documentImplementation(templateDocument).isTemplateContentsOwnerDocument =
+      true;
+    implementation.templateContentsOwnerDocument = templateDocument;
+  }
   return implementation.templateContentsOwnerDocument;
 }
 

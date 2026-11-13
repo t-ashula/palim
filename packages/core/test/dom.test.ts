@@ -874,6 +874,31 @@ describe("Node cloning and adoption", () => {
     );
   });
 
+  it("reuses the template contents owner document for nested templates", () => {
+    const sourceDocument = parse(
+      "<template><template><span></span></template></template>",
+    );
+    const targetDocument = parse("");
+    const outer = sourceDocument.querySelector("template");
+    if (!(outer instanceof HTMLTemplateElement)) {
+      throw new Error("missing outer template element");
+    }
+    const inner = outer.content.querySelector("template");
+    if (!(inner instanceof HTMLTemplateElement)) {
+      throw new Error("missing template element");
+    }
+
+    targetDocument.adoptNode(outer);
+
+    expect(outer.ownerDocument).toBe(targetDocument);
+    expect(outer.content.ownerDocument).not.toBe(targetDocument);
+    expect(inner.ownerDocument).toBe(outer.content.ownerDocument);
+    expect(inner.content.ownerDocument).toBe(outer.content.ownerDocument);
+    expect(inner.content.firstChild?.ownerDocument).toBe(
+      outer.content.ownerDocument,
+    );
+  });
+
   it("derives HTML element names from the current node document", () => {
     const sourceDocument = parse("");
     const targetDocument = new DOMParser().parseFromString(
