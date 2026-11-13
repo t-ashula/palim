@@ -2149,6 +2149,42 @@ describe("Node mutation", () => {
     expect(main.firstElementChild?.localName).toBe("aside");
   });
 
+  it("runs removing steps in shadow-including tree order", () => {
+    const document = parse('<main id="main"></main>');
+    const main = select(document, "main");
+    const host = document.createElement("section");
+    host.id = "host";
+    const shadowRoot = host.attachShadow({ mode: "open" });
+    const shadowChild = document.createElement("span");
+    shadowChild.id = "shadow";
+    shadowRoot.append(shadowChild);
+    const lightChild = document.createElement("aside");
+    lightChild.id = "light";
+    host.append(lightChild);
+    main.append(host);
+    const events: string[] = [];
+    documentImplementation(document).removingSteps = (
+      node,
+      isSubtreeRoot,
+      oldAncestor,
+    ) => {
+      expect(node.isConnected).toBe(false);
+      const label = node instanceof Element ? node.id : node.nodeName;
+      events.push(
+        `${label}:${String(isSubtreeRoot)}:${(oldAncestor as Element).id}`,
+      );
+    };
+
+    host.remove();
+
+    expect(events).toEqual([
+      "host:true:main",
+      "#document-fragment:false:main",
+      "shadow:false:main",
+      "light:false:main",
+    ]);
+  });
+
   it("does not run insertion or removing steps for an atomic move", () => {
     const document = parse("<main><section></section><aside></aside></main>");
     const main = select(document, "main");

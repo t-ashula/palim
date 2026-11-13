@@ -693,7 +693,7 @@ export function removeNode(node: Node, suppressObservers = false): void {
   if (implementation.parent === null) {
     return;
   }
-  const removedNodes = inclusiveDescendantNodes(node);
+  const removedNodes = shadowIncludingInclusiveDescendantNodes(node);
   const disconnectedCustomElements = node.isConnected
     ? shadowIncludingInclusiveDescendantElements(node)
     : [];
@@ -4814,14 +4814,6 @@ function insertNodes(
       }
     }
   }
-}
-
-function inclusiveDescendantNodes(node: Node): Node[] {
-  const result = [node];
-  for (const child of childNodes(node)) {
-    result.push(...inclusiveDescendantNodes(child));
-  }
-  return result;
 }
 
 function shadowIncludingInclusiveDescendantNodes(node: Node): Node[] {

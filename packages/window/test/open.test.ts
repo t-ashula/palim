@@ -150,6 +150,35 @@ describe("open", () => {
     expect(inner.contentWindow?.frameElement).toBe(inner);
   });
 
+  it("disconnects an iframe when its shadow host is removed", async () => {
+    const context = await open({ html: "<main></main>" });
+    const host = context.window.document.createElement("div");
+    const shadowRoot = host.attachShadow({ mode: "closed" });
+    const iframe = context.window.document.createElement("iframe");
+    if (!(iframe instanceof HTMLIFrameElement)) {
+      throw new TypeError("Expected an iframe element");
+    }
+    iframe.srcdoc = "<p>child</p>";
+    const loaded = new Promise<void>((resolve) => {
+      iframe.addEventListener(
+        "load",
+        () => {
+          resolve();
+        },
+        { once: true },
+      );
+    });
+    shadowRoot.append(iframe);
+
+    context.window.document.body?.append(host);
+    await loaded;
+
+    expect(iframe.contentDocument?.body?.textContent).toBe("child");
+    host.remove();
+    expect(iframe.contentWindow).toBeNull();
+    expect(iframe.contentDocument).toBeNull();
+  });
+
   it("loads nested initial about:blank with a snapshot base URL", async () => {
     const context = await open({
       html: "<main></main>",
