@@ -311,6 +311,25 @@ describe("open", () => {
     },
   );
 
+  it("uses the data URL MIME type for an iframe document", async () => {
+    const context = await open({
+      html: [
+        '<iframe src="data:text/html;charset=utf-8,',
+        encodeURIComponent("<!doctype html><p>content</p>"),
+        '"></iframe>',
+      ].join(""),
+    });
+    const iframe = context.window.document.querySelector("iframe");
+    if (!(iframe instanceof HTMLIFrameElement)) {
+      throw new TypeError("Expected an iframe element");
+    }
+
+    expect(iframe.contentDocument?.contentType).toBe("text/html");
+    expect(iframe.contentDocument?.querySelector("p")?.textContent).toBe(
+      "content",
+    );
+  });
+
   it("navigates when srcdoc changes and detaches on removal", async () => {
     const context = await open({ html: "<main></main>" });
     const iframe = context.window.document.createElement("iframe");

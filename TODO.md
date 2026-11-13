@@ -98,6 +98,7 @@
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
 - [ ] `requestAnimationFrame` / `performance`
 - [ ] dialog / popover の top layer と event
+- [ ] `Window.postMessage()` / `MessageEvent` の structured serialization、target origin 検査、source、および posted-message task delivery
 - [ ] `structuredClone`
 
 ### Networking and resource loading
