@@ -432,6 +432,28 @@ export function installHTMLScriptElementMembers(
       return binding.undefined();
     },
   );
+  binding.attribute(
+    prototype,
+    "text",
+    (thisValue) => {
+      const script = receiver(thisValue);
+      return script === null
+        ? binding.typeError("Invalid HTMLScriptElement receiver")
+        : binding.primitive(script.text);
+    },
+    (thisValue, argumentsList) => {
+      const script = receiver(thisValue);
+      if (script === null) {
+        return binding.typeError("Invalid HTMLScriptElement receiver");
+      }
+      const value = binding.stringArgument(argumentsList, 0, "text");
+      if (value.type === "throw") {
+        return value;
+      }
+      script.text = value.value;
+      return binding.undefined();
+    },
+  );
 }
 
 export function installHTMLAnchorElementMembers(

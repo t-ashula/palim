@@ -423,7 +423,7 @@ describe("parser-inserted classic scripts", () => {
         'const host = document.createElement("div");',
         'const shadow = host.attachShadow({ mode: "closed" });',
         'const script = document.createElement("script");',
-        'script.textContent = "window.shadowTreeScriptExecutions++;";',
+        'script.text = "window.shadowTreeScriptExecutions++;";',
         "shadow.append(script);",
         'document.body.setAttribute("data-shadow-before", String(shadowTreeScriptExecutions));',
         "document.body.append(host);",
