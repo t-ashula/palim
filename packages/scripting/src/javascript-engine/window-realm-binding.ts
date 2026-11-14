@@ -13,6 +13,7 @@ import type { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import type { URLRealmBinding } from "./url-realm-binding.js";
 import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
 import {
+  installAnimationFrameProvider,
   installConsole,
   installLocationInterface,
   installLocationMembers,
@@ -36,6 +37,7 @@ export class WindowRealmBinding {
     installWindowMembers(this.#binding);
     installLocationMembers(this.#binding);
     installTimers(this.#binding);
+    installAnimationFrameProvider(this.#binding);
     installConsole(this.#binding);
   }
 

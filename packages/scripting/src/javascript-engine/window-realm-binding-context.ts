@@ -132,6 +132,22 @@ export class WindowRealmBindingContext {
       : normal(Math.max(0, Number(text.value) || 0));
   }
 
+  animationFrameIdentifier(
+    value: EngineValue | undefined,
+  ): EngineResult<number> {
+    if (value === undefined) {
+      return normal(0);
+    }
+    const converted = this.engine.toNumber(this.realm, value);
+    if (converted.type === "throw") {
+      return converted;
+    }
+    if (!Number.isFinite(converted.value) || converted.value === 0) {
+      return normal(0);
+    }
+    return normal(Math.trunc(converted.value) >>> 0);
+  }
+
   reportException(
     value: EngineValue,
     filename = this.window.document.URL,

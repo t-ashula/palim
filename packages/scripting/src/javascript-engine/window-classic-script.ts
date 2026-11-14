@@ -4,7 +4,9 @@ import type { Origin } from "@palim/core/internal/origin.js";
 import { URL } from "@palim/core/internal/url/index.js";
 import type { Window } from "@palim/window/internal/window.js";
 import {
+  runWindowAnimationFrameCallbacks,
   scheduleWindowTimeout,
+  setWindowAnimationFrameScheduler,
   setWindowMicrotaskScheduler,
 } from "@palim/window/internal/window.js";
 
@@ -38,12 +40,14 @@ export class WindowEnvironmentSettings {
   readonly #topLevelCreationURL: URL;
   readonly #topLevelOrigin: Origin;
   readonly #document: Document;
+  readonly #timeOrigin: number;
 
   constructor(
     readonly window: Window,
     readonly binding: WindowRealmBinding,
     readonly responsibleEventLoop: WindowScriptEventLoop,
   ) {
+    this.#timeOrigin = responsibleEventLoop.currentTime();
     this.#document = this.window.document;
     const implementation = documentImplementation(this.#document);
     this.#creationURL = new URL(implementation.url.href);
@@ -97,6 +101,18 @@ export class WindowEnvironmentSettings {
   hasActiveDocument(): boolean {
     return this.window.document === this.#document;
   }
+
+  relativeHighResolutionTime(time: number): number {
+    return Math.max(0, time - this.#timeOrigin);
+  }
+}
+
+export interface WindowScriptEventLoopOptions {
+  readonly currentTime?: () => number;
+  readonly scheduleRenderingOpportunity?: (
+    settings: WindowEnvironmentSettings,
+    callback: () => void,
+  ) => void;
 }
 
 export class WindowScriptEventLoop {
@@ -104,8 +120,23 @@ export class WindowScriptEventLoop {
   #performingCheckpoint = false;
   readonly #rejections = new WeakMap<EngineObject, PromiseRejectionRecord>();
   readonly #pendingRejections = new Set<PromiseRejectionRecord>();
+  readonly #scheduledAnimationFrames = new WeakSet<WindowEnvironmentSettings>();
+  readonly #currentTime: () => number;
+  readonly #scheduleRenderingOpportunity: (
+    settings: WindowEnvironmentSettings,
+    callback: () => void,
+  ) => void;
 
-  constructor(readonly engine: JavaScriptEngineAdapter) {
+  constructor(
+    readonly engine: JavaScriptEngineAdapter,
+    options: WindowScriptEventLoopOptions = {},
+  ) {
+    this.#currentTime = options.currentTime ?? hostPerformanceNow;
+    this.#scheduleRenderingOpportunity =
+      options.scheduleRenderingOpportunity ??
+      ((settings, callback) => {
+        scheduleWindowTimeout(settings.window, callback, 0);
+      });
     this.runtime = new RealmExecutionRuntime(this.engine, () => {
       if (this.#performingCheckpoint) {
         return;
@@ -167,6 +198,10 @@ export class WindowScriptEventLoop {
     return settings instanceof WindowEnvironmentSettings ? settings : null;
   }
 
+  currentTime(): number {
+    return this.#currentTime();
+  }
+
   runScript(
     settings: WindowEnvironmentSettings,
     callback: () => EngineResult<EngineValue>,
@@ -182,6 +217,32 @@ export class WindowScriptEventLoop {
       throw new TypeError("The settings use another event loop");
     }
     this.runtime.enqueueMicrotask(settings, callback);
+  }
+
+  requestAnimationFrame(settings: WindowEnvironmentSettings): void {
+    if (
+      settings.responsibleEventLoop !== this ||
+      this.#scheduledAnimationFrames.has(settings)
+    ) {
+      return;
+    }
+    this.#scheduledAnimationFrames.add(settings);
+    this.#scheduleRenderingOpportunity(settings, () => {
+      this.#scheduledAnimationFrames.delete(settings);
+      if (!settings.hasActiveDocument()) {
+        return;
+      }
+      this.runtime.run(settings, settings, () => {
+        const pending = runWindowAnimationFrameCallbacks(
+          settings.window,
+          settings.relativeHighResolutionTime(this.currentTime()),
+        );
+        if (pending) {
+          this.requestAnimationFrame(settings);
+        }
+        return normal(this.engine.fromPrimitive(undefined));
+      });
+    });
   }
 
   #notifyRejectedPromises(): void {
@@ -328,6 +389,9 @@ export class WindowScriptEnvironment {
       this.eventLoop.enqueueMicrotask(this.settings, callback);
     };
     setWindowMicrotaskScheduler(this.window, enqueueMicrotask);
+    setWindowAnimationFrameScheduler(this.window, () => {
+      this.eventLoop.requestAnimationFrame(this.settings);
+    });
     this.binding.dom.setMutationObserverMicrotaskScheduler(enqueueMicrotask);
     this.runtime = new WindowClassicScriptRuntime(this.engine, this.settings);
   }
@@ -342,4 +406,10 @@ export class WindowScriptEnvironment {
   runClassicScript(script: ClassicScript): EngineResult<EngineValue> {
     return this.runtime.runClassicScript(script);
   }
+}
+
+function hostPerformanceNow(): number {
+  const host: unknown = globalThis;
+  const performance = (host as { performance?: { now(): number } }).performance;
+  return performance?.now() ?? Date.now();
 }

@@ -8,7 +8,10 @@ import type {
 import type { Window } from "@palim/window/internal/window.js";
 import {
   createWindow,
+  replaceWindowDocument,
+  runWindowAnimationFrameCallbacks,
   scheduleWindowMicrotask,
+  setWindowAnimationFrameScheduler,
 } from "@palim/window/internal/window.js";
 import {
   windowNamedPropertyNames,
@@ -17,6 +20,55 @@ import {
 import { describe, expect, it } from "vitest";
 
 describe("Window", () => {
+  it("provides the Window animation frame API", () => {
+    const window = createWindow();
+    const renderingRequests: string[] = [];
+    const callbacks: string[] = [];
+    setWindowAnimationFrameScheduler(window, () => {
+      renderingRequests.push("requested");
+    });
+
+    const first = window.requestAnimationFrame((timestamp) => {
+      callbacks.push(`first:${String(timestamp)}`);
+      window.requestAnimationFrame((nextTimestamp) => {
+        callbacks.push(`next:${String(nextTimestamp)}`);
+      });
+    });
+    const cancelled = window.requestAnimationFrame(() => {
+      callbacks.push("cancelled");
+    });
+    window.cancelAnimationFrame(cancelled);
+
+    expect(typeof window.requestAnimationFrame).toBe("function");
+    expect(typeof window.cancelAnimationFrame).toBe("function");
+    expect(first).toBe(1);
+    expect(cancelled).toBe(2);
+    expect(renderingRequests).toEqual(["requested", "requested"]);
+
+    expect(runWindowAnimationFrameCallbacks(window, 10)).toBe(true);
+    expect(callbacks).toEqual(["first:10"]);
+    expect(runWindowAnimationFrameCallbacks(window, 20)).toBe(false);
+    expect(callbacks).toEqual(["first:10", "next:20"]);
+  });
+
+  it("keeps animation frame callbacks with the associated Document", () => {
+    const window = createWindow();
+    const callbacks: string[] = [];
+    window.requestAnimationFrame(() => callbacks.push("old document"));
+
+    const replacement = new DOMParser().parseFromString(
+      "<html></html>",
+      "text/html",
+    );
+    replaceWindowDocument(window, replacement);
+    expect(
+      window.requestAnimationFrame(() => callbacks.push("active document")),
+    ).toBe(1);
+
+    runWindowAnimationFrameCallbacks(window, 10);
+    expect(callbacks).toEqual(["active document"]);
+  });
+
   it("owns microtask scheduling in the Window runtime", async () => {
     const window = createWindow();
     const calls: string[] = [];

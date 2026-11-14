@@ -9,6 +9,10 @@ import type {
   JavaScriptEngineAdapter,
 } from "@palim/scripting/internal/javascript-engine/adapter.js";
 import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
+import {
+  WindowScriptEnvironment,
+  WindowScriptEventLoop,
+} from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
 import { WindowRealmBinding } from "@palim/scripting/internal/javascript-engine/window-realm-binding.js";
 import { createWindow } from "@palim/window/internal/window.js";
 import { describe, expect, it } from "vitest";
@@ -25,6 +29,46 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes the Window animation frame provider", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    let currentTime = 100;
+    const renderingOpportunities: (() => void)[] = [];
+    const eventLoop = new WindowScriptEventLoop(engine, {
+      currentTime: () => currentTime,
+      scheduleRenderingOpportunity: (_settings, callback) => {
+        renderingOpportunities.push(callback);
+      },
+    });
+    const environment = new WindowScriptEnvironment(engine, window, eventLoop);
+
+    evaluate(
+      engine,
+      environment.binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/animation-frame-provider.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+
+    expect(renderingOpportunities).toHaveLength(1);
+    currentTime = 116;
+    renderingOpportunities.shift()?.();
+    expect(
+      window.document.body?.getAttribute("data-animation-frame-calls"),
+    ).toBe("first:16:true|error:frame failure|second:16|microtask");
+
+    expect(renderingOpportunities).toHaveLength(1);
+    currentTime = 132;
+    renderingOpportunities.shift()?.();
+    expect(
+      window.document.body?.getAttribute("data-animation-frame-calls"),
+    ).toBe("first:16:true|error:frame failure|second:16|microtask|next:32");
+  });
+
   it("exposes live Window named properties", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

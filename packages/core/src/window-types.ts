@@ -35,6 +35,7 @@ export interface WindowConsoleCall {
 
 export type WindowErrorHandler = (report: WindowErrorReport) => void;
 export type WindowConsoleHandler = (call: WindowConsoleCall) => void;
+export type FrameRequestCallback = (timestamp: number) => void;
 
 export interface Location {
   readonly href: string;
@@ -54,5 +55,7 @@ export interface Window extends EventTarget {
   readonly top: Window;
   readonly parent: Window;
   readonly frameElement: Element | null;
+  requestAnimationFrame(callback: FrameRequestCallback): number;
+  cancelAnimationFrame(handle: number): void;
   onerror(handler: WindowErrorHandler): () => void;
 }

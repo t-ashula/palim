@@ -237,6 +237,38 @@ export function installTimers(binding: WindowRealmBindingContext): void {
   });
 }
 
+export function installAnimationFrameProvider(
+  binding: WindowRealmBindingContext,
+): void {
+  binding.operation("requestAnimationFrame", 1, (_thisValue, argumentsList) => {
+    const callback = binding.context.requiredCallable(
+      argumentsList[0],
+      "requestAnimationFrame callback must be callable",
+      {
+        exceptionBehavior: "report",
+        reportException: (value) => { binding.reportException(value); },
+      },
+    );
+    if (callback.type === "throw") {
+      return callback;
+    }
+    const identifier = binding.window.requestAnimationFrame((timestamp) => {
+      binding.context.invokeCallback(callback.value, binding.globalThis, [
+        binding.engine.fromPrimitive(timestamp),
+      ]);
+    });
+    return normal(binding.engine.fromPrimitive(identifier));
+  });
+  binding.operation("cancelAnimationFrame", 1, (_thisValue, argumentsList) => {
+    const identifier = binding.animationFrameIdentifier(argumentsList[0]);
+    if (identifier.type === "throw") {
+      return identifier;
+    }
+    binding.window.cancelAnimationFrame(identifier.value);
+    return binding.context.undefined();
+  });
+}
+
 export function installConsole(binding: WindowRealmBindingContext): void {
   const consoleObject = binding.engine.createObject(
     binding.realm,

@@ -12,6 +12,7 @@ import type {
 } from "@palim/core/internal/public-dom-interfaces.js";
 import { URL } from "@palim/core/internal/url/index.js";
 import type {
+  FrameRequestCallback,
   Location,
   Window as WindowInstance,
   WindowConsoleCall,
@@ -21,6 +22,7 @@ import type {
 } from "@palim/core/internal/window-types.js";
 
 export type {
+  FrameRequestCallback,
   Location,
   WindowConsoleCall,
   WindowConsoleHandler,
@@ -69,6 +71,7 @@ interface WindowEnvironment {
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
   readonly timers: Map<number, unknown>;
+  animationFrameScheduler: () => void;
   microtaskScheduler: WindowMicrotaskScheduler;
   nextTimerId: number;
 }
@@ -76,6 +79,13 @@ interface WindowEnvironment {
 export type WindowMicrotaskScheduler = (callback: () => void) => void;
 
 const WINDOW_ENVIRONMENTS = new WeakMap<object, WindowEnvironment>();
+const DOCUMENT_ANIMATION_FRAME_STATES = new WeakMap<
+  Document,
+  {
+    readonly callbacks: Map<number, FrameRequestCallback>;
+    nextIdentifier: number;
+  }
+>();
 
 class WindowPlatform extends EventTarget implements Window {
   constructor(construction?: unknown) {
@@ -118,6 +128,7 @@ class WindowPlatform extends EventTarget implements Window {
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
       timers: new Map<number, unknown>(),
+      animationFrameScheduler: () => undefined,
       microtaskScheduler: (callback: () => void) => {
         hostMicrotasks().queueMicrotask(callback);
       },
@@ -160,6 +171,22 @@ class WindowPlatform extends EventTarget implements Window {
 
   get frameElement(): Element | null {
     return windowEnvironment(this).browsingContext.frameElement;
+  }
+
+  requestAnimationFrame(callback: FrameRequestCallback): number {
+    if (typeof callback !== "function") {
+      throw new TypeError("Animation frame callback must be callable");
+    }
+    const environment = windowEnvironment(this);
+    const state = animationFrameState(this.document);
+    state.nextIdentifier = (state.nextIdentifier + 1) >>> 0;
+    state.callbacks.set(state.nextIdentifier, callback);
+    environment.animationFrameScheduler();
+    return state.nextIdentifier;
+  }
+
+  cancelAnimationFrame(handle: number): void {
+    animationFrameState(this.document).callbacks.delete(handle >>> 0);
   }
 
   onerror(handler: WindowErrorHandler): () => void {
@@ -304,6 +331,30 @@ export function clearWindowTimeout(window: Window, id: number): void {
   environment.timers.delete(id);
 }
 
+export function runWindowAnimationFrameCallbacks(
+  window: Window,
+  timestamp: number,
+): boolean {
+  const state = animationFrameState(window.document);
+  const identifiers = Array.from(state.callbacks.keys());
+  for (const identifier of identifiers) {
+    const callback = state.callbacks.get(identifier);
+    if (callback === undefined) {
+      continue;
+    }
+    state.callbacks.delete(identifier);
+    callback(timestamp);
+  }
+  return state.callbacks.size > 0;
+}
+
+export function setWindowAnimationFrameScheduler(
+  window: Window,
+  scheduler: () => void,
+): void {
+  windowEnvironment(window).animationFrameScheduler = scheduler;
+}
+
 export function scheduleWindowMicrotask(
   window: Window,
   callback: () => void,
@@ -324,6 +375,15 @@ function windowEnvironment(window: Window): WindowEnvironment {
     throw new TypeError("Invalid Window receiver");
   }
   return environment;
+}
+
+function animationFrameState(document: Document) {
+  let state = DOCUMENT_ANIMATION_FRAME_STATES.get(document);
+  if (state === undefined) {
+    state = { callbacks: new Map(), nextIdentifier: 0 };
+    DOCUMENT_ANIMATION_FRAME_STATES.set(document, state);
+  }
+  return state;
 }
 
 function deliver<T>(
