@@ -225,6 +225,58 @@ export function installHTMLElementMembers(
         : binding.primitive(element.accessKeyLabel);
     },
   );
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "autofocus",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.autofocus);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      element.autofocus = binding.engine.toBoolean(
+        argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+      );
+      return binding.undefined();
+    },
+  );
+  binding.attribute(
+    binding.htmlElementPrototype,
+    "tabIndex",
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.primitive(element.tabIndex);
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      const value = binding.longArgument(argumentsList, 0, "tabIndex");
+      if (value.type === "throw") {
+        return value;
+      }
+      element.tabIndex = value.value;
+      return binding.undefined();
+    },
+  );
+  for (const name of ["focus", "blur"] as const) {
+    binding.method(binding.htmlElementPrototype, name, 0, (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null) {
+        return binding.typeError("Invalid HTMLElement receiver");
+      }
+      element[name]();
+      return binding.undefined();
+    });
+  }
   binding.attribute(binding.htmlElementPrototype, "dataset", (thisValue) => {
     const element = binding.htmlElement(thisValue);
     return element === null

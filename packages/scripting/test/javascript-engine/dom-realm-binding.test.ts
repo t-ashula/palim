@@ -747,6 +747,26 @@ describe("DOMRealmBinding", () => {
     expect(document.getElementById("target")?.textContent).toBe("after");
   });
 
+  it("exposes HTMLElement focus members in the engine realm", () => {
+    const { document, engine, realm } = createTestRealm(
+      '<main id="target"></main>',
+    );
+    const target = document.getElementById("target");
+    const events: string[] = [];
+    target?.addEventListener("focus", () => events.push("focus"));
+    target?.addEventListener("blur", () => events.push("blur"));
+
+    evaluate(
+      engine,
+      realm,
+      fixture("exposes-html-element-focus-members-in-the-engine-realm.js"),
+    );
+
+    expect(target?.hasAttribute("autofocus")).toBe(false);
+    expect(target?.getAttribute("tabindex")).toBe("4");
+    expect(events).toEqual(["focus", "blur"]);
+  });
+
   it("exposes markup getters and setters in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<main><p id="first">old</p><p id="second">old</p></main>',
