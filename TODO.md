@@ -4,7 +4,7 @@
 
 ### Node tree mutation
 
-- [ ] `HTMLTemplateElement` の adopting steps で nested template contents の owner document を再帰的に更新する
+- [x] `HTMLTemplateElement` の adopting steps で nested template contents の owner document を再帰的に更新する
 
 ### Parsing and serialization
 
