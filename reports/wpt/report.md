@@ -4,17 +4,17 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261112t135320383z-1450222
+Campaign: 20261114t112030781z-3905129
 
 Campaign state: completed
 
-Palim: 4100645ad466a92311fb9d7fc02cecd457eaca30
+Palim: 066a598adeb3e0c0e805c16fb3c9c5934d4c421f (dirty)
 
-Container image: sha256:81cda79f5ce80bae2711e69494dd04257148ecbded8ee443c16666a2fc67c560
+Container image: sha256:740252f770b3a8e35afbf703fbbb7b58d1723fd118f299eda4ea88cbc244cbe3
 
-Snapshot: 2026-11-12T14:34:15.716Z
+Snapshot: 2026-11-14T12:34:20.497Z
 
-Attempts: 1926; worker failures: 0; retries: 0
+Attempts: 2297; worker failures: 361; retries: 361
 
 ## URL execution progress
 
@@ -22,24 +22,24 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 740 | 791 | 0 | 210 | 185 | 0 | 100.00% | 38.42% |
-| /custom-elements/ | 196 | 196 | 10 | 152 | 0 | 29 | 5 | 0 | 100.00% | 5.10% |
+| All | 1926 | 1926 | 781 | 806 | 0 | 136 | 203 | 0 | 100.00% | 40.55% |
+| /custom-elements/ | 196 | 196 | 11 | 151 | 0 | 29 | 5 | 0 | 100.00% | 5.61% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 214 | 214 | 29 | 70 | 0 | 21 | 94 | 0 | 100.00% | 13.55% |
+| /dom/events/ | 214 | 214 | 38 | 69 | 0 | 13 | 94 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
-| /dom/ranges/ | 69 | 69 | 24 | 36 | 0 | 2 | 7 | 0 | 100.00% | 34.78% |
+| /dom/nodes/ | 408 | 408 | 302 | 78 | 0 | 6 | 22 | 0 | 100.00% | 74.02% |
+| /dom/ranges/ | 69 | 69 | 23 | 33 | 0 | 2 | 11 | 0 | 100.00% | 33.33% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 91 | 91 | 51 | 20 | 0 | 17 | 3 | 0 | 100.00% | 56.04% |
-| /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
+| /domparsing/ | 91 | 91 | 51 | 19 | 0 | 17 | 4 | 0 | 100.00% | 56.04% |
+| /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 51 | 1 | 0 | 0 | 5 | 0 | 100.00% | 89.47% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
+| /html/syntax/parsing/ | 236 | 236 | 100 | 115 | 0 | 2 | 19 | 0 | 100.00% | 42.37% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
-| /shadow-dom/ | 314 | 314 | 39 | 224 | 0 | 15 | 36 | 0 | 100.00% | 12.42% |
-| /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 43 | 4 | 0 | 28 | 2 | 0 | 100.00% | 55.84% |
-| /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
+| /shadow-dom/ | 314 | 314 | 51 | 212 | 0 | 17 | 34 | 0 | 100.00% | 16.24% |
+| /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
+| /url/ | 77 | 77 | 59 | 16 | 0 | 0 | 2 | 0 | 100.00% | 76.62% |
+| /xhr/formdata | 28 | 28 | 10 | 15 | 0 | 3 | 0 | 0 | 100.00% | 35.71% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
 ## Non-tentative WPT results
@@ -48,31 +48,31 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1794 | 1794 | 731 | 719 | 0 | 187 | 157 | 0 | 100.00% | 40.75% |
-| /custom-elements/ | 189 | 189 | 10 | 150 | 0 | 24 | 5 | 0 | 100.00% | 5.29% |
+| All | 1794 | 1794 | 772 | 735 | 0 | 113 | 174 | 0 | 100.00% | 43.03% |
+| /custom-elements/ | 189 | 189 | 11 | 149 | 0 | 24 | 5 | 0 | 100.00% | 5.82% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 211 | 211 | 29 | 69 | 0 | 21 | 92 | 0 | 100.00% | 13.74% |
+| /dom/events/ | 211 | 211 | 38 | 68 | 0 | 13 | 92 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 296 | 83 | 0 | 6 | 23 | 0 | 100.00% | 72.55% |
-| /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
+| /dom/nodes/ | 408 | 408 | 302 | 78 | 0 | 6 | 22 | 0 | 100.00% | 74.02% |
+| /dom/ranges/ | 46 | 46 | 23 | 10 | 0 | 2 | 11 | 0 | 100.00% | 50.00% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 56 | 56 | 43 | 4 | 0 | 6 | 3 | 0 | 100.00% | 76.79% |
-| /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
+| /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 51 | 0 | 0 | 0 | 5 | 0 | 100.00% | 91.07% |
 | /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
+| /html/syntax/parsing/ | 234 | 234 | 100 | 115 | 0 | 1 | 18 | 0 | 100.00% | 42.74% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
-| /shadow-dom/ | 254 | 254 | 39 | 195 | 0 | 9 | 11 | 0 | 100.00% | 15.35% |
-| /streams/writable-streams/ | 64 | 64 | 0 | 16 | 0 | 48 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 43 | 4 | 0 | 28 | 2 | 0 | 100.00% | 55.84% |
-| /xhr/formdata | 28 | 28 | 5 | 12 | 0 | 11 | 0 | 0 | 100.00% | 17.86% |
+| /shadow-dom/ | 254 | 254 | 51 | 183 | 0 | 11 | 9 | 0 | 100.00% | 20.08% |
+| /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
+| /url/ | 77 | 77 | 59 | 16 | 0 | 0 | 2 | 0 | 100.00% | 76.62% |
+| /xhr/formdata | 28 | 28 | 10 | 15 | 0 | 3 | 0 | 0 | 100.00% | 35.71% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
 ### Executed subtests
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 91713 | 65800 | 25587 | 0 | 176 | 150 | 71.75% |
+| 56219 | 33782 | 21821 | 0 | 451 | 165 | 60.09% |
 
 ### Non-passing executed tests
 
@@ -115,7 +115,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/form-associated/fieldset-elements-after-upgrade.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/fieldset-elements-during-construction.html | timeout | <code>palim execution timed out</code> |
 | /custom-elements/form-associated/fieldset-elements.html | fail | <code>Cannot convert undefined to object</code> |
-| /custom-elements/form-associated/focusability.html | fail | <code>foo.focus is not a function. (In "foo.focus()", it is undefined)</code> |
 | /custom-elements/form-associated/form-associated-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/form-disabled-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/form-disabled-legend.html | fail | <code>assert_true: in legend :enabled expected true got false</code> |
@@ -257,35 +256,30 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/upgrading/upgrade-custom-element-error-event.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
 | /custom-elements/upgrading/upgrading-enqueue-reactions.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/upgrading/upgrading-parser-created-element.html | fail | <code>assert_true: Calling customElements.define must upgrade existing custom elements expected true got false</code> |
-| /dom/events/AddEventListenerOptions-passive.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/AddEventListenerOptions-signal.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/Body-FrameSet-Event-Handlers.html | fail | <code>assert_equals: Return null after setting string expected (object) null but got (string) ""</code> |
 | /dom/events/Event-cancelBubble.html | fail | <code>assert_false: cancelBubble must be false after an event has been dispatched. expected false got true</code> |
-| /dom/events/Event-constructors.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/Event-dispatch-bubble-canceled.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
-| /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
-| /dom/events/Event-dispatch-bubbles-true.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., [...], Document node with 2 children, [...]] length 14</code> |
+| /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 8</code> |
+| /dom/events/Event-dispatch-bubbles-true.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-click.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-detached-input-and-change.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
-| /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., [...], Document node with 2 children, [...]] length 14</code> |
-| /dom/events/Event-dispatch-listener-order.window.html | fail | <code>assert_array_equals: lengths differ, expected array ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "capturing SPAN", "bubbling SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"] length 10, got ["bubbling SPAN", "capturing SPAN", "bubbling P", "capturing P", "bubbling #document-fragment", "capturing #document-fragment"] length 6</code> |
-| /dom/events/Event-dispatch-multiple-cancelBubble.html | fail | <code>assert_array_equals: lengths differ, expected array [Document node with 2 children, object "[object Object]"] length 2, got [Document node with 2 children] length 1</code> |
-| /dom/events/Event-dispatch-multiple-stopPropagation.html | fail | <code>assert_array_equals: lengths differ, expected array [Document node with 2 children, object "[object Object]"] length 2, got [Document node with 2 children] length 1</code> |
+| /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
+| /dom/events/Event-dispatch-listener-order.window.html | fail | <code>assert_array_equals: expected property 4 to be "capturing SPAN" but got "bubbling SPAN" (expected array ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "capturing SPAN", "bubbling SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"] got ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "bubbling SPAN", "capturing SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"])</code> |
+| /dom/events/Event-dispatch-multiple-cancelBubble.html | fail | <code>assert_array_equals: lengths differ, expected array [Element node &lt;div id="parent" style="display: none"&gt;<br>    &lt;input id="ta...] length 1, got [] length 0</code> |
+| /dom/events/Event-dispatch-multiple-stopPropagation.html | fail | <code>assert_array_equals: lengths differ, expected array [Element node &lt;div id="parent" style="display: none"&gt;<br>    &lt;input id="ta...] length 1, got [] length 0</code> |
 | /dom/events/Event-dispatch-omitted-capture.html | fail | <code>assert_array_equals: targets lengths differ, expected array [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children, object "[object Object]"] length 8, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children] length 7</code> |
 | /dom/events/Event-dispatch-on-disabled-elements.html | timeout | <code>elem.click is not a function. (In "elem.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-order-at-target.html | fail | <code>assert_array_equals: bubbles: true expected property 0 to be "capturing" but got "bubbling" (expected array ["capturing", "bubbling"] got ["bubbling", "capturing"])</code> |
 | /dom/events/Event-dispatch-order.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/Event-dispatch-propagation-stopped.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [] length 0, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 2</code> |
 | /dom/events/Event-dispatch-redispatch.html | timeout | <code>b'ReferenceError: "requestAnimationFrame" is not defined\n    at &lt;anonymous&gt; (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:10:43)'</code> |
-| /dom/events/Event-dispatch-reenter.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;] length 1</code> |
+| /dom/events/Event-dispatch-reenter.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-single-activation-behavior.html | error | <code>39 duplicate test names: "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated."</code> |
-| /dom/events/Event-dispatch-target-moved.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., [...], Document node with 2 children, [...]] length 14</code> |
-| /dom/events/Event-dispatch-target-removed.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;Determined even..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, [...], Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., [...], Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., [...], Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;Determined even..., [...], Document node with 2 children, [...]] length 14</code> |
+| /dom/events/Event-dispatch-target-moved.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
+| /dom/events/Event-dispatch-target-removed.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;Determined even..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;Determined even..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-throwing-multiple-globals.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "event" is not defined"</code> |
 | /dom/events/Event-init-while-dispatching.html | fail | <code>"KeyboardEvent" is not defined</code> |
 | /dom/events/Event-isTrusted.any.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
-| /dom/events/Event-isTrusted.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/Event-propagation.html | fail | <code>assert_equals: Propagation flag expected false but got true</code> |
+| /dom/events/Event-isTrusted.any.worker.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
+| /dom/events/Event-propagation.html | fail | <code>assert_equals: Propagation flag after first dispatch expected true but got false</code> |
 | /dom/events/Event-stopPropagation-cancel-bubbling.html | fail | <code>"MouseEvent" is not defined</code> |
 | /dom/events/Event-subclasses-constructors.html | fail | <code>undefined is not a constructor</code> |
 | /dom/events/Event-timestamp-high-resolution.html | fail | <code>"performance" is not defined</code> |
@@ -295,14 +289,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/EventListener-incumbent-global-1.sub.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/EventListener-incumbent-global-2.sub.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/EventListener-invoke-legacy.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/EventListenerOptions-capture.html | fail | <code>assert_equals: Incorrect event phase for value: true expected 1 but got 3</code> |
+| /dom/events/EventListenerOptions-capture.html | fail | <code>assert_true: removeEventListener doesn't support the capture option expected true got false</code> |
 | /dom/events/EventTarget-add-listener-platform-object.html | fail | <code>TypeError: customElement.click is not a function. (In "customElement.click()", it is undefined)</code> |
-| /dom/events/EventTarget-add-remove-listener.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /dom/events/EventTarget-addEventListener.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/EventTarget-constructible.any.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /dom/events/EventTarget-constructible.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /dom/events/EventTarget-constructible.any.worker.html | error | <code>Error in remote http://web-platform.test:8000/dom/events/EventTarget-constructible.any.worker.js: TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /dom/events/EventTarget-dispatchEvent.html | fail | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
-| /dom/events/EventTarget-removeEventListener.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /dom/events/EventTarget-window-constructor.html | fail | <code>assert_equals: expected (object) Element node &lt;body&gt;<br>&lt;script&gt;<br>"use strict";<br><br>test(t =&gt; {<br>  const eventT... but got (undefined) undefined</code> |
 | /dom/events/KeyEvent-initKeyEvent.html | fail | <code>The event interface "KeyboardEvent" is not supported</code> |
 | /dom/events/click-on-absolute-pseudo.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
@@ -313,8 +304,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/event-global-is-still-set-when-coercing-beforeunload-result.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-is-still-set-when-reporting-exception-onerror.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/event-global-set-before-handleEvent-lookup.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/events/event-global.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/event-global.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /dom/events/event-global.html | fail | <code>assert_own_property: expected property "event" missing</code> |
 | /dom/events/event-listener-not-fully-active-adopted-node.html | fail | <code>assert_equals: listeners do not run once the iframe is removed expected 2 but got 4</code> |
 | /dom/events/event-listener-not-fully-active-callback.html | fail | <code>assert_equals: the callback does not run once the iframe is removed expected 1 but got 2</code> |
 | /dom/events/event-listener-not-fully-active-navigated.html | fail | <code>assert_equals: listeners do not run after the navigation expected 4 but got 8</code> |
@@ -326,7 +316,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/label-default-action.html | fail | <code>button.click is not a function. (In "button.click()", it is undefined)</code> |
 | /dom/events/legacy-pre-activation-behavior.window.html | fail | <code>"MouseEvent" is not defined</code> |
 | /dom/events/mouse-event-retarget.html | fail | <code>"MouseEvent" is not defined</code> |
-| /dom/events/no-focus-events-at-clicking-editable-content-in-link.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: editingHost.blur is not a function. (In "editingHost.blur()", it is undefined)"</code> |
+| /dom/events/no-focus-events-at-clicking-editable-content-in-link.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
@@ -432,15 +422,14 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/scrolling/wheel-event-transactions-target-removal.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
 | /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true | timeout | <code>palim execution timed out</code> |
-| /dom/events/shadow-relatedTarget.html | fail | <code>root.getElementById("shadowInput").focus is not a function. (In "root.getElementById("shadowInput").focus()", it is undefined)</code> |
+| /dom/events/shadow-relatedTarget.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/webkit-animation-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/webkit-animation-iteration-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/webkit-animation-start-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/webkit-transition-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/window-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /dom/events/window-event-restored-after-throwing-onerror.html | fail | <code>assert_equals: window.event is the outer event before the nested dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/nodes/Document-adoptNode-DocumentFragment-with-host.window.html | fail | <code>assert_equals: inner content owner document tracks outer content owner document expected Document node with 0 children but got Document node with 0 children</code> |
-| /dom/nodes/Document-cloneNode-base-url.window.html | fail | <code>assert_equals: source expected "http://web-platform.test:8000/dom/nodes/sub/" but got "about:blank"</code> |
+| /dom/nodes/Document-cloneNode-base-url.window.html | fail | <code>"Blob" is not defined</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html | fail | <code>assert_equals: expected "text/html" but got ""</code> |
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
@@ -485,7 +474,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/ParentNode-querySelector-All-xht.xht | error | <code>ReferenceError: "requestAnimationFrame" is not defined</code> |
 | /dom/nodes/ParentNode-querySelector-All.html | error | <code>ReferenceError: "requestAnimationFrame" is not defined</code> |
 | /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>assert_equals: querySelector with :host pseudo-class should find the element expected Element node &lt;article&gt;&lt;/article&gt; but got null</code> |
-| /dom/nodes/ParentNode-replaceChildren.html | timeout | <code>b'at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:172:42)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/dom/nodes/ParentNode-replaceChildren.html:210:42)'</code> |
 | /dom/nodes/ProcessingInstruction-escapes-1.xhtml | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/create-element-realm-after-adoption.html | fail | <code>customElements.get is not a function. (In "customElements.get("x-baz")", it is undefined)</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
@@ -495,8 +483,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html | fail | <code>assert_array_equals: expected property 0 to be "sheet" but got null (expected array ["sheet", 2] got [null, undefined])</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["s1", "s2", "s2ran"] length 3, got ["s1", "s2", "s2ran", "s2", "s2ran"] length 5</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/nodes/insertion-removing-steps/blur-event.window.html | fail | <code>input.focus is not a function. (In "input.focus()", it is undefined)</code> |
-| /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.focus is not a function. (In "input.focus()", it is undefined)"</code> |
+| /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /dom/nodes/insertion-removing-steps/frame-post-connection-steps.html | fail | <code>assert_equals: The frame window is created in post-connection order expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html | fail | <code>assert_equals: iframe1 load event can observe its own participation in the frame tree expected (number) 1 but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html | fail | <code>assert_false: Appending script with invalid type does not trigger execution expected false got true</code> |
@@ -515,11 +502,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/css-transition-to-disconnected-document.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: item.getBoundingClientRect is not a function. (In "item.getBoundingClientRect()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/css-transition-trigger.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: item.getBoundingClientRect is not a function. (In "item.getBoundingClientRect()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/custom-element-move-reactions.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /dom/nodes/moveBefore/fieldset-child-blur-event.html | fail | <code>victim.focus is not a function. (In "victim.focus()", it is undefined)</code> |
-| /dom/nodes/moveBefore/fieldset-child-date-input-blur-event.html | fail | <code>victim.focus is not a function. (In "victim.focus()", it is undefined)</code> |
-| /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>button.focus is not a function. (In "button.focus()", it is undefined)</code> |
-| /dom/nodes/moveBefore/focus-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: focusedElement.focus is not a function. (In "focusedElement.focus()", it is undefined)"</code> |
-| /dom/nodes/moveBefore/focus-within.html | fail | <code>button.focus is not a function. (In "button.focus()", it is undefined)</code> |
+| /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /dom/nodes/moveBefore/focus-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /dom/nodes/moveBefore/focus-within.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /dom/nodes/moveBefore/fullscreen-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/hover-style-update.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/iframe-document-preserve.window.html | timeout | <code>palim execution timed out</code> |
@@ -543,35 +528,35 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/style-applies.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getComputedStyle" is not defined"</code> |
 | /dom/nodes/moveBefore/stylesheet-cascade-order.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/name-validation.html | timeout |  |
+| /dom/nodes/name-validation.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected "green" but got ""</code> |
 | /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>window.customElements.get is not a function. (In "window.customElements.get("x-mixed")", it is undefined)</code> |
-| /dom/nodes/post-connection-steps-shadow-tree.html | fail | <code>assert_equals: script runs when its shadow-including tree becomes connected expected 1 but got 0</code> |
 | /dom/nodes/processing-instruction-attributes.html | fail | <code>pi.getAttribute is not a function. (In "pi.getAttribute("a")", it is undefined)</code> |
 | /dom/nodes/query-target-in-load-event.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/remove-and-adopt-thcrash.html | fail | <code>window.open is not a function. (In "window.open()", it is undefined)</code> |
 | /dom/nodes/remove-unscopable.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/ranges/Range-cloneContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
-| /dom/ranges/Range-compareBoundaryPoints.html | timeout |  |
-| /dom/ranges/Range-comparePoint.html | timeout |  |
+| /dom/ranges/Range-compareBoundaryPoints.html | timeout | <code>palim execution timed out</code> |
+| /dom/ranges/Range-comparePoint.html | timeout | <code>palim execution timed out</code> |
 | /dom/ranges/Range-deleteContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-extractContents-dynamic-end.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/ranges/Range-extractContents.html | fail | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>TypeError: Cannot convert null to object</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open | error | <code>TypeError: Cannot convert null to object</code> |
-| /dom/ranges/Range-insertNode.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
-| /dom/ranges/Range-isPointInRange.html | timeout |  |
+| /dom/ranges/Range-insertNode.html | timeout | <code>palim execution timed out</code> |
+| /dom/ranges/Range-intersectsNode.html | timeout |  |
+| /dom/ranges/Range-isPointInRange.html | timeout | <code>palim execution timed out</code> |
 | /dom/ranges/Range-mutations-appendChild.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-mutations-appendData.html | fail | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
-| /dom/ranges/Range-mutations-dataChange.html | timeout | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
-| /dom/ranges/Range-mutations-deleteData.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/Range-mutations-appendData.html | timeout | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
+| /dom/ranges/Range-mutations-dataChange.html | timeout | <code>palim execution timed out</code> |
+| /dom/ranges/Range-mutations-deleteData.html | timeout | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-insertBefore.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-insertData.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-removeChild.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-replaceChild.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-mutations-replaceData.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/Range-mutations-replaceData.html | timeout | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-splitText.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-set.html | timeout |  |
+| /dom/ranges/Range-set.html | timeout | <code>TestRunner hit external timeout (this may indicate a hang)</code> |
 | /dom/ranges/Range-surroundContents.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
 | /domparsing/DOMParser-parseFromString-stylesheets.html | fail | <code>Cannot convert undefined to object</code> |
 | /domparsing/DOMParser-parseFromString-url-base-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
@@ -587,6 +572,10 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/stream-html-reentrancy.html | fail | <code>assert_array_equals: lengths differ, expected array ["connected"] length 1, got [] length 0</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nError: The tokenizer input stream is closed\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
+| /html/dom/documents/dom-tree-accessors/document.title-03.html | timeout | <code>palim execution timed out</code> |
+| /html/dom/documents/dom-tree-accessors/document.title-04.xhtml | timeout | <code>palim execution timed out</code> |
+| /html/dom/documents/dom-tree-accessors/nameditem-01.html | timeout | <code>TestRunner hit external timeout (this may indicate a hang)</code> |
+| /html/dom/documents/dom-tree-accessors/nameditem-02.html | timeout | <code>palim execution timed out</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
 | /html/dom/elements/global-attributes/cdata-dir_auto.html | timeout | <code>palim execution timed out</code> |
 | /html/dom/elements/global-attributes/custom-attrs.html | fail | <code>assert_equals: expected 3 but got 2</code> |
@@ -680,9 +669,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=search-element | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tables01 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=template | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests1 | fail | <code>"Blob" is not defined</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests10 | fail | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=template | timeout | <code>"Blob" is not defined</code> |
+| /html/syntax/parsing/html5lib_url.html?file=tests1 | timeout |  |
+| /html/syntax/parsing/html5lib_url.html?file=tests10 | timeout | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests11 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests12 | fail | <code>"Blob" is not defined</code> |
 | /html/syntax/parsing/html5lib_url.html?file=tests14 | fail | <code>"Blob" is not defined</code> |
@@ -713,13 +702,16 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/html5lib_write.html?file=scripted_ark | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"5\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\""</code> |
 | /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"" but got "#document\n&#124; &lt;b&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\""</code> |
 | /html/syntax/parsing/html5lib_write.html?file=scripted_webkit01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"23\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"2\")\"\n&#124;     \"3\""</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=blocks | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;address&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;address&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\""</code> |
+| /html/syntax/parsing/html5lib_write.html?file=search-element | timeout |  |
+| /html/syntax/parsing/html5lib_write.html?file=template | timeout |  |
+| /html/syntax/parsing/html5lib_write_single.html?file=blocks | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/html5lib_write_single.html?file=comments01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;!--  BAR  --&gt;\n&#124;     \"BAZ\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO\"\n&#124;     &lt;!--  --BAR -- --&gt;\n&#124;     \"BAZ\""</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Hello\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"Hello\""</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       \"foo\nbar\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;svg svg&gt;\n&#124;       &lt;!-- C[DATA[foo\nbar]] --&gt;"</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOO&gt;BAR\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"FOOgt;BAR&amp;\""</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       bar=\"ZZ&gt;YY\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;div&gt;\n&#124;       &amp;=\"\"\n&#124;       bar=\"ZZgt;YY\""</code> |
-| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;"</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=doctype01 | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities01 | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=entities02 | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=html5test-com | timeout | <code>palim execution timed out</code> |
+| /html/syntax/parsing/html5lib_write_single.html?file=inbody01 | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/html5lib_write_single.html?file=isindex | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;isindex&gt;\n&#124;       \"x\"\n&#124;     \"x\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;isindex&gt;\n&#124;       \"x\"\n&#124;     \"x\""</code> |
 | /html/syntax/parsing/html5lib_write_single.html?file=main-element | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;main&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\"" but got "#document\n&#124; &lt;!-- odctype html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       \"foo\"\n&#124;     &lt;main&gt;\n&#124;       \"bar\"\n&#124;       &lt;p&gt;\n&#124;         \"baz\""</code> |
 | /html/syntax/parsing/html5lib_write_single.html?file=menuitem-element | fail | <code>assert_equals: expected "#document\n&#124; &lt;!DOCTYPE html&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;menuitem&gt;\n&#124;       \"A\"" but got "#document\n&#124; &lt;!-- ODCTYPE html --&gt;\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;menuitem&gt;\n&#124;       \"A\""</code> |
@@ -805,7 +797,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /sanitizer-api/trustedhtml-unvetted-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /shadow-dom/Document-prototype-currentScript.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/Document-prototype-currentScript.html | error | <code>Error: assert_equals: expected null but got Element node &lt;script&gt;assert_equals(document.currentScript, null)&lt;/script&gt;</code> |
 | /shadow-dom/Document-prototype-importNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.importNode(shadowRoot);<br>        }" did not throw</code> |
 | /shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html | fail | <code>document.elementFromPoint is not a function. (In "document.elementFromPoint(...pointInElement(host))", it is undefined)</code> |
 | /shadow-dom/Element-interface-attachShadow-custom-element.html | error | <code>TypeError: Super class [Function HTMLInputElement] is not a constructor</code> |
@@ -814,12 +806,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/HighlightRegistry-highlightsFromPoint.html | fail | <code>assert_throws_js: function "() =&gt; { CSS.highlights.highlightsFromPoint(10, 10, {shadowRoots: [container]}); }" threw object "ReferenceError: "CSS" is not defined" ("ReferenceError") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /shadow-dom/MouseEvent-prototype-offsetX-offsetY.html | fail | <code>"MouseEvent" is not defined</code> |
 | /shadow-dom/Node-prototype-cloneNode.html | fail | <code>assert_throws_dom: cloneNode(false) on a shadow root in open mode must throw a NotSupportedError function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            shadowRoot.cloneNode(false);<br>        }" did not throw</code> |
-| /shadow-dom/ShadowRoot-interface.html | fail | <code>assert_equals: ShadowRoot.host must return null if an open shadow tree does not have a focused element expected (object) null but got (undefined) undefined</code> |
+| /shadow-dom/ShadowRoot-interface.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/Slottable-mixin.html | fail | <code>assert_true: assignedSlot must be defined on Element.prototype expected true got false</code> |
 | /shadow-dom/attachShadow-with-ShadowRoot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-parser-interaction.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/declarative/declarative-shadow-dom-attachment.html | fail | <code>assert_equals: Correct delegatesFocus expected (boolean) false but got (undefined) undefined</code> |
+| /shadow-dom/declarative/declarative-shadow-dom-attachment.html | fail | <code>A shadow root cannot be attached to this element</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-basic.html | fail | <code>assert_equals: No leftover template node expected null but got Element node &lt;template shadowrootmode="open"&gt;<br>    &lt;slot id="s1" name="...</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-opt-in.html | timeout | <code>palim execution timed out</code> |
@@ -837,117 +829,112 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/declarative/script-access.html | fail | <code>assert_equals: expected 3 but got 0</code> |
 | /shadow-dom/dragenter-related-target.html | fail | <code>Tried to run in a non-testharness window without a call to set_test_context</code> |
 | /shadow-dom/dragleave-related-target.html | fail | <code>Tried to run in a non-testharness window without a call to set_test_context</code> |
-| /shadow-dom/event-composed-path-after-dom-mutation.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/event-composed-path-with-related-target.html | fail | <code>"FocusEvent" is not defined</code> |
+| /shadow-dom/event-composed-path-after-dom-mutation.html | fail | <code>e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
+| /shadow-dom/event-composed-path-with-related-target.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-composed.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /shadow-dom/event-inside-shadow-tree.html | fail | <code>assert_equals: EventPath must contain [target, parent, shadow root, shadow host] expected 4 but got 3</code> |
 | /shadow-dom/event-inside-slotted-node.html | fail | <code>assert_equals: EventPath must contain [target, target parent, slot, slot parent, shadow root, shadow host] expected 6 but got 3</code> |
 | /shadow-dom/event-post-dispatch-listenerless.html | fail | <code>assert_equals: target is retargeted to the host expected Element node &lt;div&gt;&lt;/div&gt; but got Element node &lt;div&gt;&lt;/div&gt;</code> |
 | /shadow-dom/event-post-dispatch-no-listeners.html | fail | <code>assert_equals: event.target should be the shadow host (retargeted) after dispatch expected Element node &lt;div id="host"&gt;<br>    <br>  &lt;/div&gt; but got Element node &lt;div id="target"&gt;&lt;/div&gt;</code> |
 | /shadow-dom/event-post-dispatch.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-with-related-target.html | fail | <code>"MouseEvent" is not defined</code> |
 | /shadow-dom/execcommand-insertList-in-shadow.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
-| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: xmenu1.focus is not a function. (In "xmenu1.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: start.focus is not a function. (In "start.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | fail | <code>assert_false: expected false got undefined</code> |
-| /shadow-dom/focus-navigation/focus-navigation.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-navigation.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus-navigation/focus-nested-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: div1.focus is not a function. (In "div1.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input2.focus is not a function. (In "input2.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input1.focus is not a function. (In "input1.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/focus-with-negative-index.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/focus-nested-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/focus-with-negative-index.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | fail | <code>assert_true: Failed to focus scroller expected true got false</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html | fail | <code>assert_true: Failed to focus host/B expected true got false</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html | error | <code>TypeError: document.querySelector('[popovertarget]').click is not a function. (In "document.querySelector('[popovertarget]').click()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/normal.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/normal.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus-within-shadow.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/focus/DocumentOrShadowRoot-activeElement.html | fail | <code>focused.focus is not a function. (In "focused.focus()", it is undefined)</code> |
-| /shadow-dom/focus/ShadowRoot-delegatesFocus.html | fail | <code>assert_equals: expected (boolean) false but got (undefined) undefined</code> |
-| /shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html | fail | <code>host.focus is not a function. (In "host.focus()", it is undefined)</code> |
+| /shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;input id="slotted"&gt;&lt;/input&gt; but got Element node &lt;body&gt;&lt;div id="host"&gt;<br>  &lt;input id="slotted"&gt;<br>&lt;/div&gt;<br><br>&lt;scr...</code> |
 | /shadow-dom/focus/click-focus-delegatesFocus-click.html | fail | <code>host.click is not a function. (In "host.click()", it is undefined)</code> |
 | /shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/click-focus-slot-ancestor.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
-| /shadow-dom/focus/delegatesFocus-tabindex-change.html | fail | <code>host.focus is not a function. (In "host.focus()", it is undefined)</code> |
-| /shadow-dom/focus/focus-autofocus.html | fail | <code>host.focus is not a function. (In "host.focus()", it is undefined)</code> |
-| /shadow-dom/focus/focus-click-on-shadow-host.html | fail | <code>assert_equals: expected (object) Element node &lt;body&gt;<br>  &lt;div id="host"&gt;&lt;/div&gt;<br><br><br>&lt;script&gt;<br>const host = do... but got (undefined) undefined</code> |
-| /shadow-dom/focus/focus-method-delegatesFocus.html | fail | <code>host.focus is not a function. (In "host.focus()", it is undefined)</code> |
-| /shadow-dom/focus/focus-method-with-delegatesFocus.html | fail | <code>xshadow0.focus is not a function. (In "xshadow0.focus()", it is undefined)</code> |
-| /shadow-dom/focus/focus-preserved-on-slot-reorder.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.focus is not a function. (In "input.focus()", it is undefined)"</code> |
+| /shadow-dom/focus/focus-autofocus.html | fail | <code>assert_equals: expected Element node &lt;div tabindex="0" autofocus="true"&gt;&lt;/div&gt; but got Element node &lt;div tabindex="0"&gt;&lt;/div&gt;</code> |
+| /shadow-dom/focus/focus-click-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
+| /shadow-dom/focus/focus-method-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;body&gt;<br>&lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToS... but got Element node &lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToSecondSl...</code> |
+| /shadow-dom/focus/focus-method-with-delegatesFocus.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/focus/focus-preserved-on-slot-reorder.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
 | /shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/focus/focus-scroll-under-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
-| /shadow-dom/focus/focus-selector-delegatesFocus.html | fail | <code>shadowChild.focus is not a function. (In "shadowChild.focus()", it is undefined)</code> |
-| /shadow-dom/focus/focus-shadowhost-display-none.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: host.focus is not a function. (In "host.focus()", it is undefined)"</code> |
+| /shadow-dom/focus/focus-shadowhost-display-none.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: window.getComputedStyle is not a function. (In "window.getComputedStyle(host)", it is undefined)"</code> |
 | /shadow-dom/focus/focus-slot-box-generated-tabindex-0.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus/focus-tab-on-shadow-host.html | fail | <code>assert_equals: expected (object) Element node &lt;body&gt;<br>  &lt;div id="host"&gt;&lt;/div&gt;<br><br><br>&lt;script&gt;<br>const host = do... but got (undefined) undefined</code> |
+| /shadow-dom/focus/focus-tab-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: root1.querySelector("input").focus is not a function. (In "root1.querySelector("input").focus()", it is undefined)"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: root1.querySelector("input").focus is not a function. (In "root1.querySelector("input").focus()", it is undefined)"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 | /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
@@ -988,18 +975,13 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/slots.html | fail | <code>assert_equals: expected (object) Element node &lt;slot id="s1" name="slot1"&gt;&lt;/slot&gt; but got (undefined) undefined</code> |
 | /shadow-dom/touch-event-retargeting-leak.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html | fail | <code>assert_equals: attachShadow() method should establish the context object as the shadow host of the ShadowRoot object expected (number) 0 but got (undefined) undefined</code> |
-| /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/activeElement-confirm-return-null.html | fail | <code>assert_equals: activeElement attribute of the ShadowRoot must return null if there's no focused element expected (object) null but got (undefined) undefined</code> |
-| /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-007.html | fail | <code>inp.focus is not a function. (In "inp.focus()", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-011.html | fail | <code>assert_true: ShadowRoot styleSheets attribute shouldn't be null expected true got false</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-004.html | fail | <code>s.getSelection is not a function. (In "s.getSelection()", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-006.html | fail | <code>s.elementFromPoint is not a function. (In "s.elementFromPoint(1, 1)", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-007.html | fail | <code>s.elementFromPoint is not a function. (In "s.elementFromPoint(-1, 1)", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-010.html | fail | <code>assert_equals: Wrong exception type expected (number) 9 but got (undefined) undefined</code> |
 | /shadow-dom/untriaged/events/event-dispatch/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
-| /shadow-dom/untriaged/events/event-dispatch/test-003.html | fail | <code>input1.focus is not a function. (In "input1.focus()", it is undefined)</code> |
-| /shadow-dom/untriaged/events/retargeting-focus-events/test-001.html | fail | <code>inp1.focus is not a function. (In "inp1.focus()", it is undefined)</code> |
-| /shadow-dom/untriaged/events/retargeting-focus-events/test-002.html | fail | <code>roots.playerShadowRoot.querySelector('.volume-slider').focus is not a function. (In "roots.playerShadowRoot.querySelector('.volume-slider').focus()", it is undefined)</code> |
-| /shadow-dom/untriaged/events/retargeting-focus-events/test-003.html | fail | <code>d.querySelector('#outside-control').focus is not a function. (In "d.querySelector('#outside-control').focus()", it is undefined)</code> |
+| /shadow-dom/untriaged/events/event-dispatch/test-003.html | fail | <code>event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html | fail | <code>"MouseEvent" is not defined</code> |
@@ -1014,132 +996,109 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/untriaged/styles/test-003.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/untriaged/styles/test-005.html | fail | <code>assert_true: CSS styles declared in shadow tree must not be applied to the elements in the document tree expected true got false</code> |
 | /shadow-dom/untriaged/styles/test-008.html | fail | <code>assert_equals: Element should not be rendered expected (number) 0 but got (undefined) undefined</code> |
-| /shadow-dom/untriaged/user-interaction/active-element/test-001.html | fail | <code>inp.focus is not a function. (In "inp.focus()", it is undefined)</code> |
-| /shadow-dom/untriaged/user-interaction/active-element/test-002.html | fail | <code>inp.focus is not a function. (In "inp.focus()", it is undefined)</code> |
 | /shadow-dom/untriaged/user-interaction/editing/inheritance-of-content-editable-001.html | fail | <code>assert_equals: expected (string) "inherit" but got (undefined) undefined</code> |
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-001.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-002.html | fail | <code>d.defaultView.getSelection is not a function. (In "d.defaultView.getSelection()", it is undefined)</code> |
 | /shadow-dom/wheel-event-related-target.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /streams/writable-streams/aborting.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/aborting.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/aborting.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/aborting.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/aborting.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/aborting.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/bad-strategies.any.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "TypeError: WritableStream construction is not implemented" but we expected it to throw object "error1: a unique string"</code> |
 | /streams/writable-streams/bad-strategies.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/bad-strategies.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/bad-strategies.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/bad-strategies.any.sharedworker.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: a unique string"</code> |
+| /streams/writable-streams/bad-strategies.any.worker.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: a unique string"</code> |
 | /streams/writable-streams/bad-underlying-sinks.any.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "TypeError: WritableStream construction is not implemented" but we expected it to throw object "error1: error1"</code> |
 | /streams/writable-streams/bad-underlying-sinks.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/bad-underlying-sinks.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/bad-underlying-sinks.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/bad-underlying-sinks.any.sharedworker.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: error1"</code> |
+| /streams/writable-streams/bad-underlying-sinks.any.worker.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: error1"</code> |
 | /streams/writable-streams/byte-length-queuing-strategy.any.html | fail | <code>"ByteLengthQueuingStrategy" is not defined</code> |
 | /streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/byte-length-queuing-strategy.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/byte-length-queuing-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/close.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/close.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/close.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/close.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/close.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/constructor.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/constructor.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/constructor.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/constructor.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/constructor.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.html | fail | <code>"CountQueuingStrategy" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/count-queuing-strategy.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/count-queuing-strategy.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/count-queuing-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/count-queuing-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: WritableStream construction is not implemented"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
 | /streams/writable-streams/error.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/error.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/error.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/error.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/error.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/error.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/floating-point-total-queue-size.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/floating-point-total-queue-size.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/floating-point-total-queue-size.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/garbage-collection.any.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: WritableStream construction is not implemented"</code> |
 | /streams/writable-streams/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/garbage-collection.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/garbage-collection.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
+| /streams/writable-streams/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
 | /streams/writable-streams/general.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/general.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/general.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/general.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/general.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/general.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/properties.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/properties.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/properties.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/properties.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/properties.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/properties.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/reentrant-strategy.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/reentrant-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/reentrant-strategy.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/reentrant-strategy.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/reentrant-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/reentrant-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/start.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/start.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/start.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/start.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/start.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/start.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /streams/writable-streams/write.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/write.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/write.any.sharedworker.html | error | <code>ReferenceError: "SharedWorker" is not defined</code> |
-| /streams/writable-streams/write.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /streams/writable-streams/write.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
+| /streams/writable-streams/write.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /url/IdnaTestV2.any.html | timeout | <code>palim execution timed out</code> |
 | /url/data-uri-fragment.html | timeout | <code>palim execution timed out</code> |
 | /url/failure.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /url/historical.any.html | fail | <code>assert_throws_dom: function "() =&gt; self.structuredClone(new URL("about:blank"))" threw object "TypeError: self.structuredClone is not a function. (In "self.structuredClone(new URL("about:blank"))", it is undefined)" that is not a DOMException DataCloneError: property "code" is equal to undefined, expected 25</code> |
-| /url/historical.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/idlharness.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /url/historical.any.worker.html | fail | <code>assert_throws_dom: function "() =&gt; self.structuredClone(new URL("about:blank"))" threw object "TypeError: self.structuredClone is not a function. (In "self.structuredClone(new URL("about:blank"))", it is undefined)" that is not a DOMException DataCloneError: property "code" is equal to undefined, expected 25</code> |
+| /url/idlharness.any.worker.html | fail | <code>"fetch" is not defined</code> |
 | /url/javascript-urls.window.html | fail | <code>anchor.click is not a function. (In "anchor.click()", it is undefined)</code> |
 | /url/percent-encoding.window.html | fail | <code>"TextEncoder" is not defined</code> |
-| /url/url-constructor.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-constructor.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-constructor.any.worker.html?include=javascript | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-constructor.any.worker.html?include=mailto | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-origin.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-searchparams.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters-stripping.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters.any.worker.html?exclude=(file|javascript|mailto) | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters.any.worker.html?include=file | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters.any.worker.html?include=javascript | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-setters.any.worker.html?include=mailto | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-statics-canparse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-statics-parse.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/url-tojson.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlencoded-parser.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-append.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-constructor.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-delete.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-foreach.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-get.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-getall.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-has.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-set.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-size.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-sort.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /url/urlsearchparams-stringifier.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /url/url-constructor.any.worker.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
+| /url/url-constructor.any.worker.html?include=file | fail | <code>"fetch" is not defined</code> |
+| /url/url-constructor.any.worker.html?include=javascript | fail | <code>"fetch" is not defined</code> |
+| /url/url-constructor.any.worker.html?include=mailto | fail | <code>"fetch" is not defined</code> |
+| /url/url-origin.any.worker.html | fail | <code>"fetch" is not defined</code> |
+| /url/url-setters.any.worker.html?exclude=(file|javascript|mailto) | fail | <code>"fetch" is not defined</code> |
+| /url/url-setters.any.worker.html?include=file | fail | <code>"fetch" is not defined</code> |
+| /url/url-setters.any.worker.html?include=javascript | fail | <code>"fetch" is not defined</code> |
+| /url/url-setters.any.worker.html?include=mailto | fail | <code>"fetch" is not defined</code> |
+| /url/urlencoded-parser.any.worker.html | fail | <code>"Request" is not defined</code> |
 | /xhr/formdata.html | error | <code>ReferenceError: "Blob" is not defined</code> |
 | /xhr/formdata/append-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/append.any.html | fail | <code>"Blob" is not defined</code> |
-| /xhr/formdata/append.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /xhr/formdata/append.any.worker.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/constructor-formelement.html | fail | <code>assert_equals: input.value when type=text should not contain newlines expected "value" but got "value\n\r"</code> |
 | /xhr/formdata/constructor-submitter-coordinate.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: submitter.getBoundingClientRect is not a function. (In "submitter.getBoundingClientRect()", it is undefined)"</code> |
 | /xhr/formdata/constructor-submitter.html | fail | <code>Constructing FormData from a form is not supported</code> |
-| /xhr/formdata/constructor.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /xhr/formdata/delete-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
-| /xhr/formdata/delete.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /xhr/formdata/foreach.any.html | error | <code>ReferenceError: "File" is not defined</code> |
-| /xhr/formdata/foreach.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /xhr/formdata/foreach.any.worker.html | error | <code>ReferenceError: "File" is not defined</code> |
 | /xhr/formdata/get-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
-| /xhr/formdata/get.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /xhr/formdata/has-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
-| /xhr/formdata/has.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
-| /xhr/formdata/iteration.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
 | /xhr/formdata/set-blob.any.html | fail | <code>"Blob" is not defined</code> |
-| /xhr/formdata/set-blob.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /xhr/formdata/set-blob.any.worker.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/set-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/set.any.html | fail | <code>"Blob" is not defined</code> |
-| /xhr/formdata/set.any.worker.html | error | <code>ReferenceError: "Worker" is not defined</code> |
+| /xhr/formdata/set.any.worker.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/submitter-coordinate-value.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.getClientRects is not a function. (In "element.getClientRects()", it is undefined)"</code> |
 
 ## Tentative WPT results
@@ -1148,11 +1107,11 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 132 | 132 | 9 | 72 | 0 | 23 | 28 | 0 | 100.00% | 6.82% |
+| All | 132 | 132 | 9 | 71 | 0 | 23 | 29 | 0 | 100.00% | 6.82% |
 | /custom-elements/ | 7 | 7 | 0 | 2 | 0 | 5 | 0 | 0 | 100.00% | 0.00% |
 | /dom/events/ | 3 | 3 | 0 | 1 | 0 | 0 | 2 | 0 | 100.00% | 0.00% |
 | /dom/ranges/ | 23 | 23 | 0 | 23 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
-| /domparsing/ | 35 | 35 | 8 | 16 | 0 | 11 | 0 | 0 | 100.00% | 22.86% |
+| /domparsing/ | 35 | 35 | 8 | 15 | 0 | 11 | 1 | 0 | 100.00% | 22.86% |
 | /html/dom/documents/dom-tree-accessors/ | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /html/syntax/parsing/ | 2 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | 100.00% | 0.00% |
 | /sanitizer-api/ | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -1162,7 +1121,7 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1554 | 859 | 603 | 0 | 64 | 28 | 55.28% |
+| 1537 | 847 | 597 | 0 | 64 | 29 | 55.11% |
 
 ### Non-passing executed tests
 
@@ -1186,20 +1145,20 @@ These tests track proposed behavior and do not determine current Living Standard
 | /dom/ranges/tentative/OpaqueRange-basic.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-disconnect.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(1, 4)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-display-none.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(1, 4)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-basic.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-basic.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(startOffset, endOffset)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, mixed.length)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-geometry-multiline.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(0, 5)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.setSelectionRange is not a function. (In "element.setSelectionRange(0, 0)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-highlight.html | fail | <code>"CSS" is not defined</code> |
 | /dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html | fail | <code>"CSS" is not defined</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(init.s, init.e)", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(tc.init.rangeStart, tc.init.rangeEnd)", it is undefined)"</code> |
 | /dom/ranges/tentative/OpaqueRange-offset.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(start, end)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-programmatic-updates.html | fail | <code>element.focus is not a function. (In "element.focus()", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-programmatic-updates.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(2, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-range-updates.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-supported-elements.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, value.length)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-unsupported-elements.html | fail | <code>assert_throws_dom: createValueRange should throw NotSupportedError for &lt;input&gt; function "() =&gt; {<br>      input.createValueRange(0, 0);<br>    }" threw object "TypeError: input.createValueRange is not a function. (In "input.createValueRange(0, 0)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
-| /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.focus is not a function. (In "element.focus()", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(1, 3)", it is undefined)"</code> |
 | /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
 | /domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
 | /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
@@ -1225,7 +1184,7 @@ These tests track proposed behavior and do not determine current Living Standard
 | /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/tentative/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
 | /domparsing/tentative/stream-sanitizer-img-ctor.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Image" is not defined"</code> |
-| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server SHOULD observe request in control case expected "1" but got "0"</code> |
+| /domparsing/tentative/stream-sanitizer-resource-fetch.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
 | /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
@@ -1270,11 +1229,11 @@ These tests track proposed behavior and do not determine current Living Standard
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML(opts)", it is undefined)</code> |
 | /shadow-dom/event-dispatch-order.tentative.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: start.focus is not a function. (In "start.focus()", it is undefined)"</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html | error | <code>Unhandled rejection: fromElement.focus is not a function. (In "fromElement.focus()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: scroller.focus is not a function. (In "scroller.focus()", it is undefined)"</code> |
+| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html | error | <code>Unhandled rejection: "requestAnimationFrame" is not defined</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "requestAnimationFrame" is not defined"</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html | error | <code>Unhandled rejection: "requestAnimationFrame" is not defined</code> |
+| /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>assert_equals: expected Element node &lt;div id="scroller" style="overflow:scroll; width:50px; he... but got Element node &lt;body&gt;&lt;button id="button"&gt;Button&lt;/button&gt;<br>&lt;div id="scroll...</code> |
 | /shadow-dom/reference-target/tentative/aria-labelledby.html | error | <code>TypeError: Cannot convert null to object</code> |
 | /shadow-dom/reference-target/tentative/commandfor.html | fail | <code>Cannot convert null to object</code> |
 | /shadow-dom/reference-target/tentative/dom-mutation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |

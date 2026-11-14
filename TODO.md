@@ -24,7 +24,8 @@
 
 ### User interaction and editing
 
-- [ ] focus management
+- [x] focus management
+- [ ] sequential focus navigation と CSS `reading-flow` / `reading-order` に基づく navigation order
 - [ ] editing API と `contenteditable`
 - [ ] `innerText` / `outerText`
 
