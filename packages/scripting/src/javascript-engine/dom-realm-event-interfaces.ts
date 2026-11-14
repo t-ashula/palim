@@ -1,4 +1,5 @@
 import { eventImplementation } from "@palim/core/internal/dom/event-implementation.js";
+import { FocusEvent } from "@palim/core/internal/dom/events.js";
 
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
@@ -176,6 +177,16 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Event receiver")
       : binding.primitive(event.isTrusted);
   });
+  binding.attribute(
+    binding.focusEventPrototype,
+    "relatedTarget",
+    (thisValue) => {
+      const event = binding.event(thisValue);
+      return !(event instanceof FocusEvent)
+        ? binding.typeError("Invalid FocusEvent receiver")
+        : binding.platformValue(event.relatedTarget);
+    },
+  );
   for (const name of [
     "bubbles",
     "cancelable",

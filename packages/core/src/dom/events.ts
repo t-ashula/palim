@@ -24,6 +24,10 @@ export interface CustomEventInit<T = unknown> extends EventInit {
   readonly detail?: T;
 }
 
+export interface FocusEventInit extends EventInit {
+  readonly relatedTarget?: EventTarget | null;
+}
+
 export interface ErrorEventInit<T = unknown> extends EventInit {
   readonly message?: string;
   readonly filename?: string;
@@ -197,6 +201,15 @@ export class CustomEvent<T = unknown> extends Event {
   }
 }
 
+export class FocusEvent extends Event {
+  readonly relatedTarget: EventTarget | null;
+
+  constructor(type: string, eventInit: FocusEventInit = {}) {
+    super(type, eventInit);
+    this.relatedTarget = eventInit.relatedTarget ?? null;
+  }
+}
+
 export class ErrorEvent<T = unknown> extends Event {
   readonly message: string;
   readonly filename: string;
@@ -259,6 +272,9 @@ export function createLegacyEvent(interfaceName: string): Event {
       break;
     case "customevent":
       event = new CustomEvent("");
+      break;
+    case "focusevent":
+      event = new FocusEvent("");
       break;
     default:
       throw new DOMException(
@@ -396,32 +412,81 @@ export function dispatchEvent(
     );
   }
   const targetImplementation = eventTargetImplementation(target);
-  const path: EventTargetImplementation[] = [targetImplementation];
-  if (event.bubbles) {
-    let parent = targetImplementation.parent;
-    while (parent !== null) {
-      path.push(parent);
-      parent = parent.parent;
+  const path: {
+    readonly invocationTarget: EventTargetImplementation;
+    readonly adjustedTarget: EventTargetImplementation;
+  }[] = [
+    {
+      invocationTarget: targetImplementation,
+      adjustedTarget: targetImplementation,
+    },
+  ];
+  let current = targetImplementation;
+  let adjustedTarget = targetImplementation;
+  for (;;) {
+    const retargetTarget = current.eventRetargetTarget();
+    if (retargetTarget !== null) {
+      adjustedTarget = retargetTarget;
     }
+    const parent = current.eventParent(event.composed);
+    if (parent === null) {
+      break;
+    }
+    path.push({ invocationTarget: parent, adjustedTarget });
+    current = parent;
   }
   implementation.dispatching = true;
   try {
     implementation.target = targetImplementation;
-    implementation.path = path;
-    for (const [index, pathTarget] of path.entries()) {
-      if (implementation.stopPropagation && index > 0) {
+    implementation.path = path.map(({ invocationTarget }) => invocationTarget);
+    for (let index = path.length - 1; index > 0; index -= 1) {
+      if (implementation.stopPropagation) {
         break;
       }
-      implementation.currentTarget = pathTarget;
-      implementation.eventPhase =
-        index === 0 ? Event.AT_TARGET : Event.BUBBLING_PHASE;
+      const entry = path[index];
+      if (entry === undefined) {
+        continue;
+      }
+      implementation.target = entry.adjustedTarget;
+      implementation.currentTarget = entry.invocationTarget;
+      const atRetargetedTarget =
+        entry.adjustedTarget === entry.invocationTarget;
+      implementation.eventPhase = atRetargetedTarget
+        ? Event.AT_TARGET
+        : Event.CAPTURING_PHASE;
       invokeEventListeners(
-        pathTarget,
+        entry.invocationTarget,
         event,
-        index === 0 ? eventHandler : undefined,
+        undefined,
+        !event.bubbles && atRetargetedTarget ? null : true,
       );
     }
+    if (!implementation.stopPropagation) {
+      implementation.target = targetImplementation;
+      implementation.currentTarget = targetImplementation;
+      implementation.eventPhase = Event.AT_TARGET;
+      invokeEventListeners(targetImplementation, event, eventHandler, null);
+    }
+    if (event.bubbles) {
+      for (let index = 1; index < path.length; index += 1) {
+        if (implementation.stopPropagation) {
+          break;
+        }
+        const entry = path[index];
+        if (entry === undefined) {
+          continue;
+        }
+        implementation.target = entry.adjustedTarget;
+        implementation.currentTarget = entry.invocationTarget;
+        implementation.eventPhase =
+          entry.adjustedTarget === entry.invocationTarget
+            ? Event.AT_TARGET
+            : Event.BUBBLING_PHASE;
+        invokeEventListeners(entry.invocationTarget, event, undefined, false);
+      }
+    }
   } finally {
+    implementation.target = targetImplementation;
     implementation.currentTarget = null;
     implementation.eventPhase = Event.NONE;
     implementation.dispatching = false;
@@ -519,12 +584,16 @@ function invokeEventListeners(
   targetImplementation: EventTargetImplementation,
   event: Event,
   eventHandler?: (event: Event) => void,
+  capture: boolean | null = null,
 ): void {
   const target = eventTargetInterface(targetImplementation);
   const listeners = [...(targetImplementation.listeners.get(event.type) ?? [])];
   const implementation = eventImplementation(event);
   for (const listener of listeners) {
-    if (listener.removed) {
+    if (
+      listener.removed ||
+      (capture !== null && listener.capture !== capture)
+    ) {
       continue;
     }
     if (listener.once) {
@@ -549,7 +618,7 @@ function invokeEventListeners(
       break;
     }
   }
-  if (!implementation.stopImmediatePropagation) {
+  if (!implementation.stopImmediatePropagation && capture !== true) {
     if (eventHandler !== undefined) {
       eventHandler(event);
     } else {

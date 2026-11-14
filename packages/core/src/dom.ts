@@ -5,6 +5,7 @@ export {
   ErrorEvent,
   Event,
   EventTarget,
+  FocusEvent,
   MessageEvent,
   PromiseRejectionEvent,
 } from "./dom/events.js";
@@ -15,6 +16,7 @@ export type {
   EventInit,
   EventListener,
   EventListenerObject,
+  FocusEventInit,
   MessageEventInit,
   PromiseRejectionEventInit,
 } from "./dom/events.js";

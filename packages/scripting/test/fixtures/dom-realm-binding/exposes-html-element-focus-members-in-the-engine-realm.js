@@ -29,4 +29,37 @@ if (
 
 target.autofocus = false;
 target.focus({ preventScroll: true });
-target.blur();
+if (testDocument.activeElement !== target || !target.matches(":focus")) {
+  throw new Error("HTMLElement.focus does not update activeElement");
+}
+
+const host = testDocument.createElement("div");
+testDocument.body.append(host);
+const shadowRoot = host.attachShadow({
+  mode: "open",
+  delegatesFocus: true,
+});
+const input = testDocument.createElement("input");
+shadowRoot.append(input);
+host.focus();
+if (
+  shadowRoot.delegatesFocus !== true ||
+  testDocument.activeElement !== host ||
+  shadowRoot.activeElement !== input
+) {
+  throw new Error("Shadow DOM focus state is not exposed in the engine realm");
+}
+
+let relatedTarget = null;
+input.addEventListener("blur", (event) => {
+  if (!(event instanceof FocusEvent)) {
+    throw new Error("focus transition does not expose FocusEvent");
+  }
+  relatedTarget = event.relatedTarget;
+});
+const next = testDocument.createElement("button");
+testDocument.body.append(next);
+next.focus();
+if (relatedTarget !== next) {
+  throw new Error("FocusEvent.relatedTarget is not exposed");
+}

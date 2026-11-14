@@ -7,6 +7,7 @@ import {
   ErrorEvent,
   Event,
   EventTarget,
+  FocusEvent,
   MessageEvent,
   MutationObserver,
   Node,
@@ -307,6 +308,54 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       );
     }
   }
+  binding.installInterface(
+    "FocusEvent",
+    binding.focusEventPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const type = binding.stringArgument(argumentsList, 0, "FocusEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      const eventInit = binding.eventInit(argumentsList[1]);
+      if (eventInit.type === "throw") {
+        return eventInit;
+      }
+      const initValue =
+        argumentsList[1] ?? binding.engine.fromPrimitive(undefined);
+      const init = binding.engine.asObject(initValue);
+      let relatedTarget = null;
+      if (init !== null) {
+        const relatedTargetValue = binding.engine.get(
+          binding.realm,
+          init,
+          "relatedTarget",
+        );
+        if (relatedTargetValue.type === "throw") {
+          return relatedTargetValue;
+        }
+        if (
+          !binding.engine.isNull(relatedTargetValue.value) &&
+          !binding.engine.isUndefined(relatedTargetValue.value)
+        ) {
+          relatedTarget = binding.eventTarget(relatedTargetValue.value);
+          if (relatedTarget === null) {
+            return binding.typeError(
+              "FocusEventInit.relatedTarget is not an EventTarget",
+            );
+          }
+        }
+      }
+      return normal(
+        binding.wrap(
+          new FocusEvent(type.value, {
+            ...eventInit.value,
+            relatedTarget,
+          }),
+        ),
+      );
+    },
+  );
   binding.installInterface(
     "StaticRange",
     binding.staticRangePrototype,

@@ -270,6 +270,7 @@ export interface GetRootNodeOptions {
 
 export interface ShadowRootInit {
   readonly mode: "open" | "closed";
+  readonly delegatesFocus?: boolean;
 }
 
 type CreateElementArguments = [
@@ -702,6 +703,19 @@ export function removeNode(node: Node, suppressObservers = false): void {
   const parent = implementation.parent;
   const oldParent = nodeInterface(parent);
   const document = nodeDocumentImplementation(implementation);
+  const focusedArea = document.focusedArea;
+  if (
+    focusedArea !== null &&
+    removedNodes.some(
+      (removedNode) => nodeImplementation(removedNode) === focusedArea,
+    )
+  ) {
+    if (document.focusUpdateSteps === null) {
+      document.focusedArea = null;
+    } else {
+      document.focusUpdateSteps(null);
+    }
+  }
   const index = parent.children.indexOf(implementation);
   if (index >= 0) {
     removeChildImplementation(parent, implementation, index, suppressObservers);
@@ -909,6 +923,14 @@ export class Document extends Node {
     const implementation = documentImplementation(this);
     implementation.domImplementation ??= new DOMImplementation(this);
     return implementation.domImplementation;
+  }
+
+  get activeElement(): Element | null {
+    const focusedArea = documentImplementation(this).focusedArea;
+    if (focusedArea === null) {
+      return this.body ?? this.documentElement;
+    }
+    return activeElementForRoot(elementInterface(focusedArea), this);
   }
 
   get contentType(): string {
@@ -1646,9 +1668,9 @@ function notifyAttributeChange(
   localName: string,
   namespace: string | null,
 ): void {
-  nodeDocumentImplementation(
-    nodeImplementation(element),
-  ).attributeChangedSteps?.(element, localName, namespace);
+  const document = nodeDocumentImplementation(nodeImplementation(element));
+  document.attributeChangedSteps?.(element, localName, namespace);
+  document.focusabilityChangedSteps?.(element);
 }
 
 function fallbackBaseURL(document: DocumentImplementation): URL {
@@ -1970,6 +1992,7 @@ export class Element extends Node {
         documentImplementation(document),
         implementation,
         init.mode,
+        Boolean(init.delegatesFocus),
       ),
     );
     implementation.shadowRoot = shadowRootImplementation(shadowRoot);
@@ -3299,6 +3322,21 @@ export class ShadowRoot extends DocumentFragment {
     return elementInterface(shadowRootImplementation(this).host);
   }
 
+  get delegatesFocus(): boolean {
+    return shadowRootImplementation(this).delegatesFocus;
+  }
+
+  get activeElement(): Element | null {
+    const document = this.ownerDocument;
+    if (document === null) {
+      return null;
+    }
+    const focusedArea = documentImplementation(document).focusedArea;
+    return focusedArea === null
+      ? null
+      : activeElementForRoot(elementInterface(focusedArea), this);
+  }
+
   get innerHTML(): string {
     return serializeHTMLFragment(this);
   }
@@ -4182,6 +4220,23 @@ function nodeRoot(node: Node): Node {
     root = root.parentNode;
   }
   return root;
+}
+
+function activeElementForRoot(
+  focusedArea: Element,
+  root: Document | ShadowRoot,
+): Element | null {
+  let candidate = focusedArea;
+  for (;;) {
+    const candidateRoot = nodeRoot(candidate);
+    if (candidateRoot === root) {
+      return candidate;
+    }
+    if (!(candidateRoot instanceof ShadowRoot)) {
+      return null;
+    }
+    candidate = candidateRoot.host;
+  }
 }
 
 function shadowIncludingRoot(node: Node): Node {

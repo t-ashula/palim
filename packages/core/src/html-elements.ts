@@ -5,8 +5,10 @@ import {
   Element,
   Event,
   EventTarget,
+  FocusEvent,
   HTMLCollection,
   NodeList,
+  ShadowRoot,
   Text,
 } from "./dom.js";
 import { bindDOMInterface, implementationFor } from "./dom/binding.js";
@@ -17,7 +19,12 @@ import {
 } from "./dom/collections.js";
 import { createDefinedCustomElement } from "./dom/custom-elements.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
-import { nodeImplementation } from "./dom/node-implementation.js";
+import {
+  documentImplementation,
+  elementImplementation,
+  nodeImplementation,
+  nodeInterface,
+} from "./dom/node-implementation.js";
 import {
   assignedSlotNodes,
   childNodes,
@@ -778,11 +785,11 @@ export class HTMLElement extends Element {
   }
 
   focus(): void {
-    this.dispatchEvent(new Event("focus"));
+    focusElement(this);
   }
 
   blur(): void {
-    this.dispatchEvent(new Event("blur"));
+    blurElement(this);
   }
 
   get contentEditable(): string {
@@ -5736,6 +5743,250 @@ function replaceText(element: Element, value: string): void {
     throw new TypeError("Element has no owner document");
   }
   element.appendChild(createText(document, value));
+}
+
+function focusElement(element: HTMLElement): void {
+  const document = element.ownerDocument;
+  if (document === null) {
+    return;
+  }
+  installFocusSteps(document);
+  const shadowRoot = attachedShadowRoot(element);
+  if (shadowRoot?.delegatesFocus === true) {
+    const delegated = focusableAreas(shadowRoot)[0];
+    if (delegated !== undefined) {
+      updateFocusedArea(document, delegated);
+      return;
+    }
+  }
+  if (isFocusableArea(element)) {
+    updateFocusedArea(document, element);
+  }
+}
+
+function blurElement(element: HTMLElement): void {
+  const document = element.ownerDocument;
+  if (document === null) {
+    return;
+  }
+  const focusedArea = documentImplementation(document).focusedArea;
+  if (focusedArea === null) {
+    return;
+  }
+  const focusedElement = nodeInterface(focusedArea);
+  if (
+    focusedElement instanceof Element &&
+    shadowIncludingInclusiveAncestor(element, focusedElement)
+  ) {
+    updateFocusedArea(document, null);
+  }
+}
+
+function installFocusSteps(document: Document): void {
+  const implementation = documentImplementation(document);
+  implementation.focusUpdateSteps ??= (element) => {
+    updateFocusedArea(
+      document,
+      element instanceof HTMLElement ? element : null,
+    );
+  };
+  implementation.focusabilityChangedSteps ??= (element) => {
+    const focusedArea = implementation.focusedArea;
+    const focusedElement =
+      focusedArea === null ? null : nodeInterface(focusedArea);
+    if (
+      focusedElement instanceof HTMLElement &&
+      shadowIncludingInclusiveAncestor(element, focusedElement) &&
+      !isFocusableArea(focusedElement)
+    ) {
+      updateFocusedArea(document, null);
+    }
+  };
+}
+
+function updateFocusedArea(document: Document, next: HTMLElement | null): void {
+  installFocusSteps(document);
+  const implementation = documentImplementation(document);
+  const previousImplementation = implementation.focusedArea;
+  const nextImplementation = next === null ? null : elementImplementation(next);
+  if (previousImplementation === nextImplementation) {
+    return;
+  }
+  const previous =
+    previousImplementation === null
+      ? null
+      : (nodeInterface(previousImplementation) as HTMLElement);
+  implementation.focusedArea = nextImplementation;
+  const revision = ++implementation.focusRevision;
+
+  if (previous !== null) {
+    previous.dispatchEvent(
+      new FocusEvent("blur", {
+        composed: true,
+        relatedTarget: next,
+      }),
+    );
+    if (implementation.focusRevision !== revision) {
+      return;
+    }
+    previous.dispatchEvent(
+      new FocusEvent("focusout", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: next,
+      }),
+    );
+    if (implementation.focusRevision !== revision) {
+      return;
+    }
+  }
+  if (next !== null) {
+    next.dispatchEvent(
+      new FocusEvent("focus", {
+        composed: true,
+        relatedTarget: previous,
+      }),
+    );
+    if (implementation.focusRevision !== revision) {
+      return;
+    }
+    next.dispatchEvent(
+      new FocusEvent("focusin", {
+        bubbles: true,
+        composed: true,
+        relatedTarget: previous,
+      }),
+    );
+  }
+}
+
+export function isFocusableArea(element: HTMLElement): boolean {
+  if (!element.isConnected || hasInertAncestor(element)) {
+    return false;
+  }
+  if (element.hasAttribute("disabled")) {
+    return false;
+  }
+  if (
+    element.localName === "input" &&
+    element.getAttribute("type") === "hidden"
+  ) {
+    return false;
+  }
+  if (element.hasAttribute("tabindex")) {
+    return true;
+  }
+  if (
+    (element.localName === "a" || element.localName === "area") &&
+    element.hasAttribute("href")
+  ) {
+    return true;
+  }
+  if (
+    [
+      "button",
+      "iframe",
+      "input",
+      "object",
+      "select",
+      "summary",
+      "textarea",
+    ].includes(element.localName)
+  ) {
+    return true;
+  }
+  if (
+    (element.localName === "audio" || element.localName === "video") &&
+    element.hasAttribute("controls")
+  ) {
+    return true;
+  }
+  return element.isContentEditable;
+}
+
+function focusableAreas(root: ShadowRoot): HTMLElement[] {
+  const candidates: HTMLElement[] = [];
+  for (const element of flatTreeElements(root)) {
+    if (isFocusableArea(element)) {
+      candidates.push(element);
+    }
+  }
+  return candidates;
+}
+
+function flatTreeElements(root: ShadowRoot): HTMLElement[] {
+  const result: HTMLElement[] = [];
+  const visit = (node: Node): void => {
+    if (node instanceof HTMLElement) {
+      result.push(node);
+      const shadowRoot = attachedShadowRoot(node);
+      if (shadowRoot !== null) {
+        for (const child of childNodes(shadowRoot)) {
+          visit(child);
+        }
+        return;
+      }
+      if (
+        node.localName === "slot" &&
+        node.getRootNode() instanceof ShadowRoot
+      ) {
+        const assigned = assignedSlotNodes(node);
+        for (const child of assigned.length === 0
+          ? childNodes(node)
+          : assigned) {
+          visit(child);
+        }
+        return;
+      }
+    }
+    for (const child of childNodes(node)) {
+      visit(child);
+    }
+  };
+  for (const child of childNodes(root)) {
+    visit(child);
+  }
+  return result;
+}
+
+function attachedShadowRoot(element: Element): ShadowRoot | null {
+  const implementation = elementImplementation(element).shadowRoot;
+  return implementation === null
+    ? null
+    : (nodeInterface(implementation) as ShadowRoot);
+}
+
+function hasInertAncestor(element: HTMLElement): boolean {
+  let current: Element | null = element;
+  while (current !== null) {
+    if (current instanceof HTMLElement && current.hasAttribute("inert")) {
+      return true;
+    }
+    current = shadowIncludingParent(current);
+  }
+  return false;
+}
+
+function shadowIncludingInclusiveAncestor(
+  ancestor: Element,
+  element: Element,
+): boolean {
+  let current: Element | null = element;
+  while (current !== null) {
+    if (current === ancestor) {
+      return true;
+    }
+    current = shadowIncludingParent(current);
+  }
+  return false;
+}
+
+function shadowIncludingParent(element: Element): Element | null {
+  if (element.parentElement !== null) {
+    return element.parentElement;
+  }
+  const root = element.getRootNode();
+  return root instanceof ShadowRoot ? root.host : null;
 }
 
 function defaultTabIndex(element: HTMLElement): number {

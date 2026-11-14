@@ -25,6 +25,7 @@ import {
   ErrorEvent,
   Event,
   EventTarget,
+  FocusEvent,
   HTMLCollection,
   MessageEvent,
   MutationObserver,
@@ -267,6 +268,7 @@ export class DOMRealmBindingContext {
   readonly writableStreamDefaultWriterPrototype: EngineObject;
   readonly xmlDocumentPrototype: EngineObject;
   readonly eventPrototype: EngineObject;
+  readonly focusEventPrototype: EngineObject;
   readonly errorEventPrototype: EngineObject;
   readonly promiseRejectionEventPrototype: EngineObject;
   readonly messageEventPrototype: EngineObject;
@@ -447,6 +449,10 @@ export class DOMRealmBindingContext {
       this.documentPrototype,
     );
     this.eventPrototype = this.engine.createObject(this.realm, objectPrototype);
+    this.focusEventPrototype = this.engine.createObject(
+      this.realm,
+      this.eventPrototype,
+    );
     this.errorEventPrototype = this.engine.createObject(
       this.realm,
       this.eventPrototype,
@@ -1627,6 +1633,9 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof CustomEvent) {
       return this.customEventPrototype;
+    }
+    if (interfaceObject instanceof FocusEvent) {
+      return this.focusEventPrototype;
     }
     if (interfaceObject instanceof ErrorEvent) {
       return this.errorEventPrototype;

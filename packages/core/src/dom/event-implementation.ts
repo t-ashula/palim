@@ -24,6 +24,14 @@ export interface RegisteredEventListener {
 export class EventTargetImplementation {
   readonly listeners = new Map<string, RegisteredEventListener[]>();
   parent: EventTargetImplementation | null = null;
+
+  eventParent(_composed: boolean): EventTargetImplementation | null {
+    return this.parent;
+  }
+
+  eventRetargetTarget(): EventTargetImplementation | null {
+    return null;
+  }
 }
 
 export class AbortControllerImplementation {

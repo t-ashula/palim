@@ -1,6 +1,12 @@
 import type { CSSToken } from "./css-syntax.js";
 import { tokenizeCSS } from "./css-syntax.js";
 import type { Attr, Document, DocumentFragment, Element, Node } from "./dom.js";
+import type { NodeImplementation } from "./dom/node-implementation.js";
+import {
+  documentImplementation,
+  elementImplementation,
+  ShadowRootImplementation,
+} from "./dom/node-implementation.js";
 import { attributeNodes, childNodes, documentIsQuirks } from "./dom/nodes.js";
 import { descendantElements } from "./dom/traversal.js";
 import { DOMException } from "./dom-exception.js";
@@ -1270,12 +1276,14 @@ function matchesPlainPseudoClass(
         element.namespaceURI !== HTML_NAMESPACE ||
         !element.localName.includes("-")
       );
+    case "focus":
+    case "focus-visible":
+      return focusChainContains(element);
+    case "focus-within":
+      return focusWithinContains(element);
     case "active":
     case "autofill":
     case "buffering":
-    case "focus":
-    case "focus-visible":
-    case "focus-within":
     case "fullscreen":
     case "host":
     case "hover":
@@ -1299,6 +1307,53 @@ function matchesPlainPseudoClass(
     default:
       return false;
   }
+}
+
+function focusChainContains(element: Element): boolean {
+  const document = element.ownerDocument;
+  if (document === null) {
+    return false;
+  }
+  const target = elementImplementation(element);
+  let current = documentImplementation(document).focusedArea;
+  while (current !== null) {
+    if (current === target) {
+      return true;
+    }
+    const root = implementationRoot(current);
+    current = root instanceof ShadowRootImplementation ? root.host : null;
+  }
+  return false;
+}
+
+function focusWithinContains(element: Element): boolean {
+  const document = element.ownerDocument;
+  if (document === null) {
+    return false;
+  }
+  const target = elementImplementation(element);
+  let current: NodeImplementation | null =
+    documentImplementation(document).focusedArea;
+  while (current !== null) {
+    if (current === target) {
+      return true;
+    }
+    if (current.parent !== null) {
+      current = current.parent;
+    } else {
+      current =
+        current instanceof ShadowRootImplementation ? current.host : null;
+    }
+  }
+  return false;
+}
+
+function implementationRoot(node: NodeImplementation): NodeImplementation {
+  let root = node;
+  while (root.parent !== null) {
+    root = root.parent;
+  }
+  return root;
 }
 
 function matchesNth(

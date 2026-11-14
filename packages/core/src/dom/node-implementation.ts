@@ -50,6 +50,10 @@ export type ScriptingMode = "disabled" | "enabled";
 
 export class DocumentImplementation extends NodeImplementation {
   relevantRealmDocument: DocumentImplementation;
+  focusedArea: ElementImplementation | null = null;
+  focusRevision = 0;
+  focusUpdateSteps: ((element: Element | null) => void) | null = null;
+  focusabilityChangedSteps: ((element: Element) => void) | null = null;
   namedPropertyVersion = 0;
   encoding = "UTF-8";
   isTemplateContentsOwnerDocument = false;
@@ -140,8 +144,17 @@ export class ShadowRootImplementation extends NodeImplementation {
     document: DocumentImplementation,
     readonly host: ElementImplementation,
     readonly mode: "open" | "closed",
+    readonly delegatesFocus: boolean,
   ) {
     super(11, "#document-fragment", document);
+  }
+
+  override eventParent(composed: boolean): EventTargetImplementation | null {
+    return composed ? this.host : null;
+  }
+
+  override eventRetargetTarget(): EventTargetImplementation {
+    return this.host;
   }
 }
 

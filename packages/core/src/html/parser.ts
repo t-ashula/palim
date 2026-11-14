@@ -1204,6 +1204,7 @@ class TreeBuilder {
           try {
             const shadowRoot = declarativeHost.attachShadow({
               mode: shadowRootMode,
+              delegatesFocus: template.hasAttribute("shadowrootdelegatesfocus"),
             });
             setTemplateContents(template, shadowRoot);
             removeNode(template);

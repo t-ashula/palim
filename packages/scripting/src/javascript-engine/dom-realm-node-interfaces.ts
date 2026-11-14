@@ -737,8 +737,23 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
         return binding.typeError("ShadowRootInit.mode must be open or closed");
       }
       const shadowMode: "open" | "closed" = mode.value;
+      const delegatesFocusValue = binding.engine.get(
+        binding.realm,
+        init,
+        "delegatesFocus",
+      );
+      if (delegatesFocusValue.type === "throw") {
+        return delegatesFocusValue;
+      }
+      const delegatesFocus = binding.engine.toBoolean(
+        delegatesFocusValue.value,
+      );
       return binding.domOperationResult(() =>
-        normal(binding.wrap(element.attachShadow({ mode: shadowMode }))),
+        normal(
+          binding.wrap(
+            element.attachShadow({ mode: shadowMode, delegatesFocus }),
+          ),
+        ),
       );
     },
   );
@@ -1515,6 +1530,12 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installDocumentMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(binding.documentPrototype, "activeElement", (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : binding.platformValue(document.activeElement);
+  });
   binding.attribute(
     binding.documentPrototype,
     "implementation",
@@ -2167,6 +2188,26 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
 export function installDocumentFragmentMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.attribute(
+    binding.shadowRootPrototype,
+    "activeElement",
+    (thisValue) => {
+      const shadowRoot = binding.shadowRoot(thisValue);
+      return shadowRoot === null
+        ? binding.typeError("Invalid ShadowRoot receiver")
+        : binding.platformValue(shadowRoot.activeElement);
+    },
+  );
+  binding.attribute(
+    binding.shadowRootPrototype,
+    "delegatesFocus",
+    (thisValue) => {
+      const shadowRoot = binding.shadowRoot(thisValue);
+      return shadowRoot === null
+        ? binding.typeError("Invalid ShadowRoot receiver")
+        : binding.primitive(shadowRoot.delegatesFocus);
+    },
+  );
   binding.attribute(binding.shadowRootPrototype, "mode", (thisValue) => {
     const shadowRoot = binding.shadowRoot(thisValue);
     return shadowRoot === null
