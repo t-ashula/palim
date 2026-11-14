@@ -27,6 +27,11 @@ prepare_environment() {
     --venv "$wpt_venv" \
     run \
     --help > /dev/null
+  "$wpt_venv/bin/python" ./wpt \
+    --venv "$wpt_venv" \
+    --skip-venv-setup \
+    manifest \
+    --no-download
 }
 
 if [ "${1:-}" = --prepare ]; then
