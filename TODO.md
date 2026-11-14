@@ -39,7 +39,7 @@
 - [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
-- [ ] `getComputedStyle` / `getBoundingClientRect` と layout-dependent API
+- [ ] `getComputedStyle` / `getClientRects()` / `getBoundingClientRect()` と layout-dependent API
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
@@ -97,7 +97,8 @@
 - [ ] `Navigator`
 - [ ] browsing context
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
-- [ ] `requestAnimationFrame` / `performance`
+- [x] `requestAnimationFrame`
+- [ ] `Performance` interface、`performance.now()`、`performance.timeOrigin`
 - [ ] dialog / popover の top layer と event
 - [ ] `Window.postMessage()` / `MessageEvent` の structured serialization、target origin 検査、source、および posted-message task delivery
 - [ ] `structuredClone`

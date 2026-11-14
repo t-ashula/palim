@@ -6,17 +6,17 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261114t112030781z-3905129",
+    "id": "20261114t152414500z-743415",
     "state": "completed",
     "palim": {
-      "revision": "066a598adeb3e0c0e805c16fb3c9c5934d4c421f",
-      "dirty": true,
-      "imageId": "sha256:740252f770b3a8e35afbf703fbbb7b58d1723fd118f299eda4ea88cbc244cbe3"
+      "revision": "f5397f6ce439351f057e8017cfcb2f94dfe57325",
+      "dirty": false,
+      "imageId": "sha256:a1ca8a74a125ed84e3652f6edc034117b79d53e586c93b358a43ae80fd420231"
     },
-    "lastAttemptSequence": 2297,
-    "snapshotAt": "2026-11-14T12:34:20.497Z",
-    "workerFailures": 361,
-    "retries": 361
+    "lastAttemptSequence": 1926,
+    "snapshotAt": "2026-11-14T16:05:12.686Z",
+    "workerFailures": 0,
+    "retries": 0
   },
   "selection": {
     "include": [
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 781,
-    "fail": 806,
+    "pass": 792,
+    "fail": 821,
     "skip": 0,
-    "error": 136,
-    "timeout": 203,
+    "error": 131,
+    "timeout": 182,
     "pending": 0
   },
   "areas": [
@@ -117,9 +117,9 @@
         "total": 408,
         "executed": 408,
         "pass": 302,
-        "fail": 78,
+        "fail": 81,
         "skip": 0,
-        "error": 6,
+        "error": 3,
         "timeout": 22,
         "pending": 0
       }
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 23,
-        "fail": 33,
+        "pass": 24,
+        "fail": 36,
         "skip": 0,
         "error": 2,
-        "timeout": 11,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -156,10 +156,10 @@
         "total": 91,
         "executed": 91,
         "pass": 51,
-        "fail": 19,
+        "fail": 20,
         "skip": 0,
         "error": 17,
-        "timeout": 4,
+        "timeout": 3,
         "pending": 0
       }
     },
@@ -168,11 +168,11 @@
       "totals": {
         "total": 57,
         "executed": 57,
-        "pass": 51,
+        "pass": 55,
         "fail": 1,
         "skip": 0,
         "error": 0,
-        "timeout": 5,
+        "timeout": 1,
         "pending": 0
       }
     },
@@ -194,11 +194,11 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 100,
-        "fail": 115,
+        "pass": 103,
+        "fail": 124,
         "skip": 0,
         "error": 2,
-        "timeout": 19,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -233,10 +233,10 @@
       "totals": {
         "total": 314,
         "executed": 314,
-        "pass": 51,
-        "fail": 212,
+        "pass": 54,
+        "fail": 211,
         "skip": 0,
-        "error": 17,
+        "error": 15,
         "timeout": 34,
         "pending": 0
       }
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 57756,
-    "pass": 34629,
-    "fail": 22418,
+    "total": 98202,
+    "pass": 71219,
+    "fail": 26649,
     "skip": 0,
-    "error": 515,
-    "timeout": 194
+    "error": 161,
+    "timeout": 173
   },
   "nonTentative": {
     "totals": {
       "total": 1794,
       "executed": 1794,
-      "pass": 772,
-      "fail": 735,
+      "pass": 781,
+      "fail": 749,
       "skip": 0,
-      "error": 113,
-      "timeout": 174,
+      "error": 110,
+      "timeout": 154,
       "pending": 0
     },
     "areas": [
@@ -372,9 +372,9 @@
           "total": 408,
           "executed": 408,
           "pass": 302,
-          "fail": 78,
+          "fail": 81,
           "skip": 0,
-          "error": 6,
+          "error": 3,
           "timeout": 22,
           "pending": 0
         }
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 23,
-          "fail": 10,
+          "pass": 24,
+          "fail": 13,
           "skip": 0,
           "error": 2,
-          "timeout": 11,
+          "timeout": 7,
           "pending": 0
         }
       },
@@ -423,11 +423,11 @@
         "totals": {
           "total": 56,
           "executed": 56,
-          "pass": 51,
+          "pass": 55,
           "fail": 0,
           "skip": 0,
           "error": 0,
-          "timeout": 5,
+          "timeout": 1,
           "pending": 0
         }
       },
@@ -449,11 +449,11 @@
         "totals": {
           "total": 234,
           "executed": 234,
-          "pass": 100,
-          "fail": 115,
+          "pass": 103,
+          "fail": 124,
           "skip": 0,
           "error": 1,
-          "timeout": 18,
+          "timeout": 6,
           "pending": 0
         }
       },
@@ -488,8 +488,8 @@
         "totals": {
           "total": 254,
           "executed": 254,
-          "pass": 51,
-          "fail": 183,
+          "pass": 52,
+          "fail": 182,
           "skip": 0,
           "error": 11,
           "timeout": 9,
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 56219,
-      "pass": 33782,
-      "fail": 21821,
+      "total": 96648,
+      "pass": 70356,
+      "fail": 26050,
       "skip": 0,
-      "error": 451,
-      "timeout": 165
+      "error": 97,
+      "timeout": 145
     },
     "nonPassingTests": [
       {
@@ -1521,7 +1521,7 @@
       {
         "url": "/dom/events/Event-dispatch-redispatch.html",
         "status": "timeout",
-        "message": "b'ReferenceError: \"requestAnimationFrame\" is not defined\\n    at <anonymous> (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:10:43)'"
+        "message": "b'TypeError: buttonElement.getBoundingClientRect is not a function. (In \"buttonElement.getBoundingClientRect()\", it is undefined)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:96:16)'"
       },
       {
         "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1751,7 +1751,7 @@
       {
         "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html",
@@ -2031,12 +2031,12 @@
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: window.requestAnimationFrame is not a function. (In \"window.requestAnimationFrame(() => {\n      window.requestAnimationFrame(resolve);\n    })\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-layout-clamping.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: window.requestAnimationFrame is not a function. (In \"window.requestAnimationFrame(() => {\n      window.requestAnimationFrame(resolve);\n    })\", it is undefined)\""
+        "message": "assert_equals: scrollTop should be clamped to 0 expected 0 but got 100"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-snap.html",
@@ -2210,7 +2210,7 @@
       {
         "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: window.requestAnimationFrame is not a function. (In \"window.requestAnimationFrame(() => {\n      window.requestAnimationFrame(resolve);\n    })\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/dom/events/scrolling/wheel-event-composed.html",
@@ -2524,13 +2524,13 @@
       },
       {
         "url": "/dom/nodes/ParentNode-querySelector-All-xht.xht",
-        "status": "error",
-        "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: The method should return the expected number of matches. expected 0 but got 2"
       },
       {
         "url": "/dom/nodes/ParentNode-querySelector-All.html",
-        "status": "error",
-        "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: The method should return the expected number of matches. expected 3 but got 2"
       },
       {
         "url": "/dom/nodes/ParentNode-querySelector-host-pseudo-class.html",
@@ -2610,7 +2610,7 @@
       {
         "url": "/dom/nodes/moveBefore/Node-moveBefore.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
       },
       {
         "url": "/dom/nodes/moveBefore/child-style-preserve.html",
@@ -2680,17 +2680,17 @@
       {
         "url": "/dom/nodes/moveBefore/fire-focusin-focusout.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "assert_array_equals: lengths differ, expected array [\"button.onfocusin\", \"button.onfocusout\"] length 2, got [\"button.onfocusin\"] length 1"
       },
       {
         "url": "/dom/nodes/moveBefore/focus-preserve.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: input.setSelectionRange is not a function. (In \"input.setSelectionRange(2, 7, \"backward\")\", it is undefined)\""
       },
       {
         "url": "/dom/nodes/moveBefore/focus-within.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "assert_array_equals: lengths differ, expected array [] length 0, got [\"HTML\", \"BODY\", \"inert_parent\", \"button\"] length 4"
       },
       {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
@@ -2740,7 +2740,7 @@
       {
         "url": "/dom/nodes/moveBefore/moveBefore-shadow-inside.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
       },
       {
         "url": "/dom/nodes/moveBefore/moveBefore-size-query.html",
@@ -2764,13 +2764,13 @@
       },
       {
         "url": "/dom/nodes/moveBefore/preserve-render-blocking-script.html",
-        "status": "error",
-        "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
+        "status": "fail",
+        "message": "assert_array_equals: lengths differ, expected array [\"script\", \"render\"] length 2, got [\"render\"] length 1"
       },
       {
         "url": "/dom/nodes/moveBefore/preserve-render-blocking-style.html",
         "status": "error",
-        "message": "ReferenceError: \"requestAnimationFrame\" is not defined"
+        "message": "ReferenceError: \"getComputedStyle\" is not defined"
       },
       {
         "url": "/dom/nodes/moveBefore/relevant-mutations.html",
@@ -2809,8 +2809,7 @@
       },
       {
         "url": "/dom/nodes/name-validation.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "timeout"
       },
       {
         "url": "/dom/nodes/namespaced-attribute-mutations.html",
@@ -2849,13 +2848,11 @@
       },
       {
         "url": "/dom/ranges/Range-compareBoundaryPoints.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-comparePoint.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-deleteContents.html",
@@ -2885,16 +2882,11 @@
       {
         "url": "/dom/ranges/Range-insertNode.html",
         "status": "timeout",
-        "message": "palim execution timed out"
-      },
-      {
-        "url": "/dom/ranges/Range-intersectsNode.html",
-        "status": "timeout"
+        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/Range-isPointInRange.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-mutations-appendChild.html",
@@ -2903,17 +2895,17 @@
       },
       {
         "url": "/dom/ranges/Range-mutations-appendData.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/Range-mutations-dataChange.html",
         "status": "timeout",
-        "message": "palim execution timed out"
+        "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/Range-mutations-deleteData.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "\"getSelection\" is not defined"
       },
       {
@@ -2938,7 +2930,7 @@
       },
       {
         "url": "/dom/ranges/Range-mutations-replaceData.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "\"getSelection\" is not defined"
       },
       {
@@ -2948,8 +2940,7 @@
       },
       {
         "url": "/dom/ranges/Range-set.html",
-        "status": "timeout",
-        "message": "TestRunner hit external timeout (this may indicate a hang)"
+        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-surroundContents.html",
@@ -3025,26 +3016,6 @@
         "url": "/html/dom/documents/dom-tree-accessors/Document.currentScript.html",
         "status": "timeout",
         "message": "b'SyntaxError: Unexpected token\\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\\n{\\n ^\\nReferenceError: \"undefinedfn\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\\nReferenceError: \"XMLHttpRequest\" is not defined\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\\nError: The tokenizer input stream is closed\\n    at steps (native)\\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'"
-      },
-      {
-        "url": "/html/dom/documents/dom-tree-accessors/document.title-03.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
-      },
-      {
-        "url": "/html/dom/documents/dom-tree-accessors/document.title-04.xhtml",
-        "status": "timeout",
-        "message": "palim execution timed out"
-      },
-      {
-        "url": "/html/dom/documents/dom-tree-accessors/nameditem-01.html",
-        "status": "timeout",
-        "message": "TestRunner hit external timeout (this may indicate a hang)"
-      },
-      {
-        "url": "/html/dom/documents/dom-tree-accessors/nameditem-02.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
       },
       {
         "url": "/html/dom/elements/elements-in-the-dom/click-in-progress-flag.html",
@@ -3513,16 +3484,17 @@
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=template",
-        "status": "timeout",
+        "status": "fail",
         "message": "\"Blob\" is not defined"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests1",
-        "status": "timeout"
+        "status": "fail",
+        "message": "\"Blob\" is not defined"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests10",
-        "status": "timeout",
+        "status": "fail",
         "message": "\"Blob\" is not defined"
       },
       {
@@ -3676,17 +3648,9 @@
         "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"23\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"3\\\"\""
       },
       {
-        "url": "/html/syntax/parsing/html5lib_write.html?file=search-element",
-        "status": "timeout"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write.html?file=template",
-        "status": "timeout"
-      },
-      {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=blocks",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=comments01",
@@ -3695,33 +3659,28 @@
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=doctype01",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       \\\"foo\\nbar\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       <!-- C[DATA[foo\\nbar]] -->\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities01",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO>BAR\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOOgt;BAR&\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities02",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       bar=\\\"ZZ>YY\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       &=\\\"\\\"\\n|       bar=\\\"ZZgt;YY\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=html5test-com",
-        "status": "timeout",
-        "message": "palim execution timed out"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=inbody01",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=isindex",
@@ -4361,77 +4320,77 @@
       {
         "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
@@ -4441,27 +4400,27 @@
       {
         "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
@@ -4471,192 +4430,192 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
@@ -4666,12 +4625,12 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
@@ -4681,7 +4640,7 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
@@ -4691,42 +4650,42 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-within-shadow.html",
@@ -4777,11 +4736,6 @@
         "url": "/shadow-dom/focus/focus-method-with-delegatesFocus.html",
         "status": "fail",
         "message": "Cannot convert null to object"
-      },
-      {
-        "url": "/shadow-dom/focus/focus-preserved-on-slot-reorder.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
       },
       {
         "url": "/shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html",
@@ -5669,11 +5623,11 @@
     "totals": {
       "total": 132,
       "executed": 132,
-      "pass": 9,
-      "fail": 71,
+      "pass": 11,
+      "fail": 72,
       "skip": 0,
-      "error": 23,
-      "timeout": 29,
+      "error": 21,
+      "timeout": 28,
       "pending": 0
     },
     "areas": [
@@ -5774,10 +5728,10 @@
           "total": 35,
           "executed": 35,
           "pass": 8,
-          "fail": 15,
+          "fail": 16,
           "skip": 0,
           "error": 11,
-          "timeout": 1,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -5851,10 +5805,10 @@
         "totals": {
           "total": 60,
           "executed": 60,
-          "pass": 0,
+          "pass": 2,
           "fail": 29,
           "skip": 0,
-          "error": 6,
+          "error": 4,
           "timeout": 25,
           "pending": 0
         }
@@ -5913,12 +5867,12 @@
       }
     ],
     "subtests": {
-      "total": 1537,
-      "pass": 847,
-      "fail": 597,
+      "total": 1554,
+      "pass": 863,
+      "fail": 599,
       "skip": 0,
       "error": 64,
-      "timeout": 29
+      "timeout": 28
     },
     "nonPassingTests": [
       {
@@ -6208,8 +6162,8 @@
       },
       {
         "url": "/domparsing/tentative/stream-sanitizer-resource-fetch.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: Server SHOULD observe request in control case expected \"1\" but got \"0\""
       },
       {
         "url": "/domparsing/tentative/stream-tokenizer-context.html",
@@ -6434,22 +6388,12 @@
       {
         "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"requestAnimationFrame\" is not defined"
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"requestAnimationFrame\" is not defined\""
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"requestAnimationFrame\" is not defined"
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",
