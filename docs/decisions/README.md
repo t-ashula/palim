@@ -55,3 +55,4 @@
 - [ADR-0052: Document dynamic markup insertion と parser session](./0052-document-dynamic-markup-insertion.md)
 - [ADR-0053: DOM 仕様適合性の層別計測](./0053-layered-dom-conformance-measurement.md)
 - [ADR-0054: WPT と仕様に基づく適合度計測と改善計画](./0054-wpt-spec-conformance-plan.md)
+- [ADR-0055: Worker execution environment](./0055-worker-execution-realm.md)

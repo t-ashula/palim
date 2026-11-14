@@ -120,6 +120,7 @@
 ### Workers
 
 - [ ] `Worker` / `SharedWorker` の execution realm
+- [ ] polyfill capability の Worker exposure と Worker task queue 接続を追加し、`fetch` / `Headers` / `Request` / `Response` を Worker realm ごとに公開する
 
 ## Runtime scheduling
 
