@@ -19,6 +19,7 @@ import {
 import { originFromURL } from "@palim/core/internal/origin.js";
 import { URL } from "@palim/core/internal/url/index.js";
 import { parseXML } from "@palim/core/internal/xml/parser.js";
+import { updateDocumentLayout } from "@palim/css";
 
 import { decodeHTMLBytes } from "./html-byte-input.js";
 import type { Window, WindowOptions } from "./window.js";
@@ -28,6 +29,7 @@ import {
   createWindowForDocument,
   detachWindow,
   replaceWindowDocument,
+  windowViewport,
 } from "./window.js";
 
 export interface Resource {
@@ -116,6 +118,7 @@ export class WindowDocumentLoader {
     }
     this.resourceLoader = options.resourceLoader ?? null;
     this.#installDocumentHooks();
+    updateDocumentLayout(this.window.document, windowViewport(this.window));
   }
 
   async loadHTML(
@@ -427,6 +430,10 @@ export class WindowDocumentLoader {
   #replaceChildDocument(state: IFrameState, document: Document): void {
     replaceWindowDocument(state.loader.window, document);
     state.loader.#installDocumentHooks();
+    updateDocumentLayout(
+      state.loader.window.document,
+      windowViewport(state.loader.window),
+    );
     state.scripting =
       this.#scripting?.createChild(state.loader.window, this.resourceLoader) ??
       null;

@@ -698,6 +698,16 @@ export function installAttrMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installElementMembers(binding: DOMRealmBindingContext): void {
+  for (const name of ["getClientRects", "getBoundingClientRect"] as const) {
+    binding.method(binding.elementPrototype, name, 0, (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(element[name]())),
+          );
+    });
+  }
   binding.attribute(binding.elementPrototype, "shadowRoot", (thisValue) => {
     const element = binding.element(thisValue);
     return element === null

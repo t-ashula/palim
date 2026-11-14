@@ -20,6 +20,9 @@ import {
   DocumentFragment,
   DocumentType,
   DOMImplementation,
+  DOMRect,
+  DOMRectList,
+  DOMRectReadOnly,
   DOMTokenList,
   Element,
   ErrorEvent,
@@ -277,6 +280,9 @@ export class DOMRealmBindingContext {
   readonly namedNodeMapPrototype: EngineObject;
   readonly nodeListPrototype: EngineObject;
   readonly domTokenListPrototype: EngineObject;
+  readonly domRectReadOnlyPrototype: EngineObject;
+  readonly domRectPrototype: EngineObject;
+  readonly domRectListPrototype: EngineObject;
   readonly domExceptionPrototype: EngineObject;
   readonly mutationObserverPrototype: EngineObject;
   readonly mutationRecordPrototype: EngineObject;
@@ -356,6 +362,18 @@ export class DOMRealmBindingContext {
     this.elementPrototype = this.engine.createObject(
       this.realm,
       this.nodePrototype,
+    );
+    this.domRectReadOnlyPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.domRectPrototype = this.engine.createObject(
+      this.realm,
+      this.domRectReadOnlyPrototype,
+    );
+    this.domRectListPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
     );
     this.foreignAnchorPrototype = this.engine.createObject(
       this.realm,
@@ -1573,6 +1591,11 @@ export class DOMRealmBindingContext {
         indexedLength: () => interfaceObject.length,
         indexedValue: (index) => interfaceObject.item(index),
       });
+    } else if (interfaceObject instanceof DOMRectList) {
+      platformObject = this.legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
     } else if (interfaceObject instanceof CSSStyleDeclaration) {
       platformObject = this.legacyPlatformObject(target, {
         indexedLength: () => interfaceObject.length,
@@ -1694,6 +1717,15 @@ export class DOMRealmBindingContext {
         ? this.foreignAnchorPrototype
         : this.elementPrototype;
     }
+    if (interfaceObject instanceof DOMRect) {
+      return this.domRectPrototype;
+    }
+    if (interfaceObject instanceof DOMRectReadOnly) {
+      return this.domRectReadOnlyPrototype;
+    }
+    if (interfaceObject instanceof DOMRectList) {
+      return this.domRectListPrototype;
+    }
     if (interfaceObject instanceof Node) {
       return this.nodePrototype;
     }
@@ -1761,6 +1793,21 @@ export class DOMRealmBindingContext {
       ? this.interfaceObject(this.engine.globalThis(this.realm))
       : this.interfaceObject(value);
     return interfaceObject instanceof EventTarget ? interfaceObject : null;
+  }
+
+  domRectReadOnly(value: EngineValue): DOMRectReadOnly | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof DOMRectReadOnly ? interfaceObject : null;
+  }
+
+  domRect(value: EngineValue): DOMRect | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof DOMRect ? interfaceObject : null;
+  }
+
+  domRectList(value: EngineValue): DOMRectList | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof DOMRectList ? interfaceObject : null;
   }
 
   abortSignal(value: EngineValue): AbortSignal | null {

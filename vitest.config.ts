@@ -14,6 +14,13 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "css",
+          include: ["packages/css/test/**/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "window",
           include: ["packages/window/test/**/*.test.ts"],
         },

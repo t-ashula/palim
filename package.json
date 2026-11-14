@@ -7,6 +7,7 @@
   "workspaces": [
     "packages/polyfills",
     "packages/core",
+    "packages/css",
     "packages/window",
     "packages/scripting",
     "packages/engine262",
@@ -30,9 +31,9 @@
     "format": "prettier --check --write .",
     "lint": "eslint . --fix",
     "pretest": "npm run build",
-    "test": "vitest run --project polyfills --project core --project window --project scripting --project engine262 --project worker --project palim --project integration --project tooling",
+    "test": "vitest run --project polyfills --project core --project css --project window --project scripting --project engine262 --project worker --project palim --project integration --project tooling",
     "test:conformance": "vitest run --project conformance",
-    "test:watch": "vitest --project polyfills --project core --project window --project scripting --project engine262 --project worker --project palim --project integration --project tooling",
+    "test:watch": "vitest --project polyfills --project core --project css --project window --project scripting --project engine262 --project worker --project palim --project integration --project tooling",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "wpt:test": "sh tools/wpt/run.sh",
     "wpt:test:full": "sh tools/wpt/run.sh --full"

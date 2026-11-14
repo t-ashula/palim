@@ -12,6 +12,7 @@ import {
   runWindowAnimationFrameCallbacks,
   scheduleWindowMicrotask,
   setWindowAnimationFrameScheduler,
+  windowViewport,
 } from "@palim/window/internal/window.js";
 import {
   windowNamedPropertyNames,
@@ -97,6 +98,16 @@ describe("Window", () => {
     expect(window.document.documentElement?.localName).toBe("html");
     expect(window.document.head?.localName).toBe("head");
     expect(window.document.body?.localName).toBe("body");
+  });
+
+  it("owns viewport dimensions", () => {
+    expect(windowViewport(createWindow())).toEqual({
+      width: 1024,
+      height: 768,
+    });
+    expect(
+      windowViewport(createWindow({ viewport: { width: 640, height: 480 } })),
+    ).toEqual({ width: 640, height: 480 });
   });
 
   it("owns Location state in the Window runtime", () => {

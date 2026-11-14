@@ -1,9 +1,27 @@
-import { HTMLIFrameElement, open } from "@palim/window";
+import { Element, HTMLIFrameElement, open } from "@palim/window";
 import { describe, expect, it, vi } from "vitest";
 
 import { assertElement } from "./helper/assertions.js";
 
 describe("open", () => {
+  it("provides element geometry without scripting", async () => {
+    const context = await open({
+      html: [
+        '<main style="width: 120px; height: 20px"></main>',
+        "<iframe srcdoc=\"<p style='width:40px;height:10px'>child</p>\"></iframe>",
+      ].join(""),
+    });
+    const main = context.window.document.querySelector("main");
+    const iframe = context.window.document.querySelector("iframe");
+    assertElement(main, Element);
+    assertElement(iframe, HTMLIFrameElement);
+    const child = iframe.contentDocument?.querySelector("p") ?? null;
+    assertElement(child, Element);
+
+    expect(main.getBoundingClientRect().width).toBe(120);
+    expect(child.getBoundingClientRect().width).toBe(40);
+  });
+
   it("keeps scripting disabled when the option is omitted", async () => {
     const context = await open({
       html: [

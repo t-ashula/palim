@@ -12,7 +12,7 @@ import type {
 } from "./document-loader.js";
 import { WindowDocumentLoader } from "./document-loader.js";
 import { decodeHTMLBytes } from "./html-byte-input.js";
-import type { Window, WindowConsoleCall } from "./window.js";
+import type { Window, WindowConsoleCall, WindowOptions } from "./window.js";
 
 export interface OpenHTMLOptions {
   readonly html: string;
@@ -22,6 +22,7 @@ export interface OpenHTMLOptions {
 export interface OpenOptions {
   readonly scripting?: "enabled";
   readonly extensions?: readonly WindowExtension[];
+  readonly viewport?: WindowOptions["viewport"];
 }
 
 export interface OpenResult {
@@ -84,6 +85,9 @@ export function createOpen(scriptingFactory?: ScriptingFactory): Open {
         consoleHandler: forwardConsoleCall,
         url: initial.url,
         resourceLoader: loader,
+        ...(options.viewport === undefined
+          ? {}
+          : { viewport: options.viewport }),
       },
       xmlDocument,
     );

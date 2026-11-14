@@ -7,6 +7,7 @@ WORKDIR /workspace
 COPY package.json package-lock.json .npmrc ./
 COPY packages/polyfills/package.json packages/polyfills/package.json
 COPY packages/core/package.json packages/core/package.json
+COPY packages/css/package.json packages/css/package.json
 COPY packages/window/package.json packages/window/package.json
 COPY packages/scripting/package.json packages/scripting/package.json
 COPY packages/engine262/package.json packages/engine262/package.json
@@ -18,6 +19,7 @@ RUN npm ci
 COPY tsconfig.json ./
 COPY packages/polyfills/tsconfig.build.json packages/polyfills/tsconfig.build.json
 COPY packages/core/tsconfig.build.json packages/core/tsconfig.build.json
+COPY packages/css/tsconfig.build.json packages/css/tsconfig.build.json
 COPY packages/window/tsconfig.build.json packages/window/tsconfig.build.json
 COPY packages/scripting/tsconfig.build.json packages/scripting/tsconfig.build.json
 COPY packages/engine262/tsconfig.build.json packages/engine262/tsconfig.build.json
@@ -25,6 +27,7 @@ COPY packages/worker/tsconfig.build.json packages/worker/tsconfig.build.json
 COPY packages/palim/tsconfig.build.json packages/palim/tsconfig.build.json
 COPY packages/polyfills/src packages/polyfills/src
 COPY packages/core/src packages/core/src
+COPY packages/css/src packages/css/src
 COPY packages/window/src packages/window/src
 COPY packages/scripting/src packages/scripting/src
 COPY packages/engine262/src packages/engine262/src
@@ -57,6 +60,8 @@ COPY --from=wpt-node-modules /workspace/packages/polyfills/package.json packages
 COPY --from=wpt-node-modules /workspace/packages/polyfills/dist packages/polyfills/dist
 COPY --from=wpt-node-modules /workspace/packages/core/package.json packages/core/package.json
 COPY --from=wpt-node-modules /workspace/packages/core/dist packages/core/dist
+COPY --from=wpt-node-modules /workspace/packages/css/package.json packages/css/package.json
+COPY --from=wpt-node-modules /workspace/packages/css/dist packages/css/dist
 COPY --from=wpt-node-modules /workspace/packages/window/package.json packages/window/package.json
 COPY --from=wpt-node-modules /workspace/packages/window/dist packages/window/dist
 COPY --from=wpt-node-modules /workspace/packages/scripting/package.json packages/scripting/package.json

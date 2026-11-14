@@ -36,6 +36,12 @@ export type Window = WindowInstance;
 export interface WindowOptions {
   readonly consoleHandler?: WindowConsoleHandler;
   readonly url?: string | URL;
+  readonly viewport?: WindowViewport;
+}
+
+export interface WindowViewport {
+  readonly width: number;
+  readonly height: number;
 }
 
 interface WindowInterface {
@@ -71,6 +77,7 @@ interface WindowEnvironment {
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
   readonly timers: Map<number, unknown>;
+  readonly viewport: WindowViewport;
   animationFrameScheduler: () => void;
   microtaskScheduler: WindowMicrotaskScheduler;
   nextTimerId: number;
@@ -128,6 +135,11 @@ class WindowPlatform extends EventTarget implements Window {
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
       timers: new Map<number, unknown>(),
+      viewport:
+        construction.options.viewport ??
+        (parentContext === null
+          ? { width: 1024, height: 768 }
+          : windowEnvironment(parentContext.window).viewport),
       animationFrameScheduler: () => undefined,
       microtaskScheduler: (callback: () => void) => {
         hostMicrotasks().queueMicrotask(callback);
@@ -287,6 +299,10 @@ export function replaceWindowDocument(
   documentImplementation(context.activeDocument).defaultView = null;
   context.activeDocument = document;
   documentImplementation(document).defaultView = context.windowProxy;
+}
+
+export function windowViewport(window: Window): WindowViewport {
+  return windowEnvironment(window).viewport;
 }
 
 export function reportWindowError(

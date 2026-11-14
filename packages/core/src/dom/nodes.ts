@@ -1,4 +1,6 @@
 import { DOMException } from "../dom-exception.js";
+import type { DOMRectList } from "../geometry.js";
+import { createDOMRectList, DOMRect } from "../geometry.js";
 import type { PalimParseError } from "../html/parse-errors.js";
 import {
   serializeHTMLElement,
@@ -1971,6 +1973,34 @@ export class Element extends Node {
       : (nodeInterface(shadowRoot) as ShadowRoot);
   }
 
+  getClientRects(): DOMRectList {
+    const document = this.ownerDocument;
+    const provider =
+      document === null ? undefined : DOCUMENT_GEOMETRY_PROVIDERS.get(document);
+    if (provider === undefined) {
+      throw new TypeError("CSS layout is not available for this Document");
+    }
+    return createDOMRectList(provider(this));
+  }
+
+  getBoundingClientRect(): DOMRect {
+    const rects = [...this.getClientRects()];
+    if (rects.length === 0) {
+      return new DOMRect();
+    }
+    const nonEmpty = rects.filter(
+      (rect) => rect.width !== 0 && rect.height !== 0,
+    );
+    if (nonEmpty.length === 0) {
+      return rects[0] ?? new DOMRect();
+    }
+    const left = Math.min(...nonEmpty.map((rect) => rect.left));
+    const top = Math.min(...nonEmpty.map((rect) => rect.top));
+    const right = Math.max(...nonEmpty.map((rect) => rect.right));
+    const bottom = Math.max(...nonEmpty.map((rect) => rect.bottom));
+    return new DOMRect(left, top, right - left, bottom - top);
+  }
+
   attachShadow(init: ShadowRootInit): ShadowRoot {
     requireArguments(arguments.length, 1);
     const implementation = elementImplementation(this);
@@ -2524,6 +2554,19 @@ export class Element extends Node {
     }
     return parser.parse(input, context);
   }
+}
+
+export type DocumentGeometryProvider = (element: Element) => readonly DOMRect[];
+const DOCUMENT_GEOMETRY_PROVIDERS = new WeakMap<
+  Document,
+  DocumentGeometryProvider
+>();
+
+export function setDocumentGeometryProvider(
+  document: Document,
+  provider: DocumentGeometryProvider,
+): void {
+  DOCUMENT_GEOMETRY_PROVIDERS.set(document, provider);
 }
 
 export function attributeNodes(element: Element): Attr[] {

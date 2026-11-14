@@ -130,6 +130,7 @@ describe("capability import boundaries", () => {
   it("keeps engine262 in the backend package", () => {
     expect(packageDependencies("window")).toEqual({
       "@palim/core": "0.0.0",
+      "@palim/css": "0.0.0",
       "@palim/polyfills": "0.0.0",
     });
     expect(packageDependencies("scripting")).toEqual({

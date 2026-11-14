@@ -9,3 +9,5 @@ export type { PalimParseError } from "@palim/core/internal/html/parse-errors.js"
 export { decodeHTMLBytes } from "./html-byte-input.js";
 export { open } from "./open.js";
 export type { Open, OpenHTMLOptions, OpenOptions, OpenResult } from "./open.js";
+export { windowViewport } from "./window.js";
+export type { WindowViewport } from "./window.js";

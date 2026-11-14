@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 
+import { documentLayout } from "@palim/css";
 import { HTMLIFrameElement, open } from "palim";
 import { describe, expect, it, vi } from "vitest";
 
@@ -21,6 +22,58 @@ async function waitFor(predicate: () => boolean): Promise<void> {
 }
 
 describe("open", () => {
+  it("associates CSS layout with the active Document", async () => {
+    const context = await open(
+      { html: '<main style="width: 120px; height: 20px"></main>' },
+      { viewport: { width: 640, height: 480 } },
+    );
+    const main = context.window.document.querySelector("main");
+    if (main === null) {
+      throw new TypeError("Missing main element");
+    }
+    const layout = documentLayout(context.window.document);
+
+    expect(layout?.viewport).toEqual({ width: 640, height: 480 });
+    expect(layout?.clientRects(main)[0]).toMatchObject({
+      x: 0,
+      y: 0,
+      width: 120,
+      height: 20,
+    });
+
+    main.setAttribute("style", "width: 140px; height: 30px");
+    expect(layout?.clientRects(main)[0]).toMatchObject({
+      width: 140,
+      height: 30,
+    });
+  });
+
+  it("provides CSS geometry while document scripts are running", async () => {
+    const context = await open(
+      {
+        html: [
+          '<main style="width: 120px; height: 20px"></main>',
+          "<script>",
+          "try {",
+          "  document.body.setAttribute(",
+          "    'data-width',",
+          "    String(document.querySelector('main').getBoundingClientRect().width),",
+          "  );",
+          "} catch (error) {",
+          "  document.body.setAttribute('data-error', error.name + ': ' + error.message);",
+          "}",
+          "</script>",
+        ].join(""),
+      },
+      { scripting: "enabled" },
+    );
+
+    expect(context.window.document.body?.getAttribute("data-error")).toBeNull();
+    expect(context.window.document.body?.getAttribute("data-width")).toBe(
+      "120",
+    );
+  });
+
   it("opens supplied HTML with its base URL", async () => {
     const context = await open(
       {
@@ -311,6 +364,8 @@ describe("open", () => {
           "frame.srcdoc = [",
           '  "<body><p>child</p><script>",',
           '  "document.body.setAttribute(\\"data-executed\\", \\"yes\\");",',
+          '  "document.body.setAttribute(\\"data-geometry-width\\",",',
+          '  "  String(document.body.getBoundingClientRect().width));",',
           '  "parent.document.body.setAttribute(\\"data-child-parent\\", \\"yes\\");",',
           '  "if (top !== parent || frameElement !== parent.document.querySelector(\\"iframe\\")) {",',
           '  "  throw new Error(\\"invalid child Window relationships\\");",',
@@ -348,6 +403,11 @@ describe("open", () => {
         : null,
     ).toBe("yes");
     expect(
+      iframe instanceof HTMLIFrameElement
+        ? iframe.contentDocument?.body?.getAttribute("data-geometry-width")
+        : null,
+    ).toBe("1024");
+    expect(
       context.window.document.body?.getAttribute("data-child-parent"),
     ).toBe("yes");
     expect(context.window.document.body?.getAttribute("data-frame-load")).toBe(
@@ -380,6 +440,8 @@ describe("open", () => {
     iframe.srcdoc = [
       "<body><script>",
       'document.body.setAttribute("data-second-script", "yes");',
+      'document.body.setAttribute("data-second-geometry-width",',
+      "  String(document.body.getBoundingClientRect().width));",
       "</script></body>",
     ].join("");
     await navigationLoad;
@@ -387,6 +449,9 @@ describe("open", () => {
     expect(
       iframe.contentDocument?.body?.getAttribute("data-second-script"),
     ).toBe("yes");
+    expect(
+      iframe.contentDocument?.body?.getAttribute("data-second-geometry-width"),
+    ).toBe("1024");
   });
 
   it("runs inline and external classic scripts in an iframe src document", async () => {

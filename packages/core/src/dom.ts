@@ -22,6 +22,13 @@ export type {
 } from "./dom/events.js";
 export { HTMLCollection, NamedNodeMap, NodeList } from "./dom/collections.js";
 export { DOMTokenList } from "./dom/token-list.js";
+export {
+  createDOMRectList,
+  DOMRect,
+  DOMRectList,
+  DOMRectReadOnly,
+} from "./geometry.js";
+export type { DOMRectInit } from "./geometry.js";
 export { NodeFilter } from "./dom/traversal.js";
 export type { NodeIterator, TreeWalker } from "./dom/traversal.js";
 export type {

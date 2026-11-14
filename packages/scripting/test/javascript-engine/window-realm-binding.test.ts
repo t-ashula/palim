@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { Event } from "@palim/core/internal/dom/events.js";
 import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
 import { Document } from "@palim/core/internal/public-dom-interfaces.js";
+import { updateDocumentLayout } from "@palim/css";
 import { Engine262Adapter } from "@palim/engine262";
 import type {
   EngineRealm,
@@ -14,7 +15,7 @@ import {
   WindowScriptEventLoop,
 } from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
 import { WindowRealmBinding } from "@palim/scripting/internal/javascript-engine/window-realm-binding.js";
-import { createWindow } from "@palim/window/internal/window.js";
+import { createWindow, windowViewport } from "@palim/window/internal/window.js";
 import { describe, expect, it } from "vitest";
 
 function evaluate(
@@ -29,6 +30,25 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes Element geometry in the page realm", () => {
+    const window = createWindow({ viewport: { width: 640, height: 480 } });
+    updateDocumentLayout(window.document, windowViewport(window));
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/element-geometry.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("exposes the Window animation frame provider", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

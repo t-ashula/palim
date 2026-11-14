@@ -115,6 +115,46 @@ export const DOMTokenList = exposeInterface<DOMTokenListInterface>(
   DOM.DOMTokenList,
 );
 
+export type DOMRectReadOnly = DOM.DOMRectReadOnly;
+interface DOMRectReadOnlyInterface {
+  readonly length: 0;
+  readonly name: "DOMRectReadOnly";
+  readonly prototype: DOMRectReadOnly;
+  [Symbol.hasInstance](value: unknown): value is DOMRectReadOnly;
+  new (
+    x?: number,
+    y?: number,
+    width?: number,
+    height?: number,
+  ): DOMRectReadOnly;
+  fromRect(other?: DOM.DOMRectInit): DOMRectReadOnly;
+}
+export const DOMRectReadOnly = exposeInterface<DOMRectReadOnlyInterface>(
+  DOM.DOMRectReadOnly,
+);
+
+export type DOMRect = DOM.DOMRect;
+interface DOMRectInterface {
+  readonly length: 0;
+  readonly name: "DOMRect";
+  readonly prototype: DOMRect;
+  [Symbol.hasInstance](value: unknown): value is DOMRect;
+  new (x?: number, y?: number, width?: number, height?: number): DOMRect;
+  fromRect(other?: DOM.DOMRectInit): DOMRect;
+}
+export const DOMRect = exposeInterface<DOMRectInterface>(DOM.DOMRect);
+
+export type DOMRectList = DOM.DOMRectList;
+interface DOMRectListInterface {
+  readonly length: 0;
+  readonly name: "DOMRectList";
+  readonly prototype: DOMRectList;
+  [Symbol.hasInstance](value: unknown): value is DOMRectList;
+}
+export const DOMRectList = exposeInterface<DOMRectListInterface>(
+  DOM.DOMRectList,
+);
+
 export type Element = DOM.Element;
 interface ElementInterface {
   readonly length: 0;
@@ -153,6 +193,7 @@ export type {
   ImportNodeOptions,
   MutationCallback,
   MutationObserverInit,
+  DOMRectInit,
   SanitizerConfig,
   SanitizerAttribute,
   SanitizerElement,

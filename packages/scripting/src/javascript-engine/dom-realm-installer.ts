@@ -1,4 +1,5 @@
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { installGeometryInterfaces } from "./dom-realm-geometry-interfaces.js";
 import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 import {
   installAbortMembers,
@@ -49,6 +50,7 @@ export function installDOMRealmInterfaces(
   binding: DOMRealmBindingContext,
 ): void {
   installInterfaces(binding);
+  installGeometryInterfaces(binding);
   installEventTargetMembers(binding);
   installAbortMembers(binding);
   installNodeMembers(binding);
