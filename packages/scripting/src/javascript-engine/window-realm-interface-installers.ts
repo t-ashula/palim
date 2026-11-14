@@ -246,7 +246,9 @@ export function installAnimationFrameProvider(
       "requestAnimationFrame callback must be callable",
       {
         exceptionBehavior: "report",
-        reportException: (value) => { binding.reportException(value); },
+        reportException: (value) => {
+          binding.reportException(value);
+        },
       },
     );
     if (callback.type === "throw") {
