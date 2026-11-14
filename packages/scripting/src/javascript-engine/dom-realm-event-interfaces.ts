@@ -328,6 +328,41 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
       );
     },
   );
+  binding.attribute(binding.messageEventPrototype, "data", (thisValue) => {
+    const event = binding.messageEvent(thisValue);
+    if (event === null) {
+      return binding.typeError("Invalid MessageEvent receiver for data");
+    }
+    return normal(
+      binding.messageEventData.get(event) ??
+        binding.engine.fromPrimitive(undefined),
+    );
+  });
+  for (const name of ["origin", "lastEventId"] as const) {
+    binding.attribute(binding.messageEventPrototype, name, (thisValue) => {
+      const event = binding.messageEvent(thisValue);
+      return event === null
+        ? binding.typeError(`Invalid MessageEvent receiver for ${name}`)
+        : binding.primitive(event[name]);
+    });
+  }
+  binding.attribute(binding.messageEventPrototype, "source", (thisValue) => {
+    const event = binding.messageEvent(thisValue);
+    return event === null
+      ? binding.typeError("Invalid MessageEvent receiver for source")
+      : binding.platformValue(event.source);
+  });
+  binding.attribute(binding.messageEventPrototype, "ports", (thisValue) => {
+    const event = binding.messageEvent(thisValue);
+    return event === null
+      ? binding.typeError("Invalid MessageEvent receiver for ports")
+      : normal(
+          binding.engine.createArray(
+            binding.realm,
+            event.ports.map((port) => binding.platformObject(port)),
+          ),
+        );
+  });
   binding.method(
     binding.customEventPrototype,
     "initCustomEvent",

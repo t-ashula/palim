@@ -9,15 +9,24 @@ export type {
 
 export const open = createOpen(
   async (window, resourceLoader, extensions, hostServices) => {
-    const [{ Engine262Adapter }, { createWindowScripting }] = await Promise.all(
-      [import("@palim/engine262"), import("@palim/scripting")],
-    );
+    const [
+      { Engine262Adapter },
+      { createWindowScripting },
+      { WorkerScriptingManager },
+    ] = await Promise.all([
+      import("@palim/engine262"),
+      import("@palim/scripting"),
+      import("@palim/worker"),
+    ]);
+    const createEngine = () => new Engine262Adapter();
+    const workerManager = new WorkerScriptingManager(createEngine);
     return createWindowScripting(
-      new Engine262Adapter(),
+      createEngine(),
       window,
       resourceLoader,
       extensions,
       hostServices,
+      [workerManager],
     );
   },
 );

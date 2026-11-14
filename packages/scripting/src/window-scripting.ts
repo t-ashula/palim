@@ -22,10 +22,12 @@ import type {
 } from "./javascript-engine/adapter.js";
 import type {
   ClassicScript,
+  WindowEnvironmentSettings,
   WindowScriptEventLoop,
 } from "./javascript-engine/window-classic-script.js";
 import { WindowScriptEnvironment } from "./javascript-engine/window-classic-script.js";
 import { installWindowExtensions } from "./javascript-engine/window-extension-context.js";
+import type { WindowRealmBinding } from "./javascript-engine/window-realm-binding.js";
 
 export {
   ClassicScript,
@@ -55,12 +57,22 @@ export interface ParserInsertedScriptLoadError {
 export type ParserInsertedScriptResult =
   ParserInsertedScriptExecutionResult | ParserInsertedScriptLoadError;
 
+export interface WindowScriptingCapability {
+  installWindow(
+    binding: WindowRealmBinding,
+    settings: WindowEnvironmentSettings,
+    resourceLoader: ResourceLoader | null,
+  ): void;
+  waitForPendingTasks(): Promise<void>;
+}
+
 export function createWindowScripting(
   engine: JavaScriptEngineAdapter,
   window: Window,
   resourceLoader: ResourceLoader | null,
   extensions: readonly WindowExtension[] = [],
   hostServices: HostServices = createHostServices(),
+  capabilities: readonly WindowScriptingCapability[] = [],
 ): WindowScriptingEnvironment {
   return new WindowScriptingEnvironment(
     engine,
@@ -68,6 +80,8 @@ export function createWindowScripting(
     resourceLoader,
     extensions,
     hostServices,
+    undefined,
+    capabilities,
   );
 }
 
@@ -80,6 +94,7 @@ export class WindowScriptingEnvironment
   readonly #extensions: readonly WindowExtension[];
   readonly #hostServices: HostServices;
   readonly #pendingResourceLoads: Promise<void>[] = [];
+  readonly #capabilities: readonly WindowScriptingCapability[];
 
   constructor(
     engine: JavaScriptEngineAdapter,
@@ -88,11 +103,20 @@ export class WindowScriptingEnvironment
     extensions: readonly WindowExtension[] = [],
     hostServices: HostServices = createHostServices(),
     eventLoop?: WindowScriptEventLoop,
+    capabilities: readonly WindowScriptingCapability[] = [],
   ) {
     super(engine, window, eventLoop);
     this.#resourceLoader = resourceLoader;
     this.#extensions = extensions;
     this.#hostServices = hostServices;
+    this.#capabilities = capabilities;
+    for (const capability of this.#capabilities) {
+      capability.installWindow(
+        this.binding,
+        this.settings,
+        this.#resourceLoader,
+      );
+    }
     installWindowExtensions(
       this.#extensions,
       this.binding,
@@ -116,6 +140,9 @@ export class WindowScriptingEnvironment
 
   async waitForPendingScripts(): Promise<void> {
     await Promise.all(this.#pendingResourceLoads);
+    await Promise.all(
+      this.#capabilities.map((capability) => capability.waitForPendingTasks()),
+    );
   }
 
   dispatchEvent(target: EventTarget, event: Event): boolean {
@@ -133,6 +160,7 @@ export class WindowScriptingEnvironment
       this.#extensions,
       this.#hostServices,
       this.eventLoop,
+      this.#capabilities,
     );
   }
 

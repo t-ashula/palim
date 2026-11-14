@@ -24,6 +24,7 @@ import {
   FromPropertyDescriptor,
   Get,
   GetFunctionRealm,
+  IsArray,
   IsCallable,
   isPromiseObject,
   JSStringValue,
@@ -249,6 +250,24 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     return ToBoolean(this.#value(value));
   }
 
+  primitiveValue(
+    value: EngineValue,
+  ): { readonly value: EnginePrimitive } | null {
+    const engineValue = this.#value(value);
+    switch (engineValue.type) {
+      case "Undefined":
+      case "Null":
+      case "Boolean":
+      case "String":
+      case "Number":
+      case "BigInt":
+        return { value: engineValue.value };
+      case "Symbol":
+      case "Object":
+        return null;
+    }
+  }
+
   asBoolean(value: EngineValue): boolean | null {
     const engineValue = this.#value(value);
     if (engineValue === Value.true) {
@@ -277,6 +296,16 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
   asCallable(value: EngineValue): EngineCallable | null {
     const engineValue = this.#value(value);
     return IsCallable(engineValue) ? this.#wrapCallable(engineValue) : null;
+  }
+
+  isArray(realm: EngineRealm, value: EngineObject): EngineResult<boolean> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const result = IsArray(this.#object(value));
+      return result instanceof ThrowCompletion
+        ? thrown(this.#wrap(result.Value))
+        : normal(result);
+    });
   }
 
   callableRealm(

@@ -42,6 +42,10 @@ export interface EngineRealmOptions {
   readonly forwardingGlobalThis?: boolean;
 }
 
+export interface EnginePrimitiveValue {
+  readonly value: EnginePrimitive;
+}
+
 export type EngineWellKnownSymbol = "iterator" | "toStringTag";
 
 export type EnginePropertyKey = string | EngineValue;
@@ -89,10 +93,12 @@ export interface JavaScriptEngineAdapter {
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
   toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number>;
   toBoolean(value: EngineValue): boolean;
+  primitiveValue(value: EngineValue): EnginePrimitiveValue | null;
   asBoolean(value: EngineValue): boolean | null;
   asString(value: EngineValue): string | null;
   asObject(value: EngineValue): EngineObject | null;
   asCallable(value: EngineValue): EngineCallable | null;
+  isArray(realm: EngineRealm, value: EngineObject): EngineResult<boolean>;
   callableRealm(
     realm: EngineRealm,
     callable: EngineCallable,

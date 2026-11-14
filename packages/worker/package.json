@@ -1,0 +1,35 @@
+{
+  "name": "@palim/worker",
+  "version": "0.0.0",
+  "description": "Web Worker execution environments for palim.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./internal/*.js": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js"
+    }
+  },
+  "scripts": {
+    "clean": "node --eval \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run --root ../.. --config vitest.config.ts --project worker"
+  },
+  "dependencies": {
+    "@palim/core": "0.0.0",
+    "@palim/scripting": "0.0.0",
+    "@palim/window": "0.0.0"
+  }
+}

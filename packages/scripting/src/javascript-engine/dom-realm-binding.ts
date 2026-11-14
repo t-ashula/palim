@@ -3,6 +3,7 @@ import type {
   ErrorEvent,
   Event,
   EventTarget,
+  MessageEvent,
   MutationObserverMicrotaskScheduler,
   PromiseRejectionEvent,
 } from "@palim/core/internal/dom.js";
@@ -18,6 +19,9 @@ import { installDOMRealmInterfaces } from "./dom-realm-installer.js";
 import { RealmBindingContext } from "./realm-binding-context.js";
 
 export type RealmExceptionReporter = (value: EngineValue) => void;
+export type DOMRealmInterfaceInstaller = (
+  context: DOMRealmBindingContext,
+) => void;
 
 export class DOMRealmBinding {
   readonly #context: DOMRealmBindingContext;
@@ -28,13 +32,14 @@ export class DOMRealmBinding {
     associatedDocument: Document | null = null,
     context = new RealmBindingContext(engine, realm),
     reportException: RealmExceptionReporter = () => undefined,
+    installInterfaces: DOMRealmInterfaceInstaller = installDOMRealmInterfaces,
   ) {
     this.#context = new DOMRealmBindingContext(
       context,
       associatedDocument,
       reportException,
     );
-    installDOMRealmInterfaces(this.#context);
+    installInterfaces(this.#context);
   }
 
   expose(name: string, interfaceObject: object): void {
@@ -88,6 +93,10 @@ export class DOMRealmBinding {
   ): void {
     this.#context.promiseRejectionEventPromises.set(event, promise);
     this.#context.promiseRejectionEventReasons.set(event, reason);
+  }
+
+  setMessageEventData(event: MessageEvent, data: EngineValue): void {
+    this.#context.messageEventData.set(event, data);
   }
 
   setEventHandler(target: EventTarget, handler: (event: Event) => void): void {

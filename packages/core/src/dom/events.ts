@@ -40,6 +40,14 @@ export interface PromiseRejectionEventInit<
   readonly reason?: TReason;
 }
 
+export interface MessageEventInit<T = unknown> extends EventInit {
+  readonly data?: T;
+  readonly origin?: string;
+  readonly lastEventId?: string;
+  readonly source?: EventTarget | null;
+  readonly ports?: readonly EventTarget[];
+}
+
 export class Event {
   static readonly NONE = 0;
   static readonly CAPTURING_PHASE = 1;
@@ -220,6 +228,23 @@ export class PromiseRejectionEvent<
     super(type, eventInit);
     this.promise = eventInit.promise;
     this.reason = eventInit.reason as TReason;
+  }
+}
+
+export class MessageEvent<T = unknown> extends Event {
+  readonly data: T;
+  readonly origin: string;
+  readonly lastEventId: string;
+  readonly source: EventTarget | null;
+  readonly ports: readonly EventTarget[];
+
+  constructor(type: string, eventInit: MessageEventInit<T> = {}) {
+    super(type, eventInit);
+    this.data = eventInit.data as T;
+    this.origin = domString(eventInit.origin ?? "");
+    this.lastEventId = domString(eventInit.lastEventId ?? "");
+    this.source = eventInit.source ?? null;
+    this.ports = eventInit.ports ?? [];
   }
 }
 

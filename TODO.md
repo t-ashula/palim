@@ -192,6 +192,9 @@
 - [ ] monorepo package 分離
 - [ ] parser 利用時に Window 関連コードを読み込まない構成
 - [ ] capability 単位の package export
+- [ ] production package 間の `@palim/*/internal/*` import を棚卸し
+  - [ ] 依存 package 向けの名前付き export subpath に置き換え
+  - [ ] package 境界テストで `internal` subpath の package 外利用を拒否する
 - [ ] optional layer ごとの性能・メモリ計測
 - [ ] 対応能力を機械可読な metadata として公開
 - [ ] JavaScript execution を無効化した軽量構成の維持

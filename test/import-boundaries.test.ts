@@ -12,7 +12,7 @@ const REJECT_ENGINE_IMPORT = new URL(
 ).href;
 
 function packageDependencies(
-  name: "engine262" | "palim" | "polyfills" | "scripting" | "window",
+  name: "engine262" | "palim" | "polyfills" | "scripting" | "window" | "worker",
 ): Record<string, string> {
   const manifest = JSON.parse(
     readFileSync(
@@ -77,6 +77,12 @@ describe("capability import boundaries", () => {
     `);
   });
 
+  it("loads the Worker package without the engine package", () => {
+    importWithoutEngine(`
+      await import("@palim/worker");
+    `);
+  });
+
   it("opens the full package with scripting disabled without the engine package", () => {
     importWithoutEngine(`
       const { open } = await import("palim");
@@ -135,12 +141,18 @@ describe("capability import boundaries", () => {
       "@engine262/engine262": "file:../../vendor/engine262",
       "@palim/scripting": "0.0.0",
     });
+    expect(packageDependencies("worker")).toEqual({
+      "@palim/core": "0.0.0",
+      "@palim/scripting": "0.0.0",
+      "@palim/window": "0.0.0",
+    });
     expect(packageDependencies("polyfills")).toEqual({});
     expect(packageDependencies("palim")).toEqual({
       "@palim/core": "0.0.0",
       "@palim/engine262": "0.0.0",
       "@palim/scripting": "0.0.0",
       "@palim/window": "0.0.0",
+      "@palim/worker": "0.0.0",
     });
   });
 });

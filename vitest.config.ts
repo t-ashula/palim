@@ -35,6 +35,13 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          name: "worker",
+          include: ["packages/worker/test/**/*.test.ts"],
+        },
+      },
+      {
+        extends: true,
+        test: {
           name: "palim",
           include: ["packages/palim/test/**/*.test.ts"],
         },

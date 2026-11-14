@@ -10,6 +10,7 @@ COPY packages/core/package.json packages/core/package.json
 COPY packages/window/package.json packages/window/package.json
 COPY packages/scripting/package.json packages/scripting/package.json
 COPY packages/engine262/package.json packages/engine262/package.json
+COPY packages/worker/package.json packages/worker/package.json
 COPY packages/palim/package.json packages/palim/package.json
 COPY vendor/engine262 vendor/engine262
 RUN npm ci
@@ -20,12 +21,14 @@ COPY packages/core/tsconfig.build.json packages/core/tsconfig.build.json
 COPY packages/window/tsconfig.build.json packages/window/tsconfig.build.json
 COPY packages/scripting/tsconfig.build.json packages/scripting/tsconfig.build.json
 COPY packages/engine262/tsconfig.build.json packages/engine262/tsconfig.build.json
+COPY packages/worker/tsconfig.build.json packages/worker/tsconfig.build.json
 COPY packages/palim/tsconfig.build.json packages/palim/tsconfig.build.json
 COPY packages/polyfills/src packages/polyfills/src
 COPY packages/core/src packages/core/src
 COPY packages/window/src packages/window/src
 COPY packages/scripting/src packages/scripting/src
 COPY packages/engine262/src packages/engine262/src
+COPY packages/worker/src packages/worker/src
 COPY packages/palim/src packages/palim/src
 COPY tools/conformance/tsconfig.build.json tools/conformance/tsconfig.build.json
 COPY tools/conformance/report.ts tools/conformance/report.ts
@@ -60,6 +63,8 @@ COPY --from=wpt-node-modules /workspace/packages/scripting/package.json packages
 COPY --from=wpt-node-modules /workspace/packages/scripting/dist packages/scripting/dist
 COPY --from=wpt-node-modules /workspace/packages/engine262/package.json packages/engine262/package.json
 COPY --from=wpt-node-modules /workspace/packages/engine262/dist packages/engine262/dist
+COPY --from=wpt-node-modules /workspace/packages/worker/package.json packages/worker/package.json
+COPY --from=wpt-node-modules /workspace/packages/worker/dist packages/worker/dist
 COPY --from=wpt-node-modules /workspace/packages/palim/package.json packages/palim/package.json
 COPY --from=wpt-node-modules /workspace/packages/palim/dist packages/palim/dist
 COPY --from=wpt-node-modules /workspace/node_modules node_modules

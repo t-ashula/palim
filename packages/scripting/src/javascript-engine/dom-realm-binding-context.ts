@@ -26,6 +26,7 @@ import {
   Event,
   EventTarget,
   HTMLCollection,
+  MessageEvent,
   MutationObserver,
   MutationRecord,
   NamedNodeMap,
@@ -216,6 +217,7 @@ export class DOMRealmBindingContext {
     PromiseRejectionEvent,
     EngineValue
   >();
+  readonly messageEventData = new WeakMap<MessageEvent, EngineValue>();
   readonly listeners = new WeakMap<
     EventTarget,
     Map<EngineObject, (event: Event) => void>
@@ -267,6 +269,7 @@ export class DOMRealmBindingContext {
   readonly eventPrototype: EngineObject;
   readonly errorEventPrototype: EngineObject;
   readonly promiseRejectionEventPrototype: EngineObject;
+  readonly messageEventPrototype: EngineObject;
   readonly customEventPrototype: EngineObject;
   readonly htmlCollectionPrototype: EngineObject;
   readonly namedNodeMapPrototype: EngineObject;
@@ -449,6 +452,10 @@ export class DOMRealmBindingContext {
       this.eventPrototype,
     );
     this.promiseRejectionEventPrototype = this.engine.createObject(
+      this.realm,
+      this.eventPrototype,
+    );
+    this.messageEventPrototype = this.engine.createObject(
       this.realm,
       this.eventPrototype,
     );
@@ -1627,6 +1634,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof PromiseRejectionEvent) {
       return this.promiseRejectionEventPrototype;
     }
+    if (interfaceObject instanceof MessageEvent) {
+      return this.messageEventPrototype;
+    }
     if (interfaceObject instanceof XMLDocument) {
       return this.xmlDocumentPrototype;
     }
@@ -1916,6 +1926,11 @@ export class DOMRealmBindingContext {
     return interfaceObject instanceof PromiseRejectionEvent
       ? interfaceObject
       : null;
+  }
+
+  messageEvent(value: EngineValue): MessageEvent | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof MessageEvent ? interfaceObject : null;
   }
 
   htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {

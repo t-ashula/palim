@@ -5,6 +5,7 @@ export {
   ErrorEvent,
   Event,
   EventTarget,
+  MessageEvent,
   PromiseRejectionEvent,
 } from "./dom/events.js";
 export type {
@@ -14,6 +15,7 @@ export type {
   EventInit,
   EventListener,
   EventListenerObject,
+  MessageEventInit,
   PromiseRejectionEventInit,
 } from "./dom/events.js";
 export { HTMLCollection, NamedNodeMap, NodeList } from "./dom/collections.js";

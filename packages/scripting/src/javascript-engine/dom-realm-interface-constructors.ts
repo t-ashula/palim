@@ -7,6 +7,7 @@ import {
   ErrorEvent,
   Event,
   EventTarget,
+  MessageEvent,
   MutationObserver,
   Node,
   NodeFilter,
@@ -514,6 +515,33 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
       });
       binding.promiseRejectionEventPromises.set(event, promise);
       binding.promiseRejectionEventReasons.set(event, reason);
+      return normal(binding.wrap(event));
+    },
+  );
+  binding.installInterface(
+    "MessageEvent",
+    binding.messageEventPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const type = binding.stringArgument(argumentsList, 0, "MessageEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      const eventInit = binding.eventInit(argumentsList[1]);
+      if (eventInit.type === "throw") {
+        return eventInit;
+      }
+      const event = new MessageEvent(type.value, eventInit.value);
+      const init = binding.engine.asObject(
+        argumentsList[1] ?? binding.engine.fromPrimitive(undefined),
+      );
+      if (init !== null) {
+        const data = binding.engine.get(binding.realm, init, "data");
+        if (data.type === "throw") {
+          return data;
+        }
+        binding.messageEventData.set(event, data.value);
+      }
       return normal(binding.wrap(event));
     },
   );

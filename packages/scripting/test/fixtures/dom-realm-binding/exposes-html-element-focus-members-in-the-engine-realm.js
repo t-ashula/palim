@@ -1,8 +1,7 @@
 const target = testDocument.getElementById("target");
 const focusMembers = ["autofocus", "tabIndex", "focus", "blur"];
 const missingFocusMembers = focusMembers.filter(
-  (name) =>
-    !Object.prototype.hasOwnProperty.call(HTMLElement.prototype, name),
+  (name) => !Object.prototype.hasOwnProperty.call(HTMLElement.prototype, name),
 );
 if (missingFocusMembers.length !== 0) {
   throw new Error(

@@ -35,6 +35,7 @@
     "@palim/core": "0.0.0",
     "@palim/engine262": "0.0.0",
     "@palim/scripting": "0.0.0",
+    "@palim/worker": "0.0.0",
     "@palim/window": "0.0.0"
   }
 }

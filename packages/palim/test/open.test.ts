@@ -10,6 +10,16 @@ function fixture(name: string): string {
   );
 }
 
+async function waitFor(predicate: () => boolean): Promise<void> {
+  const deadline = Date.now() + 1_000;
+  while (!predicate()) {
+    if (Date.now() >= deadline) {
+      throw new Error("Timed out waiting for result");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5));
+  }
+}
+
 describe("open", () => {
   it("opens supplied HTML with its base URL", async () => {
     const context = await open(
@@ -59,6 +69,55 @@ describe("open", () => {
       ]);
       expect(context.window.document.body?.getAttribute("data-external")).toBe(
         "loaded",
+      );
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it("runs a classic Worker through the public open()", async () => {
+    const fetchMock = vi.fn((input: string | URL) => {
+      const url = input.toString();
+      if (url !== "https://example.test/worker.js") {
+        return Promise.reject(new TypeError(`Unexpected resource ${url}`));
+      }
+      return Promise.resolve(
+        new Response(
+          "postMessage({ value: 42, worker: self === globalThis });",
+          {
+            headers: { "content-type": "text/javascript; charset=utf-8" },
+          },
+        ),
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const context = await open(
+        {
+          html: `
+            <body><script>
+              const worker = new Worker("/worker.js");
+              worker.onmessage = event => {
+                document.body.setAttribute(
+                  "data-worker",
+                  String(event.data.worker && event.data.value === 42),
+                );
+              };
+            </script></body>
+          `,
+          baseURL: "https://example.test/page.html",
+        },
+        { scripting: "enabled" },
+      );
+      await waitFor(
+        () =>
+          context.window.document.body?.getAttribute("data-worker") === "true",
+      );
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(context.window.document.body?.getAttribute("data-worker")).toBe(
+        "true",
       );
     } finally {
       vi.unstubAllGlobals();
