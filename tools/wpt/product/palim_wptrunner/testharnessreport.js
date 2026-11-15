@@ -6,6 +6,7 @@
     timeout_multiplier: Number("%(timeout_multiplier)s"),
     explicit_timeout: "%(explicit_timeout)s" === "true",
     debug: "%(debug)s" === "true",
+    message_events: ["completion"],
   };
   var start_pathname = location.pathname;
   var start_search = location.search;
