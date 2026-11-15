@@ -16,6 +16,7 @@ import {
   FormDataRealmBindingContext,
   installBlobInterfaces,
   installFormDataInterface,
+  installWritableStreamRealm,
   normal,
   RealmBindingContext,
   RealmExecutionRuntime,
@@ -484,6 +485,7 @@ class WorkerExecutionEnvironment {
     installBlobInterfaces(this.context, blobs);
     const formData = new FormDataRealmBindingContext(this.context, blobs);
     installFormDataInterface(this.context, formData);
+    installWritableStreamRealm(this.context);
     this.#installGlobal();
     this.messaging.bindTarget(this.globalTarget);
   }

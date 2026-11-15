@@ -45,6 +45,7 @@ import {
   installTreeWalkerMembers,
   installXMLSerializerMembers,
 } from "./dom-realm-interface-installers.js";
+import { installWritableStreamRealm } from "./writable-stream-realm.js";
 
 export function installDOMRealmInterfaces(
   binding: DOMRealmBindingContext,
@@ -80,7 +81,26 @@ export function installDOMRealmInterfaces(
   installDOMParserMembers(binding);
   installXMLSerializerMembers(binding);
   installSanitizerMembers(binding);
-  installHTMLStreamingInterfaces(binding);
+  const streams = installWritableStreamRealm(binding.context);
+  const streamPrototype = binding.engine.setPrototypeOf(
+    binding.realm,
+    binding.writableStreamPrototype,
+    streams.prototype,
+  );
+  if (streamPrototype.type === "throw") {
+    throw new TypeError("Could not extend the WritableStream prototype");
+  }
+  const writerPrototype = binding.engine.setPrototypeOf(
+    binding.realm,
+    binding.writableStreamDefaultWriterPrototype,
+    streams.writerPrototype,
+  );
+  if (writerPrototype.type === "throw") {
+    throw new TypeError(
+      "Could not extend the WritableStreamDefaultWriter prototype",
+    );
+  }
+  installHTMLStreamingInterfaces(binding, false);
   installEventMembers(binding);
   installHTMLCollectionMembers(binding);
   installNamedNodeMapMembers(binding);

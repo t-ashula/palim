@@ -1,6 +1,6 @@
 import { eventImplementation, FocusEvent } from "@palim/core";
 
-import { normal } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installEventTargetMembers(
@@ -125,20 +125,67 @@ export function installAbortMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid AbortSignal receiver")
       : binding.primitive(signal.aborted);
   });
+  binding.attribute(binding.abortSignalPrototype, "reason", (thisValue) => {
+    const signal = binding.abortSignal(thisValue);
+    if (signal === null) {
+      return binding.typeError("Invalid AbortSignal receiver");
+    }
+    return normal(
+      binding.abortSignalReasons.get(signal) ??
+        binding.engine.fromPrimitive(undefined),
+    );
+  });
+  binding.method(
+    binding.abortSignalPrototype,
+    "throwIfAborted",
+    0,
+    (thisValue) => {
+      const signal = binding.abortSignal(thisValue);
+      if (signal === null) {
+        return binding.typeError("Invalid AbortSignal receiver");
+      }
+      if (!signal.aborted) {
+        return binding.undefined();
+      }
+      return thrown(
+        binding.abortSignalReasons.get(signal) ??
+          binding.engine.fromPrimitive(undefined),
+      );
+    },
+  );
   binding.attribute(binding.abortControllerPrototype, "signal", (thisValue) => {
     const controller = binding.abortController(thisValue);
     return controller === null
       ? binding.typeError("Invalid AbortController receiver")
       : binding.platformValue(controller.signal);
   });
-  binding.method(binding.abortControllerPrototype, "abort", 0, (thisValue) => {
-    const controller = binding.abortController(thisValue);
-    if (controller === null) {
-      return binding.typeError("Invalid AbortController receiver");
-    }
-    controller.abort();
-    return binding.undefined();
-  });
+  binding.method(
+    binding.abortControllerPrototype,
+    "abort",
+    1,
+    (thisValue, argumentsList) => {
+      const controller = binding.abortController(thisValue);
+      if (controller === null) {
+        return binding.typeError("Invalid AbortController receiver");
+      }
+      if (controller.signal.aborted) {
+        return binding.undefined();
+      }
+      const reason =
+        argumentsList.length === 0
+          ? binding.createDOMException(
+              "This operation was aborted",
+              "AbortError",
+            )
+          : argumentsList[0];
+      if (reason === undefined) {
+        return binding.typeError("Missing abort reason");
+      }
+      binding.abortSignalReasons.set(controller.signal, reason);
+      controller.abort();
+      return binding.undefined();
+    },
+  );
 }
 
 export function installEventMembers(binding: DOMRealmBindingContext): void {

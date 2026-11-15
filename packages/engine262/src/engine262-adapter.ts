@@ -1032,7 +1032,16 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
           for (const value of argumentsList.values()) {
             values.push(this.#wrap(value));
           }
-          const result = callback(this.#wrap(context.thisValue), values);
+          let thisValue = context.thisValue;
+          if (constructor && context.NewTarget instanceof ObjectValue) {
+            const prototype = X(Get(context.NewTarget, "prototype"));
+            thisValue = OrdinaryObjectCreate(
+              prototype instanceof ObjectValue
+                ? prototype
+                : realmHandle.realm.Intrinsics["%Object.prototype%"],
+            );
+          }
+          const result = callback(this.#wrap(thisValue), values);
           return result.type === "throw"
             ? ThrowCompletion(this.#value(result.value))
             : this.#value(result.value);

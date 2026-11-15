@@ -41,6 +41,7 @@ export { URLRealmBinding } from "./javascript-engine/url-realm-binding.js";
 export type { WindowEnvironmentSettings } from "./javascript-engine/window-classic-script.js";
 export type { WindowRealmBinding } from "./javascript-engine/window-realm-binding.js";
 export { createWindowScripting } from "./window-scripting.js";
+export { installWritableStreamRealm } from "./javascript-engine/writable-stream-realm.js";
 export {
   WindowScriptingEnvironment,
   type WindowScriptingCapability,

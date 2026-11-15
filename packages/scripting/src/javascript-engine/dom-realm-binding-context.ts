@@ -189,6 +189,7 @@ export class DOMRealmBindingContext {
   readonly platformObjects = new WeakMap<object, EngineObject>();
   readonly implementations = new WeakMap<EngineObject, object>();
   readonly customEventDetails = new WeakMap<CustomEvent, EngineValue>();
+  readonly abortSignalReasons = new WeakMap<AbortSignal, EngineValue>();
   readonly errorEventErrors = new WeakMap<ErrorEvent, EngineValue>();
   readonly promiseRejectionEventPromises = new WeakMap<
     PromiseRejectionEvent,

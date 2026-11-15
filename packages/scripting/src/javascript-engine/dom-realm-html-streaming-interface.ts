@@ -25,31 +25,34 @@ const realmErrors = new WeakMap<WritableStreamState<string>, EngineValue>();
 
 export function installHTMLStreamingInterfaces(
   binding: DOMRealmBindingContext,
+  installConstructors = true,
 ): void {
-  const writableConstructor = binding.context.createConstructor(
-    "WritableStream",
-    0,
-    () => binding.typeError("WritableStream construction is not implemented"),
-  );
-  binding.context.installInterface(
-    "WritableStream",
-    writableConstructor,
-    binding.writableStreamPrototype,
-  );
+  if (installConstructors) {
+    const writableConstructor = binding.context.createConstructor(
+      "WritableStream",
+      0,
+      () => binding.typeError("WritableStream construction is not implemented"),
+    );
+    binding.context.installInterface(
+      "WritableStream",
+      writableConstructor,
+      binding.writableStreamPrototype,
+    );
 
-  const writerConstructor = binding.context.createConstructor(
-    "WritableStreamDefaultWriter",
-    1,
-    () =>
-      binding.typeError(
-        "WritableStreamDefaultWriter construction is not implemented",
-      ),
-  );
-  binding.context.installInterface(
-    "WritableStreamDefaultWriter",
-    writerConstructor,
-    binding.writableStreamDefaultWriterPrototype,
-  );
+    const writerConstructor = binding.context.createConstructor(
+      "WritableStreamDefaultWriter",
+      1,
+      () =>
+        binding.typeError(
+          "WritableStreamDefaultWriter construction is not implemented",
+        ),
+    );
+    binding.context.installInterface(
+      "WritableStreamDefaultWriter",
+      writerConstructor,
+      binding.writableStreamDefaultWriterPrototype,
+    );
+  }
 
   binding.attribute(binding.writableStreamPrototype, "locked", (thisValue) => {
     const state = writableState(binding, thisValue);
