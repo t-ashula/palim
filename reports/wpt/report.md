@@ -2,19 +2,19 @@
 
 WPT runner status (includes tentative tests): failed
 
-Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
+Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261115t041834603z-2189088
+Campaign: 20261115t064755163z-2997709
 
 Campaign state: completed
 
-Palim: 025aab467bf8f875a138c8c6aa5f4b36c53f518b
+Palim: 450f13157a9bcad490fc16072fa244897f07d00a (dirty)
 
-Container image: sha256:057ca755703fbd8b51d9a614b9c20cec5d4c7110505b28b19dbb21b286003588
+Container image: sha256:7a082e91c9f0efe23a4d779b843b7ad96a4fa10463f1abe113e3baaebe879f1e
 
-Snapshot: 2026-11-15T05:07:44.174Z
+Snapshot: 2026-11-15T07:22:27.066Z
 
-Attempts: 1926; worker failures: 0; retries: 0
+Attempts: 1956; worker failures: 0; retries: 0
 
 ## URL execution progress
 
@@ -22,24 +22,24 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 795 | 703 | 0 | 131 | 297 | 0 | 100.00% | 41.28% |
-| /custom-elements/ | 196 | 196 | 11 | 151 | 0 | 29 | 5 | 0 | 100.00% | 5.61% |
+| All | 1956 | 1956 | 788 | 691 | 248 | 122 | 107 | 0 | 100.00% | 40.29% |
+| /custom-elements/ | 209 | 209 | 11 | 161 | 5 | 28 | 4 | 0 | 100.00% | 5.26% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 214 | 214 | 38 | 61 | 0 | 13 | 102 | 0 | 100.00% | 17.76% |
+| /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 303 | 69 | 0 | 3 | 33 | 0 | 100.00% | 74.26% |
-| /dom/ranges/ | 69 | 69 | 25 | 36 | 0 | 2 | 6 | 0 | 100.00% | 36.23% |
+| /dom/nodes/ | 415 | 415 | 303 | 75 | 5 | 3 | 29 | 0 | 100.00% | 73.01% |
+| /dom/ranges/ | 69 | 69 | 24 | 33 | 3 | 2 | 7 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 91 | 91 | 51 | 20 | 0 | 17 | 3 | 0 | 100.00% | 56.04% |
+| /domparsing/ | 96 | 96 | 47 | 25 | 0 | 16 | 8 | 0 | 100.00% | 48.96% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
-| /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
+| /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
-| /shadow-dom/ | 314 | 314 | 54 | 113 | 0 | 15 | 132 | 0 | 100.00% | 17.20% |
+| /shadow-dom/ | 317 | 317 | 50 | 89 | 132 | 13 | 33 | 0 | 100.00% | 15.77% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 60 | 16 | 0 | 0 | 1 | 0 | 100.00% | 77.92% |
-| /xhr/formdata | 28 | 28 | 10 | 15 | 0 | 3 | 0 | 0 | 100.00% | 35.71% |
+| /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
+| /xhr/formdata | 28 | 28 | 10 | 14 | 1 | 3 | 0 | 0 | 100.00% | 35.71% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
 ## Non-tentative WPT results
@@ -48,31 +48,31 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1794 | 1794 | 784 | 636 | 0 | 110 | 264 | 0 | 100.00% | 43.70% |
-| /custom-elements/ | 189 | 189 | 11 | 149 | 0 | 24 | 5 | 0 | 100.00% | 5.82% |
+| All | 1842 | 1842 | 787 | 651 | 209 | 114 | 81 | 0 | 100.00% | 42.73% |
+| /custom-elements/ | 202 | 202 | 11 | 159 | 3 | 25 | 4 | 0 | 100.00% | 5.45% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 211 | 211 | 38 | 60 | 0 | 13 | 100 | 0 | 100.00% | 18.01% |
+| /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 408 | 408 | 303 | 69 | 0 | 3 | 33 | 0 | 100.00% | 74.26% |
-| /dom/ranges/ | 46 | 46 | 25 | 13 | 0 | 2 | 6 | 0 | 100.00% | 54.35% |
+| /dom/nodes/ | 415 | 415 | 303 | 75 | 5 | 3 | 29 | 0 | 100.00% | 73.01% |
+| /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 56 | 56 | 43 | 4 | 0 | 6 | 3 | 0 | 100.00% | 76.79% |
+| /domparsing/ | 94 | 94 | 47 | 24 | 0 | 15 | 8 | 0 | 100.00% | 50.00% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
-| /html/dom/elements/ | 70 | 70 | 22 | 33 | 0 | 13 | 2 | 0 | 100.00% | 31.43% |
+| /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
-| /shadow-dom/ | 254 | 254 | 52 | 89 | 0 | 11 | 102 | 0 | 100.00% | 20.47% |
+| /shadow-dom/ | 242 | 242 | 50 | 74 | 100 | 10 | 8 | 0 | 100.00% | 20.66% |
 | /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
-| /url/ | 77 | 77 | 60 | 16 | 0 | 0 | 1 | 0 | 100.00% | 77.92% |
-| /xhr/formdata | 28 | 28 | 10 | 15 | 0 | 3 | 0 | 0 | 100.00% | 35.71% |
+| /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
+| /xhr/formdata | 28 | 28 | 10 | 14 | 1 | 3 | 0 | 0 | 100.00% | 35.71% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 
 ### Executed subtests
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 99308 | 73034 | 25873 | 0 | 145 | 256 | 73.54% |
+| 101174 | 74041 | 26751 | 209 | 101 | 72 | 73.18% |
 
 ### Non-passing executed tests
 
@@ -88,19 +88,20 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/Document-createElementNS-prefix-timing.html | fail | <code>assert_equals: prefix should be null during constructor (set after construction per step 5.1.3.9) expected (object) null but got (string) "p"</code> |
 | /custom-elements/ElementInternals-accessibility-values.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-accessibility.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/ElementInternals-role.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.get is not a function. (In "customElements.get(`${role}-element`)", it is undefined)"</code> |
+| /custom-elements/ElementInternals-role.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/HTMLElement-attachInternals.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/HTMLElement-constructor.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
 | /custom-elements/adopted-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted", Document node with 2 children, Document node with 1 child, "connected"] length 4, got ["connected"] length 1</code> |
 | /custom-elements/attribute-changed-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/builtin-coverage.html | fail | <code>Super class [Function HTMLAnchorElement] is not a constructor</code> |
+| /custom-elements/connected-callback-before-insertion-steps.html | error | <code>TypeError: Super class [Function HTMLDetailsElement] is not a constructor</code> |
 | /custom-elements/connected-callbacks-html-fragment-parsing.html | fail | <code>assert_equals: expected 1 but got 0</code> |
 | /custom-elements/connected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/cross-realm-callback-report-exception.html | timeout | <code>b'ReferenceError: "onerrorCalls" is not defined\n    at &lt;anonymous&gt; (http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:4:26)\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:5:21'</code> |
 | /custom-elements/custom-element-reaction-queue.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/customized-built-in-constructor-exceptions.html | fail | <code>MyCustomParagraph cannot be used before initialization</code> |
 | /custom-elements/disconnected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
-| /custom-elements/element-internals-aria-element-reflection.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/element-internals-aria-element-reflection.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/element-internals-shadowroot.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>Illegal constructor</code> |
@@ -115,12 +116,15 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/form-associated/fieldset-elements-after-upgrade.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/fieldset-elements-during-construction.html | timeout | <code>palim execution timed out</code> |
 | /custom-elements/form-associated/fieldset-elements.html | fail | <code>Cannot convert undefined to object</code> |
+| /custom-elements/form-associated/form-associated-callback-form-attribute-removal.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/form-associated/form-associated-callback-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["face: connected", "face: formAssociated(form)"] length 2, got ["face: connected"] length 1</code> |
 | /custom-elements/form-associated/form-associated-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/form-disabled-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/form-disabled-legend.html | fail | <code>assert_true: in legend :enabled expected true got false</code> |
 | /custom-elements/form-associated/form-elements-namedItem.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/form-reset-callback.html | fail | <code>form.reset is not a function. (In "form.reset()", it is undefined)</code> |
-| /custom-elements/form-associated/label-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(form)", it is undefined)</code> |
+| /custom-elements/form-associated/label-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/htmlconstructor/newtarget-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: [Function HTMLParagraphElement] is not a constructor"</code> |
 | /custom-elements/htmlconstructor/newtarget.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/microtasks-and-constructors.html | fail | <code>assert_array_equals: lengths differ, expected array ["promise microtask", "MutationObserver microtask"] length 2, got ["promise microtask"] length 1</code> |
@@ -136,7 +140,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
 | /custom-elements/parser/parser-uses-registry-of-owner-document.html | error | <code>Error: The tokenizer input stream is closed</code> |
 | /custom-elements/parser/serializing-html-fragments-customized-builtins.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
+| /custom-elements/parser/xml-fragment-parser-does-not-construct-synchronously.xhtml | fail | <code>assert_equals: element was already inserted when constructed expected Element node &lt;div id="container"&gt;&lt;some-element xmlns="http://www.w3.or... but got null</code> |
 | /custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
+| /custom-elements/parser/xml-parser-customized-builtin-input.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
 | /custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Blob" is not defined"</code> |
 | /custom-elements/perform-microtask-checkpoint-before-construction.html | fail | <code>assert_equals: expected 1 but got 0</code> |
 | /custom-elements/pseudo-class-defined-customized-builtins.html | fail | <code>assert_equals: matches(":defined") expected false but got true</code> |
@@ -207,20 +213,27 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/registries/Document-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/registries/Document-importNode-cross-document.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/registries/Document-importNode.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/Element-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/registries/Element-innerHTML.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/ShadowRoot-init-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/registries/ShadowRoot-init-declarative.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/ShadowRoot-innerHTML.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/adoption-before-upgrade.window.html | fail | <code>assert_equals: expected Document node with 1 child but got Document node with 2 children</code> |
+| /custom-elements/registries/adoption-global-registry.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/adoption-null-registry-element.window.html | fail | <code>assert_equals: element whose parent was the shadow root expected (object) null but got (undefined) undefined</code> |
+| /custom-elements/registries/adoption-null-registry-shadow-root.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/adoption.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/registries/constructor-direct-call-fallback-registry.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/constructor-from-another-window.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
 | /custom-elements/registries/constructor-reentry-createElement.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/constructor-reentry-with-different-definition.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/define-customized-builtins.html | fail | <code>assert_throws_dom: function "() =&gt;  {<br>        customElements.define('test-define-extend-valid-name', class {}, { extends: name });<br>      }" did not throw</code> |
 | /custom-elements/registries/define.html | fail | <code>The custom element name is invalid</code> |
 | /custom-elements/registries/element-mutation-null-registry-removal.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/element-mutation.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/global-registry-access-timing.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
 | /custom-elements/registries/global.window.html | fail | <code>assert_throws_dom: function "() =&gt; customElements.initialize(contentDocument)" threw object "TypeError: customElements.initialize is not a function. (In "customElements.initialize(contentDocument)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
 | /custom-elements/registries/initial-about-blank.window.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/per-document.html | fail | <code>assert_not_equals: got disallowed value object "[object Object]"</code> |
@@ -236,7 +249,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/registries/scoped-registry-registry-define-get-etc.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /custom-elements/registries/template.window.html | fail | <code>assert_equals: expected (string) "" but got (undefined) undefined</code> |
 | /custom-elements/registries/upgrade.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(el)", it is undefined)</code> |
-| /custom-elements/registries/valid-custom-element-names.html | timeout | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.whenDefined is not a function. (In "customElements.whenDefined(validName)", it is undefined)"</code> |
+| /custom-elements/registries/valid-custom-element-names.html | timeout | <code>assert_equals: code points: [97,45,127345], string: "a-🅱" expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/shadow-descendant-lifecycle-order.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(root)", it is undefined)</code> |
 | /custom-elements/state/ElementInternals-states.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/state/custom-state-set-strong-ref.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
@@ -267,10 +280,10 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/Event-dispatch-multiple-cancelBubble.html | fail | <code>assert_array_equals: lengths differ, expected array [Element node &lt;div id="parent" style="display: none"&gt;<br>    &lt;input id="ta...] length 1, got [] length 0</code> |
 | /dom/events/Event-dispatch-multiple-stopPropagation.html | fail | <code>assert_array_equals: lengths differ, expected array [Element node &lt;div id="parent" style="display: none"&gt;<br>    &lt;input id="ta...] length 1, got [] length 0</code> |
 | /dom/events/Event-dispatch-omitted-capture.html | fail | <code>assert_array_equals: targets lengths differ, expected array [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children, object "[object Object]"] length 8, got [Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt;EventTarget.add..., Document node with 2 children] length 7</code> |
-| /dom/events/Event-dispatch-on-disabled-elements.html | timeout | <code>elem.click is not a function. (In "elem.click()", it is undefined)</code> |
+| /dom/events/Event-dispatch-on-disabled-elements.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/Event-dispatch-order-at-target.html | fail | <code>assert_array_equals: bubbles: true expected property 0 to be "capturing" but got "bubbling" (expected array ["capturing", "bubbling"] got ["bubbling", "capturing"])</code> |
 | /dom/events/Event-dispatch-order.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/Event-dispatch-redispatch.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/Event-dispatch-redispatch.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/Event-dispatch-reenter.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-single-activation-behavior.html | error | <code>39 duplicate test names: "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated."</code> |
 | /dom/events/Event-dispatch-target-moved.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
@@ -296,7 +309,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/EventTarget-dispatchEvent.html | fail | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
 | /dom/events/EventTarget-window-constructor.html | fail | <code>assert_equals: expected (object) Element node &lt;body&gt;<br>&lt;script&gt;<br>"use strict";<br><br>test(t =&gt; {<br>  const eventT... but got (undefined) undefined</code> |
 | /dom/events/KeyEvent-initKeyEvent.html | fail | <code>The event interface "KeyboardEvent" is not supported</code> |
-| /dom/events/click-on-absolute-pseudo.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/click-on-absolute-pseudo.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/element-click.html | fail | <code>button.click is not a function. (In "button.click()", it is undefined)</code> |
 | /dom/events/event-disabled-dynamic.html | fail | <code>e.click is not a function. (In "e.click()", it is undefined)</code> |
 | /dom/events/event-global-event-targets.html | fail | <code>assert_equals: window.event is set during dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
@@ -309,119 +322,119 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/event-listener-not-fully-active-callback.html | fail | <code>assert_equals: the callback does not run once the iframe is removed expected 1 but got 2</code> |
 | /dom/events/event-listener-not-fully-active-navigated.html | fail | <code>assert_equals: listeners do not run after the navigation expected 4 but got 8</code> |
 | /dom/events/event-listener-not-fully-active-target.html | fail | <code>assert_equals: listener does not run once the iframe is removed expected 1 but got 2</code> |
-| /dom/events/focus-event-document-move.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/handler-count.html?document | timeout | <code>palim execution timed out</code> |
-| /dom/events/handler-count.html?element | timeout | <code>palim execution timed out</code> |
-| /dom/events/handler-count.html?window | timeout | <code>palim execution timed out</code> |
+| /dom/events/focus-event-document-move.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/handler-count.html?document | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/handler-count.html?element | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/handler-count.html?window | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/label-default-action.html | fail | <code>button.click is not a function. (In "button.click()", it is undefined)</code> |
 | /dom/events/legacy-pre-activation-behavior.window.html | fail | <code>"MouseEvent" is not defined</code> |
 | /dom/events/mouse-event-retarget.html | fail | <code>"MouseEvent" is not defined</code> |
-| /dom/events/no-focus-events-at-clicking-editable-content-in-link.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-body.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-div.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-root.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-window.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/no-focus-events-at-clicking-editable-content-in-link.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-root.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-window.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/non-cancelable-when-passive/synthetic-events-cancelable.html | fail | <code>assert_implements: WheelEvent should be supported undefined</code> |
 | /dom/events/passive-by-default-non-node.html | fail | <code>"performance" is not defined</code> |
 | /dom/events/passive-by-default.html | fail | <code>assert_equals: defaultPrevented expected false but got true</code> |
-| /dom/events/pointer-event-document-move.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/pointer-event-document-move.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/preventDefault-during-activation-behavior.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: button.click is not a function. (In "button.click()", it is undefined)"</code> |
 | /dom/events/relatedTarget.window.html | fail | <code>"XMLHttpRequest" is not defined</code> |
-| /dom/events/scrolling/iframe-chains.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/iframe-chains.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/scrolling/save-iframe-scroll-offset-when-display-none.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scroll-cross-origin-iframes.html | timeout | <code>b'TypeError: undefined is not a function\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/dom/events/scrolling/scroll-cross-origin-iframes.html:33:12)'</code> |
+| /dom/events/scrolling/scroll-cross-origin-iframes.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/scrolling/scroll-event-fired-to-element.html | fail | <code>assert_equals: expected (number) 0 but got (undefined) undefined</code> |
 | /dom/events/scrolling/scroll-event-fired-to-iframe.html | fail | <code>assert_equals: expected (number) 0 but got (undefined) undefined</code> |
 | /dom/events/scrolling/scroll-event-not-fired-on-ancestor-style-change.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scroll-events-fired-once-per-frame-across-display-none.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
-| /dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /dom/events/scrolling/scrollend-event-fired-after-layout-clamping.html | fail | <code>assert_equals: scrollTop should be clamped to 0 expected 0 but got 100</code> |
-| /dom/events/scrolling/scrollend-event-fired-after-snap.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/events/scrolling/scrollend-event-fired-to-document.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fired-to-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fires-for-repeat-key-ending-after-scroll-container-end-is-reached.html | timeout |  |
-| /dom/events/scrolling/scrollend-event-fires-on-visual-viewport.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-fires-to-iframe-window.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-for-user-scroll.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-handler-content-attributes.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/scrollend-event-fired-after-snap.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-to-document.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fired-to-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fires-for-repeat-key-ending-after-scroll-container-end-is-reached.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fires-on-visual-viewport.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-fires-to-iframe-window.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-for-user-scroll.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-handler-content-attributes.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/scrolling/scrollend-fires-to-text-input.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/scrolling/scrollend-with-snap-on-fractional-offset.html | fail | <code>assert_equals: test precondition: scroller is not scrolled. expected (number) 0 but got (undefined) undefined</code> |
-| /dom/events/scrolling/visibility-hidden-scrolls.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-composed.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=contents | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=none | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-move.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-removal.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: document.body.animate is not a function. (In "document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })", it is undefined)"</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/visibility-hidden-scrolls.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-composed.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=contents | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=none | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-elements.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-move.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-removal.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/shadow-relatedTarget.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/webkit-animation-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/webkit-animation-iteration-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
@@ -505,31 +518,38 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>assert_array_equals: lengths differ, expected array ["button.onfocusin", "button.onfocusout"] length 2, got ["button.onfocusin"] length 1</code> |
 | /dom/nodes/moveBefore/focus-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.setSelectionRange is not a function. (In "input.setSelectionRange(2, 7, "backward")", it is undefined)"</code> |
 | /dom/nodes/moveBefore/focus-within.html | fail | <code>assert_array_equals: lengths differ, expected array [] length 0, got ["HTML", "BODY", "inert_parent", "button"] length 4</code> |
-| /dom/nodes/moveBefore/fullscreen-preserve.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/moveBefore/hover-style-update.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/moveBefore/form-associated-custom-element-reset.html | fail | <code>container.querySelector("form-control").attachInternals is not a function. (In "container.querySelector("form-control").attachInternals()", it is undefined)</code> |
+| /dom/nodes/moveBefore/fullscreen-preserve.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/nodes/moveBefore/hover-style-update.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/iframe-document-preserve.window.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/moveBefore/listed-form-element-reset.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/modal-dialog.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: dialog.showModal is not a function. (In "dialog.showModal()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html | fail | <code>"getComputedStyle" is not defined</code> |
+| /dom/nodes/moveBefore/moveBefore-custom-element-registry.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
 | /dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html | fail | <code>assert_true: expected true got false</code> |
+| /dom/nodes/moveBefore/moveBefore-image-map.html | fail | <code>assert_equals: the image uses the map before the move expected Element node &lt;area shape="rect" coords="0,0,100,100" href="#map1"&gt;&lt;/area&gt; but got Element node &lt;div&gt;&lt;img usemap="#map1" width="100" height="100" style="...</code> |
 | /dom/nodes/moveBefore/moveBefore-optgroup.html | fail | <code>Cannot convert undefined to object</code> |
+| /dom/nodes/moveBefore/moveBefore-radio-groups.html | fail | <code>assert_false: checking the moved radio unchecks the shadow root's radio expected false got true</code> |
 | /dom/nodes/moveBefore/moveBefore-selector-matching.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/moveBefore/moveBefore-shadow-inside.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /dom/nodes/moveBefore/moveBefore-shadow-root.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/moveBefore/moveBefore-size-query.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/moveBefore/nonce.html | fail | <code>assert_equals: expected "" but got "8IBTHwOdqNKAWeKl7plt8g=="</code> |
-| /dom/nodes/moveBefore/pointer-events.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/moveBefore/pointer-events.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/popover-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: popover.showPopover is not a function. (In "popover.showPopover()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/preserve-render-blocking-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["script", "render"] length 2, got ["render"] length 1</code> |
 | /dom/nodes/moveBefore/preserve-render-blocking-style.html | error | <code>ReferenceError: "getComputedStyle" is not defined</code> |
 | /dom/nodes/moveBefore/relevant-mutations.html | timeout | <code>palim execution timed out</code> |
-| /dom/nodes/moveBefore/role-updates-after-move.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/moveBefore/role-updates-after-move.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/select-option-optgroup.html | fail | <code>assert_true: A is selected by default expected true got undefined</code> |
-| /dom/nodes/moveBefore/selection-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
+| /dom/nodes/moveBefore/selection-preserve.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/style-applies.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getComputedStyle" is not defined"</code> |
 | /dom/nodes/moveBefore/stylesheet-cascade-order.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/name-validation.html | timeout |  |
 | /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected "green" but got ""</code> |
 | /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>window.customElements.get is not a function. (In "window.customElements.get("x-mixed")", it is undefined)</code> |
+| /dom/nodes/processing-instruction-attributes-clone-and-range.html | fail | <code>pi.getAttributeNames is not a function. (In "pi.getAttributeNames()", it is undefined)</code> |
 | /dom/nodes/processing-instruction-attributes.html | fail | <code>pi.getAttribute is not a function. (In "pi.getAttribute("a")", it is undefined)</code> |
 | /dom/nodes/query-target-in-load-event.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/remove-and-adopt-thcrash.html | fail | <code>window.open is not a function. (In "window.open()", it is undefined)</code> |
@@ -543,6 +563,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed | error | <code>TypeError: Cannot convert null to object</code> |
 | /dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=open | error | <code>TypeError: Cannot convert null to object</code> |
 | /dom/ranges/Range-insertNode.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
+| /dom/ranges/Range-isPointInRange.html | timeout |  |
 | /dom/ranges/Range-mutations-appendChild.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-appendData.html | fail | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
 | /dom/ranges/Range-mutations-dataChange.html | timeout | <code>originalData.substr is not a function. (In "originalData.substr(0, offset)", it is undefined)</code> |
@@ -562,11 +583,45 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/DOMParser-parseFromString-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /domparsing/DOMParser-parseFromString-url.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;r xmlns:xx=\"uri\" xmlns:ns1=\"uri2\" ns1:name=\"value\"/&gt;" but got "&lt;r xmlns:xx=\"uri\" xmlns:p=\"uri2\" p:name=\"value\"/&gt;"</code> |
+| /domparsing/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
 | /domparsing/innerhtml-05.xhtml | timeout | <code>palim execution timed out</code> |
 | /domparsing/positional-methods-with-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /domparsing/positional-methods-with-trusted-types.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /domparsing/stream-html-abort-unblocks-rendering-defer.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: timed out"</code> |
+| /domparsing/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
+| /domparsing/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
+| /domparsing/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /domparsing/stream-html-defer-async-script.html | timeout | <code>palim execution timed out</code> |
+| /domparsing/stream-html-disconnected-target-scripts.html | fail | <code>assert_array_equals: the inline script runs synchronously when connected lengths differ, expected array ["inline"] length 1, got [] length 0</code> |
+| /domparsing/stream-html-live-document.html | fail | <code>assert_equals: document.open() was implied expected "loading" but got "complete"</code> |
+| /domparsing/stream-html-parser-blocking-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["slow", "inline"] length 2, got ["inline"] length 1</code> |
 | /domparsing/stream-html-reentrancy.html | fail | <code>assert_array_equals: lengths differ, expected array ["connected"] length 1, got [] length 0</code> |
+| /domparsing/stream-html-run-scripts-option.html | fail | <code>assert_true: expected true got false</code> |
+| /domparsing/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
+| /domparsing/stream-html-stylesheet-does-not-block-scripts.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
+| /domparsing/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/stream-html-with-declarative-shadow-root.html | fail | <code>assert_equals: no shadow root is attached to the target expected null but got DocumentFragment node with 1 child</code> |
+| /domparsing/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-pass-trusted.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /domparsing/stream-html-with-trusted-types-reporting.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /domparsing/stream-html-with-trusted-types-runScripts-can-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /domparsing/stream-insertion-logic.html | fail | <code>assert_unreached: Should have rejected: Write that attempts to insert after ref_node displacement must reject with HierarchyRequestError Reached unreachable code</code> |
+| /domparsing/stream-positional.html | fail | <code>assert_throws_js: sanity check: the sanitizer config is invalid function "() =&gt; {<br>            parented[method_name](invalid);<br>          }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
+| /domparsing/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
+| /domparsing/stream-sanitizer-img-ctor.html | timeout | <code>palim execution timed out</code> |
+| /domparsing/stream-sanitizer-resource-fetch.html | timeout | <code>assert_equals: Server should observe exactly one request in control case expected "1" but got "0"</code> |
+| /domparsing/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
+| /domparsing/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
 | /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nError: The tokenizer input stream is closed\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
@@ -578,7 +633,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/dom/elements/global-attributes/dir-auto-dynamic-changes.window.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/dir-auto-form-associated.window.html | fail | <code>assert_true: expected true got false</code> |
 | /html/dom/elements/global-attributes/dir-bdi-script.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html | skip | <code>Executor does not support testdriver.js</code> |
 | /html/dom/elements/global-attributes/dir-slots-directionality.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/id-attribute.html | fail | <code>document.defaultView.getComputedStyle is not a function. (In "document.defaultView.getComputedStyle(document.getElementById("abcd"))", it is undefined)</code> |
 | /html/dom/elements/global-attributes/id-name-specialcase.html | fail | <code>assert_equals: expected (string) "123" but got (undefined) undefined</code> |
@@ -798,7 +853,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/Node-prototype-cloneNode.html | fail | <code>assert_throws_dom: cloneNode(false) on a shadow root in open mode must throw a NotSupportedError function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            shadowRoot.cloneNode(false);<br>        }" did not throw</code> |
 | /shadow-dom/ShadowRoot-interface.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/Slottable-mixin.html | fail | <code>assert_true: assignedSlot must be defined on Element.prototype expected true got false</code> |
-| /shadow-dom/attachShadow-with-ShadowRoot.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /shadow-dom/attachShadow-with-ShadowRoot.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-parser-interaction.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-attachment.html | fail | <code>A shadow root cannot be attached to this element</code> |
@@ -817,8 +872,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/declarative/innerhtml-before-closing-tag.html | fail | <code>assert_true: Declarative shadow template should not be present expected true got false</code> |
 | /shadow-dom/declarative/move-template-before-closing-tag.html | fail | <code>assert_true: Declarative shadow template should not be left over expected true got false</code> |
 | /shadow-dom/declarative/script-access.html | fail | <code>assert_equals: expected 3 but got 0</code> |
-| /shadow-dom/dragenter-related-target.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/dragleave-related-target.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/dragenter-related-target.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/dragleave-related-target.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/event-composed-path-after-dom-mutation.html | fail | <code>e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-composed-path-with-related-target.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
@@ -828,113 +883,102 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/event-post-dispatch-no-listeners.html | fail | <code>assert_equals: event.target should be the shadow host (retargeted) after dispatch expected Element node &lt;div id="host"&gt;<br>    <br>  &lt;/div&gt; but got Element node &lt;div id="target"&gt;&lt;/div&gt;</code> |
 | /shadow-dom/event-post-dispatch.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-with-related-target.html | fail | <code>"MouseEvent" is not defined</code> |
-| /shadow-dom/execcommand-insertList-in-shadow.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/focus-navigation.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus-navigation/focus-nested-slots.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-unassignable-slot.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/focus-with-negative-index.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | fail | <code>assert_true: Failed to focus scroller expected true got false</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html | error | <code>TypeError: document.querySelector('[popovertarget]').click is not a function. (In "document.querySelector('[popovertarget]').click()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/normal.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | timeout | <code>Test timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | timeout | <code>Test timed out</code> |
+| /shadow-dom/execcommand-insertList-in-shadow.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-navigation.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-nested-slots.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-unassignable-slot.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/focus-with-negative-index.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/normal.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/simplified-layout.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus-within-shadow.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;input id="slotted"&gt;&lt;/input&gt; but got Element node &lt;body&gt;&lt;div id="host"&gt;<br>  &lt;input id="slotted"&gt;<br>&lt;/div&gt;<br><br>&lt;scr...</code> |
-| /shadow-dom/focus/click-focus-delegatesFocus-click.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/click-focus-slot-ancestor.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-autofocus.html | fail | <code>assert_equals: expected Element node &lt;div tabindex="0" autofocus="true"&gt;&lt;/div&gt; but got Element node &lt;div tabindex="0"&gt;&lt;/div&gt;</code> |
-| /shadow-dom/focus/focus-click-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
-| /shadow-dom/focus/focus-method-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;body&gt;<br>&lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToS... but got Element node &lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToSecondSl...</code> |
-| /shadow-dom/focus/focus-method-with-delegatesFocus.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/focus/DocumentOrShadowRoot-activeElement.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/click-focus-delegatesFocus-click.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/click-focus-slot-ancestor.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-autofocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-click-on-shadow-host.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-delegatesFocus-display-contents.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-method-delegatesFocus-nested-browsing-context.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-method-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-method-with-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-scroll-under-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/focus/focus-scroll-under-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus/focus-shadowhost-display-none.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: window.getComputedStyle is not a function. (In "window.getComputedStyle(host)", it is undefined)"</code> |
-| /shadow-dom/focus/focus-slot-box-generated-tabindex-0.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus/focus-tab-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-negative.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: host.shadowRoot.firstElementChild.show is not a function. (In "host.shadowRoot.firstElementChild.show()", it is undefined)"</code> |
-| /shadow-dom/focus/text-selection-with-delegatesFocus-text-control.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
-| /shadow-dom/focus/text-selection-with-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
+| /shadow-dom/focus/focus-slot-box-generated-tabindex-0.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tab-on-shadow-host.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-negative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/text-selection-with-delegatesFocus-text-control.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus/text-selection-with-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/form-control-form-attribute.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="form"&gt;form&lt;/form&gt; but got (undefined) undefined</code> |
 | /shadow-dom/imperative-slot-api-cross-shadow-root.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: slotA.assign is not a function. (In "slotA.assign(nodeN)", it is undefined)"</code> |
 | /shadow-dom/imperative-slot-api-disconnected.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: slot1.assign is not a function. (In "slot1.assign(div)", it is undefined)"</code> |
@@ -947,11 +991,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/input-type-radio.html | fail | <code>assert_false: expected false got undefined</code> |
 | /shadow-dom/inserting-fragment-under-shadow-host.html | timeout | <code>b'at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/inserting-fragment-under-shadow-host.html:15:25)'</code> |
 | /shadow-dom/leaktests/html-collection.html | fail | <code>Cannot convert undefined to object</code> |
-| /shadow-dom/leaktests/selection.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/leaktests/selection.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/leaktests/window-frames.html | fail | <code>assert_equals: window.frames should return only frames in document. expected (number) 1 but got (undefined) undefined</code> |
 | /shadow-dom/manual-slot-assignment-with-details.html | fail | <code>slot.assign is not a function. (In "slot.assign(child)", it is undefined)</code> |
 | /shadow-dom/offsetParent-across-shadow-boundaries.html | fail | <code>assert_equals: expected (object) Element node &lt;div id="relativeParent" style="position: relative; paddi... but got (undefined) undefined</code> |
 | /shadow-dom/offsetTop-offsetLeft-across-shadow-boundaries.html | fail | <code>assert_equals: expected (number) 38 but got (undefined) undefined</code> |
+| /shadow-dom/pointer-event-retargeting-leak.https.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/scroll-restore-shadow.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /shadow-dom/scroll-to-the-fragment-in-shadow-tree.html | timeout | <code>b'TypeError: window.scrollTo is not a function. (In "window.scrollTo(0, 0)", it is undefined)\n    at executeNextTest (http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:34:24)\n    at http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:110:1'</code> |
 | /shadow-dom/shadow-root-clonable.html | fail | <code>assert_true: clonable attribute expected true got undefined</code> |
@@ -962,7 +1007,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/slots-fallback.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /shadow-dom/slots-outside-shadow-dom.html | fail | <code>assert_array_equals: expected property 0 to be Element node &lt;slot&gt;foo&lt;/slot&gt; but got Text node "foo" (expected array [Element node &lt;slot&gt;foo&lt;/slot&gt;] got [Text node "foo"])</code> |
 | /shadow-dom/slots.html | fail | <code>assert_equals: expected (object) Element node &lt;slot id="s1" name="slot1"&gt;&lt;/slot&gt; but got (undefined) undefined</code> |
-| /shadow-dom/touch-event-retargeting-leak.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/touch-event-retargeting-leak.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html | fail | <code>assert_equals: attachShadow() method should establish the context object as the shadow host of the ShadowRoot object expected (number) 0 but got (undefined) undefined</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-attributes/test-011.html | fail | <code>assert_true: ShadowRoot styleSheets attribute shouldn't be null expected true got false</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-004.html | fail | <code>s.getSelection is not a function. (In "s.getSelection()", it is undefined)</code> |
@@ -988,7 +1033,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/untriaged/user-interaction/editing/inheritance-of-content-editable-001.html | fail | <code>assert_equals: expected (string) "inherit" but got (undefined) undefined</code> |
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-001.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-002.html | fail | <code>d.defaultView.getSelection is not a function. (In "d.defaultView.getSelection()", it is undefined)</code> |
-| /shadow-dom/wheel-event-related-target.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/wheel-event-related-target.html | skip | <code>Executor does not support testdriver.js</code> |
 | /streams/writable-streams/aborting.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/aborting.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/aborting.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
@@ -1087,7 +1132,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /xhr/formdata/set-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/set.any.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/set.any.worker.html | fail | <code>"Blob" is not defined</code> |
-| /xhr/formdata/submitter-coordinate-value.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /xhr/formdata/submitter-coordinate-value.html | skip | <code>Executor does not support testdriver.js</code> |
 
 ## Tentative WPT results
 
@@ -1095,21 +1140,21 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 132 | 132 | 11 | 67 | 0 | 21 | 33 | 0 | 100.00% | 8.33% |
-| /custom-elements/ | 7 | 7 | 0 | 2 | 0 | 5 | 0 | 0 | 100.00% | 0.00% |
-| /dom/events/ | 3 | 3 | 0 | 1 | 0 | 0 | 2 | 0 | 100.00% | 0.00% |
-| /dom/ranges/ | 23 | 23 | 0 | 23 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
-| /domparsing/ | 35 | 35 | 8 | 16 | 0 | 11 | 0 | 0 | 100.00% | 22.86% |
+| All | 114 | 114 | 1 | 40 | 39 | 8 | 26 | 0 | 100.00% | 0.88% |
+| /custom-elements/ | 7 | 7 | 0 | 2 | 2 | 3 | 0 | 0 | 100.00% | 0.00% |
+| /dom/events/ | 3 | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.00% | 0.00% |
+| /dom/ranges/ | 23 | 23 | 0 | 20 | 3 | 0 | 0 | 0 | 100.00% | 0.00% |
+| /domparsing/ | 2 | 2 | 0 | 1 | 0 | 1 | 0 | 0 | 100.00% | 0.00% |
 | /html/dom/documents/dom-tree-accessors/ | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /html/syntax/parsing/ | 2 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | 100.00% | 0.00% |
 | /sanitizer-api/ | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /shadow-dom/ | 60 | 60 | 2 | 24 | 0 | 4 | 30 | 0 | 100.00% | 3.33% |
+| /shadow-dom/ | 75 | 75 | 0 | 15 | 32 | 3 | 25 | 0 | 100.00% | 0.00% |
 
 ### Executed subtests
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1517 | 863 | 557 | 0 | 64 | 33 | 56.89% |
+| 389 | 30 | 289 | 39 | 5 | 26 | 7.71% |
 
 ### Non-passing executed tests
 
@@ -1118,13 +1163,13 @@ These tests track proposed behavior and do not determine current Living Standard
 | /custom-elements/ElementInternals-accessibility.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | error | <code>Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>Test named 'Custom submit button with form method=dialog closes dialog with behavior value' specified 1 'cleanup' function, and 1 failed.</code> |
-| /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | error | <code>Test named 'HTMLSubmitButtonBehavior properties have correct default values' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/reactions/AriaMixin-string-attributes.tentative.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
-| /dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html | timeout | <code>palim execution timed out</code> |
+| /dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/ranges/Range-cloneContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-deleteContents-around-shadow.tentative.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-expand-shadow.tentative.html | fail | <code>range.expand is not a function. (In "range.expand(unit)", it is undefined)</code> |
@@ -1139,47 +1184,22 @@ These tests track proposed behavior and do not determine current Living Standard
 | /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.setSelectionRange is not a function. (In "element.setSelectionRange(0, 0)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-highlight.html | fail | <code>"CSS" is not defined</code> |
 | /dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html | fail | <code>"CSS" is not defined</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(init.s, init.e)", it is undefined)"</code> |
-| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(tc.init.rangeStart, tc.init.rangeEnd)", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-basic.html | skip | <code>Executor does not support testdriver.js</code> |
+| /dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/ranges/tentative/OpaqueRange-offset.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(start, end)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-programmatic-updates.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(2, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-range-updates.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(0, 5)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-supported-elements.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, value.length)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-unsupported-elements.html | fail | <code>assert_throws_dom: createValueRange should throw NotSupportedError for &lt;input&gt; function "() =&gt; {<br>      input.createValueRange(0, 0);<br>    }" threw object "TypeError: input.createValueRange is not a function. (In "input.createValueRange(0, 0)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
-| /dom/ranges/tentative/OpaqueRange-update-event-order.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: element.createValueRange is not a function. (In "element.createValueRange(1, 3)", it is undefined)"</code> |
+| /dom/ranges/tentative/OpaqueRange-update-event-order.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
-| /domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
-| /domparsing/tentative/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /domparsing/tentative/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
-| /domparsing/tentative/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /domparsing/tentative/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
-| /domparsing/tentative/stream-html-defer-async-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["immediate"] length 1, got ["defer", "immediate"] length 2</code> |
-| /domparsing/tentative/stream-html-parser-blocking-script.html | error | <code>Timeout while running cleanup for test named "streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input".</code> |
-| /domparsing/tentative/stream-html-sanitizer.html | fail | <code>assert_throws_js: function "_ =&gt; {<br>          placeholder[method]({sanitizer: {elements: ["div"], removeElements: ["div"]}});<br>        }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /domparsing/tentative/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-adopt.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html | fail | <code>assert_throws_js: function "() =&gt; adoptedDiv[method]()" did not throw</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/tentative/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /domparsing/tentative/stream-sanitizer-customized-builtins.html | error | <code>TypeError: Super class [Function HTMLButtonElement] is not a constructor</code> |
-| /domparsing/tentative/stream-sanitizer-img-ctor.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "Image" is not defined"</code> |
-| /domparsing/tentative/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server SHOULD observe request in control case expected "1" but got "0"</code> |
-| /domparsing/tentative/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
-| /domparsing/tentative/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
+| /domparsing/stream-html-with-trusted-types-adopt.tentative.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-from-non-tt.tentative.html | fail | <code>assert_throws_js: function "() =&gt; adoptedDiv[method]()" did not throw</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
 | /html/syntax/parsing/DOMContentLoaded-defer-task-order.tentative.html | timeout | <code>palim execution timed out</code> |
 | /html/syntax/parsing/adoption-agency-reparenting-pagehide.tentative.html | error | <code>pagehide fired synchronously during the adoption agency algorithm</code> |
 | /shadow-dom/Document-caretPositionFromPoint.tentative.html | fail | <code>document.caretPositionFromPoint is not a function. (In "document.caretPositionFromPoint(x, y, {})", it is undefined)</code> |
-| /shadow-dom/accesskey.tentative.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "navigator" is not defined"</code> |
+| /shadow-dom/accesskey.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect-iframe.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-duplicate-bare-specifier.html | timeout | <code>palim execution timed out</code> |
@@ -1217,22 +1237,39 @@ These tests track proposed behavior and do not determine current Living Standard
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML(opts)", it is undefined)</code> |
 | /shadow-dom/event-dispatch-order.tentative.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>assert_equals: expected Element node &lt;div id="scroller" style="overflow:scroll; width:50px; he... but got Element node &lt;body&gt;&lt;button id="button"&gt;Button&lt;/button&gt;<br>&lt;div id="scroll...</code> |
-| /shadow-dom/reference-target/tentative/aria-labelledby.html | error | <code>TypeError: Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/commandfor.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/dom-mutation.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/reference-target/tentative/aria-labelledby.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/commandfor.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/dom-mutation.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/reference-target/tentative/event-path.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/form.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/form.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/reference-target/tentative/gethtml-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML({shadowRoots: [host.shadowRoot]})", it is undefined)</code> |
-| /shadow-dom/reference-target/tentative/interestfor.tentative.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/reference-target/tentative/label-descendant.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/reference-target/tentative/label-for.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
+| /shadow-dom/reference-target/tentative/interestfor.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/label-descendant.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/label-for.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/reference-target/tentative/label-lifetime.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /shadow-dom/reference-target/tentative/popovertarget.html | fail | <code>Cannot convert null to object</code> |
-| /shadow-dom/reference-target/tentative/property-reflection-idl-setters.html | fail | <code>assert_array_equals: lengths differ, expected array ["host-id"] length 1, got [] length 0</code> |
-| /shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;&lt;/div&gt; but got null</code> |
-| /shadow-dom/reference-target/tentative/property-reflection.html | fail | <code>assert_equals: expected Element node &lt;div id="host-id"&gt;<br>        <br>      &lt;/div&gt; but got null</code> |
-| /shadow-dom/reference-target/tentative/reference-target-basics.html | fail | <code>Cannot convert null to object</code> |
+| /shadow-dom/reference-target/tentative/popovertarget.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/property-reflection-idl-setters.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/property-reflection.html | skip | <code>Executor does not support testdriver.js</code> |
+| /shadow-dom/reference-target/tentative/reference-target-basics.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/reference-target/tentative/shadowrootreferencetarget-idl-reflection.html | fail | <code>assert_true: HTMLTemplateElement should expose the shadowRootReferenceTarget IDL attribute expected true got false</code> |

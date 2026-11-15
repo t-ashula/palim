@@ -3,18 +3,18 @@
   "runStatus": "failed",
   "source": {
     "name": "wpt/wpt",
-    "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+    "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261115t041834603z-2189088",
+    "id": "20261115t064755163z-2997709",
     "state": "completed",
     "palim": {
-      "revision": "025aab467bf8f875a138c8c6aa5f4b36c53f518b",
-      "dirty": false,
-      "imageId": "sha256:057ca755703fbd8b51d9a614b9c20cec5d4c7110505b28b19dbb21b286003588"
+      "revision": "450f13157a9bcad490fc16072fa244897f07d00a",
+      "dirty": true,
+      "imageId": "sha256:7a082e91c9f0efe23a4d779b843b7ad96a4fa10463f1abe113e3baaebe879f1e"
     },
-    "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-15T05:07:44.174Z",
+    "lastAttemptSequence": 1956,
+    "snapshotAt": "2026-11-15T07:22:27.066Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -49,26 +49,26 @@
     ]
   },
   "totals": {
-    "total": 1926,
-    "executed": 1926,
-    "pass": 795,
-    "fail": 703,
-    "skip": 0,
-    "error": 131,
-    "timeout": 297,
+    "total": 1956,
+    "executed": 1956,
+    "pass": 788,
+    "fail": 691,
+    "skip": 248,
+    "error": 122,
+    "timeout": 107,
     "pending": 0
   },
   "areas": [
     {
       "prefix": "/custom-elements/",
       "totals": {
-        "total": 196,
-        "executed": 196,
+        "total": 209,
+        "executed": 209,
         "pass": 11,
-        "fail": 151,
-        "skip": 0,
-        "error": 29,
-        "timeout": 5,
+        "fail": 161,
+        "skip": 5,
+        "error": 28,
+        "timeout": 4,
         "pending": 0
       }
     },
@@ -91,10 +91,10 @@
         "total": 214,
         "executed": 214,
         "pass": 38,
-        "fail": 61,
-        "skip": 0,
-        "error": 13,
-        "timeout": 102,
+        "fail": 57,
+        "skip": 101,
+        "error": 8,
+        "timeout": 10,
         "pending": 0
       }
     },
@@ -114,13 +114,13 @@
     {
       "prefix": "/dom/nodes/",
       "totals": {
-        "total": 408,
-        "executed": 408,
+        "total": 415,
+        "executed": 415,
         "pass": 303,
-        "fail": 69,
-        "skip": 0,
+        "fail": 75,
+        "skip": 5,
         "error": 3,
-        "timeout": 33,
+        "timeout": 29,
         "pending": 0
       }
     },
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 25,
-        "fail": 36,
-        "skip": 0,
+        "pass": 24,
+        "fail": 33,
+        "skip": 3,
         "error": 2,
-        "timeout": 6,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -153,13 +153,13 @@
     {
       "prefix": "/domparsing/",
       "totals": {
-        "total": 91,
-        "executed": 91,
-        "pass": 51,
-        "fail": 20,
+        "total": 96,
+        "executed": 96,
+        "pass": 47,
+        "fail": 25,
         "skip": 0,
-        "error": 17,
-        "timeout": 3,
+        "error": 16,
+        "timeout": 8,
         "pending": 0
       }
     },
@@ -182,8 +182,8 @@
         "total": 70,
         "executed": 70,
         "pass": 22,
-        "fail": 33,
-        "skip": 0,
+        "fail": 32,
+        "skip": 1,
         "error": 13,
         "timeout": 2,
         "pending": 0
@@ -231,13 +231,13 @@
     {
       "prefix": "/shadow-dom/",
       "totals": {
-        "total": 314,
-        "executed": 314,
-        "pass": 54,
-        "fail": 113,
-        "skip": 0,
-        "error": 15,
-        "timeout": 132,
+        "total": 317,
+        "executed": 317,
+        "pass": 50,
+        "fail": 89,
+        "skip": 132,
+        "error": 13,
+        "timeout": 33,
         "pending": 0
       }
     },
@@ -257,9 +257,9 @@
     {
       "prefix": "/url/",
       "totals": {
-        "total": 77,
-        "executed": 77,
-        "pass": 60,
+        "total": 79,
+        "executed": 79,
+        "pass": 62,
         "fail": 16,
         "skip": 0,
         "error": 0,
@@ -273,8 +273,8 @@
         "total": 28,
         "executed": 28,
         "pass": 10,
-        "fail": 15,
-        "skip": 0,
+        "fail": 14,
+        "skip": 1,
         "error": 3,
         "timeout": 0,
         "pending": 0
@@ -295,35 +295,35 @@
     }
   ],
   "subtests": {
-    "total": 100825,
-    "pass": 73897,
-    "fail": 26430,
-    "skip": 0,
-    "error": 209,
-    "timeout": 289
+    "total": 101563,
+    "pass": 74071,
+    "fail": 27040,
+    "skip": 248,
+    "error": 106,
+    "timeout": 98
   },
   "nonTentative": {
     "totals": {
-      "total": 1794,
-      "executed": 1794,
-      "pass": 784,
-      "fail": 636,
-      "skip": 0,
-      "error": 110,
-      "timeout": 264,
+      "total": 1842,
+      "executed": 1842,
+      "pass": 787,
+      "fail": 651,
+      "skip": 209,
+      "error": 114,
+      "timeout": 81,
       "pending": 0
     },
     "areas": [
       {
         "prefix": "/custom-elements/",
         "totals": {
-          "total": 189,
-          "executed": 189,
+          "total": 202,
+          "executed": 202,
           "pass": 11,
-          "fail": 149,
-          "skip": 0,
-          "error": 24,
-          "timeout": 5,
+          "fail": 159,
+          "skip": 3,
+          "error": 25,
+          "timeout": 4,
           "pending": 0
         }
       },
@@ -346,10 +346,10 @@
           "total": 211,
           "executed": 211,
           "pass": 38,
-          "fail": 60,
-          "skip": 0,
-          "error": 13,
-          "timeout": 100,
+          "fail": 56,
+          "skip": 99,
+          "error": 8,
+          "timeout": 10,
           "pending": 0
         }
       },
@@ -369,13 +369,13 @@
       {
         "prefix": "/dom/nodes/",
         "totals": {
-          "total": 408,
-          "executed": 408,
+          "total": 415,
+          "executed": 415,
           "pass": 303,
-          "fail": 69,
-          "skip": 0,
+          "fail": 75,
+          "skip": 5,
           "error": 3,
-          "timeout": 33,
+          "timeout": 29,
           "pending": 0
         }
       },
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 25,
+          "pass": 24,
           "fail": 13,
           "skip": 0,
           "error": 2,
-          "timeout": 6,
+          "timeout": 7,
           "pending": 0
         }
       },
@@ -408,13 +408,13 @@
       {
         "prefix": "/domparsing/",
         "totals": {
-          "total": 56,
-          "executed": 56,
-          "pass": 43,
-          "fail": 4,
+          "total": 94,
+          "executed": 94,
+          "pass": 47,
+          "fail": 24,
           "skip": 0,
-          "error": 6,
-          "timeout": 3,
+          "error": 15,
+          "timeout": 8,
           "pending": 0
         }
       },
@@ -437,8 +437,8 @@
           "total": 70,
           "executed": 70,
           "pass": 22,
-          "fail": 33,
-          "skip": 0,
+          "fail": 32,
+          "skip": 1,
           "error": 13,
           "timeout": 2,
           "pending": 0
@@ -486,13 +486,13 @@
       {
         "prefix": "/shadow-dom/",
         "totals": {
-          "total": 254,
-          "executed": 254,
-          "pass": 52,
-          "fail": 89,
-          "skip": 0,
-          "error": 11,
-          "timeout": 102,
+          "total": 242,
+          "executed": 242,
+          "pass": 50,
+          "fail": 74,
+          "skip": 100,
+          "error": 10,
+          "timeout": 8,
           "pending": 0
         }
       },
@@ -512,9 +512,9 @@
       {
         "prefix": "/url/",
         "totals": {
-          "total": 77,
-          "executed": 77,
-          "pass": 60,
+          "total": 79,
+          "executed": 79,
+          "pass": 62,
           "fail": 16,
           "skip": 0,
           "error": 0,
@@ -528,8 +528,8 @@
           "total": 28,
           "executed": 28,
           "pass": 10,
-          "fail": 15,
-          "skip": 0,
+          "fail": 14,
+          "skip": 1,
           "error": 3,
           "timeout": 0,
           "pending": 0
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 99308,
-      "pass": 73034,
-      "fail": 25873,
-      "skip": 0,
-      "error": 145,
-      "timeout": 256
+      "total": 101174,
+      "pass": 74041,
+      "fail": 26751,
+      "skip": 209,
+      "error": 101,
+      "timeout": 72
     },
     "nonPassingTests": [
       {
@@ -610,8 +610,8 @@
       },
       {
         "url": "/custom-elements/ElementInternals-role.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: customElements.get is not a function. (In \"customElements.get(`${role}-element`)\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/custom-elements/HTMLElement-attachInternals.html",
@@ -637,6 +637,11 @@
         "url": "/custom-elements/builtin-coverage.html",
         "status": "fail",
         "message": "Super class [Function HTMLAnchorElement] is not a constructor"
+      },
+      {
+        "url": "/custom-elements/connected-callback-before-insertion-steps.html",
+        "status": "error",
+        "message": "TypeError: Super class [Function HTMLDetailsElement] is not a constructor"
       },
       {
         "url": "/custom-elements/connected-callbacks-html-fragment-parsing.html",
@@ -670,8 +675,8 @@
       },
       {
         "url": "/custom-elements/element-internals-aria-element-reflection.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/custom-elements/element-internals-shadowroot.html",
@@ -744,6 +749,16 @@
         "message": "Cannot convert undefined to object"
       },
       {
+        "url": "/custom-elements/form-associated/form-associated-callback-form-attribute-removal.html",
+        "status": "error",
+        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+      },
+      {
+        "url": "/custom-elements/form-associated/form-associated-callback-order.html",
+        "status": "fail",
+        "message": "assert_array_equals: lengths differ, expected array [\"face: connected\", \"face: formAssociated(form)\"] length 2, got [\"face: connected\"] length 1"
+      },
+      {
         "url": "/custom-elements/form-associated/form-associated-callback.html",
         "status": "error",
         "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
@@ -769,9 +784,14 @@
         "message": "form.reset is not a function. (In \"form.reset()\", it is undefined)"
       },
       {
+        "url": "/custom-elements/form-associated/form-upgrade-reactions.html",
+        "status": "fail",
+        "message": "customElements.upgrade is not a function. (In \"customElements.upgrade(form)\", it is undefined)"
+      },
+      {
         "url": "/custom-elements/form-associated/label-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/custom-elements/htmlconstructor/newtarget-customized-builtins.html",
@@ -849,7 +869,17 @@
         "message": "Super class [Function HTMLParagraphElement] is not a constructor"
       },
       {
+        "url": "/custom-elements/parser/xml-fragment-parser-does-not-construct-synchronously.xhtml",
+        "status": "fail",
+        "message": "assert_equals: element was already inserted when constructed expected Element node <div id=\"container\"><some-element xmlns=\"http://www.w3.or... but got null"
+      },
+      {
         "url": "/custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+      },
+      {
+        "url": "/custom-elements/parser/xml-parser-customized-builtin-input.xhtml",
         "status": "fail",
         "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
       },
@@ -1204,6 +1234,11 @@
         "message": "TypeError: [Function CustomElementRegistry] is not a constructor"
       },
       {
+        "url": "/custom-elements/registries/Element-attachShadow-disabled-shadow.window.html",
+        "status": "fail",
+        "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
         "url": "/custom-elements/registries/Element-customElementRegistry-exceptions.html",
         "status": "fail",
         "message": "[Function CustomElementRegistry] is not a constructor"
@@ -1234,6 +1269,26 @@
         "message": "[Function CustomElementRegistry] is not a constructor"
       },
       {
+        "url": "/custom-elements/registries/adoption-before-upgrade.window.html",
+        "status": "fail",
+        "message": "assert_equals: expected Document node with 1 child but got Document node with 2 children"
+      },
+      {
+        "url": "/custom-elements/registries/adoption-global-registry.window.html",
+        "status": "fail",
+        "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
+        "url": "/custom-elements/registries/adoption-null-registry-element.window.html",
+        "status": "fail",
+        "message": "assert_equals: element whose parent was the shadow root expected (object) null but got (undefined) undefined"
+      },
+      {
+        "url": "/custom-elements/registries/adoption-null-registry-shadow-root.window.html",
+        "status": "fail",
+        "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
         "url": "/custom-elements/registries/adoption.window.html",
         "status": "fail",
         "message": "assert_equals: expected (object) object \"[object Object]\" but got (undefined) undefined"
@@ -1242,6 +1297,11 @@
         "url": "/custom-elements/registries/constructor-direct-call-fallback-registry.window.html",
         "status": "fail",
         "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
+        "url": "/custom-elements/registries/constructor-from-another-window.window.html",
+        "status": "fail",
+        "message": "assert_true: upgraded expected true got false"
       },
       {
         "url": "/custom-elements/registries/constructor-reentry-createElement.window.html",
@@ -1272,6 +1332,11 @@
         "url": "/custom-elements/registries/element-mutation.html",
         "status": "fail",
         "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
+        "url": "/custom-elements/registries/global-registry-access-timing.window.html",
+        "status": "fail",
+        "message": "assert_true: upgraded expected true got false"
       },
       {
         "url": "/custom-elements/registries/global.window.html",
@@ -1351,7 +1416,7 @@
       {
         "url": "/custom-elements/registries/valid-custom-element-names.html",
         "status": "timeout",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: customElements.whenDefined is not a function. (In \"customElements.whenDefined(validName)\", it is undefined)\""
+        "message": "assert_equals: code points: [97,45,127345], string: \"a-🅱\" expected object \"[object Object]\" but got object \"[object Object]\""
       },
       {
         "url": "/custom-elements/shadow-descendant-lifecycle-order.html",
@@ -1505,8 +1570,8 @@
       },
       {
         "url": "/dom/events/Event-dispatch-on-disabled-elements.html",
-        "status": "timeout",
-        "message": "elem.click is not a function. (In \"elem.click()\", it is undefined)"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/Event-dispatch-order-at-target.html",
@@ -1520,8 +1585,8 @@
       },
       {
         "url": "/dom/events/Event-dispatch-redispatch.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1650,8 +1715,8 @@
       },
       {
         "url": "/dom/events/click-on-absolute-pseudo.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/element-click.html",
@@ -1715,23 +1780,23 @@
       },
       {
         "url": "/dom/events/focus-event-document-move.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/handler-count.html?document",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/handler-count.html?element",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/handler-count.html?window",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/label-default-action.html",
@@ -1750,208 +1815,208 @@
       },
       {
         "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchmove-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-touchstart-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-wheel-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-mousewheel-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchmove-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-touchstart-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-body.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-div.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-root.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/passive-wheel-event-listener-on-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/synthetic-events-cancelable.html",
@@ -1970,8 +2035,8 @@
       },
       {
         "url": "/dom/events/pointer-event-document-move.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/preventDefault-during-activation-behavior.html",
@@ -1985,13 +2050,13 @@
       },
       {
         "url": "/dom/events/scrolling/iframe-chains.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/save-iframe-scroll-offset-when-display-none.html",
@@ -2000,8 +2065,8 @@
       },
       {
         "url": "/dom/events/scrolling/scroll-cross-origin-iframes.html",
-        "status": "timeout",
-        "message": "b'TypeError: undefined is not a function\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/scrolling/scroll-cross-origin-iframes.html:33:12)'"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scroll-event-fired-to-element.html",
@@ -2025,8 +2090,8 @@
       },
       {
         "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
@@ -2040,162 +2105,163 @@
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-snap.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-mandatory-snap-point-after-load.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollBy-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=root-scrollTo-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollBy-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-programmatic-scroll.html?include=subframe-scrollTo-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollLeft-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=root-scrollTop-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollLeft-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-auto",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scroll-attr-change.html?include=subframe-scrollTop-smooth",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=nested-scrollIntoView",
-        "status": "error",
-        "message": "TypeError: Cannot convert undefined to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-end-block-end-behavior-auto",
-        "status": "error",
-        "message": "TypeError: Cannot convert undefined to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=root-inline-start-block-start-behavior-smooth",
-        "status": "error",
-        "message": "TypeError: Cannot convert undefined to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-end-block-end-behavior-auto",
-        "status": "error",
-        "message": "TypeError: Cannot convert undefined to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-for-scrollIntoView.html?include=subframe-inline-start-block-start-behavior-smooth",
-        "status": "error",
-        "message": "TypeError: Cannot convert undefined to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-to-document.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-to-element-with-overscroll-behavior.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-to-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fires-for-repeat-key-ending-after-scroll-container-end-is-reached.html",
-        "status": "timeout"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fires-on-visual-viewport.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fires-to-iframe-window.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-for-user-scroll.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-handler-content-attributes.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-not-fired-on-no-scroll.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-fires-to-text-input.html",
@@ -2209,73 +2275,73 @@
       },
       {
         "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-composed.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=scroll-over-scrollable-child",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=target-basic",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-basic.html?include=transaction-not-bound-to-scroll-frame",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-multiple-action-chains.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=contents",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-display-change.html?include=none",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-elements.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-move.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-removal.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: document.body.animate is not a function. (In \"document.body.animate({ opacity: [ 0, 1 ] }, {duration: 1 })\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-false",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-transactions-target-resize.html?include=passive-true",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/shadow-relatedTarget.html",
@@ -2693,19 +2759,29 @@
         "message": "assert_array_equals: lengths differ, expected array [] length 0, got [\"HTML\", \"BODY\", \"inert_parent\", \"button\"] length 4"
       },
       {
+        "url": "/dom/nodes/moveBefore/form-associated-custom-element-reset.html",
+        "status": "fail",
+        "message": "container.querySelector(\"form-control\").attachInternals is not a function. (In \"container.querySelector(\"form-control\").attachInternals()\", it is undefined)"
+      },
+      {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/nodes/moveBefore/hover-style-update.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/nodes/moveBefore/iframe-document-preserve.window.html",
         "status": "timeout",
         "message": "palim execution timed out"
+      },
+      {
+        "url": "/dom/nodes/moveBefore/listed-form-element-reset.html",
+        "status": "fail",
+        "message": "assert_equals: expected (object) null but got (undefined) undefined"
       },
       {
         "url": "/dom/nodes/moveBefore/modal-dialog.html",
@@ -2718,14 +2794,29 @@
         "message": "\"getComputedStyle\" is not defined"
       },
       {
+        "url": "/dom/nodes/moveBefore/moveBefore-custom-element-registry.html",
+        "status": "fail",
+        "message": "[Function CustomElementRegistry] is not a constructor"
+      },
+      {
         "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
         "status": "fail",
         "message": "assert_true: expected true got false"
       },
       {
+        "url": "/dom/nodes/moveBefore/moveBefore-image-map.html",
+        "status": "fail",
+        "message": "assert_equals: the image uses the map before the move expected Element node <area shape=\"rect\" coords=\"0,0,100,100\" href=\"#map1\"></area> but got Element node <div><img usemap=\"#map1\" width=\"100\" height=\"100\" style=\"..."
+      },
+      {
         "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
         "status": "fail",
         "message": "Cannot convert undefined to object"
+      },
+      {
+        "url": "/dom/nodes/moveBefore/moveBefore-radio-groups.html",
+        "status": "fail",
+        "message": "assert_false: checking the moved radio unchecks the shadow root's radio expected false got true"
       },
       {
         "url": "/dom/nodes/moveBefore/moveBefore-selector-matching.html",
@@ -2736,6 +2827,11 @@
         "url": "/dom/nodes/moveBefore/moveBefore-shadow-inside.html",
         "status": "fail",
         "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      },
+      {
+        "url": "/dom/nodes/moveBefore/moveBefore-shadow-root.html",
+        "status": "fail",
+        "message": "\"getComputedStyle\" is not defined"
       },
       {
         "url": "/dom/nodes/moveBefore/moveBefore-size-query.html",
@@ -2749,8 +2845,8 @@
       },
       {
         "url": "/dom/nodes/moveBefore/pointer-events.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/nodes/moveBefore/popover-preserve.html",
@@ -2774,8 +2870,8 @@
       },
       {
         "url": "/dom/nodes/moveBefore/role-updates-after-move.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/nodes/moveBefore/select-option-optgroup.html",
@@ -2784,8 +2880,8 @@
       },
       {
         "url": "/dom/nodes/moveBefore/selection-preserve.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/nodes/moveBefore/style-applies.html",
@@ -2815,6 +2911,11 @@
         "url": "/dom/nodes/node-realm-mixed-across-adoption.html",
         "status": "fail",
         "message": "window.customElements.get is not a function. (In \"window.customElements.get(\"x-mixed\")\", it is undefined)"
+      },
+      {
+        "url": "/dom/nodes/processing-instruction-attributes-clone-and-range.html",
+        "status": "fail",
+        "message": "pi.getAttributeNames is not a function. (In \"pi.getAttributeNames()\", it is undefined)"
       },
       {
         "url": "/dom/nodes/processing-instruction-attributes.html",
@@ -2878,6 +2979,10 @@
         "url": "/dom/ranges/Range-insertNode.html",
         "status": "timeout",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
+      },
+      {
+        "url": "/dom/ranges/Range-isPointInRange.html",
+        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-mutations-appendChild.html",
@@ -2974,6 +3079,11 @@
         "message": "assert_equals: expected \"<r xmlns:xx=\\\"uri\\\" xmlns:ns1=\\\"uri2\\\" ns1:name=\\\"value\\\"/>\" but got \"<r xmlns:xx=\\\"uri\\\" xmlns:p=\\\"uri2\\\" p:name=\\\"value\\\"/>\""
       },
       {
+        "url": "/domparsing/all-stream-methods-with-trusted-types-no-policy.html",
+        "status": "fail",
+        "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
+      },
+      {
         "url": "/domparsing/innerhtml-05.xhtml",
         "status": "timeout",
         "message": "palim execution timed out"
@@ -2994,9 +3104,174 @@
         "message": "ReferenceError: \"trustedTypes\" is not defined"
       },
       {
+        "url": "/domparsing/stream-append-html-unsafe.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      },
+      {
+        "url": "/domparsing/stream-append-html.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      },
+      {
+        "url": "/domparsing/stream-fragment-context.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
+      },
+      {
+        "url": "/domparsing/stream-html-abort-unblocks-rendering-defer.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"Error: timed out\""
+      },
+      {
+        "url": "/domparsing/stream-html-abort-unblocks-rendering.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
+      },
+      {
+        "url": "/domparsing/stream-html-custom-element-sanitizer.html",
+        "status": "error",
+        "message": "TypeError: [Function CustomElementRegistry] is not a constructor"
+      },
+      {
+        "url": "/domparsing/stream-html-custom-element.html",
+        "status": "fail",
+        "message": "assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+      },
+      {
+        "url": "/domparsing/stream-html-defer-async-script.html",
+        "status": "timeout",
+        "message": "palim execution timed out"
+      },
+      {
+        "url": "/domparsing/stream-html-disconnected-target-scripts.html",
+        "status": "fail",
+        "message": "assert_array_equals: the inline script runs synchronously when connected lengths differ, expected array [\"inline\"] length 1, got [] length 0"
+      },
+      {
+        "url": "/domparsing/stream-html-live-document.html",
+        "status": "fail",
+        "message": "assert_equals: document.open() was implied expected \"loading\" but got \"complete\""
+      },
+      {
+        "url": "/domparsing/stream-html-parser-blocking-script.html",
+        "status": "fail",
+        "message": "assert_array_equals: lengths differ, expected array [\"slow\", \"inline\"] length 2, got [\"inline\"] length 1"
+      },
+      {
         "url": "/domparsing/stream-html-reentrancy.html",
         "status": "fail",
         "message": "assert_array_equals: lengths differ, expected array [\"connected\"] length 1, got [] length 0"
+      },
+      {
+        "url": "/domparsing/stream-html-run-scripts-option.html",
+        "status": "fail",
+        "message": "assert_true: expected true got false"
+      },
+      {
+        "url": "/domparsing/stream-html-sanitizer.html",
+        "status": "fail",
+        "message": "assert_throws_js: function \"_ => {\n          placeholder[method]({sanitizer: {elements: [\"div\"], removeElements: [\"div\"]}});\n        }\" threw object \"Error: Invalid SanitizerConfig\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
+      },
+      {
+        "url": "/domparsing/stream-html-stylesheet-does-not-block-scripts.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
+      },
+      {
+        "url": "/domparsing/stream-html-unsafe.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      },
+      {
+        "url": "/domparsing/stream-html-with-declarative-shadow-root.html",
+        "status": "fail",
+        "message": "assert_equals: no shadow root is attached to the target expected null but got DocumentFragment node with 1 child"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-createParserOptions-order.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-error-in-policy.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-no-createParserOptions.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-pass-trusted.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-report-only.html",
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-reporting.html",
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-runScripts-can-be-turned-on.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-runScripts-off.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html-with-trusted-types-sanitizer.html",
+        "status": "error",
+        "message": "ReferenceError: \"trustedTypes\" is not defined"
+      },
+      {
+        "url": "/domparsing/stream-html.html",
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+      },
+      {
+        "url": "/domparsing/stream-insertion-logic.html",
+        "status": "fail",
+        "message": "assert_unreached: Should have rejected: Write that attempts to insert after ref_node displacement must reject with HierarchyRequestError Reached unreachable code"
+      },
+      {
+        "url": "/domparsing/stream-positional.html",
+        "status": "fail",
+        "message": "assert_throws_js: sanity check: the sanitizer config is invalid function \"() => {\n            parented[method_name](invalid);\n          }\" threw object \"Error: Invalid SanitizerConfig\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
+      },
+      {
+        "url": "/domparsing/stream-sanitizer-customized-builtins.html",
+        "status": "error",
+        "message": "TypeError: Super class [Function HTMLButtonElement] is not a constructor"
+      },
+      {
+        "url": "/domparsing/stream-sanitizer-img-ctor.html",
+        "status": "timeout",
+        "message": "palim execution timed out"
+      },
+      {
+        "url": "/domparsing/stream-sanitizer-resource-fetch.html",
+        "status": "timeout",
+        "message": "assert_equals: Server should observe exactly one request in control case expected \"1\" but got \"0\""
+      },
+      {
+        "url": "/domparsing/stream-tokenizer-context.html",
+        "status": "fail",
+        "message": "assert_equals: expected (string) \"<b>Hello <world> & test</b>\" but got (undefined) undefined"
+      },
+      {
+        "url": "/domparsing/unclosed-script-already-started.html",
+        "status": "fail",
+        "message": "assert_false: createContextualFragment: must not run on insertion expected false got true"
       },
       {
         "url": "/domparsing/unsafe-and-trusted-types-external-scripts-async.html",
@@ -3055,8 +3330,8 @@
       },
       {
         "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
@@ -4155,8 +4430,8 @@
       },
       {
         "url": "/shadow-dom/attachShadow-with-ShadowRoot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html",
@@ -4250,13 +4525,13 @@
       },
       {
         "url": "/shadow-dom/dragenter-related-target.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/dragleave-related-target.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/event-composed-path-after-dom-mutation.html",
@@ -4305,378 +4580,308 @@
       },
       {
         "url": "/shadow-dom/execcommand-insertList-in-shadow.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
-        "status": "fail",
-        "message": "assert_true: Failed to focus scroller expected true got false"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
-        "status": "timeout",
-        "message": "Test timed out"
-      },
-      {
-        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
-        "status": "error",
-        "message": "TypeError: document.querySelector('[popovertarget]').click is not a function. (In \"document.querySelector('[popovertarget]').click()\", it is undefined)"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/simplified-layout.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
-        "status": "timeout",
-        "message": "Test timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-within-shadow.html",
@@ -4684,49 +4889,64 @@
         "message": "Cannot convert null to object"
       },
       {
+        "url": "/shadow-dom/focus/DocumentOrShadowRoot-activeElement.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
         "url": "/shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html",
-        "status": "fail",
-        "message": "assert_equals: expected Element node <input id=\"slotted\"></input> but got Element node <body><div id=\"host\">\n  <input id=\"slotted\">\n</div>\n\n<scr..."
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-click.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/click-focus-slot-ancestor.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-autofocus.html",
-        "status": "fail",
-        "message": "assert_equals: expected Element node <div tabindex=\"0\" autofocus=\"true\"></div> but got Element node <div tabindex=\"0\"></div>"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-click-on-shadow-host.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus/focus-delegatesFocus-display-contents.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus/focus-method-delegatesFocus-nested-browsing-context.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-method-delegatesFocus.html",
-        "status": "fail",
-        "message": "assert_equals: expected Element node <body>\n<div id=\"host\" tabindex=\"0\">\n  <div id=\"slottedToS... but got Element node <div id=\"host\" tabindex=\"0\">\n  <div id=\"slottedToSecondSl..."
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-method-with-delegatesFocus.html",
-        "status": "fail",
-        "message": "Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html",
@@ -4735,8 +4955,8 @@
       },
       {
         "url": "/shadow-dom/focus/focus-scroll-under-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-shadowhost-display-none.html",
@@ -4745,98 +4965,98 @@
       },
       {
         "url": "/shadow-dom/focus/focus-slot-box-generated-tabindex-0.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tab-on-shadow-host.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: host.shadowRoot.firstElementChild.show is not a function. (In \"host.shadowRoot.firstElementChild.show()\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-text-control.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"getSelection\" is not defined\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/form-control-form-attribute.html",
@@ -4900,8 +5120,8 @@
       },
       {
         "url": "/shadow-dom/leaktests/selection.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/leaktests/window-frames.html",
@@ -4922,6 +5142,11 @@
         "url": "/shadow-dom/offsetTop-offsetLeft-across-shadow-boundaries.html",
         "status": "fail",
         "message": "assert_equals: expected (number) 38 but got (undefined) undefined"
+      },
+      {
+        "url": "/shadow-dom/pointer-event-retargeting-leak.https.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/scroll-restore-shadow.html",
@@ -4975,8 +5200,8 @@
       },
       {
         "url": "/shadow-dom/touch-event-retargeting-leak.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html",
@@ -5105,8 +5330,8 @@
       },
       {
         "url": "/shadow-dom/wheel-event-related-target.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/streams/writable-streams/aborting.any.html",
@@ -5600,20 +5825,20 @@
       },
       {
         "url": "/xhr/formdata/submitter-coordinate-value.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       }
     ]
   },
   "tentative": {
     "totals": {
-      "total": 132,
-      "executed": 132,
-      "pass": 11,
-      "fail": 67,
-      "skip": 0,
-      "error": 21,
-      "timeout": 33,
+      "total": 114,
+      "executed": 114,
+      "pass": 1,
+      "fail": 40,
+      "skip": 39,
+      "error": 8,
+      "timeout": 26,
       "pending": 0
     },
     "areas": [
@@ -5624,8 +5849,8 @@
           "executed": 7,
           "pass": 0,
           "fail": 2,
-          "skip": 0,
-          "error": 5,
+          "skip": 2,
+          "error": 3,
           "timeout": 0,
           "pending": 0
         }
@@ -5650,9 +5875,9 @@
           "executed": 3,
           "pass": 0,
           "fail": 1,
-          "skip": 0,
+          "skip": 2,
           "error": 0,
-          "timeout": 2,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -5688,8 +5913,8 @@
           "total": 23,
           "executed": 23,
           "pass": 0,
-          "fail": 23,
-          "skip": 0,
+          "fail": 20,
+          "skip": 3,
           "error": 0,
           "timeout": 0,
           "pending": 0
@@ -5711,12 +5936,12 @@
       {
         "prefix": "/domparsing/",
         "totals": {
-          "total": 35,
-          "executed": 35,
-          "pass": 8,
-          "fail": 16,
+          "total": 2,
+          "executed": 2,
+          "pass": 0,
+          "fail": 1,
           "skip": 0,
-          "error": 11,
+          "error": 1,
           "timeout": 0,
           "pending": 0
         }
@@ -5789,13 +6014,13 @@
       {
         "prefix": "/shadow-dom/",
         "totals": {
-          "total": 60,
-          "executed": 60,
-          "pass": 2,
-          "fail": 24,
-          "skip": 0,
-          "error": 4,
-          "timeout": 30,
+          "total": 75,
+          "executed": 75,
+          "pass": 0,
+          "fail": 15,
+          "skip": 32,
+          "error": 3,
+          "timeout": 25,
           "pending": 0
         }
       },
@@ -5853,12 +6078,12 @@
       }
     ],
     "subtests": {
-      "total": 1517,
-      "pass": 863,
-      "fail": 557,
-      "skip": 0,
-      "error": 64,
-      "timeout": 33
+      "total": 389,
+      "pass": 30,
+      "fail": 289,
+      "skip": 39,
+      "error": 5,
+      "timeout": 26
     },
     "nonPassingTests": [
       {
@@ -5878,8 +6103,8 @@
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html",
-        "status": "error",
-        "message": "Test named 'Custom element with HTMLSubmitButtonBehavior is implicitly focusable' specified 1 'cleanup' function, and 1 failed."
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html",
@@ -5888,8 +6113,8 @@
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html",
-        "status": "error",
-        "message": "Test named 'HTMLSubmitButtonBehavior properties have correct default values' specified 1 'cleanup' function, and 1 failed."
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/custom-elements/reactions/AriaMixin-string-attributes.tentative.html",
@@ -5903,13 +6128,13 @@
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-sequence-of-scrolls.tentative.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-not-fired-after-removing-scroller.tentative.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/ranges/Range-cloneContents-around-shadow.tentative.html",
@@ -5983,13 +6208,13 @@
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-interactive-basic.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.createValueRange is not a function. (In \"element.createValueRange(init.s, init.e)\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-interactive-overlap-and-selection.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.createValueRange is not a function. (In \"element.createValueRange(tc.init.rangeStart, tc.init.rangeEnd)\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-offset.html",
@@ -6018,8 +6243,8 @@
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-update-event-order.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.createValueRange is not a function. (In \"element.createValueRange(1, 3)\", it is undefined)\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-validation.html",
@@ -6027,139 +6252,14 @@
         "message": "assert_throws_dom: function \"() => textarea.createValueRange(10, 15)\" threw object \"TypeError: textarea.createValueRange is not a function. (In \"textarea.createValueRange(10, 15)\", it is undefined)\" that is not a DOMException IndexSizeError: property \"code\" is equal to undefined, expected 1"
       },
       {
-        "url": "/domparsing/tentative/all-stream-methods-with-trusted-types-no-policy.html",
-        "status": "fail",
-        "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
-      },
-      {
-        "url": "/domparsing/tentative/stream-append-html-unsafe.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-append-html.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-fragment-context.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-abort-unblocks-rendering.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-custom-element-sanitizer.html",
-        "status": "error",
-        "message": "TypeError: [Function CustomElementRegistry] is not a constructor"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-custom-element.html",
-        "status": "fail",
-        "message": "assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-defer-async-script.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"immediate\"] length 1, got [\"defer\", \"immediate\"] length 2"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-parser-blocking-script.html",
-        "status": "error",
-        "message": "Timeout while running cleanup for test named \"streamHTMLUnsafe: close() waits for a pending parser-blocking script and remaining input\"."
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-sanitizer.html",
-        "status": "fail",
-        "message": "assert_throws_js: function \"_ => {\n          placeholder[method]({sanitizer: {elements: [\"div\"], removeElements: [\"div\"]}});\n        }\" threw object \"Error: Invalid SanitizerConfig\" (\"Error\") expected instance of function \"function TypeError() { [native code] }\" (\"TypeError\")"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-unsafe.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-adopt.html",
+        "url": "/domparsing/stream-html-with-trusted-types-adopt.tentative.html",
         "status": "error",
         "message": "ReferenceError: \"trustedTypes\" is not defined"
       },
       {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-createParserOptions-order.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-error-in-policy.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-from-non-tt.html",
+        "url": "/domparsing/stream-html-with-trusted-types-from-non-tt.tentative.html",
         "status": "fail",
         "message": "assert_throws_js: function \"() => adoptedDiv[method]()\" did not throw"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-no-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-no-policy.html",
-        "status": "fail",
-        "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-pass-trusted.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-cannot-be-turned-on.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-runScripts-off.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html-with-trusted-types-sanitizer.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/domparsing/tentative/stream-html.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-sanitizer-customized-builtins.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLButtonElement] is not a constructor"
-      },
-      {
-        "url": "/domparsing/tentative/stream-sanitizer-img-ctor.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Image\" is not defined\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-sanitizer-resource-fetch.html",
-        "status": "fail",
-        "message": "assert_equals: Server SHOULD observe request in control case expected \"1\" but got \"0\""
-      },
-      {
-        "url": "/domparsing/tentative/stream-tokenizer-context.html",
-        "status": "fail",
-        "message": "assert_equals: expected (string) \"<b>Hello <world> & test</b>\" but got (undefined) undefined"
-      },
-      {
-        "url": "/domparsing/tentative/unclosed-script-already-started.html",
-        "status": "fail",
-        "message": "assert_false: createContextualFragment: must not run on insertion expected false got true"
       },
       {
         "url": "/html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html",
@@ -6183,8 +6283,8 @@
       },
       {
         "url": "/shadow-dom/accesskey.tentative.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"navigator\" is not defined\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-async-fetch-disconnect-iframe.html",
@@ -6373,13 +6473,98 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.tentative.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-delegatesFocus.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
+      },
+      {
+        "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-tabindex.html",
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",
@@ -6388,18 +6573,18 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/aria-labelledby.html",
-        "status": "error",
-        "message": "TypeError: Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/commandfor.html",
-        "status": "fail",
-        "message": "Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/dom-mutation.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/event-path.html",
@@ -6408,8 +6593,8 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/form.html",
-        "status": "fail",
-        "message": "Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/gethtml-serialization.html",
@@ -6418,18 +6603,18 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/interestfor.tentative.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/label-descendant.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/label-for.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/label-lifetime.html",
@@ -6438,28 +6623,28 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/popovertarget.html",
-        "status": "fail",
-        "message": "Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/property-reflection-idl-setters.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"host-id\"] length 1, got [] length 0"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/property-reflection-imperative-setup.html",
-        "status": "fail",
-        "message": "assert_equals: expected Element node <div id=\"host-id\"></div> but got null"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/property-reflection.html",
-        "status": "fail",
-        "message": "assert_equals: expected Element node <div id=\"host-id\">\n        \n      </div> but got null"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/reference-target-basics.html",
-        "status": "fail",
-        "message": "Cannot convert null to object"
+        "status": "skip",
+        "message": "Executor does not support testdriver.js"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/shadowrootreferencetarget-idl-reflection.html",
