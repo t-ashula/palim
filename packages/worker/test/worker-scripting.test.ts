@@ -177,6 +177,49 @@ it("reuses a classic Shared Worker and creates a port per connection", async () 
   ).toBe("1:shared,2:shared");
 });
 
+it("exposes Blob, File, and binary FormData entries in workers", async () => {
+  const { environment, loader } = createEnvironment({
+    "https://example.test/blob-worker.js": `
+      const blob = new Blob(["worker"], { type: "Text/Plain" });
+      const file = new File([blob], "worker.txt", { lastModified: 42 });
+      const data = new FormData();
+      data.append("file", file);
+      postMessage({
+        blob: blob instanceof Blob && blob.size === 6 && blob.type === "text/plain",
+        file:
+          file instanceof File &&
+          file instanceof Blob &&
+          file.name === "worker.txt" &&
+          file.lastModified === 42,
+        formData: data.get("file") === file,
+      });
+    `,
+  });
+
+  await loader.loadHTML(
+    `
+      <!doctype html><body>
+      <script>
+        const worker = new Worker("/blob-worker.js");
+        worker.onmessage = event => {
+          document.body.dataset.blob = String(
+            event.data.blob && event.data.file && event.data.formData
+          );
+        };
+      </script>
+    `,
+    environment,
+  );
+  await waitFor(
+    () =>
+      environment.window.document.body?.getAttribute("data-blob") === "true",
+  );
+
+  expect(environment.window.document.body?.getAttribute("data-blob")).toBe(
+    "true",
+  );
+});
+
 it("reports worker exceptions to the page Worker object", async () => {
   const { environment, loader } = createEnvironment({
     "https://example.test/throws.js": `

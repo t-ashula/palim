@@ -11,8 +11,10 @@ import type {
   WindowScriptingCapability,
 } from "@palim/scripting";
 import {
+  BlobRealmBindingContext,
   DOMRealmBinding,
   FormDataRealmBindingContext,
+  installBlobInterfaces,
   installFormDataInterface,
   normal,
   RealmBindingContext,
@@ -474,7 +476,9 @@ class WorkerExecutionEnvironment {
     this.runtime.registerSettings(this.settings);
     this.#globalObject = this.engine.globalObject(this.realm);
     new URLRealmBinding(this.engine, this.realm, this.context);
-    const formData = new FormDataRealmBindingContext(this.context);
+    const blobs = new BlobRealmBindingContext(this.context);
+    installBlobInterfaces(this.context, blobs);
+    const formData = new FormDataRealmBindingContext(this.context, blobs);
     installFormDataInterface(this.context, formData);
     this.#installGlobal();
     this.messaging.bindTarget(this.globalTarget);

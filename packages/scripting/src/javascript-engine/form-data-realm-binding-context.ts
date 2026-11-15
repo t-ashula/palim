@@ -1,7 +1,8 @@
-import type { FormDataEntry } from "@palim/window";
+import type { FormDataEntry, FormDataEntryValue } from "@palim/window";
 import { FormData } from "@palim/window";
 
 import type { EngineObject, EngineValue } from "./adapter.js";
+import type { BlobRealmBindingContext } from "./blob-realm-binding-context.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
 
 export type FormDataIteratorKind = "keys" | "values" | "entries";
@@ -14,7 +15,10 @@ export class FormDataRealmBindingContext {
   readonly #formData = new WeakMap<EngineObject, FormData>();
   readonly #iterators = new WeakMap<EngineObject, FormDataIterator>();
 
-  constructor(readonly binding: RealmBindingContext) {
+  constructor(
+    readonly binding: RealmBindingContext,
+    readonly blobs: BlobRealmBindingContext,
+  ) {
     const objectPrototype = binding.engine.objectPrototype(binding.realm);
     this.formDataPrototype = binding.engine.createObject(
       binding.realm,
@@ -26,7 +30,9 @@ export class FormDataRealmBindingContext {
     );
   }
 
-  create(entries: Iterable<readonly [string, string]> = []): EngineObject {
+  create(
+    entries: Iterable<readonly [string, FormDataEntryValue]> = [],
+  ): EngineObject {
     return this.wrap(new FormData(entries));
   }
 
@@ -61,5 +67,11 @@ export class FormDataRealmBindingContext {
   iterator(value: EngineValue): FormDataIterator | null {
     const object = this.binding.engine.asObject(value);
     return object === null ? null : (this.#iterators.get(object) ?? null);
+  }
+
+  wrapValue(value: FormDataEntryValue): EngineValue {
+    return typeof value === "string"
+      ? this.binding.engine.fromPrimitive(value)
+      : this.blobs.wrap(value);
   }
 }

@@ -6,6 +6,7 @@ import type {
   EngineValue,
   JavaScriptEngineAdapter,
 } from "./adapter.js";
+import { installBlobInterfaces } from "./blob-realm-interface-installer.js";
 import type { DOMRealmBinding } from "./dom-realm-binding.js";
 import { installFormDataInterface } from "./form-data-realm-interface-installer.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
@@ -31,6 +32,7 @@ export class WindowRealmBinding {
     runtime?: RealmExecutionRuntime,
   ) {
     this.#binding = new WindowRealmBindingContext(engine, window, runtime);
+    installBlobInterfaces(this.#binding.context, this.#binding.blobs);
     installFormDataInterface(this.#binding.context, this.#binding.formData);
     installWindowInterface(this.#binding);
     installLocationInterface(this.#binding);

@@ -29,6 +29,24 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes Blob, File, and binary FormData entries", () => {
+    const window = createWindow();
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/blob-file.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("exposes Element geometry in the page realm", () => {
     const window = createWindow({ viewport: { width: 640, height: 480 } });
     updateDocumentLayout(window.document, windowViewport(window));

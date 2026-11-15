@@ -157,7 +157,9 @@ export {
   parseErrors,
 } from "@palim/core";
 export { FormData } from "./form-data.js";
-export type { FormDataEntry } from "./form-data.js";
+export type { FormDataEntry, FormDataEntryValue } from "./form-data.js";
+export { Blob, File, blobBytes, blobText } from "./blob.js";
+export type { BlobPart, BlobPropertyBag, FilePropertyBag } from "./blob.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";
 export { createOpen, open } from "./open.js";
 export type { Open, OpenHTMLOptions, OpenOptions, OpenResult } from "./open.js";

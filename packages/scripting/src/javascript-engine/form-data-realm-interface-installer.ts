@@ -1,3 +1,5 @@
+import type { Blob, FormDataEntryValue } from "@palim/window";
+
 import type {
   EngineRealm,
   EngineResult,
@@ -71,11 +73,15 @@ function installMembers(state: InstallationState): void {
       if (name.type === "throw") {
         return name;
       }
-      const value = requiredString(state, argumentsList, 1, "append");
+      const value = formDataEntryInput(state, argumentsList, "append");
       if (value.type === "throw") {
         return value;
       }
-      formData.append(name.value, value.value);
+      if (value.value.filename === undefined) {
+        formData.append(name.value, value.value.value);
+      } else {
+        formData.append(name.value, value.value.value, value.value.filename);
+      }
       return state.context.undefined();
     },
   );
@@ -108,7 +114,7 @@ function installMembers(state: InstallationState): void {
       const name = requiredString(state, argumentsList, 0, "get");
       return name.type === "throw"
         ? name
-        : state.context.primitive(formData.get(name.value));
+        : normal(entryEngineValue(state, formData.get(name.value)));
     },
   );
   state.context.method(
@@ -128,7 +134,7 @@ function installMembers(state: InstallationState): void {
               state.realm,
               formData
                 .getAll(name.value)
-                .map((value) => state.engine.fromPrimitive(value)),
+                .map((value) => entryEngineValue(state, value)),
             ),
           );
     },
@@ -161,11 +167,15 @@ function installMembers(state: InstallationState): void {
       if (name.type === "throw") {
         return name;
       }
-      const value = requiredString(state, argumentsList, 1, "set");
+      const value = formDataEntryInput(state, argumentsList, "set");
       if (value.type === "throw") {
         return value;
       }
-      formData.set(name.value, value.value);
+      if (value.value.filename === undefined) {
+        formData.set(name.value, value.value.value);
+      } else {
+        formData.set(name.value, value.value.value, value.value.filename);
+      }
       return state.context.undefined();
     },
   );
@@ -193,7 +203,7 @@ function installMembers(state: InstallationState): void {
           callback.value,
           callbackThis,
           [
-            state.engine.fromPrimitive(value),
+            entryEngineValue(state, value),
             state.engine.fromPrimitive(name),
             platformObject,
           ],
@@ -240,12 +250,12 @@ function installIteratorMembers(state: InstallationState): void {
       const result = iterator.next();
       const value = result.done
         ? state.engine.fromPrimitive(undefined)
-        : typeof result.value === "string"
-          ? state.engine.fromPrimitive(result.value)
-          : state.engine.createArray(
-              state.realm,
-              result.value.map((item) => state.engine.fromPrimitive(item)),
-            );
+        : Array.isArray(result.value)
+          ? state.engine.createArray(state.realm, [
+              state.engine.fromPrimitive(result.value[0]),
+              entryEngineValue(state, result.value[1]),
+            ])
+          : entryEngineValue(state, result.value);
       const object = state.engine.createObject(
         state.realm,
         state.engine.objectPrototype(state.realm),
@@ -284,4 +294,45 @@ function requiredString(
   operation: string,
 ): EngineResult<string> {
   return state.context.requiredString(argumentsList, index, operation, true);
+}
+
+function formDataEntryInput(
+  state: InstallationState,
+  argumentsList: readonly EngineValue[],
+  operation: "append" | "set",
+): EngineResult<{
+  readonly value: string | Blob;
+  readonly filename?: string;
+}> {
+  const input = argumentsList[1];
+  if (input === undefined) {
+    return state.context.typeError(`${operation} requires 2 argument(s)`);
+  }
+  const blob = state.domain.blobs.value(input);
+  if (blob === null) {
+    const value = state.context.string(input, true);
+    return value.type === "throw" ? value : normal({ value: value.value });
+  }
+  const filename = state.context.optionalString(
+    argumentsList[2],
+    undefined,
+    true,
+  );
+  return filename.type === "throw"
+    ? filename
+    : normal(
+        filename.value === undefined
+          ? { value: blob }
+          : { value: blob, filename: filename.value },
+      );
+}
+
+function entryEngineValue(
+  state: InstallationState,
+  value: FormDataEntryValue | null,
+): EngineValue {
+  if (value === null || typeof value === "string") {
+    return state.engine.fromPrimitive(value);
+  }
+  return state.domain.blobs.wrap(value);
 }

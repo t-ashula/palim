@@ -93,6 +93,7 @@ export interface JavaScriptEngineAdapter {
   toString(realm: EngineRealm, value: EngineValue): EngineResult<string>;
   toNumber(realm: EngineRealm, value: EngineValue): EngineResult<number>;
   toBoolean(value: EngineValue): boolean;
+  bufferSourceBytes(value: EngineValue): Uint8Array | null;
   primitiveValue(value: EngineValue): EnginePrimitiveValue | null;
   asBoolean(value: EngineValue): boolean | null;
   asString(value: EngineValue): string | null;

@@ -17,6 +17,7 @@ import type {
   JavaScriptEngineAdapter,
 } from "./adapter.js";
 import { normal } from "./adapter.js";
+import { BlobRealmBindingContext } from "./blob-realm-binding-context.js";
 import { DOMRealmBinding } from "./dom-realm-binding.js";
 import { createDOMLegacyPlatformObject } from "./dom-realm-legacy-platform-object.js";
 import { FormDataRealmBindingContext } from "./form-data-realm-binding-context.js";
@@ -40,6 +41,7 @@ export class WindowRealmBindingContext {
   readonly locationPrototype: EngineObject;
   readonly locationObject: EngineObject;
   readonly dom: DOMRealmBinding;
+  readonly blobs: BlobRealmBindingContext;
   readonly formData: FormDataRealmBindingContext;
   readonly url: URLRealmBinding;
   readonly realm: EngineRealm;
@@ -79,7 +81,8 @@ export class WindowRealmBindingContext {
       },
     );
     this.url = new URLRealmBinding(this.engine, this.realm, this.context);
-    this.formData = new FormDataRealmBindingContext(this.context);
+    this.blobs = new BlobRealmBindingContext(this.context);
+    this.formData = new FormDataRealmBindingContext(this.context, this.blobs);
     const namedPropertiesTarget = this.engine.createObject(
       this.realm,
       this.dom.eventTargetPrototype,

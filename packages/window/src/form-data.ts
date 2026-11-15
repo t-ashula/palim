@@ -1,15 +1,19 @@
-export type FormDataEntry = [name: string, value: string];
+import type { Blob } from "./blob.js";
+import { blobBytes, File } from "./blob.js";
+
+export type FormDataEntryValue = string | File;
+export type FormDataEntry = [name: string, value: FormDataEntryValue];
 
 export class FormData implements Iterable<FormDataEntry> {
-  constructor(entries: Iterable<readonly [string, string]> = []) {
+  constructor(entries: Iterable<readonly [string, FormDataEntryValue]> = []) {
     ENTRY_LISTS.set(
       this,
       Array.from(entries, ([name, value]): FormDataEntry => [name, value]),
     );
   }
 
-  append(name: string, value: string): void {
-    entryList(this).push([name, value]);
+  append(name: string, value: string | Blob, filename?: string): void {
+    entryList(this).push([name, entryValue(value, filename)]);
   }
 
   delete(name: string): void {
@@ -21,13 +25,13 @@ export class FormData implements Iterable<FormDataEntry> {
     }
   }
 
-  get(name: string): string | null {
+  get(name: string): FormDataEntryValue | null {
     return (
       entryList(this).find(([candidate]) => candidate === name)?.[1] ?? null
     );
   }
 
-  getAll(name: string): string[] {
+  getAll(name: string): FormDataEntryValue[] {
     return entryList(this)
       .filter(([candidate]) => candidate === name)
       .map(([, value]) => value);
@@ -37,14 +41,14 @@ export class FormData implements Iterable<FormDataEntry> {
     return entryList(this).some(([candidate]) => candidate === name);
   }
 
-  set(name: string, value: string): void {
+  set(name: string, value: string | Blob, filename?: string): void {
     const entries = entryList(this);
     const first = entries.findIndex(([candidate]) => candidate === name);
     if (first === -1) {
-      entries.push([name, value]);
+      entries.push([name, entryValue(value, filename)]);
       return;
     }
-    entries[first] = [name, value];
+    entries[first] = [name, entryValue(value, filename)];
     for (let index = entries.length - 1; index > first; index -= 1) {
       if (entries[index]?.[0] === name) {
         entries.splice(index, 1);
@@ -53,7 +57,11 @@ export class FormData implements Iterable<FormDataEntry> {
   }
 
   forEach(
-    callback: (value: string, key: string, parent: FormData) => void,
+    callback: (
+      value: FormDataEntryValue,
+      key: string,
+      parent: FormData,
+    ) => void,
     thisArg?: unknown,
   ): void {
     for (const [name, value] of entryList(this)) {
@@ -67,7 +75,7 @@ export class FormData implements Iterable<FormDataEntry> {
     }
   }
 
-  *values(): IterableIterator<string> {
+  *values(): IterableIterator<FormDataEntryValue> {
     for (const [, value] of entryList(this)) {
       yield value;
     }
@@ -82,6 +90,25 @@ export class FormData implements Iterable<FormDataEntry> {
   [Symbol.iterator](): IterableIterator<FormDataEntry> {
     return this.entries();
   }
+}
+
+function entryValue(
+  value: string | Blob,
+  filename?: string,
+): FormDataEntryValue {
+  if (typeof value === "string") {
+    return value;
+  }
+  if (filename === undefined && value instanceof File) {
+    return value;
+  }
+  return new File(
+    [blobBytes(value)],
+    filename ?? "blob",
+    value instanceof File
+      ? { type: value.type, lastModified: value.lastModified }
+      : { type: value.type },
+  );
 }
 
 const ENTRY_LISTS = new WeakMap<FormData, FormDataEntry[]>();

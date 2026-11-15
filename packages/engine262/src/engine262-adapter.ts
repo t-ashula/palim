@@ -26,7 +26,9 @@ import {
   GetFunctionRealm,
   IsArray,
   IsCallable,
+  isDataViewObject,
   isPromiseObject,
+  isTypedArrayObject,
   JSStringValue,
   ManagedRealm,
   markBuiltinFunctionAsConstructor,
@@ -248,6 +250,54 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
 
   toBoolean(value: EngineValue): boolean {
     return ToBoolean(this.#value(value));
+  }
+
+  bufferSourceBytes(value: EngineValue): Uint8Array | null {
+    const object = this.#value(value);
+    if (!(object instanceof ObjectValue)) {
+      return null;
+    }
+    if (isTypedArrayObject(object)) {
+      const buffer = object.ViewedArrayBuffer;
+      if (!(buffer instanceof ObjectValue) || !("ArrayBufferData" in buffer)) {
+        return null;
+      }
+      const data = (
+        buffer as ObjectValue & { readonly ArrayBufferData: Uint8Array | null }
+      ).ArrayBufferData;
+      if (data === null) {
+        return null;
+      }
+      const length =
+        typeof object.ByteLength === "number"
+          ? object.ByteLength
+          : data.byteLength - object.ByteOffset;
+      return data.slice(object.ByteOffset, object.ByteOffset + length);
+    }
+    if (isDataViewObject(object)) {
+      const buffer = object.ViewedArrayBuffer;
+      if (!(buffer instanceof ObjectValue) || !("ArrayBufferData" in buffer)) {
+        return null;
+      }
+      const data = (
+        buffer as ObjectValue & { readonly ArrayBufferData: Uint8Array | null }
+      ).ArrayBufferData;
+      if (data === null) {
+        return null;
+      }
+      const length =
+        typeof object.ByteLength === "number"
+          ? object.ByteLength
+          : data.byteLength - object.ByteOffset;
+      return data.slice(object.ByteOffset, object.ByteOffset + length);
+    }
+    if (!("ArrayBufferData" in object)) {
+      return null;
+    }
+    const data = (
+      object as ObjectValue & { readonly ArrayBufferData: Uint8Array | null }
+    ).ArrayBufferData;
+    return data === null ? null : data.slice();
   }
 
   primitiveValue(

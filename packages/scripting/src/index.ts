@@ -26,6 +26,8 @@ export {
 } from "./javascript-engine/adapter.js";
 export { DOMRealmBinding } from "./javascript-engine/dom-realm-binding.js";
 export type { DOMRealmBindingContext } from "./javascript-engine/dom-realm-binding-context.js";
+export { BlobRealmBindingContext } from "./javascript-engine/blob-realm-binding-context.js";
+export { installBlobInterfaces } from "./javascript-engine/blob-realm-interface-installer.js";
 export { FormDataRealmBindingContext } from "./javascript-engine/form-data-realm-binding-context.js";
 export { installFormDataInterface } from "./javascript-engine/form-data-realm-interface-installer.js";
 export {
