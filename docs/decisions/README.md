@@ -57,3 +57,4 @@
 - [ADR-0054: WPT と仕様に基づく適合度計測と改善計画](./0054-wpt-spec-conformance-plan.md)
 - [ADR-0055: Worker execution environment](./0055-worker-execution-realm.md)
 - [ADR-0056: Element geometry のための CSS box layout](./0056-element-geometry-css-box-layout.md)
+- [ADR-0057: package 間 API と export/import の管理](./0057-package-export-import-policy.md)
