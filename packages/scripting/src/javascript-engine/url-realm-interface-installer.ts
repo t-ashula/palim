@@ -1,6 +1,8 @@
 import { URL, URLSearchParams } from "@palim/core";
+import { createBlobURL, revokeBlobURL } from "@palim/window";
 
 import type {
+  EngineObject,
   EngineRealm,
   EngineResult,
   EngineValue,
@@ -8,6 +10,7 @@ import type {
 } from "./adapter.js";
 import { normal } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";
+import type { BlobURLRealmBindingOptions } from "./url-realm-binding.js";
 import type {
   SearchParamsIteratorKind,
   URLRealmBindingContext,
@@ -18,6 +21,7 @@ type SearchParamsPair = readonly [string, string];
 export function installURLInterfaces(
   binding: RealmBindingContext,
   domain: URLRealmBindingContext,
+  blobURLs?: BlobURLRealmBindingOptions,
 ): void {
   const state: URLInterfaceInstallationState = {
     engine: binding.engine,
@@ -25,10 +29,48 @@ export function installURLInterfaces(
     context: binding,
     domain,
   };
-  installInterfaces(state);
+  const urlConstructor = installInterfaces(state);
+  if (blobURLs !== undefined) {
+    installBlobURLMembers(state, urlConstructor, blobURLs);
+  }
   installURLMembers(state);
   installURLSearchParamsMembers(state);
   installURLSearchParamsIteratorMembers(state);
+}
+
+function installBlobURLMembers(
+  state: URLInterfaceInstallationState,
+  constructor: EngineObject,
+  options: BlobURLRealmBindingOptions,
+): void {
+  state.context.method(
+    constructor,
+    "createObjectURL",
+    1,
+    (_thisValue, argumentsList) => {
+      const value = argumentsList[0];
+      if (value === undefined) {
+        return state.context.typeError("createObjectURL requires an argument");
+      }
+      const blob = options.blobs.value(value);
+      return blob === null
+        ? state.context.typeError("createObjectURL requires a Blob")
+        : state.context.primitive(createBlobURL(blob, options.origin));
+    },
+  );
+  state.context.method(
+    constructor,
+    "revokeObjectURL",
+    1,
+    (_thisValue, argumentsList) => {
+      const value = requiredString(state, argumentsList, 0, "revokeObjectURL");
+      if (value.type === "throw") {
+        return value;
+      }
+      revokeBlobURL(value.value);
+      return state.context.undefined();
+    },
+  );
 }
 
 interface URLInterfaceInstallationState {
@@ -38,7 +80,7 @@ interface URLInterfaceInstallationState {
   readonly domain: URLRealmBindingContext;
 }
 
-function installInterfaces(state: URLInterfaceInstallationState): void {
+function installInterfaces(state: URLInterfaceInstallationState): EngineObject {
   const urlConstructor = state.engine.createConstructor(
     state.realm,
     "URL",
@@ -141,6 +183,7 @@ function installInterfaces(state: URLInterfaceInstallationState): void {
     state.domain.searchParamsIteratorPrototype,
     "URLSearchParams Iterator",
   );
+  return urlConstructor;
 }
 
 function installURLMembers(state: URLInterfaceInstallationState): void {

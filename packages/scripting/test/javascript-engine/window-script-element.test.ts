@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 
+import { HTMLIFrameElement } from "@palim/core";
 import { describe, expect, it } from "vitest";
 
 import { WindowExecutionEnvironment } from "../helper/window-execution-environment.js";
@@ -12,6 +13,32 @@ function fixture(name: string): string {
 }
 
 describe("parser-inserted classic scripts", () => {
+  it("loads an iframe document from a page-created Blob URL", async () => {
+    const environment = new WindowExecutionEnvironment({
+      url: "https://example.test/page.html",
+    });
+
+    const document = await environment.loadHTML(
+      [
+        "<body><script>",
+        'const blob = new Blob(["<p id=blob-content>loaded</p>"],',
+        '  { type: "text/html" });',
+        'const frame = document.createElement("iframe");',
+        "frame.src = URL.createObjectURL(blob);",
+        "document.body.append(frame);",
+        "</script></body>",
+      ].join("\n"),
+    );
+
+    const frame = document.querySelector("iframe");
+    expect(frame).toBeInstanceOf(HTMLIFrameElement);
+    expect(
+      (frame as HTMLIFrameElement).contentDocument?.querySelector(
+        "#blob-content",
+      )?.textContent,
+    ).toBe("loaded");
+  });
+
   it("runs inline scripts in the active Window realm", async () => {
     const environment = new WindowExecutionEnvironment({
       url: "https://example.test/page.html",

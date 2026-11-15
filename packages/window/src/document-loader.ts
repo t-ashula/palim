@@ -14,6 +14,7 @@ import {
 } from "@palim/core";
 import { updateDocumentLayout } from "@palim/css";
 
+import { loadResource } from "./blob-url.js";
 import { decodeHTMLBytes } from "./html-byte-input.js";
 import type { Window, WindowOptions } from "./window.js";
 import {
@@ -340,12 +341,13 @@ export class WindowDocumentLoader {
       return;
     }
 
-    if (this.resourceLoader === null) {
-      this.#finishIFrameNavigation(element, state, navigation);
-      return;
-    }
     try {
-      const resource = await this.resourceLoader.load(new URL(url.href));
+      const loaded = loadResource(this.resourceLoader, new URL(url.href));
+      if (loaded.type !== "resource") {
+        this.#finishIFrameNavigation(element, state, navigation);
+        return;
+      }
+      const resource = await loaded.resource;
       if (!this.#isCurrentIFrameNavigation(element, state, navigation)) {
         return;
       }

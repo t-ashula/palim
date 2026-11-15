@@ -250,6 +250,7 @@ export { OpaqueOrigin, originFromURL } from "./origin.js";
 export type { Origin } from "./origin.js";
 export { parseFormUrlEncoded, URL, URLSearchParams } from "./url/index.js";
 export { toLong } from "./web-idl.js";
+export { uuidV4 } from "./uuid.js";
 export type {
   FrameRequestCallback,
   Location,

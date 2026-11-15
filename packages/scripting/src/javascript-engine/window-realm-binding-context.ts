@@ -1,7 +1,12 @@
 import type { Event } from "@palim/core";
-import { ErrorEvent, PromiseRejectionEvent } from "@palim/core";
+import {
+  documentImplementation,
+  ErrorEvent,
+  PromiseRejectionEvent,
+} from "@palim/core";
 import {
   reportWindowError,
+  serializeBlobURLOrigin,
   Window,
   windowNamedPropertyNames,
   windowNamedPropertyValue,
@@ -80,8 +85,13 @@ export class WindowRealmBindingContext {
         this.reportException(value);
       },
     );
-    this.url = new URLRealmBinding(this.engine, this.realm, this.context);
     this.blobs = new BlobRealmBindingContext(this.context);
+    this.url = new URLRealmBinding(this.engine, this.realm, this.context, {
+      blobs: this.blobs,
+      origin: serializeBlobURLOrigin(
+        documentImplementation(this.window.document).origin,
+      ),
+    });
     this.formData = new FormDataRealmBindingContext(this.context, this.blobs);
     const namedPropertiesTarget = this.engine.createObject(
       this.realm,

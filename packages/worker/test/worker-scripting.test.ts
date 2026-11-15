@@ -220,6 +220,43 @@ it("exposes Blob, File, and binary FormData entries in workers", async () => {
   );
 });
 
+it("loads a Worker from a Blob URL and exposes Blob URL methods in it", async () => {
+  const { environment, loader, resources } = createEnvironment({});
+
+  await loader.loadHTML(
+    `
+      <!doctype html><body>
+      <script>
+        const source = new Blob([
+          'const url = URL.createObjectURL(new Blob(["worker"]));',
+          'postMessage(url);',
+        ], { type: "text/javascript" });
+        const sourceURL = URL.createObjectURL(source);
+        const worker = new Worker(sourceURL);
+        worker.onmessage = event => {
+          document.body.setAttribute(
+            "data-worker-blob-url",
+            String(event.data.startsWith("blob:https://example.test/")),
+          );
+          URL.revokeObjectURL(event.data);
+          URL.revokeObjectURL(sourceURL);
+        };
+      </script>
+    `,
+    environment,
+  );
+  await waitFor(
+    () =>
+      environment.window.document.body?.getAttribute("data-worker-blob-url") ===
+      "true",
+  );
+
+  expect(
+    environment.window.document.body?.getAttribute("data-worker-blob-url"),
+  ).toBe("true");
+  expect(resources.requests).toEqual([]);
+});
+
 it("reports worker exceptions to the page Worker object", async () => {
   const { environment, loader } = createEnvironment({
     "https://example.test/throws.js": `

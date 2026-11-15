@@ -13,6 +13,7 @@ import type {
   Window,
   WindowScripting,
 } from "@palim/window";
+import { loadResource } from "@palim/window";
 
 import type {
   EngineResult,
@@ -225,14 +226,21 @@ export class WindowScriptingEnvironment
       this.#recordLoadError(element, source, "invalid-url");
       return;
     }
-    if (this.#resourceLoader === null) {
-      this.#recordLoadError(element, resourceURL.href, "missing-loader");
-      return;
-    }
-
     let resource: Resource;
     try {
-      resource = await this.#resourceLoader.load(new URL(resourceURL.href));
+      const loaded = loadResource(
+        this.#resourceLoader,
+        new URL(resourceURL.href),
+      );
+      if (loaded.type !== "resource") {
+        this.#recordLoadError(
+          element,
+          resourceURL.href,
+          loaded.type === "missing-loader" ? "missing-loader" : "load-failure",
+        );
+        return;
+      }
+      resource = await loaded.resource;
     } catch {
       this.#recordLoadError(element, resourceURL.href, "load-failure");
       return;
@@ -266,9 +274,6 @@ export class WindowScriptingEnvironment
     element: HTMLScriptElement,
     source: string,
   ): Promise<void> {
-    if (this.#resourceLoader === null) {
-      return;
-    }
     let resourceURL: URL;
     try {
       resourceURL = new URL(source, this.#baseURL(element));
@@ -276,7 +281,13 @@ export class WindowScriptingEnvironment
       return;
     }
     try {
-      await this.#resourceLoader.load(new URL(resourceURL.href));
+      const loaded = loadResource(
+        this.#resourceLoader,
+        new URL(resourceURL.href),
+      );
+      if (loaded.type === "resource") {
+        await loaded.resource;
+      }
     } catch {
       // A deferred script load failure does not abort document loading.
     }

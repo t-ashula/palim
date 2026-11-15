@@ -63,6 +63,29 @@ describe("URLRealmBinding", () => {
     evaluate(engine, binding.realm, fixture("url-errors.js"));
   });
 
+  it("creates and revokes Blob URLs in the Window realm", () => {
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(
+      engine,
+      createWindow({ url: "https://example.test/page.html" }),
+    );
+
+    evaluate(
+      engine,
+      binding.realm,
+      `
+        const blob = new Blob(["content"], { type: "text/plain" });
+        const first = URL.createObjectURL(blob);
+        const second = URL.createObjectURL(blob);
+        if (!first.startsWith("blob:https://example.test/")) throw new Error(first);
+        if (first === second) throw new Error("Blob URLs must be unique");
+        if (URL.createObjectURL.length !== 1) throw new Error("createObjectURL length");
+        if (URL.revokeObjectURL.length !== 1) throw new Error("revokeObjectURL length");
+        URL.revokeObjectURL(first);
+      `,
+    );
+  });
+
   it("keeps URL constructors, prototypes, and instances realm-local", () => {
     const engine = new Engine262Adapter();
     const first = new WindowRealmBinding(engine, createWindow());

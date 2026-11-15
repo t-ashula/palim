@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/t-ashula/palim/issues"
   },
-  "homepage": "https://github.com/t-ashula/palim#readme"
+  "homepage": "https://github.com/t-ashula/palim#readme",
+  "dependencies": {
+    "uuid": "^14.0.3"
+  }
 }

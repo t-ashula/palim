@@ -22,6 +22,7 @@ import {
   URLRealmBinding,
 } from "@palim/scripting";
 import type { Resource, ResourceLoader } from "@palim/window";
+import { loadResource } from "@palim/window";
 
 import { installWorkerDOMRealmInterfaces } from "./javascript-engine/worker-dom-realm-installer.js";
 import {
@@ -475,8 +476,11 @@ class WorkerExecutionEnvironment {
     );
     this.runtime.registerSettings(this.settings);
     this.#globalObject = this.engine.globalObject(this.realm);
-    new URLRealmBinding(this.engine, this.realm, this.context);
     const blobs = new BlobRealmBindingContext(this.context);
+    new URLRealmBinding(this.engine, this.realm, this.context, {
+      blobs,
+      origin: this.settings.apiBaseURL.origin,
+    });
     installBlobInterfaces(this.context, blobs);
     const formData = new FormDataRealmBindingContext(this.context, blobs);
     installFormDataInterface(this.context, formData);
@@ -582,10 +586,14 @@ class WorkerExecutionEnvironment {
     if (cached !== undefined) {
       return cached;
     }
-    if (this.resourceLoader === null) {
-      throw new TypeError("Worker script loading requires a resource loader");
+    const loaded = loadResource(this.resourceLoader, new URL(url.href));
+    if (loaded.type === "not-found") {
+      throw new Error("Worker script resource was not found");
     }
-    const resource = await this.resourceLoader.load(new URL(url.href));
+    if (loaded.type === "missing-loader") {
+      throw new Error("Worker script loading requires a resource loader");
+    }
+    const resource = await loaded.resource;
     const finalURL = new URL(resource.url?.toString() ?? url.href, url);
     if (finalURL.origin !== this.url.origin) {
       throw new TypeError("Worker script redirect must be same-origin");
