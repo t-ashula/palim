@@ -681,8 +681,12 @@ function closeWriter(
   if (state.status === "erroring") {
     const result = capability(state.binding);
     uponPromise(state.binding, writer.closed.promise, {
-      fulfilled: () => { settle(state, result, "resolve"); },
-      rejected: (reason) => { settle(state, result, "reject", reason); },
+      fulfilled: () => {
+        settle(state, result, "resolve");
+      },
+      rejected: (reason) => {
+        settle(state, result, "reject", reason);
+      },
     });
     return normal(result.promise);
   }
