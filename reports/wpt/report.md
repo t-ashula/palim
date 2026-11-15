@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261115t125037838z-101316
+Campaign: 20261115t142546498z-533415
 
 Campaign state: completed
 
-Palim: b4c12717aef39b3dac312dbf63b850834a045aa5
+Palim: 0a7369456e4fb7fadb3474389d1396aa6c0a68e8
 
-Container image: sha256:bcba90e56e21b73de3f893888e6ab7b6256065e9e2e471ad587d49df7ad8279d
+Container image: sha256:5a831b5c3b177b2d9fc982a0807994e001dcf8ba82b111c2900413ac7e174b0f
 
-Snapshot: 2026-11-15T13:24:57.614Z
+Snapshot: 2026-11-15T15:00:14.577Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,12 +22,12 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 892 | 590 | 248 | 119 | 107 | 0 | 100.00% | 45.60% |
-| /custom-elements/ | 209 | 209 | 10 | 163 | 5 | 27 | 4 | 0 | 100.00% | 4.78% |
+| All | 1956 | 1956 | 904 | 583 | 248 | 116 | 105 | 0 | 100.00% | 46.22% |
+| /custom-elements/ | 209 | 209 | 20 | 157 | 5 | 24 | 3 | 0 | 100.00% | 9.57% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 304 | 74 | 5 | 3 | 29 | 0 | 100.00% | 73.25% |
+| /dom/nodes/ | 415 | 415 | 305 | 73 | 5 | 3 | 29 | 0 | 100.00% | 73.49% |
 | /dom/ranges/ | 69 | 69 | 25 | 33 | 3 | 2 | 6 | 0 | 100.00% | 36.23% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 96 | 96 | 47 | 25 | 0 | 16 | 8 | 0 | 100.00% | 48.96% |
@@ -35,8 +35,8 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 236 | 236 | 155 | 72 | 0 | 2 | 7 | 0 | 100.00% | 65.68% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
-| /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
-| /shadow-dom/ | 317 | 317 | 50 | 89 | 132 | 13 | 33 | 0 | 100.00% | 15.77% |
+| /sanitizer-api/ | 50 | 50 | 17 | 16 | 0 | 15 | 2 | 0 | 100.00% | 34.00% |
+| /shadow-dom/ | 317 | 317 | 51 | 88 | 132 | 14 | 32 | 0 | 100.00% | 16.09% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -48,12 +48,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 891 | 550 | 209 | 111 | 81 | 0 | 100.00% | 48.37% |
-| /custom-elements/ | 202 | 202 | 10 | 161 | 3 | 24 | 4 | 0 | 100.00% | 4.95% |
+| All | 1842 | 1842 | 903 | 543 | 209 | 108 | 79 | 0 | 100.00% | 49.02% |
+| /custom-elements/ | 202 | 202 | 20 | 155 | 3 | 21 | 3 | 0 | 100.00% | 9.90% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 304 | 74 | 5 | 3 | 29 | 0 | 100.00% | 73.25% |
+| /dom/nodes/ | 415 | 415 | 305 | 73 | 5 | 3 | 29 | 0 | 100.00% | 73.49% |
 | /dom/ranges/ | 46 | 46 | 25 | 13 | 0 | 2 | 6 | 0 | 100.00% | 54.35% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 94 | 94 | 47 | 24 | 0 | 15 | 8 | 0 | 100.00% | 50.00% |
@@ -61,8 +61,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 234 | 234 | 155 | 72 | 0 | 1 | 6 | 0 | 100.00% | 66.24% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
-| /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
-| /shadow-dom/ | 242 | 242 | 50 | 74 | 100 | 10 | 8 | 0 | 100.00% | 20.66% |
+| /sanitizer-api/ | 49 | 49 | 16 | 16 | 0 | 15 | 2 | 0 | 100.00% | 32.65% |
+| /shadow-dom/ | 242 | 242 | 51 | 73 | 100 | 11 | 7 | 0 | 100.00% | 21.07% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -72,15 +72,14 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 101209 | 76362 | 24466 | 209 | 99 | 73 | 75.45% |
+| 101346 | 78679 | 22292 | 209 | 95 | 71 | 77.63% |
 
 ### Non-passing executed tests
 
 | URL | Status | Message |
 | --- | --- | --- |
-| /custom-elements/CustomElementRegistry-constructor-and-callbacks-are-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: customElements.get is not a function. (In "customElements.get(tagName)", it is undefined)"</code> |
-| /custom-elements/CustomElementRegistry-getName.html | fail | <code>customElements.getName is not a function. (In "customElements.getName(class extends HTMLElement {})", it is undefined)</code> |
-| /custom-elements/CustomElementRegistry.html | fail | <code>assert_array_equals: customElements.define must validate the custom element name before getting the prototype of the constructor lengths differ, expected array [] length 0, got ["prototype"] length 1</code> |
+| /custom-elements/CustomElementRegistry-constructor-and-callbacks-are-held-strongly.html | fail | <code>assert_equals: expected 100 but got 0</code> |
+| /custom-elements/CustomElementRegistry-getName.html | fail | <code>Super class [Function HTMLButtonElement] is not a constructor</code> |
 | /custom-elements/Document-createElement-customized-builtins.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/Document-createElement-svg.svg | fail | <code>Super class [Function HTMLDivElement] is not a constructor</code> |
 | /custom-elements/Document-createElement.html | fail | <code>assert_true: expected true got false</code> |
@@ -89,9 +88,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/ElementInternals-accessibility-values.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-accessibility.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-role.html | skip | <code>Executor does not support testdriver.js</code> |
-| /custom-elements/HTMLElement-attachInternals.html | fail | <code>Illegal constructor</code> |
-| /custom-elements/HTMLElement-constructor-customized-builtins.html | fail | <code>assert_equals: Should never have gotten .prototype expected 0 but got 1</code> |
-| /custom-elements/HTMLElement-constructor.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
+| /custom-elements/HTMLElement-attachInternals.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals()", it is undefined)</code> |
+| /custom-elements/HTMLElement-constructor-customized-builtins.html | fail | <code>assert_throws_js: Should not be able to construct an HTMLElement named 'button' function "function () { new countingProxy() }" did not throw</code> |
+| /custom-elements/HTMLElement-constructor.html | fail | <code>assert_throws_js: function "function () { new HTMLElement(); }" did not throw</code> |
 | /custom-elements/adopted-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted", Document node with 2 children, Document node with 1 child, "connected"] length 4, got ["connected"] length 1</code> |
 | /custom-elements/attribute-changed-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/builtin-coverage.html | fail | <code>Super class [Function HTMLAnchorElement] is not a constructor</code> |
@@ -99,23 +98,23 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/connected-callbacks-html-fragment-parsing.html | fail | <code>assert_equals: expected 1 but got 0</code> |
 | /custom-elements/connected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/cross-realm-callback-report-exception.html | timeout | <code>b'ReferenceError: "onerrorCalls" is not defined\n    at &lt;anonymous&gt; (http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:4:26)\nTypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:5:21'</code> |
-| /custom-elements/custom-element-reaction-queue.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/custom-element-reaction-queue.html | fail | <code>assert_equals: expected 6 but got 2</code> |
 | /custom-elements/customized-built-in-constructor-exceptions.html | fail | <code>MyCustomParagraph cannot be used before initialization</code> |
 | /custom-elements/disconnected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/element-internals-aria-element-reflection.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/element-internals-shadowroot.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
-| /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>Illegal constructor</code> |
+| /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["begin", "connected", "disconnected", "end"] length 4, got [] length 0</code> |
+| /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-form.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-labels.html | fail | <code>assert_equals: expected (object) Element node &lt;my-control&gt;&lt;/my-control&gt; but got (undefined) undefined</code> |
 | /custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-setFormValue.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: $('form').submit is not a function. (In "$('form').submit()", it is undefined)"</code> |
-| /custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html | fail | <code>Illegal constructor</code> |
+| /custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html | fail | <code>this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-target-element-is-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: targetElement.attachInternals is not a function. (In "targetElement.attachInternals()", it is undefined)"</code> |
 | /custom-elements/form-associated/ElementInternals-validation.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/disabled-delegatesFocus.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/fieldset-elements-after-upgrade.html | fail | <code>Cannot convert undefined to object</code> |
-| /custom-elements/form-associated/fieldset-elements-during-construction.html | timeout | <code>palim execution timed out</code> |
+| /custom-elements/form-associated/fieldset-elements-during-construction.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/fieldset-elements.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/form-associated-callback-form-attribute-removal.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/form-associated-callback-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["face: connected", "face: formAssociated(form)"] length 2, got ["face: connected"] length 1</code> |
@@ -124,14 +123,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/form-associated/form-disabled-legend.html | fail | <code>assert_true: in legend :enabled expected true got false</code> |
 | /custom-elements/form-associated/form-elements-namedItem.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/form-reset-callback.html | fail | <code>form.reset is not a function. (In "form.reset()", it is undefined)</code> |
-| /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(form)", it is undefined)</code> |
+| /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>control.attachInternals is not a function. (In "control.attachInternals()", it is undefined)</code> |
 | /custom-elements/form-associated/label-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/htmlconstructor/newtarget-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: [Function HTMLParagraphElement] is not a constructor"</code> |
 | /custom-elements/htmlconstructor/newtarget.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Illegal constructor"</code> |
 | /custom-elements/microtasks-and-constructors.html | fail | <code>assert_array_equals: lengths differ, expected array ["promise microtask", "MutationObserver microtask"] length 2, got ["promise microtask"] length 1</code> |
-| /custom-elements/overwritten-customElements-global.html | fail | <code>Illegal constructor</code> |
 | /custom-elements/parser/parser-constructs-custom-element-in-document-write.html | error | <code>Error: The tokenizer input stream is closed</code> |
-| /custom-elements/parser/parser-constructs-custom-elements-with-is.html | fail | <code>assert_true: A resolved custom element must be an instance of that custom element expected true got false</code> |
 | /custom-elements/parser/parser-custom-element-in-foreign-content.html | fail | <code>"SVGElement" is not defined</code> |
 | /custom-elements/parser/parser-fallsback-to-unknown-element.html | fail | <code>assert_true: The fallback element created by HTML parser must be an instance of HTMLUnknownElement expected true got false</code> |
 | /custom-elements/parser/parser-sets-attributes-after-autonomous-constructor.html | error | <code>TypeError: The childList option must be true</code> |
@@ -204,72 +201,65 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/reactions/customized-builtins/HTMLTableCellElement.html | fail | <code>Super class [Function HTMLTableCellElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLTableColElement.html | fail | <code>Super class [Function HTMLTableColElement] is not a constructor</code> |
 | /custom-elements/reactions/customized-builtins/HTMLTimeElement.html | fail | <code>Super class [Function HTMLTimeElement] is not a constructor</code> |
-| /custom-elements/registries/Construct.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/CustomElementRegistry-define.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/CustomElementRegistry-initialize.html | fail | <code>assert_throws_dom: function "() =&gt; window.customElements.initialize(document)" threw object "TypeError: window.customElements.initialize is not a function. (In "window.customElements.initialize(document)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
-| /custom-elements/registries/CustomElementRegistry-multi-register.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/CustomElementRegistry-upgrade.html | fail | <code>assert_equals: expected "function" but got "undefined"</code> |
-| /custom-elements/registries/Document-createElement.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/Document-createElementNS.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/Document-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /custom-elements/registries/Document-importNode-cross-document.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /custom-elements/registries/Document-importNode.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/Element-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /custom-elements/registries/Element-innerHTML.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/ShadowRoot-init-customElementRegistry.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
+| /custom-elements/registries/Construct.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/CustomElementRegistry-initialize.html | fail | <code>Cannot convert null to object</code> |
+| /custom-elements/registries/CustomElementRegistry-upgrade.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/registries/Document-createElement.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/Document-createElementNS.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/Document-importNode-cross-document.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/Document-importNode.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/Element-customElementRegistry.html | fail | <code>Cannot convert null to object</code> |
+| /custom-elements/registries/Element-innerHTML.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/ShadowRoot-init-customElementRegistry.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/registries/ShadowRoot-init-declarative.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/ShadowRoot-innerHTML.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/ShadowRoot-innerHTML.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/adoption-before-upgrade.window.html | fail | <code>assert_equals: expected Document node with 1 child but got Document node with 2 children</code> |
-| /custom-elements/registries/adoption-global-registry.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/adoption-null-registry-element.window.html | fail | <code>assert_equals: element whose parent was the shadow root expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/adoption-null-registry-shadow-root.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/adoption.window.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /custom-elements/registries/constructor-direct-call-fallback-registry.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/adoption-global-registry.window.html | fail | <code>assert_equals: after adoption expected object "[object Object]" but got null</code> |
+| /custom-elements/registries/adoption-null-registry-element.window.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
+| /custom-elements/registries/adoption-null-registry-shadow-root.window.html | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
+| /custom-elements/registries/adoption.window.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
+| /custom-elements/registries/constructor-direct-call-fallback-registry.window.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/constructor-from-another-window.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
-| /custom-elements/registries/constructor-reentry-createElement.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/constructor-reentry-with-different-definition.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/define-customized-builtins.html | fail | <code>assert_throws_dom: function "() =&gt;  {<br>        customElements.define('test-define-extend-valid-name', class {}, { extends: name });<br>      }" did not throw</code> |
-| /custom-elements/registries/define.html | fail | <code>The custom element name is invalid</code> |
+| /custom-elements/registries/constructor-reentry-createElement.window.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/constructor-reentry-with-different-definition.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/define.html | fail | <code>assert_throws_js: function "() =&gt;  {<br>        customElements.define(`test-define-constructor-${t[0]}`, t[1]);<br>      }" threw object "[object DOMException]" ("SyntaxError") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /custom-elements/registries/element-mutation-null-registry-removal.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/element-mutation.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/element-mutation.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/global-registry-access-timing.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
-| /custom-elements/registries/global.window.html | fail | <code>assert_throws_dom: function "() =&gt; customElements.initialize(contentDocument)" threw object "TypeError: customElements.initialize is not a function. (In "customElements.initialize(contentDocument)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
+| /custom-elements/registries/global.window.html | fail | <code>assert_throws_dom: function "() =&gt; customElements.initialize(contentDocument.createElement("x"))" did not throw</code> |
 | /custom-elements/registries/initial-about-blank.window.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/per-document.html | fail | <code>assert_not_equals: got disallowed value object "[object Object]"</code> |
-| /custom-elements/registries/pseudo-class-defined.window.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute-in-xhtml.xhtml | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/scoped-registry-append.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/scoped-registry-define-upgrade-criteria.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/scoped-registry-define-upgrade-order.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/scoped-registry-effective-global-registry.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/scoped-registry-initialize-upgrades.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
-| /custom-elements/registries/scoped-registry-initialize.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
-| /custom-elements/registries/scoped-registry-registry-define-get-etc.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /custom-elements/registries/pseudo-class-defined.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute-in-xhtml.xhtml | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
+| /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
+| /custom-elements/registries/scoped-registry-append.html | fail | <code>Cannot convert null to object</code> |
+| /custom-elements/registries/scoped-registry-define-upgrade-criteria.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/scoped-registry-define-upgrade-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["a", "b", "c"] length 3, got [] length 0</code> |
+| /custom-elements/registries/scoped-registry-effective-global-registry.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
+| /custom-elements/registries/scoped-registry-initialize-upgrades.html | fail | <code>Document has no fragment parser</code> |
+| /custom-elements/registries/scoped-registry-initialize.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
 | /custom-elements/registries/template.window.html | fail | <code>assert_equals: expected (string) "" but got (undefined) undefined</code> |
-| /custom-elements/registries/upgrade.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(el)", it is undefined)</code> |
 | /custom-elements/registries/valid-custom-element-names.html | timeout | <code>assert_equals: code points: [97,45,127345], string: "a-🅱" expected object "[object Object]" but got object "[object Object]"</code> |
-| /custom-elements/shadow-descendant-lifecycle-order.html | fail | <code>customElements.upgrade is not a function. (In "customElements.upgrade(root)", it is undefined)</code> |
-| /custom-elements/state/ElementInternals-states.html | fail | <code>Illegal constructor</code> |
+| /custom-elements/shadow-descendant-lifecycle-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopt:root", "adopt:shadow", "adopt:nested", "adopt:light", "adopt:leaf"] length 5, got [] length 0</code> |
+| /custom-elements/state/ElementInternals-states.html | fail | <code>this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/state/custom-state-set-strong-ref.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /custom-elements/state/state-css-selector-nth-of.html | error | <code>Test named 'state selector has influence on nth-of when state is applied' specified 2 'cleanup' functions, and 2 failed.</code> |
 | /custom-elements/state/state-css-selector-shadow-dom.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/state/state-css-selector.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/state/state-pseudo-class.html | fail | <code>The selector is invalid.</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>assert_true: Must synchronously instantiate a custom element expected true got false</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>assert_equals: expected null but got object "[object DOMException]"</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | fail | <code>assert_true: Must immediately process custom element reactions for setting attributes expected true got false</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | fail | <code>assert_equals: expected null but got object "[object DOMException]"</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html | fail | <code>assert_true: Must immediately process custom element reactions for setting attributes expected true got false</code> |
 | /custom-elements/upgrading.html | fail | <code>assert_equals: Inserting an element into a document with a browsing context must enqueue a custom element upgrade reaction expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/upgrading/Document-importNode-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Super class [Function HTMLDivElement] is not a constructor"</code> |
-| /custom-elements/upgrading/Document-importNode.html | fail | <code>assert_equals: expected (object) object "[object Object]" but got (undefined) undefined</code> |
 | /custom-elements/upgrading/Node-cloneNode-customized-builtins.html | fail | <code>Super class [Function HTMLDivElement] is not a constructor</code> |
 | /custom-elements/upgrading/Node-cloneNode.html | fail | <code>assert_equals: An upgraded element must have its parentNode set before the custom element constructor is called expected Element node &lt;div&gt;&lt;b&gt;&lt;/b&gt;&lt;my-custom-element&gt;&lt;/my-custom-element&gt;&lt;a&gt;&lt;/a... but got null</code> |
 | /custom-elements/upgrading/upgrade-custom-element-error-event.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
-| /custom-elements/upgrading/upgrading-enqueue-reactions.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
-| /custom-elements/upgrading/upgrading-parser-created-element.html | fail | <code>assert_true: Calling customElements.define must upgrade existing custom elements expected true got false</code> |
+| /custom-elements/upgrading/upgrading-enqueue-reactions.html | fail | <code>assert_equals: expected 3 but got 1</code> |
+| /custom-elements/upgrading/upgrading-parser-created-element.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/events/Body-FrameSet-Event-Handlers.html | fail | <code>assert_equals: Return null after setting string expected (object) null but got (string) ""</code> |
 | /dom/events/Event-cancelBubble.html | fail | <code>assert_false: cancelBubble must be false after an event has been dispatched. expected false got true</code> |
 | /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 8</code> |
@@ -488,10 +478,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/ParentNode-querySelector-All.html | fail | <code>assert_equals: The method should return the expected number of matches. expected 3 but got 2</code> |
 | /dom/nodes/ParentNode-querySelector-host-pseudo-class.html | fail | <code>assert_equals: querySelector with :host pseudo-class should find the element expected Element node &lt;article&gt;&lt;/article&gt; but got null</code> |
 | /dom/nodes/ProcessingInstruction-escapes-1.xhtml | fail | <code>Cannot convert undefined to object</code> |
-| /dom/nodes/create-element-realm-after-adoption.html | fail | <code>customElements.get is not a function. (In "customElements.get("x-baz")", it is undefined)</code> |
+| /dom/nodes/create-element-realm-after-adoption.html | fail | <code>assert_true: &lt;x-baz&gt; uses the node document's (top-level) registry expected true got false</code> |
 | /dom/nodes/getElementById-namespaced-id.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="owner" id="unrelated"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html | fail | <code>assert_equals: preMetaReferrer is the full URL; by the time the first script runs in its post-insertion steps, the later-inserted meta tag has not run its post-insertion steps, which is where meta tags are processed expected "http://web-platform.test:8000/dom/nodes/insertion-removing-steps/Node-append-meta-referrer-and-script-from-fragment.html" but got ""</code> |
-| /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-custom-from-fragment.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-default-style-meta-from-fragment.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html | fail | <code>assert_array_equals: expected property 0 to be "sheet" but got null (expected array ["sheet", 2] got [null, undefined])</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["s1", "s2", "s2ran"] length 3, got ["s1", "s2", "s2ran", "s2", "s2ran"] length 5</code> |
@@ -525,7 +514,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/listed-form-element-reset.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/modal-dialog.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: dialog.showModal is not a function. (In "dialog.showModal()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /dom/nodes/moveBefore/moveBefore-custom-element-registry.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /dom/nodes/moveBefore/moveBefore-custom-element-registry.html | fail | <code>assert_equals: scoped registry before the move expected object "[object Object]" but got object "[object Object]"</code> |
 | /dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/moveBefore/moveBefore-image-map.html | fail | <code>assert_equals: the image uses the map before the move expected Element node &lt;area shape="rect" coords="0,0,100,100" href="#map1"&gt;&lt;/area&gt; but got Element node &lt;div&gt;&lt;img usemap="#map1" width="100" height="100" style="...</code> |
 | /dom/nodes/moveBefore/moveBefore-optgroup.html | fail | <code>Cannot convert undefined to object</code> |
@@ -548,7 +537,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/stylesheet-no-refetch.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/name-validation.html | timeout |  |
 | /dom/nodes/namespaced-attribute-mutations.html | fail | <code>assert_equals: expected "green" but got ""</code> |
-| /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>window.customElements.get is not a function. (In "window.customElements.get("x-mixed")", it is undefined)</code> |
+| /dom/nodes/node-realm-mixed-across-adoption.html | fail | <code>assert_true: uses the node-document (top-level) realm and registry expected true got false</code> |
 | /dom/nodes/processing-instruction-attributes-clone-and-range.html | fail | <code>pi.getAttributeNames is not a function. (In "pi.getAttributeNames()", it is undefined)</code> |
 | /dom/nodes/processing-instruction-attributes.html | fail | <code>pi.getAttribute is not a function. (In "pi.getAttribute("a")", it is undefined)</code> |
 | /dom/nodes/query-target-in-load-event.html | timeout | <code>palim execution timed out</code> |
@@ -592,7 +581,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /domparsing/stream-html-abort-unblocks-rendering-defer.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: timed out"</code> |
 | /domparsing/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
-| /domparsing/stream-html-custom-element-sanitizer.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
+| /domparsing/stream-html-custom-element-sanitizer.html | error | <code>TypeError: Super class [Function HTMLScriptElement] is not a constructor</code> |
 | /domparsing/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /domparsing/stream-html-defer-async-script.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/stream-html-disconnected-target-scripts.html | fail | <code>assert_array_equals: the inline script runs synchronously when connected lengths differ, expected array ["inline"] length 1, got [] length 0</code> |
@@ -760,7 +749,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/sanitizer-a-navigation.html?target=html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=mathml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
-| /sanitizer-api/sanitizer-custom-elements-constructor.html | error | <code>TypeError: [Function CustomElementRegistry] is not a constructor</code> |
+| /sanitizer-api/sanitizer-custom-elements-constructor.html | fail | <code>assert_true: Constructor should be called expected true got false</code> |
 | /sanitizer-api/sanitizer-custom-elements-is.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
 | /sanitizer-api/sanitizer-in-adoption-agency.html | fail | <code>assert_true: [object Object].isEqual([object Object]) fails. Path: &lt;DIV&gt; / &lt;DIV&gt;. expected true got false</code> |
 | /sanitizer-api/sanitizer-inert-document.html | timeout | <code>palim execution timed out</code> |
@@ -770,7 +759,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/sethtml-custom-element-reactions.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /sanitizer-api/sethtml-form-owner.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="f"&gt;&lt;input name="i"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /sanitizer-api/sethtml-replace-with-children.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected:div"] length 2, got [] length 0</code> |
-| /sanitizer-api/sethtml-scoped-custom-element-registry.html | fail | <code>[Function CustomElementRegistry] is not a constructor</code> |
+| /sanitizer-api/sethtml-scoped-custom-element-registry.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /sanitizer-api/sethtml-tree-construction.html | fail | <code>assert_equals: Expect exception TypeError, but got Error: Invalid SanitizerConfig. expected "TypeError" but got "Error"</code> |
 | /sanitizer-api/sethtml-with-custom-elements.html | error | <code>TypeError: Super class [Function HTMLDivElement] is not a constructor</code> |
 | /sanitizer-api/sethtml-with-declarative-shadow-root.html | fail | <code>assert_equals: expected (string) "open" but got (undefined) undefined</code> |
@@ -804,7 +793,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-parser-interaction.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-attachment.html | fail | <code>A shadow root cannot be attached to this element</code> |
-| /shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html | timeout | <code>palim execution timed out</code> |
+| /shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-basic.html | fail | <code>assert_equals: No leftover template node expected null but got Element node &lt;template shadowrootmode="open"&gt;<br>    &lt;slot id="s1" name="...</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-opt-in.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-repeats-2.html | fail | <code>assert_true: Remaining shadow root should be open expected true got false</code> |
@@ -933,7 +922,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/imperative-slot-api.html | fail | <code>assert_equals: slotAssignment should return "manual" expected (string) "manual" but got (undefined) undefined</code> |
 | /shadow-dom/imperative-slot-fallback-clear.html | fail | <code>slot.assign is not a function. (In "slot.assign(host.firstChild)", it is undefined)</code> |
 | /shadow-dom/imperative-slot-initial-fallback.html | fail | <code>assert_greater_than: Fallback content should be rendered expected a number but got a "undefined"</code> |
-| /shadow-dom/innerHTML-setter.xhtml | fail | <code>Cannot convert null to object</code> |
 | /shadow-dom/input-element-list.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /shadow-dom/input-type-radio.html | fail | <code>assert_false: expected false got undefined</code> |
 | /shadow-dom/inserting-fragment-under-shadow-host.html | timeout | <code>b'at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/inserting-fragment-under-shadow-host.html:15:25)'</code> |
@@ -988,7 +976,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
@@ -1050,7 +1038,7 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 389 | 30 | 289 | 39 | 5 | 26 | 7.71% |
+| 387 | 30 | 288 | 39 | 4 | 26 | 7.75% |
 
 ### Non-passing executed tests
 
@@ -1060,7 +1048,7 @@ These tests track proposed behavior and do not determine current Living Standard
 | /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
 | /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
-| /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>Test named 'Custom submit button with form method=dialog closes dialog with behavior value' specified 1 'cleanup' function, and 1 failed.</code> |
+| /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>ReferenceError: "HTMLSubmitButtonBehavior" is not defined</code> |
 | /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/reactions/AriaMixin-string-attributes.tentative.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /dom/events/Event-dispatch-click.tentative.html | fail | <code>label.click is not a function. (In "label.click()", it is undefined)</code> |
