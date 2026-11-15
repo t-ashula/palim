@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261115t080420521z-3411351
+Campaign: 20261115t093531071z-3839281
 
 Campaign state: completed
 
-Palim: 41d63790b570a9f144ab92c99f51b518e9c0a6bb
+Palim: f071906218f495051674f6098bea22199d8e3ce7
 
-Container image: sha256:d79c498aa2b2c308390aa554de793c5802028b3d78ba633ac0ca259514079c0e
+Container image: sha256:088f52b9e732ffb33390cfff7e1f9f502e309aa103466e75a8ffe3c8221ee695
 
-Snapshot: 2026-11-15T08:39:14.771Z
+Snapshot: 2026-11-15T10:10:43.885Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,18 +22,18 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 797 | 686 | 248 | 119 | 106 | 0 | 100.00% | 40.75% |
+| All | 1956 | 1956 | 850 | 633 | 248 | 119 | 106 | 0 | 100.00% | 43.46% |
 | /custom-elements/ | 209 | 209 | 11 | 162 | 5 | 27 | 4 | 0 | 100.00% | 5.26% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 303 | 75 | 5 | 3 | 29 | 0 | 100.00% | 73.01% |
+| /dom/nodes/ | 415 | 415 | 304 | 74 | 5 | 3 | 29 | 0 | 100.00% | 73.25% |
 | /dom/ranges/ | 69 | 69 | 25 | 33 | 3 | 2 | 6 | 0 | 100.00% | 36.23% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 96 | 96 | 47 | 25 | 0 | 16 | 8 | 0 | 100.00% | 48.96% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 236 | 236 | 103 | 124 | 0 | 2 | 7 | 0 | 100.00% | 43.64% |
+| /html/syntax/parsing/ | 236 | 236 | 155 | 72 | 0 | 2 | 7 | 0 | 100.00% | 65.68% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
 | /shadow-dom/ | 317 | 317 | 50 | 89 | 132 | 13 | 33 | 0 | 100.00% | 15.77% |
@@ -48,18 +48,18 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 796 | 646 | 209 | 111 | 80 | 0 | 100.00% | 43.21% |
+| All | 1842 | 1842 | 849 | 593 | 209 | 111 | 80 | 0 | 100.00% | 46.09% |
 | /custom-elements/ | 202 | 202 | 11 | 160 | 3 | 24 | 4 | 0 | 100.00% | 5.45% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 303 | 75 | 5 | 3 | 29 | 0 | 100.00% | 73.01% |
+| /dom/nodes/ | 415 | 415 | 304 | 74 | 5 | 3 | 29 | 0 | 100.00% | 73.25% |
 | /dom/ranges/ | 46 | 46 | 25 | 13 | 0 | 2 | 6 | 0 | 100.00% | 54.35% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 94 | 94 | 47 | 24 | 0 | 15 | 8 | 0 | 100.00% | 50.00% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
-| /html/syntax/parsing/ | 234 | 234 | 103 | 124 | 0 | 1 | 6 | 0 | 100.00% | 44.02% |
+| /html/syntax/parsing/ | 234 | 234 | 155 | 72 | 0 | 1 | 6 | 0 | 100.00% | 66.24% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
 | /shadow-dom/ | 242 | 242 | 50 | 74 | 100 | 10 | 8 | 0 | 100.00% | 20.66% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 101214 | 74065 | 26769 | 209 | 99 | 72 | 73.18% |
+| 101214 | 75800 | 25034 | 209 | 99 | 72 | 74.89% |
 
 ### Non-passing executed tests
 
@@ -141,9 +141,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/parser/parser-uses-registry-of-owner-document.html | error | <code>Error: The tokenizer input stream is closed</code> |
 | /custom-elements/parser/serializing-html-fragments-customized-builtins.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
 | /custom-elements/parser/xml-fragment-parser-does-not-construct-synchronously.xhtml | fail | <code>assert_equals: element was already inserted when constructed expected Element node &lt;div id="container"&gt;&lt;some-element xmlns="http://www.w3.or... but got null</code> |
-| /custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)"</code> |
-| /custom-elements/parser/xml-parser-customized-builtin-input.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)"</code> |
-| /custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)"</code> |
+| /custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml | fail | <code>assert_true: constructor ran synchronously during parse expected true got false</code> |
+| /custom-elements/parser/xml-parser-customized-builtin-input.xhtml | fail | <code>assert_true: constructor ran synchronously during parse expected true got false</code> |
+| /custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/perform-microtask-checkpoint-before-construction.html | fail | <code>assert_equals: expected 1 but got 0</code> |
 | /custom-elements/pseudo-class-defined-customized-builtins.html | fail | <code>assert_equals: matches(":defined") expected false but got true</code> |
 | /custom-elements/pseudo-class-defined.html | fail | <code>assert_true: After construction, instance should match :defined expected true got false</code> |
@@ -257,9 +257,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/state/state-css-selector-shadow-dom.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/state/state-css-selector.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/state/state-pseudo-class.html | fail | <code>The selector is invalid.</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)"</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>assert_true: Must synchronously instantiate a custom element expected true got false</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html | timeout | <code>palim execution timed out</code> |
-| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)"</code> |
+| /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml | fail | <code>assert_true: Must immediately process custom element reactions for setting attributes expected true got false</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html | fail | <code>assert_true: Must immediately process custom element reactions for setting attributes expected true got false</code> |
 | /custom-elements/upgrading.html | fail | <code>assert_equals: Inserting an element into a document with a browsing context must enqueue a custom element upgrade reaction expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/upgrading/Document-importNode-customized-builtins.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Super class [Function HTMLDivElement] is not a constructor"</code> |
@@ -442,7 +442,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/webkit-transition-end-event.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /dom/events/window-composed-path.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
 | /dom/events/window-event-restored-after-throwing-onerror.html | fail | <code>assert_equals: window.event is the outer event before the nested dispatch expected (object) object "[object Object]" but got (undefined) undefined</code> |
-| /dom/nodes/Document-cloneNode-base-url.window.html | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(<br>    new Blob(["&lt;!doctype html&gt;"], { type: "text/html" }))", it is undefined)</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Document-contentType/contentType/contenttype_javascripturi.html | fail | <code>assert_equals: expected "text/html" but got ""</code> |
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
@@ -689,62 +688,10 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/foster-parenting-into-template-element.html | fail | <code>assert_equals: the foster-parented element goes into the template's contents (tmpl.content=, tmpl=&lt;b#fostered&gt;["x"]"FOSTERTEXT"&lt;table&gt;[&lt;tbody&gt;[&lt;tr&gt;[&lt;script&gt;]]]) expected "template-contents" but got "template-element"</code> |
 | /html/syntax/parsing/foster-parenting-moved-table.window.html | fail | <code>assert_equals: the script ran while the parser was foster parenting into it expected "foster-parent" but got ""</code> |
 | /html/syntax/parsing/html-integration-point.html | fail | <code>rawTextElement.textContent.substr is not a function. (In "rawTextElement.textContent.substr(0, 4)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=adoption01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=adoption02 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=blocks | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=comments01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=doctype01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=domjs-unsafe | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=entities01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=entities02 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=html5test-com | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=inbody01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=isindex | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=main-element | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=menuitem-element | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=processing-instructions | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=quirks01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=ruby | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scriptdata01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_adoption01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_ark | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_foster01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=search-element | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tables01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=template | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests1 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests10 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests11 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests12 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests14 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests15 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests16 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests17 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests18 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests19 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests2 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests20 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests21 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests22 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests23 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests24 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests25 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests26 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests3 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests5 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests6 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests7 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests8 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tests9 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=tricky01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=void-in-phrasing | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=webkit01 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
-| /html/syntax/parsing/html5lib_url.html?file=webkit02 | fail | <code>URL.createObjectURL is not a function. (In "URL.createObjectURL(blob)", it is undefined)</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_adoption01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"A\"\n&#124;       \"TEXT\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"B\"\n&#124;       \"TEXT\""</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_ark | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"5\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\""</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_foster01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"" but got "#document\n&#124; &lt;b&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\""</code> |
+| /html/syntax/parsing/html5lib_url.html?file=scripted_webkit01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"&lt;script&gt;document.write('2')&lt;/scr\"+ \"ipt&gt;&lt;script&gt;document.write('3')&lt;/scr\" + \"ipt&gt;\")\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write('2')\"\n&#124;     \"2\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write('3')\"\n&#124;     \"34\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     \"1\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write(\"&lt;script&gt;document.write('2')&lt;/scr\"+ \"ipt&gt;&lt;script&gt;document.write('3')&lt;/scr\" + \"ipt&gt;\")\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write('2')\"\n&#124;     &lt;script&gt;\n&#124;       \"document.write('3')\"\n&#124;     \"4\""</code> |
 | /html/syntax/parsing/html5lib_write.html?file=scripted_adoption01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"A\"\n&#124;       \"TEXT\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;b&gt;\n&#124;         id=\"B\"\n&#124;         &lt;script&gt;\n&#124;           \"document.getElementById(\"A\").id = \"B\"\"\n&#124;     &lt;b&gt;\n&#124;       id=\"B\"\n&#124;       \"TEXT\""</code> |
 | /html/syntax/parsing/html5lib_write.html?file=scripted_ark | fail | <code>assert_equals: expected "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\"" but got "#document\n&#124; &lt;html&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"4\"\n&#124;           &lt;font&gt;\n&#124;             size=\"5\"\n&#124;             &lt;script&gt;\n&#124;               \"document.getElementsByTagName(\"font\")[2].setAttribute(\"size\", \"5\");\"\n&#124;             &lt;font&gt;\n&#124;               size=\"4\"\n&#124;     &lt;p&gt;\n&#124;       &lt;font&gt;\n&#124;         size=\"4\"\n&#124;         &lt;font&gt;\n&#124;           size=\"5\"\n&#124;           &lt;font&gt;\n&#124;             size=\"4\"\n&#124;             \"X\""</code> |
 | /html/syntax/parsing/html5lib_write.html?file=scripted_foster01 | fail | <code>assert_equals: expected "#document\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\"" but got "#document\n&#124; &lt;b&gt;\n&#124;   &lt;head&gt;\n&#124;   &lt;body&gt;\n&#124; &lt;table&gt;\n&#124;   &lt;tbody&gt;\n&#124;     &lt;tr&gt;\n&#124;       &lt;script&gt;\n&#124;         \"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\""</code> |

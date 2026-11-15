@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261115t080420521z-3411351",
+    "id": "20261115t093531071z-3839281",
     "state": "completed",
     "palim": {
-      "revision": "41d63790b570a9f144ab92c99f51b518e9c0a6bb",
+      "revision": "f071906218f495051674f6098bea22199d8e3ce7",
       "dirty": false,
-      "imageId": "sha256:d79c498aa2b2c308390aa554de793c5802028b3d78ba633ac0ca259514079c0e"
+      "imageId": "sha256:088f52b9e732ffb33390cfff7e1f9f502e309aa103466e75a8ffe3c8221ee695"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-15T08:39:14.771Z",
+    "snapshotAt": "2026-11-15T10:10:43.885Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,8 +51,8 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 797,
-    "fail": 686,
+    "pass": 850,
+    "fail": 633,
     "skip": 248,
     "error": 119,
     "timeout": 106,
@@ -116,8 +116,8 @@
       "totals": {
         "total": 415,
         "executed": 415,
-        "pass": 303,
-        "fail": 75,
+        "pass": 304,
+        "fail": 74,
         "skip": 5,
         "error": 3,
         "timeout": 29,
@@ -194,8 +194,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 103,
-        "fail": 124,
+        "pass": 155,
+        "fail": 72,
         "skip": 0,
         "error": 2,
         "timeout": 7,
@@ -296,8 +296,8 @@
   ],
   "subtests": {
     "total": 101603,
-    "pass": 74095,
-    "fail": 27058,
+    "pass": 75830,
+    "fail": 25323,
     "skip": 248,
     "error": 104,
     "timeout": 98
@@ -306,8 +306,8 @@
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 796,
-      "fail": 646,
+      "pass": 849,
+      "fail": 593,
       "skip": 209,
       "error": 111,
       "timeout": 80,
@@ -371,8 +371,8 @@
         "totals": {
           "total": 415,
           "executed": 415,
-          "pass": 303,
-          "fail": 75,
+          "pass": 304,
+          "fail": 74,
           "skip": 5,
           "error": 3,
           "timeout": 29,
@@ -449,8 +449,8 @@
         "totals": {
           "total": 234,
           "executed": 234,
-          "pass": 103,
-          "fail": 124,
+          "pass": 155,
+          "fail": 72,
           "skip": 0,
           "error": 1,
           "timeout": 6,
@@ -551,8 +551,8 @@
     ],
     "subtests": {
       "total": 101214,
-      "pass": 74065,
-      "fail": 26769,
+      "pass": 75800,
+      "fail": 25034,
       "skip": 209,
       "error": 99,
       "timeout": 72
@@ -876,17 +876,17 @@
       {
         "url": "/custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
+        "message": "assert_true: constructor ran synchronously during parse expected true got false"
       },
       {
         "url": "/custom-elements/parser/xml-parser-customized-builtin-input.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
+        "message": "assert_true: constructor ran synchronously during parse expected true got false"
       },
       {
         "url": "/custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/custom-elements/perform-microtask-checkpoint-before-construction.html",
@@ -1456,7 +1456,7 @@
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
+        "message": "assert_true: Must synchronously instantiate a custom element expected true got false"
       },
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html",
@@ -1466,7 +1466,7 @@
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
+        "message": "assert_true: Must immediately process custom element reactions for setting attributes expected true got false"
       },
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html",
@@ -2377,11 +2377,6 @@
         "url": "/dom/events/window-event-restored-after-throwing-onerror.html",
         "status": "fail",
         "message": "assert_equals: window.event is the outer event before the nested dispatch expected (object) object \"[object Object]\" but got (undefined) undefined"
-      },
-      {
-        "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(\n    new Blob([\"<!doctype html>\"], { type: \"text/html\" }))\", it is undefined)"
       },
       {
         "url": "/dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html",
@@ -3610,284 +3605,24 @@
         "message": "rawTextElement.textContent.substr is not a function. (In \"rawTextElement.textContent.substr(0, 4)\", it is undefined)"
       },
       {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=adoption01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=adoption02",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=blocks",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=comments01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=doctype01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=domjs-unsafe",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=entities01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=entities02",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=html5test-com",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=inbody01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=isindex",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=main-element",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=menuitem-element",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=processing-instructions",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=quirks01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=ruby",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=scriptdata01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_adoption01",
         "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"B\\\"\\n|       \\\"TEXT\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_ark",
         "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"5\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_foster01",
         "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
+        "message": "assert_equals: expected \"#document\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\" but got \"#document\\n| <b>\\n|   <head>\\n|   <body>\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_webkit01",
         "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=search-element",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tables01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=template",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests1",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests10",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests11",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests12",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests14",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests15",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests16",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests17",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests18",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests19",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests2",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests20",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests21",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests22",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests23",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests24",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests25",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests26",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests3",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests5",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests6",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests7",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests8",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tests9",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=tricky01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=void-in-phrasing",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=webkit01",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_url.html?file=webkit02",
-        "status": "fail",
-        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"<script>document.write('2')</scr\\\"+ \\\"ipt><script>document.write('3')</scr\\\" + \\\"ipt>\\\")\\\"\\n|     <script>\\n|       \\\"document.write('2')\\\"\\n|     \\\"2\\\"\\n|     <script>\\n|       \\\"document.write('3')\\\"\\n|     \\\"34\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"<script>document.write('2')</scr\\\"+ \\\"ipt><script>document.write('3')</scr\\\" + \\\"ipt>\\\")\\\"\\n|     <script>\\n|       \\\"document.write('2')\\\"\\n|     <script>\\n|       \\\"document.write('3')\\\"\\n|     \\\"4\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_adoption01",

@@ -110,7 +110,8 @@
 - [ ] resource loading
 - [x] `Blob` / `File` の byte sequence、metadata、page realm 公開と `FormData` の binary entry
 - [ ] `FileList` と file input の selected files
-- [ ] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、`blob:` resource loading
+- [x] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、iframe・外部 classic script・Worker script の `blob:` resource loading
+- [ ] Blob URL entry の environment の保持、storage partition の認可、environment 破棄時の削除と Fetch・XMLHttpRequest・画像・stylesheet の `blob:` resource loading
 - [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
 - [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
 - [ ] Fetch の redirect / network error / abort、credentials・referrer・mode、streaming response
