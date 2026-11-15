@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261114t192029076z-1210069",
+    "id": "20261115t025600948z-1705075",
     "state": "completed",
     "palim": {
-      "revision": "1de00ea237d05a1bdee691df45ea93475c95a846",
+      "revision": "0ae46259fa11489bc073ff1eab7542d3acd8fb9e",
       "dirty": false,
-      "imageId": "sha256:ef5964ee327d268acbf5e6fa087446fc96e44ea866f9114640acd45aa6978321"
+      "imageId": "sha256:541cb83c282f6c11cdc66bb4a81aa236dd149264c0638ad0aa6a35fa1eb94672"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-14T20:02:09.366Z",
+    "snapshotAt": "2026-11-15T03:38:32.117Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,10 +52,10 @@
     "total": 1926,
     "executed": 1926,
     "pass": 793,
-    "fail": 813,
+    "fail": 810,
     "skip": 0,
     "error": 131,
-    "timeout": 189,
+    "timeout": 192,
     "pending": 0
   },
   "areas": [
@@ -130,10 +130,10 @@
         "total": 69,
         "executed": 69,
         "pass": 24,
-        "fail": 36,
+        "fail": 33,
         "skip": 0,
         "error": 2,
-        "timeout": 7,
+        "timeout": 10,
         "pending": 0
       }
     },
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 98202,
+    "total": 98185,
     "pass": 71221,
-    "fail": 26640,
+    "fail": 26621,
     "skip": 0,
     "error": 161,
-    "timeout": 180
+    "timeout": 182
   },
   "nonTentative": {
     "totals": {
       "total": 1794,
       "executed": 1794,
       "pass": 782,
-      "fail": 741,
+      "fail": 740,
       "skip": 0,
       "error": 110,
-      "timeout": 161,
+      "timeout": 162,
       "pending": 0
     },
     "areas": [
@@ -385,10 +385,10 @@
           "total": 46,
           "executed": 46,
           "pass": 24,
-          "fail": 13,
+          "fail": 12,
           "skip": 0,
           "error": 2,
-          "timeout": 7,
+          "timeout": 8,
           "pending": 0
         }
       },
@@ -1521,7 +1521,7 @@
       {
         "url": "/dom/events/Event-dispatch-redispatch.html",
         "status": "timeout",
-        "message": "b'Error: document.elementsFromPoint unsupported\\n    at getPointerInteractablePaintTree (http://web-platform.test:8000/resources/testdriver.js:66:29)\\n    at inView (http://web-platform.test:8000/resources/testdriver.js:71:76)\\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1318:25)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'"
+        "message": "b'Error: Tried to run in a non-testharness window without a call to set_test_context\\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3593:57)\\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1334:70)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'"
       },
       {
         "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1971,7 +1971,7 @@
       {
         "url": "/dom/events/pointer-event-document-move.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/dom/events/preventDefault-during-activation-behavior.html",
@@ -2585,7 +2585,7 @@
       {
         "url": "/dom/nodes/insertion-removing-steps/change-event.window.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/dom/nodes/insertion-removing-steps/frame-post-connection-steps.html",
@@ -2695,7 +2695,7 @@
       {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/dom/nodes/moveBefore/hover-style-update.html",
@@ -2925,7 +2925,7 @@
       },
       {
         "url": "/dom/ranges/Range-mutations-replaceData.html",
-        "status": "fail",
+        "status": "timeout",
         "message": "\"getSelection\" is not defined"
       },
       {
@@ -3060,7 +3060,7 @@
       {
         "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
@@ -4115,7 +4115,7 @@
       {
         "url": "/shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html",
         "status": "fail",
-        "message": "document.elementFromPoint is not a function. (In \"document.elementFromPoint(...pointInElement(host))\", it is undefined)"
+        "message": "elementFromPoint requires finite coordinates"
       },
       {
         "url": "/shadow-dom/Element-interface-attachShadow-custom-element.html",
@@ -4315,77 +4315,77 @@
       {
         "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
@@ -4395,7 +4395,7 @@
       {
         "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
@@ -4410,12 +4410,12 @@
       {
         "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
@@ -4425,192 +4425,192 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
@@ -4620,12 +4620,12 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
@@ -4635,7 +4635,7 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
@@ -4645,42 +4645,42 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-within-shadow.html",
@@ -4700,12 +4700,12 @@
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/click-focus-slot-ancestor.html",
@@ -4720,7 +4720,7 @@
       {
         "url": "/shadow-dom/focus/focus-click-on-shadow-host.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/shadow-dom/focus/focus-method-delegatesFocus.html",
@@ -4740,7 +4740,7 @@
       {
         "url": "/shadow-dom/focus/focus-scroll-under-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-shadowhost-display-none.html",
@@ -4755,77 +4755,77 @@
       {
         "url": "/shadow-dom/focus/focus-tab-on-shadow-host.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html",
@@ -5610,7 +5610,7 @@
       {
         "url": "/xhr/formdata/submitter-coordinate-value.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: undefined is not a function\""
       }
     ]
   },
@@ -5619,10 +5619,10 @@
       "total": 132,
       "executed": 132,
       "pass": 11,
-      "fail": 72,
+      "fail": 70,
       "skip": 0,
       "error": 21,
-      "timeout": 28,
+      "timeout": 30,
       "pending": 0
     },
     "areas": [
@@ -5697,10 +5697,10 @@
           "total": 23,
           "executed": 23,
           "pass": 0,
-          "fail": 23,
+          "fail": 21,
           "skip": 0,
           "error": 0,
-          "timeout": 0,
+          "timeout": 2,
           "pending": 0
         }
       },
@@ -5862,12 +5862,12 @@
       }
     ],
     "subtests": {
-      "total": 1554,
+      "total": 1537,
       "pass": 863,
-      "fail": 599,
+      "fail": 580,
       "skip": 0,
       "error": 64,
-      "timeout": 28
+      "timeout": 30
     },
     "nonPassingTests": [
       {
@@ -5967,13 +5967,13 @@
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html",
-        "status": "fail",
-        "message": "element.createValueRange is not a function. (In \"element.createValueRange(0, mixed.length)\", it is undefined)"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-multiline.html",
-        "status": "fail",
-        "message": "el.createValueRange is not a function. (In \"el.createValueRange(0, 5)\", it is undefined)"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-mutations.html",
@@ -6383,12 +6383,12 @@
       {
         "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",

@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@4fa34c721570cad34ee7283bf531811eafed6010
 
-Campaign: 20261114t192029076z-1210069
+Campaign: 20261115t025600948z-1705075
 
 Campaign state: completed
 
-Palim: 1de00ea237d05a1bdee691df45ea93475c95a846
+Palim: 0ae46259fa11489bc073ff1eab7542d3acd8fb9e
 
-Container image: sha256:ef5964ee327d268acbf5e6fa087446fc96e44ea866f9114640acd45aa6978321
+Container image: sha256:541cb83c282f6c11cdc66bb4a81aa236dd149264c0638ad0aa6a35fa1eb94672
 
-Snapshot: 2026-11-14T20:02:09.366Z
+Snapshot: 2026-11-15T03:38:32.117Z
 
 Attempts: 1926; worker failures: 0; retries: 0
 
@@ -22,13 +22,13 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1926 | 1926 | 793 | 813 | 0 | 131 | 189 | 0 | 100.00% | 41.17% |
+| All | 1926 | 1926 | 793 | 810 | 0 | 131 | 192 | 0 | 100.00% | 41.17% |
 | /custom-elements/ | 196 | 196 | 11 | 151 | 0 | 29 | 5 | 0 | 100.00% | 5.61% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 69 | 0 | 13 | 94 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 408 | 408 | 303 | 73 | 0 | 3 | 29 | 0 | 100.00% | 74.26% |
-| /dom/ranges/ | 69 | 69 | 24 | 36 | 0 | 2 | 7 | 0 | 100.00% | 34.78% |
+| /dom/ranges/ | 69 | 69 | 24 | 33 | 0 | 2 | 10 | 0 | 100.00% | 34.78% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 91 | 91 | 51 | 20 | 0 | 17 | 3 | 0 | 100.00% | 56.04% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
@@ -48,13 +48,13 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1794 | 1794 | 782 | 741 | 0 | 110 | 161 | 0 | 100.00% | 43.59% |
+| All | 1794 | 1794 | 782 | 740 | 0 | 110 | 162 | 0 | 100.00% | 43.59% |
 | /custom-elements/ | 189 | 189 | 11 | 149 | 0 | 24 | 5 | 0 | 100.00% | 5.82% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 68 | 0 | 13 | 92 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 408 | 408 | 303 | 73 | 0 | 3 | 29 | 0 | 100.00% | 74.26% |
-| /dom/ranges/ | 46 | 46 | 24 | 13 | 0 | 2 | 7 | 0 | 100.00% | 52.17% |
+| /dom/ranges/ | 46 | 46 | 24 | 12 | 0 | 2 | 8 | 0 | 100.00% | 52.17% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 56 | 56 | 43 | 4 | 0 | 6 | 3 | 0 | 100.00% | 76.79% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
@@ -270,7 +270,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/Event-dispatch-on-disabled-elements.html | timeout | <code>elem.click is not a function. (In "elem.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-order-at-target.html | fail | <code>assert_array_equals: bubbles: true expected property 0 to be "capturing" but got "bubbling" (expected array ["capturing", "bubbling"] got ["bubbling", "capturing"])</code> |
 | /dom/events/Event-dispatch-order.html | timeout | <code>palim execution timed out</code> |
-| /dom/events/Event-dispatch-redispatch.html | timeout | <code>b'Error: document.elementsFromPoint unsupported\n    at getPointerInteractablePaintTree (http://web-platform.test:8000/resources/testdriver.js:66:29)\n    at inView (http://web-platform.test:8000/resources/testdriver.js:71:76)\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1318:25)\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'</code> |
+| /dom/events/Event-dispatch-redispatch.html | timeout | <code>b'Error: Tried to run in a non-testharness window without a call to set_test_context\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/resources/testdriver.js:3593:57)\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1334:70)\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'</code> |
 | /dom/events/Event-dispatch-reenter.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-single-activation-behavior.html | error | <code>39 duplicate test names: "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;INPUT&gt;&lt;/INPUT&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;A&gt;&lt;/A&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;AREA&gt;&lt;/AREA&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt; of parent &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;A&gt;&lt;/A&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;AREA&gt;&lt;/AREA&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;DETAILS&gt;&lt;SUMMARY&gt;&lt;/SUMMARY&gt;&lt;/DETAILS&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;SPAN&gt;&lt;/SPAN&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;INPUT&gt;&lt;/INPUT&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;INPUT&gt;&lt;/INPUT&gt;&lt;/FORM&gt;, only child should be activated.", "When clicking child &lt;LABEL&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/LABEL&gt; of parent &lt;FORM&gt;&lt;BUTTON&gt;&lt;/BUTTON&gt;&lt;/FORM&gt;, only child should be activated."</code> |
 | /dom/events/Event-dispatch-target-moved.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Determined eve..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        <br>        &lt;td&gt;Dorian&lt;/td&gt;<br>    &lt;/tr&gt;, Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
@@ -360,7 +360,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/non-cancelable-when-passive/synthetic-events-cancelable.html | fail | <code>assert_implements: WheelEvent should be supported undefined</code> |
 | /dom/events/passive-by-default-non-node.html | fail | <code>"performance" is not defined</code> |
 | /dom/events/passive-by-default.html | fail | <code>assert_equals: defaultPrevented expected false but got true</code> |
-| /dom/events/pointer-event-document-move.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /dom/events/pointer-event-document-move.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/events/preventDefault-during-activation-behavior.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: button.click is not a function. (In "button.click()", it is undefined)"</code> |
 | /dom/events/relatedTarget.window.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /dom/events/scrolling/iframe-chains.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
@@ -483,7 +483,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-and-style.html | fail | <code>assert_array_equals: expected property 0 to be "sheet" but got null (expected array ["sheet", 2] got [null, undefined])</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-script-in-script.html | fail | <code>assert_array_equals: lengths differ, expected array ["s1", "s2", "s2ran"] length 3, got ["s1", "s2", "s2ran", "s2", "s2ran"] length 5</code> |
 | /dom/nodes/insertion-removing-steps/Node-appendChild-text-and-script-in-style.html | error | <code>TypeError: Cannot convert undefined to object</code> |
-| /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /dom/nodes/insertion-removing-steps/change-event.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
 | /dom/nodes/insertion-removing-steps/frame-post-connection-steps.html | fail | <code>assert_equals: The frame window is created in post-connection order expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/insertion-removing-steps-iframe.window.html | fail | <code>assert_equals: iframe1 load event can observe its own participation in the frame tree expected (number) 1 but got (undefined) undefined</code> |
 | /dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html | fail | <code>assert_false: Appending script with invalid type does not trigger execution expected false got true</code> |
@@ -505,7 +505,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>assert_array_equals: lengths differ, expected array ["button.onfocusin", "button.onfocusout"] length 2, got ["button.onfocusin"] length 1</code> |
 | /dom/nodes/moveBefore/focus-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.setSelectionRange is not a function. (In "input.setSelectionRange(2, 7, "backward")", it is undefined)"</code> |
 | /dom/nodes/moveBefore/focus-within.html | fail | <code>assert_array_equals: lengths differ, expected array [] length 0, got ["HTML", "BODY", "inert_parent", "button"] length 4</code> |
-| /dom/nodes/moveBefore/fullscreen-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /dom/nodes/moveBefore/fullscreen-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/hover-style-update.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /dom/nodes/moveBefore/iframe-document-preserve.window.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/moveBefore/modal-dialog.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: dialog.showModal is not a function. (In "dialog.showModal()", it is undefined)"</code> |
@@ -552,7 +552,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/ranges/Range-mutations-insertData.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-removeChild.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-replaceChild.html | fail | <code>"getSelection" is not defined</code> |
-| /dom/ranges/Range-mutations-replaceData.html | fail | <code>"getSelection" is not defined</code> |
+| /dom/ranges/Range-mutations-replaceData.html | timeout | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-mutations-splitText.html | fail | <code>"getSelection" is not defined</code> |
 | /dom/ranges/Range-set.html | timeout |  |
 | /dom/ranges/Range-surroundContents.html | timeout | <code>actual.substr is not a function. (In "actual.substr(0, actual.length - 1)", it is undefined)</code> |
@@ -579,7 +579,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/dom/elements/global-attributes/dir-auto-dynamic-changes.window.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/dir-auto-form-associated.window.html | fail | <code>assert_true: expected true got false</code> |
 | /html/dom/elements/global-attributes/dir-bdi-script.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
 | /html/dom/elements/global-attributes/dir-slots-directionality.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /html/dom/elements/global-attributes/id-attribute.html | fail | <code>document.defaultView.getComputedStyle is not a function. (In "document.defaultView.getComputedStyle(document.getElementById("abcd"))", it is undefined)</code> |
 | /html/dom/elements/global-attributes/id-name-specialcase.html | fail | <code>assert_equals: expected (string) "123" but got (undefined) undefined</code> |
@@ -790,7 +790,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/trustedhtml-unvetted-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
 | /shadow-dom/Document-prototype-currentScript.html | error | <code>Error: assert_equals: expected null but got Element node &lt;script&gt;assert_equals(document.currentScript, null)&lt;/script&gt;</code> |
 | /shadow-dom/Document-prototype-importNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.importNode(shadowRoot);<br>        }" did not throw</code> |
-| /shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html | fail | <code>document.elementFromPoint is not a function. (In "document.elementFromPoint(...pointInElement(host))", it is undefined)</code> |
+| /shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html | fail | <code>elementFromPoint requires finite coordinates</code> |
 | /shadow-dom/Element-interface-attachShadow-custom-element.html | error | <code>TypeError: Super class [Function HTMLInputElement] is not a constructor</code> |
 | /shadow-dom/Element-interface-attachShadow.html | fail | <code>assert_throws_dom: Calling attachShadow({mode: "open"}) on a element must throw function "function () {<br>            document.createElement(elementName).attachShadow({mode: "open"});<br>        }" did not throw</code> |
 | /shadow-dom/Extensions-to-Event-Interface.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
@@ -830,109 +830,109 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/event-post-dispatch.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/event-with-related-target.html | fail | <code>"MouseEvent" is not defined</code> |
 | /shadow-dom/execcommand-insertList-in-shadow.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
-| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-navigation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-nested.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-web-component-radio.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-navigation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus-navigation/focus-nested-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/focus-nested-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
-| /shadow-dom/focus-navigation/focus-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/focus-with-negative-index.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/focus-unassignable-slot.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/focus-with-negative-index.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html | fail | <code>assert_true: Failed to focus scroller expected true got false</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-flow.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-columns.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html | fail | <code>assert_true: Failed to focus host/B expected true got false</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html | error | <code>TypeError: document.querySelector('[popovertarget]').click is not a function. (In "document.querySelector('[popovertarget]').click()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/normal.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-order.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/grid-rows.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/normal.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-invalid.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/reading-flow/source-order-valid.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-within-shadow.html | fail | <code>Cannot convert null to object</code> |
 | /shadow-dom/focus/blur-on-shadow-host-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;input id="slotted"&gt;&lt;/input&gt; but got Element node &lt;body&gt;&lt;div id="host"&gt;<br>  &lt;input id="slotted"&gt;<br>&lt;/div&gt;<br><br>&lt;scr...</code> |
 | /shadow-dom/focus/click-focus-delegatesFocus-click.html | fail | <code>host.click is not a function. (In "host.click()", it is undefined)</code> |
-| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus/click-focus-slot-ancestor.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus/focus-autofocus.html | fail | <code>assert_equals: expected Element node &lt;div tabindex="0" autofocus="true"&gt;&lt;/div&gt; but got Element node &lt;div tabindex="0"&gt;&lt;/div&gt;</code> |
-| /shadow-dom/focus/focus-click-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus/focus-click-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
 | /shadow-dom/focus/focus-method-delegatesFocus.html | fail | <code>assert_equals: expected Element node &lt;body&gt;<br>&lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToS... but got Element node &lt;div id="host" tabindex="0"&gt;<br>  &lt;div id="slottedToSecondSl...</code> |
 | /shadow-dom/focus/focus-method-with-delegatesFocus.html | fail | <code>Cannot convert null to object</code> |
 | /shadow-dom/focus/focus-pseudo-matches-on-shadow-host.html | timeout | <code>palim execution timed out</code> |
-| /shadow-dom/focus/focus-scroll-under-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus/focus-scroll-under-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus/focus-shadowhost-display-none.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: window.getComputedStyle is not a function. (In "window.getComputedStyle(host)", it is undefined)"</code> |
 | /shadow-dom/focus/focus-slot-box-generated-tabindex-0.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
-| /shadow-dom/focus/focus-tab-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus/focus-tabindex-order-shadow-zero.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus/focus-tab-on-shadow-host.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus/focus-tabindex-order-shadow-zero.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: host.shadowRoot.firstElementChild.show is not a function. (In "host.shadowRoot.firstElementChild.show()", it is undefined)"</code> |
 | /shadow-dom/focus/text-selection-with-delegatesFocus-text-control.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
 | /shadow-dom/focus/text-selection-with-delegatesFocus.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getSelection" is not defined"</code> |
@@ -1089,7 +1089,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /xhr/formdata/set-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/set.any.html | fail | <code>"Blob" is not defined</code> |
 | /xhr/formdata/set.any.worker.html | fail | <code>"Blob" is not defined</code> |
-| /xhr/formdata/submitter-coordinate-value.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /xhr/formdata/submitter-coordinate-value.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: undefined is not a function"</code> |
 
 ## Tentative WPT results
 
@@ -1097,10 +1097,10 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 132 | 132 | 11 | 72 | 0 | 21 | 28 | 0 | 100.00% | 8.33% |
+| All | 132 | 132 | 11 | 70 | 0 | 21 | 30 | 0 | 100.00% | 8.33% |
 | /custom-elements/ | 7 | 7 | 0 | 2 | 0 | 5 | 0 | 0 | 100.00% | 0.00% |
 | /dom/events/ | 3 | 3 | 0 | 1 | 0 | 0 | 2 | 0 | 100.00% | 0.00% |
-| /dom/ranges/ | 23 | 23 | 0 | 23 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
+| /dom/ranges/ | 23 | 23 | 0 | 21 | 0 | 0 | 2 | 0 | 100.00% | 0.00% |
 | /domparsing/ | 35 | 35 | 8 | 16 | 0 | 11 | 0 | 0 | 100.00% | 22.86% |
 | /html/dom/documents/dom-tree-accessors/ | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /html/syntax/parsing/ | 2 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | 100.00% | 0.00% |
@@ -1111,7 +1111,7 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1554 | 863 | 599 | 0 | 64 | 28 | 55.53% |
+| 1537 | 863 | 580 | 0 | 64 | 30 | 56.15% |
 
 ### Non-passing executed tests
 
@@ -1136,8 +1136,8 @@ These tests track proposed behavior and do not determine current Living Standard
 | /dom/ranges/tentative/OpaqueRange-disconnect.html | fail | <code>textarea.createValueRange is not a function. (In "textarea.createValueRange(1, 4)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-display-none.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(1, 4)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-geometry-basic.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(startOffset, endOffset)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | fail | <code>element.createValueRange is not a function. (In "element.createValueRange(0, mixed.length)", it is undefined)</code> |
-| /dom/ranges/tentative/OpaqueRange-geometry-multiline.html | fail | <code>el.createValueRange is not a function. (In "el.createValueRange(0, 5)", it is undefined)</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html | timeout | <code>palim execution timed out</code> |
+| /dom/ranges/tentative/OpaqueRange-geometry-multiline.html | timeout | <code>palim execution timed out</code> |
 | /dom/ranges/tentative/OpaqueRange-geometry-mutations.html | fail | <code>element.setSelectionRange is not a function. (In "element.setSelectionRange(0, 0)", it is undefined)</code> |
 | /dom/ranges/tentative/OpaqueRange-highlight.html | fail | <code>"CSS" is not defined</code> |
 | /dom/ranges/tentative/OpaqueRange-highlightsFromPoint.html | fail | <code>"CSS" is not defined</code> |
@@ -1219,8 +1219,8 @@ These tests track proposed behavior and do not determine current Living Standard
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-same-document.html | fail | <code>Cannot convert undefined to object</code> |
 | /shadow-dom/declarative/tentative/shadowrootadoptedstylesheets/shadowrootadoptedstylesheets-serialization.html | fail | <code>host.getHTML is not a function. (In "host.getHTML(opts)", it is undefined)</code> |
 | /shadow-dom/event-dispatch-order.tentative.html | error | <code>TypeError: e.composedPath is not a function. (In "e.composedPath()", it is undefined)</code> |
-| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
-| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: document.elementsFromPoint unsupported"</code> |
+| /shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
+| /shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html | fail | <code>promise_test: Unhandled rejection with value: object "Error: Tried to run in a non-testharness window without a call to set_test_context"</code> |
 | /shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html | fail | <code>assert_equals: expected Element node &lt;div id="scroller" style="overflow:scroll; width:50px; he... but got Element node &lt;body&gt;&lt;button id="button"&gt;Button&lt;/button&gt;<br>&lt;div id="scroll...</code> |
 | /shadow-dom/reference-target/tentative/aria-labelledby.html | error | <code>TypeError: Cannot convert null to object</code> |
 | /shadow-dom/reference-target/tentative/commandfor.html | fail | <code>Cannot convert null to object</code> |
