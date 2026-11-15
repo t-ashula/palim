@@ -82,7 +82,7 @@
 - [ ] shadow root の attach 条件、mode、host、clonable / serializable state
 - [ ] slot assignment、manual slotting、`Element.slot`、`HTMLSlotElement.assign()`、`slotchange`
 - [x] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、upgrade、scoped registry
-- [ ] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
+- [x] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
 - [ ] custom element reaction queue と connected / disconnected / adopted / attributeChanged callback
 - [ ] `ElementInternals` と form-associated custom element
 - [ ] shadow root を含む serialization と `getHTML()`

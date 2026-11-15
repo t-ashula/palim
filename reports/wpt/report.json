@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261115t142546498z-533415",
+    "id": "20261115t153125701z-949262",
     "state": "completed",
     "palim": {
-      "revision": "0a7369456e4fb7fadb3474389d1396aa6c0a68e8",
-      "dirty": false,
-      "imageId": "sha256:5a831b5c3b177b2d9fc982a0807994e001dcf8ba82b111c2900413ac7e174b0f"
+      "revision": "7b18d84ce5cd51eadd620f9ebfc2cdc10cd13199",
+      "dirty": true,
+      "imageId": "sha256:22695645d5b7716ba1cb1fc1985ed3f7c8fcfa49d00f79840132a717e24ecece"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-15T15:00:14.577Z",
+    "snapshotAt": "2026-11-15T16:27:57.953Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 904,
-    "fail": 583,
+    "pass": 921,
+    "fail": 572,
     "skip": 248,
-    "error": 116,
-    "timeout": 105,
+    "error": 114,
+    "timeout": 101,
     "pending": 0
   },
   "areas": [
@@ -64,11 +64,11 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 20,
-        "fail": 157,
+        "pass": 30,
+        "fail": 145,
         "skip": 5,
-        "error": 24,
-        "timeout": 3,
+        "error": 27,
+        "timeout": 2,
         "pending": 0
       }
     },
@@ -116,8 +116,8 @@
       "totals": {
         "total": 415,
         "executed": 415,
-        "pass": 305,
-        "fail": 73,
+        "pass": 308,
+        "fail": 70,
         "skip": 5,
         "error": 3,
         "timeout": 29,
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 25,
-        "fail": 33,
+        "pass": 26,
+        "fail": 34,
         "skip": 3,
         "error": 2,
-        "timeout": 6,
+        "timeout": 4,
         "pending": 0
       }
     },
@@ -155,10 +155,10 @@
       "totals": {
         "total": 96,
         "executed": 96,
-        "pass": 47,
-        "fail": 25,
+        "pass": 48,
+        "fail": 26,
         "skip": 0,
-        "error": 16,
+        "error": 14,
         "timeout": 8,
         "pending": 0
       }
@@ -220,10 +220,10 @@
       "totals": {
         "total": 50,
         "executed": 50,
-        "pass": 17,
-        "fail": 16,
+        "pass": 18,
+        "fail": 17,
         "skip": 0,
-        "error": 15,
+        "error": 13,
         "timeout": 2,
         "pending": 0
       }
@@ -234,9 +234,9 @@
         "total": 317,
         "executed": 317,
         "pass": 51,
-        "fail": 88,
+        "fail": 89,
         "skip": 132,
-        "error": 14,
+        "error": 13,
         "timeout": 32,
         "pending": 0
       }
@@ -246,11 +246,11 @@
       "totals": {
         "total": 64,
         "executed": 64,
-        "pass": 43,
+        "pass": 44,
         "fail": 4,
         "skip": 0,
         "error": 16,
-        "timeout": 1,
+        "timeout": 0,
         "pending": 0
       }
     },
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 101733,
-    "pass": 78709,
-    "fail": 22580,
+    "total": 102141,
+    "pass": 79019,
+    "fail": 22684,
     "skip": 248,
-    "error": 99,
-    "timeout": 97
+    "error": 94,
+    "timeout": 96
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 903,
-      "fail": 543,
+      "pass": 920,
+      "fail": 532,
       "skip": 209,
-      "error": 108,
-      "timeout": 79,
+      "error": 106,
+      "timeout": 75,
       "pending": 0
     },
     "areas": [
@@ -319,11 +319,11 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 20,
-          "fail": 155,
+          "pass": 30,
+          "fail": 143,
           "skip": 3,
-          "error": 21,
-          "timeout": 3,
+          "error": 24,
+          "timeout": 2,
           "pending": 0
         }
       },
@@ -371,8 +371,8 @@
         "totals": {
           "total": 415,
           "executed": 415,
-          "pass": 305,
-          "fail": 73,
+          "pass": 308,
+          "fail": 70,
           "skip": 5,
           "error": 3,
           "timeout": 29,
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 25,
-          "fail": 13,
+          "pass": 26,
+          "fail": 14,
           "skip": 0,
           "error": 2,
-          "timeout": 6,
+          "timeout": 4,
           "pending": 0
         }
       },
@@ -410,10 +410,10 @@
         "totals": {
           "total": 94,
           "executed": 94,
-          "pass": 47,
-          "fail": 24,
+          "pass": 48,
+          "fail": 25,
           "skip": 0,
-          "error": 15,
+          "error": 13,
           "timeout": 8,
           "pending": 0
         }
@@ -475,10 +475,10 @@
         "totals": {
           "total": 49,
           "executed": 49,
-          "pass": 16,
-          "fail": 16,
+          "pass": 17,
+          "fail": 17,
           "skip": 0,
-          "error": 15,
+          "error": 13,
           "timeout": 2,
           "pending": 0
         }
@@ -489,9 +489,9 @@
           "total": 242,
           "executed": 242,
           "pass": 51,
-          "fail": 73,
+          "fail": 74,
           "skip": 100,
-          "error": 11,
+          "error": 10,
           "timeout": 7,
           "pending": 0
         }
@@ -501,11 +501,11 @@
         "totals": {
           "total": 64,
           "executed": 64,
-          "pass": 43,
+          "pass": 44,
           "fail": 4,
           "skip": 0,
           "error": 16,
-          "timeout": 1,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 101346,
-      "pass": 78679,
-      "fail": 22292,
+      "total": 101754,
+      "pass": 78989,
+      "fail": 22396,
       "skip": 209,
-      "error": 95,
-      "timeout": 71
+      "error": 90,
+      "timeout": 70
     },
     "nonPassingTests": [
       {
@@ -564,34 +564,14 @@
         "message": "assert_equals: expected 100 but got 0"
       },
       {
-        "url": "/custom-elements/CustomElementRegistry-getName.html",
-        "status": "fail",
-        "message": "Super class [Function HTMLButtonElement] is not a constructor"
-      },
-      {
-        "url": "/custom-elements/Document-createElement-customized-builtins.html",
-        "status": "fail",
-        "message": "assert_true: expected true got false"
-      },
-      {
-        "url": "/custom-elements/Document-createElement-svg.svg",
-        "status": "fail",
-        "message": "Super class [Function HTMLDivElement] is not a constructor"
-      },
-      {
         "url": "/custom-elements/Document-createElement.html",
         "status": "fail",
         "message": "assert_true: expected true got false"
       },
       {
-        "url": "/custom-elements/Document-createElementNS-customized-builtins.html",
-        "status": "fail",
-        "message": "assert_true: expected true got false"
-      },
-      {
         "url": "/custom-elements/Document-createElementNS-prefix-timing.html",
-        "status": "fail",
-        "message": "assert_equals: prefix should be null during constructor (set after construction per step 5.1.3.9) expected (object) null but got (string) \"p\""
+        "status": "error",
+        "message": "TypeError: Custom element is already constructed"
       },
       {
         "url": "/custom-elements/ElementInternals-accessibility-values.html",
@@ -614,16 +594,6 @@
         "message": "element.attachInternals is not a function. (In \"element.attachInternals()\", it is undefined)"
       },
       {
-        "url": "/custom-elements/HTMLElement-constructor-customized-builtins.html",
-        "status": "fail",
-        "message": "assert_throws_js: Should not be able to construct an HTMLElement named 'button' function \"function () { new countingProxy() }\" did not throw"
-      },
-      {
-        "url": "/custom-elements/HTMLElement-constructor.html",
-        "status": "fail",
-        "message": "assert_throws_js: function \"function () { new HTMLElement(); }\" did not throw"
-      },
-      {
         "url": "/custom-elements/adopted-callback.html",
         "status": "fail",
         "message": "assert_array_equals: lengths differ, expected array [\"adopted\", Document node with 2 children, Document node with 1 child, \"connected\"] length 4, got [\"connected\"] length 1"
@@ -636,17 +606,17 @@
       {
         "url": "/custom-elements/builtin-coverage.html",
         "status": "fail",
-        "message": "Super class [Function HTMLAnchorElement] is not a constructor"
+        "message": "assert_equals: Cloning a customized built-in element should succeed. expected function \"class extends HTMLAnchorElement {}\" but got function \"function HTMLAnchorElement() { [native code] }\""
       },
       {
         "url": "/custom-elements/connected-callback-before-insertion-steps.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLDetailsElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_false: the insertion steps closed the inserted details element expected false got true"
       },
       {
         "url": "/custom-elements/connected-callbacks-html-fragment-parsing.html",
         "status": "fail",
-        "message": "assert_equals: expected 1 but got 0"
+        "message": "assert_equals: expected 1 but got 2"
       },
       {
         "url": "/custom-elements/connected-callbacks.html",
@@ -666,7 +636,7 @@
       {
         "url": "/custom-elements/customized-built-in-constructor-exceptions.html",
         "status": "fail",
-        "message": "MyCustomParagraph cannot be used before initialization"
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/custom-elements/disconnected-callbacks.html",
@@ -686,7 +656,7 @@
       {
         "url": "/custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"begin\", \"connected\", \"disconnected\", \"end\"] length 4, got [] length 0"
+        "message": "assert_array_equals: expected property 1 to be \"connected\" but got \"disconnected\" (expected array [\"begin\", \"connected\", \"disconnected\", \"end\"] got [\"begin\", \"disconnected\", \"end\", \"connected\"])"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-NotSupportedError.html",
@@ -700,8 +670,8 @@
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-labels.html",
-        "status": "fail",
-        "message": "assert_equals: expected (object) Element node <my-control></my-control> but got (undefined) undefined"
+        "status": "error",
+        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html",
@@ -710,8 +680,8 @@
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setFormValue.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: $('form').submit is not a function. (In \"$('form').submit()\", it is undefined)\""
+        "status": "error",
+        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html",
@@ -740,8 +710,8 @@
       },
       {
         "url": "/custom-elements/form-associated/fieldset-elements-during-construction.html",
-        "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "status": "error",
+        "message": "Error: Invalid regular expression: /(Constructor|_getter|_setter|Getter|Setter)$/: Stack overflow"
       },
       {
         "url": "/custom-elements/form-associated/fieldset-elements.html",
@@ -770,8 +740,8 @@
       },
       {
         "url": "/custom-elements/form-associated/form-disabled-legend.html",
-        "status": "fail",
-        "message": "assert_true: in legend :enabled expected true got false"
+        "status": "error",
+        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/form-elements-namedItem.html",
@@ -792,16 +762,6 @@
         "url": "/custom-elements/form-associated/label-delegatesFocus.html",
         "status": "skip",
         "message": "Executor does not support testdriver.js"
-      },
-      {
-        "url": "/custom-elements/htmlconstructor/newtarget-customized-builtins.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: [Function HTMLParagraphElement] is not a constructor\""
-      },
-      {
-        "url": "/custom-elements/htmlconstructor/newtarget.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Illegal constructor\""
       },
       {
         "url": "/custom-elements/microtasks-and-constructors.html",
@@ -840,23 +800,18 @@
       },
       {
         "url": "/custom-elements/parser/parser-uses-constructed-element.html",
-        "status": "fail",
-        "message": "assert_not_equals: HTML parser must not insert another instance of the custom element created before super() call got disallowed value Element node <instantiates-itself-before-super></instantiates-itself-b..."
+        "status": "error",
+        "message": "TypeError: Custom element is already constructed"
       },
       {
         "url": "/custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLDivElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/custom-elements/parser/parser-uses-registry-of-owner-document.html",
         "status": "error",
         "message": "Error: The tokenizer input stream is closed"
-      },
-      {
-        "url": "/custom-elements/parser/serializing-html-fragments-customized-builtins.html",
-        "status": "fail",
-        "message": "Super class [Function HTMLParagraphElement] is not a constructor"
       },
       {
         "url": "/custom-elements/parser/xml-fragment-parser-does-not-construct-synchronously.xhtml",
@@ -961,7 +916,7 @@
       {
         "url": "/custom-elements/reactions/HTMLAnchorElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_equals: expected \"world\" but got \"<custom-element>hello</custom-element>\""
       },
       {
         "url": "/custom-elements/reactions/HTMLElement.html",
@@ -971,7 +926,7 @@
       {
         "url": "/custom-elements/reactions/HTMLOptionElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_equals: expected \"world\" but got \"<custom-element>hello</custom-element>\""
       },
       {
         "url": "/custom-elements/reactions/HTMLOptionsCollection.html",
@@ -981,7 +936,7 @@
       {
         "url": "/custom-elements/reactions/HTMLOutputElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_equals: expected \"world\" but got \"<custom-element>hello</custom-element>\""
       },
       {
         "url": "/custom-elements/reactions/HTMLSelectElement.html",
@@ -996,12 +951,12 @@
       {
         "url": "/custom-elements/reactions/HTMLTableRowElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: row.deleteCell is not a function. (In \"row.deleteCell(0)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/reactions/HTMLTableSectionElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_equals: expected (object) Element node <thead><tr><td><custom-element>hello</custom-element></td... but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/reactions/HTMLTitleElement.html",
@@ -1041,137 +996,137 @@
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLAreaElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLAreaElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLBaseElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLBaseElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLButtonElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLButtonElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLCanvasElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLCanvasElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLDataElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLDataElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLDetailsElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLDetailsElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLEmbedElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLEmbedElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLFieldSetElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLFieldSetElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLImageElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLImageElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLLIElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLLIElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLLabelElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLLabelElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLMapElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLMapElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLMediaElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLAudioElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLMetaElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLMetaElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLMeterElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLMeterElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLModElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLModElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLOListElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLOListElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLOptGroupElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLOptGroupElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLParamElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLParamElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLProgressElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLProgressElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLQuoteElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLQuoteElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLSlotElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLSlotElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLSourceElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLSourceElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLStyleElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLStyleElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLTableCellElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLTableCellElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLTableColElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLTableColElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/customized-builtins/HTMLTimeElement.html",
         "status": "fail",
-        "message": "Super class [Function HTMLTimeElement] is not a constructor"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/registries/Construct.html",
@@ -1246,7 +1201,7 @@
       {
         "url": "/custom-elements/registries/adoption-before-upgrade.window.html",
         "status": "fail",
-        "message": "assert_equals: expected Document node with 1 child but got Document node with 2 children"
+        "message": "assert_equals: reported exceptions expected 1 but got 0"
       },
       {
         "url": "/custom-elements/registries/adoption-global-registry.window.html",
@@ -1306,7 +1261,7 @@
       {
         "url": "/custom-elements/registries/global-registry-access-timing.window.html",
         "status": "fail",
-        "message": "assert_true: upgraded expected true got false"
+        "message": "Cannot convert null to object"
       },
       {
         "url": "/custom-elements/registries/global.window.html",
@@ -1316,7 +1271,7 @@
       {
         "url": "/custom-elements/registries/initial-about-blank.window.html",
         "status": "fail",
-        "message": "assert_true: expected true got false"
+        "message": "assert_not_equals: The replacement document must get a new registry got disallowed value object \"[object Object]\""
       },
       {
         "url": "/custom-elements/registries/per-document.html",
@@ -1375,7 +1330,7 @@
       },
       {
         "url": "/custom-elements/registries/valid-custom-element-names.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "assert_equals: code points: [97,45,127345], string: \"a-🅱\" expected object \"[object Object]\" but got object \"[object Object]\""
       },
       {
@@ -1436,17 +1391,17 @@
       {
         "url": "/custom-elements/upgrading.html",
         "status": "fail",
-        "message": "assert_equals: Inserting an element into a document with a browsing context must enqueue a custom element upgrade reaction expected object \"[object Object]\" but got object \"[object Object]\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"XMLHttpRequest\" is not defined\""
       },
       {
         "url": "/custom-elements/upgrading/Document-importNode-customized-builtins.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Super class [Function HTMLDivElement] is not a constructor\""
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/custom-elements/upgrading/Node-cloneNode-customized-builtins.html",
         "status": "fail",
-        "message": "Super class [Function HTMLDivElement] is not a constructor"
+        "message": "assert_true: A cloned custom element must be an instance of the custom element even with an inconsistent \"is\" attribute expected true got false"
       },
       {
         "url": "/custom-elements/upgrading/Node-cloneNode.html",
@@ -1455,18 +1410,13 @@
       },
       {
         "url": "/custom-elements/upgrading/upgrade-custom-element-error-event.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLDivElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_true: element should be an HTMLUnknownElement expected true got false"
       },
       {
         "url": "/custom-elements/upgrading/upgrading-enqueue-reactions.html",
         "status": "fail",
         "message": "assert_equals: expected 3 but got 1"
-      },
-      {
-        "url": "/custom-elements/upgrading/upgrading-parser-created-element.html",
-        "status": "fail",
-        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/dom/events/Body-FrameSet-Event-Handlers.html",
@@ -2469,11 +2419,6 @@
         "message": "assert_equals: mutation records must match expected 6 but got 0"
       },
       {
-        "url": "/dom/nodes/Node-appendChild-cereactions-vs-script.window.html",
-        "status": "fail",
-        "message": "Super class [Function HTMLScriptElement] is not a constructor"
-      },
-      {
         "url": "/dom/nodes/Node-appendChild.html",
         "status": "fail",
         "message": "Cannot convert undefined to object"
@@ -2557,11 +2502,6 @@
         "url": "/dom/nodes/ProcessingInstruction-escapes-1.xhtml",
         "status": "fail",
         "message": "Cannot convert undefined to object"
-      },
-      {
-        "url": "/dom/nodes/create-element-realm-after-adoption.html",
-        "status": "fail",
-        "message": "assert_true: <x-baz> uses the node document's (top-level) registry expected true got false"
       },
       {
         "url": "/dom/nodes/getElementById-namespaced-id.html",
@@ -2853,11 +2793,6 @@
         "message": "assert_equals: expected \"green\" but got \"\""
       },
       {
-        "url": "/dom/nodes/node-realm-mixed-across-adoption.html",
-        "status": "fail",
-        "message": "assert_true: uses the node-document (top-level) realm and registry expected true got false"
-      },
-      {
         "url": "/dom/nodes/processing-instruction-attributes-clone-and-range.html",
         "status": "fail",
         "message": "pi.getAttributeNames is not a function. (In \"pi.getAttributeNames()\", it is undefined)"
@@ -2892,10 +2827,6 @@
         "status": "timeout"
       },
       {
-        "url": "/dom/ranges/Range-comparePoint.html",
-        "status": "timeout"
-      },
-      {
         "url": "/dom/ranges/Range-deleteContents.html",
         "status": "fail",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
@@ -2922,7 +2853,7 @@
       },
       {
         "url": "/dom/ranges/Range-insertNode.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
@@ -3070,14 +3001,9 @@
         "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
       },
       {
-        "url": "/domparsing/stream-html-custom-element-sanitizer.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLScriptElement] is not a constructor"
-      },
-      {
         "url": "/domparsing/stream-html-custom-element.html",
         "status": "fail",
-        "message": "assert_array_equals: streamHTML must invoke connectedCallback when chunk is parsed on write lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_array_equals: streamHTML with replaceWithChildrenElements must preserve scoped customElementRegistry lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
       },
       {
         "url": "/domparsing/stream-html-defer-async-script.html",
@@ -3102,7 +3028,7 @@
       {
         "url": "/domparsing/stream-html-reentrancy.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"connected\"] length 1, got [] length 0"
+        "message": "assert_array_equals: the write promise does not wait for the parser-blocking script lengths differ, expected array [\"a\"] length 1, got [\"a\", \"b\"] length 2"
       },
       {
         "url": "/domparsing/stream-html-run-scripts-option.html",
@@ -3191,8 +3117,8 @@
       },
       {
         "url": "/domparsing/stream-sanitizer-customized-builtins.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLButtonElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_equals: Customized built-in constructor must NOT be called when is attribute is sanitized expected 0 but got 1"
       },
       {
         "url": "/domparsing/stream-sanitizer-img-ctor.html",
@@ -3882,7 +3808,7 @@
       {
         "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-CEReactions.html",
         "status": "fail",
-        "message": "assert_equals: myElement1.numConnectedCallback after first setHTMLUnsafe. expected (number) 1 but got (undefined) undefined"
+        "message": "assert_equals: myElement2.attributeChangedCalls after second setHTMLUnsafe. expected \"[{\\\"name\\\":\\\"foo\\\",\\\"oldValue\\\":null,\\\"newValue\\\":\\\"bar\\\"}]\" but got \"[]\""
       },
       {
         "url": "/html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-runScripts.html",
@@ -3916,8 +3842,8 @@
       },
       {
         "url": "/sanitizer-api/sanitizer-custom-elements-is.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLDivElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_equals: expected \"<div>hello</div>\" but got \"<div is=\\\"foo-bar\\\">hello</div>\""
       },
       {
         "url": "/sanitizer-api/sanitizer-in-adoption-agency.html",
@@ -3947,17 +3873,12 @@
       {
         "url": "/sanitizer-api/sethtml-custom-element-reactions.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [] length 0"
+        "message": "assert_array_equals: expected property 0 to be \"constructed\" but got \"disconnected\" (expected array [\"constructed\", \"connected\", \"disconnected\"] got [\"disconnected\", \"constructed\", \"connected\"])"
       },
       {
         "url": "/sanitizer-api/sethtml-form-owner.html",
         "status": "fail",
         "message": "assert_equals: expected (object) Element node <form id=\"f\"><input name=\"i\"></form> but got (undefined) undefined"
-      },
-      {
-        "url": "/sanitizer-api/sethtml-replace-with-children.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected:div\"] length 2, got [] length 0"
       },
       {
         "url": "/sanitizer-api/sethtml-scoped-custom-element-registry.html",
@@ -3971,8 +3892,8 @@
       },
       {
         "url": "/sanitizer-api/sethtml-with-custom-elements.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLDivElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_equals: constructed before setHTML() returns expected 1 but got 0"
       },
       {
         "url": "/sanitizer-api/sethtml-with-declarative-shadow-root.html",
@@ -4071,8 +3992,8 @@
       },
       {
         "url": "/shadow-dom/Element-interface-attachShadow-custom-element.html",
-        "status": "error",
-        "message": "TypeError: Super class [Function HTMLInputElement] is not a constructor"
+        "status": "fail",
+        "message": "assert_throws_dom: Definition, not a host function \"() => {\n    document.createElement('shadow-disabled-element').attachShadow({mode: 'closed'});\n  }\" did not throw"
       },
       {
         "url": "/shadow-dom/Element-interface-attachShadow.html",
@@ -5043,11 +4964,6 @@
         "url": "/streams/writable-streams/count-queuing-strategy.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
-        "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
