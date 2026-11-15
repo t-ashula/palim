@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261115t093531071z-3839281",
+    "id": "20261115t125037838z-101316",
     "state": "completed",
     "palim": {
-      "revision": "f071906218f495051674f6098bea22199d8e3ce7",
+      "revision": "b4c12717aef39b3dac312dbf63b850834a045aa5",
       "dirty": false,
-      "imageId": "sha256:088f52b9e732ffb33390cfff7e1f9f502e309aa103466e75a8ffe3c8221ee695"
+      "imageId": "sha256:bcba90e56e21b73de3f893888e6ab7b6256065e9e2e471ad587d49df7ad8279d"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-15T10:10:43.885Z",
+    "snapshotAt": "2026-11-15T13:24:57.614Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 850,
-    "fail": 633,
+    "pass": 892,
+    "fail": 590,
     "skip": 248,
     "error": 119,
-    "timeout": 106,
+    "timeout": 107,
     "pending": 0
   },
   "areas": [
@@ -64,8 +64,8 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 11,
-        "fail": 162,
+        "pass": 10,
+        "fail": 163,
         "skip": 5,
         "error": 27,
         "timeout": 4,
@@ -246,11 +246,11 @@
       "totals": {
         "total": 64,
         "executed": 64,
-        "pass": 0,
-        "fail": 48,
+        "pass": 43,
+        "fail": 4,
         "skip": 0,
         "error": 16,
-        "timeout": 0,
+        "timeout": 1,
         "pending": 0
       }
     },
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 101603,
-    "pass": 75830,
-    "fail": 25323,
+    "total": 101598,
+    "pass": 76392,
+    "fail": 24755,
     "skip": 248,
     "error": 104,
-    "timeout": 98
+    "timeout": 99
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 849,
-      "fail": 593,
+      "pass": 891,
+      "fail": 550,
       "skip": 209,
       "error": 111,
-      "timeout": 80,
+      "timeout": 81,
       "pending": 0
     },
     "areas": [
@@ -319,8 +319,8 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 11,
-          "fail": 160,
+          "pass": 10,
+          "fail": 161,
           "skip": 3,
           "error": 24,
           "timeout": 4,
@@ -501,11 +501,11 @@
         "totals": {
           "total": 64,
           "executed": 64,
-          "pass": 0,
-          "fail": 48,
+          "pass": 43,
+          "fail": 4,
           "skip": 0,
           "error": 16,
-          "timeout": 0,
+          "timeout": 1,
           "pending": 0
         }
       },
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 101214,
-      "pass": 75800,
-      "fail": 25034,
+      "total": 101209,
+      "pass": 76362,
+      "fail": 24466,
       "skip": 209,
       "error": 99,
-      "timeout": 72
+      "timeout": 73
     },
     "nonPassingTests": [
       {
@@ -617,6 +617,11 @@
         "url": "/custom-elements/HTMLElement-attachInternals.html",
         "status": "fail",
         "message": "Illegal constructor"
+      },
+      {
+        "url": "/custom-elements/HTMLElement-constructor-customized-builtins.html",
+        "status": "fail",
+        "message": "assert_equals: Should never have gotten .prototype expected 0 but got 1"
       },
       {
         "url": "/custom-elements/HTMLElement-constructor.html",
@@ -5065,29 +5070,9 @@
         "message": "Executor does not support testdriver.js"
       },
       {
-        "url": "/streams/writable-streams/aborting.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/aborting.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/aborting.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/aborting.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/bad-strategies.any.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: construction should re-throw the error function \"() => {\n    new WritableStream({}, {\n      get size() {\n        throw error1;\n      },\n      highWaterMark: 5\n    });\n  }\" threw object \"TypeError: WritableStream construction is not implemented\" but we expected it to throw object \"error1: a unique string\""
       },
       {
         "url": "/streams/writable-streams/bad-strategies.any.serviceworker.html",
@@ -5095,39 +5080,9 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/bad-strategies.any.sharedworker.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: construction should re-throw the error function \"() => {\n    new WritableStream({}, {\n      get size() {\n        throw error1;\n      },\n      highWaterMark: 5\n    });\n  }\" threw object \"ReferenceError: \"WritableStream\" is not defined\" but we expected it to throw object \"error1: a unique string\""
-      },
-      {
-        "url": "/streams/writable-streams/bad-strategies.any.worker.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: construction should re-throw the error function \"() => {\n    new WritableStream({}, {\n      get size() {\n        throw error1;\n      },\n      highWaterMark: 5\n    });\n  }\" threw object \"ReferenceError: \"WritableStream\" is not defined\" but we expected it to throw object \"error1: a unique string\""
-      },
-      {
-        "url": "/streams/writable-streams/bad-underlying-sinks.any.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: constructor should throw same error as throwing start getter function \"() => {\n    new WritableStream({\n      get start() {\n        throw error1;\n      }\n    });\n  }\" threw object \"TypeError: WritableStream construction is not implemented\" but we expected it to throw object \"error1: error1\""
-      },
-      {
         "url": "/streams/writable-streams/bad-underlying-sinks.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/bad-underlying-sinks.any.sharedworker.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: constructor should throw same error as throwing start getter function \"() => {\n    new WritableStream({\n      get start() {\n        throw error1;\n      }\n    });\n  }\" threw object \"ReferenceError: \"WritableStream\" is not defined\" but we expected it to throw object \"error1: error1\""
-      },
-      {
-        "url": "/streams/writable-streams/bad-underlying-sinks.any.worker.html",
-        "status": "fail",
-        "message": "assert_throws_exactly: constructor should throw same error as throwing start getter function \"() => {\n    new WritableStream({\n      get start() {\n        throw error1;\n      }\n    });\n  }\" threw object \"ReferenceError: \"WritableStream\" is not defined\" but we expected it to throw object \"error1: error1\""
-      },
-      {
-        "url": "/streams/writable-streams/byte-length-queuing-strategy.any.html",
-        "status": "fail",
-        "message": "\"ByteLengthQueuingStrategy\" is not defined"
       },
       {
         "url": "/streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html",
@@ -5135,39 +5090,9 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/byte-length-queuing-strategy.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/close.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/close.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/close.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/close.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/constructor.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
       },
       {
         "url": "/streams/writable-streams/constructor.any.serviceworker.html",
@@ -5175,39 +5100,14 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/constructor.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/constructor.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/count-queuing-strategy.any.html",
-        "status": "fail",
-        "message": "\"CountQueuingStrategy\" is not defined"
-      },
-      {
         "url": "/streams/writable-streams/count-queuing-strategy.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/count-queuing-strategy.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/count-queuing-strategy.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: WritableStream construction is not implemented\""
+        "status": "timeout",
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
@@ -5217,17 +5117,12 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"WritableStream\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.worker.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"WritableStream\" is not defined\""
-      },
-      {
-        "url": "/streams/writable-streams/error.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/error.any.serviceworker.html",
@@ -5235,39 +5130,9 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/error.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/error.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/floating-point-total-queue-size.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/floating-point-total-queue-size.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/garbage-collection.any.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: WritableStream construction is not implemented\""
       },
       {
         "url": "/streams/writable-streams/garbage-collection.any.serviceworker.html",
@@ -5277,17 +5142,12 @@
       {
         "url": "/streams/writable-streams/garbage-collection.any.sharedworker.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"WritableStream\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/garbage-collection.any.worker.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"WritableStream\" is not defined\""
-      },
-      {
-        "url": "/streams/writable-streams/general.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/general.any.serviceworker.html",
@@ -5295,39 +5155,9 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/general.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/general.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/properties.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/properties.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/properties.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/properties.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/reentrant-strategy.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
       },
       {
         "url": "/streams/writable-streams/reentrant-strategy.any.serviceworker.html",
@@ -5335,54 +5165,14 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/reentrant-strategy.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/reentrant-strategy.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/start.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/start.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/start.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/start.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/write.any.html",
-        "status": "fail",
-        "message": "WritableStream construction is not implemented"
-      },
-      {
         "url": "/streams/writable-streams/write.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/write.any.sharedworker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/write.any.worker.html",
-        "status": "fail",
-        "message": "\"WritableStream\" is not defined"
       },
       {
         "url": "/url/data-uri-fragment.html",

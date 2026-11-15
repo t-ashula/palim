@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261115t093531071z-3839281
+Campaign: 20261115t125037838z-101316
 
 Campaign state: completed
 
-Palim: f071906218f495051674f6098bea22199d8e3ce7
+Palim: b4c12717aef39b3dac312dbf63b850834a045aa5
 
-Container image: sha256:088f52b9e732ffb33390cfff7e1f9f502e309aa103466e75a8ffe3c8221ee695
+Container image: sha256:bcba90e56e21b73de3f893888e6ab7b6256065e9e2e471ad587d49df7ad8279d
 
-Snapshot: 2026-11-15T10:10:43.885Z
+Snapshot: 2026-11-15T13:24:57.614Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,8 +22,8 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 850 | 633 | 248 | 119 | 106 | 0 | 100.00% | 43.46% |
-| /custom-elements/ | 209 | 209 | 11 | 162 | 5 | 27 | 4 | 0 | 100.00% | 5.26% |
+| All | 1956 | 1956 | 892 | 590 | 248 | 119 | 107 | 0 | 100.00% | 45.60% |
+| /custom-elements/ | 209 | 209 | 10 | 163 | 5 | 27 | 4 | 0 | 100.00% | 4.78% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -37,7 +37,7 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 17 | 15 | 0 | 16 | 2 | 0 | 100.00% | 34.00% |
 | /shadow-dom/ | 317 | 317 | 50 | 89 | 132 | 13 | 33 | 0 | 100.00% | 15.77% |
-| /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
+| /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -48,8 +48,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 849 | 593 | 209 | 111 | 80 | 0 | 100.00% | 46.09% |
-| /custom-elements/ | 202 | 202 | 11 | 160 | 3 | 24 | 4 | 0 | 100.00% | 5.45% |
+| All | 1842 | 1842 | 891 | 550 | 209 | 111 | 81 | 0 | 100.00% | 48.37% |
+| /custom-elements/ | 202 | 202 | 10 | 161 | 3 | 24 | 4 | 0 | 100.00% | 4.95% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -63,7 +63,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 16 | 15 | 0 | 16 | 2 | 0 | 100.00% | 32.65% |
 | /shadow-dom/ | 242 | 242 | 50 | 74 | 100 | 10 | 8 | 0 | 100.00% | 20.66% |
-| /streams/writable-streams/ | 64 | 64 | 0 | 48 | 0 | 16 | 0 | 0 | 100.00% | 0.00% |
+| /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 101214 | 75800 | 25034 | 209 | 99 | 72 | 74.89% |
+| 101209 | 76362 | 24466 | 209 | 99 | 73 | 75.45% |
 
 ### Non-passing executed tests
 
@@ -90,6 +90,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/ElementInternals-accessibility.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/ElementInternals-role.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/HTMLElement-attachInternals.html | fail | <code>Illegal constructor</code> |
+| /custom-elements/HTMLElement-constructor-customized-builtins.html | fail | <code>assert_equals: Should never have gotten .prototype expected 0 but got 1</code> |
 | /custom-elements/HTMLElement-constructor.html | fail | <code>Super class [Function HTMLParagraphElement] is not a constructor</code> |
 | /custom-elements/adopted-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted", Document node with 2 children, Document node with 1 child, "connected"] length 4, got ["connected"] length 1</code> |
 | /custom-elements/attribute-changed-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
@@ -980,70 +981,27 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-001.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
 | /shadow-dom/untriaged/user-interaction/ranges-and-selections/test-002.html | fail | <code>d.defaultView.getSelection is not a function. (In "d.defaultView.getSelection()", it is undefined)</code> |
 | /shadow-dom/wheel-event-related-target.html | skip | <code>Executor does not support testdriver.js</code> |
-| /streams/writable-streams/aborting.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/aborting.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/aborting.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/aborting.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/bad-strategies.any.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "TypeError: WritableStream construction is not implemented" but we expected it to throw object "error1: a unique string"</code> |
 | /streams/writable-streams/bad-strategies.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/bad-strategies.any.sharedworker.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: a unique string"</code> |
-| /streams/writable-streams/bad-strategies.any.worker.html | fail | <code>assert_throws_exactly: construction should re-throw the error function "() =&gt; {<br>    new WritableStream({}, {<br>      get size() {<br>        throw error1;<br>      },<br>      highWaterMark: 5<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: a unique string"</code> |
-| /streams/writable-streams/bad-underlying-sinks.any.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "TypeError: WritableStream construction is not implemented" but we expected it to throw object "error1: error1"</code> |
 | /streams/writable-streams/bad-underlying-sinks.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/bad-underlying-sinks.any.sharedworker.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: error1"</code> |
-| /streams/writable-streams/bad-underlying-sinks.any.worker.html | fail | <code>assert_throws_exactly: constructor should throw same error as throwing start getter function "() =&gt; {<br>    new WritableStream({<br>      get start() {<br>        throw error1;<br>      }<br>    });<br>  }" threw object "ReferenceError: "WritableStream" is not defined" but we expected it to throw object "error1: error1"</code> |
-| /streams/writable-streams/byte-length-queuing-strategy.any.html | fail | <code>"ByteLengthQueuingStrategy" is not defined</code> |
 | /streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/byte-length-queuing-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/byte-length-queuing-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/close.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/close.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/close.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/constructor.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/constructor.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/constructor.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/count-queuing-strategy.any.html | fail | <code>"CountQueuingStrategy" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/count-queuing-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/count-queuing-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: WritableStream construction is not implemented"</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
-| /streams/writable-streams/error.any.html | fail | <code>WritableStream construction is not implemented</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/error.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/error.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/error.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/floating-point-total-queue-size.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/floating-point-total-queue-size.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/floating-point-total-queue-size.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/garbage-collection.any.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: WritableStream construction is not implemented"</code> |
 | /streams/writable-streams/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
-| /streams/writable-streams/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "WritableStream" is not defined"</code> |
-| /streams/writable-streams/general.any.html | fail | <code>WritableStream construction is not implemented</code> |
+| /streams/writable-streams/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
+| /streams/writable-streams/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/general.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/general.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/general.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/properties.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/properties.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/properties.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/properties.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/reentrant-strategy.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/reentrant-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/reentrant-strategy.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/reentrant-strategy.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/start.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/start.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/start.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/start.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/write.any.html | fail | <code>WritableStream construction is not implemented</code> |
 | /streams/writable-streams/write.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/write.any.sharedworker.html | fail | <code>"WritableStream" is not defined</code> |
-| /streams/writable-streams/write.any.worker.html | fail | <code>"WritableStream" is not defined</code> |
 | /url/data-uri-fragment.html | timeout | <code>palim execution timed out</code> |
 | /url/failure.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /url/historical.any.html | fail | <code>assert_throws_dom: function "() =&gt; self.structuredClone(new URL("about:blank"))" threw object "TypeError: self.structuredClone is not a function. (In "self.structuredClone(new URL("about:blank"))", it is undefined)" that is not a DOMException DataCloneError: property "code" is equal to undefined, expected 25</code> |

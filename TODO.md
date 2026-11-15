@@ -112,7 +112,8 @@
 - [ ] `FileList` と file input の selected files
 - [x] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、iframe・外部 classic script・Worker script の `blob:` resource loading
 - [ ] Blob URL entry の environment の保持、storage partition の認可、environment 破棄時の削除と Fetch・XMLHttpRequest・画像・stylesheet の `blob:` resource loading
-- [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
+- [x] `WritableStream` の underlying sink、queue、backpressure、close / abort / error、writer lock semantics と Window / DedicatedWorker / SharedWorker への公開
+- [ ] `ReadableStream` / `TransformStream` の underlying source、queue、backpressure、close / cancel / error、reader lock semantics
 - [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
 - [ ] Fetch の redirect / network error / abort、credentials・referrer・mode、streaming response
 - [ ] `Request` / `Response` の multipart `formData()`、Blob・FormData・ArrayBuffer body conversion
