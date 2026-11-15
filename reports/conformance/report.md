@@ -6,28 +6,28 @@ Run status: passed
 
 | Suite | Total | Pass | Fail | Unsupported | Skip | Error | Timeout | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 17884 | 17164 | 0 | 320 | 400 | 0 | 0 | 95.97% |
+| All | 17907 | 17187 | 0 | 320 | 400 | 0 | 0 | 95.98% |
 | html5lib-tokenizer | 7053 | 7047 | 0 | 0 | 6 | 0 | 0 | 99.91% |
 | html5lib-tree-construction | 3904 | 3898 | 0 | 6 | 0 | 0 | 0 | 99.85% |
 | readability | 128 | 128 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 | w3c-xml-parser | 2427 | 1719 | 0 | 314 | 394 | 0 | 0 | 70.83% |
-| wpt-url-constructor | 897 | 897 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-constructor | 906 | 906 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 | wpt-url-idna | 2782 | 2782 | 0 | 0 | 0 | 0 | 0 | 100.00% |
-| wpt-url-origin | 415 | 415 | 0 | 0 | 0 | 0 | 0 | 100.00% |
-| wpt-url-setters | 278 | 278 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-origin | 423 | 423 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-setters | 284 | 284 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 
 ## Suite sources
 
 | Suite | Fixture | Revision | Implementation | Version | Integrity |
 | --- | --- | --- | --- | --- | --- |
 | html5lib-tokenizer | html5lib/html5lib-tests | c777c408b61078ea2eb4acefc2535f54dbc8b28a |  |  |  |
-| html5lib-tree-construction | wpt/wpt | 4fa34c721570cad34ee7283bf531811eafed6010 |  |  |  |
+| html5lib-tree-construction | wpt/wpt | c477719ab30e47400d47bb6dc042a6161c85a1a3 |  |  |  |
 | readability | readability/readability | 04fd32f72b448c12b02ba6c40928b67e510bac49 | @mozilla/readability | 0.6.0 | sha512-juG5VWh4qAivzTAeMzvY9xs9HY5rAcr2E4I7tiSSCokRFi7XIZCAu92ZkSTsIj1OPceCifL3cpfteP3pDT9/QQ== |
 | w3c-xml-parser | w3c/xml-test-suite | 20130923 |  |  |  |
-| wpt-url-constructor | wpt/wpt | 4fa34c721570cad34ee7283bf531811eafed6010 |  |  |  |
-| wpt-url-idna | wpt/wpt | 4fa34c721570cad34ee7283bf531811eafed6010 |  |  |  |
-| wpt-url-origin | wpt/wpt | 4fa34c721570cad34ee7283bf531811eafed6010 |  |  |  |
-| wpt-url-setters | wpt/wpt | 4fa34c721570cad34ee7283bf531811eafed6010 |  |  |  |
+| wpt-url-constructor | wpt/wpt | c477719ab30e47400d47bb6dc042a6161c85a1a3 |  |  |  |
+| wpt-url-idna | wpt/wpt | c477719ab30e47400d47bb6dc042a6161c85a1a3 |  |  |  |
+| wpt-url-origin | wpt/wpt | c477719ab30e47400d47bb6dc042a6161c85a1a3 |  |  |  |
+| wpt-url-setters | wpt/wpt | c477719ab30e47400d47bb6dc042a6161c85a1a3 |  |  |  |
 
 ## Profile totals
 
@@ -46,10 +46,10 @@ Run status: passed
 | w3c-xml-parser | namespaces-1.1 | 8 | 0 | 0 | 8 | 0 | 0 | 0 | 0.00% |
 | w3c-xml-parser | xml-1.0-fifth-edition | 2102 | 1671 | 0 | 40 | 391 | 0 | 0 | 79.50% |
 | w3c-xml-parser | xml-1.1 | 266 | 0 | 0 | 266 | 0 | 0 | 0 | 0.00% |
-| wpt-url-constructor | url | 897 | 897 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-constructor | url | 906 | 906 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 | wpt-url-idna | url | 2782 | 2782 | 0 | 0 | 0 | 0 | 0 | 100.00% |
-| wpt-url-origin | url | 415 | 415 | 0 | 0 | 0 | 0 | 0 | 100.00% |
-| wpt-url-setters | url | 278 | 278 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-origin | url | 423 | 423 | 0 | 0 | 0 | 0 | 0 | 100.00% |
+| wpt-url-setters | url | 284 | 284 | 0 | 0 | 0 | 0 | 0 | 100.00% |
 
 ## Failure kinds
 

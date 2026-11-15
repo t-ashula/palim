@@ -3,8 +3,8 @@
   "runStatus": "passed",
   "unhandledErrorCount": 0,
   "totals": {
-    "total": 17884,
-    "pass": 17164,
+    "total": 17907,
+    "pass": 17187,
     "fail": 0,
     "unsupported": 320,
     "skip": 400,
@@ -155,7 +155,7 @@
       "name": "html5lib-tree-construction",
       "source": {
         "name": "wpt/wpt",
-        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+        "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
       },
       "totals": {
         "total": 3904,
@@ -5308,11 +5308,11 @@
       "name": "wpt-url-constructor",
       "source": {
         "name": "wpt/wpt",
-        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+        "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
       },
       "totals": {
-        "total": 897,
-        "pass": 897,
+        "total": 906,
+        "pass": 906,
         "fail": 0,
         "unsupported": 0,
         "skip": 0,
@@ -5323,8 +5323,8 @@
         {
           "name": "url",
           "totals": {
-            "total": 897,
-            "pass": 897,
+            "total": 906,
+            "pass": 906,
             "fail": 0,
             "unsupported": 0,
             "skip": 0,
@@ -5339,7 +5339,7 @@
       "name": "wpt-url-idna",
       "source": {
         "name": "wpt/wpt",
-        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+        "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
       },
       "totals": {
         "total": 2782,
@@ -5370,11 +5370,11 @@
       "name": "wpt-url-origin",
       "source": {
         "name": "wpt/wpt",
-        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+        "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
       },
       "totals": {
-        "total": 415,
-        "pass": 415,
+        "total": 423,
+        "pass": 423,
         "fail": 0,
         "unsupported": 0,
         "skip": 0,
@@ -5385,8 +5385,8 @@
         {
           "name": "url",
           "totals": {
-            "total": 415,
-            "pass": 415,
+            "total": 423,
+            "pass": 423,
             "fail": 0,
             "unsupported": 0,
             "skip": 0,
@@ -5401,11 +5401,11 @@
       "name": "wpt-url-setters",
       "source": {
         "name": "wpt/wpt",
-        "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
+        "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
       },
       "totals": {
-        "total": 278,
-        "pass": 278,
+        "total": 284,
+        "pass": 284,
         "fail": 0,
         "unsupported": 0,
         "skip": 0,
@@ -5416,8 +5416,8 @@
         {
           "name": "url",
           "totals": {
-            "total": 278,
-            "pass": 278,
+            "total": 284,
+            "pass": 284,
             "fail": 0,
             "unsupported": 0,
             "skip": 0,
