@@ -12,6 +12,7 @@ import {
   Event,
   EventTarget,
   FocusEvent,
+  HTMLElement,
   MessageEvent,
   MutationObserver,
   Node,
@@ -108,16 +109,16 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   );
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);
-  binding.installInterface(
+  binding.installHTMLElementInterface(
     "HTMLElement",
     binding.htmlElementPrototype,
-    0,
-    (thisValue) => binding.constructHTMLElement(thisValue),
+    HTMLElement,
   );
   for (const interfaceConstructor of htmlElementInterfaceConstructors) {
-    binding.installInterface(
+    binding.installHTMLElementInterface(
       interfaceConstructor.name,
       binding.htmlElementInterfacePrototype(interfaceConstructor),
+      interfaceConstructor,
     );
   }
   const documentConstructor = binding.installInterface(

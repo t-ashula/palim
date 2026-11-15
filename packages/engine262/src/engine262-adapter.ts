@@ -49,6 +49,7 @@ import {
 } from "@engine262/engine262";
 import type {
   EngineDataPropertyAttributes,
+  EngineHostConstructor,
   EngineHostFunction,
   EngineJobEnqueueCallback,
   EnginePrimitive,
@@ -593,6 +594,50 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     callback: EngineHostFunction,
   ): EngineCallable {
     return this.#createFunction(realm, name, length, callback, true);
+  }
+
+  createConstructorWithoutThis(
+    realm: EngineRealm,
+    name: string,
+    length: number,
+    callback: EngineHostConstructor,
+  ): EngineCallable {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const steps: NativeSteps = (argumentsList, context) => {
+        try {
+          if (!(context.NewTarget instanceof ObjectValue)) {
+            return ThrowCompletion(
+              this.#value(
+                this.createTypeError(realmHandle, `${name} requires 'new'`),
+              ),
+            );
+          }
+          const values: EngineValue[] = [];
+          for (const value of argumentsList.values()) {
+            values.push(this.#wrap(value));
+          }
+          const result = callback(
+            values,
+            this.#wrapCallable(context.NewTarget),
+          );
+          return result.type === "throw"
+            ? ThrowCompletion(this.#value(result.value))
+            : this.#value(result.value);
+        } catch (error: unknown) {
+          return this.#pageErrorCompletion(realmHandle, error);
+        }
+      };
+      return this.#wrapCallable(
+        CreateBuiltinFunction(
+          markBuiltinFunctionAsConstructor(steps),
+          length,
+          name,
+          [],
+          realmHandle.realm,
+        ),
+      );
+    });
   }
 
   defineDataProperty(

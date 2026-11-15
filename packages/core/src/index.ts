@@ -172,6 +172,7 @@ export {
   documentCustomElementRegistry,
   initializeCustomElementRegistry,
   isValidCustomElementName,
+  setCustomElementDefinition,
   upgradeCustomElements,
 } from "./dom/custom-elements.js";
 export {
@@ -240,6 +241,7 @@ export {
 export { WINDOW_EVENT_HANDLER_NAMES } from "./event-handler-names.js";
 export {
   createCustomHTMLElementBase,
+  createHTMLElement,
   isKnownHTMLElementLocalName,
   setHTMLIFrameElementContentWindow,
 } from "./html-elements.js";

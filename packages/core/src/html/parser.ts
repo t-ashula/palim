@@ -2518,7 +2518,13 @@ class TreeBuilder {
       namespace === SVG_NAMESPACE
         ? (SVG_NAMES[token.name] ?? token.name)
         : token.name;
-    const element = createDOMElement(this.document, localName, namespace);
+    const element = createDOMElement(
+      this.document,
+      localName,
+      namespace,
+      null,
+      token.attributes.is ?? null,
+    );
     const attributes = Object.entries(token.attributes).map(
       ([sourceName, value]): AttributeData => {
         const name =

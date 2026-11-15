@@ -1,5 +1,6 @@
 export type {
   EngineDataPropertyAttributes,
+  EngineHostConstructor,
   EngineHostFunction,
   EngineJobEnqueueCallback,
   EnginePrimitive,

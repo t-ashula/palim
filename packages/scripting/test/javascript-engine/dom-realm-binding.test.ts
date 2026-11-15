@@ -146,6 +146,80 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("constructs a customized built-in element directly", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("constructs-customized-built-in-directly.js"),
+      );
+    }).not.toThrow();
+  });
+
+  it("creates a customized built-in element by local name and is value", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("creates-customized-built-in-element.js"),
+      );
+    }).not.toThrow();
+  });
+
+  it("rejects direct construction of an HTML interface", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("rejects-direct-html-interface-construction.js"),
+      );
+    }).not.toThrow();
+  });
+
+  it("validates the active HTML interface before reading the prototype", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("validates-html-constructor-before-prototype.js"),
+      );
+    }).not.toThrow();
+  });
+
+  it("falls back to the active HTML interface prototype", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("falls-back-to-html-interface-prototype.js"),
+      );
+    }).not.toThrow();
+  });
+
+  it("upgrades a parser-created customized built-in element", () => {
+    const { engine, realm } = createTestRealm(
+      '<button is="parser-button"></button>',
+    );
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("upgrades-parser-customized-built-in.js"),
+      );
+    }).not.toThrow();
+  });
+
   it("initializes a detached subtree with a scoped registry", () => {
     const { engine, realm } = createTestRealm("");
 

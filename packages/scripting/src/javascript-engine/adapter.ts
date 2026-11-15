@@ -55,6 +55,11 @@ export type EngineHostFunction = (
   argumentsList: readonly EngineValue[],
 ) => EngineResult<EngineValue>;
 
+export type EngineHostConstructor = (
+  argumentsList: readonly EngineValue[],
+  newTarget: EngineCallable,
+) => EngineResult<EngineValue>;
+
 export type EngineJobEnqueueCallback = (job: EngineJob) => void;
 export type EnginePromiseRejectionOperation = "reject" | "handle";
 export type EnginePromiseRejectionTracker = (
@@ -159,6 +164,12 @@ export interface JavaScriptEngineAdapter {
     name: string,
     length: number,
     callback: EngineHostFunction,
+  ): EngineCallable;
+  createConstructorWithoutThis(
+    realm: EngineRealm,
+    name: string,
+    length: number,
+    callback: EngineHostConstructor,
   ): EngineCallable;
   defineDataProperty(
     realm: EngineRealm,

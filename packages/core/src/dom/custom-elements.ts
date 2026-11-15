@@ -10,6 +10,7 @@ import {
 
 export interface CustomElementDefinition {
   readonly name: string;
+  readonly localName: string;
   readonly constructorIdentity?: object;
   readonly construct: (
     document: Document,
@@ -28,6 +29,7 @@ const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
   Element,
   CustomElementDefinition
 >();
+const CUSTOM_ELEMENT_IS_VALUES = new WeakMap<Element, string>();
 const FAILED_CUSTOM_ELEMENTS = new WeakSet<Element>();
 export class CustomElementRegistry {
   readonly #definitions = new Map<string, CustomElementDefinition>();
@@ -53,6 +55,21 @@ export class CustomElementRegistry {
 
   definition(name: string): CustomElementDefinition | null {
     return this.#definitions.get(name) ?? null;
+  }
+
+  definitionForElement(
+    localName: string,
+    isValue: string | null,
+  ): CustomElementDefinition | null {
+    const autonomousDefinition = this.#definitions.get(localName);
+    if (autonomousDefinition?.localName === localName) {
+      return autonomousDefinition;
+    }
+    if (isValue !== null) {
+      const definition = this.#definitions.get(isValue);
+      return definition?.localName === localName ? definition : null;
+    }
+    return null;
   }
 
   definitionForConstructor(
@@ -162,16 +179,48 @@ export function createDefinedCustomElement(
   document: Document,
   localName: string,
   prefix: string | null,
+  isValue: string | null = null,
 ): CallbackResult<Element> | null {
-  const definition = DOCUMENT_REGISTRIES.get(document)?.definition(localName);
+  const definition = DOCUMENT_REGISTRIES.get(document)?.definitionForElement(
+    localName,
+    isValue,
+  );
   if (definition === null || definition === undefined) {
     return null;
   }
   const result = definition.construct(document, localName, prefix);
   if (result.type === "success") {
     CUSTOM_ELEMENT_DEFINITIONS.set(result.value, definition);
+    if (isValue !== null) {
+      CUSTOM_ELEMENT_IS_VALUES.set(result.value, isValue);
+    }
   }
   return result;
+}
+
+export function setCustomElementIsValue(
+  element: Element,
+  isValue: string,
+): void {
+  CUSTOM_ELEMENT_IS_VALUES.set(element, isValue);
+}
+
+export function customElementIsValue(element: Element): string | null {
+  return CUSTOM_ELEMENT_IS_VALUES.get(element) ?? null;
+}
+
+export function setCustomElementDefinition(
+  element: Element,
+  definition: CustomElementDefinition,
+): void {
+  CUSTOM_ELEMENT_DEFINITIONS.set(element, definition);
+  if (definition.localName !== definition.name) {
+    CUSTOM_ELEMENT_IS_VALUES.set(element, definition.name);
+  }
+}
+
+export function setFailedCustomElement(element: Element): void {
+  FAILED_CUSTOM_ELEMENTS.add(element);
 }
 
 export function upgradeCustomElements(
@@ -189,7 +238,10 @@ export function upgradeCustomElements(
     ) {
       continue;
     }
-    const definition = registry.definition(element.localName);
+    const definition = registry.definitionForElement(
+      element.localName,
+      CUSTOM_ELEMENT_IS_VALUES.get(element) ?? null,
+    );
     if (
       definition === null ||
       (name !== undefined && definition.name !== name)

@@ -1,5 +1,6 @@
 import { DocumentType, Text } from "@palim/core";
 
+import type { EngineResult, EngineValue } from "./adapter.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { createRealmHTMLWritableStream } from "./dom-realm-html-streaming-interface.js";
@@ -2043,10 +2044,21 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         0,
         "createElement",
       );
-      return localName.type === "throw"
-        ? localName
+      if (localName.type === "throw") {
+        return localName;
+      }
+      const isValue = elementCreationIsValue(binding, argumentsList[1]);
+      return isValue.type === "throw"
+        ? isValue
         : binding.domOperationResult(() =>
-            normal(binding.wrap(document.createElement(localName.value))),
+            normal(
+              binding.wrap(
+                document.createElement(
+                  localName.value,
+                  isValue.value === null ? undefined : { is: isValue.value },
+                ),
+              ),
+            ),
           );
     },
   );
@@ -2072,12 +2084,20 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
         1,
         "createElementNS",
       );
-      return qualifiedName.type === "throw"
-        ? qualifiedName
+      if (qualifiedName.type === "throw") {
+        return qualifiedName;
+      }
+      const isValue = elementCreationIsValue(binding, argumentsList[2]);
+      return isValue.type === "throw"
+        ? isValue
         : binding.domOperationResult(() =>
             normal(
               binding.wrap(
-                document.createElementNS(namespace.value, qualifiedName.value),
+                document.createElementNS(
+                  namespace.value,
+                  qualifiedName.value,
+                  isValue.value === null ? undefined : { is: isValue.value },
+                ),
               ),
             ),
           );
@@ -2252,6 +2272,29 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
     (value) => binding.document(value),
     "Document",
   );
+}
+
+function elementCreationIsValue(
+  binding: DOMRealmBindingContext,
+  value: EngineValue | undefined,
+): EngineResult<string | null> {
+  if (value === undefined || binding.engine.isUndefined(value)) {
+    return normal(null);
+  }
+  const options = binding.engine.asObject(value);
+  if (options === null) {
+    const converted = binding.engine.toString(binding.realm, value);
+    return converted.type === "throw" ? converted : normal(null);
+  }
+  const isValue = binding.engine.get(binding.realm, options, "is");
+  if (isValue.type === "throw") {
+    return isValue;
+  }
+  if (binding.engine.isUndefined(isValue.value)) {
+    return normal(null);
+  }
+  const converted = binding.engine.toString(binding.realm, isValue.value);
+  return converted.type === "throw" ? converted : normal(converted.value);
 }
 
 export function installDocumentFragmentMembers(

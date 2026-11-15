@@ -1,3 +1,4 @@
+import { customElementIsValue } from "../dom/custom-elements.js";
 import type {
   Attr,
   CharacterData,
@@ -116,6 +117,10 @@ function attributeName(attribute: Attr): string {
 function serializeElement(element: Element): string {
   const name = elementName(element);
   let result = `<${name}`;
+  const isValue = customElementIsValue(element);
+  if (isValue !== null && !element.hasAttribute("is")) {
+    result += ` is="${escape(isValue, true)}"`;
+  }
   for (const attribute of attributeNodes(element)) {
     result += ` ${attributeName(attribute)}="${escape(attribute.value, true)}"`;
   }

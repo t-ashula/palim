@@ -1,6 +1,7 @@
 import type {
   EngineCallable,
   EngineDataPropertyAttributes,
+  EngineHostConstructor,
   EngineHostFunction,
   EngineObject,
   EnginePrimitive,
@@ -97,6 +98,19 @@ export class RealmBindingContext {
     callback: EngineHostFunction,
   ): EngineCallable {
     return this.engine.createConstructor(this.realm, name, length, callback);
+  }
+
+  createConstructorWithoutThis(
+    name: string,
+    length: number,
+    callback: EngineHostConstructor,
+  ): EngineCallable {
+    return this.engine.createConstructorWithoutThis(
+      this.realm,
+      name,
+      length,
+      callback,
+    );
   }
 
   dataProperty(

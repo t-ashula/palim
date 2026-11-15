@@ -83,6 +83,7 @@ export function installCustomElementRegistryMembers(
       const options = binding.engine.asObject(
         argumentsList[2] ?? binding.engine.fromPrimitive(undefined),
       );
+      let localName = name.value;
       if (options !== null) {
         const extendsValue = binding.engine.get(
           binding.realm,
@@ -111,12 +112,18 @@ export function installCustomElementRegistryMembers(
               ),
             );
           }
+          localName = extendsName.value;
         }
       }
       definingRegistries.add(registry);
       let result: EngineResult<EngineValue>;
       try {
-        result = binding.defineCustomElement(registry, name.value, constructor);
+        result = binding.defineCustomElement(
+          registry,
+          name.value,
+          localName,
+          constructor,
+        );
       } finally {
         definingRegistries.delete(registry);
       }

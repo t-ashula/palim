@@ -52,6 +52,7 @@ describe("custom element reactions", () => {
     setDocumentCustomElementRegistry(document, registry);
     registry.define({
       name: "x-failed",
+      localName: "x-failed",
       construct: () => callbackFailure(),
       connectedCallback: () => reactions.push("connected"),
       disconnectedCallback: null,
@@ -72,6 +73,7 @@ describe("custom element reactions", () => {
     setDocumentCustomElementRegistry(document, registry);
     registry.define({
       name: "x-moving",
+      localName: "x-moving",
       construct: (ownerDocument, localName, prefix) =>
         callbackSuccess(
           createCustomHTMLElementBase(ownerDocument, localName, prefix),
@@ -98,6 +100,7 @@ describe("custom element reactions", () => {
     setDocumentCustomElementRegistry(document, registry);
     registry.define({
       name: "x-shadow-moving",
+      localName: "x-shadow-moving",
       construct: (ownerDocument, localName, prefix) =>
         callbackSuccess(
           createCustomHTMLElementBase(ownerDocument, localName, prefix),

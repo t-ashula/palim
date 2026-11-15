@@ -17,7 +17,11 @@ import {
   createHTMLCollection,
   createNodeList,
 } from "./dom/collections.js";
-import { createDefinedCustomElement } from "./dom/custom-elements.js";
+import {
+  createDefinedCustomElement,
+  setCustomElementIsValue,
+  setFailedCustomElement,
+} from "./dom/custom-elements.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
 import {
   documentImplementation,
@@ -5121,12 +5125,26 @@ export function createElementForDocument(
   localName: string,
   namespaceURI: string | null,
   prefix: string | null,
+  isValue: string | null = null,
 ): Element {
   if (namespaceURI === HTML_NAMESPACE) {
-    const defined = createDefinedCustomElement(document, localName, prefix);
-    return defined?.type === "success"
-      ? defined.value
-      : createHTMLElement(document, localName, prefix);
+    const defined = createDefinedCustomElement(
+      document,
+      localName,
+      prefix,
+      isValue,
+    );
+    if (defined?.type === "success") {
+      return defined.value;
+    }
+    const element = createHTMLElement(document, localName, prefix);
+    if (defined?.type === "failure") {
+      setFailedCustomElement(element);
+    }
+    if (isValue !== null) {
+      setCustomElementIsValue(element, isValue);
+    }
+    return element;
   }
   return createElementInterface(document, localName, namespaceURI, prefix);
 }

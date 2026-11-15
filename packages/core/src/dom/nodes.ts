@@ -47,9 +47,11 @@ import {
   validateName,
 } from "./conversions.js";
 import {
+  customElementRegistryForNode,
   enqueueCustomElementConnectedReaction,
   enqueueCustomElementDisconnectedReaction,
   enqueueCustomElementMoveReaction,
+  upgradeCustomElements,
 } from "./custom-elements.js";
 import { createLegacyEvent, Event, EventTarget } from "./events.js";
 import { queueTreeMutationRecord } from "./mutation-observer.js";
@@ -300,6 +302,7 @@ export type ElementFactory = (
   localName: string,
   namespaceURI: string | null,
   prefix: string | null,
+  isValue?: string | null,
 ) => Element;
 
 let documentElementFactory: ElementFactory = defaultElementFactory;
@@ -1206,7 +1209,7 @@ export class Document extends Node {
     requireArguments(parameters.length, 1);
     const [localName, options] = parameters;
     let convertedName = domString(localName);
-    convertElementCreationOptions(options);
+    const isValue = convertElementCreationOptions(options);
     validateElementLocalName(convertedName);
     if (this.contentType === "text/html") {
       convertedName = asciiLowercase(convertedName);
@@ -1216,7 +1219,13 @@ export class Document extends Node {
       this.contentType === "application/xhtml+xml"
         ? HTML_NAMESPACE
         : null;
-    return createElementForDocument(this, convertedName, namespaceURI, null);
+    return createElementForDocument(
+      this,
+      convertedName,
+      namespaceURI,
+      null,
+      isValue,
+    );
   }
 
   createElementNS(
@@ -1229,7 +1238,7 @@ export class Document extends Node {
     const [namespace, qualifiedName, options] = parameters;
     const convertedNamespace = normalizeNamespace(namespace);
     const convertedName = domString(qualifiedName);
-    convertElementCreationOptions(options);
+    const isValue = convertElementCreationOptions(options);
     const extracted = validateAndExtractElement(
       convertedNamespace,
       convertedName,
@@ -1239,6 +1248,7 @@ export class Document extends Node {
       extracted.localName,
       extracted.namespace,
       extracted.prefix,
+      isValue,
     );
   }
 
@@ -1480,12 +1490,14 @@ export function createElementForDocument(
   localName: string,
   namespaceURI: string | null,
   prefix: string | null = null,
+  isValue: string | null = null,
 ): Element {
   return documentImplementation(document).elementFactory(
     document,
     localName,
     namespaceURI,
     prefix,
+    isValue,
   );
 }
 
@@ -3948,18 +3960,16 @@ export function setDocumentElementFactory(factory: ElementFactory): void {
   documentElementFactory = factory;
 }
 
-function convertElementCreationOptions(options: unknown): void {
+function convertElementCreationOptions(options: unknown): string | null {
   if (options === undefined) {
-    return;
+    return null;
   }
   if (typeof options !== "object" || options === null) {
     domString(options);
-    return;
+    return null;
   }
   const isValue: unknown = (options as ElementCreationOptions).is;
-  if (isValue !== undefined) {
-    domString(isValue);
-  }
+  return isValue === undefined ? null : domString(isValue);
 }
 
 function importNodeSubtree(options: unknown): boolean {
@@ -4939,6 +4949,10 @@ function insertNodes(
   }
   for (const inserted of nodes) {
     if (inserted.isConnected) {
+      const registry = customElementRegistryForNode(inserted);
+      if (registry !== null) {
+        upgradeCustomElements(inserted, registry);
+      }
       for (const element of shadowIncludingInclusiveDescendantElements(
         inserted,
       )) {

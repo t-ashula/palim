@@ -24,7 +24,7 @@ import {
   CDATASection,
   CharacterData,
   Comment,
-  createCustomHTMLElementBase,
+  createHTMLElement,
   createNodeIterator,
   createTreeWalker,
   CSSStyleDeclaration,
@@ -85,6 +85,7 @@ import {
   NodeList,
   ProcessingInstruction,
   PromiseRejectionEvent,
+  setCustomElementDefinition,
   ShadowRoot,
   Text,
   toLong,
@@ -136,6 +137,10 @@ const documentRealmBindingsByEngine = new WeakMap<
   JavaScriptEngineAdapter,
   WeakMap<DocumentImplementation, DOMRealmBindingContext>
 >();
+const realmBindingsByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<EngineRealm, DOMRealmBindingContext>
+>();
 const sharedImplementationsByEngine = new WeakMap<
   JavaScriptEngineAdapter,
   WeakMap<EngineObject, object>
@@ -157,6 +162,18 @@ function documentRealmBindings(
     DOMRealmBindingContext
   >();
   documentRealmBindingsByEngine.set(engine, bindings);
+  return bindings;
+}
+
+function realmBindings(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<EngineRealm, DOMRealmBindingContext> {
+  const existing = realmBindingsByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const bindings = new WeakMap<EngineRealm, DOMRealmBindingContext>();
+  realmBindingsByEngine.set(engine, bindings);
   return bindings;
 }
 
@@ -290,13 +307,9 @@ export class DOMRealmBindingContext {
     CustomElementRegistry,
     EngineObject
   >();
-  readonly customElementConstructionStack: {
-    readonly element: ReturnType<typeof createCustomHTMLElementBase>;
-    readonly prototype: EngineObject;
-  }[] = [];
-  readonly customElementDefinitionsByPrototype = new WeakMap<
-    EngineObject,
-    { readonly name: string; readonly prototype: EngineObject }
+  private readonly customElementConstructionStacks = new WeakMap<
+    object,
+    (Element | null)[]
   >();
   readonly traversalAbruptValues = new WeakMap<object, EngineValue>();
 
@@ -308,6 +321,7 @@ export class DOMRealmBindingContext {
     this.engine = context.engine;
     this.realm = context.realm;
     this.context = context;
+    realmBindings(this.engine).set(this.realm, this);
     this.customElementRegistry =
       associatedDocument === null
         ? new CustomElementRegistry()
@@ -577,51 +591,81 @@ export class DOMRealmBindingContext {
     );
   }
 
-  constructHTMLElement(thisValue: EngineValue): EngineResult<EngineValue> {
-    const entry = this.customElementConstructionStack.at(-1);
-    if (entry !== undefined) {
-      const platformObject = this.wrap(entry.element);
-      const prototypeResult = this.engine.setPrototypeOf(
-        this.realm,
-        platformObject,
-        entry.prototype,
-      );
-      if (prototypeResult.type === "throw") {
-        return prototypeResult;
-      }
-      if (!prototypeResult.value) {
-        return this.typeError("Custom element prototype was rejected");
-      }
-      return normal(platformObject);
-    }
-    const receiver = this.engine.asObject(thisValue);
-    if (receiver === null) {
+  constructHTMLElement(
+    activeInterface: typeof HTMLElement | HTMLElementInterfaceConstructor,
+    activeFunction: EngineCallable,
+    newTarget: EngineCallable,
+  ): EngineResult<EngineValue> {
+    if (newTarget === activeFunction) {
       return this.typeError("Illegal constructor");
-    }
-    const prototype = this.engine.getPrototypeOf(this.realm, receiver);
-    if (prototype.type === "throw") {
-      return prototype;
     }
     const definition =
-      prototype.value === null
-        ? undefined
-        : this.customElementDefinitionsByPrototype.get(prototype.value);
-    if (definition === undefined) {
+      this.customElementRegistry.definitionForConstructor(newTarget);
+    if (definition === null) {
       return this.typeError("Illegal constructor");
     }
-    const created = createCustomHTMLElementBase(
-      this.associatedDocument ?? new Document(),
-      definition.name,
-      null,
-    );
-    const platformObject = this.wrap(created);
+    if (definition.localName === definition.name) {
+      if (activeInterface !== HTMLElement) {
+        return this.typeError("Illegal constructor");
+      }
+    } else {
+      const expected = createHTMLElement(
+        this.associatedDocument ?? new Document(),
+        definition.localName,
+        null,
+      );
+      if (expected.constructor !== activeInterface) {
+        return this.typeError("Illegal constructor");
+      }
+    }
+    const prototypeValue = this.engine.get(this.realm, newTarget, "prototype");
+    if (prototypeValue.type === "throw") {
+      return prototypeValue;
+    }
+    let prototype = this.engine.asObject(prototypeValue.value);
+    if (prototype === null) {
+      const callableRealm = this.engine.callableRealm(this.realm, newTarget);
+      if (callableRealm.type === "throw") {
+        return callableRealm;
+      }
+      const binding = realmBindings(this.engine).get(callableRealm.value);
+      if (binding === undefined) {
+        return this.typeError("NewTarget realm has no DOM interfaces");
+      }
+      prototype =
+        activeInterface === HTMLElement
+          ? binding.htmlElementPrototype
+          : binding.htmlElementInterfacePrototype(activeInterface);
+    }
+    const stack = this.customElementConstructionStacks.get(newTarget);
+    const entry = stack?.at(-1);
+    if (entry === null) {
+      return this.typeError("Custom element is already constructed");
+    }
+    const element =
+      entry ??
+      createHTMLElement(
+        this.associatedDocument ?? new Document(),
+        definition.localName,
+        null,
+      );
+    if (entry === undefined) {
+      setCustomElementDefinition(element, definition);
+    }
+    const platformObject = this.wrap(element);
     const prototypeResult = this.engine.setPrototypeOf(
       this.realm,
       platformObject,
-      definition.prototype,
+      prototype,
     );
     if (prototypeResult.type === "throw") {
       return prototypeResult;
+    }
+    if (!prototypeResult.value) {
+      return this.typeError("Custom element prototype was rejected");
+    }
+    if (stack !== undefined && entry !== undefined) {
+      stack[stack.length - 1] = null;
     }
     return normal(platformObject);
   }
@@ -629,6 +673,7 @@ export class DOMRealmBindingContext {
   defineCustomElement(
     registry: CustomElementRegistry,
     name: string,
+    localName: string,
     constructor: EngineCallable,
   ): EngineResult<EngineValue> {
     const prototypeValue = this.engine.get(
@@ -746,6 +791,7 @@ export class DOMRealmBindingContext {
     try {
       registry.define({
         name,
+        localName,
         constructorIdentity: constructor,
         construct: (document, localName, prefix, existingElement) => {
           if (
@@ -755,9 +801,17 @@ export class DOMRealmBindingContext {
             return callbackFailure();
           }
           const element =
-            existingElement ??
-            createCustomHTMLElementBase(document, localName, prefix);
-          this.customElementConstructionStack.push({ element, prototype });
+            existingElement ?? createHTMLElement(document, localName, prefix);
+          let constructionStack =
+            this.customElementConstructionStacks.get(constructor);
+          if (constructionStack === undefined) {
+            constructionStack = [];
+            this.customElementConstructionStacks.set(
+              constructor,
+              constructionStack,
+            );
+          }
+          constructionStack.push(element);
           try {
             const result = this.context.runtime.invokeConstructor(
               constructorRecord.value,
@@ -778,19 +832,13 @@ export class DOMRealmBindingContext {
             }
             return callbackSuccess(element);
           } finally {
-            this.customElementConstructionStack.pop();
+            constructionStack.pop();
           }
         },
         connectedCallback: connectedCallback.value,
         disconnectedCallback: disconnectedCallback.value,
         connectedMoveCallback: connectedMoveCallback.value,
       });
-      if (!registry.scoped) {
-        this.customElementDefinitionsByPrototype.set(prototype, {
-          name,
-          prototype,
-        });
-      }
     } catch (error: unknown) {
       if (error instanceof HostDOMException) {
         return thrown(this.createDOMException(error.message, error.name));
@@ -917,6 +965,21 @@ export class DOMRealmBindingContext {
             this.typeError("Illegal constructor"),
           )
         : this.context.createConstructor(name, length, construct);
+    this.context.installInterface(name, constructor, prototype);
+    return constructor;
+  }
+
+  installHTMLElementInterface(
+    name: string,
+    prototype: EngineObject,
+    activeInterface: typeof HTMLElement | HTMLElementInterfaceConstructor,
+  ): EngineObject {
+    const constructor = this.context.createConstructorWithoutThis(
+      name,
+      0,
+      (_argumentsList, newTarget) =>
+        this.constructHTMLElement(activeInterface, constructor, newTarget),
+    );
     this.context.installInterface(name, constructor, prototype);
     return constructor;
   }
