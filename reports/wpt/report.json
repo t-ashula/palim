@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261114t152414500z-743415",
+    "id": "20261114t192029076z-1210069",
     "state": "completed",
     "palim": {
-      "revision": "f5397f6ce439351f057e8017cfcb2f94dfe57325",
+      "revision": "1de00ea237d05a1bdee691df45ea93475c95a846",
       "dirty": false,
-      "imageId": "sha256:a1ca8a74a125ed84e3652f6edc034117b79d53e586c93b358a43ae80fd420231"
+      "imageId": "sha256:ef5964ee327d268acbf5e6fa087446fc96e44ea866f9114640acd45aa6978321"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-14T16:05:12.686Z",
+    "snapshotAt": "2026-11-14T20:02:09.366Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 792,
-    "fail": 821,
+    "pass": 793,
+    "fail": 813,
     "skip": 0,
     "error": 131,
-    "timeout": 182,
+    "timeout": 189,
     "pending": 0
   },
   "areas": [
@@ -116,11 +116,11 @@
       "totals": {
         "total": 408,
         "executed": 408,
-        "pass": 302,
-        "fail": 81,
+        "pass": 303,
+        "fail": 73,
         "skip": 0,
         "error": 3,
-        "timeout": 22,
+        "timeout": 29,
         "pending": 0
       }
     },
@@ -296,21 +296,21 @@
   ],
   "subtests": {
     "total": 98202,
-    "pass": 71219,
-    "fail": 26649,
+    "pass": 71221,
+    "fail": 26640,
     "skip": 0,
     "error": 161,
-    "timeout": 173
+    "timeout": 180
   },
   "nonTentative": {
     "totals": {
       "total": 1794,
       "executed": 1794,
-      "pass": 781,
-      "fail": 749,
+      "pass": 782,
+      "fail": 741,
       "skip": 0,
       "error": 110,
-      "timeout": 154,
+      "timeout": 161,
       "pending": 0
     },
     "areas": [
@@ -371,11 +371,11 @@
         "totals": {
           "total": 408,
           "executed": 408,
-          "pass": 302,
-          "fail": 81,
+          "pass": 303,
+          "fail": 73,
           "skip": 0,
           "error": 3,
-          "timeout": 22,
+          "timeout": 29,
           "pending": 0
         }
       },
@@ -551,11 +551,11 @@
     ],
     "subtests": {
       "total": 96648,
-      "pass": 70356,
-      "fail": 26050,
+      "pass": 70358,
+      "fail": 26041,
       "skip": 0,
       "error": 97,
-      "timeout": 145
+      "timeout": 152
     },
     "nonPassingTests": [
       {
@@ -1521,7 +1521,7 @@
       {
         "url": "/dom/events/Event-dispatch-redispatch.html",
         "status": "timeout",
-        "message": "b'TypeError: buttonElement.getBoundingClientRect is not a function. (In \"buttonElement.getBoundingClientRect()\", it is undefined)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:96:16)'"
+        "message": "b'Error: document.elementsFromPoint unsupported\\n    at getPointerInteractablePaintTree (http://web-platform.test:8000/resources/testdriver.js:66:29)\\n    at inView (http://web-platform.test:8000/resources/testdriver.js:71:76)\\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1318:25)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'"
       },
       {
         "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1971,7 +1971,7 @@
       {
         "url": "/dom/events/pointer-event-document-move.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/dom/events/preventDefault-during-activation-behavior.html",
@@ -2026,7 +2026,7 @@
       {
         "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: scroller.getBoundingClientRect is not a function. (In \"scroller.getBoundingClientRect()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
@@ -2585,7 +2585,7 @@
       {
         "url": "/dom/nodes/insertion-removing-steps/change-event.window.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/dom/nodes/insertion-removing-steps/frame-post-connection-steps.html",
@@ -2615,7 +2615,7 @@
       {
         "url": "/dom/nodes/moveBefore/child-style-preserve.html",
         "status": "fail",
-        "message": "item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)"
+        "message": "assert_equals: expected 200 but got 100"
       },
       {
         "url": "/dom/nodes/moveBefore/continue-css-animation-left.html",
@@ -2629,23 +2629,23 @@
       },
       {
         "url": "/dom/nodes/moveBefore/continue-css-transition-left-pseudo.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/continue-css-transition-left.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/continue-css-transition-transform-pseudo.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/continue-css-transition-transform.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/css-animation-commit-styles.html",
@@ -2659,18 +2659,18 @@
       },
       {
         "url": "/dom/nodes/moveBefore/css-transition-cross-shadow.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/css-transition-to-disconnected-document.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/css-transition-trigger.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: item.getBoundingClientRect is not a function. (In \"item.getBoundingClientRect()\", it is undefined)\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/custom-element-move-reactions.html",
@@ -2695,7 +2695,7 @@
       {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/dom/nodes/moveBefore/hover-style-update.html",
@@ -2720,12 +2720,7 @@
       {
         "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
         "status": "fail",
-        "message": "span.getBoundingClientRect is not a function. (In \"span.getBoundingClientRect()\", it is undefined)"
-      },
-      {
-        "url": "/dom/nodes/moveBefore/moveBefore-into-display-none.html",
-        "status": "fail",
-        "message": "span.getBoundingClientRect is not a function. (In \"span.getBoundingClientRect()\", it is undefined)"
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/dom/nodes/moveBefore/moveBefore-optgroup.html",
@@ -3065,7 +3060,7 @@
       {
         "url": "/html/dom/elements/global-attributes/dir-not-changed-text-input-typing.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/html/dom/elements/global-attributes/dir-slots-directionality.html",
@@ -4320,77 +4315,77 @@
       {
         "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
@@ -4400,7 +4395,7 @@
       {
         "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
@@ -4415,12 +4410,12 @@
       {
         "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
@@ -4430,192 +4425,192 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
@@ -4625,12 +4620,12 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
@@ -4640,7 +4635,7 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
@@ -4650,42 +4645,42 @@
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-within-shadow.html",
@@ -4705,12 +4700,12 @@
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/click-focus-slot-ancestor.html",
@@ -4725,7 +4720,7 @@
       {
         "url": "/shadow-dom/focus/focus-click-on-shadow-host.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-method-delegatesFocus.html",
@@ -4745,7 +4740,7 @@
       {
         "url": "/shadow-dom/focus/focus-scroll-under-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-shadowhost-display-none.html",
@@ -4760,77 +4755,77 @@
       {
         "url": "/shadow-dom/focus/focus-tab-on-shadow-host.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-3.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html",
@@ -5555,7 +5550,7 @@
       {
         "url": "/xhr/formdata/constructor-submitter-coordinate.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: submitter.getBoundingClientRect is not a function. (In \"submitter.getBoundingClientRect()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
       },
       {
         "url": "/xhr/formdata/constructor-submitter.html",
@@ -5615,7 +5610,7 @@
       {
         "url": "/xhr/formdata/submitter-coordinate-value.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       }
     ]
   },
@@ -6193,7 +6188,7 @@
       {
         "url": "/shadow-dom/Document-caretPositionFromPoint.tentative.html",
         "status": "fail",
-        "message": "container.firstChild.getBoundingClientRect is not a function. (In \"container.firstChild.getBoundingClientRect()\", it is undefined)"
+        "message": "document.caretPositionFromPoint is not a function. (In \"document.caretPositionFromPoint(x, y, {})\", it is undefined)"
       },
       {
         "url": "/shadow-dom/accesskey.tentative.html",
@@ -6388,12 +6383,12 @@
       {
         "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: element.getClientRects is not a function. (In \"element.getClientRects()\", it is undefined)\""
+        "message": "promise_test: Unhandled rejection with value: object \"Error: document.elementsFromPoint unsupported\""
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",

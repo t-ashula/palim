@@ -36,10 +36,12 @@
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
 - [ ] iframe navigation で response MIME type を保持し、`data:` URL の body と fragment を分離して HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
-- [ ] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
+- [x] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
-- [ ] `getComputedStyle` / `getClientRects()` / `getBoundingClientRect()` と layout-dependent API
+- [x] `getClientRects()` / `getBoundingClientRect()` と normal flow の block / inline layout
+- [ ] `getComputedStyle` と残る layout-dependent API
+- [ ] `elementFromPoint()` / `elementsFromPoint()` の viewport hit testing
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
