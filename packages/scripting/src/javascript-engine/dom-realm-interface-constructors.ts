@@ -108,8 +108,11 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   );
   binding.installInterface("Attr", binding.attrPrototype);
   binding.installInterface("Element", binding.elementPrototype);
-  binding.installInterface("HTMLElement", binding.htmlElementPrototype, 0, () =>
-    binding.constructHTMLElement(),
+  binding.installInterface(
+    "HTMLElement",
+    binding.htmlElementPrototype,
+    0,
+    (thisValue) => binding.constructHTMLElement(thisValue),
   );
   for (const interfaceConstructor of htmlElementInterfaceConstructors) {
     binding.installInterface(
@@ -272,6 +275,8 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
   binding.installInterface(
     "CustomElementRegistry",
     binding.customElementRegistryPrototype,
+    0,
+    () => normal(binding.createCustomElementRegistry()),
   );
   binding.engine.initializeDataProperty(
     binding.engine.globalObject(binding.realm),

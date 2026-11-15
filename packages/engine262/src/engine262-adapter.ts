@@ -514,6 +514,25 @@ export class Engine262Adapter implements JavaScriptEngineAdapter {
     });
   }
 
+  getPrototypeOf(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<EngineObject | null> {
+    const realmHandle = this.#realm(realm);
+    return this.#withRealm(realmHandle, () => {
+      const completion = skipDebugger(this.#object(object).GetPrototypeOf());
+      if (completion instanceof ThrowCompletion) {
+        return thrown(this.#wrap(completion.Value));
+      }
+      const prototype = ValueOfNormalCompletion(completion);
+      return normal(
+        prototype === Value.null
+          ? null
+          : this.#wrapObject(prototype as ObjectValue),
+      );
+    });
+  }
+
   setPrototypeOf(
     realm: EngineRealm,
     object: EngineObject,

@@ -4964,7 +4964,9 @@ function shadowIncludingInclusiveDescendantNodes(node: Node): Node[] {
   return result;
 }
 
-function shadowIncludingInclusiveDescendantElements(node: Node): Element[] {
+export function shadowIncludingInclusiveDescendantElements(
+  node: Node,
+): Element[] {
   const result: Element[] = [];
   if (node instanceof Element) {
     result.push(node);

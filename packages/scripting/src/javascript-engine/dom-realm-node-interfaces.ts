@@ -698,6 +698,16 @@ export function installAttrMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installElementMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(
+    binding.elementPrototype,
+    "customElementRegistry",
+    (thisValue) => {
+      const element = binding.element(thisValue);
+      return element === null
+        ? binding.typeError("Invalid Element receiver")
+        : normal(binding.customElementRegistryObjectForNode(element));
+    },
+  );
   for (const name of ["getClientRects", "getBoundingClientRect"] as const) {
     binding.method(binding.elementPrototype, name, 0, (thisValue) => {
       const element = binding.element(thisValue);
@@ -1540,6 +1550,16 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installDocumentMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(
+    binding.documentPrototype,
+    "customElementRegistry",
+    (thisValue) => {
+      const document = binding.document(thisValue);
+      return document === null
+        ? binding.typeError("Invalid Document receiver")
+        : normal(binding.customElementRegistryObjectForNode(document));
+    },
+  );
   binding.attribute(binding.documentPrototype, "activeElement", (thisValue) => {
     const document = binding.document(thisValue);
     return document === null
@@ -2237,6 +2257,16 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
 export function installDocumentFragmentMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.attribute(
+    binding.shadowRootPrototype,
+    "customElementRegistry",
+    (thisValue) => {
+      const shadowRoot = binding.shadowRoot(thisValue);
+      return shadowRoot === null
+        ? binding.typeError("Invalid ShadowRoot receiver")
+        : normal(binding.customElementRegistryObjectForNode(shadowRoot));
+    },
+  );
   binding.attribute(
     binding.shadowRootPrototype,
     "activeElement",

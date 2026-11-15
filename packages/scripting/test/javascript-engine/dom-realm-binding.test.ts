@@ -101,6 +101,91 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("constructs independent custom element registries", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("constructs-independent-registries.js"));
+    }).not.toThrow();
+  });
+
+  it("gets a custom element name by constructor", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("gets-custom-element-name.js"));
+    }).not.toThrow();
+  });
+
+  it("resolves whenDefined with the registered constructor", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("resolves-when-defined.js"));
+    }).not.toThrow();
+  });
+
+  it("does not report a handled invalid-name whenDefined rejection", () => {
+    const reported: EngineValue[] = [];
+    const { engine, realm } = createTestRealm("", (value) => {
+      reported.push(value);
+    });
+
+    expect(() => {
+      evaluate(engine, realm, fixture("handles-invalid-when-defined.js"));
+    }).not.toThrow();
+
+    expect(reported).toEqual([]);
+  });
+
+  it("constructs a globally registered custom element directly", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("constructs-global-custom-element.js"));
+    }).not.toThrow();
+  });
+
+  it("initializes a detached subtree with a scoped registry", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("initializes-detached-subtree.js"));
+    }).not.toThrow();
+  });
+
+  it("upgrades a detached candidate with the document registry", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("upgrades-detached-candidate.js"));
+    }).not.toThrow();
+  });
+
+  it("applies the custom prototype when HTMLElement construction runs", () => {
+    const { engine, realm } = createTestRealm("<x-timing></x-timing>");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("applies-custom-prototype-at-super.js"));
+    }).not.toThrow();
+  });
+
+  it("validates a custom element name before reading the prototype", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("validates-name-before-prototype.js"));
+    }).not.toThrow();
+  });
+
+  it("validates the extends option before reading the prototype", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("validates-extends-before-prototype.js"));
+    }).not.toThrow();
+  });
+
   it("shares a document custom element registry across realms", () => {
     const document = new DOMParser().parseFromString(
       "<body></body>",
@@ -111,31 +196,20 @@ describe("DOMRealmBinding", () => {
     const firstBinding = new DOMRealmBinding(engine, firstRealm, document);
     firstBinding.expose("testDocument", document);
 
-    evaluate(
-      engine,
-      firstRealm,
-      `
-        customElements.define("x-shared", class extends HTMLElement {
-          constructor() {
-            super();
-            this.setAttribute("constructed", "yes");
-          }
-
-          connectedCallback() {
-            this.setAttribute("connected-in-first-realm", "yes");
-          }
-        });
-      `,
-    );
+    expect(() => {
+      evaluate(engine, firstRealm, fixture("defines-shared-custom-element.js"));
+    }).not.toThrow();
 
     const secondRealm = engine.createRealm();
     const secondBinding = new DOMRealmBinding(engine, secondRealm, document);
     secondBinding.expose("testDocument", document);
-    evaluate(
-      engine,
-      secondRealm,
-      `testDocument.body.append(testDocument.createElement("x-shared"));`,
-    );
+    expect(() => {
+      evaluate(
+        engine,
+        secondRealm,
+        fixture("creates-shared-custom-element.js"),
+      );
+    }).not.toThrow();
 
     expect(
       document.querySelector("x-shared")?.getAttribute("constructed"),
@@ -150,70 +224,29 @@ describe("DOMRealmBinding", () => {
   it("connects custom element reactions", () => {
     const { engine, realm } = createTestRealm("<section></section>");
 
-    evaluate(engine, realm, fixture("connects-custom-element-reactions.js"));
+    expect(() => {
+      evaluate(engine, realm, fixture("connects-custom-element-reactions.js"));
+    }).not.toThrow();
   });
 
   it("preserves exceptions raised while reading custom element callbacks", () => {
     const { engine, realm } = createTestRealm("");
 
-    evaluate(
-      engine,
-      realm,
-      `
-        const failure = {};
-        class FailingElement extends HTMLElement {}
-        Object.defineProperty(FailingElement.prototype, "connectedCallback", {
-          get() { throw failure; },
-        });
-        let caught;
-        try {
-          customElements.define("x-failing-callback", FailingElement);
-        } catch (error) {
-          caught = error;
-        }
-        if (caught !== failure) {
-          throw new Error("custom element callback exception identity changed");
-        }
-      `,
-    );
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("preserves-custom-callback-exception.js"),
+      );
+    }).not.toThrow();
   });
 
   it("converts custom element registry failures to realm DOMExceptions", () => {
     const { engine, realm } = createTestRealm("");
 
-    evaluate(
-      engine,
-      realm,
-      `
-        class RegisteredElement extends HTMLElement {}
-        let invalidNameError;
-        try {
-          customElements.define("invalid", RegisteredElement);
-        } catch (error) {
-          invalidNameError = error;
-        }
-        if (
-          !(invalidNameError instanceof DOMException) ||
-          invalidNameError.name !== "SyntaxError"
-        ) {
-          throw new Error("invalid custom element name was not a SyntaxError");
-        }
-
-        customElements.define("x-registered", RegisteredElement);
-        let duplicateNameError;
-        try {
-          customElements.define("x-registered", RegisteredElement);
-        } catch (error) {
-          duplicateNameError = error;
-        }
-        if (
-          !(duplicateNameError instanceof DOMException) ||
-          duplicateNameError.name !== "NotSupportedError"
-        ) {
-          throw new Error("duplicate custom element name was not supported");
-        }
-      `,
-    );
+    expect(() => {
+      evaluate(engine, realm, fixture("converts-custom-registry-failures.js"));
+    }).not.toThrow();
   });
 
   it("reports event listener exceptions and continues dispatch", () => {
@@ -387,45 +420,9 @@ describe("DOMRealmBinding", () => {
       reported.push(value);
     });
 
-    evaluate(
-      engine,
-      realm,
-      `
-        globalThis.constructorFailure = {};
-        globalThis.reactionFailure = {};
-        let failedElementReactions = 0;
-        class FailingElement extends HTMLElement {
-          constructor() {
-            super();
-            throw constructorFailure;
-          }
-
-          connectedCallback() {
-            failedElementReactions += 1;
-          }
-        }
-        customElements.define("x-construction-failure", FailingElement);
-        const failed = testDocument.createElement("x-construction-failure");
-        if (failed instanceof FailingElement) {
-          throw new Error("failed constructor retained its custom prototype");
-        }
-        testDocument.body.append(failed);
-        if (failedElementReactions !== 0) {
-          throw new Error("failed custom element ran a reaction");
-        }
-
-        class FailingReactionElement extends HTMLElement {
-          connectedCallback() {
-            throw reactionFailure;
-          }
-        }
-        customElements.define("x-reaction-failure", FailingReactionElement);
-        testDocument.body.append(
-          testDocument.createElement("x-reaction-failure"),
-        );
-        testDocument.body.setAttribute("data-after-reaction", "continued");
-      `,
-    );
+    expect(() => {
+      evaluate(engine, realm, fixture("separates-custom-element-failures.js"));
+    }).not.toThrow();
     const constructorFailure = engine.get(
       realm,
       engine.globalObject(realm),

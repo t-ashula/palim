@@ -168,7 +168,11 @@ export {
 } from "./dom/collections.js";
 export {
   CustomElementRegistry,
+  customElementRegistryForNode,
   documentCustomElementRegistry,
+  initializeCustomElementRegistry,
+  isValidCustomElementName,
+  upgradeCustomElements,
 } from "./dom/custom-elements.js";
 export {
   documentNamedItem,
@@ -236,6 +240,7 @@ export {
 export { WINDOW_EVENT_HANDLER_NAMES } from "./event-handler-names.js";
 export {
   createCustomHTMLElementBase,
+  isKnownHTMLElementLocalName,
   setHTMLIFrameElementContentWindow,
 } from "./html-elements.js";
 export { parseErrors } from "./html/parse-errors.js";

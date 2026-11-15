@@ -134,6 +134,10 @@ export interface JavaScriptEngineAdapter {
     realm: EngineRealm,
     object: EngineObject,
   ): EngineResult<readonly EngineValue[]>;
+  getPrototypeOf(
+    realm: EngineRealm,
+    object: EngineObject,
+  ): EngineResult<EngineObject | null>;
   setPrototypeOf(
     realm: EngineRealm,
     object: EngineObject,

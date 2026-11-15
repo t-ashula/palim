@@ -235,6 +235,13 @@ const SPECIALIZED_HTML_ELEMENT_NAMES = new Set([
   "xmp",
 ]);
 
+export function isKnownHTMLElementLocalName(name: string): boolean {
+  return (
+    DIRECT_HTML_ELEMENT_NAMES.has(name) ||
+    SPECIALIZED_HTML_ELEMENT_NAMES.has(name)
+  );
+}
+
 const RESERVED_CUSTOM_ELEMENT_NAMES = new Set([
   "annotation-xml",
   "color-profile",
