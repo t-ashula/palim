@@ -146,7 +146,8 @@
 
 ## Conformance infrastructure
 
-- [ ] WPT testdriver の message queue を初期化し、pointer / keyboard action を page の hit testing・focus・event dispatch へ渡して action promise を完了する
+- [x] WPT testharness の message queue、test context、cross-window completion を初期化する
+- [ ] WPT testdriver の pointer / keyboard action を page の hit testing・focus・event dispatch へ渡して action promise を完了する
 - [ ] `packages/*/test/fixtures/**/*.js` を ESLint 対象に含め、fixture として分離した page script も検査する
 - [ ] テストファイルを実装ファイルと責務に対応づけ、公開 API の入口を使うだけの内部処理テストを分離する（まず `packages/window/test/open.test.ts` の `WindowDocumentLoader` / iframe navigation を対応するテストファイルへ移す）
 - [ ] browser profile で `meta timeout=long` の WPT に long-test 用 timeout budget を適用する

@@ -6,15 +6,15 @@
     "revision": "4fa34c721570cad34ee7283bf531811eafed6010"
   },
   "campaign": {
-    "id": "20261115t025600948z-1705075",
+    "id": "20261115t041834603z-2189088",
     "state": "completed",
     "palim": {
-      "revision": "0ae46259fa11489bc073ff1eab7542d3acd8fb9e",
+      "revision": "025aab467bf8f875a138c8c6aa5f4b36c53f518b",
       "dirty": false,
-      "imageId": "sha256:541cb83c282f6c11cdc66bb4a81aa236dd149264c0638ad0aa6a35fa1eb94672"
+      "imageId": "sha256:057ca755703fbd8b51d9a614b9c20cec5d4c7110505b28b19dbb21b286003588"
     },
     "lastAttemptSequence": 1926,
-    "snapshotAt": "2026-11-15T03:38:32.117Z",
+    "snapshotAt": "2026-11-15T05:07:44.174Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1926,
     "executed": 1926,
-    "pass": 793,
-    "fail": 810,
+    "pass": 795,
+    "fail": 703,
     "skip": 0,
     "error": 131,
-    "timeout": 192,
+    "timeout": 297,
     "pending": 0
   },
   "areas": [
@@ -91,10 +91,10 @@
         "total": 214,
         "executed": 214,
         "pass": 38,
-        "fail": 69,
+        "fail": 61,
         "skip": 0,
         "error": 13,
-        "timeout": 94,
+        "timeout": 102,
         "pending": 0
       }
     },
@@ -117,10 +117,10 @@
         "total": 408,
         "executed": 408,
         "pass": 303,
-        "fail": 73,
+        "fail": 69,
         "skip": 0,
         "error": 3,
-        "timeout": 29,
+        "timeout": 33,
         "pending": 0
       }
     },
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 24,
-        "fail": 33,
+        "pass": 25,
+        "fail": 36,
         "skip": 0,
         "error": 2,
-        "timeout": 10,
+        "timeout": 6,
         "pending": 0
       }
     },
@@ -234,10 +234,10 @@
         "total": 314,
         "executed": 314,
         "pass": 54,
-        "fail": 211,
+        "fail": 113,
         "skip": 0,
         "error": 15,
-        "timeout": 34,
+        "timeout": 132,
         "pending": 0
       }
     },
@@ -259,11 +259,11 @@
       "totals": {
         "total": 77,
         "executed": 77,
-        "pass": 59,
+        "pass": 60,
         "fail": 16,
         "skip": 0,
         "error": 0,
-        "timeout": 2,
+        "timeout": 1,
         "pending": 0
       }
     },
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 98185,
-    "pass": 71221,
-    "fail": 26621,
+    "total": 100825,
+    "pass": 73897,
+    "fail": 26430,
     "skip": 0,
-    "error": 161,
-    "timeout": 182
+    "error": 209,
+    "timeout": 289
   },
   "nonTentative": {
     "totals": {
       "total": 1794,
       "executed": 1794,
-      "pass": 782,
-      "fail": 740,
+      "pass": 784,
+      "fail": 636,
       "skip": 0,
       "error": 110,
-      "timeout": 162,
+      "timeout": 264,
       "pending": 0
     },
     "areas": [
@@ -346,10 +346,10 @@
           "total": 211,
           "executed": 211,
           "pass": 38,
-          "fail": 68,
+          "fail": 60,
           "skip": 0,
           "error": 13,
-          "timeout": 92,
+          "timeout": 100,
           "pending": 0
         }
       },
@@ -372,10 +372,10 @@
           "total": 408,
           "executed": 408,
           "pass": 303,
-          "fail": 73,
+          "fail": 69,
           "skip": 0,
           "error": 3,
-          "timeout": 29,
+          "timeout": 33,
           "pending": 0
         }
       },
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 24,
-          "fail": 12,
+          "pass": 25,
+          "fail": 13,
           "skip": 0,
           "error": 2,
-          "timeout": 8,
+          "timeout": 6,
           "pending": 0
         }
       },
@@ -489,10 +489,10 @@
           "total": 254,
           "executed": 254,
           "pass": 52,
-          "fail": 182,
+          "fail": 89,
           "skip": 0,
           "error": 11,
-          "timeout": 9,
+          "timeout": 102,
           "pending": 0
         }
       },
@@ -514,11 +514,11 @@
         "totals": {
           "total": 77,
           "executed": 77,
-          "pass": 59,
+          "pass": 60,
           "fail": 16,
           "skip": 0,
           "error": 0,
-          "timeout": 2,
+          "timeout": 1,
           "pending": 0
         }
       },
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 96648,
-      "pass": 70358,
-      "fail": 26041,
+      "total": 99308,
+      "pass": 73034,
+      "fail": 25873,
       "skip": 0,
-      "error": 97,
-      "timeout": 152
+      "error": 145,
+      "timeout": 256
     },
     "nonPassingTests": [
       {
@@ -1521,7 +1521,7 @@
       {
         "url": "/dom/events/Event-dispatch-redispatch.html",
         "status": "timeout",
-        "message": "b'Error: Tried to run in a non-testharness window without a call to set_test_context\\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3593:57)\\n    at new click (http://web-platform.test:8000/resources/testdriver.js:1334:70)\\n    at async testMouseUpAndClickEvent (http://web-platform.test:8000/dom/events/Event-dispatch-redispatch.html:98:25)'"
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/Event-dispatch-reenter.html",
@@ -1650,8 +1650,8 @@
       },
       {
         "url": "/dom/events/click-on-absolute-pseudo.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/element-click.html",
@@ -1715,23 +1715,23 @@
       },
       {
         "url": "/dom/events/focus-event-document-move.html",
-        "status": "fail",
-        "message": "Tried to run in a non-testharness window without a call to set_test_context"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/handler-count.html?document",
         "status": "timeout",
-        "message": "b'Error: Tried to run in a non-testharness window without a call to set_test_context\\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3680:67)\\n    at action_sequence (http://web-platform.test:8000/resources/testdriver.js:1664:73)\\n    at send (http://web-platform.test:8000/resources/testdriver-actions.js:99:51)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?document:19:37)\\n    at new Promise (native)\\n    at resetAndRecordEvents (http://web-platform.test:8000/dom/events/handler-count.html?document:14:29)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?document:50:9)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\\n    at new Promise (native)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)'"
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/handler-count.html?element",
         "status": "timeout",
-        "message": "b'Error: Tried to run in a non-testharness window without a call to set_test_context\\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3680:67)\\n    at action_sequence (http://web-platform.test:8000/resources/testdriver.js:1664:73)\\n    at send (http://web-platform.test:8000/resources/testdriver-actions.js:99:51)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?element:19:37)\\n    at new Promise (native)\\n    at resetAndRecordEvents (http://web-platform.test:8000/dom/events/handler-count.html?element:14:29)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?element:50:9)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\\n    at new Promise (native)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)'"
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/handler-count.html?window",
         "status": "timeout",
-        "message": "b'Error: Tried to run in a non-testharness window without a call to set_test_context\\n    at create_action (http://web-platform.test:8000/resources/testdriver.js:3244:33)\\n    at create_context_action (http://web-platform.test:8000/resources/testdriver.js:3286:36)\\n    at <anonymous> (http://web-platform.test:8000/resources/testdriver.js:3680:67)\\n    at action_sequence (http://web-platform.test:8000/resources/testdriver.js:1664:73)\\n    at send (http://web-platform.test:8000/resources/testdriver-actions.js:99:51)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?window:19:37)\\n    at new Promise (native)\\n    at resetAndRecordEvents (http://web-platform.test:8000/dom/events/handler-count.html?window:14:29)\\n    at async <anonymous> (http://web-platform.test:8000/dom/events/handler-count.html?window:50:9)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:2869:79)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:738:53)\\n    at new Promise (native)\\n    at <anonymous> (http://web-platform.test:8000/resources/testharness.js:737:32)'"
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/label-default-action.html",
@@ -1750,8 +1750,8 @@
       },
       {
         "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html",
@@ -1970,8 +1970,8 @@
       },
       {
         "url": "/dom/events/pointer-event-document-move.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/preventDefault-during-activation-behavior.html",
@@ -1985,8 +1985,8 @@
       },
       {
         "url": "/dom/events/scrolling/iframe-chains.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/scrolling/input-text-scroll-event-when-using-arrow-keys.html",
@@ -2025,8 +2025,8 @@
       },
       {
         "url": "/dom/events/scrolling/scrollIntoView-in-onscroll-to-sticky.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/scrolling/scrollend-event-fired-after-instant-scroll-in-microtask.html",
@@ -2209,13 +2209,13 @@
       },
       {
         "url": "/dom/events/scrolling/visibility-hidden-scrolls.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-composed.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/scrolling/wheel-event-no-scroll-after-prevent-default.html",
@@ -2694,13 +2694,13 @@
       },
       {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/hover-style-update.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/iframe-document-preserve.window.html",
@@ -2749,8 +2749,8 @@
       },
       {
         "url": "/dom/nodes/moveBefore/pointer-events.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/popover-preserve.html",
@@ -2774,8 +2774,8 @@
       },
       {
         "url": "/dom/nodes/moveBefore/role-updates-after-move.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/nodes/moveBefore/select-option-optgroup.html",
@@ -2880,10 +2880,6 @@
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
-        "url": "/dom/ranges/Range-isPointInRange.html",
-        "status": "timeout"
-      },
-      {
         "url": "/dom/ranges/Range-mutations-appendChild.html",
         "status": "fail",
         "message": "\"getSelection\" is not defined"
@@ -2925,7 +2921,7 @@
       },
       {
         "url": "/dom/ranges/Range-mutations-replaceData.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "\"getSelection\" is not defined"
       },
       {
@@ -4254,13 +4250,13 @@
       },
       {
         "url": "/shadow-dom/dragenter-related-target.html",
-        "status": "fail",
-        "message": "Tried to run in a non-testharness window without a call to set_test_context"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/dragleave-related-target.html",
-        "status": "fail",
-        "message": "Tried to run in a non-testharness window without a call to set_test_context"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/event-composed-path-after-dom-mutation.html",
@@ -4309,83 +4305,83 @@
       },
       {
         "url": "/shadow-dom/execcommand-insertList-in-shadow.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-fallback.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-2levels.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested-fallback.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-nested.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-fallback.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-shadow-in-slot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slot-with-tabindex.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots-in-slot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-slots.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-web-component-radio.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation-with-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-navigation.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-negative-tabindex-at-end-of-shadow-tree.html",
@@ -4394,28 +4390,28 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-nested-slots.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassignable-slot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-reverse-unassigned-slot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-unassignable-slot.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/focus-with-negative-index.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/carousel-grid-order.html",
@@ -4424,208 +4420,208 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-flow.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-fragmentation.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-order.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/flex-visual-wrapped-fragmentation.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-auto-flow-reading-order.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns-fragmentation.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-columns.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-001.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-002.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-003.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-004.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-006.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-007.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-008.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-010.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-011.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-012.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-013.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-014.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-015.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-016.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-017.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-018.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-019.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-020.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-column-reading-flow-021.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-001.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-002.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-003.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-004.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-005.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-006.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-007.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-008.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-009.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-010.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-lanes-row-reading-flow-011.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-across-scopes.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-on-shadow-host.html",
-        "status": "fail",
-        "message": "assert_true: Failed to focus host/B expected true got false"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-pseudo-elements.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-display-contents.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-iframe.html",
@@ -4634,8 +4630,8 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-nested-grids.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-popover.html",
@@ -4644,43 +4640,43 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-absolute.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-position-fixed.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order-with-slots.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-order.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/grid-rows.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/normal.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-invalid.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/reading-flow/source-order-valid.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "Test timed out"
       },
       {
         "url": "/shadow-dom/focus-within-shadow.html",
@@ -4694,23 +4690,23 @@
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-click.html",
-        "status": "fail",
-        "message": "host.click is not a function. (In \"host.click()\", it is undefined)"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-varies.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/click-focus-delegatesFocus-tabindex-zero.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/click-focus-slot-ancestor.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-autofocus.html",
@@ -4739,8 +4735,8 @@
       },
       {
         "url": "/shadow-dom/focus/focus-scroll-under-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-shadowhost-display-none.html",
@@ -4759,23 +4755,23 @@
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-negative.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-slot-one.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex-2.html",
@@ -4789,43 +4785,43 @@
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-varying-tabindex.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-delegatesFocus.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-negative.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set-scrollable.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-not-set.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-one.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero-host-scrollable.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/focus-tabindex-order-shadow-zero.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus/text-selection-with-delegatesFocus-on-slotted-content.html",
@@ -4904,8 +4900,8 @@
       },
       {
         "url": "/shadow-dom/leaktests/selection.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/leaktests/window-frames.html",
@@ -4979,8 +4975,8 @@
       },
       {
         "url": "/shadow-dom/touch-event-retargeting-leak.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/untriaged/elements-and-dom-objects/extensions-to-element-interface/methods/test-002.html",
@@ -5109,8 +5105,8 @@
       },
       {
         "url": "/shadow-dom/wheel-event-related-target.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/streams/writable-streams/aborting.any.html",
@@ -5433,11 +5429,6 @@
         "message": "\"WritableStream\" is not defined"
       },
       {
-        "url": "/url/IdnaTestV2.any.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
-      },
-      {
         "url": "/url/data-uri-fragment.html",
         "status": "timeout",
         "message": "palim execution timed out"
@@ -5619,10 +5610,10 @@
       "total": 132,
       "executed": 132,
       "pass": 11,
-      "fail": 70,
+      "fail": 67,
       "skip": 0,
       "error": 21,
-      "timeout": 30,
+      "timeout": 33,
       "pending": 0
     },
     "areas": [
@@ -5697,10 +5688,10 @@
           "total": 23,
           "executed": 23,
           "pass": 0,
-          "fail": 21,
+          "fail": 23,
           "skip": 0,
           "error": 0,
-          "timeout": 2,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -5801,10 +5792,10 @@
           "total": 60,
           "executed": 60,
           "pass": 2,
-          "fail": 29,
+          "fail": 24,
           "skip": 0,
           "error": 4,
-          "timeout": 25,
+          "timeout": 30,
           "pending": 0
         }
       },
@@ -5862,12 +5853,12 @@
       }
     ],
     "subtests": {
-      "total": 1537,
+      "total": 1517,
       "pass": 863,
-      "fail": 580,
+      "fail": 557,
       "skip": 0,
       "error": 64,
-      "timeout": 30
+      "timeout": 33
     },
     "nonPassingTests": [
       {
@@ -5967,13 +5958,13 @@
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-complexity-and-visibility.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "element.createValueRange is not a function. (In \"element.createValueRange(0, mixed.length)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-multiline.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "el.createValueRange is not a function. (In \"el.createValueRange(0, 5)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/tentative/OpaqueRange-geometry-mutations.html",
@@ -6382,13 +6373,13 @@
       },
       {
         "url": "/shadow-dom/focus-navigation/menu/tentative/focus-menu-elements.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-navigation-scroller-interactive-child.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/focus-navigation/tentative/focus-scroller-layout-update.html",
@@ -6407,8 +6398,8 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/dom-mutation.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: Tried to run in a non-testharness window without a call to set_test_context\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/event-path.html",
@@ -6427,13 +6418,13 @@
       },
       {
         "url": "/shadow-dom/reference-target/tentative/interestfor.tentative.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/label-descendant.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert null to object\""
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/reference-target/tentative/label-for.html",
