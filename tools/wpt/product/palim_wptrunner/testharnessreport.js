@@ -1,4 +1,6 @@
 (function () {
+  window.__wptrunner_is_test_context = true;
+
   var props = {
     output: Number("%(output)d"),
     timeout_multiplier: Number("%(timeout_multiplier)s"),
