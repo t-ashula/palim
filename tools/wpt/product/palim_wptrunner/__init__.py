@@ -15,7 +15,7 @@ TESTHARNESS_REPORT = os.path.join(
 
 
 class PalimExecutor(TestharnessExecutor):
-    supports_testdriver = True
+    supports_testdriver = False
     supports_jsshell = True
 
     def __init__(
@@ -123,10 +123,7 @@ def get_product():
         env_options={
             "server_host": "127.0.0.1",
             "bind_address": True,
-            "testharnessreport": [
-                os.path.join("executors", "message-queue.js"),
-                TESTHARNESS_REPORT,
-            ],
+            "testharnessreport": TESTHARNESS_REPORT,
         },
         get_env_extras=env_extras,
         get_timeout_multiplier=get_timeout_multiplier,
