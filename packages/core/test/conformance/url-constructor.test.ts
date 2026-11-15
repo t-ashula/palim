@@ -2,10 +2,10 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
-import { URL } from "@palim/core/internal/url/index.js";
 import { describe, expect, it } from "vitest";
 
 import type { ConformanceCaseMetadata } from "../../../../tools/conformance/report.js";
+import { URL } from "../../src/url/index.js";
 
 interface URLCase {
   readonly input: string;

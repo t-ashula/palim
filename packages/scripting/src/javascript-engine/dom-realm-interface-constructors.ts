@@ -1,9 +1,13 @@
 import {
   AbortController,
+  associateDOMParser,
   Comment,
+  createStaticRange,
   CustomEvent,
   Document,
   DocumentFragment,
+  DOM_EXCEPTION_CONSTANTS,
+  DOMParser,
   ErrorEvent,
   Event,
   EventTarget,
@@ -12,17 +16,11 @@ import {
   MutationObserver,
   Node,
   NodeFilter,
+  parseHTMLDocument,
   PromiseRejectionEvent,
   Sanitizer,
   Text,
-} from "@palim/core/internal/dom.js";
-import { parseHTMLDocument } from "@palim/core/internal/dom/nodes.js";
-import { createStaticRange } from "@palim/core/internal/dom/range-implementation.js";
-import { DOM_EXCEPTION_CONSTANTS } from "@palim/core/internal/dom-exception.js";
-import {
-  associateDOMParser,
-  DOMParser,
-} from "@palim/core/internal/dom-parser.js";
+} from "@palim/core";
 
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
@@ -217,7 +215,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
           binding.realm,
           binding.sanitizerPrototype,
         );
-        binding.sanitizers.set(object, new Sanitizer(configuration.value));
+        binding.setSanitizer(object, new Sanitizer(configuration.value));
         return normal(object);
       } catch (error: unknown) {
         return error instanceof TypeError

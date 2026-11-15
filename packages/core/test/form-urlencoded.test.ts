@@ -1,9 +1,10 @@
+import { describe, expect, it } from "vitest";
+
 import {
   parseFormUrlEncoded,
   parseFormUrlEncodedString,
   serializeFormUrlEncoded,
-} from "@palim/core/internal/url/index.js";
-import { describe, expect, it } from "vitest";
+} from "../src/url/index.js";
 
 describe("application/x-www-form-urlencoded", () => {
   it("parses bytes before decoding names and values as UTF-8", () => {

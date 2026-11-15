@@ -1,109 +1,63 @@
-import {
-  callbackFailure,
-  callbackSuccess,
-} from "@palim/core/internal/callback-result.js";
 import type {
+  DOMParser,
+  HTMLParsingOptions,
   MutationObserverMicrotaskScheduler,
   NodeIterator,
+  Range,
   Sanitizer,
+  SanitizerAttribute,
+  SanitizerConfig,
+  SanitizerElement,
+  SanitizerElementInput,
+  SanitizerPI,
+  StaticRange,
+  TraversalFilterCallback,
+  TraversalResult,
   TreeWalker,
-} from "@palim/core/internal/dom.js";
+} from "@palim/core";
 import {
   AbortController,
   AbortSignal,
   Attr,
+  callbackFailure,
+  callbackSuccess,
   CDATASection,
   CharacterData,
   Comment,
+  createCustomHTMLElementBase,
+  createNodeIterator,
+  createTreeWalker,
+  CSSStyleDeclaration,
+  CSSStyleProperties,
+  CustomElementRegistry,
   CustomEvent,
+  dispatchEvent as dispatchDOMEvent,
   Document,
+  documentCustomElementRegistry,
   DocumentFragment,
+  DocumentImplementation,
+  documentImplementation,
+  documentNamedItem,
+  documentNamedPropertyNames,
   DocumentType,
+  DOMException as HostDOMException,
+  domExceptionCode,
   DOMImplementation,
   DOMRect,
   DOMRectList,
   DOMRectReadOnly,
+  DOMStringMap,
   DOMTokenList,
   Element,
   ErrorEvent,
   Event,
   EventTarget,
   FocusEvent,
-  HTMLCollection,
-  MessageEvent,
-  MutationObserver,
-  MutationRecord,
-  NamedNodeMap,
-  Node,
-  NodeFilter,
-  NodeList,
-  ProcessingInstruction,
-  PromiseRejectionEvent,
-  ShadowRoot,
-  Text,
-  XMLDocument,
-} from "@palim/core/internal/dom.js";
-import {
-  implementationFor,
-  interfaceFor,
-} from "@palim/core/internal/dom/binding.js";
-import {
-  htmlCollectionSupportedPropertyNames,
-  namedNodeMapSupportedPropertyNames,
-} from "@palim/core/internal/dom/collections.js";
-import {
-  CustomElementRegistry,
-  documentCustomElementRegistry,
-} from "@palim/core/internal/dom/custom-elements.js";
-import {
-  documentNamedItem,
-  documentNamedPropertyNames,
-} from "@palim/core/internal/dom/document-named-properties.js";
-import { dispatchEvent as dispatchDOMEvent } from "@palim/core/internal/dom/events.js";
-import { isForeignAnchorElement } from "@palim/core/internal/dom/foreign-anchor.js";
-import {
-  DocumentImplementation,
-  documentImplementation,
-  nodeImplementation,
-} from "@palim/core/internal/dom/node-implementation.js";
-import type { HTMLParsingOptions } from "@palim/core/internal/dom/nodes.js";
-import type { Range, StaticRange } from "@palim/core/internal/dom/range.js";
-import {
-  isRange,
-  isStaticRange,
-} from "@palim/core/internal/dom/range-implementation.js";
-import type {
-  SanitizerAttribute,
-  SanitizerConfig,
-  SanitizerElement,
-  SanitizerElementInput,
-  SanitizerPI,
-} from "@palim/core/internal/dom/sanitizer.js";
-import type {
-  TraversalFilterCallback,
-  TraversalResult,
-} from "@palim/core/internal/dom/traversal.js";
-import {
-  createNodeIterator,
-  createTreeWalker,
-  isNodeIterator,
-  isTreeWalker,
-  traversalAbrupt,
-  traversalNormal,
-} from "@palim/core/internal/dom/traversal.js";
-import {
-  DOMException as HostDOMException,
-  domExceptionCode,
-} from "@palim/core/internal/dom-exception.js";
-import type { DOMParser } from "@palim/core/internal/dom-parser.js";
-import {
-  createCustomHTMLElementBase,
-  CSSStyleDeclaration,
-  CSSStyleProperties,
-  DOMStringMap,
   HTMLAnchorElement,
   HTMLAreaElement,
   HTMLButtonElement,
+  HTMLCollection,
+  htmlCollectionSupportedPropertyNames,
   HTMLElement,
   HTMLIFrameElement,
   HTMLLinkElement,
@@ -112,8 +66,31 @@ import {
   HTMLTableRowElement,
   HTMLTableSectionElement,
   HTMLTemplateElement,
-} from "@palim/core/internal/html-elements.js";
-import { toLong } from "@palim/core/internal/web-idl.js";
+  implementationFor,
+  interfaceFor,
+  isForeignAnchorElement,
+  isNodeIterator,
+  isRange,
+  isStaticRange,
+  isTreeWalker,
+  MessageEvent,
+  MutationObserver,
+  MutationRecord,
+  NamedNodeMap,
+  namedNodeMapSupportedPropertyNames,
+  Node,
+  NodeFilter,
+  nodeImplementation,
+  NodeList,
+  ProcessingInstruction,
+  PromiseRejectionEvent,
+  ShadowRoot,
+  Text,
+  toLong,
+  traversalAbrupt,
+  traversalNormal,
+  XMLDocument,
+} from "@palim/core";
 
 import type {
   EngineCallable,
@@ -299,10 +276,12 @@ export class DOMRealmBindingContext {
   readonly traversalFilters = new WeakMap<object, EngineValue>();
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
-  readonly sanitizers = new WeakMap<EngineObject, Sanitizer>();
+  private readonly sanitizers = new WeakMap<EngineObject, Sanitizer>();
   readonly domExceptions = new WeakMap<EngineObject, DOMExceptionState>();
   readonly customElementRegistry: CustomElementRegistry;
-  readonly customElementConstructionStack: HTMLElement[] = [];
+  readonly customElementConstructionStack: ReturnType<
+    typeof createCustomHTMLElementBase
+  >[] = [];
   readonly traversalAbruptValues = new WeakMap<object, EngineValue>();
 
   constructor(
@@ -929,6 +908,10 @@ export class DOMRealmBindingContext {
   sanitizer(value: EngineValue): Sanitizer | null {
     const object = this.engine.asObject(value);
     return object === null ? null : (this.sanitizers.get(object) ?? null);
+  }
+
+  setSanitizer(object: EngineObject, sanitizer: Sanitizer): void {
+    this.sanitizers.set(object, sanitizer);
   }
 
   private sanitizerTypeError<T>(message: string): EngineResult<T> {
@@ -1566,7 +1549,7 @@ export class DOMRealmBindingContext {
         overrideBuiltins: true,
       });
     } else if (interfaceObject instanceof HTMLCollection) {
-      const collection = interfaceObject as HTMLCollection<Element, Element>;
+      const collection = interfaceObject;
       platformObject = this.legacyPlatformObject(target, {
         indexedLength: () => collection.length,
         indexedValue: (index) => collection.item(index),
@@ -1581,7 +1564,7 @@ export class DOMRealmBindingContext {
         namedValue: (name) => interfaceObject.getNamedItem(name),
       });
     } else if (interfaceObject instanceof NodeList) {
-      const list = interfaceObject as NodeList;
+      const list = interfaceObject;
       platformObject = this.legacyPlatformObject(target, {
         indexedLength: () => list.length,
         indexedValue: (index) => list.item(index),
@@ -1707,9 +1690,8 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof HTMLElement) {
       return (
-        this.htmlElementInterfacePrototypes.get(
-          interfaceObject.constructor as HTMLElementInterfaceConstructor,
-        ) ?? this.htmlElementPrototype
+        this.htmlElementInterfacePrototypes.get(interfaceObject.constructor) ??
+        this.htmlElementPrototype
       );
     }
     if (interfaceObject instanceof Element) {
@@ -1989,11 +1971,9 @@ export class DOMRealmBindingContext {
     return interfaceObject instanceof MessageEvent ? interfaceObject : null;
   }
 
-  htmlCollection(value: EngineValue): HTMLCollection<Element, Element> | null {
+  htmlCollection(value: EngineValue): HTMLCollection | null {
     const interfaceObject = this.interfaceObject(value);
-    return interfaceObject instanceof HTMLCollection
-      ? (interfaceObject as HTMLCollection<Element, Element>)
-      : null;
+    return interfaceObject instanceof HTMLCollection ? interfaceObject : null;
   }
 
   namedNodeMap(value: EngineValue): NamedNodeMap | null {

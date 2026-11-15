@@ -59,7 +59,7 @@ import type {
   EngineResult,
   EngineWellKnownSymbol,
   JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
+} from "@palim/scripting";
 import {
   EngineCallable,
   EngineJob,
@@ -69,7 +69,7 @@ import {
   EngineValue,
   normal,
   thrown,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
+} from "@palim/scripting";
 
 class Engine262Realm extends EngineRealm {
   constructor(

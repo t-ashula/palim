@@ -1,4 +1,4 @@
-import type { URL, URLSearchParams } from "@palim/core/internal/url/index.js";
+import type { URL, URLSearchParams } from "@palim/core";
 
 import type { EngineObject, EngineValue } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";

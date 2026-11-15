@@ -1,5 +1,5 @@
-import type { FormDataEntry } from "@palim/window/internal/form-data.js";
-import { FormData } from "@palim/window/internal/form-data.js";
+import type { FormDataEntry } from "@palim/window";
+import { FormData } from "@palim/window";
 
 import type { EngineObject, EngineValue } from "./adapter.js";
 import type { RealmBindingContext } from "./realm-binding-context.js";

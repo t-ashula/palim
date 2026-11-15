@@ -1,12 +1,12 @@
-import { EventTarget, MessageEvent } from "@palim/core/internal/dom.js";
+import { EventTarget, MessageEvent } from "@palim/core";
 import type {
+  DOMRealmBinding,
   EngineObject,
   EngineResult,
   EngineValue,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
-import type { DOMRealmBinding } from "@palim/scripting/internal/javascript-engine/dom-realm-binding.js";
-import type { RealmBindingContext } from "@palim/scripting/internal/javascript-engine/realm-binding-context.js";
+  RealmBindingContext,
+} from "@palim/scripting";
+import { normal } from "@palim/scripting";
 
 import type { StructuredValue } from "./structured-value.js";
 import {

@@ -1,6 +1,6 @@
-import { Element, HTMLIFrameElement, open } from "@palim/window";
 import { describe, expect, it, vi } from "vitest";
 
+import { Element, HTMLIFrameElement, open } from "../src/index.js";
 import { assertElement } from "./helper/assertions.js";
 
 describe("open", () => {

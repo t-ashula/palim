@@ -1,4 +1,4 @@
-import type { MutationObserverInit } from "@palim/core/internal/dom.js";
+import type { MutationObserverInit } from "@palim/core";
 
 import type { EngineResult, EngineValue } from "./adapter.js";
 import { normal, thrown } from "./adapter.js";

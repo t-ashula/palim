@@ -1,16 +1,14 @@
 import { TextEncoder } from "node:util";
 
-import type { URL } from "@palim/core/internal/url/index.js";
+import type { URL } from "@palim/core";
 import { Engine262Adapter } from "@palim/engine262";
 import { createHostServices } from "@palim/polyfills";
-import { WindowScriptingEnvironment } from "@palim/scripting/internal/window-scripting.js";
-import type {
-  Resource,
-  ResourceLoader,
-} from "@palim/window/internal/document-loader.js";
-import { WindowDocumentLoader } from "@palim/window/internal/document-loader.js";
-import { WorkerScriptingManager } from "@palim/worker";
+import { WindowScriptingEnvironment } from "@palim/scripting";
+import type { Resource, ResourceLoader } from "@palim/window";
+import { WindowDocumentLoader } from "@palim/window";
 import { expect, it } from "vitest";
+
+import { WorkerScriptingManager } from "../src/index.js";
 
 class MemoryResourceLoader implements ResourceLoader {
   readonly #resources: ReadonlyMap<string, string>;

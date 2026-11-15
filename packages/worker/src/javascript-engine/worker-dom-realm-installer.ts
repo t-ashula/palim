@@ -1,20 +1,20 @@
 import {
   AbortController,
   CustomEvent,
+  DOM_EXCEPTION_CONSTANTS,
   ErrorEvent,
   Event,
   EventTarget,
   MessageEvent,
   PromiseRejectionEvent,
-} from "@palim/core/internal/dom.js";
-import { DOM_EXCEPTION_CONSTANTS } from "@palim/core/internal/dom-exception.js";
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
-import type { DOMRealmBindingContext } from "@palim/scripting/internal/javascript-engine/dom-realm-binding-context.js";
+} from "@palim/core";
+import type { DOMRealmBindingContext } from "@palim/scripting";
 import {
   installAbortMembers,
   installEventMembers,
   installEventTargetMembers,
-} from "@palim/scripting/internal/javascript-engine/dom-realm-interface-installers.js";
+  normal,
+} from "@palim/scripting";
 
 export function installWorkerDOMRealmInterfaces(
   binding: DOMRealmBindingContext,

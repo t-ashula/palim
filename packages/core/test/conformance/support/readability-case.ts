@@ -2,12 +2,12 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 import { Readability } from "@mozilla/readability";
+
 import {
   documentIsQuirks,
   setDocumentQuirks,
   setDocumentURL,
-} from "@palim/core/internal/dom/nodes.js";
-
+} from "../../../src/dom/nodes.js";
 import type { Document } from "../../public-test-api.js";
 import { DOMParser, Element, Node } from "../../public-test-api.js";
 

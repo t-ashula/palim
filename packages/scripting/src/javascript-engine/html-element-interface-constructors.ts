@@ -1,6 +1,9 @@
-import * as HTML from "@palim/core/internal/html-elements.js";
+import * as HTML from "@palim/core";
 
-export type HTMLElementInterfaceConstructor = typeof HTML.HTMLElement;
+export interface HTMLElementInterfaceConstructor {
+  readonly name: string;
+  readonly prototype: object;
+}
 
 export const htmlElementInterfaceConstructors: readonly HTMLElementInterfaceConstructor[] =
   [

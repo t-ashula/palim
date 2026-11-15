@@ -1,6 +1,6 @@
-import { descendantElements } from "@palim/core/internal/dom/traversal.js";
 import { describe, expect, it } from "vitest";
 
+import { descendantElements } from "../src/dom/traversal.js";
 import { expectDOMException } from "./helper/assertions.js";
 import type {
   Element,

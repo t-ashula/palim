@@ -1,10 +1,10 @@
-import type { WindowConsoleMethod } from "@palim/window/internal/window.js";
+import type { WindowConsoleMethod } from "@palim/window";
 import {
   clearWindowTimeout,
   reportWindowConsole,
   scheduleWindowMicrotask,
   scheduleWindowTimeout,
-} from "@palim/window/internal/window.js";
+} from "@palim/window";
 
 import { normal } from "./adapter.js";
 import type { WindowRealmBindingContext } from "./window-realm-binding-context.js";

@@ -15,14 +15,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./network": {
-      "types": "./dist/network.d.ts",
-      "import": "./dist/network.js"
-    },
-    "./fetch": {
-      "types": "./dist/fetch.d.ts",
-      "import": "./dist/fetch.js"
     }
   },
   "scripts": {

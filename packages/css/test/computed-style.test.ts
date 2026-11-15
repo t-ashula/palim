@@ -1,7 +1,8 @@
+import type { Document, Element } from "@palim/core";
 import { DOMParser } from "@palim/core";
-import type { Document, Element } from "@palim/core/internal/dom.js";
-import { computedStyle, invalidateComputedStyles } from "@palim/css";
 import { describe, expect, test } from "vitest";
+
+import { computedStyle, invalidateComputedStyles } from "../src/index.js";
 
 describe("computedStyle", () => {
   test("applies user-agent display defaults", () => {

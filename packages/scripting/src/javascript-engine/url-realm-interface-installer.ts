@@ -1,4 +1,4 @@
-import { URL, URLSearchParams } from "@palim/core/internal/url/index.js";
+import { URL, URLSearchParams } from "@palim/core";
 
 import type {
   EngineRealm,

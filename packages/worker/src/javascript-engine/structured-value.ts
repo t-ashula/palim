@@ -5,11 +5,8 @@ import type {
   EngineResult,
   EngineValue,
   JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import {
-  normal,
-  thrown,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
+} from "@palim/scripting";
+import { normal, thrown } from "@palim/scripting";
 
 export type StructuredValueReference =
   | { readonly type: "primitive"; readonly value: EnginePrimitive }

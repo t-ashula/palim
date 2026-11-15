@@ -1,4 +1,4 @@
-import { createWindow, Window } from "@palim/window/internal/window.js";
+import { createWindow, Window } from "@palim/window";
 import { describe, expect, it } from "vitest";
 
 import {

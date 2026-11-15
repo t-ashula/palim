@@ -1,4 +1,4 @@
-import { DOMRect, DOMRectReadOnly } from "@palim/core/internal/geometry.js";
+import { DOMRect, DOMRectReadOnly } from "@palim/core";
 
 import type { EngineObject, EngineResult, EngineValue } from "./adapter.js";
 import { normal } from "./adapter.js";

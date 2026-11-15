@@ -1,10 +1,15 @@
-import type { HTMLCollection } from "@palim/core/internal/dom/collections.js";
-import { createHTMLCollection } from "@palim/core/internal/dom/collections.js";
-import type { DocumentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import type { Document, Element } from "@palim/core/internal/dom/nodes.js";
-import { descendantElements } from "@palim/core/internal/dom/traversal.js";
-import { HTML_NAMESPACE } from "@palim/core/internal/namespaces.js";
+import type {
+  Document,
+  DocumentImplementation,
+  Element,
+  HTMLCollection,
+} from "@palim/core";
+import {
+  createHTMLCollection,
+  descendantElements,
+  documentImplementation,
+  HTML_NAMESPACE,
+} from "@palim/core";
 
 import type { Window } from "./window.js";
 

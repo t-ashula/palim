@@ -1,12 +1,13 @@
-import { DOMParser } from "@palim/core";
-import { setDocumentGeometryProvider } from "@palim/core/internal/dom/nodes.js";
-import { createDOMRectList } from "@palim/core/internal/geometry.js";
+import { describe, expect, test } from "vitest";
+
+import { setDocumentGeometryProvider } from "../src/dom/nodes.js";
+import { createDOMRectList } from "../src/geometry.js";
+import { DOMParser } from "../src/index.js";
 import {
   DOMRect,
   DOMRectList,
   DOMRectReadOnly,
-} from "@palim/core/internal/public-dom-interfaces.js";
-import { describe, expect, test } from "vitest";
+} from "../src/public-dom-interfaces.js";
 
 describe("Geometry Interfaces", () => {
   test("DOMRectReadOnly derives edges from signed dimensions", () => {

@@ -1,17 +1,6 @@
-import {
-  bindEventTarget,
-  eventTargetImplementation,
-} from "@palim/core/internal/dom/event-implementation.js";
-import { EventTarget } from "@palim/core/internal/dom/events.js";
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import { parseHTML } from "@palim/core/internal/html/parser.js";
-import { originFromURL } from "@palim/core/internal/origin.js";
 import type {
   Document,
   Element,
-} from "@palim/core/internal/public-dom-interfaces.js";
-import { URL } from "@palim/core/internal/url/index.js";
-import type {
   FrameRequestCallback,
   Location,
   Window as WindowInstance,
@@ -19,7 +8,16 @@ import type {
   WindowConsoleHandler,
   WindowErrorHandler,
   WindowErrorReport,
-} from "@palim/core/internal/window-types.js";
+} from "@palim/core";
+import {
+  bindEventTarget,
+  documentImplementation,
+  EventTarget,
+  eventTargetImplementation,
+  originFromURL,
+  parseHTML,
+  URL,
+} from "@palim/core";
 
 export type {
   FrameRequestCallback,
@@ -29,7 +27,7 @@ export type {
   WindowConsoleMethod,
   WindowErrorHandler,
   WindowErrorReport,
-} from "@palim/core/internal/window-types.js";
+} from "@palim/core";
 
 export type Window = WindowInstance;
 

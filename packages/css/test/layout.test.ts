@@ -1,7 +1,8 @@
+import type { Document, Element } from "@palim/core";
 import { DOMParser } from "@palim/core";
-import type { Document, Element } from "@palim/core/internal/dom.js";
-import { layoutDocument } from "@palim/css";
 import { expect, test } from "vitest";
+
+import { layoutDocument } from "../src/index.js";
 
 test("places blocks and wraps inline boxes using font advances", () => {
   const document = parse(

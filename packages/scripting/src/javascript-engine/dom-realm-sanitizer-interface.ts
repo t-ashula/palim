@@ -3,7 +3,7 @@ import type {
   CanonicalSanitizerElement,
   CanonicalSanitizerName,
   CanonicalSanitizerPI,
-} from "@palim/core/internal/dom/sanitizer.js";
+} from "@palim/core";
 
 import type { EngineObject, EngineValue } from "./adapter.js";
 import { normal } from "./adapter.js";

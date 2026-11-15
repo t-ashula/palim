@@ -1,13 +1,11 @@
-import type { Event } from "@palim/core/internal/dom/events.js";
+import type { Event } from "@palim/core";
+import { ErrorEvent, PromiseRejectionEvent } from "@palim/core";
 import {
-  ErrorEvent,
-  PromiseRejectionEvent,
-} from "@palim/core/internal/dom/events.js";
-import { reportWindowError, Window } from "@palim/window/internal/window.js";
-import {
+  reportWindowError,
+  Window,
   windowNamedPropertyNames,
   windowNamedPropertyValue,
-} from "@palim/window/internal/window-named-properties.js";
+} from "@palim/window";
 
 import type {
   EngineCallable,

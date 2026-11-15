@@ -1,4 +1,4 @@
-import type { WindowErrorReport } from "@palim/window/internal/window.js";
+import type { WindowErrorReport } from "@palim/window";
 
 import type {
   EngineRealm,

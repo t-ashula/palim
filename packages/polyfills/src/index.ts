@@ -179,3 +179,12 @@ export function realmNormal<T>(value: T): RealmResult<T> {
 export function realmThrow(value: RealmValue): RealmResult<never> {
   return { type: "throw", value };
 }
+
+export { fetchPolyfill } from "./fetch.js";
+export { hostNetworkService } from "./network.js";
+export type {
+  HostCancellation,
+  HostNetwork,
+  HostNetworkRequest,
+  HostNetworkResponse,
+} from "./network.js";

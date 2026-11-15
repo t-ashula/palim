@@ -1,13 +1,11 @@
 import { Engine262Adapter } from "@palim/engine262";
-import type {
-  EngineRealm,
-  JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
+import type { EngineRealm, JavaScriptEngineAdapter } from "@palim/scripting";
+import { expect, it } from "vitest";
+
 import {
   deserializeEngineValue,
   serializeEngineValue,
-} from "@palim/worker/internal/javascript-engine/structured-value.js";
-import { expect, it } from "vitest";
+} from "../../src/javascript-engine/structured-value.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

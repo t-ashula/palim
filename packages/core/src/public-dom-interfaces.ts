@@ -207,11 +207,14 @@ export type {
   TreeWalker,
 } from "./dom.js";
 
-export interface HTMLCollection extends Iterable<Element> {
-  readonly [index: number]: Element | undefined;
+export interface HTMLCollection<
+  T extends Element = Element,
+  N extends T = T,
+> extends Iterable<T> {
+  readonly [index: number]: T | undefined;
   readonly length: number;
-  item(index: number): Element | null;
-  namedItem(name: string): Element | null;
+  item(index: number): T | null;
+  namedItem(name: string): N | null;
 }
 interface HTMLCollectionInterface {
   readonly length: 0;

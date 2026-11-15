@@ -1,5 +1,5 @@
 import type { open as openWindow } from "@palim/window";
-import { createWindow, Window } from "@palim/window/internal/window.js";
+import { createWindow, Window } from "@palim/window";
 import type { OpenResult } from "palim";
 import {
   Attr,

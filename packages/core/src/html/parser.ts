@@ -3562,6 +3562,12 @@ function createHTMLDocument(
   );
 }
 
+export function createHTMLDocumentWithContentType(
+  contentType: string,
+): Document {
+  return createHTMLDocument(contentType, Document);
+}
+
 export const htmlDocumentParser = {
   createDocument: createHTMLDocument,
   parseInto(input: string, document: Document): void {

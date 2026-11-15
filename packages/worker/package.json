@@ -15,10 +15,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./internal/*.js": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.js"
     }
   },
   "scripts": {

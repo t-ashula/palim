@@ -1,5 +1,4 @@
-import { eventImplementation } from "@palim/core/internal/dom/event-implementation.js";
-import { FocusEvent } from "@palim/core/internal/dom/events.js";
+import { eventImplementation, FocusEvent } from "@palim/core";
 
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";

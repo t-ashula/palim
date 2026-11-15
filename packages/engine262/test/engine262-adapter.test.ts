@@ -1,14 +1,8 @@
-import { Engine262Adapter } from "@palim/engine262";
-import type {
-  EngineRealm,
-  JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import {
-  FORWARD_PROXY_TRAP,
-  normal,
-  thrown,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
+import type { EngineRealm, JavaScriptEngineAdapter } from "@palim/scripting";
+import { FORWARD_PROXY_TRAP, normal, thrown } from "@palim/scripting";
 import { describe, expect, it } from "vitest";
+
+import { Engine262Adapter } from "../src/index.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

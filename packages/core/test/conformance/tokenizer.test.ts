@@ -3,15 +3,15 @@ import { globSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { describe, expect, it } from "vitest";
+
+import type { ConformanceCaseMetadata } from "../../../../tools/conformance/report.js";
 import type {
   ParseError,
   Token,
   TokenizerState,
-} from "@palim/core/internal/html/tokenizer.js";
-import { tokenize } from "@palim/core/internal/html/tokenizer.js";
-import { describe, expect, it } from "vitest";
-
-import type { ConformanceCaseMetadata } from "../../../../tools/conformance/report.js";
+} from "../../src/html/tokenizer.js";
+import { tokenize } from "../../src/html/tokenizer.js";
 
 type FixtureToken =
   | ["DOCTYPE", string | null, string | null, string | null, boolean]

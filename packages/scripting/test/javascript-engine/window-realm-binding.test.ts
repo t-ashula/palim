@@ -1,22 +1,21 @@
 import { readFileSync } from "node:fs";
 
-import { Event } from "@palim/core/internal/dom/events.js";
-import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
-import { Document } from "@palim/core/internal/public-dom-interfaces.js";
+import { Document, Event, WINDOW_EVENT_HANDLER_NAMES } from "@palim/core";
 import { updateDocumentLayout } from "@palim/css";
 import { Engine262Adapter } from "@palim/engine262";
+import { createWindow, windowViewport } from "@palim/window";
+import { describe, expect, it } from "vitest";
+
 import type {
   EngineRealm,
   JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
+} from "../../src/javascript-engine/adapter.js";
+import { normal } from "../../src/javascript-engine/adapter.js";
 import {
   WindowScriptEnvironment,
   WindowScriptEventLoop,
-} from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
-import { WindowRealmBinding } from "@palim/scripting/internal/javascript-engine/window-realm-binding.js";
-import { createWindow, windowViewport } from "@palim/window/internal/window.js";
-import { describe, expect, it } from "vitest";
+} from "../../src/javascript-engine/window-classic-script.js";
+import { WindowRealmBinding } from "../../src/javascript-engine/window-realm-binding.js";
 
 function evaluate(
   engine: JavaScriptEngineAdapter,

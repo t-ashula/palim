@@ -1,14 +1,11 @@
-import {
-  callbackFailure,
-  callbackSuccess,
-} from "@palim/core/internal/callback-result.js";
+import { describe, expect, it } from "vitest";
+
+import { callbackFailure, callbackSuccess } from "../src/callback-result.js";
 import {
   CustomElementRegistry,
   setDocumentCustomElementRegistry,
-} from "@palim/core/internal/dom/custom-elements.js";
-import { createCustomHTMLElementBase } from "@palim/core/internal/html-elements.js";
-import { describe, expect, it } from "vitest";
-
+} from "../src/dom/custom-elements.js";
+import { createCustomHTMLElementBase } from "../src/html-elements.js";
 import { DOMParser } from "./public-test-api.js";
 
 describe("custom element reactions", () => {

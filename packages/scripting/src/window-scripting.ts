@@ -1,19 +1,18 @@
-import type { Event, EventTarget } from "@palim/core/internal/dom/events.js";
+import type { Element, Event, EventTarget, Node } from "@palim/core";
 import {
   documentImplementation,
+  HTMLScriptElement,
   nodeImplementation,
-} from "@palim/core/internal/dom/node-implementation.js";
-import type { Element, Node } from "@palim/core/internal/dom/nodes.js";
-import { HTMLScriptElement } from "@palim/core/internal/html-elements.js";
-import { URL } from "@palim/core/internal/url/index.js";
+  URL,
+} from "@palim/core";
 import type { HostServices, WindowExtension } from "@palim/polyfills";
 import { createHostServices } from "@palim/polyfills";
 import type {
   Resource,
   ResourceLoader,
+  Window,
   WindowScripting,
-} from "@palim/window/internal/document-loader.js";
-import type { Window } from "@palim/window/internal/window.js";
+} from "@palim/window";
 
 import type {
   EngineResult,

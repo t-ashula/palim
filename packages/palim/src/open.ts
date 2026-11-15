@@ -1,4 +1,4 @@
-import { createOpen } from "@palim/window/internal/open.js";
+import { createOpen } from "@palim/window";
 
 export type {
   Open,

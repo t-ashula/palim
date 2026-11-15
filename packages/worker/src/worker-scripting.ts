@@ -1,9 +1,4 @@
-import {
-  ErrorEvent,
-  EventTarget,
-  MessageEvent,
-} from "@palim/core/internal/dom.js";
-import { URL } from "@palim/core/internal/url/index.js";
+import { ErrorEvent, EventTarget, MessageEvent, URL } from "@palim/core";
 import type {
   EngineObject,
   EngineRealm,
@@ -11,21 +6,20 @@ import type {
   EngineScript,
   EngineValue,
   JavaScriptEngineAdapter,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { DOMRealmBinding } from "@palim/scripting/internal/javascript-engine/dom-realm-binding.js";
-import { FormDataRealmBindingContext } from "@palim/scripting/internal/javascript-engine/form-data-realm-binding-context.js";
-import { installFormDataInterface } from "@palim/scripting/internal/javascript-engine/form-data-realm-interface-installer.js";
-import { RealmBindingContext } from "@palim/scripting/internal/javascript-engine/realm-binding-context.js";
-import { RealmExecutionRuntime } from "@palim/scripting/internal/javascript-engine/realm-execution-runtime.js";
-import { URLRealmBinding } from "@palim/scripting/internal/javascript-engine/url-realm-binding.js";
-import type { WindowEnvironmentSettings } from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
-import type { WindowRealmBinding } from "@palim/scripting/internal/javascript-engine/window-realm-binding.js";
-import type { WindowScriptingCapability } from "@palim/scripting/internal/window-scripting.js";
-import type {
-  Resource,
-  ResourceLoader,
-} from "@palim/window/internal/document-loader.js";
+  WindowEnvironmentSettings,
+  WindowRealmBinding,
+  WindowScriptingCapability,
+} from "@palim/scripting";
+import {
+  DOMRealmBinding,
+  FormDataRealmBindingContext,
+  installFormDataInterface,
+  normal,
+  RealmBindingContext,
+  RealmExecutionRuntime,
+  URLRealmBinding,
+} from "@palim/scripting";
+import type { Resource, ResourceLoader } from "@palim/window";
 
 import { installWorkerDOMRealmInterfaces } from "./javascript-engine/worker-dom-realm-installer.js";
 import {

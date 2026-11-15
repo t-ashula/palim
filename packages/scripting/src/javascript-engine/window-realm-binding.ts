@@ -1,4 +1,4 @@
-import type { Window } from "@palim/window/internal/window.js";
+import type { Window } from "@palim/window";
 
 import type {
   EngineObject,

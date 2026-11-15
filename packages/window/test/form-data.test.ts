@@ -1,5 +1,6 @@
-import { FormData } from "@palim/window/internal/form-data.js";
 import { describe, expect, it } from "vitest";
+
+import { FormData } from "../src/form-data.js";
 
 describe("FormData", () => {
   it("owns a copied entry list in the Window capability", () => {

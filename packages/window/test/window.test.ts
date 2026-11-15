@@ -1,11 +1,8 @@
-import { DOMParser } from "@palim/core";
-import { Event } from "@palim/core/internal/dom/events.js";
-import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
-import type {
-  Element,
-  EventTarget,
-} from "@palim/core/internal/public-dom-interfaces.js";
-import type { Window } from "@palim/window/internal/window.js";
+import type { Element, EventTarget } from "@palim/core";
+import { DOMParser, Event, setDocumentURL } from "@palim/core";
+import { describe, expect, it } from "vitest";
+
+import type { Window } from "../src/window.js";
 import {
   createWindow,
   replaceWindowDocument,
@@ -13,12 +10,11 @@ import {
   scheduleWindowMicrotask,
   setWindowAnimationFrameScheduler,
   windowViewport,
-} from "@palim/window/internal/window.js";
+} from "../src/window.js";
 import {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
-} from "@palim/window/internal/window-named-properties.js";
-import { describe, expect, it } from "vitest";
+} from "../src/window-named-properties.js";
 
 describe("Window", () => {
   it("provides the Window animation frame API", () => {

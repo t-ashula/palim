@@ -1,5 +1,4 @@
-import { isDOMParserSupportedType } from "@palim/core/internal/dom-parser.js";
-import { XMLSerializer } from "@palim/core/internal/xml-serializer.js";
+import { isDOMParserSupportedType, XMLSerializer } from "@palim/core";
 
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";

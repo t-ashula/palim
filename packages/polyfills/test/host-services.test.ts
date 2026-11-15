@@ -1,11 +1,12 @@
+import { describe, expect, it } from "vitest";
+
 import {
   createExtensionHostServices,
   createHostServiceKey,
   createHostServices,
   createWindowExtension,
   hostService,
-} from "@palim/polyfills";
-import { describe, expect, it } from "vitest";
+} from "../src/index.js";
 
 describe("HostServices", () => {
   it("retrieves a service using its typed key", () => {

@@ -1,6 +1,7 @@
-import { fetchPolyfill } from "@palim/polyfills/fetch";
 import { HTMLIFrameElement, open } from "palim";
 import { afterEach, describe, expect, it, vi } from "vitest";
+
+import { fetchPolyfill } from "../src/fetch.js";
 
 afterEach(() => {
   vi.unstubAllGlobals();

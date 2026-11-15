@@ -1,16 +1,16 @@
+import { describe, expect, it } from "vitest";
+
 import {
   documentNamedItem,
   documentNamedPropertyNames,
-} from "@palim/core/internal/dom/document-named-properties.js";
+} from "../src/dom/document-named-properties.js";
 import {
   foreignAnchorRelList,
   isForeignAnchorElement,
-} from "@palim/core/internal/dom/foreign-anchor.js";
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import { setDocumentURL } from "@palim/core/internal/dom/nodes.js";
-import { associateDOMParser } from "@palim/core/internal/dom-parser.js";
-import { describe, expect, it } from "vitest";
-
+} from "../src/dom/foreign-anchor.js";
+import { documentImplementation } from "../src/dom/node-implementation.js";
+import { setDocumentURL } from "../src/dom/nodes.js";
+import { associateDOMParser } from "../src/dom-parser.js";
 import { expectDOMException } from "./helper/assertions.js";
 import {
   AbortController,

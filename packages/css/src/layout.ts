@@ -1,6 +1,5 @@
-import type { Document, Element } from "@palim/core/internal/dom.js";
-import { setDocumentGeometryProvider } from "@palim/core/internal/dom/nodes.js";
-import { DOMRect } from "@palim/core/internal/geometry.js";
+import type { Document, Element } from "@palim/core";
+import { DOMRect, setDocumentGeometryProvider } from "@palim/core";
 
 import { computedStyle, invalidateComputedStyles } from "./computed-style.js";
 

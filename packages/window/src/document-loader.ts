@@ -1,24 +1,17 @@
-import type { EventTarget } from "@palim/core/internal/dom/events.js";
-import { Event } from "@palim/core/internal/dom/events.js";
+import type { Document, Element, EventTarget } from "@palim/core";
 import {
-  DocumentImplementation,
+  createHTMLDocumentWithContentType,
+  descendantElements,
   documentImplementation,
-} from "@palim/core/internal/dom/node-implementation.js";
-import type { Element } from "@palim/core/internal/dom/nodes.js";
-import { Document, XMLDocument } from "@palim/core/internal/dom/nodes.js";
-import { descendantElements } from "@palim/core/internal/dom/traversal.js";
-import {
-  parseHTML,
-  parseHTMLIntoDocumentAsync,
-} from "@palim/core/internal/html/parser.js";
-import {
+  Event,
   HTMLIFrameElement,
   HTMLScriptElement,
+  originFromURL,
+  parseHTMLIntoDocumentAsync,
+  parseXML,
   setHTMLIFrameElementContentWindow,
-} from "@palim/core/internal/html-elements.js";
-import { originFromURL } from "@palim/core/internal/origin.js";
-import { URL } from "@palim/core/internal/url/index.js";
-import { parseXML } from "@palim/core/internal/xml/parser.js";
+  URL,
+} from "@palim/core";
 import { updateDocumentLayout } from "@palim/css";
 
 import { decodeHTMLBytes } from "./html-byte-input.js";
@@ -45,17 +38,6 @@ function isXMLMIMEType(mimeType: string): boolean {
     mimeType === "text/xml" ||
     mimeType === "application/xml" ||
     (slash > 0 && mimeType.slice(slash + 1).endsWith("+xml"))
-  );
-}
-
-function createHTMLDocumentWithContentType(contentType: string): Document {
-  const template = documentImplementation(parseHTML(""));
-  return new Document(
-    new DocumentImplementation(
-      template.fragmentParser,
-      contentType,
-      template.elementFactory,
-    ),
   );
 }
 
@@ -380,10 +362,7 @@ export class WindowDocumentLoader {
           : { transportEncoding: resource.encoding }),
       });
       if (isXMLMIMEType(mimeType)) {
-        this.#replaceChildDocument(
-          state,
-          parseXML(decoded.text, mimeType, XMLDocument),
-        );
+        this.#replaceChildDocument(state, parseXML(decoded.text, mimeType));
         this.#prepareChildDocument(element, state, finalURL, false);
         documentImplementation(state.loader.window.document).encoding =
           decoded.encoding;

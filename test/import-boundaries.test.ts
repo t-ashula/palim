@@ -41,8 +41,14 @@ function importWithoutEngine(source: string): void {
 }
 
 describe("capability import boundaries", () => {
-  it("exposes only DOMParser as a core runtime value", () => {
-    expect(Object.keys(Core)).toEqual(["DOMParser"]);
+  it("exposes the core package through its root entry point", () => {
+    const manifest = JSON.parse(
+      readFileSync(
+        new URL("../packages/core/package.json", import.meta.url),
+        "utf8",
+      ),
+    ) as { readonly exports: Record<string, unknown> };
+    expect(Object.keys(manifest.exports)).toEqual(["."]);
     const document = new Core.DOMParser().parseFromString(
       "<main>core</main>",
       "text/html",

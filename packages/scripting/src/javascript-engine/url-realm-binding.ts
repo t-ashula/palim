@@ -1,5 +1,5 @@
-import type { URLSearchParams } from "@palim/core/internal/url/index.js";
-import { URL } from "@palim/core/internal/url/index.js";
+import type { URLSearchParams } from "@palim/core";
+import { URL } from "@palim/core";
 
 import type {
   EngineObject,

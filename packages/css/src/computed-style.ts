@@ -1,4 +1,4 @@
-import type { Document, Element } from "@palim/core/internal/dom.js";
+import type { Document, Element } from "@palim/core";
 
 export type CSSComputedProperty =
   | "display"

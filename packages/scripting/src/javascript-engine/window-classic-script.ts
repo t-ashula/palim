@@ -1,14 +1,12 @@
-import { documentImplementation } from "@palim/core/internal/dom/node-implementation.js";
-import type { Document } from "@palim/core/internal/dom/nodes.js";
-import type { Origin } from "@palim/core/internal/origin.js";
-import { URL } from "@palim/core/internal/url/index.js";
-import type { Window } from "@palim/window/internal/window.js";
+import type { Document, Origin } from "@palim/core";
+import { documentImplementation, URL } from "@palim/core";
+import type { Window } from "@palim/window";
 import {
   runWindowAnimationFrameCallbacks,
   scheduleWindowTimeout,
   setWindowAnimationFrameScheduler,
   setWindowMicrotaskScheduler,
-} from "@palim/window/internal/window.js";
+} from "@palim/window";
 
 import type {
   EngineObject,

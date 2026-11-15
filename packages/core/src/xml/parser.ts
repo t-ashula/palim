@@ -18,6 +18,7 @@ import {
   createText,
   removeNode,
   setAttributes,
+  XMLDocument,
 } from "../dom/nodes.js";
 import { DOMException } from "../dom-exception.js";
 import { createElementForDocument } from "../html-elements.js";
@@ -876,12 +877,8 @@ export const xmlDocumentParser = {
   },
 };
 
-export function parseXML(
-  input: string,
-  type: string,
-  documentConstructor: typeof Document,
-): Document {
-  const document = xmlDocumentParser.createDocument(type, documentConstructor);
+export function parseXML(input: string, type: string): Document {
+  const document = xmlDocumentParser.createDocument(type, XMLDocument);
   xmlDocumentParser.parseInto(input, document);
   return document;
 }

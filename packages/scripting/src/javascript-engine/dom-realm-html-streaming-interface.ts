@@ -4,10 +4,12 @@ import type {
   HTMLParsingOptions,
   HTMLStreamingOperation,
   ShadowRoot,
-} from "@palim/core/internal/dom/nodes.js";
-import { createHTMLStreamingSink } from "@palim/core/internal/dom/nodes.js";
-import { DOMException as HostDOMException } from "@palim/core/internal/dom-exception.js";
-import { WritableStreamState } from "@palim/core/internal/writable-stream-state.js";
+} from "@palim/core";
+import {
+  createHTMLStreamingSink,
+  DOMException as HostDOMException,
+  WritableStreamState,
+} from "@palim/core";
 
 import type { EngineObject, EngineResult, EngineValue } from "./adapter.js";
 import { normal, thrown } from "./adapter.js";

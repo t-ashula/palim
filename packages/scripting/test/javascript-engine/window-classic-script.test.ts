@@ -1,17 +1,16 @@
-import { OpaqueOrigin } from "@palim/core/internal/origin.js";
-import { URL } from "@palim/core/internal/url/index.js";
+import { OpaqueOrigin, URL } from "@palim/core";
 import { Engine262Adapter } from "@palim/engine262";
+import { createWindow } from "@palim/window";
+import { describe, expect, it } from "vitest";
+
 import type {
   EngineJob,
   EngineResult,
   EngineValue,
-} from "@palim/scripting/internal/javascript-engine/adapter.js";
-import { normal } from "@palim/scripting/internal/javascript-engine/adapter.js";
-import type { WindowEnvironmentSettings } from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
-import { WindowScriptEnvironment } from "@palim/scripting/internal/javascript-engine/window-classic-script.js";
-import { createWindow } from "@palim/window/internal/window.js";
-import { describe, expect, it } from "vitest";
-
+} from "../../src/javascript-engine/adapter.js";
+import { normal } from "../../src/javascript-engine/adapter.js";
+import type { WindowEnvironmentSettings } from "../../src/javascript-engine/window-classic-script.js";
+import { WindowScriptEnvironment } from "../../src/javascript-engine/window-classic-script.js";
 import { WindowExecutionEnvironment } from "../helper/window-execution-environment.js";
 
 class TrackingEngine262Adapter extends Engine262Adapter {

@@ -1,10 +1,6 @@
-import { foreignAnchorRelList } from "@palim/core/internal/dom/foreign-anchor.js";
-import { WINDOW_EVENT_HANDLER_NAMES } from "@palim/core/internal/event-handler-names.js";
-import type {
-  HTMLAnchorElement,
-  HTMLAreaElement,
-} from "@palim/core/internal/html-elements.js";
+import type { HTMLAnchorElement, HTMLAreaElement } from "@palim/core";
 import {
+  foreignAnchorRelList,
   HTMLBaseElement,
   HTMLBodyElement,
   HTMLEmbedElement,
@@ -14,7 +10,8 @@ import {
   HTMLObjectElement,
   HTMLScriptElement,
   HTMLSlotElement,
-} from "@palim/core/internal/html-elements.js";
+  WINDOW_EVENT_HANDLER_NAMES,
+} from "@palim/core";
 
 import type { EngineObject, EngineValue } from "./adapter.js";
 import { normal } from "./adapter.js";

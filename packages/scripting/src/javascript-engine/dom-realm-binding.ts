@@ -6,7 +6,7 @@ import type {
   MessageEvent,
   MutationObserverMicrotaskScheduler,
   PromiseRejectionEvent,
-} from "@palim/core/internal/dom.js";
+} from "@palim/core";
 
 import type {
   EngineObject,
