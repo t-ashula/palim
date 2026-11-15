@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261115t064755163z-2997709",
+    "id": "20261115t080420521z-3411351",
     "state": "completed",
     "palim": {
-      "revision": "450f13157a9bcad490fc16072fa244897f07d00a",
-      "dirty": true,
-      "imageId": "sha256:7a082e91c9f0efe23a4d779b843b7ad96a4fa10463f1abe113e3baaebe879f1e"
+      "revision": "41d63790b570a9f144ab92c99f51b518e9c0a6bb",
+      "dirty": false,
+      "imageId": "sha256:d79c498aa2b2c308390aa554de793c5802028b3d78ba633ac0ca259514079c0e"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-15T07:22:27.066Z",
+    "snapshotAt": "2026-11-15T08:39:14.771Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 788,
-    "fail": 691,
+    "pass": 797,
+    "fail": 686,
     "skip": 248,
-    "error": 122,
-    "timeout": 107,
+    "error": 119,
+    "timeout": 106,
     "pending": 0
   },
   "areas": [
@@ -65,9 +65,9 @@
         "total": 209,
         "executed": 209,
         "pass": 11,
-        "fail": 161,
+        "fail": 162,
         "skip": 5,
-        "error": 28,
+        "error": 27,
         "timeout": 4,
         "pending": 0
       }
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 24,
+        "pass": 25,
         "fail": 33,
         "skip": 3,
         "error": 2,
-        "timeout": 7,
+        "timeout": 6,
         "pending": 0
       }
     },
@@ -272,10 +272,10 @@
       "totals": {
         "total": 28,
         "executed": 28,
-        "pass": 10,
-        "fail": 14,
+        "pass": 18,
+        "fail": 8,
         "skip": 1,
-        "error": 3,
+        "error": 1,
         "timeout": 0,
         "pending": 0
       }
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 101563,
-    "pass": 74071,
-    "fail": 27040,
+    "total": 101603,
+    "pass": 74095,
+    "fail": 27058,
     "skip": 248,
-    "error": 106,
+    "error": 104,
     "timeout": 98
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 787,
-      "fail": 651,
+      "pass": 796,
+      "fail": 646,
       "skip": 209,
-      "error": 114,
-      "timeout": 81,
+      "error": 111,
+      "timeout": 80,
       "pending": 0
     },
     "areas": [
@@ -320,9 +320,9 @@
           "total": 202,
           "executed": 202,
           "pass": 11,
-          "fail": 159,
+          "fail": 160,
           "skip": 3,
-          "error": 25,
+          "error": 24,
           "timeout": 4,
           "pending": 0
         }
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 24,
+          "pass": 25,
           "fail": 13,
           "skip": 0,
           "error": 2,
-          "timeout": 7,
+          "timeout": 6,
           "pending": 0
         }
       },
@@ -527,10 +527,10 @@
         "totals": {
           "total": 28,
           "executed": 28,
-          "pass": 10,
-          "fail": 14,
+          "pass": 18,
+          "fail": 8,
           "skip": 1,
-          "error": 3,
+          "error": 1,
           "timeout": 0,
           "pending": 0
         }
@@ -550,11 +550,11 @@
       }
     ],
     "subtests": {
-      "total": 101174,
-      "pass": 74041,
-      "fail": 26751,
+      "total": 101214,
+      "pass": 74065,
+      "fail": 26769,
       "skip": 209,
-      "error": 101,
+      "error": 99,
       "timeout": 72
     },
     "nonPassingTests": [
@@ -710,8 +710,8 @@
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setFormValue.html",
-        "status": "error",
-        "message": "ReferenceError: \"File\" is not defined"
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: $('form').submit is not a function. (In \"$('form').submit()\", it is undefined)\""
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html",
@@ -876,17 +876,17 @@
       {
         "url": "/custom-elements/parser/xml-parser-custom-element-reparents-during-construction.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/parser/xml-parser-customized-builtin-input.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/perform-microtask-checkpoint-before-construction-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/perform-microtask-checkpoint-before-construction.html",
@@ -1456,7 +1456,7 @@
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html",
@@ -1466,7 +1466,7 @@
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions-xml-parser.xhtml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"Blob\" is not defined\""
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)\""
       },
       {
         "url": "/custom-elements/throw-on-dynamic-markup-insertion-counter-reactions.html",
@@ -2381,7 +2381,7 @@
       {
         "url": "/dom/nodes/Document-cloneNode-base-url.window.html",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(\n    new Blob([\"<!doctype html>\"], { type: \"text/html\" }))\", it is undefined)"
       },
       {
         "url": "/dom/nodes/Document-contentType/contentType/contenttype_datauri_02.html",
@@ -2979,10 +2979,6 @@
         "url": "/dom/ranges/Range-insertNode.html",
         "status": "timeout",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
-      },
-      {
-        "url": "/dom/ranges/Range-isPointInRange.html",
-        "status": "timeout"
       },
       {
         "url": "/dom/ranges/Range-mutations-appendChild.html",
@@ -3616,282 +3612,282 @@
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=adoption01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=adoption02",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=blocks",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=comments01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=doctype01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=domjs-unsafe",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=entities01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=entities02",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=html5test-com",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=inbody01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=isindex",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=main-element",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=menuitem-element",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=namespace-sensitivity",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=pending-spec-changes-plain-text-unsafe",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=plain-text-unsafe",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=processing-instructions",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=quirks01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=ruby",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scriptdata01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_adoption01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_ark",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_foster01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_webkit01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=search-element",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tables01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=template",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests1",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests10",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests11",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests12",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests14",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests15",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests16",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests17",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests18",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests19",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests2",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests20",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests21",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests22",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests23",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests24",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests25",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests26",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests3",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests5",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests6",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests7",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests8",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tests9",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=tricky01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=void-in-phrasing",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=webkit01",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_url.html?file=webkit02",
         "status": "fail",
-        "message": "\"Blob\" is not defined"
+        "message": "URL.createObjectURL is not a function. (In \"URL.createObjectURL(blob)\", it is undefined)"
       },
       {
         "url": "/html/syntax/parsing/html5lib_write.html?file=scripted_adoption01",
@@ -5741,22 +5737,12 @@
       {
         "url": "/xhr/formdata.html",
         "status": "error",
-        "message": "ReferenceError: \"Blob\" is not defined"
+        "message": "TypeError: Constructing FormData from a form is not supported"
       },
       {
         "url": "/xhr/formdata/append-formelement.html",
         "status": "fail",
         "message": "Constructing FormData from a form is not supported"
-      },
-      {
-        "url": "/xhr/formdata/append.any.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
-      },
-      {
-        "url": "/xhr/formdata/append.any.worker.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
       },
       {
         "url": "/xhr/formdata/constructor-formelement.html",
@@ -5779,16 +5765,6 @@
         "message": "Constructing FormData from a form is not supported"
       },
       {
-        "url": "/xhr/formdata/foreach.any.html",
-        "status": "error",
-        "message": "ReferenceError: \"File\" is not defined"
-      },
-      {
-        "url": "/xhr/formdata/foreach.any.worker.html",
-        "status": "error",
-        "message": "ReferenceError: \"File\" is not defined"
-      },
-      {
         "url": "/xhr/formdata/get-formelement.html",
         "status": "fail",
         "message": "Constructing FormData from a form is not supported"
@@ -5799,29 +5775,9 @@
         "message": "Constructing FormData from a form is not supported"
       },
       {
-        "url": "/xhr/formdata/set-blob.any.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
-      },
-      {
-        "url": "/xhr/formdata/set-blob.any.worker.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
-      },
-      {
         "url": "/xhr/formdata/set-formelement.html",
         "status": "fail",
         "message": "Constructing FormData from a form is not supported"
-      },
-      {
-        "url": "/xhr/formdata/set.any.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
-      },
-      {
-        "url": "/xhr/formdata/set.any.worker.html",
-        "status": "fail",
-        "message": "\"Blob\" is not defined"
       },
       {
         "url": "/xhr/formdata/submitter-coordinate-value.html",

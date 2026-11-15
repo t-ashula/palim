@@ -108,7 +108,7 @@
 ### Networking and resource loading
 
 - [ ] resource loading
-- [ ] `Blob` / `File` の byte sequence、metadata、page realm 公開と `FormData` の binary entry
+- [x] `Blob` / `File` の byte sequence、metadata、page realm 公開と `FormData` の binary entry
 - [ ] `FileList` と file input の selected files
 - [ ] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、`blob:` resource loading
 - [ ] Web Streams の underlying source / sink、queue、backpressure、close / abort / error、reader / writer lock semantics
