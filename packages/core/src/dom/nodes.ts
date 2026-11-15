@@ -935,6 +935,21 @@ export class Document extends Node {
     return activeElementForRoot(elementInterface(focusedArea), this);
   }
 
+  elementFromPoint(x: number, y: number): Element | null {
+    return this.elementsFromPoint(x, y)[0] ?? null;
+  }
+
+  elementsFromPoint(x: number, y: number): Element[] {
+    requireArguments(arguments.length, 2);
+    const convertedX = finiteDouble(x);
+    const convertedY = finiteDouble(y);
+    const provider = DOCUMENT_GEOMETRY_PROVIDERS.get(this);
+    if (provider === undefined) {
+      throw new TypeError("CSS layout is not available for this Document");
+    }
+    return [...provider.elementsFromPoint(convertedX, convertedY)];
+  }
+
   get contentType(): string {
     return documentImplementation(this).contentType;
   }
@@ -1980,7 +1995,7 @@ export class Element extends Node {
     if (provider === undefined) {
       throw new TypeError("CSS layout is not available for this Document");
     }
-    return createDOMRectList(provider(this));
+    return createDOMRectList(provider.clientRects(this));
   }
 
   getBoundingClientRect(): DOMRect {
@@ -2556,7 +2571,10 @@ export class Element extends Node {
   }
 }
 
-export type DocumentGeometryProvider = (element: Element) => readonly DOMRect[];
+export interface DocumentGeometryProvider {
+  clientRects(element: Element): readonly DOMRect[];
+  elementsFromPoint(x: number, y: number): readonly Element[];
+}
 const DOCUMENT_GEOMETRY_PROVIDERS = new WeakMap<
   Document,
   DocumentGeometryProvider
@@ -2567,6 +2585,14 @@ export function setDocumentGeometryProvider(
   provider: DocumentGeometryProvider,
 ): void {
   DOCUMENT_GEOMETRY_PROVIDERS.set(document, provider);
+}
+
+function finiteDouble(value: unknown): number {
+  const number = Number(value);
+  if (!Number.isFinite(number)) {
+    throw new TypeError("The value must be a finite number");
+  }
+  return number;
 }
 
 export function attributeNodes(element: Element): Attr[] {

@@ -88,6 +88,13 @@ export function installWindowMembers(binding: WindowRealmBindingContext): void {
         : binding.dom.platformObject(binding.window.frameElement),
     true,
   );
+  for (const name of ["innerWidth", "innerHeight"] as const) {
+    binding.attribute(
+      name,
+      () => binding.engine.fromPrimitive(binding.window[name]),
+      false,
+    );
+  }
   binding.context.attribute(
     binding.globalObject,
     "onerror",

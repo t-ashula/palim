@@ -108,6 +108,9 @@ describe("Window", () => {
     expect(
       windowViewport(createWindow({ viewport: { width: 640, height: 480 } })),
     ).toEqual({ width: 640, height: 480 });
+    const window = createWindow({ viewport: { width: 640, height: 480 } });
+    expect(window.innerWidth).toBe(640);
+    expect(window.innerHeight).toBe(480);
   });
 
   it("owns Location state in the Window runtime", () => {

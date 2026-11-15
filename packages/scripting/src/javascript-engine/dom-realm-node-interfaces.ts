@@ -1546,6 +1546,45 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       ? binding.typeError("Invalid Document receiver")
       : binding.platformValue(document.activeElement);
   });
+  for (const name of ["elementFromPoint", "elementsFromPoint"] as const) {
+    binding.method(
+      binding.documentPrototype,
+      name,
+      2,
+      (thisValue, argumentsList) => {
+        const document = binding.document(thisValue);
+        if (document === null) {
+          return binding.typeError(`Invalid Document receiver for ${name}`);
+        }
+        if (argumentsList.length < 2) {
+          return binding.typeError(`${name} requires 2 argument(s)`);
+        }
+        const coordinates: number[] = [];
+        for (const value of argumentsList.slice(0, 2)) {
+          const converted = binding.engine.toNumber(binding.realm, value);
+          if (converted.type === "throw") {
+            return converted;
+          }
+          if (!Number.isFinite(converted.value)) {
+            return binding.typeError(`${name} requires finite coordinates`);
+          }
+          coordinates.push(converted.value);
+        }
+        const [x = 0, y = 0] = coordinates;
+        if (name === "elementFromPoint") {
+          return binding.platformValue(document.elementFromPoint(x, y));
+        }
+        return normal(
+          binding.engine.createArray(
+            binding.realm,
+            document
+              .elementsFromPoint(x, y)
+              .map((element) => binding.wrap(element)),
+          ),
+        );
+      },
+    );
+  }
   binding.attribute(
     binding.documentPrototype,
     "implementation",

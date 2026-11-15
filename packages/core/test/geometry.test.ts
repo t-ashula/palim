@@ -84,10 +84,13 @@ describe("Geometry Interfaces", () => {
     if (main === null) {
       throw new TypeError("Missing main element");
     }
-    setDocumentGeometryProvider(document, () => [
-      new DOMRect(10, 20, 30, 40),
-      new DOMRect(50, 15, 10, 5),
-    ]);
+    setDocumentGeometryProvider(document, {
+      clientRects: () => [
+        new DOMRect(10, 20, 30, 40),
+        new DOMRect(50, 15, 10, 5),
+      ],
+      elementsFromPoint: () => [main],
+    });
 
     expect([...main.getClientRects()]).toHaveLength(2);
     expect(main.getBoundingClientRect()).toMatchObject({
@@ -96,5 +99,7 @@ describe("Geometry Interfaces", () => {
       width: 50,
       height: 45,
     });
+    expect(document.elementFromPoint(10, 20)).toBe(main);
+    expect(document.elementsFromPoint(10, 20)).toEqual([main]);
   });
 });

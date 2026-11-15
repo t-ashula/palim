@@ -55,6 +55,8 @@ export interface Window extends EventTarget {
   readonly top: Window;
   readonly parent: Window;
   readonly frameElement: Element | null;
+  readonly innerWidth: number;
+  readonly innerHeight: number;
   requestAnimationFrame(callback: FrameRequestCallback): number;
   cancelAnimationFrame(handle: number): void;
   onerror(handler: WindowErrorHandler): () => void;

@@ -185,6 +185,14 @@ class WindowPlatform extends EventTarget implements Window {
     return windowEnvironment(this).browsingContext.frameElement;
   }
 
+  get innerWidth(): number {
+    return windowEnvironment(this).viewport.width;
+  }
+
+  get innerHeight(): number {
+    return windowEnvironment(this).viewport.height;
+  }
+
   requestAnimationFrame(callback: FrameRequestCallback): number {
     if (typeof callback !== "function") {
       throw new TypeError("Animation frame callback must be callable");

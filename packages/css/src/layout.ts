@@ -20,6 +20,7 @@ export interface DocumentLayout {
   readonly viewport: LayoutViewport;
   fragments(element: Element): readonly CSSBoxFragment[];
   clientRects(element: Element): readonly DOMRect[];
+  elementsFromPoint(x: number, y: number): readonly Element[];
 }
 
 const DOCUMENT_LAYOUTS = new WeakMap<Document, DocumentLayout>();
@@ -37,6 +38,10 @@ class LiveDocumentLayout implements DocumentLayout {
   clientRects(element: Element): readonly DOMRect[] {
     return layoutDocument(this.document, this.viewport).clientRects(element);
   }
+
+  elementsFromPoint(x: number, y: number): readonly Element[] {
+    return layoutDocument(this.document, this.viewport).elementsFromPoint(x, y);
+  }
 }
 
 export function updateDocumentLayout(
@@ -45,9 +50,10 @@ export function updateDocumentLayout(
 ): DocumentLayout {
   const layout = new LiveDocumentLayout(document, viewport);
   DOCUMENT_LAYOUTS.set(document, layout);
-  setDocumentGeometryProvider(document, (element) =>
-    layout.clientRects(element),
-  );
+  setDocumentGeometryProvider(document, {
+    clientRects: (element) => layout.clientRects(element),
+    elementsFromPoint: (x, y) => layout.elementsFromPoint(x, y),
+  });
   return layout;
 }
 
@@ -57,7 +63,10 @@ export function documentLayout(document: Document): DocumentLayout | null {
 
 class LayoutResult implements DocumentLayout {
   readonly #values = new Map<Element, CSSBoxFragment[]>();
-  constructor(readonly viewport: LayoutViewport) {}
+  constructor(
+    readonly document: Document,
+    readonly viewport: LayoutViewport,
+  ) {}
   add(value: CSSBoxFragment): void {
     const values = this.#values.get(value.element) ?? [];
     values.push(value);
@@ -70,6 +79,48 @@ class LayoutResult implements DocumentLayout {
     return this.fragments(element).map(
       ({ x, y, width, height }) => new DOMRect(x, y, width, height),
     );
+  }
+  elementsFromPoint(x: number, y: number): readonly Element[] {
+    if (x < 0 || y < 0 || x > this.viewport.width || y > this.viewport.height) {
+      return [];
+    }
+    const root = this.document.documentElement;
+    if (root === null) {
+      return [];
+    }
+    const result: Element[] = [];
+    this.#collectHitElements(root, x, y, result);
+    if (!result.includes(root)) {
+      result.push(root);
+    }
+    return result;
+  }
+  #collectHitElements(
+    element: Element,
+    x: number,
+    y: number,
+    result: Element[],
+  ): void {
+    const children = [...element.children];
+    for (let index = children.length - 1; index >= 0; index -= 1) {
+      const child = children[index];
+      if (child !== undefined) {
+        this.#collectHitElements(child, x, y, result);
+      }
+    }
+    if (
+      this.fragments(element).some(
+        (fragment) =>
+          fragment.width > 0 &&
+          fragment.height > 0 &&
+          x >= fragment.x &&
+          x < fragment.x + fragment.width &&
+          y >= fragment.y &&
+          y < fragment.y + fragment.height,
+      )
+    ) {
+      result.push(element);
+    }
   }
 }
 
@@ -106,7 +157,7 @@ export function layoutDocument(
   viewport: LayoutViewport,
 ): DocumentLayout {
   invalidateComputedStyles(document);
-  const result = new LayoutResult(viewport);
+  const result = new LayoutResult(document, viewport);
   if (document.documentElement !== null) {
     layoutBlock(document.documentElement, 0, 0, viewport.width, result);
   }
@@ -142,9 +193,14 @@ function layoutBlock(
   const boxX = x + margin.left;
   const contentX = boxX + border.left + padding.left;
   const contentY = y + margin.top + border.top + padding.top;
-  const contentHeight =
-    length(style.height) ??
-    layoutChildren(element, contentX, contentY, width, result);
+  const childrenHeight = layoutChildren(
+    element,
+    contentX,
+    contentY,
+    width,
+    result,
+  );
+  const contentHeight = length(style.height) ?? childrenHeight;
   const boxWidth =
     width + padding.left + padding.right + border.left + border.right;
   const boxHeight =
@@ -208,11 +264,16 @@ function layoutChildren(
       cursorX += childWidth;
       lineHeight = Math.max(lineHeight, childHeight);
     } else if (node.nodeType === 3) {
+      const whiteSpace = computedStyle(element)["white-space"];
+      if (
+        whiteSpace !== "pre" &&
+        whiteSpace !== "pre-wrap" &&
+        (node.nodeValue ?? "").trim() === ""
+      ) {
+        continue;
+      }
       const metrics = fontMetrics(element);
-      const text = normalizeText(
-        node.nodeValue ?? "",
-        computedStyle(element)["white-space"],
-      );
+      const text = normalizeText(node.nodeValue ?? "", whiteSpace);
       for (const segment of text.match(/\S+\s*|\s+/gu) ?? []) {
         const advance = metrics.advance(segment);
         if (cursorX > x && cursorX + advance > x + width) {

@@ -26,3 +26,22 @@ if (
 ) {
   throw new Error("Element geometry is invalid");
 }
+
+const hit = document.elementFromPoint(10, 10);
+const hits = document.elementsFromPoint(10, 10);
+if (
+  hit !== main ||
+  !Array.isArray(hits) ||
+  hits[0] !== main ||
+  !hits.includes(document.documentElement) ||
+  document.elementFromPoint.length !== 2 ||
+  document.elementsFromPoint.length !== 2 ||
+  document.elementFromPoint(-1, 10) !== null ||
+  document.elementsFromPoint(-1, 10).length !== 0
+) {
+  throw new Error("Document hit testing is invalid");
+}
+
+if (window.innerWidth !== 640 || window.innerHeight !== 480) {
+  throw new Error("Window viewport dimensions are invalid");
+}
