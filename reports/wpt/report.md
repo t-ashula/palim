@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261116t041851289z-1886631
+Campaign: 20261116t072006571z-2320562
 
 Campaign state: completed
 
-Palim: 3e8a6b0ff3f50b5bd453c28b903ed01a07410fb8
+Palim: 386ada10aa87bdfdb65eb49288495b3b1ababf88
 
-Container image: sha256:a698b49caa92a46b14d808d5af15a4716d8f110cb258ee850e1d3704148c432d
+Container image: sha256:30261f7f69cf8ea1f2faa299dd7fbbfc06f2f943e903cbbb963c0eed9f8a8eb7
 
-Snapshot: 2026-11-16T04:53:51.458Z
+Snapshot: 2026-11-16T07:54:53.999Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,7 +22,7 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 959 | 535 | 248 | 117 | 97 | 0 | 100.00% | 49.03% |
+| All | 1956 | 1956 | 961 | 553 | 248 | 92 | 102 | 0 | 100.00% | 49.13% |
 | /custom-elements/ | 209 | 209 | 65 | 106 | 5 | 30 | 3 | 0 | 100.00% | 31.10% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
@@ -30,12 +30,12 @@ This table includes every selected WPT URL, including tentative tests.
 | /dom/nodes/ | 415 | 415 | 309 | 70 | 5 | 3 | 28 | 0 | 100.00% | 74.46% |
 | /dom/ranges/ | 69 | 69 | 28 | 36 | 3 | 2 | 0 | 0 | 100.00% | 40.58% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 96 | 96 | 48 | 27 | 0 | 14 | 7 | 0 | 100.00% | 50.00% |
+| /domparsing/ | 96 | 96 | 48 | 39 | 0 | 2 | 7 | 0 | 100.00% | 50.00% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 236 | 236 | 155 | 72 | 0 | 2 | 7 | 0 | 100.00% | 65.68% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 8 | 0 | 0 | 2 | 3 | 0 | 100.00% | 61.54% |
-| /sanitizer-api/ | 50 | 50 | 18 | 17 | 0 | 13 | 2 | 0 | 100.00% | 36.00% |
+| /sanitizer-api/ | 50 | 50 | 20 | 23 | 0 | 0 | 7 | 0 | 100.00% | 40.00% |
 | /shadow-dom/ | 317 | 317 | 51 | 89 | 132 | 13 | 32 | 0 | 100.00% | 16.09% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
@@ -48,7 +48,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 958 | 495 | 209 | 109 | 71 | 0 | 100.00% | 52.01% |
+| All | 1842 | 1842 | 960 | 512 | 209 | 85 | 76 | 0 | 100.00% | 52.12% |
 | /custom-elements/ | 202 | 202 | 65 | 104 | 3 | 27 | 3 | 0 | 100.00% | 32.18% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
@@ -56,12 +56,12 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/ | 415 | 415 | 309 | 70 | 5 | 3 | 28 | 0 | 100.00% | 74.46% |
 | /dom/ranges/ | 46 | 46 | 28 | 16 | 0 | 2 | 0 | 0 | 100.00% | 60.87% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 94 | 94 | 48 | 26 | 0 | 13 | 7 | 0 | 100.00% | 51.06% |
+| /domparsing/ | 94 | 94 | 48 | 37 | 0 | 2 | 7 | 0 | 100.00% | 51.06% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 234 | 234 | 155 | 72 | 0 | 1 | 6 | 0 | 100.00% | 66.24% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 8 | 0 | 0 | 2 | 3 | 0 | 100.00% | 61.54% |
-| /sanitizer-api/ | 49 | 49 | 17 | 17 | 0 | 13 | 2 | 0 | 100.00% | 34.69% |
+| /sanitizer-api/ | 49 | 49 | 19 | 23 | 0 | 0 | 7 | 0 | 100.00% | 38.78% |
 | /shadow-dom/ | 242 | 242 | 51 | 74 | 100 | 10 | 7 | 0 | 100.00% | 21.07% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 101726 | 79299 | 22058 | 209 | 89 | 71 | 77.95% |
+| 103238 | 79694 | 23194 | 209 | 65 | 76 | 77.19% |
 
 ### Non-passing executed tests
 
@@ -521,9 +521,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/XMLSerializer-serializeToString.html | fail | <code>assert_equals: expected "&lt;r xmlns:xx=\"uri\" xmlns:ns1=\"uri2\" ns1:name=\"value\"/&gt;" but got "&lt;r xmlns:xx=\"uri\" xmlns:p=\"uri2\" p:name=\"value\"/&gt;"</code> |
 | /domparsing/all-stream-methods-with-trusted-types-no-policy.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
 | /domparsing/innerhtml-05.xhtml | timeout | <code>palim execution timed out</code> |
-| /domparsing/positional-methods-with-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/positional-methods-with-trusted-types.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/positional-methods-with-parser-options.html | fail | <code>assert_equals: expected (string) "TrustedHTMLParserOptions" but got (object) null</code> |
+| /domparsing/positional-methods-with-trusted-types-no-createParserOptions.html | fail | <code>assert_equals: expected 1 but got 0</code> |
+| /domparsing/positional-methods-with-trusted-types.html | fail | <code>assert_array_equals: createHTML sinks lengths differ, expected array ["Node beforeHTMLUnsafe"] length 1, got [] length 0</code> |
 | /domparsing/stream-append-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/stream-append-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
@@ -540,15 +540,15 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/stream-html-stylesheet-does-not-block-scripts.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
 | /domparsing/stream-html-unsafe.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/stream-html-with-declarative-shadow-root.html | fail | <code>assert_equals: no shadow root is attached to the target expected null but got DocumentFragment node with 1 child</code> |
-| /domparsing/stream-html-with-trusted-types-createParserOptions-order.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/stream-html-with-trusted-types-error-in-policy.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/stream-html-with-trusted-types-no-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/stream-html-with-trusted-types-pass-trusted.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-createParserOptions-order.html | fail | <code>assert_throws_exactly: function "() =&gt; element[method_name]()" did not throw</code> |
+| /domparsing/stream-html-with-trusted-types-error-in-policy.html | fail | <code>assert_throws_exactly: error in createParserOptions is rethrown function "() =&gt; d[method]().getWriter()" did not throw</code> |
+| /domparsing/stream-html-with-trusted-types-no-createParserOptions.html | fail | <code>assert_throws_js: function "() =&gt; d[method]()" did not throw</code> |
+| /domparsing/stream-html-with-trusted-types-pass-trusted.html | fail | <code>assert_equals: expected true but got false</code> |
 | /domparsing/stream-html-with-trusted-types-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
 | /domparsing/stream-html-with-trusted-types-reporting.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
-| /domparsing/stream-html-with-trusted-types-runScripts-can-be-turned-on.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/stream-html-with-trusted-types-runScripts-off.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /domparsing/stream-html-with-trusted-types-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-runScripts-can-be-turned-on.html | fail | <code>assert_true: expected true got false</code> |
+| /domparsing/stream-html-with-trusted-types-runScripts-off.html | fail | <code>assert_false: expected false got true</code> |
+| /domparsing/stream-html-with-trusted-types-sanitizer.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
 | /domparsing/stream-html.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert null to object"</code> |
 | /domparsing/stream-insertion-logic.html | fail | <code>assert_unreached: Should have rejected: Write that attempts to insert after ref_node displacement must reject with HierarchyRequestError Reached unreachable code</code> |
 | /domparsing/stream-positional.html | fail | <code>assert_throws_js: sanity check: the sanitizer config is invalid function "() =&gt; {<br>            parented[method_name](invalid);<br>          }" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
@@ -557,7 +557,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/stream-sanitizer-resource-fetch.html | fail | <code>assert_equals: Server should observe exactly one request in control case expected "1" but got "0"</code> |
 | /domparsing/stream-tokenizer-context.html | fail | <code>assert_equals: expected (string) "&lt;b&gt;Hello &lt;world&gt; &amp; test&lt;/b&gt;" but got (undefined) undefined</code> |
 | /domparsing/unclosed-script-already-started.html | fail | <code>assert_false: createContextualFragment: must not run on insertion expected false got true</code> |
-| /domparsing/unsafe-and-trusted-types-external-scripts-async.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/unsafe-and-trusted-types-external-scripts-async.html | fail | <code>assert_array_equals: inline script runs synchronously lengths differ, expected array ["inline"] length 1, got [] length 0</code> |
 | /html/dom/documents/dom-tree-accessors/Document.currentScript.html | timeout | <code>b'SyntaxError: Unexpected token\nhttp://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:2\n{\n ^\nReferenceError: "undefinedfn" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:1:1\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:18:29\nReferenceError: "XMLHttpRequest" is not defined\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:21\nError: The tokenizer input stream is closed\n    at steps (native)\n    at http://web-platform.test:8000/html/dom/documents/dom-tree-accessors/Document.currentScript.html:2:102'</code> |
 | /html/dom/elements/elements-in-the-dom/click-in-progress-flag.html | fail | <code>div.click is not a function. (In "div.click()", it is undefined)</code> |
 | /html/dom/elements/global-attributes/cdata-dir_auto.html | timeout | <code>palim execution timed out</code> |
@@ -691,7 +691,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url.html | timeout | <code>palim execution timed out</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-runScripts.html | timeout | <code>palim execution timed out</code> |
-| /sanitizer-api/parsehtmlunsafe-with-trustedtypes.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /sanitizer-api/parsehtmlunsafe-with-trustedtypes.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=mathml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
@@ -708,21 +708,19 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /sanitizer-api/sethtml-tree-construction.html | fail | <code>assert_equals: Expect exception TypeError, but got Error: Invalid SanitizerConfig. expected "TypeError" but got "Error"</code> |
 | /sanitizer-api/sethtml-with-custom-elements.html | fail | <code>assert_equals: constructed before setHTML() returns expected 1 but got 0</code> |
 | /sanitizer-api/sethtml-with-declarative-shadow-root.html | fail | <code>assert_equals: expected (boolean) false but got (undefined) undefined</code> |
-| /sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-with-trustedtypes-createParserOptions-null.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html | timeout | <code>b'ReferenceError: "trustedTypes" is not defined\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html:84:26\nReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
-| /sanitizer-api/sethtml-with-trustedtypes-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-with-trustedtypes-immutable.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-with-trustedtypes.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-xml-document-sanitizer-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/sethtml-xml-document-sanitizer.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html | fail | <code>assert_equals: Default policy sanitizer must be applied even when TrustedHTML is provided expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
+| /sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /sanitizer-api/sethtml-with-trustedtypes-createParserOptions.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
+| /sanitizer-api/sethtml-with-trustedtypes-immutable.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
+| /sanitizer-api/sethtml-with-trustedtypes.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
+| /sanitizer-api/sethtml-xml-document-sanitizer-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /sanitizer-api/sethtml-xml-document-sanitizer.html | fail | <code>assert_throws_js: function "() =&gt; {<br>          elem.innerHTML = "&lt;span&gt;&lt;/span&gt;";<br>        }" did not throw</code> |
 | /sanitizer-api/sethtml-xml-document.html | fail | <code>A shadow root cannot be attached to this element</code> |
 | /sanitizer-api/sethtmlunsafe-toplevel-template-script.html | fail | <code>assert_false: Additional nodes at the of node2.<br> expected false got true</code> |
-| /sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
-| /sanitizer-api/trustedhtml-unvetted-parser-options.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
+| /sanitizer-api/trustedhtml-unvetted-parser-options.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
 | /shadow-dom/Document-prototype-currentScript.html | error | <code>Error: assert_equals: expected null but got Element node &lt;script&gt;assert_equals(document.currentScript, null)&lt;/script&gt;</code> |
 | /shadow-dom/Document-prototype-importNode.html | fail | <code>assert_throws_dom: function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            newDocument.importNode(shadowRoot);<br>        }" did not throw</code> |
 | /shadow-dom/DocumentOrShadowRoot-prototype-elementFromPoint.html | fail | <code>elementFromPoint requires finite coordinates</code> |
@@ -921,7 +919,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
@@ -969,11 +967,11 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 114 | 114 | 1 | 40 | 39 | 8 | 26 | 0 | 100.00% | 0.88% |
+| All | 114 | 114 | 1 | 41 | 39 | 7 | 26 | 0 | 100.00% | 0.88% |
 | /custom-elements/ | 7 | 7 | 0 | 2 | 2 | 3 | 0 | 0 | 100.00% | 0.00% |
 | /dom/events/ | 3 | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /dom/ranges/ | 23 | 23 | 0 | 20 | 3 | 0 | 0 | 0 | 100.00% | 0.00% |
-| /domparsing/ | 2 | 2 | 0 | 1 | 0 | 1 | 0 | 0 | 100.00% | 0.00% |
+| /domparsing/ | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /html/dom/documents/dom-tree-accessors/ | 1 | 1 | 0 | 1 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /html/syntax/parsing/ | 2 | 2 | 0 | 0 | 0 | 1 | 1 | 0 | 100.00% | 0.00% |
 | /sanitizer-api/ | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -983,7 +981,7 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 387 | 30 | 288 | 39 | 4 | 26 | 7.75% |
+| 410 | 48 | 294 | 39 | 3 | 26 | 11.71% |
 
 ### Non-passing executed tests
 
@@ -1022,7 +1020,7 @@ These tests track proposed behavior and do not determine current Living Standard
 | /dom/ranges/tentative/OpaqueRange-unsupported-elements.html | fail | <code>assert_throws_dom: createValueRange should throw NotSupportedError for &lt;input&gt; function "() =&gt; {<br>      input.createValueRange(0, 0);<br>    }" threw object "TypeError: input.createValueRange is not a function. (In "input.createValueRange(0, 0)", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
 | /dom/ranges/tentative/OpaqueRange-update-event-order.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/ranges/tentative/OpaqueRange-validation.html | fail | <code>assert_throws_dom: function "() =&gt; textarea.createValueRange(10, 15)" threw object "TypeError: textarea.createValueRange is not a function. (In "textarea.createValueRange(10, 15)", it is undefined)" that is not a DOMException IndexSizeError: property "code" is equal to undefined, expected 1</code> |
-| /domparsing/stream-html-with-trusted-types-adopt.tentative.html | error | <code>ReferenceError: "trustedTypes" is not defined</code> |
+| /domparsing/stream-html-with-trusted-types-adopt.tentative.html | fail | <code>assert_throws_js: function "() =&gt; runInNonTT(adoptedDiv, method)" did not throw</code> |
 | /domparsing/stream-html-with-trusted-types-from-non-tt.tentative.html | fail | <code>assert_throws_js: function "() =&gt; adoptedDiv[method]()" did not throw</code> |
 | /html/dom/documents/dom-tree-accessors/nameditem-no-shadowing.tentative.html | fail | <code>assert_equals: expected (function) function "function Document() { [native code] }" but got (object) Element node &lt;img name="constructor"&gt;&lt;/img&gt;</code> |
 | /html/syntax/parsing/DOMContentLoaded-defer-task-order.tentative.html | timeout | <code>palim execution timed out</code> |

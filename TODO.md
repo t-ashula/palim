@@ -81,7 +81,8 @@
 
 - [ ] shadow root の attach 条件、mode、host、clonable / serializable state
 - [ ] slot assignment、manual slotting、`Element.slot`、`HTMLSlotElement.assign()`、`slotchange`
-- [x] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、upgrade、scoped registry
+- [x] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、global registry の upgrade
+- [ ] scoped `CustomElementRegistry` を `Document.createElement()` / `createElementNS()`、fragment parsing、custom element constructor の再入で使用し、definition 追加時に関連付いた要素だけを upgrade する
 - [x] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
 - [x] custom element definition の `observedAttributes` 変換と属性の append / change / replace / remove に対する `attributeChangedCallback` の引数
 - [x] customized built-in element の reflected IDL attribute setter による `[CEReactions]`

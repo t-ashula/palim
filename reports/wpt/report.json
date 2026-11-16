@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261116t041851289z-1886631",
+    "id": "20261116t072006571z-2320562",
     "state": "completed",
     "palim": {
-      "revision": "3e8a6b0ff3f50b5bd453c28b903ed01a07410fb8",
+      "revision": "386ada10aa87bdfdb65eb49288495b3b1ababf88",
       "dirty": false,
-      "imageId": "sha256:a698b49caa92a46b14d808d5af15a4716d8f110cb258ee850e1d3704148c432d"
+      "imageId": "sha256:30261f7f69cf8ea1f2faa299dd7fbbfc06f2f943e903cbbb963c0eed9f8a8eb7"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-16T04:53:51.458Z",
+    "snapshotAt": "2026-11-16T07:54:53.999Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 959,
-    "fail": 535,
+    "pass": 961,
+    "fail": 553,
     "skip": 248,
-    "error": 117,
-    "timeout": 97,
+    "error": 92,
+    "timeout": 102,
     "pending": 0
   },
   "areas": [
@@ -156,9 +156,9 @@
         "total": 96,
         "executed": 96,
         "pass": 48,
-        "fail": 27,
+        "fail": 39,
         "skip": 0,
-        "error": 14,
+        "error": 2,
         "timeout": 7,
         "pending": 0
       }
@@ -220,11 +220,11 @@
       "totals": {
         "total": 50,
         "executed": 50,
-        "pass": 18,
-        "fail": 17,
+        "pass": 20,
+        "fail": 23,
         "skip": 0,
-        "error": 13,
-        "timeout": 2,
+        "error": 0,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -295,22 +295,22 @@
     }
   ],
   "subtests": {
-    "total": 102113,
-    "pass": 79329,
-    "fail": 22346,
+    "total": 103648,
+    "pass": 79742,
+    "fail": 23488,
     "skip": 248,
-    "error": 93,
-    "timeout": 97
+    "error": 68,
+    "timeout": 102
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 958,
-      "fail": 495,
+      "pass": 960,
+      "fail": 512,
       "skip": 209,
-      "error": 109,
-      "timeout": 71,
+      "error": 85,
+      "timeout": 76,
       "pending": 0
     },
     "areas": [
@@ -411,9 +411,9 @@
           "total": 94,
           "executed": 94,
           "pass": 48,
-          "fail": 26,
+          "fail": 37,
           "skip": 0,
-          "error": 13,
+          "error": 2,
           "timeout": 7,
           "pending": 0
         }
@@ -475,11 +475,11 @@
         "totals": {
           "total": 49,
           "executed": 49,
-          "pass": 17,
-          "fail": 17,
+          "pass": 19,
+          "fail": 23,
           "skip": 0,
-          "error": 13,
-          "timeout": 2,
+          "error": 0,
+          "timeout": 7,
           "pending": 0
         }
       },
@@ -550,12 +550,12 @@
       }
     ],
     "subtests": {
-      "total": 101726,
-      "pass": 79299,
-      "fail": 22058,
+      "total": 103238,
+      "pass": 79694,
+      "fail": 23194,
       "skip": 209,
-      "error": 89,
-      "timeout": 71
+      "error": 65,
+      "timeout": 76
     },
     "nonPassingTests": [
       {
@@ -2775,18 +2775,18 @@
       },
       {
         "url": "/domparsing/positional-methods-with-parser-options.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected (string) \"TrustedHTMLParserOptions\" but got (object) null"
       },
       {
         "url": "/domparsing/positional-methods-with-trusted-types-no-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected 1 but got 0"
       },
       {
         "url": "/domparsing/positional-methods-with-trusted-types.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_array_equals: createHTML sinks lengths differ, expected array [\"Node beforeHTMLUnsafe\"] length 1, got [] length 0"
       },
       {
         "url": "/domparsing/stream-append-html-unsafe.html",
@@ -2870,23 +2870,23 @@
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-createParserOptions-order.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_throws_exactly: function \"() => element[method_name]()\" did not throw"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-error-in-policy.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_throws_exactly: error in createParserOptions is rethrown function \"() => d[method]().getWriter()\" did not throw"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-no-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_throws_js: function \"() => d[method]()\" did not throw"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-pass-trusted.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected true but got false"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-report-only.html",
@@ -2900,18 +2900,18 @@
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-runScripts-can-be-turned-on.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-runScripts-off.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_false: expected false got true"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-sanitizer.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/domparsing/stream-html.html",
@@ -2955,8 +2955,8 @@
       },
       {
         "url": "/domparsing/unsafe-and-trusted-types-external-scripts-async.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_array_equals: inline script runs synchronously lengths differ, expected array [\"inline\"] length 1, got [] length 0"
       },
       {
         "url": "/html/dom/documents/dom-tree-accessors/Document.currentScript.html",
@@ -3625,8 +3625,8 @@
       },
       {
         "url": "/sanitizer-api/parsehtmlunsafe-with-trustedtypes.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/sanitizer-api/sanitizer-a-navigation.html?target=html",
@@ -3710,43 +3710,38 @@
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-null.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: Default policy sanitizer must be applied even when TrustedHTML is provided expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html",
         "status": "timeout",
-        "message": "b'ReferenceError: \"trustedTypes\" is not defined\\n    at http://web-platform.test:8000/sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html:84:26\\nReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedtypes-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedtypes-immutable.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedtypes.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_equals: expected null but got Element node <span id=\"forbidden\"></span>"
       },
       {
         "url": "/sanitizer-api/sethtml-xml-document-sanitizer-report-only.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/sanitizer-api/sethtml-xml-document-sanitizer.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_throws_js: function \"() => {\n          elem.innerHTML = \"<span></span>\";\n        }\" did not throw"
       },
       {
         "url": "/sanitizer-api/sethtml-xml-document.html",
@@ -3760,28 +3755,23 @@
       },
       {
         "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-default-createHTML.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-default-createParserOptions.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
-      },
-      {
-        "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-no-enforcement.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/sanitizer-api/trustedhtml-unvetted-parser-options-report-only.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/sanitizer-api/trustedhtml-unvetted-parser-options.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "timeout",
+        "message": "b'ReferenceError: \"WebSocket\" is not defined\\n    at async <anonymous> (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'"
       },
       {
         "url": "/shadow-dom/Document-prototype-currentScript.html",
@@ -4776,7 +4766,7 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
@@ -4985,9 +4975,9 @@
       "total": 114,
       "executed": 114,
       "pass": 1,
-      "fail": 40,
+      "fail": 41,
       "skip": 39,
-      "error": 8,
+      "error": 7,
       "timeout": 26,
       "pending": 0
     },
@@ -5089,9 +5079,9 @@
           "total": 2,
           "executed": 2,
           "pass": 0,
-          "fail": 1,
+          "fail": 2,
           "skip": 0,
-          "error": 1,
+          "error": 0,
           "timeout": 0,
           "pending": 0
         }
@@ -5228,11 +5218,11 @@
       }
     ],
     "subtests": {
-      "total": 387,
-      "pass": 30,
-      "fail": 288,
+      "total": 410,
+      "pass": 48,
+      "fail": 294,
       "skip": 39,
-      "error": 4,
+      "error": 3,
       "timeout": 26
     },
     "nonPassingTests": [
@@ -5403,8 +5393,8 @@
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-adopt.tentative.html",
-        "status": "error",
-        "message": "ReferenceError: \"trustedTypes\" is not defined"
+        "status": "fail",
+        "message": "assert_throws_js: function \"() => runInNonTT(adoptedDiv, method)\" did not throw"
       },
       {
         "url": "/domparsing/stream-html-with-trusted-types-from-non-tt.tentative.html",
