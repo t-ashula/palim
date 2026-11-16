@@ -319,36 +319,44 @@ describe("HTML element interfaces", () => {
     expect(select(document, "br")).toBeInstanceOf(HTMLBRElement);
   });
 
-  it("reflects grouping and text element members", () => {
-    const document = parse(`
-      <h2 align="left"></h2><p align="right"></p>
-      <hr align="center" color="red" noshade size="4" width="50%">
-      <ol reversed start="3" type="A" compact></ol>
-      <ul compact type="square"></ul><menu compact></menu>
-      <li value="2" type="disc"></li><dl compact></dl>
-      <div align="justify"></div><data value="datum"></data>
-      <time datetime="2026-10-30"></time><br clear="all">
-    `);
+  it("reflects heading and paragraph alignment", () => {
+    const document = parse('<h2 align="left"></h2><p align="right"></p>');
     const heading = select(document, "h2") as HTMLHeadingElement;
     const paragraph = select(document, "p") as HTMLParagraphElement;
-    const rule = select(document, "hr") as HTMLHRElement;
-    const ordered = select(document, "ol") as HTMLOListElement;
-    const unordered = select(document, "ul") as HTMLUListElement;
-    const menu = select(document, "menu") as HTMLMenuElement;
-    const item = select(document, "li") as HTMLLIElement;
-    const list = select(document, "dl") as HTMLDListElement;
-    const division = select(document, "div") as HTMLDivElement;
-    const data = select(document, "data") as HTMLDataElement;
-    const time = select(document, "time") as HTMLTimeElement;
-    const br = select(document, "br") as HTMLBRElement;
 
     expect(heading.align).toBe("left");
     expect(paragraph.align).toBe("right");
+  });
+
+  it("reflects horizontal rule presentation members", () => {
+    const document = parse(
+      '<hr align="center" color="red" noshade size="4" width="50%">',
+    );
+    const rule = select(document, "hr") as HTMLHRElement;
+
     expect(rule.align).toBe("center");
     expect(rule.color).toBe("red");
     expect(rule.noShade).toBe(true);
     expect(rule.size).toBe("4");
     expect(rule.width).toBe("50%");
+
+    rule.noShade = false;
+
+    expect(rule.hasAttribute("noshade")).toBe(false);
+  });
+
+  it("reflects list members", () => {
+    const document = parse(`
+      <ol reversed start="3" type="A" compact></ol>
+      <ul compact type="square"></ul><menu compact></menu>
+      <li value="2" type="disc"></li><dl compact></dl>
+    `);
+    const ordered = select(document, "ol") as HTMLOListElement;
+    const unordered = select(document, "ul") as HTMLUListElement;
+    const menu = select(document, "menu") as HTMLMenuElement;
+    const item = select(document, "li") as HTMLLIElement;
+    const list = select(document, "dl") as HTMLDListElement;
+
     expect(ordered.reversed).toBe(true);
     expect(ordered.start).toBe(3);
     expect(ordered.type).toBe("A");
@@ -359,21 +367,39 @@ describe("HTML element interfaces", () => {
     expect(item.value).toBe(2);
     expect(item.type).toBe("disc");
     expect(list.compact).toBe(true);
-    expect(division.align).toBe("justify");
-    expect(data.value).toBe("datum");
-    expect(time.dateTime).toBe("2026-10-30");
-    expect(br.clear).toBe("all");
 
     ordered.start = 5;
     ordered.reversed = false;
     item.value = 7;
-    rule.noShade = false;
-    data.value = "next";
 
     expect(ordered.getAttribute("start")).toBe("5");
     expect(ordered.hasAttribute("reversed")).toBe(false);
     expect(item.getAttribute("value")).toBe("7");
-    expect(rule.hasAttribute("noshade")).toBe(false);
+  });
+
+  it("reflects division alignment", () => {
+    const division = select(
+      parse('<div align="justify"></div>'),
+      "div",
+    ) as HTMLDivElement;
+
+    expect(division.align).toBe("justify");
+  });
+
+  it("reflects data, time, and line break members", () => {
+    const document = parse(
+      '<data value="datum"></data><time datetime="2026-10-30"></time><br clear="all">',
+    );
+    const data = select(document, "data") as HTMLDataElement;
+    const time = select(document, "time") as HTMLTimeElement;
+    const br = select(document, "br") as HTMLBRElement;
+
+    expect(data.value).toBe("datum");
+    expect(time.dateTime).toBe("2026-10-30");
+    expect(br.clear).toBe("all");
+
+    data.value = "next";
+
     expect(data.getAttribute("value")).toBe("next");
   });
 
