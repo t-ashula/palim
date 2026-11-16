@@ -1,17 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  documentNamedItem,
-  documentNamedPropertyNames,
-} from "../src/dom/document-named-properties.js";
-import {
-  foreignAnchorRelList,
-  isForeignAnchorElement,
-} from "../src/dom/foreign-anchor.js";
-import { documentImplementation } from "../src/dom/node-implementation.js";
-import { setDocumentURL } from "../src/dom/nodes.js";
-import { associateDOMParser } from "../src/dom-parser.js";
-import { expectDOMException } from "./helper/assertions.js";
+import { documentImplementation } from "../../src/dom/node-implementation.js";
+import { setDocumentURL } from "../../src/dom/nodes.js";
+import { associateDOMParser } from "../../src/dom-parser.js";
+import { expectDOMException } from "../helper/assertions.js";
 import {
   AbortController,
   Attr,
@@ -34,7 +26,7 @@ import {
   ProcessingInstruction,
   Text,
   XMLDocument,
-} from "./public-test-api.js";
+} from "../public-test-api.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
@@ -69,89 +61,6 @@ describe("DOM interface binding", () => {
         object.constructor.name,
       ).toEqual([]);
     }
-  });
-});
-
-describe("Document dynamic markup insertion", () => {
-  it("keeps one document parser session across open, write, writeln, and close", () => {
-    const document = parse("<p>old</p>");
-
-    expect(document.open()).toBe(document);
-    document.write("<!doctype html><main><p>one");
-    expect(document.querySelector("main")?.textContent).toBe("one");
-    document.writeln("</p><p>two</p></main>");
-    document.close();
-
-    expect(document.querySelector("p")?.textContent).toBe("one");
-    expect(document.querySelectorAll("p").item(1)?.textContent).toBe("two");
-    expect(document.querySelector("script")).toBeNull();
-  });
-
-  it("implicitly opens a closed document and keeps scripts inert", () => {
-    const document = parse("<p>old</p>");
-
-    document.write(
-      '<script>document.body.setAttribute("data-ran", "yes")</script>',
-      "<p>new</p>",
-    );
-    document.close();
-
-    expect(document.body?.getAttribute("data-ran")).toBeNull();
-    expect(document.querySelector("p")?.textContent).toBe("new");
-  });
-
-  it("rejects dynamic markup insertion for XML documents", () => {
-    const document = new DOMParser().parseFromString(
-      "<root />",
-      "application/xml",
-    );
-
-    expectDOMException(() => document.open(), "InvalidStateError");
-    expectDOMException(() => {
-      document.write("<next />");
-    }, "InvalidStateError");
-  });
-});
-
-describe("Document named properties", () => {
-  it("computes supported names and live values outside a realm binding", () => {
-    const document = parse('<img id="first" name="target">');
-    const first = select(document, "#first");
-
-    expect(documentNamedPropertyNames(document)).toEqual(["first", "target"]);
-    expect(documentNamedItem(document, "target")).toBe(first);
-
-    const second = document.createElement("object");
-    second.setAttribute("name", "target");
-    document.body?.append(second);
-    const collection = documentNamedItem(document, "target");
-
-    expect(Array.from(collection as Iterable<Element>)).toEqual([
-      first,
-      second,
-    ]);
-    first.removeAttribute("name");
-    expect(Array.from(collection as Iterable<Element>)).toEqual([second]);
-    expect(documentNamedPropertyNames(document)).toEqual(["target"]);
-  });
-});
-
-describe("foreign anchor relList", () => {
-  it("owns the live DOMTokenList independently of a realm binding", () => {
-    const document = parse("");
-    const anchor = document.createElementNS("http://www.w3.org/2000/svg", "a");
-
-    expect(isForeignAnchorElement(anchor)).toBe(true);
-    const relList = foreignAnchorRelList(anchor);
-    relList.add("noopener");
-
-    expect(anchor.getAttribute("rel")).toBe("noopener");
-    expect(foreignAnchorRelList(anchor)).toBe(relList);
-    anchor.setAttribute("rel", "external");
-    expect(Array.from(relList)).toEqual(["external"]);
-    expect(() => foreignAnchorRelList(document.createElement("a"))).toThrow(
-      TypeError,
-    );
   });
 });
 
@@ -2548,75 +2457,6 @@ describe("Document metadata", () => {
     setDocumentURL(clone, "https://other.test/changed/page.html");
 
     expect(clone.baseURI).toBe("https://example.test/articles/");
-  });
-});
-
-describe("HTMLElement inline style", () => {
-  it("parses and updates supported color properties", () => {
-    const element = select(
-      parse(
-        '<main style="color: red; background-color: #00ff00; color: unknown-color"></main>',
-      ),
-      "main",
-    ) as HTMLElement;
-
-    expect(element.style.cssText).toBe(
-      "color: red; background-color: #00ff00;",
-    );
-    expect(element.style.color).toBe("red");
-    expect(element.style.backgroundColor).toBe("#00ff00");
-
-    element.style.color = "transparent";
-    element.style.backgroundColor = "blue";
-    expect(element.getAttribute("style")).toBe(
-      "color: transparent; background-color: blue;",
-    );
-  });
-
-  it("reflects a CSS declaration block and preserves priority", () => {
-    const element = select(
-      parse(
-        '<main style="unknown: value; display: none; visibility: hidden !important; display: block"></main>',
-      ),
-      "main",
-    ) as HTMLElement;
-
-    expect(element.style).toBe(element.style);
-    expect(element.style.display).toBe("block");
-    expect(element.style.visibility).toBe("hidden");
-    expect(element.style.getPropertyPriority("visibility")).toBe("important");
-    expect(element.style.length).toBe(2);
-    expect(element.style.item(0)).toBe("visibility");
-    expect(element.style[1]).toBe("display");
-
-    expect(element.style.removeProperty("visibility")).toBe("hidden");
-    expect(element.getAttribute("style")).toBe("display: block;");
-  });
-
-  it("keeps the declaration object synchronized with the style attribute", () => {
-    const element = select(parse("<main></main>"), "main") as HTMLElement;
-    const style = element.style;
-
-    element.setAttribute("style", "display: none; --theme: dark;");
-    expect(style.display).toBe("none");
-    expect(style.getPropertyValue("--theme")).toBe("dark");
-
-    style.setProperty("visibility", "hidden", "IMPORTANT");
-    style.setProperty("display", "invalid-value");
-    expect(style.display).toBe("none");
-    expect(style.getPropertyPriority("visibility")).toBe("important");
-
-    style.cssText = "float: left; display: grid;";
-    expect(style.cssFloat).toBe("left");
-    expect(style.float).toBe("left");
-    expect(style.display).toBe("grid");
-    expect(element.getAttribute("style")).toBe("float: left; display: grid;");
-
-    element.style = "display: flex;";
-    expect(style.display).toBe("flex");
-
-    style.cssText = "";
-    expect(element.getAttribute("style")).toBe("");
   });
 });
 

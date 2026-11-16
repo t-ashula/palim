@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "./public-test-api.js";
+import { DOMParser } from "../public-test-api.js";
 
 function documentWithTarget() {
   const document = new DOMParser().parseFromString(

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { DOMParserSupportedType } from "./public-test-api.js";
+import type { DOMParserSupportedType } from "../public-test-api.js";
 import {
   CDATASection,
   Comment,
@@ -11,7 +11,7 @@ import {
   ProcessingInstruction,
   Text,
   XMLDocument,
-} from "./public-test-api.js";
+} from "../public-test-api.js";
 
 const HTML_NAMESPACE = "http://www.w3.org/1999/xhtml";
 const SVG_NAMESPACE = "http://www.w3.org/2000/svg";

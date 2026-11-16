@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Document, Sanitizer } from "./public-test-api.js";
+import { Document, Sanitizer } from "../public-test-api.js";
 
 describe("Sanitizer", () => {
   it("canonicalizes configuration and keeps returned copies independent", () => {

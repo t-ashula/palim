@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import { descendantElements } from "../src/dom/traversal.js";
-import { expectDOMException } from "./helper/assertions.js";
+import { descendantElements } from "../../src/dom/traversal.js";
+import { expectDOMException } from "../helper/assertions.js";
 import type {
   Element,
   Node,
   NodeFilter as NodeFilterCallback,
   NodeIterator,
-} from "./public-test-api.js";
-import { Document, DOMParser, NodeFilter } from "./public-test-api.js";
+} from "../public-test-api.js";
+import { Document, DOMParser, NodeFilter } from "../public-test-api.js";
 
 function parse(input: string): Document {
   return new DOMParser().parseFromString(input, "text/html");

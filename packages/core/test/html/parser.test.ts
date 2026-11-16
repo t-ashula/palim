@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "./public-test-api.js";
+import { DOMParser } from "../public-test-api.js";
 
 describe("HTML parser", () => {
   it("continues with siblings after a style raw text element", () => {

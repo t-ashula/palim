@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Document, DOMParser, parseErrors } from "./public-test-api.js";
+import { Document, DOMParser, parseErrors } from "../public-test-api.js";
 
 describe("parseErrors", () => {
   it("returns no errors for a conforming document", () => {

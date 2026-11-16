@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import type { Document, HTMLElement } from "./public-test-api.js";
+import type { Document, HTMLElement } from "../public-test-api.js";
 import {
   Document as DocumentConstructor,
   DOMParser,
   FocusEvent,
-} from "./public-test-api.js";
+} from "../public-test-api.js";
 
 function parse(input = ""): Document {
   return new DOMParser().parseFromString(input, "text/html");

@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 
-import { callbackFailure, callbackSuccess } from "../src/callback-result.js";
+import { callbackFailure, callbackSuccess } from "../../src/callback-result.js";
 import {
   CustomElementRegistry,
   customElementRegistryForNode,
   initializeCustomElementRegistry,
   setDocumentCustomElementRegistry,
-} from "../src/dom/custom-elements.js";
-import { createCustomHTMLElementBase } from "../src/html-elements.js";
-import { DOMParser } from "./public-test-api.js";
+} from "../../src/dom/custom-elements.js";
+import { createCustomHTMLElementBase } from "../../src/html-elements.js";
+import { DOMParser } from "../public-test-api.js";
 
 describe("custom element reactions", () => {
   it("initializes only null registries in a light-tree subtree", () => {

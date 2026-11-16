@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { Document, MutationObserver } from "./public-test-api.js";
+import { Document, MutationObserver } from "../public-test-api.js";
 
 describe("MutationObserver", () => {
   it("queues one combined record when replacing all children", () => {

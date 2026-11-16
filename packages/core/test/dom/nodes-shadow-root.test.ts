@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, ShadowRoot } from "./public-test-api.js";
+import { DOMParser, ShadowRoot } from "../public-test-api.js";
 
 describe("ShadowRoot", () => {
   it("supports atomic moves within and across a shadow tree", () => {
