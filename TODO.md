@@ -2,10 +2,6 @@
 
 ## DOM and parsing
 
-### Node tree mutation
-
-- [x] `HTMLTemplateElement` の adopting steps で nested template contents の owner document を再帰的に更新する
-
 ### Parsing and serialization
 
 - [ ] Trusted Types と parser options を受け取る HTML parsing sink
@@ -24,7 +20,6 @@
 
 ### User interaction and editing
 
-- [x] focus management
 - [ ] sequential focus navigation と CSS `reading-flow` / `reading-order` に基づく navigation order
 - [ ] editing API と `contenteditable`
 - [ ] `innerText` / `outerText`
@@ -36,12 +31,9 @@
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
 - [ ] iframe navigation で response MIME type を保持し、`data:` URL の body と fragment を分離して HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
-- [x] CSS cascade（origin・specificity・source order・`!important`）、inheritance、initial / computed value の基盤
 - [ ] stylesheet と `LinkStyle`
 - [ ] image loading と intrinsic size
-- [x] `getClientRects()` / `getBoundingClientRect()` と normal flow の block / inline layout
 - [ ] `getComputedStyle` と残る layout-dependent API
-- [x] `elementFromPoint()` / `elementsFromPoint()` の viewport hit testing
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
@@ -81,13 +73,11 @@
 
 - [ ] shadow root の attach 条件、mode、host、clonable / serializable state
 - [ ] slot assignment、manual slotting、`Element.slot`、`HTMLSlotElement.assign()`、`slotchange`
-- [x] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、global registry の upgrade
-- [ ] scoped `CustomElementRegistry` を `Document.createElement()` / `createElementNS()`、fragment parsing、custom element constructor の再入で使用し、definition 追加時に関連付いた要素だけを upgrade する
-- [x] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
-- [x] custom element definition の `observedAttributes` 変換と属性の append / change / replace / remove に対する `attributeChangedCallback` の引数
-- [x] customized built-in element の reflected IDL attribute setter による `[CEReactions]`
 - [ ] custom element reaction stack / backup queue、nested reaction の順序、adopted callback
-- [ ] `ElementInternals` と form-associated custom element
+- [ ] `HTMLElement.attachInternals()` と `ElementInternals` object の生成、要素ごとの identity、呼び出し条件、`disabledFeatures`、`shadowRoot`
+- [ ] `ElementInternals.states` と custom state set
+- [ ] `ElementInternals` の ARIA reflection
+- [ ] form-associated custom element の form owner、labels、form value、validity、disabled state と lifecycle callback
 - [ ] shadow root を含む serialization と `getHTML()`
 
 ## Window and platform services
@@ -102,7 +92,6 @@
 - [ ] `Navigator`
 - [ ] browsing context
 - [ ] XHTML/XML navigation と `readyState` / `readystatechange` / `stop()`
-- [x] `requestAnimationFrame`
 - [ ] `Performance` interface、`performance.now()`、`performance.timeOrigin`
 - [ ] dialog / popover の top layer と event
 - [ ] `Window.postMessage()` / `MessageEvent` の structured serialization、target origin 検査、source、および posted-message task delivery
@@ -111,11 +100,8 @@
 ### Networking and resource loading
 
 - [ ] resource loading
-- [x] `Blob` / `File` の byte sequence、metadata、page realm 公開と `FormData` の binary entry
 - [ ] `FileList` と file input の selected files
-- [x] Blob URL store、`URL.createObjectURL()` / `revokeObjectURL()`、iframe・外部 classic script・Worker script の `blob:` resource loading
 - [ ] Blob URL entry の environment の保持、storage partition の認可、environment 破棄時の削除と Fetch・XMLHttpRequest・画像・stylesheet の `blob:` resource loading
-- [x] `WritableStream` の underlying sink、queue、backpressure、close / abort / error、writer lock semantics と Window / DedicatedWorker / SharedWorker への公開
 - [ ] `ReadableStream` / `TransformStream` の underlying source、queue、backpressure、close / cancel / error、reader lock semantics
 - [ ] Encoding API の page realm 公開と `Response.body` の stream 接続
 - [ ] Fetch の redirect / network error / abort、credentials・referrer・mode、streaming response

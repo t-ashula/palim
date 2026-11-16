@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261116t072006571z-2320562
+Campaign: 20261116t120514014z-2769878
 
 Campaign state: completed
 
-Palim: 386ada10aa87bdfdb65eb49288495b3b1ababf88
+Palim: a76947c811fdee174bb6cdbbb0166cf25f178920
 
-Container image: sha256:30261f7f69cf8ea1f2faa299dd7fbbfc06f2f943e903cbbb963c0eed9f8a8eb7
+Container image: sha256:b545b487bf40a46f0758ac4f813a4dee7f3667d56a413facb1bf74d00f3653c4
 
-Snapshot: 2026-11-16T07:54:53.999Z
+Snapshot: 2026-11-16T12:40:09.853Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,19 +22,19 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 961 | 553 | 248 | 92 | 102 | 0 | 100.00% | 49.13% |
-| /custom-elements/ | 209 | 209 | 65 | 106 | 5 | 30 | 3 | 0 | 100.00% | 31.10% |
+| All | 1956 | 1956 | 965 | 549 | 248 | 92 | 102 | 0 | 100.00% | 49.34% |
+| /custom-elements/ | 209 | 209 | 71 | 100 | 5 | 30 | 3 | 0 | 100.00% | 33.97% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 415 | 415 | 309 | 70 | 5 | 3 | 28 | 0 | 100.00% | 74.46% |
 | /dom/ranges/ | 69 | 69 | 28 | 36 | 3 | 2 | 0 | 0 | 100.00% | 40.58% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 96 | 96 | 48 | 39 | 0 | 2 | 7 | 0 | 100.00% | 50.00% |
+| /domparsing/ | 96 | 96 | 47 | 40 | 0 | 2 | 7 | 0 | 100.00% | 48.96% |
 | /html/dom/documents/dom-tree-accessors/ | 57 | 57 | 55 | 1 | 0 | 0 | 1 | 0 | 100.00% | 96.49% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 236 | 236 | 155 | 72 | 0 | 2 | 7 | 0 | 100.00% | 65.68% |
-| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 8 | 0 | 0 | 2 | 3 | 0 | 100.00% | 61.54% |
+| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 20 | 23 | 0 | 0 | 7 | 0 | 100.00% | 40.00% |
 | /shadow-dom/ | 317 | 317 | 51 | 89 | 132 | 13 | 32 | 0 | 100.00% | 16.09% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
@@ -48,19 +48,19 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 960 | 512 | 209 | 85 | 76 | 0 | 100.00% | 52.12% |
-| /custom-elements/ | 202 | 202 | 65 | 104 | 3 | 27 | 3 | 0 | 100.00% | 32.18% |
+| All | 1842 | 1842 | 964 | 508 | 209 | 85 | 76 | 0 | 100.00% | 52.33% |
+| /custom-elements/ | 202 | 202 | 71 | 98 | 3 | 27 | 3 | 0 | 100.00% | 35.15% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 415 | 415 | 309 | 70 | 5 | 3 | 28 | 0 | 100.00% | 74.46% |
 | /dom/ranges/ | 46 | 46 | 28 | 16 | 0 | 2 | 0 | 0 | 100.00% | 60.87% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /domparsing/ | 94 | 94 | 48 | 37 | 0 | 2 | 7 | 0 | 100.00% | 51.06% |
+| /domparsing/ | 94 | 94 | 47 | 38 | 0 | 2 | 7 | 0 | 100.00% | 50.00% |
 | /html/dom/documents/dom-tree-accessors/ | 56 | 56 | 55 | 0 | 0 | 0 | 1 | 0 | 100.00% | 98.21% |
 | /html/dom/elements/ | 70 | 70 | 22 | 32 | 1 | 13 | 2 | 0 | 100.00% | 31.43% |
 | /html/syntax/parsing/ | 234 | 234 | 155 | 72 | 0 | 1 | 6 | 0 | 100.00% | 66.24% |
-| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 8 | 0 | 0 | 2 | 3 | 0 | 100.00% | 61.54% |
+| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 19 | 23 | 0 | 0 | 7 | 0 | 100.00% | 38.78% |
 | /shadow-dom/ | 242 | 242 | 51 | 74 | 100 | 10 | 7 | 0 | 100.00% | 21.07% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 103238 | 79694 | 23194 | 209 | 65 | 76 | 77.19% |
+| 103238 | 79717 | 23171 | 209 | 65 | 76 | 77.22% |
 
 ### Non-passing executed tests
 
@@ -140,64 +140,58 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/reactions/AriaMixin-string-attributes.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
 | /custom-elements/reactions/CSSStyleDeclaration.html | fail | <code>assert_equals: expected (string) "border-width: 2px;" but got (object) null</code> |
 | /custom-elements/reactions/ChildNode.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
-| /custom-elements/reactions/Document.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted"] length 1, got [] length 0</code> |
+| /custom-elements/reactions/Document.html | fail | <code>assert_array_equals: lengths differ, expected array [] length 0, got ["constructed", "disconnected"] length 2</code> |
 | /custom-elements/reactions/Element.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/ElementContentEditable.html | fail | <code>assert_array_equals: lengths differ, expected array ["attributeChanged"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/HTMLAnchorElement.html | fail | <code>assert_equals: expected "world" but got "&lt;custom-element&gt;hello&lt;/custom-element&gt;"</code> |
+| /custom-elements/reactions/HTMLAnchorElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got ["constructed", "disconnected", "connected"] length 3</code> |
 | /custom-elements/reactions/HTMLElement.html | error | <code>undefined</code> |
 | /custom-elements/reactions/HTMLOptionElement.html | fail | <code>assert_equals: expected "world" but got "&lt;custom-element&gt;hello&lt;/custom-element&gt;"</code> |
 | /custom-elements/reactions/HTMLOptionsCollection.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /custom-elements/reactions/HTMLOutputElement.html | fail | <code>assert_equals: expected "world" but got "&lt;custom-element&gt;hello&lt;/custom-element&gt;"</code> |
+| /custom-elements/reactions/HTMLOutputElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got ["constructed", "disconnected", "connected"] length 3</code> |
 | /custom-elements/reactions/HTMLSelectElement.html | fail | <code>assert_equals: expected (number) 1 but got (undefined) undefined</code> |
-| /custom-elements/reactions/HTMLTableElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got [] length 0</code> |
-| /custom-elements/reactions/HTMLTableRowElement.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: row.deleteCell is not a function. (In "row.deleteCell(0)", it is undefined)"</code> |
-| /custom-elements/reactions/HTMLTableSectionElement.html | fail | <code>assert_equals: expected (object) Element node &lt;thead&gt;&lt;tr&gt;&lt;td&gt;&lt;custom-element&gt;hello&lt;/custom-element&gt;&lt;/td... but got (undefined) undefined</code> |
+| /custom-elements/reactions/HTMLTableElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got ["constructed", "disconnected"] length 2</code> |
+| /custom-elements/reactions/HTMLTableRowElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got ["constructed", "disconnected", "connected"] length 3</code> |
+| /custom-elements/reactions/HTMLTableSectionElement.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got ["constructed", "disconnected", "connected"] length 3</code> |
 | /custom-elements/reactions/HTMLTitleElement.html | fail | <code>assert_equals: expected 1 but got 2</code> |
 | /custom-elements/reactions/Node.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/ParentNode.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/Range.html | fail | <code>assert_array_equals: lengths differ, expected array ["disconnected", "adopted", "connected"] length 3, got ["disconnected", "connected"] length 2</code> |
 | /custom-elements/reactions/Selection.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
-| /custom-elements/reactions/ShadowRoot.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got [] length 0</code> |
-| /custom-elements/registries/Construct.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/reactions/ShadowRoot.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got ["constructed", "disconnected"] length 2</code> |
 | /custom-elements/registries/CustomElementRegistry-initialize.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/CustomElementRegistry-upgrade.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/registries/Document-createElement.html | fail | <code>assert_true: expected true got false</code> |
-| /custom-elements/registries/Document-createElementNS.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/Document-importNode-cross-document.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/registries/Document-importNode.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
-| /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>assert_throws_dom: function "() =&gt; element.attachShadow({ mode: "open" })" did not throw</code> |
+| /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/Element-customElementRegistry.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/Element-innerHTML.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/Element-innerHTML.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/ShadowRoot-init-customElementRegistry.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/registries/ShadowRoot-init-declarative.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/ShadowRoot-innerHTML.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/adoption-before-upgrade.window.html | fail | <code>assert_equals: reported exceptions expected 1 but got 0</code> |
-| /custom-elements/registries/adoption-global-registry.window.html | fail | <code>assert_equals: after adoption expected object "[object Object]" but got null</code> |
-| /custom-elements/registries/adoption-null-registry-element.window.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
-| /custom-elements/registries/adoption-null-registry-shadow-root.window.html | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
-| /custom-elements/registries/adoption.window.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
-| /custom-elements/registries/constructor-direct-call-fallback-registry.window.html | fail | <code>assert_true: expected true got false</code> |
+| /custom-elements/registries/adoption-global-registry.window.html | fail | <code>assert_equals: before adoption expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/adoption-null-registry-element.window.html | fail | <code>assert_equals: parent registry expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/adoption-null-registry-shadow-root.window.html | fail | <code>assert_equals: after adoption expected null but got object "[object Object]"</code> |
+| /custom-elements/registries/adoption.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/registries/constructor-from-another-window.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
-| /custom-elements/registries/constructor-reentry-createElement.window.html | fail | <code>assert_true: expected true got false</code> |
-| /custom-elements/registries/constructor-reentry-with-different-definition.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/define.html | fail | <code>assert_throws_js: function "() =&gt;  {<br>        customElements.define(`test-define-constructor-${t[0]}`, t[1]);<br>      }" threw object "[object DOMException]" ("SyntaxError") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /custom-elements/registries/element-mutation-null-registry-removal.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/element-mutation.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/global-registry-access-timing.window.html | fail | <code>Cannot convert null to object</code> |
+| /custom-elements/registries/element-mutation.html | fail | <code>assert_not_equals: got disallowed value object "[object Object]"</code> |
+| /custom-elements/registries/global-registry-access-timing.window.html | fail | <code>assert_true: upgraded expected true got false</code> |
 | /custom-elements/registries/global.window.html | fail | <code>assert_throws_dom: function "() =&gt; customElements.initialize(contentDocument.createElement("x"))" did not throw</code> |
 | /custom-elements/registries/initial-about-blank.window.html | fail | <code>assert_not_equals: The replacement document must get a new registry got disallowed value object "[object Object]"</code> |
 | /custom-elements/registries/per-document.html | fail | <code>assert_not_equals: got disallowed value object "[object Object]"</code> |
-| /custom-elements/registries/pseudo-class-defined.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
+| /custom-elements/registries/pseudo-class-defined.window.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute-in-xhtml.xhtml | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
 | /custom-elements/registries/scoped-custom-element-registry-customelementregistry-attribute.html | fail | <code>assert_equals: expected null but got object "[object Object]"</code> |
 | /custom-elements/registries/scoped-registry-append.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/scoped-registry-define-upgrade-criteria.html | fail | <code>assert_true: expected true got false</code> |
-| /custom-elements/registries/scoped-registry-define-upgrade-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["a", "b", "c"] length 3, got [] length 0</code> |
+| /custom-elements/registries/scoped-registry-define-upgrade-criteria.html | fail | <code>window.open is not a function. (In "window.open('about:blank')", it is undefined)</code> |
+| /custom-elements/registries/scoped-registry-define-upgrade-order.html | fail | <code>assert_array_equals: expected property 1 to be "c" but got "b" (expected array ["a", "c", "b"] got ["a", "b", "c"])</code> |
 | /custom-elements/registries/scoped-registry-effective-global-registry.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
 | /custom-elements/registries/scoped-registry-initialize-upgrades.html | fail | <code>Document has no fragment parser</code> |
-| /custom-elements/registries/scoped-registry-initialize.html | fail | <code>assert_equals: expected object "[object Object]" but got null</code> |
+| /custom-elements/registries/scoped-registry-initialize.html | fail | <code>Document has no fragment parser</code> |
 | /custom-elements/registries/template.window.html | fail | <code>div.getHTML is not a function. (In "div.getHTML({ serializableShadowRoots: true })", it is undefined)</code> |
+| /custom-elements/registries/upgrade.html | fail | <code>assert_false: element 1 must still not be upgraded after upgrading the template contents expected false got true</code> |
 | /custom-elements/registries/valid-custom-element-names.html | fail | <code>assert_equals: code points: [97,45,127345], string: "a-🅱" expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/shadow-descendant-lifecycle-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopt:root", "adopt:shadow", "adopt:nested", "adopt:light", "adopt:leaf"] length 5, got [] length 0</code> |
 | /custom-elements/state/ElementInternals-states.html | fail | <code>this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
@@ -467,7 +461,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/listed-form-element-reset.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/modal-dialog.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: dialog.showModal is not a function. (In "dialog.showModal()", it is undefined)"</code> |
 | /dom/nodes/moveBefore/moveBefore-child-list-selector-invalidation.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /dom/nodes/moveBefore/moveBefore-custom-element-registry.html | fail | <code>assert_equals: scoped registry before the move expected object "[object Object]" but got object "[object Object]"</code> |
+| /dom/nodes/moveBefore/moveBefore-custom-element-registry.html | fail | <code>assert_equals: the moved element keeps the global registry expected object "[object Object]" but got object "[object Object]"</code> |
 | /dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html | fail | <code>assert_true: expected true got false</code> |
 | /dom/nodes/moveBefore/moveBefore-image-map.html | fail | <code>assert_equals: the image uses the map before the move expected Element node &lt;area shape="rect" coords="0,0,100,100" href="#map1"&gt;&lt;/area&gt; but got Element node &lt;div&gt;&lt;img usemap="#map1" width="100" height="100" style="...</code> |
 | /dom/nodes/moveBefore/moveBefore-optgroup.html | fail | <code>Cannot convert undefined to object</code> |
@@ -529,6 +523,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /domparsing/stream-fragment-context.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /domparsing/stream-html-abort-unblocks-rendering-defer.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
 | /domparsing/stream-html-abort-unblocks-rendering.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "performance" is not defined"</code> |
+| /domparsing/stream-html-custom-element-sanitizer.html | fail | <code>assert_false: Constructor should not be called for stripped elements expected false got true</code> |
 | /domparsing/stream-html-custom-element.html | fail | <code>assert_array_equals: streamHTML with replaceWithChildrenElements must preserve scoped customElementRegistry lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
 | /domparsing/stream-html-defer-async-script.html | timeout | <code>palim execution timed out</code> |
 | /domparsing/stream-html-disconnected-target-scripts.html | fail | <code>assert_array_equals: the inline script runs synchronously when connected lengths differ, expected array ["inline"] length 1, got [] length 0</code> |
@@ -690,23 +685,24 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-base.html | timeout | <code>palim execution timed out</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url-pushstate.html | error | <code>ReferenceError: "history" is not defined</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/Document-parseHTMLUnsafe-url.html | timeout | <code>palim execution timed out</code> |
+| /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-CEReactions.html | fail | <code>assert_equals: myElement1.numDisconnectedCallback after first setHTMLUnsafe. expected 0 but got 1</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-runScripts.html | timeout | <code>palim execution timed out</code> |
 | /sanitizer-api/parsehtmlunsafe-with-trustedtypes.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=mathml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
 | /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
-| /sanitizer-api/sanitizer-custom-elements-constructor.html | fail | <code>assert_true: Constructor should be called expected true got false</code> |
+| /sanitizer-api/sanitizer-custom-elements-constructor.html | fail | <code>assert_false: Constructor should not be called expected false got true</code> |
 | /sanitizer-api/sanitizer-custom-elements-is.html | fail | <code>assert_equals: expected "&lt;div&gt;hello&lt;/div&gt;" but got "&lt;div is=\"foo-bar\"&gt;hello&lt;/div&gt;"</code> |
 | /sanitizer-api/sanitizer-in-adoption-agency.html | fail | <code>assert_true: [object Object].isEqual([object Object]) fails. Path: &lt;DIV&gt; / &lt;DIV&gt;. expected true got false</code> |
 | /sanitizer-api/sanitizer-inert-document.html | timeout | <code>palim execution timed out</code> |
 | /sanitizer-api/sanitizer-modifiers.html | fail | <code>assert_false: If the intersection of config["attributes"] and element["attributes"] with default « » is not empty, then return false. (element: id) expected false got true</code> |
 | /sanitizer-api/sanitizer-parseHTML.html | fail | <code>assert_throws_js: function "() =&gt; Document.parseHTML(testcase.data, config)" threw object "Error: Invalid SanitizerConfig" ("Error") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
 | /sanitizer-api/sanitizer-svg-animate.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
-| /sanitizer-api/sethtml-custom-element-reactions.html | fail | <code>assert_array_equals: expected property 1 to be "connected" but got "disconnected" (expected array ["constructed", "connected", "disconnected"] got ["constructed", "disconnected", "connected"])</code> |
+| /sanitizer-api/sethtml-custom-element-reactions.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got ["constructed", "disconnected", "connected"] length 3</code> |
 | /sanitizer-api/sethtml-form-owner.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="f"&gt;&lt;input name="i"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
-| /sanitizer-api/sethtml-scoped-custom-element-registry.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed", "connected"] length 2, got [] length 0</code> |
+| /sanitizer-api/sethtml-scoped-custom-element-registry.html | fail | <code>assert_array_equals: expected property 0 to be "shadow-registry" but got "host-registry" (expected array ["shadow-registry"] got ["host-registry"])</code> |
 | /sanitizer-api/sethtml-tree-construction.html | fail | <code>assert_equals: Expect exception TypeError, but got Error: Invalid SanitizerConfig. expected "TypeError" but got "Error"</code> |
-| /sanitizer-api/sethtml-with-custom-elements.html | fail | <code>assert_equals: constructed before setHTML() returns expected 1 but got 0</code> |
+| /sanitizer-api/sethtml-with-custom-elements.html | fail | <code>assert_equals: expected 0 but got 1</code> |
 | /sanitizer-api/sethtml-with-declarative-shadow-root.html | fail | <code>assert_equals: expected (boolean) false but got (undefined) undefined</code> |
 | /sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html | fail | <code>assert_equals: Default policy sanitizer must be applied even when TrustedHTML is provided expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
 | /sanitizer-api/sethtml-with-trustedtypes-createParserOptions-report-only.html | timeout | <code>b'ReferenceError: "WebSocket" is not defined\n    at async &lt;anonymous&gt; (http://web-platform.test:8000/trusted-types/support/csp-violations.js:47:11)'</code> |
