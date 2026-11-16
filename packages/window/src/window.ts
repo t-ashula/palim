@@ -19,6 +19,8 @@ import {
   URL,
 } from "@palim/core";
 
+import { TrustedTypePolicyFactory } from "./trusted-types.js";
+
 export type {
   FrameRequestCallback,
   Location,
@@ -75,6 +77,7 @@ interface WindowEnvironment {
   readonly errorHandlers: Set<WindowErrorHandler>;
   readonly errors: WindowErrorReport[];
   readonly timers: Map<number, unknown>;
+  readonly trustedTypes: TrustedTypePolicyFactory;
   readonly viewport: WindowViewport;
   animationFrameScheduler: () => void;
   microtaskScheduler: WindowMicrotaskScheduler;
@@ -133,6 +136,7 @@ class WindowPlatform extends EventTarget implements Window {
       errorHandlers: new Set<WindowErrorHandler>(),
       errors: [],
       timers: new Map<number, unknown>(),
+      trustedTypes: new TrustedTypePolicyFactory(),
       viewport:
         construction.options.viewport ??
         (parentContext === null
@@ -309,6 +313,10 @@ export function replaceWindowDocument(
 
 export function windowViewport(window: Window): WindowViewport {
   return windowEnvironment(window).viewport;
+}
+
+export function windowTrustedTypes(window: Window): TrustedTypePolicyFactory {
+  return windowEnvironment(window).trustedTypes;
 }
 
 export function reportWindowError(

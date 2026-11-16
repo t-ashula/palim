@@ -29,6 +29,23 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes Window Trusted Types policy state", () => {
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, createWindow());
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/trusted-types.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("exposes Blob, File, and binary FormData entries", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

@@ -167,6 +167,20 @@ export {
   serializeBlobURLOrigin,
 } from "./blob-url.js";
 export type { ResourceLoadResult } from "./blob-url.js";
+export {
+  TrustedHTML,
+  TrustedHTMLParserOptions,
+  TrustedScript,
+  TrustedScriptURL,
+  TrustedTypePolicy,
+  TrustedTypePolicyFactory,
+} from "./trusted-types.js";
+export type {
+  TrustedTypePolicyCallback,
+  TrustedTypePolicyCallbackCompletion,
+  TrustedTypePolicyCompletion,
+  TrustedTypePolicyOptions,
+} from "./trusted-types.js";
 export { decodeHTMLBytes } from "./html-byte-input.js";
 export { createOpen, open } from "./open.js";
 export type { Open, OpenHTMLOptions, OpenOptions, OpenResult } from "./open.js";
@@ -188,6 +202,7 @@ export {
   setWindowAnimationFrameScheduler,
   setWindowMicrotaskScheduler,
   Window,
+  windowTrustedTypes,
   windowViewport,
 } from "./window.js";
 export type {
