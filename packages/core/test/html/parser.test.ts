@@ -1,12 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../public-test-api.js";
+import { parseHTML } from "../helper/dom.js";
 
 describe("HTML parser", () => {
   it("continues with siblings after a style raw text element", () => {
-    const document = new DOMParser().parseFromString(
+    const document = parseHTML(
       '<body><style>@import url(/dummy.css)</style><script id="script">document.x = 8</script><main id="following"></main></body>',
-      "text/html",
     );
     const style = document.querySelector("style");
     const script = document.querySelector("#script");

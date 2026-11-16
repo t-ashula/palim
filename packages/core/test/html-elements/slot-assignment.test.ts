@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import type { HTMLElement, HTMLSlotElement } from "../src/html-elements.js";
-import { DOMParser } from "./public-test-api.js";
+import type { HTMLElement, HTMLSlotElement } from "../../src/html-elements.js";
+import { parseHTML } from "../helper/dom.js";
 
 describe("slot assignment", () => {
   it("updates named slot assignment across atomic moves", async () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const host = document.createElement("div");
     const shadowRoot = host.attachShadow({ mode: "open" });
     const slot = document.createElement("slot") as HTMLSlotElement;
@@ -34,7 +34,7 @@ describe("slot assignment", () => {
   });
 
   it("signals fallback content moved into a slot", async () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const host = document.createElement("div");
     const shadowRoot = host.attachShadow({ mode: "open" });
     const slot = document.createElement("slot") as HTMLSlotElement;

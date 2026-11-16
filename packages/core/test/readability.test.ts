@@ -2,8 +2,8 @@ import { isProbablyReaderable, Readability } from "@mozilla/readability";
 import { describe, expect, it } from "vitest";
 
 import { setDocumentURL } from "../src/dom/nodes.js";
+import { parseHTML } from "./helper/dom.js";
 import type { Document } from "./public-test-api.js";
-import { DOMParser } from "./public-test-api.js";
 
 function readabilityDocument(document: Document): never {
   return document as never;
@@ -11,10 +11,7 @@ function readabilityDocument(document: Document): never {
 
 describe("Mozilla Readability connection", () => {
   it("accepts a palim Document", () => {
-    const document = new DOMParser().parseFromString(
-      "<article><p>Article text.</p></article>",
-      "text/html",
-    );
+    const document = parseHTML("<article><p>Article text.</p></article>");
 
     expect(() => new Readability(readabilityDocument(document))).not.toThrow();
     expect(typeof isProbablyReaderable(readabilityDocument(document))).toBe(
@@ -23,19 +20,15 @@ describe("Mozilla Readability connection", () => {
   });
 
   it("accepts a cloned palim Document", () => {
-    const document = new DOMParser().parseFromString(
-      "<article><p>Article text.</p></article>",
-      "text/html",
-    );
+    const document = parseHTML("<article><p>Article text.</p></article>");
     const clone = document.cloneNode(true) as Document;
 
     expect(() => new Readability(readabilityDocument(clone))).not.toThrow();
   });
 
   it("exposes the document base URI while Readability resolves links", () => {
-    const document = new DOMParser().parseFromString(
+    const document = parseHTML(
       `<article><p>${"Article text. ".repeat(30)}<a href="relative">Link</a></p></article>`,
-      "text/html",
     );
     setDocumentURL(document, "https://example.test/articles/page.html");
 

@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "./helper/assertions.js";
+import { parseHTML as parse } from "./helper/dom.js";
 import { DOMParser } from "./public-test-api.js";
-
-function parse(input: string) {
-  return new DOMParser().parseFromString(input, "text/html");
-}
 
 describe("Document dynamic markup insertion", () => {
   it("uses one parser session across open, write, writeln, and close", () => {

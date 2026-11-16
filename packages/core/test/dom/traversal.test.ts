@@ -2,25 +2,16 @@ import { describe, expect, it } from "vitest";
 
 import { descendantElements } from "../../src/dom/traversal.js";
 import { expectDOMException } from "../helper/assertions.js";
+import {
+  parseHTML as parse,
+  requireElement as element,
+} from "../helper/dom.js";
 import type {
-  Element,
   Node,
   NodeFilter as NodeFilterCallback,
   NodeIterator,
 } from "../public-test-api.js";
-import { Document, DOMParser, NodeFilter } from "../public-test-api.js";
-
-function parse(input: string): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
-
-function element(document: Document, selector: string): Element {
-  const result = document.querySelector(selector);
-  if (result === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return result;
-}
+import { Document, NodeFilter } from "../public-test-api.js";
 
 function elementNames(iterator: NodeIterator): string[] {
   const names: string[] = [];

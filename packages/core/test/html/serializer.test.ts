@@ -1,22 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import type { Document, Element } from "../public-test-api.js";
-import { DOMParser, HTMLTemplateElement } from "../public-test-api.js";
+import { parseHTML as parse, requireElement as select } from "../helper/dom.js";
+import { HTMLTemplateElement } from "../public-test-api.js";
 
 const XML_NAMESPACE = "http://www.w3.org/XML/1998/namespace";
 const XMLNS_NAMESPACE = "http://www.w3.org/2000/xmlns/";
-
-function parse(input: string): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
-
-function select(document: Document, selector: string): Element {
-  const element = document.querySelector(selector);
-  if (element === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return element;
-}
 
 describe("HTML fragment serialization", () => {
   it("serializes contents and the element through the public getters", () => {

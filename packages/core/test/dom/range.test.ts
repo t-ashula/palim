@@ -1,20 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "../helper/assertions.js";
+import {
+  parseHTML as parse,
+  requireElement as element,
+} from "../helper/dom.js";
 import type { Node, Range } from "../public-test-api.js";
 import { Document, DOMParser, Element, Text } from "../public-test-api.js";
-
-function parse(input: string): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
-
-function element(document: Document, selector: string): Element {
-  const result = document.querySelector(selector);
-  if (result === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return result;
-}
 
 function text(node: Node | null): Text {
   if (!(node instanceof Text)) {

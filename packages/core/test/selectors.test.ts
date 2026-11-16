@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "./helper/assertions.js";
+import { parseHTML } from "./helper/dom.js";
 import type { Document } from "./public-test-api.js";
 import {
   DocumentFragment,
   DOMException,
-  DOMParser,
   Element,
   HTMLInputElement,
 } from "./public-test-api.js";
@@ -45,9 +45,7 @@ const FIXTURE = `<!doctype html>
 </body>
 </html>`;
 
-function parse(input = FIXTURE): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
+const parse = (input = FIXTURE): Document => parseHTML(input);
 
 function attribute(element: Element, name: string): string | null {
   for (const item of element.attributes) {

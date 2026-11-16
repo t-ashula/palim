@@ -1,16 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser } from "../public-test-api.js";
+import { parseHTML, requireElement } from "../../helper/dom.js";
+import { DOMParser } from "../../public-test-api.js";
 
 function documentWithTarget() {
-  const document = new DOMParser().parseFromString(
+  const document = parseHTML(
     '<body><main id="target"><i>old</i></main></body>',
-    "text/html",
   );
-  const target = document.querySelector("#target");
-  if (target === null) {
-    throw new TypeError("Missing streaming target");
-  }
+  const target = requireElement(document, "#target");
   return { document, target };
 }
 

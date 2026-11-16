@@ -1,8 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 
-import type { Document } from "./public-test-api.js";
 import {
-  DOMParser,
+  parseHTML as parse,
+  requireElement as element,
+  requireElement as select,
+} from "./helper/dom.js";
+import {
   Element,
   Event,
   HTMLAnchorElement,
@@ -78,18 +81,6 @@ import {
   HTMLUnknownElement,
   HTMLVideoElement,
 } from "./public-test-api.js";
-
-function parse(input: string): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
-
-function select(document: Document, selector: string): Element {
-  const element = document.querySelector(selector);
-  if (element === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return element;
-}
 
 describe("HTML element interfaces", () => {
   it("rejects direct construction of HTML element interfaces", () => {
@@ -447,14 +438,6 @@ describe("HTML element interfaces", () => {
     expect(source.getAttribute("height")).toBe("480");
   });
 });
-
-function element(document: Document, selector: string): Element {
-  const result = document.querySelector(selector);
-  if (result === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return result;
-}
 
 describe("HTML element interface mapping", () => {
   it("rejects direct construction of every HTML element interface", () => {

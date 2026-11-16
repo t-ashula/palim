@@ -1,16 +1,12 @@
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "../helper/assertions.js";
+import { parseHTML, requireElement } from "../helper/dom.js";
 import type { Element } from "../public-test-api.js";
-import { DOMParser, DOMTokenList } from "../public-test-api.js";
+import { DOMTokenList } from "../public-test-api.js";
 
 function element(input = "<main></main>"): Element {
-  const document = new DOMParser().parseFromString(input, "text/html");
-  const result = document.querySelector("main");
-  if (result === null) {
-    throw new Error("missing main element");
-  }
-  return result;
+  return requireElement(parseHTML(input), "main");
 }
 
 describe("DOMTokenList", () => {

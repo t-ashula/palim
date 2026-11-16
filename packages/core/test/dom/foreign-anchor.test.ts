@@ -4,11 +4,11 @@ import {
   foreignAnchorRelList,
   isForeignAnchorElement,
 } from "../../src/dom/foreign-anchor.js";
-import { DOMParser } from "../public-test-api.js";
+import { parseHTML } from "../helper/dom.js";
 
 describe("foreign anchor relList", () => {
   it("reflects changes between the rel attribute and its stable DOMTokenList", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const anchor = document.createElementNS("http://www.w3.org/2000/svg", "a");
 
     expect(isForeignAnchorElement(anchor)).toBe(true);
@@ -25,7 +25,7 @@ describe("foreign anchor relList", () => {
   });
 
   it("rejects HTML anchor elements", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
 
     expect(() => foreignAnchorRelList(document.createElement("a"))).toThrow(
       TypeError,

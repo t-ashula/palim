@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import { expectDOMException } from "./helper/assertions.js";
+import { parseHTML } from "./helper/dom.js";
 import type { Document, Element } from "./public-test-api.js";
 import {
-  DOMParser,
   HTMLTableCaptionElement,
   HTMLTableCellElement,
   HTMLTableColElement,
@@ -16,9 +16,7 @@ interface ElementInterface<T extends Element> {
   [Symbol.hasInstance](value: unknown): value is T;
 }
 
-function parse(input = "<table></table>"): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
+const parse = (input = "<table></table>"): Document => parseHTML(input);
 
 function create<T extends Element>(
   document: Document,

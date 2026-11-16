@@ -4,20 +4,8 @@ import {
   documentNamedItem,
   documentNamedPropertyNames,
 } from "../../src/dom/document-named-properties.js";
-import type { Document, Element } from "../public-test-api.js";
-import { DOMParser } from "../public-test-api.js";
-
-function parse(input: string): Document {
-  return new DOMParser().parseFromString(input, "text/html");
-}
-
-function select(document: Document, selector: string): Element {
-  const element = document.querySelector(selector);
-  if (element === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return element;
-}
+import { parseHTML as parse, requireElement as select } from "../helper/dom.js";
+import type { Element } from "../public-test-api.js";
 
 describe("Document named properties", () => {
   it("updates supported names and values when matching elements change", () => {

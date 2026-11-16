@@ -8,11 +8,11 @@ import {
   setDocumentCustomElementRegistry,
 } from "../../src/dom/custom-elements.js";
 import { createCustomHTMLElementBase } from "../../src/html-elements.js";
-import { DOMParser } from "../public-test-api.js";
+import { parseHTML } from "../helper/dom.js";
 
 describe("custom element reactions", () => {
   it("initializes only null registries in a light-tree subtree", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const root = document.createElement("div");
     const child = document.createElement("div");
     const shadowChild = document.createElement("i");
@@ -34,7 +34,7 @@ describe("custom element reactions", () => {
   });
 
   it("does not replace an initialized registry", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const element = document.createElement("div");
     const first = new CustomElementRegistry();
     const second = new CustomElementRegistry();
@@ -46,7 +46,7 @@ describe("custom element reactions", () => {
   });
 
   it("uses the registry selected by element creation options", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const globalRegistry = customElementRegistryForNode(document);
     const scopedRegistry = new CustomElementRegistry();
     scopedRegistry.define({
@@ -82,7 +82,7 @@ describe("custom element reactions", () => {
   });
 
   it("associates non-HTML elements with the selected registry", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const registry = new CustomElementRegistry();
 
     const element = document.createElementNS("urn:test", "test", {
@@ -93,7 +93,7 @@ describe("custom element reactions", () => {
   });
 
   it("creates an uncustomized element after construction fails", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const registry = new CustomElementRegistry();
     const reactions: string[] = [];
     setDocumentCustomElementRegistry(document, registry);
@@ -116,7 +116,7 @@ describe("custom element reactions", () => {
   });
 
   it("uses disconnected and connected callbacks for an atomic move", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const registry = new CustomElementRegistry();
     const reactions: string[] = [];
     setDocumentCustomElementRegistry(document, registry);
@@ -145,7 +145,7 @@ describe("custom element reactions", () => {
   });
 
   it("uses connectedMoveCallback for custom elements in a shadow tree", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const registry = new CustomElementRegistry();
     const reactions: string[] = [];
     setDocumentCustomElementRegistry(document, registry);
@@ -175,7 +175,7 @@ describe("custom element reactions", () => {
   });
 
   it("passes attribute changes for observed attributes to the definition", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const registry = new CustomElementRegistry();
     const reactions: (readonly unknown[])[] = [];
     setDocumentCustomElementRegistry(document, registry);

@@ -2,12 +2,12 @@ import { describe, expect, test } from "vitest";
 
 import { setDocumentGeometryProvider } from "../src/dom/nodes.js";
 import { createDOMRectList } from "../src/geometry.js";
-import { DOMParser } from "../src/index.js";
 import {
   DOMRect,
   DOMRectList,
   DOMRectReadOnly,
 } from "../src/public-dom-interfaces.js";
+import { parseHTML, requireElement } from "./helper/dom.js";
 
 describe("Geometry Interfaces", () => {
   test("DOMRectReadOnly derives edges from signed dimensions", () => {
@@ -77,14 +77,8 @@ describe("Geometry Interfaces", () => {
   });
 
   test("Element geometry uses its Document provider", () => {
-    const document = new DOMParser().parseFromString(
-      "<main></main>",
-      "text/html",
-    );
-    const main = document.querySelector("main");
-    if (main === null) {
-      throw new TypeError("Missing main element");
-    }
+    const document = parseHTML("<main></main>");
+    const main = requireElement(document, "main");
     setDocumentGeometryProvider(document, {
       clientRects: () => [
         new DOMRect(10, 20, 30, 40),

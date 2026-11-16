@@ -1,22 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import type { Document, Element } from "./public-test-api.js";
-import { DOMParser, HTMLElement } from "./public-test-api.js";
-
-function select(document: Document, selector: string): Element {
-  const element = document.querySelector(selector);
-  if (element === null) {
-    throw new Error(`missing test element: ${selector}`);
-  }
-  return element;
-}
+import { parseHTML, requireElement } from "../helper/dom.js";
+import type { HTMLElement } from "../public-test-api.js";
 
 function styledElement(style = ""): HTMLElement {
-  const document = new DOMParser().parseFromString(
-    `<main style="${style}"></main>`,
-    "text/html",
-  );
-  return select(document, "main") as HTMLElement;
+  return requireElement(
+    parseHTML(`<main style="${style}"></main>`),
+    "main",
+  ) as HTMLElement;
 }
 
 describe("HTMLElement style", () => {

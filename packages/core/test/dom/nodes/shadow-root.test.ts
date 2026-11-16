@@ -1,10 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { DOMParser, ShadowRoot } from "../public-test-api.js";
+import { parseHTML } from "../../helper/dom.js";
+import { ShadowRoot } from "../../public-test-api.js";
 
 describe("ShadowRoot", () => {
   it("supports atomic moves within and across a shadow tree", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const host = document.createElement("div");
     const lightChild = document.createElement("p");
     document.body?.append(host);
@@ -26,7 +27,7 @@ describe("ShadowRoot", () => {
   });
 
   it("does not expose a closed shadow root through its host", () => {
-    const document = new DOMParser().parseFromString("", "text/html");
+    const document = parseHTML();
     const host = document.createElement("div");
     const shadowRoot = host.attachShadow({ mode: "closed" });
 
