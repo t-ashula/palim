@@ -58,3 +58,4 @@
 - [ADR-0055: Worker execution environment](./0055-worker-execution-realm.md)
 - [ADR-0056: Element geometry のための CSS box layout](./0056-element-geometry-css-box-layout.md)
 - [ADR-0057: package 間 API と export/import の管理](./0057-package-export-import-policy.md)
+- [ADR-0058: Trusted Types の policy state と page realm 公開](./0058-trusted-types-window-policy-state.md)
