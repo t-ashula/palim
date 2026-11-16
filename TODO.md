@@ -84,7 +84,8 @@
 - [x] `CustomElementRegistry` の construction、definition lookup、`whenDefined()`、upgrade、scoped registry
 - [x] custom element の construction、upgrade、parser integration、customized built-in element 用 `[HTMLConstructor]`
 - [x] custom element definition の `observedAttributes` 変換と属性の append / change / replace / remove に対する `attributeChangedCallback` の引数
-- [ ] custom element reaction stack / backup queue、reflected IDL attribute の `[CEReactions]`、nested reaction の順序、adopted callback
+- [x] customized built-in element の reflected IDL attribute setter による `[CEReactions]`
+- [ ] custom element reaction stack / backup queue、nested reaction の順序、adopted callback
 - [ ] `ElementInternals` と form-associated custom element
 - [ ] shadow root を含む serialization と `getHTML()`
 

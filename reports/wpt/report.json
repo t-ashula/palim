@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261116t003716825z-1443042",
+    "id": "20261116t041851289z-1886631",
     "state": "completed",
     "palim": {
-      "revision": "febb51d69e3a47923dba957893aeda9e3818e2d9",
+      "revision": "3e8a6b0ff3f50b5bd453c28b903ed01a07410fb8",
       "dirty": false,
-      "imageId": "sha256:e0fd7620839d4a95126822ceaa13a9e5ea51da2b2aa2be2f3d84d8c336608aed"
+      "imageId": "sha256:a698b49caa92a46b14d808d5af15a4716d8f110cb258ee850e1d3704148c432d"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-16T01:11:13.286Z",
+    "snapshotAt": "2026-11-16T04:53:51.458Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,11 +51,11 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 930,
-    "fail": 555,
+    "pass": 959,
+    "fail": 535,
     "skip": 248,
     "error": 117,
-    "timeout": 106,
+    "timeout": 97,
     "pending": 0
   },
   "areas": [
@@ -64,11 +64,11 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 40,
-        "fail": 130,
+        "pass": 65,
+        "fail": 106,
         "skip": 5,
         "error": 30,
-        "timeout": 4,
+        "timeout": 3,
         "pending": 0
       }
     },
@@ -116,11 +116,11 @@
       "totals": {
         "total": 415,
         "executed": 415,
-        "pass": 308,
+        "pass": 309,
         "fail": 70,
         "skip": 5,
         "error": 3,
-        "timeout": 29,
+        "timeout": 28,
         "pending": 0
       }
     },
@@ -129,11 +129,11 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 25,
-        "fail": 33,
+        "pass": 28,
+        "fail": 36,
         "skip": 3,
         "error": 2,
-        "timeout": 6,
+        "timeout": 0,
         "pending": 0
       }
     },
@@ -156,10 +156,10 @@
         "total": 96,
         "executed": 96,
         "pass": 48,
-        "fail": 26,
+        "fail": 27,
         "skip": 0,
         "error": 14,
-        "timeout": 8,
+        "timeout": 7,
         "pending": 0
       }
     },
@@ -296,21 +296,21 @@
   ],
   "subtests": {
     "total": 102113,
-    "pass": 79119,
-    "fail": 22552,
+    "pass": 79329,
+    "fail": 22346,
     "skip": 248,
-    "error": 96,
-    "timeout": 98
+    "error": 93,
+    "timeout": 97
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 929,
-      "fail": 515,
+      "pass": 958,
+      "fail": 495,
       "skip": 209,
       "error": 109,
-      "timeout": 80,
+      "timeout": 71,
       "pending": 0
     },
     "areas": [
@@ -319,11 +319,11 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 40,
-          "fail": 128,
+          "pass": 65,
+          "fail": 104,
           "skip": 3,
           "error": 27,
-          "timeout": 4,
+          "timeout": 3,
           "pending": 0
         }
       },
@@ -371,11 +371,11 @@
         "totals": {
           "total": 415,
           "executed": 415,
-          "pass": 308,
+          "pass": 309,
           "fail": 70,
           "skip": 5,
           "error": 3,
-          "timeout": 29,
+          "timeout": 28,
           "pending": 0
         }
       },
@@ -384,11 +384,11 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 25,
-          "fail": 13,
+          "pass": 28,
+          "fail": 16,
           "skip": 0,
           "error": 2,
-          "timeout": 6,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -411,10 +411,10 @@
           "total": 94,
           "executed": 94,
           "pass": 48,
-          "fail": 25,
+          "fail": 26,
           "skip": 0,
           "error": 13,
-          "timeout": 8,
+          "timeout": 7,
           "pending": 0
         }
       },
@@ -551,11 +551,11 @@
     ],
     "subtests": {
       "total": 101726,
-      "pass": 79089,
-      "fail": 22264,
+      "pass": 79299,
+      "fail": 22058,
       "skip": 209,
-      "error": 92,
-      "timeout": 72
+      "error": 89,
+      "timeout": 71
     },
     "nonPassingTests": [
       {
@@ -959,131 +959,6 @@
         "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [] length 0"
       },
       {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLAreaElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLButtonElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLCanvasElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLDataElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLDetailsElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLEmbedElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLFieldSetElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLImageElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLLIElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLLabelElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLMapElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLMediaElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLMetaElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLMeterElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLModElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLOListElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLOptGroupElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLParamElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLProgressElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLQuoteElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLSourceElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLStyleElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLTableCellElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLTableColElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
-        "url": "/custom-elements/reactions/customized-builtins/HTMLTimeElement.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
-      },
-      {
         "url": "/custom-elements/registries/Construct.html",
         "status": "fail",
         "message": "assert_true: expected true got false"
@@ -1281,11 +1156,11 @@
       {
         "url": "/custom-elements/registries/template.window.html",
         "status": "fail",
-        "message": "assert_equals: expected (string) \"\" but got (undefined) undefined"
+        "message": "div.getHTML is not a function. (In \"div.getHTML({ serializableShadowRoots: true })\", it is undefined)"
       },
       {
         "url": "/custom-elements/registries/valid-custom-element-names.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "assert_equals: code points: [97,45,127345], string: \"a-🅱\" expected object \"[object Object]\" but got object \"[object Object]\""
       },
       {
@@ -1451,7 +1326,7 @@
       {
         "url": "/dom/events/Event-dispatch-single-activation-behavior.html",
         "status": "error",
-        "message": "39 duplicate test names: \"When clicking child <INPUT></INPUT> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <A></A>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <A></A>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <A></A>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <FORM><BUTTON></BUTTON></FORM> of parent <LABEL><BUTTON></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <A></A> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <A></A> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <A></A> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><BUTTON></BUTTON></LABEL> of parent <FORM><BUTTON></BUTTON></FORM>, only child should be activated.\""
+        "message": "32 duplicate test names: \"When clicking child <INPUT></INPUT> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <FORM><BUTTON type=submit></BUTTON></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <FORM><BUTTON type=reset></BUTTON></FORM>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <A></A>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <INPUT></INPUT> of parent <LABEL><BUTTON type=button></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><BUTTON type=submit></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <FORM><BUTTON type=reset></BUTTON></FORM>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <A></A>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <AREA></AREA>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <DETAILS><SUMMARY></SUMMARY></DETAILS>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL>, only child should be activated.\", \"When clicking child <FORM><INPUT></INPUT></FORM> of parent <LABEL><BUTTON type=button></BUTTON></LABEL>, only child should be activated.\", \"When clicking child <FORM><BUTTON type=submit></BUTTON></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><BUTTON type=submit></BUTTON></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <FORM><BUTTON type=reset></BUTTON></FORM> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <FORM><BUTTON type=reset></BUTTON></FORM> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <A></A> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <A></A> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <AREA></AREA> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <DETAILS><SUMMARY></SUMMARY></DETAILS> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><INPUT></INPUT><SPAN></SPAN></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\", \"When clicking child <LABEL><BUTTON type=button></BUTTON></LABEL> of parent <INPUT></INPUT>, only child should be activated.\", \"When clicking child <LABEL><BUTTON type=button></BUTTON></LABEL> of parent <FORM><INPUT></INPUT></FORM>, only child should be activated.\""
       },
       {
         "url": "/dom/events/Event-dispatch-target-moved.html",
@@ -2501,7 +2376,7 @@
       {
         "url": "/dom/nodes/insertion-removing-steps/script-does-not-run-on-child-removal.window.html",
         "status": "fail",
-        "message": "assert_false: Appending script with invalid type does not trigger execution expected false got true"
+        "message": "assert_false: Removing child from valid script that has not already run, does not trigger execution expected false got true"
       },
       {
         "url": "/dom/nodes/live-collections-batched-mutations.window.html",
@@ -2734,10 +2609,6 @@
         "message": "palim execution timed out"
       },
       {
-        "url": "/dom/nodes/name-validation.html",
-        "status": "timeout"
-      },
-      {
         "url": "/dom/nodes/namespaced-attribute-mutations.html",
         "status": "fail",
         "message": "assert_equals: expected \"green\" but got \"\""
@@ -2773,14 +2644,6 @@
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
-        "url": "/dom/ranges/Range-compareBoundaryPoints.html",
-        "status": "timeout"
-      },
-      {
-        "url": "/dom/ranges/Range-comparePoint.html",
-        "status": "timeout"
-      },
-      {
         "url": "/dom/ranges/Range-deleteContents.html",
         "status": "fail",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
@@ -2807,7 +2670,7 @@
       },
       {
         "url": "/dom/ranges/Range-insertNode.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
@@ -2822,7 +2685,7 @@
       },
       {
         "url": "/dom/ranges/Range-mutations-dataChange.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
       },
       {
@@ -2861,12 +2724,8 @@
         "message": "\"getSelection\" is not defined"
       },
       {
-        "url": "/dom/ranges/Range-set.html",
-        "status": "timeout"
-      },
-      {
         "url": "/dom/ranges/Range-surroundContents.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
@@ -2947,7 +2806,7 @@
       {
         "url": "/domparsing/stream-html-abort-unblocks-rendering-defer.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"Error: timed out\""
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"performance\" is not defined\""
       },
       {
         "url": "/domparsing/stream-html-abort-unblocks-rendering.html",
@@ -3081,7 +2940,7 @@
       },
       {
         "url": "/domparsing/stream-sanitizer-resource-fetch.html",
-        "status": "timeout",
+        "status": "fail",
         "message": "assert_equals: Server should observe exactly one request in control case expected \"1\" but got \"0\""
       },
       {
@@ -3427,7 +3286,7 @@
       {
         "url": "/html/syntax/parsing/foster-parenting-moved-table.window.html",
         "status": "fail",
-        "message": "assert_equals: the script ran while the parser was foster parenting into it expected \"foster-parent\" but got \"\""
+        "message": "assert_equals: the script ran while the parser was foster parenting into it expected (string) \"foster-parent\" but got (undefined) undefined"
       },
       {
         "url": "/html/syntax/parsing/html-integration-point.html",
@@ -3847,7 +3706,7 @@
       {
         "url": "/sanitizer-api/sethtml-with-declarative-shadow-root.html",
         "status": "fail",
-        "message": "assert_equals: expected (string) \"open\" but got (undefined) undefined"
+        "message": "assert_equals: expected (boolean) false but got (undefined) undefined"
       },
       {
         "url": "/sanitizer-api/sethtml-with-trustedhtml-createParserOptions.html",
@@ -4042,7 +3901,7 @@
       {
         "url": "/shadow-dom/declarative/declarative-shadow-dom-slot-assignment.html",
         "status": "fail",
-        "message": "assert_equals: Missing attribute should map to named expected (string) \"named\" but got (undefined) undefined"
+        "message": "assert_equals: Missing attribute should map to named expected \"named\" but got \"\""
       },
       {
         "url": "/shadow-dom/declarative/declarative-shadow-dom-write-to-iframe.html",
@@ -4917,7 +4776,7 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
