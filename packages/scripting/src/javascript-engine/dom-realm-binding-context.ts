@@ -85,6 +85,7 @@ import {
   NodeList,
   ProcessingInstruction,
   PromiseRejectionEvent,
+  runCustomElementReactions,
   setCustomElementDefinition,
   ShadowRoot,
   Text,
@@ -747,18 +748,64 @@ export class DOMRealmBindingContext {
     if (adoptedCallback.type === "throw") {
       return adoptedCallback;
     }
-    const attributeChangedCallback = callback("attributeChangedCallback");
-    if (attributeChangedCallback.type === "throw") {
-      return attributeChangedCallback;
+    const attributeChangedCallbackValue = this.engine.get(
+      this.realm,
+      prototype,
+      "attributeChangedCallback",
+    );
+    if (attributeChangedCallbackValue.type === "throw") {
+      return attributeChangedCallbackValue;
     }
-    if (attributeChangedCallback.value !== null) {
-      const observedAttributes = this.customElementStringSequence(
+    let attributeChangedCallback:
+      | ((
+          element: Element,
+          localName: string,
+          oldValue: string | null,
+          newValue: string | null,
+          namespace: string | null,
+        ) => void)
+      | null = null;
+    let observedAttributes: readonly string[] = [];
+    if (!this.engine.isUndefined(attributeChangedCallbackValue.value)) {
+      const callable = this.engine.asCallable(
+        attributeChangedCallbackValue.value,
+      );
+      if (callable === null) {
+        return thrown(
+          this.engine.createTypeError(
+            this.realm,
+            "attributeChangedCallback is not callable",
+          ),
+        );
+      }
+      const record = this.reportingCallback(callable);
+      if (record.type === "throw") {
+        return record;
+      }
+      attributeChangedCallback = (
+        element,
+        localName,
+        oldValue,
+        newValue,
+        namespace,
+      ) => {
+        this.context.invokeCallback(record.value, this.wrap(element), [
+          this.engine.fromPrimitive(localName),
+          this.engine.fromPrimitive(oldValue),
+          this.engine.fromPrimitive(newValue),
+          this.engine.fromPrimitive(namespace),
+        ]);
+      };
+    }
+    if (attributeChangedCallback !== null) {
+      const convertedObservedAttributes = this.customElementStringSequence(
         constructor,
         "observedAttributes",
       );
-      if (observedAttributes.type === "throw") {
-        return observedAttributes;
+      if (convertedObservedAttributes.type === "throw") {
+        return convertedObservedAttributes;
       }
+      observedAttributes = convertedObservedAttributes.value;
     }
     const disabledFeatures = this.customElementStringSequence(
       constructor,
@@ -838,6 +885,8 @@ export class DOMRealmBindingContext {
         connectedCallback: connectedCallback.value,
         disconnectedCallback: disconnectedCallback.value,
         connectedMoveCallback: connectedMoveCallback.value,
+        observedAttributes,
+        attributeChangedCallback,
       });
     } catch (error: unknown) {
       if (error instanceof HostDOMException) {
@@ -1730,7 +1779,9 @@ export class DOMRealmBindingContext {
     length: number,
     callback: EngineHostFunction,
   ): void {
-    this.context.method(prototype, name, length, callback);
+    this.context.method(prototype, name, length, (thisValue, argumentsList) =>
+      runCustomElementReactions(() => callback(thisValue, argumentsList)),
+    );
   }
 
   attribute(
@@ -1739,7 +1790,15 @@ export class DOMRealmBindingContext {
     getter: EngineHostFunction,
     setter: EngineHostFunction | null = null,
   ): void {
-    this.context.attribute(prototype, name, getter, setter);
+    this.context.attribute(
+      prototype,
+      name,
+      getter,
+      setter === null
+        ? null
+        : (thisValue, argumentsList) =>
+            runCustomElementReactions(() => setter(thisValue, argumentsList)),
+    );
   }
 
   legacyPlatformObject(

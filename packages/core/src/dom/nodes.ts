@@ -48,6 +48,7 @@ import {
 } from "./conversions.js";
 import {
   customElementRegistryForNode,
+  enqueueCustomElementAttributeChangedReaction,
   enqueueCustomElementConnectedReaction,
   enqueueCustomElementDisconnectedReaction,
   enqueueCustomElementMoveReaction,
@@ -1695,8 +1696,17 @@ function invalidateDocumentNamedProperties(node: NodeImplementation): void {
 function notifyAttributeChange(
   element: Element,
   localName: string,
+  oldValue: string | null,
+  newValue: string | null,
   namespace: string | null,
 ): void {
+  enqueueCustomElementAttributeChangedReaction(
+    element,
+    localName,
+    oldValue,
+    newValue,
+    namespace,
+  );
   const document = nodeDocumentImplementation(nodeImplementation(element));
   document.attributeChangedSteps?.(element, localName, namespace);
   document.focusabilityChangedSteps?.(element);
@@ -1913,6 +1923,7 @@ export class Attr extends Node {
 
   set value(value: string) {
     const implementation = attrImplementation(this);
+    const oldValue = implementation.value;
     implementation.value = value;
     if (implementation.ownerElement !== null) {
       invalidateDocumentNamedProperties(implementation.ownerElement);
@@ -1922,6 +1933,8 @@ export class Attr extends Node {
       notifyAttributeChange(
         element,
         implementation.localName,
+        oldValue,
+        value,
         implementation.namespaceURI,
       );
     }
@@ -2384,7 +2397,6 @@ export class Element extends Node {
     const attribute = findAttributeByName(this, name);
     if (attribute !== null) {
       attribute.value = convertedValue;
-      notifyAttributeChange(this, attribute.localName, attribute.namespaceURI);
       return;
     }
     setAttributeNode(
@@ -2412,7 +2424,6 @@ export class Element extends Node {
     );
     if (attribute !== null) {
       attribute.value = convertedValue;
-      notifyAttributeChange(this, attribute.localName, attribute.namespaceURI);
       return;
     }
     setAttributeNode(
@@ -3223,7 +3234,13 @@ export function setAttributeNode(
     respondToBaseHrefChange(implementation, valueImplementation);
     respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
     updateSlotAssignmentsForMutation(element);
-    notifyAttributeChange(element, value.localName, value.namespaceURI);
+    notifyAttributeChange(
+      element,
+      value.localName,
+      null,
+      value.value,
+      value.namespaceURI,
+    );
     return null;
   }
   const oldImplementation = attrImplementation(oldAttribute);
@@ -3234,7 +3251,13 @@ export function setAttributeNode(
   respondToBaseHrefChange(implementation, valueImplementation);
   respondToScriptAsyncAttributeAddition(implementation, valueImplementation);
   updateSlotAssignmentsForMutation(element);
-  notifyAttributeChange(element, value.localName, value.namespaceURI);
+  notifyAttributeChange(
+    element,
+    value.localName,
+    oldAttribute.value,
+    value.value,
+    value.namespaceURI,
+  );
   return oldAttribute;
 }
 
@@ -3273,7 +3296,13 @@ export function removeAttributeNode(element: Element, attribute: Attr): void {
   invalidateDocumentNamedProperties(implementation);
   respondToBaseHrefChange(implementation, attributeImplementation);
   updateSlotAssignmentsForMutation(element);
-  notifyAttributeChange(element, attribute.localName, attribute.namespaceURI);
+  notifyAttributeChange(
+    element,
+    attribute.localName,
+    attribute.value,
+    null,
+    attribute.namespaceURI,
+  );
 }
 
 export function setAttributes(
@@ -4951,7 +4980,7 @@ function insertNodes(
     if (inserted.isConnected) {
       const registry = customElementRegistryForNode(inserted);
       if (registry !== null) {
-        upgradeCustomElements(inserted, registry);
+        upgradeCustomElements(inserted, registry, undefined, false);
       }
       for (const element of shadowIncludingInclusiveDescendantElements(
         inserted,

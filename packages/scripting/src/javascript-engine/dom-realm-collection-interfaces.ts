@@ -554,6 +554,7 @@ export function installCSSStylePropertiesMembers(
     "cssFloat",
     "float",
     "display",
+    "fontSize",
     "visibility",
   ] as const) {
     binding.attribute(

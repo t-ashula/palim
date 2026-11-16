@@ -172,6 +172,7 @@ export {
   documentCustomElementRegistry,
   initializeCustomElementRegistry,
   isValidCustomElementName,
+  runCustomElementReactions,
   setCustomElementDefinition,
   upgradeCustomElements,
 } from "./dom/custom-elements.js";

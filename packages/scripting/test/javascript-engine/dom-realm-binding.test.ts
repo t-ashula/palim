@@ -303,6 +303,24 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("invokes attributeChangedCallback for observed attributes", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("invokes-attribute-changed-callback.js"));
+    }).not.toThrow();
+  });
+
+  it("queues existing observed attributes while upgrading", () => {
+    const { engine, realm } = createTestRealm(
+      '<x-upgrade-observed data-first="one" data-second="two"></x-upgrade-observed>',
+    );
+
+    expect(() => {
+      evaluate(engine, realm, fixture("upgrades-observed-attributes.js"));
+    }).not.toThrow();
+  });
+
   it("preserves exceptions raised while reading custom element callbacks", () => {
     const { engine, realm } = createTestRealm("");
 

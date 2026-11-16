@@ -21,6 +21,16 @@ export interface CustomElementDefinition {
   readonly connectedCallback: ((element: Element) => void) | null;
   readonly disconnectedCallback: ((element: Element) => void) | null;
   readonly connectedMoveCallback: ((element: Element) => void) | null;
+  readonly observedAttributes: readonly string[];
+  readonly attributeChangedCallback:
+    | ((
+        element: Element,
+        localName: string,
+        oldValue: string | null,
+        newValue: string | null,
+        namespace: string | null,
+      ) => void)
+    | null;
 }
 
 const DOCUMENT_REGISTRIES = new WeakMap<Document, CustomElementRegistry>();
@@ -31,6 +41,8 @@ const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
 >();
 const CUSTOM_ELEMENT_IS_VALUES = new WeakMap<Element, string>();
 const FAILED_CUSTOM_ELEMENTS = new WeakSet<Element>();
+const REACTION_QUEUES = new WeakMap<Element, (() => void)[]>();
+const REACTIONS_STACK: Element[][] = [];
 export class CustomElementRegistry {
   readonly #definitions = new Map<string, CustomElementDefinition>();
   readonly #initializedRoots = new Set<Node>();
@@ -227,6 +239,7 @@ export function upgradeCustomElements(
   root: Node,
   registry: CustomElementRegistry,
   name?: string,
+  enqueueConnected = true,
 ): void {
   for (const element of shadowIncludingInclusiveDescendantElements(root)) {
     const document = element.ownerDocument;
@@ -256,16 +269,54 @@ export function upgradeCustomElements(
     );
     if (result.type === "success") {
       CUSTOM_ELEMENT_DEFINITIONS.set(element, definition);
+      for (const attribute of element.attributes) {
+        enqueueCustomElementAttributeChangedReaction(
+          element,
+          attribute.localName,
+          null,
+          attribute.value,
+          attribute.namespaceURI,
+        );
+      }
+      if (enqueueConnected && element.isConnected) {
+        enqueueCustomElementConnectedReaction(element);
+      }
     } else {
       FAILED_CUSTOM_ELEMENTS.add(element);
     }
   }
 }
 
+export function enqueueCustomElementAttributeChangedReaction(
+  element: Element,
+  localName: string,
+  oldValue: string | null,
+  newValue: string | null,
+  namespace: string | null,
+): void {
+  const definition = CUSTOM_ELEMENT_DEFINITIONS.get(element);
+  if (
+    definition?.attributeChangedCallback === null ||
+    definition?.attributeChangedCallback === undefined ||
+    !definition.observedAttributes.includes(localName)
+  ) {
+    return;
+  }
+  enqueueReaction(element, () => {
+    definition.attributeChangedCallback?.(
+      element,
+      localName,
+      oldValue,
+      newValue,
+      namespace,
+    );
+  });
+}
+
 export function enqueueCustomElementConnectedReaction(element: Element): void {
   const callback = CUSTOM_ELEMENT_DEFINITIONS.get(element)?.connectedCallback;
   if (callback !== null && callback !== undefined) {
-    enqueueReaction(() => {
+    enqueueReaction(element, () => {
       callback(element);
     });
   }
@@ -277,7 +328,7 @@ export function enqueueCustomElementDisconnectedReaction(
   const callback =
     CUSTOM_ELEMENT_DEFINITIONS.get(element)?.disconnectedCallback;
   if (callback !== null && callback !== undefined) {
-    enqueueReaction(() => {
+    enqueueReaction(element, () => {
       callback(element);
     });
   }
@@ -289,19 +340,66 @@ export function enqueueCustomElementMoveReaction(element: Element): void {
     return;
   }
   if (definition.connectedMoveCallback !== null) {
-    enqueueReaction(() => definition.connectedMoveCallback?.(element));
+    enqueueReaction(element, () => definition.connectedMoveCallback?.(element));
     return;
   }
   if (definition.disconnectedCallback !== null) {
-    enqueueReaction(() => definition.disconnectedCallback?.(element));
+    enqueueReaction(element, () => definition.disconnectedCallback?.(element));
   }
   if (definition.connectedCallback !== null) {
-    enqueueReaction(() => definition.connectedCallback?.(element));
+    enqueueReaction(element, () => definition.connectedCallback?.(element));
   }
 }
 
-function enqueueReaction(reaction: () => void): void {
-  reaction();
+function enqueueReaction(element: Element, reaction: () => void): void {
+  const reactions = reactionQueue(element);
+  reactions.push(reaction);
+  const queue = REACTIONS_STACK.at(-1);
+  if (queue === undefined) {
+    invokeReactions([element]);
+    return;
+  }
+  if (!queue.includes(element)) {
+    queue.push(element);
+  }
+}
+
+function reactionQueue(element: Element): (() => void)[] {
+  const existing = REACTION_QUEUES.get(element);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const created: (() => void)[] = [];
+  REACTION_QUEUES.set(element, created);
+  return created;
+}
+
+function invokeReactions(queue: Element[]): void {
+  while (queue.length > 0) {
+    const element = queue.shift();
+    if (element === undefined) {
+      continue;
+    }
+    const reactions = REACTION_QUEUES.get(element);
+    if (reactions === undefined) {
+      continue;
+    }
+    while (reactions.length > 0) {
+      reactions.shift()?.();
+    }
+    REACTION_QUEUES.delete(element);
+  }
+}
+
+export function runCustomElementReactions<T>(callback: () => T): T {
+  const queue: Element[] = [];
+  REACTIONS_STACK.push(queue);
+  try {
+    return callback();
+  } finally {
+    REACTIONS_STACK.pop();
+    invokeReactions(queue);
+  }
 }
 
 export function isValidCustomElementName(name: string): boolean {

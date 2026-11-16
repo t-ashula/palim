@@ -57,6 +57,8 @@ describe("custom element reactions", () => {
       connectedCallback: () => reactions.push("connected"),
       disconnectedCallback: null,
       connectedMoveCallback: null,
+      observedAttributes: [],
+      attributeChangedCallback: null,
     });
 
     const element = document.createElement("x-failed");
@@ -81,6 +83,8 @@ describe("custom element reactions", () => {
       connectedCallback: () => reactions.push("connected"),
       disconnectedCallback: () => reactions.push("disconnected"),
       connectedMoveCallback: null,
+      observedAttributes: [],
+      attributeChangedCallback: null,
     });
     const element = document.createElement("x-moving");
     const destination = document.createElement("section");
@@ -108,6 +112,8 @@ describe("custom element reactions", () => {
       connectedCallback: () => reactions.push("connected"),
       disconnectedCallback: () => reactions.push("disconnected"),
       connectedMoveCallback: () => reactions.push("connectedMove"),
+      observedAttributes: [],
+      attributeChangedCallback: null,
     });
     const host = document.createElement("div");
     const destination = document.createElement("section");
@@ -119,5 +125,41 @@ describe("custom element reactions", () => {
     destination.moveBefore(host, null);
 
     expect(reactions).toEqual(["connectedMove"]);
+  });
+
+  it("passes attribute changes for observed attributes to the definition", () => {
+    const document = new DOMParser().parseFromString("", "text/html");
+    const registry = new CustomElementRegistry();
+    const reactions: (readonly unknown[])[] = [];
+    setDocumentCustomElementRegistry(document, registry);
+    registry.define({
+      name: "x-observed",
+      localName: "x-observed",
+      construct: (ownerDocument, localName, prefix) =>
+        callbackSuccess(
+          createCustomHTMLElementBase(ownerDocument, localName, prefix),
+        ),
+      connectedCallback: null,
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      observedAttributes: ["data-value", "local"],
+      attributeChangedCallback: (...argumentsList) => {
+        reactions.push(argumentsList);
+      },
+    });
+    const element = document.createElement("x-observed");
+
+    element.setAttribute("data-value", "first");
+    element.setAttribute("data-value", "second");
+    element.setAttributeNS("urn:test", "prefix:local", "namespaced");
+    element.removeAttribute("data-value");
+    element.setAttribute("ignored", "value");
+
+    expect(reactions).toEqual([
+      [element, "data-value", null, "first", null],
+      [element, "data-value", "first", "second", null],
+      [element, "local", null, "namespaced", "urn:test"],
+      [element, "data-value", "second", null, null],
+    ]);
   });
 });

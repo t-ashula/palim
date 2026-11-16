@@ -496,6 +496,14 @@ export class CSSStyleProperties extends CSSStyleDeclaration {
     this.setProperty("display", legacyNullToEmptyString(value));
   }
 
+  get fontSize(): string {
+    return this.getPropertyValue("font-size");
+  }
+
+  set fontSize(value: string) {
+    this.setProperty("font-size", legacyNullToEmptyString(value));
+  }
+
   get visibility(): string {
     return this.getPropertyValue("visibility");
   }
@@ -5268,6 +5276,7 @@ const SUPPORTED_CSS_PROPERTIES = new Set([
   "color",
   "display",
   "float",
+  "font-size",
   "visibility",
 ]);
 const CSS_BASIC_COLOR_KEYWORDS = new Set([
@@ -5602,6 +5611,30 @@ function isValidCSSPropertyValue(
   }
   if (name === "color" || name === "background-color") {
     return validCSSColor(significantTokens);
+  }
+  if (name === "font-size") {
+    if (significantTokens.length !== 1) {
+      return false;
+    }
+    const token = significantTokens[0];
+    return (
+      (token?.type === "dimension" && token.value >= 0) ||
+      (token?.type === "percentage" && token.value >= 0) ||
+      (token?.type === "number" && token.value === 0) ||
+      (token?.type === "ident" &&
+        [
+          "xx-small",
+          "x-small",
+          "small",
+          "medium",
+          "large",
+          "x-large",
+          "xx-large",
+          "xxx-large",
+          "larger",
+          "smaller",
+        ].includes(asciiLowercase(token.value)))
+    );
   }
   if (keywords.some((keyword) => keyword === null)) {
     return false;
