@@ -47,11 +47,13 @@ import {
   validateName,
 } from "./conversions.js";
 import {
+  CustomElementRegistry,
   customElementRegistryForNode,
   enqueueCustomElementAttributeChangedReaction,
   enqueueCustomElementConnectedReaction,
   enqueueCustomElementDisconnectedReaction,
   enqueueCustomElementMoveReaction,
+  setCustomElementRegistryForNode,
   upgradeCustomElements,
 } from "./custom-elements.js";
 import { createLegacyEvent, Event, EventTarget } from "./events.js";
@@ -127,6 +129,7 @@ export type {
 
 export interface FragmentParseOptions {
   readonly allowDeclarativeShadowRoots?: boolean;
+  readonly customElementRegistry?: CustomElementRegistry | null;
   readonly runScripts?: boolean;
   readonly sanitizerConfig?: CanonicalSanitizerConfig;
 }
@@ -260,7 +263,7 @@ export function activeHTMLDocumentParserSession(
 }
 
 export interface ElementCreationOptions {
-  readonly customElementRegistry?: unknown;
+  readonly customElementRegistry?: CustomElementRegistry | null;
   readonly is?: string;
 }
 
@@ -276,6 +279,7 @@ export interface GetRootNodeOptions {
 export interface ShadowRootInit {
   readonly mode: "open" | "closed";
   readonly delegatesFocus?: boolean;
+  readonly customElementRegistry?: CustomElementRegistry | null;
 }
 
 type CreateElementArguments = [
@@ -304,6 +308,7 @@ export type ElementFactory = (
   namespaceURI: string | null,
   prefix: string | null,
   isValue?: string | null,
+  customElementRegistry?: CustomElementRegistry | null,
 ) => Element;
 
 let documentElementFactory: ElementFactory = defaultElementFactory;
@@ -1210,7 +1215,7 @@ export class Document extends Node {
     requireArguments(parameters.length, 1);
     const [localName, options] = parameters;
     let convertedName = domString(localName);
-    const isValue = convertElementCreationOptions(options);
+    const convertedOptions = convertElementCreationOptions(options);
     validateElementLocalName(convertedName);
     if (this.contentType === "text/html") {
       convertedName = asciiLowercase(convertedName);
@@ -1225,7 +1230,8 @@ export class Document extends Node {
       convertedName,
       namespaceURI,
       null,
-      isValue,
+      convertedOptions.isValue,
+      convertedOptions.customElementRegistry,
     );
   }
 
@@ -1239,7 +1245,7 @@ export class Document extends Node {
     const [namespace, qualifiedName, options] = parameters;
     const convertedNamespace = normalizeNamespace(namespace);
     const convertedName = domString(qualifiedName);
-    const isValue = convertElementCreationOptions(options);
+    const convertedOptions = convertElementCreationOptions(options);
     const extracted = validateAndExtractElement(
       convertedNamespace,
       convertedName,
@@ -1249,7 +1255,8 @@ export class Document extends Node {
       extracted.localName,
       extracted.namespace,
       extracted.prefix,
-      isValue,
+      convertedOptions.isValue,
+      convertedOptions.customElementRegistry,
     );
   }
 
@@ -1492,6 +1499,7 @@ export function createElementForDocument(
   namespaceURI: string | null,
   prefix: string | null = null,
   isValue: string | null = null,
+  customElementRegistry?: CustomElementRegistry | null,
 ): Element {
   return documentImplementation(document).elementFactory(
     document,
@@ -1499,6 +1507,7 @@ export function createElementForDocument(
     namespaceURI,
     prefix,
     isValue,
+    customElementRegistry,
   );
 }
 
@@ -2066,6 +2075,9 @@ export class Element extends Node {
       ),
     );
     implementation.shadowRoot = shadowRootImplementation(shadowRoot);
+    if (init.customElementRegistry !== undefined) {
+      setCustomElementRegistryForNode(shadowRoot, init.customElementRegistry);
+    }
     return shadowRoot;
   }
 
@@ -2590,7 +2602,18 @@ export class Element extends Node {
     if (parser === null) {
       throw new TypeError("Document has no fragment parser");
     }
-    return parser.parse(input, context);
+    return parser.parse(
+      input,
+      context,
+      context.namespaceURI === HTML_NAMESPACE &&
+        context.localName === "template"
+        ? {
+            customElementRegistry: customElementRegistryForNode(
+              this.#document(),
+            ),
+          }
+        : undefined,
+    );
   }
 }
 
@@ -3460,7 +3483,9 @@ export class ShadowRoot extends DocumentFragment {
     if (parser === null) {
       throw new TypeError("Document has no fragment parser");
     }
-    const fragment = parser.parse(domString(value), this.host);
+    const fragment = parser.parse(domString(value), this.host, {
+      customElementRegistry: customElementRegistryForNode(this),
+    });
     while (this.firstChild !== null) {
       this.removeChild(this.firstChild);
     }
@@ -3989,16 +4014,37 @@ export function setDocumentElementFactory(factory: ElementFactory): void {
   documentElementFactory = factory;
 }
 
-function convertElementCreationOptions(options: unknown): string | null {
+interface ConvertedElementCreationOptions {
+  readonly isValue: string | null;
+  readonly customElementRegistry: CustomElementRegistry | null | undefined;
+}
+
+function convertElementCreationOptions(
+  options: unknown,
+): ConvertedElementCreationOptions {
   if (options === undefined) {
-    return null;
+    return { isValue: null, customElementRegistry: undefined };
   }
   if (typeof options !== "object" || options === null) {
     domString(options);
-    return null;
+    return { isValue: null, customElementRegistry: undefined };
   }
-  const isValue: unknown = (options as ElementCreationOptions).is;
-  return isValue === undefined ? null : domString(isValue);
+  const creationOptions = options as ElementCreationOptions;
+  const isValue: unknown = creationOptions.is;
+  const customElementRegistry = creationOptions.customElementRegistry;
+  if (
+    customElementRegistry !== undefined &&
+    customElementRegistry !== null &&
+    !(customElementRegistry instanceof CustomElementRegistry)
+  ) {
+    throw new TypeError(
+      "customElementRegistry must be a CustomElementRegistry or null",
+    );
+  }
+  return {
+    isValue: isValue === undefined ? null : domString(isValue),
+    customElementRegistry,
+  };
 }
 
 function importNodeSubtree(options: unknown): boolean {

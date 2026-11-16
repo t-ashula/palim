@@ -1,4 +1,5 @@
 import type {
+  CustomElementDefinition,
   DOMParser,
   HTMLParsingOptions,
   MutationObserverMicrotaskScheduler,
@@ -150,6 +151,14 @@ const sharedPlatformObjectsByEngine = new WeakMap<
   JavaScriptEngineAdapter,
   WeakMap<object, EngineObject>
 >();
+const sharedCustomElementRegistriesByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<EngineObject, CustomElementRegistry>
+>();
+const sharedCustomElementRegistryObjectsByEngine = new WeakMap<
+  JavaScriptEngineAdapter,
+  WeakMap<CustomElementRegistry, EngineObject>
+>();
 
 function documentRealmBindings(
   engine: JavaScriptEngineAdapter,
@@ -200,6 +209,30 @@ function sharedPlatformObjects(
   const platformObjects = new WeakMap<object, EngineObject>();
   sharedPlatformObjectsByEngine.set(engine, platformObjects);
   return platformObjects;
+}
+
+function sharedCustomElementRegistries(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<EngineObject, CustomElementRegistry> {
+  const existing = sharedCustomElementRegistriesByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const registries = new WeakMap<EngineObject, CustomElementRegistry>();
+  sharedCustomElementRegistriesByEngine.set(engine, registries);
+  return registries;
+}
+
+function sharedCustomElementRegistryObjects(
+  engine: JavaScriptEngineAdapter,
+): WeakMap<CustomElementRegistry, EngineObject> {
+  const existing = sharedCustomElementRegistryObjectsByEngine.get(engine);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const objects = new WeakMap<CustomElementRegistry, EngineObject>();
+  sharedCustomElementRegistryObjectsByEngine.set(engine, objects);
+  return objects;
 }
 
 export class DOMRealmBindingContext {
@@ -310,7 +343,11 @@ export class DOMRealmBindingContext {
   >();
   private readonly customElementConstructionStacks = new WeakMap<
     object,
-    (Element | null)[]
+    {
+      definition: CustomElementDefinition;
+      element: Element | null;
+      reentryFailed: boolean;
+    }[]
   >();
   readonly traversalAbruptValues = new WeakMap<object, EngineValue>();
 
@@ -541,6 +578,14 @@ export class DOMRealmBindingContext {
       this.customElementRegistry,
       this.customElementRegistryObject,
     );
+    sharedCustomElementRegistries(this.engine).set(
+      this.customElementRegistryObject,
+      this.customElementRegistry,
+    );
+    sharedCustomElementRegistryObjects(this.engine).set(
+      this.customElementRegistry,
+      this.customElementRegistryObject,
+    );
     this.abstractRangePrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
@@ -600,7 +645,10 @@ export class DOMRealmBindingContext {
     if (newTarget === activeFunction) {
       return this.typeError("Illegal constructor");
     }
+    const stack = this.customElementConstructionStacks.get(newTarget);
+    const entry = stack?.at(-1);
     const definition =
+      entry?.definition ??
       this.customElementRegistry.definitionForConstructor(newTarget);
     if (definition === null) {
       return this.typeError("Illegal constructor");
@@ -638,13 +686,12 @@ export class DOMRealmBindingContext {
           ? binding.htmlElementPrototype
           : binding.htmlElementInterfacePrototype(activeInterface);
     }
-    const stack = this.customElementConstructionStacks.get(newTarget);
-    const entry = stack?.at(-1);
-    if (entry === null) {
+    if (entry?.element === null) {
+      entry.reentryFailed = true;
       return this.typeError("Custom element is already constructed");
     }
     const element =
-      entry ??
+      entry?.element ??
       createHTMLElement(
         this.associatedDocument ?? new Document(),
         definition.localName,
@@ -666,7 +713,7 @@ export class DOMRealmBindingContext {
       return this.typeError("Custom element prototype was rejected");
     }
     if (stack !== undefined && entry !== undefined) {
-      stack[stack.length - 1] = null;
+      entry.element = null;
     }
     return normal(platformObject);
   }
@@ -858,7 +905,16 @@ export class DOMRealmBindingContext {
               constructionStack,
             );
           }
-          constructionStack.push(element);
+          const definition = registry.definition(name);
+          if (definition === null) {
+            return callbackFailure();
+          }
+          const constructionEntry = {
+            definition,
+            element,
+            reentryFailed: false,
+          };
+          constructionStack.push(constructionEntry);
           try {
             const result = this.context.runtime.invokeConstructor(
               constructorRecord.value,
@@ -866,7 +922,9 @@ export class DOMRealmBindingContext {
             );
             if (result.type === "throw") {
               this.reportException(result.value);
-              return callbackFailure();
+              return constructionEntry.reentryFailed
+                ? callbackSuccess(element)
+                : callbackFailure();
             }
             if (this.interfaceObject(result.value) !== element) {
               this.reportException(
@@ -906,6 +964,13 @@ export class DOMRealmBindingContext {
     }
     for (const root of registry.initializedRoots()) {
       upgradeCustomElements(root, registry, name);
+    }
+    if (registry.scoped) {
+      for (const element of registry.associatedElements()) {
+        if (element.isConnected) {
+          upgradeCustomElements(element, registry, name);
+        }
+      }
     }
   }
 
@@ -957,6 +1022,8 @@ export class DOMRealmBindingContext {
     const registry = new CustomElementRegistry();
     this.customElementRegistries.set(object, registry);
     this.customElementRegistryObjects.set(registry, object);
+    sharedCustomElementRegistries(this.engine).set(object, registry);
+    sharedCustomElementRegistryObjects(this.engine).set(registry, object);
     return object;
   }
 
@@ -965,17 +1032,26 @@ export class DOMRealmBindingContext {
     if (registry === null) {
       return this.engine.fromPrimitive(null);
     }
+    const localObject = this.customElementRegistryObjects.get(registry);
+    if (localObject !== undefined) {
+      return localObject;
+    }
     return (
-      this.customElementRegistryObjects.get(registry) ??
+      sharedCustomElementRegistryObjects(this.engine).get(registry) ??
       this.engine.fromPrimitive(null)
     );
   }
 
   customElementRegistryFor(value: EngineValue): CustomElementRegistry | null {
     const object = this.engine.asObject(value);
-    return object === null
-      ? null
-      : (this.customElementRegistries.get(object) ?? null);
+    if (object === null) {
+      return null;
+    }
+    const localRegistry = this.customElementRegistries.get(object);
+    if (localRegistry !== undefined) {
+      return localRegistry;
+    }
+    return sharedCustomElementRegistries(this.engine).get(object) ?? null;
   }
 
   platformObject(interfaceObject: object): EngineObject {

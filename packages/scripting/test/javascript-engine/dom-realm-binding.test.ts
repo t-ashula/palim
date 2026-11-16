@@ -228,6 +228,18 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("uses a scoped registry for element creation", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("uses-scoped-registry-for-element-creation.js"),
+      );
+    }).not.toThrow();
+  });
+
   it("upgrades a detached candidate with the document registry", () => {
     const { engine, realm } = createTestRealm("");
 

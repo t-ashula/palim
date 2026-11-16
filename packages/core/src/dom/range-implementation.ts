@@ -254,7 +254,13 @@ class RangeImplementation implements Range {
       throw new TypeError("Document has no fragment parser");
     }
     const result = document.adoptNode(
-      parser.parse(input, context, { runScripts: true }),
+      parser.parse(input, context, {
+        runScripts: true,
+        ...(context.namespaceURI === HTML_NAMESPACE &&
+        context.localName === "template"
+          ? { customElementRegistry: null }
+          : {}),
+      }),
     );
     if (document.contentType !== "text/html") {
       stripHTMLDocumentWrappers(result);

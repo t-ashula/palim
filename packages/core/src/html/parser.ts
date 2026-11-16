@@ -1,5 +1,7 @@
 import type { AttributeData, DocumentFragment, Node } from "../dom.js";
 import { Document, Element, Text } from "../dom.js";
+import type { CustomElementRegistry } from "../dom/custom-elements.js";
+import { customElementRegistryForNode } from "../dom/custom-elements.js";
 import type { ScriptingMode } from "../dom/node-implementation.js";
 import {
   documentImplementation,
@@ -64,6 +66,7 @@ export interface HTMLFragmentContext {
 interface TreeBuilderOptions {
   readonly allowDeclarativeShadowRoots?: boolean;
   readonly context?: HTMLFragmentContext | Element;
+  readonly customElementRegistry?: CustomElementRegistry | null;
   readonly document?: Document;
   readonly onElement?: (element: Element) => void;
   readonly onScript?: (element: Element) => Promise<void> | void;
@@ -83,6 +86,10 @@ const htmlFragmentParser: FragmentParser = {
       allowDeclarativeShadowRoots:
         options?.allowDeclarativeShadowRoots ?? false,
       context,
+      customElementRegistry:
+        options !== undefined && "customElementRegistry" in options
+          ? options.customElementRegistry
+          : customElementRegistryForNode(context),
       runScripts: options?.runScripts ?? false,
       ...(options?.sanitizerConfig === undefined
         ? {}
@@ -369,6 +376,7 @@ class TreeBuilder {
   readonly #errors: PalimParseError[] = [];
   readonly #allowDeclarativeShadowRoots: boolean;
   readonly #context: Element | null;
+  readonly #customElementRegistry: CustomElementRegistry | null | undefined;
   readonly #onElement: ((element: Element) => void) | undefined;
   readonly #onScript: ((element: Element) => Promise<void> | void) | undefined;
   readonly #runScripts: boolean;
@@ -421,6 +429,7 @@ class TreeBuilder {
     this.#onScript = options.onScript;
     this.#allowDeclarativeShadowRoots =
       options.allowDeclarativeShadowRoots ?? false;
+    this.#customElementRegistry = options.customElementRegistry;
     this.#runScripts = options.runScripts ?? false;
     this.#sanitizerConfig = options.sanitizerConfig ?? null;
     this.#streamingInsertion = options.streamingInsertion ?? null;
@@ -2524,6 +2533,13 @@ class TreeBuilder {
       namespace,
       null,
       token.attributes.is ?? null,
+      this.#stack.some(
+        (ancestor) =>
+          ancestor.namespaceURI === HTML_NAMESPACE &&
+          ancestor.localName === "template",
+      )
+        ? null
+        : this.#customElementRegistry,
     );
     const attributes = Object.entries(token.attributes).map(
       ([sourceName, value]): AttributeData => {

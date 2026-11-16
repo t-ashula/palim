@@ -1,7 +1,8 @@
+import type { CustomElementRegistry } from "@palim/core";
 import { DocumentType, Text } from "@palim/core";
 
 import type { EngineResult, EngineValue } from "./adapter.js";
-import { normal } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { createRealmHTMLWritableStream } from "./dom-realm-html-streaming-interface.js";
 
@@ -769,10 +770,42 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       const delegatesFocus = binding.engine.toBoolean(
         delegatesFocusValue.value,
       );
+      const registryValue = binding.engine.get(
+        binding.realm,
+        init,
+        "customElementRegistry",
+      );
+      if (registryValue.type === "throw") {
+        return registryValue;
+      }
+      let customElementRegistry: CustomElementRegistry | null | undefined;
+      if (!binding.engine.isUndefined(registryValue.value)) {
+        if (binding.engine.isNull(registryValue.value)) {
+          customElementRegistry = null;
+        } else {
+          customElementRegistry = binding.customElementRegistryFor(
+            registryValue.value,
+          );
+          if (customElementRegistry === null) {
+            return thrown(
+              binding.engine.createTypeError(
+                binding.realm,
+                "customElementRegistry must be a CustomElementRegistry or null",
+              ),
+            );
+          }
+        }
+      }
       return binding.domOperationResult(() =>
         normal(
           binding.wrap(
-            element.attachShadow({ mode: shadowMode, delegatesFocus }),
+            element.attachShadow({
+              mode: shadowMode,
+              delegatesFocus,
+              ...(customElementRegistry === undefined
+                ? {}
+                : { customElementRegistry }),
+            }),
           ),
         ),
       );
@@ -2047,16 +2080,13 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       if (localName.type === "throw") {
         return localName;
       }
-      const isValue = elementCreationIsValue(binding, argumentsList[1]);
-      return isValue.type === "throw"
-        ? isValue
+      const options = elementCreationOptions(binding, argumentsList[1]);
+      return options.type === "throw"
+        ? options
         : binding.domOperationResult(() =>
             normal(
               binding.wrap(
-                document.createElement(
-                  localName.value,
-                  isValue.value === null ? undefined : { is: isValue.value },
-                ),
+                document.createElement(localName.value, options.value),
               ),
             ),
           );
@@ -2087,16 +2117,16 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       if (qualifiedName.type === "throw") {
         return qualifiedName;
       }
-      const isValue = elementCreationIsValue(binding, argumentsList[2]);
-      return isValue.type === "throw"
-        ? isValue
+      const options = elementCreationOptions(binding, argumentsList[2]);
+      return options.type === "throw"
+        ? options
         : binding.domOperationResult(() =>
             normal(
               binding.wrap(
                 document.createElementNS(
                   namespace.value,
                   qualifiedName.value,
-                  isValue.value === null ? undefined : { is: isValue.value },
+                  options.value,
                 ),
               ),
             ),
@@ -2274,27 +2304,67 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
   );
 }
 
-function elementCreationIsValue(
+function elementCreationOptions(
   binding: DOMRealmBindingContext,
   value: EngineValue | undefined,
-): EngineResult<string | null> {
+): EngineResult<{
+  readonly is?: string;
+  readonly customElementRegistry?: CustomElementRegistry | null;
+}> {
   if (value === undefined || binding.engine.isUndefined(value)) {
-    return normal(null);
+    return normal({});
   }
   const options = binding.engine.asObject(value);
   if (options === null) {
     const converted = binding.engine.toString(binding.realm, value);
-    return converted.type === "throw" ? converted : normal(null);
+    return converted.type === "throw" ? converted : normal({});
   }
   const isValue = binding.engine.get(binding.realm, options, "is");
   if (isValue.type === "throw") {
     return isValue;
   }
-  if (binding.engine.isUndefined(isValue.value)) {
-    return normal(null);
+  let is: string | undefined;
+  if (!binding.engine.isUndefined(isValue.value)) {
+    const converted = binding.engine.toString(binding.realm, isValue.value);
+    if (converted.type === "throw") {
+      return converted;
+    }
+    is = converted.value;
   }
-  const converted = binding.engine.toString(binding.realm, isValue.value);
-  return converted.type === "throw" ? converted : normal(converted.value);
+  const registryValue = binding.engine.get(
+    binding.realm,
+    options,
+    "customElementRegistry",
+  );
+  if (registryValue.type === "throw") {
+    return registryValue;
+  }
+  if (binding.engine.isUndefined(registryValue.value)) {
+    return normal(is === undefined ? {} : { is });
+  }
+  if (binding.engine.isNull(registryValue.value)) {
+    return normal(
+      is === undefined
+        ? { customElementRegistry: null }
+        : { is, customElementRegistry: null },
+    );
+  }
+  const customElementRegistry = binding.customElementRegistryFor(
+    registryValue.value,
+  );
+  if (customElementRegistry === null) {
+    return thrown(
+      binding.engine.createTypeError(
+        binding.realm,
+        "customElementRegistry must be a CustomElementRegistry or null",
+      ),
+    );
+  }
+  return normal(
+    is === undefined
+      ? { customElementRegistry }
+      : { is, customElementRegistry },
+  );
 }
 
 export function installDocumentFragmentMembers(

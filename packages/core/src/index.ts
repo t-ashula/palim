@@ -167,6 +167,7 @@ export {
   namedNodeMapSupportedPropertyNames,
 } from "./dom/collections.js";
 export {
+  type CustomElementDefinition,
   CustomElementRegistry,
   customElementRegistryForNode,
   documentCustomElementRegistry,
@@ -174,6 +175,7 @@ export {
   isValidCustomElementName,
   runCustomElementReactions,
   setCustomElementDefinition,
+  setCustomElementRegistryForNode,
   upgradeCustomElements,
 } from "./dom/custom-elements.js";
 export {

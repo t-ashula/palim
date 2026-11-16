@@ -34,7 +34,7 @@ export interface CustomElementDefinition {
 }
 
 const DOCUMENT_REGISTRIES = new WeakMap<Document, CustomElementRegistry>();
-const NODE_REGISTRIES = new WeakMap<Node, CustomElementRegistry>();
+const NODE_REGISTRIES = new WeakMap<Node, CustomElementRegistry | null>();
 const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
   Element,
   CustomElementDefinition
@@ -46,6 +46,7 @@ const REACTIONS_STACK: Element[][] = [];
 export class CustomElementRegistry {
   readonly #definitions = new Map<string, CustomElementDefinition>();
   readonly #initializedRoots = new Set<Node>();
+  readonly #associatedElements = new Set<Element>();
 
   constructor(readonly scoped = true) {}
 
@@ -102,6 +103,14 @@ export class CustomElementRegistry {
   initializedRoots(): readonly Node[] {
     return [...this.#initializedRoots];
   }
+
+  associateElement(element: Element): void {
+    this.#associatedElements.add(element);
+  }
+
+  associatedElements(): readonly Element[] {
+    return [...this.#associatedElements];
+  }
 }
 
 export function documentCustomElementRegistry(
@@ -125,9 +134,8 @@ export function setDocumentCustomElementRegistry(
 export function customElementRegistryForNode(
   node: Node,
 ): CustomElementRegistry | null {
-  const assigned = NODE_REGISTRIES.get(node);
-  if (assigned !== undefined) {
-    return assigned;
+  if (NODE_REGISTRIES.has(node)) {
+    return NODE_REGISTRIES.get(node) ?? null;
   }
   if (node instanceof Document) {
     return DOCUMENT_REGISTRIES.get(node) ?? null;
@@ -148,6 +156,16 @@ export function customElementRegistryForNode(
     return customElementRegistryForNode(node.host);
   }
   return null;
+}
+
+export function setCustomElementRegistryForNode(
+  node: Node,
+  registry: CustomElementRegistry | null,
+): void {
+  NODE_REGISTRIES.set(node, registry);
+  if (node instanceof Element && registry !== null) {
+    registry.associateElement(node);
+  }
 }
 
 export function initializeCustomElementRegistry(
@@ -175,6 +193,9 @@ export function initializeCustomElementRegistry(
         DOCUMENT_REGISTRIES.set(node, registry);
       } else {
         NODE_REGISTRIES.set(node, registry);
+        if (node instanceof Element) {
+          registry.associateElement(node);
+        }
       }
     }
   }
@@ -192,11 +213,10 @@ export function createDefinedCustomElement(
   localName: string,
   prefix: string | null,
   isValue: string | null = null,
+  registry: CustomElementRegistry | null = DOCUMENT_REGISTRIES.get(document) ??
+    null,
 ): CallbackResult<Element> | null {
-  const definition = DOCUMENT_REGISTRIES.get(document)?.definitionForElement(
-    localName,
-    isValue,
-  );
+  const definition = registry?.definitionForElement(localName, isValue);
   if (definition === null || definition === undefined) {
     return null;
   }

@@ -45,6 +45,53 @@ describe("custom element reactions", () => {
     expect(customElementRegistryForNode(element)).toBe(first);
   });
 
+  it("uses the registry selected by element creation options", () => {
+    const document = new DOMParser().parseFromString("", "text/html");
+    const globalRegistry = customElementRegistryForNode(document);
+    const scopedRegistry = new CustomElementRegistry();
+    scopedRegistry.define({
+      name: "x-scoped",
+      localName: "x-scoped",
+      construct: (ownerDocument, localName, prefix) =>
+        callbackSuccess(
+          createCustomHTMLElementBase(ownerDocument, localName, prefix),
+        ),
+      connectedCallback: null,
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      observedAttributes: [],
+      attributeChangedCallback: null,
+    });
+
+    const scoped = document.createElement("x-scoped", {
+      customElementRegistry: scopedRegistry,
+    });
+    const candidate = document.createElement("x-pending", {
+      customElementRegistry: scopedRegistry,
+    });
+    const withoutRegistry = document.createElement("x-scoped", {
+      customElementRegistry: null,
+    });
+    const implicit = document.createElement("div");
+
+    expect(scoped.localName).toBe("x-scoped");
+    expect(customElementRegistryForNode(scoped)).toBe(scopedRegistry);
+    expect(customElementRegistryForNode(candidate)).toBe(scopedRegistry);
+    expect(customElementRegistryForNode(withoutRegistry)).toBeNull();
+    expect(customElementRegistryForNode(implicit)).toBe(globalRegistry);
+  });
+
+  it("associates non-HTML elements with the selected registry", () => {
+    const document = new DOMParser().parseFromString("", "text/html");
+    const registry = new CustomElementRegistry();
+
+    const element = document.createElementNS("urn:test", "test", {
+      customElementRegistry: registry,
+    });
+
+    expect(customElementRegistryForNode(element)).toBe(registry);
+  });
+
   it("creates an uncustomized element after construction fails", () => {
     const document = new DOMParser().parseFromString("", "text/html");
     const registry = new CustomElementRegistry();

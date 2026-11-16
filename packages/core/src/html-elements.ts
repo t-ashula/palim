@@ -17,9 +17,12 @@ import {
   createHTMLCollection,
   createNodeList,
 } from "./dom/collections.js";
+import type { CustomElementRegistry } from "./dom/custom-elements.js";
 import {
   createDefinedCustomElement,
+  customElementRegistryForNode,
   setCustomElementIsValue,
+  setCustomElementRegistryForNode,
   setFailedCustomElement,
 } from "./dom/custom-elements.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
@@ -5336,15 +5339,24 @@ export function createElementForDocument(
   namespaceURI: string | null,
   prefix: string | null,
   isValue: string | null = null,
+  customElementRegistry?: CustomElementRegistry | null,
 ): Element {
+  const selectedRegistry =
+    customElementRegistry === undefined
+      ? customElementRegistryForNode(document)
+      : customElementRegistry;
   if (namespaceURI === HTML_NAMESPACE) {
     const defined = createDefinedCustomElement(
       document,
       localName,
       prefix,
       isValue,
+      selectedRegistry,
     );
     if (defined?.type === "success") {
+      if (customElementRegistry !== undefined) {
+        setCustomElementRegistryForNode(defined.value, customElementRegistry);
+      }
       return defined.value;
     }
     const element = createHTMLElement(document, localName, prefix);
@@ -5354,9 +5366,21 @@ export function createElementForDocument(
     if (isValue !== null) {
       setCustomElementIsValue(element, isValue);
     }
+    if (customElementRegistry !== undefined) {
+      setCustomElementRegistryForNode(element, customElementRegistry);
+    }
     return element;
   }
-  return createElementInterface(document, localName, namespaceURI, prefix);
+  const element = createElementInterface(
+    document,
+    localName,
+    namespaceURI,
+    prefix,
+  );
+  if (customElementRegistry !== undefined) {
+    setCustomElementRegistryForNode(element, customElementRegistry);
+  }
+  return element;
 }
 
 export function createCustomHTMLElementBase(
