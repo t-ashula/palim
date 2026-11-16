@@ -1,6 +1,13 @@
-import type { HTMLAnchorElement, HTMLAreaElement } from "@palim/core";
+import type {
+  HTMLAnchorElement,
+  HTMLAreaElement,
+  HTMLReflectedIDLAttributeBinding,
+  HTMLReflectedIDLAttributeValue,
+} from "@palim/core";
 import {
   foreignAnchorRelList,
+  getHTMLReflectedIDLAttributeValue,
+  HTML_REFLECTED_IDL_ATTRIBUTE_BINDINGS,
   HTMLBaseElement,
   HTMLBodyElement,
   HTMLEmbedElement,
@@ -10,10 +17,11 @@ import {
   HTMLObjectElement,
   HTMLScriptElement,
   HTMLSlotElement,
+  setHTMLReflectedIDLAttributeValue,
   WINDOW_EVENT_HANDLER_NAMES,
 } from "@palim/core";
 
-import type { EngineObject, EngineValue } from "./adapter.js";
+import type { EngineObject, EngineResult, EngineValue } from "./adapter.js";
 import { normal } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
@@ -660,6 +668,98 @@ export function installHTMLButtonElementMembers(
       ? binding.typeError("Invalid HTMLButtonElement receiver for form")
       : binding.platformValue(button.form);
   });
+}
+
+export function installHTMLReflectedIDLAttributeMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  for (const descriptor of HTML_REFLECTED_IDL_ATTRIBUTE_BINDINGS) {
+    for (const name of descriptor.stringProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        binding.stringArgument(values, 0, name),
+      );
+    }
+    for (const name of descriptor.nullableStringProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        binding.nullableStringArgument(values, 0, name),
+      );
+    }
+    for (const name of descriptor.booleanProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        normal(
+          binding.engine.toBoolean(
+            values[0] ?? binding.engine.fromPrimitive(undefined),
+          ),
+        ),
+      );
+    }
+    for (const name of descriptor.longProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        binding.longArgument(values, 0, name),
+      );
+    }
+    for (const name of descriptor.unsignedLongProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        binding.unsignedLongArgument(values, 0, name),
+      );
+    }
+    for (const name of descriptor.doubleProperties ?? []) {
+      installHTMLReflectedIDLAttribute(binding, descriptor, name, (values) =>
+        binding.engine.toNumber(
+          binding.realm,
+          values[0] ?? binding.engine.fromPrimitive(undefined),
+        ),
+      );
+    }
+  }
+}
+
+function installHTMLReflectedIDLAttribute(
+  binding: DOMRealmBindingContext,
+  descriptor: HTMLReflectedIDLAttributeBinding,
+  name: string,
+  convert: (
+    values: readonly EngineValue[],
+  ) => EngineResult<HTMLReflectedIDLAttributeValue>,
+): void {
+  const prototype = binding.htmlElementInterfacePrototype(
+    descriptor.constructor,
+  );
+  const interfaceName = descriptor.constructor.name;
+  binding.attribute(
+    prototype,
+    name,
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null || !(element instanceof descriptor.constructor)) {
+        return binding.typeError(
+          `Invalid ${interfaceName} receiver for ${name}`,
+        );
+      }
+      return binding.primitive(
+        getHTMLReflectedIDLAttributeValue(descriptor, element, name),
+      );
+    },
+    (thisValue, argumentsList) => {
+      const element = binding.htmlElement(thisValue);
+      if (element === null || !(element instanceof descriptor.constructor)) {
+        return binding.typeError(
+          `Invalid ${interfaceName} receiver for ${name}`,
+        );
+      }
+      const converted = convert(argumentsList);
+      if (converted.type === "throw") {
+        return converted;
+      }
+      setHTMLReflectedIDLAttributeValue(
+        descriptor,
+        element,
+        name,
+        converted.value,
+      );
+      return binding.undefined();
+    },
+  );
 }
 
 export function installHTMLIFrameElementMembers(

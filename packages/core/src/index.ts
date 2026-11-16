@@ -243,8 +243,15 @@ export { WINDOW_EVENT_HANDLER_NAMES } from "./event-handler-names.js";
 export {
   createCustomHTMLElementBase,
   createHTMLElement,
+  getHTMLReflectedIDLAttributeValue,
+  HTML_REFLECTED_IDL_ATTRIBUTE_BINDINGS,
   isKnownHTMLElementLocalName,
+  setHTMLReflectedIDLAttributeValue,
   setHTMLIFrameElementContentWindow,
+} from "./html-elements.js";
+export type {
+  HTMLReflectedIDLAttributeBinding,
+  HTMLReflectedIDLAttributeValue,
 } from "./html-elements.js";
 export { parseErrors } from "./html/parse-errors.js";
 export type { PalimParseError } from "./html/parse-errors.js";

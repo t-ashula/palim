@@ -28,6 +28,7 @@ import {
   installHTMLIFrameElementMembers,
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
+  installHTMLReflectedIDLAttributeMembers,
   installHTMLScriptElementMembers,
   installHTMLSlotElementMembers,
   installHTMLTableElementMembers,
@@ -65,6 +66,7 @@ export function installDOMRealmInterfaces(
   installHTMLAreaElementMembers(binding);
   installHTMLBaseElementMembers(binding);
   installHTMLButtonElementMembers(binding);
+  installHTMLReflectedIDLAttributeMembers(binding);
   installHTMLIFrameElementMembers(binding);
   installHTMLLinkElementMembers(binding);
   installHTMLOutputElementMembers(binding);

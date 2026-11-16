@@ -311,6 +311,14 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("binds reflected HTML attributes to core element properties", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(engine, realm, fixture("binds-reflected-html-attributes.js"));
+    }).not.toThrow();
+  });
+
   it("queues existing observed attributes while upgrading", () => {
     const { engine, realm } = createTestRealm(
       '<x-upgrade-observed data-first="one" data-second="two"></x-upgrade-observed>',

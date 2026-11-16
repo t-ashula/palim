@@ -4697,6 +4697,208 @@ export class HTMLParamElement extends HTMLElement {
   declare valueType: string;
 }
 
+export interface HTMLReflectedIDLAttributeBinding {
+  readonly constructor: typeof HTMLElement;
+  booleanProperties?: readonly string[];
+  doubleProperties?: readonly string[];
+  longProperties?: readonly string[];
+  nullableStringProperties?: readonly string[];
+  stringProperties?: readonly string[];
+  unsignedLongProperties?: readonly string[];
+}
+
+export type HTMLReflectedIDLAttributeValue = boolean | number | string | null;
+
+export function getHTMLReflectedIDLAttributeValue(
+  binding: HTMLReflectedIDLAttributeBinding,
+  element: HTMLElement,
+  property: string,
+): HTMLReflectedIDLAttributeValue {
+  if (!(element instanceof binding.constructor)) {
+    throw new TypeError(`Invalid ${binding.constructor.name} receiver`);
+  }
+  const accessor = reflectedIDLAttributeAccessor(binding.constructor, property);
+  if (accessor.get === undefined) {
+    throw new TypeError(
+      `${binding.constructor.name}.${property} has no getter`,
+    );
+  }
+  return reflectedIDLAttributePrimitive(
+    accessor.get.call(element),
+    binding.constructor.name,
+    property,
+  );
+}
+
+function reflectedIDLAttributePrimitive(
+  value: unknown,
+  interfaceName: string,
+  property: string,
+): HTMLReflectedIDLAttributeValue {
+  if (
+    value === null ||
+    typeof value === "boolean" ||
+    typeof value === "number" ||
+    typeof value === "string"
+  ) {
+    return value;
+  }
+  throw new TypeError(
+    `${interfaceName}.${property} returned a non-primitive value`,
+  );
+}
+
+export function setHTMLReflectedIDLAttributeValue(
+  binding: HTMLReflectedIDLAttributeBinding,
+  element: HTMLElement,
+  property: string,
+  value: HTMLReflectedIDLAttributeValue,
+): void {
+  if (!(element instanceof binding.constructor)) {
+    throw new TypeError(`Invalid ${binding.constructor.name} receiver`);
+  }
+  const accessor = reflectedIDLAttributeAccessor(binding.constructor, property);
+  if (accessor.set === undefined) {
+    throw new TypeError(
+      `${binding.constructor.name}.${property} has no setter`,
+    );
+  }
+  accessor.set.call(element, value);
+}
+
+function reflectedIDLAttributeAccessor(
+  Interface: typeof HTMLElement,
+  property: string,
+): PropertyDescriptor {
+  let prototype: object | null = Interface.prototype;
+  while (prototype !== null) {
+    const descriptor = Object.getOwnPropertyDescriptor(prototype, property);
+    if (descriptor !== undefined) {
+      return descriptor;
+    }
+    prototype = Reflect.getPrototypeOf(prototype);
+  }
+  throw new TypeError(`${Interface.name}.${property} is not implemented`);
+}
+
+const htmlReflectedIDLAttributeBindings: HTMLReflectedIDLAttributeBinding[] = [
+  {
+    constructor: HTMLAreaElement,
+    stringProperties: [
+      "alt",
+      "coords",
+      "shape",
+      "target",
+      "download",
+      "ping",
+      "rel",
+      "referrerPolicy",
+    ],
+  },
+  {
+    constructor: HTMLButtonElement,
+    booleanProperties: ["disabled", "formNoValidate"],
+    stringProperties: [
+      "name",
+      "value",
+      "type",
+      "formAction",
+      "formEnctype",
+      "formMethod",
+      "formTarget",
+    ],
+  },
+  {
+    constructor: HTMLCanvasElement,
+    unsignedLongProperties: ["width", "height"],
+  },
+  { constructor: HTMLDataElement, stringProperties: ["value"] },
+  { constructor: HTMLDetailsElement, booleanProperties: ["open"] },
+  {
+    constructor: HTMLEmbedElement,
+    stringProperties: ["src", "type", "width", "height"],
+  },
+  {
+    constructor: HTMLFieldSetElement,
+    booleanProperties: ["disabled"],
+    stringProperties: ["name"],
+  },
+  {
+    constructor: HTMLImageElement,
+    booleanProperties: ["isMap"],
+    nullableStringProperties: ["crossOrigin"],
+    stringProperties: [
+      "alt",
+      "src",
+      "srcset",
+      "sizes",
+      "useMap",
+      "referrerPolicy",
+      "decoding",
+    ],
+    unsignedLongProperties: ["width", "height"],
+  },
+  { constructor: HTMLLIElement, longProperties: ["value"] },
+  { constructor: HTMLLabelElement, stringProperties: ["htmlFor"] },
+  { constructor: HTMLMapElement, stringProperties: ["name"] },
+  {
+    constructor: HTMLMediaElement,
+    booleanProperties: ["autoplay", "loop", "controls", "defaultMuted"],
+    nullableStringProperties: ["crossOrigin"],
+    stringProperties: ["src", "preload"],
+  },
+  {
+    constructor: HTMLMetaElement,
+    stringProperties: ["name", "content", "httpEquiv"],
+  },
+  {
+    constructor: HTMLMeterElement,
+    doubleProperties: ["value", "min", "max", "low", "high", "optimum"],
+  },
+  {
+    constructor: HTMLModElement,
+    stringProperties: ["cite", "dateTime"],
+  },
+  {
+    constructor: HTMLOListElement,
+    booleanProperties: ["reversed"],
+    longProperties: ["start"],
+    stringProperties: ["type"],
+  },
+  {
+    constructor: HTMLOptGroupElement,
+    booleanProperties: ["disabled"],
+    stringProperties: ["label"],
+  },
+  {
+    constructor: HTMLParamElement,
+    stringProperties: ["name", "value"],
+  },
+  {
+    constructor: HTMLProgressElement,
+    doubleProperties: ["value", "max"],
+  },
+  { constructor: HTMLQuoteElement, stringProperties: ["cite"] },
+  {
+    constructor: HTMLSourceElement,
+    stringProperties: ["src", "type", "srcset", "sizes", "media"],
+  },
+  { constructor: HTMLStyleElement, stringProperties: ["media"] },
+  {
+    constructor: HTMLTableCellElement,
+    stringProperties: ["headers", "scope", "abbr"],
+    unsignedLongProperties: ["colSpan", "rowSpan"],
+  },
+  {
+    constructor: HTMLTableColElement,
+    unsignedLongProperties: ["span"],
+  },
+  { constructor: HTMLTimeElement, stringProperties: ["dateTime"] },
+];
+
+export const HTML_REFLECTED_IDL_ATTRIBUTE_BINDINGS: readonly HTMLReflectedIDLAttributeBinding[] =
+  htmlReflectedIDLAttributeBindings;
+
 type EventHandlerProperties<Names extends readonly string[]> = {
   [Name in Names[number] as `on${Name}`]: EventHandler;
 };
@@ -6502,9 +6704,7 @@ function setRangeText(
   }
 }
 
-interface HTMLElementClass {
-  readonly prototype: HTMLElement;
-}
+type HTMLElementClass = typeof HTMLElement;
 
 const eventHandlerValues = new WeakMap<
   HTMLElement,
@@ -6542,6 +6742,7 @@ function installStringReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordStringReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6560,6 +6761,7 @@ function installURLReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordStringReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6578,6 +6780,7 @@ function installBooleanReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordBooleanReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6596,6 +6799,7 @@ function installUnsignedLongReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordUnsignedLongReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6614,6 +6818,7 @@ function installLongReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordLongReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6632,6 +6837,7 @@ function installDoubleReflectors(
   Interface: HTMLElementClass,
   properties: Readonly<Record<string, string>>,
 ): void {
+  recordDoubleReflectedIDLAttributeBindings(Interface, properties);
   for (const [property, attribute] of Object.entries(properties)) {
     Object.defineProperty(Interface.prototype, property, {
       configurable: true,
@@ -6644,4 +6850,79 @@ function installDoubleReflectors(
       },
     });
   }
+}
+
+function recordStringReflectedIDLAttributeBindings(
+  Interface: HTMLElementClass,
+  properties: Readonly<Record<string, string>>,
+): void {
+  const descriptor = reflectedIDLAttributeBinding(Interface);
+  descriptor.stringProperties = mergePropertyNames(
+    descriptor.stringProperties,
+    properties,
+  );
+}
+
+function recordBooleanReflectedIDLAttributeBindings(
+  Interface: HTMLElementClass,
+  properties: Readonly<Record<string, string>>,
+): void {
+  const descriptor = reflectedIDLAttributeBinding(Interface);
+  descriptor.booleanProperties = mergePropertyNames(
+    descriptor.booleanProperties,
+    properties,
+  );
+}
+
+function recordUnsignedLongReflectedIDLAttributeBindings(
+  Interface: HTMLElementClass,
+  properties: Readonly<Record<string, string>>,
+): void {
+  const descriptor = reflectedIDLAttributeBinding(Interface);
+  descriptor.unsignedLongProperties = mergePropertyNames(
+    descriptor.unsignedLongProperties,
+    properties,
+  );
+}
+
+function recordLongReflectedIDLAttributeBindings(
+  Interface: HTMLElementClass,
+  properties: Readonly<Record<string, string>>,
+): void {
+  const descriptor = reflectedIDLAttributeBinding(Interface);
+  descriptor.longProperties = mergePropertyNames(
+    descriptor.longProperties,
+    properties,
+  );
+}
+
+function recordDoubleReflectedIDLAttributeBindings(
+  Interface: HTMLElementClass,
+  properties: Readonly<Record<string, string>>,
+): void {
+  const descriptor = reflectedIDLAttributeBinding(Interface);
+  descriptor.doubleProperties = mergePropertyNames(
+    descriptor.doubleProperties,
+    properties,
+  );
+}
+
+function reflectedIDLAttributeBinding(
+  Interface: HTMLElementClass,
+): HTMLReflectedIDLAttributeBinding {
+  for (const descriptor of htmlReflectedIDLAttributeBindings) {
+    if (descriptor.constructor === Interface) {
+      return descriptor;
+    }
+  }
+  const created = { constructor: Interface };
+  htmlReflectedIDLAttributeBindings.push(created);
+  return created;
+}
+
+function mergePropertyNames(
+  existing: readonly string[] | undefined,
+  properties: Readonly<Record<string, string>>,
+): readonly string[] {
+  return [...new Set([...(existing ?? []), ...Object.keys(properties)])];
 }

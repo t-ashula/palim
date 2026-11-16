@@ -28,6 +28,7 @@ export {
   installHTMLAreaElementMembers,
   installHTMLBaseElementMembers,
   installHTMLButtonElementMembers,
+  installHTMLReflectedIDLAttributeMembers,
   installHTMLIFrameElementMembers,
   installHTMLLinkElementMembers,
   installHTMLOutputElementMembers,
