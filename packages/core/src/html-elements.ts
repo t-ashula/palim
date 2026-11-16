@@ -20,6 +20,8 @@ import {
 import type { CustomElementRegistry } from "./dom/custom-elements.js";
 import {
   createDefinedCustomElement,
+  customElementConstructionFailed,
+  customElementDefinitionForElement,
   customElementRegistryForNode,
   setCustomElementIsValue,
   setCustomElementRegistryForNode,
@@ -41,6 +43,7 @@ import {
   createText,
   setDocumentElementFactory,
   setTemplateContents,
+  shadowRootForElementInternals,
   templateContentsDocument,
 } from "./dom/nodes.js";
 import { createDOMTokenList } from "./dom/token-list.js";
@@ -704,11 +707,22 @@ export class HTMLElement extends Element {
     parent.replaceChild(createText(document, domString(value)), this);
   }
 
-  attachInternals(): never {
-    throw new DOMException(
-      "Element internals are only available to custom elements",
-      "NotSupportedError",
-    );
+  attachInternals(): ElementInternals {
+    const definition = customElementDefinitionForElement(this);
+    if (
+      definition === null ||
+      definition.disabledFeatures?.includes("internals") === true ||
+      customElementConstructionFailed(this) ||
+      ATTACHED_INTERNALS.has(this)
+    ) {
+      throw new DOMException(
+        "Element internals are not available for this element",
+        "NotSupportedError",
+      );
+    }
+    const internals = new ElementInternals(this);
+    ATTACHED_INTERNALS.set(this, internals);
+    return internals;
   }
 
   showPopover(): void {
@@ -863,6 +877,18 @@ export class HTMLElement extends Element {
     return this.parentElement instanceof HTMLElement
       ? this.parentElement.isContentEditable
       : false;
+  }
+}
+
+const ATTACHED_INTERNALS = new WeakMap<HTMLElement, ElementInternals>();
+
+export class ElementInternals {
+  constructor(readonly target: HTMLElement) {
+    bindDOMInterface(this, this);
+  }
+
+  get shadowRoot(): ShadowRoot | null {
+    return shadowRootForElementInternals(this.target);
   }
 }
 

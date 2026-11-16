@@ -47,6 +47,7 @@ import {
   validateName,
 } from "./conversions.js";
 import {
+  customElementDefinitionForElement,
   CustomElementRegistry,
   customElementRegistryForNode,
   enqueueCustomElementAttributeChangedReaction,
@@ -2072,6 +2073,7 @@ export class Element extends Node {
         implementation,
         init.mode,
         Boolean(init.delegatesFocus),
+        customElementDefinitionForElement(this) !== null,
       ),
     );
     implementation.shadowRoot = shadowRootImplementation(shadowRoot);
@@ -3541,6 +3543,21 @@ export class ShadowRoot extends DocumentFragment {
   prependHTMLUnsafe(html: string, options: HTMLParsingOptions = {}): void {
     insertHTMLContent(this, this.firstChild, domString(html), options, true);
   }
+}
+
+export function setShadowRootAvailableToElementInternals(
+  shadowRoot: ShadowRoot,
+): void {
+  shadowRootImplementation(shadowRoot).availableToElementInternals = true;
+}
+
+export function shadowRootForElementInternals(
+  element: Element,
+): ShadowRoot | null {
+  const implementation = elementImplementation(element).shadowRoot;
+  return implementation?.availableToElementInternals === true
+    ? (nodeInterface(implementation) as ShadowRoot)
+    : null;
 }
 
 export class CharacterData extends Node {

@@ -21,6 +21,7 @@ export interface CustomElementDefinition {
   readonly connectedCallback: ((element: Element) => void) | null;
   readonly disconnectedCallback: ((element: Element) => void) | null;
   readonly connectedMoveCallback: ((element: Element) => void) | null;
+  readonly disabledFeatures?: readonly string[];
   readonly observedAttributes: readonly string[];
   readonly attributeChangedCallback:
     | ((
@@ -249,6 +250,16 @@ export function setCustomElementDefinition(
   if (definition.localName !== definition.name) {
     CUSTOM_ELEMENT_IS_VALUES.set(element, definition.name);
   }
+}
+
+export function customElementDefinitionForElement(
+  element: Element,
+): CustomElementDefinition | null {
+  return CUSTOM_ELEMENT_DEFINITIONS.get(element) ?? null;
+}
+
+export function customElementConstructionFailed(element: Element): boolean {
+  return FAILED_CUSTOM_ELEMENTS.has(element);
 }
 
 export function setFailedCustomElement(element: Element): void {

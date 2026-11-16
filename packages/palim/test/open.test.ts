@@ -570,15 +570,8 @@ describe("open", () => {
     const context = await open(
       {
         html: [
-          "<body><script>",
-          'customElements.define("x-internals", class extends HTMLElement {',
-          "  constructor() {",
-          "    super();",
-          "    this.attachInternals();",
-          "  }",
-          "});",
-          "</script>",
-          "<x-internals></x-internals>",
+          `<body><script>${fixture("custom-element-constructor-failure.js")}</script>`,
+          "<x-constructor-failure></x-constructor-failure>",
           '<p id="after-constructor"></p>',
           "</body>",
         ].join("\n"),
@@ -596,9 +589,7 @@ describe("open", () => {
       context.window.document.querySelector("#after-constructor"),
     ).not.toBeNull();
     expect(errors).toHaveLength(1);
-    expect(errors[0]?.message).toContain(
-      "this.attachInternals is not a function",
-    );
+    expect(errors[0]?.message).toContain("custom element constructor failure");
     expect(errors[0]?.url).toBe("https://example.test/custom-element.html");
     expect(errors[0]?.stack).not.toContain("file:///workspace");
     expect(errors[0]?.stack).not.toContain("dom-realm-binding-context");

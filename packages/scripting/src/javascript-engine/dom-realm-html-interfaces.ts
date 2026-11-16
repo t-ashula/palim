@@ -50,6 +50,19 @@ export function installForeignAnchorMembers(
 export function installHTMLElementMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.method(
+    binding.htmlElementPrototype,
+    "attachInternals",
+    0,
+    (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return element === null
+        ? binding.typeError("Invalid HTMLElement receiver")
+        : binding.domOperationResult(() =>
+            normal(binding.wrap(element.attachInternals())),
+          );
+    },
+  );
   const bodyPrototype = binding.htmlElementInterfacePrototype(HTMLBodyElement);
   for (const eventType of BODY_WINDOW_EVENT_HANDLER_NAMES) {
     const property = `on${eventType}`;
@@ -335,6 +348,21 @@ export function installHTMLElementMembers(
       }
       element.innerText = value.value;
       return binding.undefined();
+    },
+  );
+}
+
+export function installElementInternalsMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  binding.attribute(
+    binding.elementInternalsPrototype,
+    "shadowRoot",
+    (thisValue) => {
+      const internals = binding.elementInternals(thisValue);
+      return internals === null
+        ? binding.typeError("Invalid ElementInternals receiver")
+        : binding.platformValue(internals.shadowRoot);
     },
   );
 }

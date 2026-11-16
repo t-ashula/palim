@@ -279,6 +279,10 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     0,
     () => normal(binding.createCustomElementRegistry()),
   );
+  binding.installInterface(
+    "ElementInternals",
+    binding.elementInternalsPrototype,
+  );
   binding.engine.initializeDataProperty(
     binding.engine.globalObject(binding.realm),
     "customElements",

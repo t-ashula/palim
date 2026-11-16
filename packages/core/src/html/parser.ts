@@ -33,6 +33,7 @@ import {
   setDocumentParseErrors,
   setDocumentQuirks,
   setHTMLParsingAlgorithms,
+  setShadowRootAvailableToElementInternals,
   setTemplateContents,
   startHTMLDocumentParserSession,
   templateContents,
@@ -1215,6 +1216,7 @@ class TreeBuilder {
               mode: shadowRootMode,
               delegatesFocus: template.hasAttribute("shadowrootdelegatesfocus"),
             });
+            setShadowRootAvailableToElementInternals(shadowRoot);
             setTemplateContents(template, shadowRoot);
             removeNode(template);
           } catch (error) {

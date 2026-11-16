@@ -169,6 +169,8 @@ export {
 export {
   type CustomElementDefinition,
   CustomElementRegistry,
+  customElementConstructionFailed,
+  customElementDefinitionForElement,
   customElementRegistryForNode,
   documentCustomElementRegistry,
   initializeCustomElementRegistry,
@@ -245,6 +247,7 @@ export { WINDOW_EVENT_HANDLER_NAMES } from "./event-handler-names.js";
 export {
   createCustomHTMLElementBase,
   createHTMLElement,
+  ElementInternals,
   getHTMLReflectedIDLAttributeValue,
   HTML_REFLECTED_IDL_ATTRIBUTE_BINDINGS,
   isKnownHTMLElementLocalName,

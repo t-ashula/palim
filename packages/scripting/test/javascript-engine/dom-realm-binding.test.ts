@@ -315,6 +315,12 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("attaches ElementInternals in the engine realm", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(engine, realm, fixture("attaches-element-internals.js"));
+  });
+
   it("invokes attributeChangedCallback for observed attributes", () => {
     const { engine, realm } = createTestRealm("");
 

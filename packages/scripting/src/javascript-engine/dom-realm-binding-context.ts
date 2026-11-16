@@ -51,6 +51,7 @@ import {
   DOMStringMap,
   DOMTokenList,
   Element,
+  ElementInternals,
   ErrorEvent,
   Event,
   EventTarget,
@@ -298,6 +299,7 @@ export class DOMRealmBindingContext {
   readonly domParserPrototype: EngineObject;
   readonly xmlSerializerPrototype: EngineObject;
   readonly sanitizerPrototype: EngineObject;
+  readonly elementInternalsPrototype: EngineObject;
   readonly writableStreamPrototype: EngineObject;
   readonly writableStreamDefaultWriterPrototype: EngineObject;
   readonly xmlDocumentPrototype: EngineObject;
@@ -501,6 +503,10 @@ export class DOMRealmBindingContext {
       this.realm,
       objectPrototype,
     );
+    this.elementInternalsPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
     this.writableStreamPrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
@@ -697,9 +703,7 @@ export class DOMRealmBindingContext {
         definition.localName,
         null,
       );
-    if (entry === undefined) {
-      setCustomElementDefinition(element, definition);
-    }
+    setCustomElementDefinition(element, definition);
     const platformObject = this.wrap(element);
     const prototypeResult = this.engine.setPrototypeOf(
       this.realm,
@@ -943,6 +947,7 @@ export class DOMRealmBindingContext {
         connectedCallback: connectedCallback.value,
         disconnectedCallback: disconnectedCallback.value,
         connectedMoveCallback: connectedMoveCallback.value,
+        disabledFeatures: disabledFeatures.value,
         observedAttributes,
         attributeChangedCallback,
       });
@@ -2080,6 +2085,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof Attr) {
       return this.attrPrototype;
     }
+    if (interfaceObject instanceof ElementInternals) {
+      return this.elementInternalsPrototype;
+    }
     if (interfaceObject instanceof HTMLElement) {
       return (
         this.htmlElementInterfacePrototypes.get(interfaceObject.constructor) ??
@@ -2182,6 +2190,11 @@ export class DOMRealmBindingContext {
   domRectList(value: EngineValue): DOMRectList | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject instanceof DOMRectList ? interfaceObject : null;
+  }
+
+  elementInternals(value: EngineValue): ElementInternals | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject instanceof ElementInternals ? interfaceObject : null;
   }
 
   abortSignal(value: EngineValue): AbortSignal | null {
