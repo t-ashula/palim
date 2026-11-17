@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261117t081020374z-269113
+Campaign: 20261117t095757952z-737285
 
 Campaign state: completed
 
-Palim: f3dd4ef2c11ebdd230cb51deb39eb51b6ec1f6b8
+Palim: 88e59814d4780f4ad877871222165dde352c7ba0
 
-Container image: sha256:4bd4cc2046a58d79dc641bed82a16c987388e760185aab823cbafcfd4b02bed6
+Container image: sha256:7b166f7b704a9944d0de965de856cf876e3df323b080ec84f4291ccd848e1cbe
 
-Snapshot: 2026-11-17T08:51:15.911Z
+Snapshot: 2026-11-17T10:38:33.151Z
 
 Attempts: 2229; worker failures: 0; retries: 0
 
@@ -22,9 +22,9 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2229 | 2229 | 993 | 764 | 248 | 93 | 131 | 0 | 100.00% | 44.55% |
+| All | 2229 | 2229 | 999 | 758 | 248 | 93 | 131 | 0 | 100.00% | 44.82% |
 | /custom-elements/ | 209 | 209 | 74 | 116 | 5 | 11 | 3 | 0 | 100.00% | 35.41% |
-| /css/cssom/ | 273 | 273 | 18 | 201 | 0 | 26 | 28 | 0 | 100.00% | 6.59% |
+| /css/cssom/ | 273 | 273 | 24 | 195 | 0 | 26 | 28 | 0 | 100.00% | 8.79% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 61 | 101 | 4 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -49,9 +49,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2106 | 2106 | 992 | 713 | 209 | 87 | 105 | 0 | 100.00% | 47.10% |
+| All | 2106 | 2106 | 998 | 707 | 209 | 87 | 105 | 0 | 100.00% | 47.39% |
 | /custom-elements/ | 202 | 202 | 74 | 112 | 3 | 10 | 3 | 0 | 100.00% | 36.63% |
-| /css/cssom/ | 264 | 264 | 18 | 193 | 0 | 25 | 28 | 0 | 100.00% | 6.82% |
+| /css/cssom/ | 264 | 264 | 24 | 187 | 0 | 25 | 28 | 0 | 100.00% | 9.09% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 60 | 99 | 4 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -74,7 +74,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 105253 | 79993 | 24870 | 209 | 76 | 105 | 76.00% |
+| 105253 | 80012 | 24851 | 209 | 76 | 105 | 76.02% |
 
 ### Non-passing executed tests
 
@@ -138,7 +138,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/HTMLStyleElement-load-event.html | fail | <code>assert_equals: Load event should've fired for all nodes expected 3 but got 0</code> |
 | /css/cssom/MediaList-parsing.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/MediaList.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/MediaList2.xhtml | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/MutationObserver-style.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
 | /css/cssom/StyleSheet-properties.html | fail | <code>assert_equals: expected (string) "text/css" but got (undefined) undefined</code> |
 | /css/cssom/adoptedstylesheets-cascade-order.html | fail | <code>red.replaceSync is not a function. (In "red.replaceSync("#target { color: red; }")", it is undefined)</code> |
@@ -267,11 +266,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/insertRule-syntax-error-01.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/invalid-pseudo-elements.html | fail | <code>assert_equals: No associated selectorText expected (undefined) undefined but got (string) "::part"</code> |
 | /css/cssom/link-element-stylesheet-title.html | fail | <code>assert_equals: expected 3 but got 0</code> |
-| /css/cssom/medialist-appendmedium-parse-single-and-dedup.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/medialist-deletemedium-parse-and-remove-all.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/medialist-interfaces-001.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/medialist-interfaces-002.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/medialist-interfaces-004.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/medialist-mutation-after-owner-gc.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/mediaquery-sort-dedup.html | fail | <code>"matchMedia" is not defined</code> |
 | /css/cssom/nested-import-namespace-invalid.html | fail | <code>assert_equals: expected "CSSMediaRule" but got "CSSRule"</code> |

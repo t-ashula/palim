@@ -33,8 +33,8 @@
 - [ ] frame/object/embed の browsing context
 - [ ] external stylesheet の読み込みと `LinkStyle`
 - [ ] image loading と intrinsic size
-- [ ] `getComputedStyle` と残る layout-dependent API
-- [ ] `CSSStyleSheet.media` と `MediaList` の parsing、serialization、`appendMedium()`、`deleteMedium()`
+- [ ] `Window.getComputedStyle()` から要素の計算済み CSS declaration を page realm に返す
+- [ ] `getComputedStyle()` の layout-dependent resolved value と残る layout-dependent API
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
