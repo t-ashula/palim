@@ -103,7 +103,7 @@ function isConcreteHTMLElementInterface(
 describe("DOMRealmBinding", () => {
   it("exposes CSSOM stylesheet objects", () => {
     const { engine, realm } = createTestRealm(
-      "<style>main { display: block }</style><main></main><aside></aside>",
+      '<style media="SCREEN, print">main { display: block }</style><main></main><aside></aside>',
     );
 
     expect(() => {

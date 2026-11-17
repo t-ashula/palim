@@ -106,13 +106,94 @@ export class CSSRuleList implements Iterable<CSSRule> {
   }
 }
 
+export class MediaList implements Iterable<string> {
+  readonly [index: number]: string;
+
+  constructor(
+    private readonly read: () => string,
+    private readonly write: (value: string) => void,
+  ) {
+    bindDOMInterface(this, this);
+  }
+
+  get mediaText(): string {
+    return serializeMediaQueryList(parseMediaQueryList(this.read()));
+  }
+
+  set mediaText(value: string) {
+    this.write(serializeMediaQueryList(parseMediaQueryList(value)));
+  }
+
+  get length(): number {
+    return parseMediaQueryList(this.read()).length;
+  }
+
+  item(index: number): string | null {
+    if (!Number.isInteger(index) || index < 0) {
+      return null;
+    }
+    return parseMediaQueryList(this.read())[index] ?? null;
+  }
+
+  appendMedium(medium: string): void {
+    const parsed = parseMediaQueryList(medium);
+    if (parsed.length !== 1) {
+      return;
+    }
+    const query = parsed[0];
+    if (query === undefined) {
+      return;
+    }
+    const media = parseMediaQueryList(this.read());
+    if (!media.includes(query)) {
+      media.push(query);
+      this.write(serializeMediaQueryList(media));
+    }
+  }
+
+  deleteMedium(medium: string): void {
+    const parsed = parseMediaQueryList(medium);
+    const media = parseMediaQueryList(this.read());
+    const retained =
+      parsed.length === 1 ? media.filter((item) => item !== parsed[0]) : media;
+    if (retained.length === media.length) {
+      throw new DOMException("The medium was not found", "NotFoundError");
+    }
+    this.write(serializeMediaQueryList(retained));
+  }
+
+  toString(): string {
+    return this.mediaText;
+  }
+
+  [Symbol.iterator](): Iterator<string> {
+    return parseMediaQueryList(this.read())[Symbol.iterator]();
+  }
+}
+
 export class CSSStyleSheet {
   readonly #rules: CSSRule[] = [];
   readonly #cssRules = new CSSRuleList(() => this.#rules);
+  readonly #media: MediaList;
+  #constructedMedia = "";
 
   constructor(readonly ownerNode: Element | null = null) {
     bindDOMInterface(this, this);
+    this.#media = new MediaList(
+      () => this.ownerNode?.getAttribute("media") ?? this.#constructedMedia,
+      (value) => {
+        if (this.ownerNode === null) {
+          this.#constructedMedia = value;
+        } else {
+          this.ownerNode.setAttribute("media", value);
+        }
+      },
+    );
     this.replaceFromOwnerNode();
+  }
+
+  get media(): MediaList {
+    return this.#media;
   }
 
   get cssRules(): CSSRuleList {
@@ -248,6 +329,66 @@ export function styleSheetsForRoot(
 
 setHTMLStyleSheetProvider(styleSheetForElement);
 setStyleSheetsProvider(styleSheetsForRoot);
+
+function parseMediaQueryList(source: string): string[] {
+  if (source.trim() === "") {
+    return [];
+  }
+  return splitMediaQueries(source).map(serializeMediaQuery);
+}
+
+function splitMediaQueries(source: string): string[] {
+  const queries: string[] = [];
+  let start = 0;
+  let depth = 0;
+  for (let index = 0; index < source.length; index += 1) {
+    if (source[index] === "(") {
+      depth += 1;
+    } else if (source[index] === ")") {
+      depth -= 1;
+    } else if (source[index] === "," && depth === 0) {
+      queries.push(source.slice(start, index));
+      start = index + 1;
+    }
+  }
+  queries.push(source.slice(start));
+  return queries;
+}
+
+function serializeMediaQuery(source: string): string {
+  const query = source.trim().toLowerCase();
+  if (
+    query === "" ||
+    !hasBalancedParentheses(query) ||
+    /[^a-z0-9\s():./%_-]/u.test(query)
+  ) {
+    return "not all";
+  }
+  return query
+    .replace(/\s+/gu, " ")
+    .replace(/\s*:\s*/gu, ": ")
+    .replace(/\(\s+/gu, "(")
+    .replace(/\s+\)/gu, ")");
+}
+
+function hasBalancedParentheses(source: string): boolean {
+  let depth = 0;
+  for (const character of source) {
+    if (character === "(") {
+      depth += 1;
+    } else if (character === ")") {
+      depth -= 1;
+      if (depth < 0) {
+        return false;
+      }
+    }
+  }
+  return depth === 0;
+}
+
+function serializeMediaQueryList(queries: readonly string[]): string {
+  return queries.join(", ");
+}
 
 function parseRuleList(source: string, sheet: CSSStyleSheet): CSSRule[] {
   const rules: CSSRule[] = [];

@@ -503,6 +503,8 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     0,
     () => normal(binding.wrap(new CSSStyleSheet())),
   );
+  binding.interfaceTag(binding.mediaListPrototype, "MediaList");
+  binding.installInterface("MediaList", binding.mediaListPrototype);
   binding.installInterface("StyleSheetList", binding.styleSheetListPrototype);
   installNodeFilter(binding);
   const eventConstructor = binding.installInterface(

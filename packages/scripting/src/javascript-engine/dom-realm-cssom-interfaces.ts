@@ -3,6 +3,7 @@ import {
   CSSRuleList,
   CSSStyleRule,
   CSSStyleSheet,
+  MediaList,
   StyleSheetList,
 } from "@palim/core";
 
@@ -12,8 +13,86 @@ import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 export function installCSSOMMembers(binding: DOMRealmBindingContext): void {
   installRuleMembers(binding);
   installRuleListMembers(binding);
+  installMediaListMembers(binding);
   installStyleSheetMembers(binding);
   installStyleSheetListMembers(binding);
+}
+
+function installMediaListMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(
+    binding.mediaListPrototype,
+    "mediaText",
+    (thisValue) => {
+      const list = mediaList(binding, thisValue);
+      return list === null
+        ? binding.typeError("Invalid MediaList receiver")
+        : binding.primitive(list.mediaText);
+    },
+    (thisValue, argumentsList) => {
+      const list = mediaList(binding, thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid MediaList receiver");
+      }
+      const value = binding.legacyNullToEmptyStringArgument(
+        argumentsList,
+        0,
+        "mediaText",
+      );
+      if (value.type === "throw") {
+        return value;
+      }
+      list.mediaText = value.value;
+      return binding.undefined();
+    },
+  );
+  binding.attribute(binding.mediaListPrototype, "length", (thisValue) => {
+    const list = mediaList(binding, thisValue);
+    return list === null
+      ? binding.typeError("Invalid MediaList receiver")
+      : binding.primitive(list.length);
+  });
+  binding.method(
+    binding.mediaListPrototype,
+    "item",
+    1,
+    (thisValue, argumentsList) => {
+      const list = mediaList(binding, thisValue);
+      if (list === null) {
+        return binding.typeError("Invalid MediaList receiver");
+      }
+      const index = binding.unsignedLongArgument(argumentsList, 0, "item");
+      return index.type === "throw"
+        ? index
+        : binding.primitive(list.item(index.value));
+    },
+  );
+  for (const name of ["appendMedium", "deleteMedium"] as const) {
+    binding.method(
+      binding.mediaListPrototype,
+      name,
+      1,
+      (thisValue, argumentsList) => {
+        const list = mediaList(binding, thisValue);
+        if (list === null) {
+          return binding.typeError("Invalid MediaList receiver");
+        }
+        const medium = binding.stringArgument(argumentsList, 0, name);
+        if (medium.type === "throw") {
+          return medium;
+        }
+        return binding.domOperationResult(() => {
+          list[name](medium.value);
+          return binding.undefined();
+        });
+      },
+    );
+  }
+  binding.method(binding.mediaListPrototype, "toString", 0, (thisValue) => {
+    const list = mediaList(binding, thisValue);
+    return list === null
+      ? binding.typeError("Invalid MediaList receiver")
+      : binding.primitive(list.toString());
+  });
 }
 
 function installRuleMembers(binding: DOMRealmBindingContext): void {
@@ -100,6 +179,12 @@ function installRuleListMembers(binding: DOMRealmBindingContext): void {
 }
 
 function installStyleSheetMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(binding.cssStyleSheetPrototype, "media", (thisValue) => {
+    const sheet = cssStyleSheet(binding, thisValue);
+    return sheet === null
+      ? binding.typeError("Invalid CSSStyleSheet receiver")
+      : normal(binding.wrap(sheet.media));
+  });
   binding.attribute(
     binding.cssStyleSheetPrototype,
     "ownerNode",
@@ -227,6 +312,14 @@ function cssStyleSheet(
 ): CSSStyleSheet | null {
   const object = binding.interfaceObject(value);
   return object instanceof CSSStyleSheet ? object : null;
+}
+
+function mediaList(
+  binding: DOMRealmBindingContext,
+  value: Parameters<DOMRealmBindingContext["interfaceObject"]>[0],
+): MediaList | null {
+  const object = binding.interfaceObject(value);
+  return object instanceof MediaList ? object : null;
 }
 
 function styleSheetList(

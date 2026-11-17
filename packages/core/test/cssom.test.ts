@@ -5,6 +5,7 @@ import {
   CSSRuleList,
   CSSStyleRule,
   CSSStyleSheet,
+  MediaList,
 } from "../src/cssom.js";
 
 describe("CSSRule", () => {
@@ -116,14 +117,105 @@ describe("CSSRuleList", () => {
   });
 });
 
+describe("MediaList", () => {
+  test("parses and serializes the current media query list", () => {
+    let source = "SCREEN, print";
+    const list = new MediaList(
+      () => source,
+      (value) => {
+        source = value;
+      },
+    );
+
+    expect(list.mediaText).toBe("screen, print");
+    expect(list.length).toBe(2);
+    expect(list.item(-1)).toBeNull();
+    expect(list.item(0)).toBe("screen");
+    expect(list.item(2)).toBeNull();
+    expect([...list]).toEqual(["screen", "print"]);
+    expect(list.toString()).toBe("screen, print");
+  });
+
+  test("writes a serialized media query list through mediaText", () => {
+    let source = "";
+    const list = new MediaList(
+      () => source,
+      (value) => {
+        source = value;
+      },
+    );
+
+    list.mediaText = "SCREEN and (min-width:480px), print";
+
+    expect(source).toBe("screen and (min-width: 480px), print");
+    expect(list.mediaText).toBe(source);
+  });
+
+  test("appends one non-duplicate query", () => {
+    let source = "all";
+    const list = new MediaList(
+      () => source,
+      (value) => {
+        source = value;
+      },
+    );
+
+    list.appendMedium("screen");
+    list.appendMedium("screen");
+    list.appendMedium("print, speech");
+
+    expect(source).toBe("all, screen");
+  });
+
+  test("deletes every query equal after parsing", () => {
+    let source =
+      "screen and (min-width: 480px), print, SCREEN and (min-width:480px)";
+    const list = new MediaList(
+      () => source,
+      (value) => {
+        source = value;
+      },
+    );
+
+    list.deleteMedium("screen and (min-width:480px)");
+
+    expect(source).toBe("print");
+  });
+
+  test("reports a missing medium without changing the list", () => {
+    let source = "all";
+    const list = new MediaList(
+      () => source,
+      (value) => {
+        source = value;
+      },
+    );
+
+    expect(() => {
+      list.deleteMedium("screen");
+    }).toThrow(expect.objectContaining({ name: "NotFoundError" }));
+    expect(source).toBe("all");
+  });
+});
+
 describe("CSSStyleSheet", () => {
   test("starts with an empty stable rule list", () => {
     const sheet = new CSSStyleSheet();
 
     expect(sheet.ownerNode).toBeNull();
+    expect(sheet.media).toBe(sheet.media);
+    expect(sheet.media.mediaText).toBe("");
     expect(sheet.cssRules).toBe(sheet.cssRules);
     expect(sheet.rules).toBe(sheet.cssRules);
     expect(sheet.cssRules.length).toBe(0);
+  });
+
+  test("retains media for a constructed stylesheet", () => {
+    const sheet = new CSSStyleSheet();
+
+    sheet.media.mediaText = "screen, print";
+
+    expect(sheet.media.mediaText).toBe("screen, print");
   });
 
   test("inserts a style rule at the requested index", () => {

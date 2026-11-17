@@ -80,6 +80,7 @@ import {
   isRange,
   isStaticRange,
   isTreeWalker,
+  MediaList,
   MessageEvent,
   MutationObserver,
   MutationRecord,
@@ -338,6 +339,7 @@ export class DOMRealmBindingContext {
   readonly cssStyleRulePrototype: EngineObject;
   readonly cssRuleListPrototype: EngineObject;
   readonly cssStyleSheetPrototype: EngineObject;
+  readonly mediaListPrototype: EngineObject;
   readonly styleSheetListPrototype: EngineObject;
   readonly traversalFilters = new WeakMap<object, EngineValue>();
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
@@ -647,6 +649,10 @@ export class DOMRealmBindingContext {
       objectPrototype,
     );
     this.cssStyleSheetPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.mediaListPrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
     );
@@ -2016,6 +2022,11 @@ export class DOMRealmBindingContext {
         indexedLength: () => interfaceObject.length,
         indexedValue: (index) => interfaceObject.item(index),
       });
+    } else if (interfaceObject instanceof MediaList) {
+      platformObject = this.legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
     } else if (interfaceObject instanceof StyleSheetList) {
       platformObject = this.legacyPlatformObject(target, {
         indexedLength: () => interfaceObject.length,
@@ -2207,6 +2218,9 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof CSSStyleSheet) {
       return this.cssStyleSheetPrototype;
+    }
+    if (interfaceObject instanceof MediaList) {
+      return this.mediaListPrototype;
     }
     if (interfaceObject instanceof StyleSheetList) {
       return this.styleSheetListPrototype;

@@ -10,6 +10,7 @@ export {
   CSSRuleList,
   CSSStyleRule,
   CSSStyleSheet,
+  MediaList,
   StyleSheetList,
 } from "./cssom.js";
 

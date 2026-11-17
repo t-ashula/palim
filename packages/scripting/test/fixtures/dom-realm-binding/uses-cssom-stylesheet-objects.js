@@ -10,6 +10,35 @@ if (
   throw new Error("stylesheet identity or list binding is invalid");
 }
 
+const media = sheet.media;
+if (
+  !(media instanceof MediaList) ||
+  media !== sheet.media ||
+  media.mediaText !== "screen, print" ||
+  media.length !== 2 ||
+  media[0] !== "screen" ||
+  media[1] !== "print" ||
+  media[2] !== undefined ||
+  media.item(-1) !== null ||
+  String(media) !== "screen, print"
+) {
+  throw new Error("stylesheet media binding is invalid");
+}
+
+media.deleteMedium("screen");
+media.appendMedium("speech");
+if (
+  media.mediaText !== "print, speech" ||
+  styleElement.getAttribute("media") !== "print, speech"
+) {
+  throw new Error("stylesheet media mutation is invalid");
+}
+
+styleElement.setAttribute("media", "SCREEN and (min-width:480px)");
+if (media.mediaText !== "screen and (min-width: 480px)") {
+  throw new Error("stylesheet media attribute reflection is invalid");
+}
+
 const rule = sheet.cssRules[0];
 if (
   !(rule instanceof CSSStyleRule) ||
