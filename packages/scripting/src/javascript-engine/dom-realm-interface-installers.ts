@@ -39,6 +39,7 @@ export {
   installHTMLTemplateElementMembers,
   installHTMLScriptElementMembers,
   installHTMLSlotElementMembers,
+  installHTMLStyleElementMembers,
 } from "./dom-realm-html-interfaces.js";
 
 export {

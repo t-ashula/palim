@@ -1,5 +1,7 @@
 import type { CSSToken } from "./css-syntax.js";
 import { tokenizeCSS } from "./css-syntax.js";
+import type { CSSStyleSheet } from "./cssom.js";
+import { styleSheetForElement } from "./cssom.js";
 import type { Document, DocumentFragment, DOMTokenList, Node } from "./dom.js";
 import {
   Element,
@@ -1456,9 +1458,12 @@ export class HTMLMetaElement extends HTMLElement {
 }
 
 export class HTMLStyleElement extends HTMLElement {
-  readonly sheet = null;
   #blocking: DOMTokenList | null = null;
   #disabled = false;
+
+  get sheet(): CSSStyleSheet | null {
+    return styleSheetForElement(this);
+  }
 
   get disabled(): boolean {
     return this.#disabled;

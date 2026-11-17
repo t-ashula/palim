@@ -17,6 +17,7 @@ import {
   HTMLObjectElement,
   HTMLScriptElement,
   HTMLSlotElement,
+  HTMLStyleElement,
   setHTMLReflectedIDLAttributeValue,
   WINDOW_EVENT_HANDLER_NAMES,
 } from "@palim/core";
@@ -350,6 +351,18 @@ export function installHTMLElementMembers(
       return binding.undefined();
     },
   );
+}
+
+export function installHTMLStyleElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  const prototype = binding.htmlElementInterfacePrototype(HTMLStyleElement);
+  binding.attribute(prototype, "sheet", (thisValue) => {
+    const element = binding.htmlElement(thisValue);
+    return !(element instanceof HTMLStyleElement)
+      ? binding.typeError("Invalid HTMLStyleElement receiver")
+      : binding.platformValue(element.sheet);
+  });
 }
 
 export function installElementInternalsMembers(

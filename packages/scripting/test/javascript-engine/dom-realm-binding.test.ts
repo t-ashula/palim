@@ -101,6 +101,16 @@ function isConcreteHTMLElementInterface(
 }
 
 describe("DOMRealmBinding", () => {
+  it("exposes CSSOM stylesheet objects", () => {
+    const { engine, realm } = createTestRealm(
+      "<style>main { display: block }</style><main></main><aside></aside>",
+    );
+
+    expect(() => {
+      evaluate(engine, realm, fixture("uses-cssom-stylesheet-objects.js"));
+    }).not.toThrow();
+  });
+
   it("constructs independent custom element registries", () => {
     const { engine, realm } = createTestRealm("");
 

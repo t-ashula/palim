@@ -6,6 +6,14 @@ export {
 export type { DOMParserSupportedType } from "./dom-parser.js";
 
 export {
+  CSSRule,
+  CSSRuleList,
+  CSSStyleRule,
+  CSSStyleSheet,
+  StyleSheetList,
+} from "./cssom.js";
+
+export {
   AbortController,
   AbortSignal,
   Attr,

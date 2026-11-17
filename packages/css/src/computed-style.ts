@@ -1,4 +1,5 @@
 import type { Document, Element } from "@palim/core";
+import { CSSStyleRule } from "@palim/core";
 
 export type CSSComputedProperty =
   | "display"
@@ -197,29 +198,37 @@ function userAgentDeclarations(element: Element): readonly Declaration[] {
 function documentRules(document: Document): readonly StyleRule[] {
   const rules: StyleRule[] = [];
   let order = 0;
-  for (const style of document.querySelectorAll("style")) {
-    for (const rule of parseRules(style.textContent ?? "")) {
-      rules.push({ ...rule, order });
+  for (const sheet of document.styleSheets) {
+    for (const cssRule of sheet.cssRules) {
+      if (!(cssRule instanceof CSSStyleRule)) {
+        continue;
+      }
+      const rule = parseRule(cssRule.cssText);
+      if (rule !== null) {
+        rules.push({ ...rule, order });
+      }
       order += 1;
     }
   }
   return rules;
 }
 
-function parseRules(source: string): readonly Omit<StyleRule, "order">[] {
-  const rules: Omit<StyleRule, "order">[] = [];
-  const pattern = /([^{}]+)\{([^{}]*)\}/gu;
-  for (const match of source.matchAll(pattern)) {
-    const selectors = (match[1] ?? "")
-      .split(",")
-      .map((selector) => selector.trim())
-      .filter(Boolean);
-    if (selectors.length === 0) {
-      continue;
-    }
-    rules.push({ selectors, declarations: parseDeclarations(match[2] ?? "") });
+function parseRule(source: string): Omit<StyleRule, "order"> | null {
+  const openingBrace = source.indexOf("{");
+  if (openingBrace < 0 || !source.endsWith("}")) {
+    return null;
   }
-  return rules;
+  const selectors = source
+    .slice(0, openingBrace)
+    .split(",")
+    .map((selector) => selector.trim())
+    .filter(Boolean);
+  return selectors.length === 0
+    ? null
+    : {
+        selectors,
+        declarations: parseDeclarations(source.slice(openingBrace + 1, -1)),
+      };
 }
 
 function parseDeclarations(source: string): readonly Declaration[] {

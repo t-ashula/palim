@@ -28,8 +28,12 @@ import {
   createHTMLElement,
   createNodeIterator,
   createTreeWalker,
+  CSSRule,
+  CSSRuleList,
   CSSStyleDeclaration,
   CSSStyleProperties,
+  CSSStyleRule,
+  CSSStyleSheet,
   CustomElementRegistry,
   customElementRegistryForNode,
   CustomEvent,
@@ -90,6 +94,7 @@ import {
   runCustomElementReactions,
   setCustomElementDefinition,
   ShadowRoot,
+  StyleSheetList,
   Text,
   toLong,
   traversalAbrupt,
@@ -329,6 +334,11 @@ export class DOMRealmBindingContext {
   readonly domStringMapPrototype: EngineObject;
   readonly cssStyleDeclarationPrototype: EngineObject;
   readonly cssStylePropertiesPrototype: EngineObject;
+  readonly cssRulePrototype: EngineObject;
+  readonly cssStyleRulePrototype: EngineObject;
+  readonly cssRuleListPrototype: EngineObject;
+  readonly cssStyleSheetPrototype: EngineObject;
+  readonly styleSheetListPrototype: EngineObject;
   readonly traversalFilters = new WeakMap<object, EngineValue>();
   readonly domParsers = new WeakMap<EngineObject, DOMParser>();
   readonly xmlSerializers = new WeakSet<EngineObject>();
@@ -623,6 +633,26 @@ export class DOMRealmBindingContext {
     this.cssStylePropertiesPrototype = this.engine.createObject(
       this.realm,
       this.cssStyleDeclarationPrototype,
+    );
+    this.cssRulePrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.cssStyleRulePrototype = this.engine.createObject(
+      this.realm,
+      this.cssRulePrototype,
+    );
+    this.cssRuleListPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.cssStyleSheetPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
+    );
+    this.styleSheetListPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
     );
 
     if (associatedDocument !== null) {
@@ -1981,6 +2011,16 @@ export class DOMRealmBindingContext {
         indexedLength: () => interfaceObject.length,
         indexedValue: (index) => interfaceObject.item(index),
       });
+    } else if (interfaceObject instanceof CSSRuleList) {
+      platformObject = this.legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
+    } else if (interfaceObject instanceof StyleSheetList) {
+      platformObject = this.legacyPlatformObject(target, {
+        indexedLength: () => interfaceObject.length,
+        indexedValue: (index) => interfaceObject.item(index),
+      });
     } else if (interfaceObject instanceof DOMStringMap) {
       platformObject = this.legacyPlatformObject(target, {
         namedNames: () => Object.getOwnPropertyNames(interfaceObject),
@@ -2155,6 +2195,21 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof CSSStyleDeclaration) {
       return this.cssStyleDeclarationPrototype;
+    }
+    if (interfaceObject instanceof CSSStyleRule) {
+      return this.cssStyleRulePrototype;
+    }
+    if (interfaceObject instanceof CSSRule) {
+      return this.cssRulePrototype;
+    }
+    if (interfaceObject instanceof CSSRuleList) {
+      return this.cssRuleListPrototype;
+    }
+    if (interfaceObject instanceof CSSStyleSheet) {
+      return this.cssStyleSheetPrototype;
+    }
+    if (interfaceObject instanceof StyleSheetList) {
+      return this.styleSheetListPrototype;
     }
     throw new TypeError("Unsupported DOM platform object");
   }

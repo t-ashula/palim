@@ -1,4 +1,5 @@
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
+import { installCSSOMMembers } from "./dom-realm-cssom-interfaces.js";
 import { installGeometryInterfaces } from "./dom-realm-geometry-interfaces.js";
 import { installHTMLStreamingInterfaces } from "./dom-realm-html-streaming-interface.js";
 import {
@@ -32,6 +33,7 @@ import {
   installHTMLReflectedIDLAttributeMembers,
   installHTMLScriptElementMembers,
   installHTMLSlotElementMembers,
+  installHTMLStyleElementMembers,
   installHTMLTableElementMembers,
   installHTMLTableRowElementMembers,
   installHTMLTableSectionElementMembers,
@@ -53,6 +55,7 @@ export function installDOMRealmInterfaces(
   binding: DOMRealmBindingContext,
 ): void {
   installInterfaces(binding);
+  installCSSOMMembers(binding);
   installGeometryInterfaces(binding);
   installEventTargetMembers(binding);
   installAbortMembers(binding);
@@ -62,6 +65,7 @@ export function installDOMRealmInterfaces(
   installElementMembers(binding);
   installForeignAnchorMembers(binding);
   installHTMLElementMembers(binding);
+  installHTMLStyleElementMembers(binding);
   installElementInternalsMembers(binding);
   installDocumentNamedElementMembers(binding);
   installHTMLAnchorElementMembers(binding);

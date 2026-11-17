@@ -3,6 +3,7 @@ import {
   associateDOMParser,
   Comment,
   createStaticRange,
+  CSSStyleSheet,
   CustomEvent,
   Document,
   DocumentFragment,
@@ -493,6 +494,16 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     "CSSStyleProperties",
     binding.cssStylePropertiesPrototype,
   );
+  binding.installInterface("CSSRule", binding.cssRulePrototype);
+  binding.installInterface("CSSStyleRule", binding.cssStyleRulePrototype);
+  binding.installInterface("CSSRuleList", binding.cssRuleListPrototype);
+  binding.installInterface(
+    "CSSStyleSheet",
+    binding.cssStyleSheetPrototype,
+    0,
+    () => normal(binding.wrap(new CSSStyleSheet())),
+  );
+  binding.installInterface("StyleSheetList", binding.styleSheetListPrototype);
   installNodeFilter(binding);
   const eventConstructor = binding.installInterface(
     "Event",

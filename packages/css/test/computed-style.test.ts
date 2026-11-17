@@ -43,6 +43,24 @@ describe("computedStyle", () => {
     invalidateComputedStyles(document);
     expect(computedStyle(span)["font-size"]).toBe("24px");
   });
+
+  test("uses rules inserted through the stylesheet object", () => {
+    const document = new DOMParser().parseFromString(
+      "<style></style><div></div>",
+      "text/html",
+    );
+    const sheet = document.styleSheets.item(0);
+    if (sheet === null) {
+      throw new Error("Expected a stylesheet fixture");
+    }
+
+    sheet.insertRule("div { display: none }", 0);
+    invalidateComputedStyles(document);
+
+    expect(computedStyle(requiredElement(document, "div")).display).toBe(
+      "none",
+    );
+  });
 });
 
 function requiredElement(document: Document, selector: string): Element {

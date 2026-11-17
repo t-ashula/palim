@@ -1584,6 +1584,12 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installDocumentMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(binding.documentPrototype, "styleSheets", (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : normal(binding.wrap(document.styleSheets));
+  });
   binding.attribute(
     binding.documentPrototype,
     "customElementRegistry",
@@ -2405,6 +2411,12 @@ export function installDocumentFragmentMembers(
     return shadowRoot === null
       ? binding.typeError("Invalid ShadowRoot receiver")
       : binding.primitive(shadowRoot.mode);
+  });
+  binding.attribute(binding.shadowRootPrototype, "styleSheets", (thisValue) => {
+    const shadowRoot = binding.shadowRoot(thisValue);
+    return shadowRoot === null
+      ? binding.typeError("Invalid ShadowRoot receiver")
+      : normal(binding.wrap(shadowRoot.styleSheets));
   });
   binding.attribute(binding.shadowRootPrototype, "host", (thisValue) => {
     const shadowRoot = binding.shadowRoot(thisValue);

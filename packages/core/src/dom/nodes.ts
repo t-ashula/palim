@@ -1,3 +1,5 @@
+import type { StyleSheetList } from "../cssom.js";
+import { styleSheetsForRoot } from "../cssom.js";
 import { DOMException } from "../dom-exception.js";
 import type { DOMRectList } from "../geometry.js";
 import { createDOMRectList, DOMRect } from "../geometry.js";
@@ -858,6 +860,10 @@ export class Document extends Node {
   #embeds: HTMLCollection | null = null;
 
   readonly readyState = "complete";
+
+  get styleSheets(): StyleSheetList {
+    return styleSheetsForRoot(this);
+  }
 
   static parseHTML(html: string, options: HTMLParsingOptions = {}): Document {
     return parseHTMLDocument(domString(html), options, false);
@@ -3451,6 +3457,10 @@ export class ShadowRoot extends DocumentFragment {
 
   get mode(): "open" | "closed" {
     return shadowRootImplementation(this).mode;
+  }
+
+  get styleSheets(): StyleSheetList {
+    return styleSheetsForRoot(this);
   }
 
   get host(): Element {

@@ -1,0 +1,166 @@
+import { describe, expect, test } from "vitest";
+
+import {
+  CSSRule,
+  CSSRuleList,
+  CSSStyleRule,
+  CSSStyleSheet,
+} from "../src/cssom.js";
+
+describe("CSSRule", () => {
+  test("returns the rule text and common rule metadata", () => {
+    const rule = new CSSRule("@namespace svg url(example)");
+
+    expect(rule.cssText).toBe("@namespace svg url(example)");
+    expect(rule.parentRule).toBeNull();
+    expect(rule.parentStyleSheet).toBeNull();
+    expect(rule.type).toBe(CSSRule.STYLE_RULE);
+    expect(rule.STYLE_RULE).toBe(CSSRule.STYLE_RULE);
+  });
+
+  test("updates the rule text", () => {
+    const rule = new CSSRule("first");
+
+    rule.cssText = "second";
+
+    expect(rule.cssText).toBe("second");
+  });
+});
+
+describe("CSSStyleRule", () => {
+  test("serializes its selector and declarations", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    expect(rule).toBeInstanceOf(CSSRule);
+    expect(rule.selectorText).toBe("main");
+    expect(rule.cssText).toBe("main { display: block }");
+  });
+
+  test("updates a valid selector", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    rule.selectorText = "article";
+
+    expect(rule.selectorText).toBe("article");
+    expect(rule.cssText).toBe("article { display: block }");
+  });
+
+  test("ignores an empty selector", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    rule.selectorText = "  ";
+
+    expect(rule.selectorText).toBe("main");
+    expect(rule.cssText).toBe("main { display: block }");
+  });
+
+  test("updates from valid style rule text", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    rule.cssText = "article { display: none }";
+
+    expect(rule.selectorText).toBe("article");
+    expect(rule.cssText).toBe("article { display: none }");
+  });
+
+  test("ignores invalid style rule text", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    rule.cssText = "invalid";
+
+    expect(rule.selectorText).toBe("main");
+    expect(rule.cssText).toBe("main { display: block }");
+  });
+});
+
+describe("CSSRuleList", () => {
+  test("reads the current rules returned by its input function", () => {
+    const first = new CSSRule("first");
+    const second = new CSSRule("second");
+    const rules = [first];
+    const list = new CSSRuleList(() => rules);
+
+    expect(list.length).toBe(1);
+    expect(list.item(0)).toBe(first);
+    expect(list.item(1)).toBeNull();
+    expect([...list]).toEqual([first]);
+
+    rules.push(second);
+
+    expect(list.length).toBe(2);
+    expect(list.item(1)).toBe(second);
+    expect([...list]).toEqual([first, second]);
+  });
+});
+
+describe("CSSStyleSheet", () => {
+  test("starts with an empty stable rule list", () => {
+    const sheet = new CSSStyleSheet();
+
+    expect(sheet.ownerNode).toBeNull();
+    expect(sheet.cssRules).toBe(sheet.cssRules);
+    expect(sheet.rules).toBe(sheet.cssRules);
+    expect(sheet.cssRules.length).toBe(0);
+  });
+
+  test("inserts a style rule at the requested index", () => {
+    const sheet = new CSSStyleSheet();
+
+    expect(sheet.insertRule("main { display: block }", 0)).toBe(0);
+    expect(sheet.insertRule("aside { display: none }", 0)).toBe(0);
+
+    const first = sheet.cssRules.item(0);
+    const second = sheet.cssRules.item(1);
+    expect(first).toBeInstanceOf(CSSStyleRule);
+    expect(first?.cssText).toBe("aside { display: none }");
+    expect(first?.parentStyleSheet).toBe(sheet);
+    expect(second?.cssText).toBe("main { display: block }");
+    expect(second?.parentStyleSheet).toBe(sheet);
+  });
+
+  test("appends a rule when the index is omitted", () => {
+    const sheet = new CSSStyleSheet();
+
+    sheet.insertRule("main { display: block }");
+    expect(sheet.insertRule("aside { display: none }")).toBe(1);
+
+    expect(sheet.cssRules.item(1)?.cssText).toBe("aside { display: none }");
+  });
+
+  test("rejects invalid rule text", () => {
+    const sheet = new CSSStyleSheet();
+
+    expect(() => sheet.insertRule("invalid", 0)).toThrow(
+      expect.objectContaining({ name: "SyntaxError" }),
+    );
+    expect(sheet.cssRules.length).toBe(0);
+  });
+
+  test("rejects an insertion index after the end of the list", () => {
+    const sheet = new CSSStyleSheet();
+
+    expect(() => sheet.insertRule("main { display: block }", 1)).toThrow(
+      expect.objectContaining({ name: "IndexSizeError" }),
+    );
+    expect(sheet.cssRules.length).toBe(0);
+  });
+
+  test("deletes the rule at the requested index", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("main { display: block }");
+    sheet.insertRule("aside { display: none }");
+
+    sheet.deleteRule(0);
+
+    expect(sheet.cssRules.length).toBe(1);
+    expect(sheet.cssRules.item(0)?.cssText).toBe("aside { display: none }");
+  });
+
+  test("rejects a deletion index outside the list", () => {
+    const sheet = new CSSStyleSheet();
+
+    expect(() => {
+      sheet.deleteRule(0);
+    }).toThrow(expect.objectContaining({ name: "IndexSizeError" }));
+  });
+});
