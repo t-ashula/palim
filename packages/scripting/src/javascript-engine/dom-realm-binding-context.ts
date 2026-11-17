@@ -28,6 +28,9 @@ import {
   createHTMLElement,
   createNodeIterator,
   createTreeWalker,
+  CSSConditionRule,
+  CSSGroupingRule,
+  CSSMediaRule,
   CSSRule,
   CSSRuleList,
   CSSStyleDeclaration,
@@ -336,6 +339,9 @@ export class DOMRealmBindingContext {
   readonly cssStyleDeclarationPrototype: EngineObject;
   readonly cssStylePropertiesPrototype: EngineObject;
   readonly cssRulePrototype: EngineObject;
+  readonly cssGroupingRulePrototype: EngineObject;
+  readonly cssConditionRulePrototype: EngineObject;
+  readonly cssMediaRulePrototype: EngineObject;
   readonly cssStyleRulePrototype: EngineObject;
   readonly cssRuleListPrototype: EngineObject;
   readonly cssStyleSheetPrototype: EngineObject;
@@ -639,6 +645,18 @@ export class DOMRealmBindingContext {
     this.cssRulePrototype = this.engine.createObject(
       this.realm,
       objectPrototype,
+    );
+    this.cssGroupingRulePrototype = this.engine.createObject(
+      this.realm,
+      this.cssRulePrototype,
+    );
+    this.cssConditionRulePrototype = this.engine.createObject(
+      this.realm,
+      this.cssGroupingRulePrototype,
+    );
+    this.cssMediaRulePrototype = this.engine.createObject(
+      this.realm,
+      this.cssConditionRulePrototype,
     );
     this.cssStyleRulePrototype = this.engine.createObject(
       this.realm,
@@ -2238,6 +2256,15 @@ export class DOMRealmBindingContext {
     }
     if (interfaceObject instanceof CSSStyleDeclaration) {
       return this.cssStyleDeclarationPrototype;
+    }
+    if (interfaceObject instanceof CSSMediaRule) {
+      return this.cssMediaRulePrototype;
+    }
+    if (interfaceObject instanceof CSSConditionRule) {
+      return this.cssConditionRulePrototype;
+    }
+    if (interfaceObject instanceof CSSGroupingRule) {
+      return this.cssGroupingRulePrototype;
     }
     if (interfaceObject instanceof CSSStyleRule) {
       return this.cssStyleRulePrototype;

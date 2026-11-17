@@ -7,6 +7,9 @@ export type { DOMParserSupportedType } from "./dom-parser.js";
 
 export {
   CSSRule,
+  CSSConditionRule,
+  CSSGroupingRule,
+  CSSMediaRule,
   CSSRuleList,
   CSSStyleRule,
   CSSStyleSheet,

@@ -13,15 +13,19 @@ const STYLE_SHEET_LISTS = new WeakMap<Document | ShadowRoot, StyleSheetList>();
 
 export class CSSRule {
   static readonly STYLE_RULE = 1;
+  static readonly MEDIA_RULE = 4;
 
   readonly STYLE_RULE = 1;
+  readonly MEDIA_RULE = 4;
   readonly parentRule: CSSRule | null = null;
-  readonly type = CSSRule.STYLE_RULE;
+  readonly type: number = CSSRule.STYLE_RULE;
 
   constructor(
     private ruleText: string,
     readonly parentStyleSheet: CSSStyleSheet | null = null,
+    parentRule: CSSRule | null = null,
   ) {
+    this.parentRule = parentRule;
     bindDOMInterface(this, this);
   }
 
@@ -42,8 +46,13 @@ export class CSSStyleRule extends CSSRule {
     private selector: string,
     private declarations: string,
     parentStyleSheet: CSSStyleSheet | null = null,
+    parentRule: CSSRule | null = null,
   ) {
-    super(serializeStyleRule(selector, declarations), parentStyleSheet);
+    super(
+      serializeStyleRule(selector, declarations),
+      parentStyleSheet,
+      parentRule,
+    );
     this.style = createCSSStyleProperties(
       () => this.declarations,
       (value) => {
@@ -83,6 +92,138 @@ export class CSSStyleRule extends CSSRule {
 
   private updateRuleText(): void {
     super.cssText = serializeStyleRule(this.selector, this.declarations);
+  }
+}
+
+export class CSSGroupingRule extends CSSRule {
+  readonly #rules: CSSRule[];
+  readonly #cssRules = new CSSRuleList(() => this.#rules);
+
+  constructor(
+    private readonly ruleName: string,
+    block: string,
+    parentStyleSheet: CSSStyleSheet | null = null,
+    parentRule: CSSRule | null = null,
+  ) {
+    super("", parentStyleSheet, parentRule);
+    this.#rules = parseRuleList(block, parentStyleSheet, this);
+  }
+
+  get cssRules(): CSSRuleList {
+    return this.#cssRules;
+  }
+
+  insertRule(rule: string, index = this.#rules.length): number {
+    const insertionIndex = index >>> 0;
+    if (insertionIndex > this.#rules.length) {
+      throw new DOMException(
+        "Rule index is outside the rule list",
+        "IndexSizeError",
+      );
+    }
+    const ruleText = rule.trim();
+    if (/^@(import|namespace)\b/iu.test(ruleText)) {
+      throw new DOMException(
+        "The rule is not allowed inside a grouping rule",
+        "HierarchyRequestError",
+      );
+    }
+    const parsed = createRule(ruleText, this.parentStyleSheet, this);
+    if (parsed === null) {
+      throw new DOMException("The rule could not be parsed", "SyntaxError");
+    }
+    this.#rules.splice(insertionIndex, 0, parsed);
+    this.ruleChanged();
+    return insertionIndex;
+  }
+
+  deleteRule(index: number): void {
+    const deletionIndex = index >>> 0;
+    if (deletionIndex >= this.#rules.length) {
+      throw new DOMException(
+        "Rule index is outside the rule list",
+        "IndexSizeError",
+      );
+    }
+    this.#rules.splice(deletionIndex, 1);
+    this.ruleChanged();
+  }
+
+  override get cssText(): string {
+    return `${this.ruleName} { ${serializeRules(this.#rules)} }`;
+  }
+
+  override set cssText(value: string) {
+    if (value === this.cssText) {
+      return;
+    }
+  }
+
+  protected serializedRules(): string {
+    return serializeRules(this.#rules);
+  }
+
+  protected ruleChanged(): void {
+    this.parentStyleSheet?.ruleChanged(this);
+  }
+}
+
+export class CSSConditionRule extends CSSGroupingRule {
+  constructor(
+    ruleName: string,
+    private condition: string,
+    block: string,
+    parentStyleSheet: CSSStyleSheet | null = null,
+    parentRule: CSSRule | null = null,
+  ) {
+    super(`${ruleName} ${condition}`, block, parentStyleSheet, parentRule);
+  }
+
+  get conditionText(): string {
+    return this.condition;
+  }
+
+  protected setConditionText(value: string): void {
+    this.condition = value;
+    this.ruleChanged();
+  }
+}
+
+export class CSSMediaRule extends CSSConditionRule {
+  readonly #media: MediaList;
+
+  constructor(
+    condition: string,
+    block: string,
+    parentStyleSheet: CSSStyleSheet | null = null,
+    parentRule: CSSRule | null = null,
+  ) {
+    const normalizedCondition = serializeMediaQueryList(
+      parseMediaQueryList(condition),
+    );
+    super("@media", normalizedCondition, block, parentStyleSheet, parentRule);
+    this.#media = new MediaList(
+      () => this.conditionText,
+      (value) => {
+        this.setConditionText(value);
+      },
+    );
+  }
+
+  override readonly type = CSSRule.MEDIA_RULE;
+
+  get media(): MediaList {
+    return this.#media;
+  }
+
+  override get cssText(): string {
+    return `@media ${this.conditionText} { ${this.serializedRules()} }`;
+  }
+
+  override set cssText(value: string) {
+    if (value === this.cssText) {
+      return;
+    }
   }
 }
 
@@ -235,10 +376,8 @@ export class CSSStyleSheet {
     this.updateOwnerNode();
   }
 
-  ruleChanged(rule: CSSRule): void {
-    if (this.#rules.includes(rule)) {
-      this.updateOwnerNode();
-    }
+  ruleChanged(_rule: CSSRule): void {
+    this.updateOwnerNode();
   }
 
   private replaceFromOwnerNodeIfChanged(): void {
@@ -390,7 +529,11 @@ function serializeMediaQueryList(queries: readonly string[]): string {
   return queries.join(", ");
 }
 
-function parseRuleList(source: string, sheet: CSSStyleSheet): CSSRule[] {
+function parseRuleList(
+  source: string,
+  sheet: CSSStyleSheet | null,
+  parentRule: CSSRule | null = null,
+): CSSRule[] {
   const rules: CSSRule[] = [];
   let start = 0;
   let depth = 0;
@@ -401,7 +544,11 @@ function parseRuleList(source: string, sheet: CSSStyleSheet): CSSRule[] {
     } else if (character === "}") {
       depth -= 1;
       if (depth === 0) {
-        const rule = createRule(source.slice(start, index + 1).trim(), sheet);
+        const rule = createRule(
+          source.slice(start, index + 1).trim(),
+          sheet,
+          parentRule,
+        );
         if (rule !== null) {
           rules.push(rule);
         }
@@ -412,14 +559,27 @@ function parseRuleList(source: string, sheet: CSSStyleSheet): CSSRule[] {
   return rules;
 }
 
-function createRule(source: string, sheet: CSSStyleSheet): CSSRule | null {
+function createRule(
+  source: string,
+  sheet: CSSStyleSheet | null,
+  parentRule: CSSRule | null = null,
+): CSSRule | null {
+  if (/^@media\b/iu.test(source) && hasBalancedBlock(source)) {
+    const openingBrace = source.indexOf("{");
+    return new CSSMediaRule(
+      source.slice("@media".length, openingBrace).trim(),
+      source.slice(openingBrace + 1, -1).trim(),
+      sheet,
+      parentRule,
+    );
+  }
   if (source.startsWith("@") && hasBalancedBlock(source)) {
-    return new CSSRule(source, sheet);
+    return new CSSRule(source, sheet, parentRule);
   }
   const parsed = parseStyleRule(source);
   return parsed === null
     ? null
-    : new CSSStyleRule(parsed.selector, parsed.declarations, sheet);
+    : new CSSStyleRule(parsed.selector, parsed.declarations, sheet, parentRule);
 }
 
 function parseStyleRule(

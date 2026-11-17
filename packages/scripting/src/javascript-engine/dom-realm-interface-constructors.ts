@@ -3,6 +3,7 @@ import {
   associateDOMParser,
   Comment,
   createStaticRange,
+  CSSRule,
   CSSStyleSheet,
   CustomEvent,
   Document,
@@ -494,7 +495,29 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     "CSSStyleProperties",
     binding.cssStylePropertiesPrototype,
   );
-  binding.installInterface("CSSRule", binding.cssRulePrototype);
+  const cssRuleConstructor = binding.installInterface(
+    "CSSRule",
+    binding.cssRulePrototype,
+  );
+  for (const [name, value] of [
+    ["STYLE_RULE", CSSRule.STYLE_RULE],
+    ["MEDIA_RULE", CSSRule.MEDIA_RULE],
+  ] as const) {
+    for (const target of [cssRuleConstructor, binding.cssRulePrototype]) {
+      binding.engine.initializeDataProperty(
+        target,
+        name,
+        binding.engine.fromPrimitive(value),
+        { configurable: false, enumerable: true, writable: false },
+      );
+    }
+  }
+  binding.installInterface("CSSGroupingRule", binding.cssGroupingRulePrototype);
+  binding.installInterface(
+    "CSSConditionRule",
+    binding.cssConditionRulePrototype,
+  );
+  binding.installInterface("CSSMediaRule", binding.cssMediaRulePrototype);
   binding.installInterface("CSSStyleRule", binding.cssStyleRulePrototype);
   binding.installInterface("CSSRuleList", binding.cssRuleListPrototype);
   binding.installInterface(

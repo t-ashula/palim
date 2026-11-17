@@ -75,3 +75,32 @@ sheet.deleteRule(0);
 if (sheet.cssRules.length !== 1) {
   throw new Error("deleteRule binding is invalid");
 }
+
+sheet.insertRule("@media SCREEN { main { display: block } }", 1);
+const mediaRule = sheet.cssRules[1];
+if (
+  !(mediaRule instanceof CSSMediaRule) ||
+  !(mediaRule instanceof CSSConditionRule) ||
+  !(mediaRule instanceof CSSGroupingRule) ||
+  mediaRule.type !== CSSRule.MEDIA_RULE ||
+  mediaRule.conditionText !== "screen" ||
+  mediaRule.media.mediaText !== "screen" ||
+  mediaRule.media !== mediaRule.media ||
+  mediaRule.cssRules !== mediaRule.cssRules ||
+  mediaRule.cssRules.length !== 1 ||
+  mediaRule.cssRules[0].parentRule !== mediaRule
+) {
+  throw new Error("media rule binding is invalid");
+}
+
+mediaRule.insertRule("aside { display: none }", 0);
+mediaRule.deleteRule(1);
+mediaRule.media.mediaText = "print";
+if (
+  mediaRule.cssRules.length !== 1 ||
+  mediaRule.cssRules[0].selectorText !== "aside" ||
+  mediaRule.conditionText !== "print" ||
+  !styleElement.textContent.includes("@media print")
+) {
+  throw new Error("media rule mutation binding is invalid");
+}

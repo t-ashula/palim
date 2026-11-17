@@ -1,4 +1,7 @@
 import {
+  CSSConditionRule,
+  CSSGroupingRule,
+  CSSMediaRule,
   CSSRule,
   CSSRuleList,
   CSSStyleRule,
@@ -12,10 +15,101 @@ import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installCSSOMMembers(binding: DOMRealmBindingContext): void {
   installRuleMembers(binding);
+  installGroupingRuleMembers(binding);
+  installConditionRuleMembers(binding);
+  installMediaRuleMembers(binding);
   installRuleListMembers(binding);
   installMediaListMembers(binding);
   installStyleSheetMembers(binding);
   installStyleSheetListMembers(binding);
+}
+
+function installGroupingRuleMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(
+    binding.cssGroupingRulePrototype,
+    "cssRules",
+    (thisValue) => {
+      const rule = cssGroupingRule(binding, thisValue);
+      return rule === null
+        ? binding.typeError("Invalid CSSGroupingRule receiver")
+        : normal(binding.wrap(rule.cssRules));
+    },
+  );
+  binding.method(
+    binding.cssGroupingRulePrototype,
+    "insertRule",
+    1,
+    (thisValue, argumentsList) => {
+      const groupingRule = cssGroupingRule(binding, thisValue);
+      if (groupingRule === null) {
+        return binding.typeError("Invalid CSSGroupingRule receiver");
+      }
+      const rule = binding.stringArgument(argumentsList, 0, "insertRule");
+      if (rule.type === "throw") {
+        return rule;
+      }
+      if (argumentsList[1] === undefined) {
+        return binding.domOperationResult(() =>
+          binding.primitive(groupingRule.insertRule(rule.value)),
+        );
+      }
+      const index = binding.unsignedLongArgument(
+        argumentsList,
+        1,
+        "insertRule",
+      );
+      return index.type === "throw"
+        ? index
+        : binding.domOperationResult(() =>
+            binding.primitive(groupingRule.insertRule(rule.value, index.value)),
+          );
+    },
+  );
+  binding.method(
+    binding.cssGroupingRulePrototype,
+    "deleteRule",
+    1,
+    (thisValue, argumentsList) => {
+      const rule = cssGroupingRule(binding, thisValue);
+      if (rule === null) {
+        return binding.typeError("Invalid CSSGroupingRule receiver");
+      }
+      const index = binding.unsignedLongArgument(
+        argumentsList,
+        0,
+        "deleteRule",
+      );
+      if (index.type === "throw") {
+        return index;
+      }
+      return binding.domOperationResult(() => {
+        rule.deleteRule(index.value);
+        return binding.undefined();
+      });
+    },
+  );
+}
+
+function installConditionRuleMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(
+    binding.cssConditionRulePrototype,
+    "conditionText",
+    (thisValue) => {
+      const rule = cssConditionRule(binding, thisValue);
+      return rule === null
+        ? binding.typeError("Invalid CSSConditionRule receiver")
+        : binding.primitive(rule.conditionText);
+    },
+  );
+}
+
+function installMediaRuleMembers(binding: DOMRealmBindingContext): void {
+  binding.attribute(binding.cssMediaRulePrototype, "media", (thisValue) => {
+    const rule = cssMediaRule(binding, thisValue);
+    return rule === null
+      ? binding.typeError("Invalid CSSMediaRule receiver")
+      : normal(binding.wrap(rule.media));
+  });
 }
 
 function installMediaListMembers(binding: DOMRealmBindingContext): void {
@@ -288,6 +382,30 @@ function cssRule(
 ): CSSRule | null {
   const object = binding.interfaceObject(value);
   return object instanceof CSSRule ? object : null;
+}
+
+function cssGroupingRule(
+  binding: DOMRealmBindingContext,
+  value: Parameters<DOMRealmBindingContext["interfaceObject"]>[0],
+): CSSGroupingRule | null {
+  const object = binding.interfaceObject(value);
+  return object instanceof CSSGroupingRule ? object : null;
+}
+
+function cssConditionRule(
+  binding: DOMRealmBindingContext,
+  value: Parameters<DOMRealmBindingContext["interfaceObject"]>[0],
+): CSSConditionRule | null {
+  const object = binding.interfaceObject(value);
+  return object instanceof CSSConditionRule ? object : null;
+}
+
+function cssMediaRule(
+  binding: DOMRealmBindingContext,
+  value: Parameters<DOMRealmBindingContext["interfaceObject"]>[0],
+): CSSMediaRule | null {
+  const object = binding.interfaceObject(value);
+  return object instanceof CSSMediaRule ? object : null;
 }
 
 function cssStyleRule(

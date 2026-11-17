@@ -1,6 +1,9 @@
 import { describe, expect, test } from "vitest";
 
 import {
+  CSSConditionRule,
+  CSSGroupingRule,
+  CSSMediaRule,
   CSSRule,
   CSSRuleList,
   CSSStyleRule,
@@ -216,6 +219,67 @@ describe("CSSStyleSheet", () => {
     sheet.media.mediaText = "screen, print";
 
     expect(sheet.media.mediaText).toBe("screen, print");
+  });
+
+  test("parses a media rule with its child rules", () => {
+    const sheet = new CSSStyleSheet();
+
+    sheet.insertRule("@media SCREEN { main { display: block } }");
+
+    const rule = sheet.cssRules.item(0);
+    expect(rule).toBeInstanceOf(CSSMediaRule);
+    expect(rule).toBeInstanceOf(CSSConditionRule);
+    expect(rule).toBeInstanceOf(CSSGroupingRule);
+    if (!(rule instanceof CSSMediaRule)) {
+      throw new Error("Expected a CSSMediaRule fixture");
+    }
+    expect(rule.type).toBe(CSSRule.MEDIA_RULE);
+    expect(rule.media.mediaText).toBe("screen");
+    expect(rule.conditionText).toBe("screen");
+    expect(rule.cssRules).toBe(rule.cssRules);
+    expect(rule.cssRules.length).toBe(1);
+    expect(rule.cssRules.item(0)).toBeInstanceOf(CSSStyleRule);
+    expect(rule.cssRules.item(0)?.parentRule).toBe(rule);
+    expect(rule.cssRules.item(0)?.parentStyleSheet).toBe(sheet);
+  });
+
+  test("inserts and deletes media rule children", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("@media screen { main { display: block } }");
+    const rule = sheet.cssRules.item(0);
+    if (!(rule instanceof CSSMediaRule)) {
+      throw new Error("Expected a CSSMediaRule fixture");
+    }
+
+    expect(rule.insertRule("aside { display: none }", 0)).toBe(0);
+    expect(rule.cssRules.item(0)?.cssText).toBe("aside { display: none }");
+    expect(rule.cssText).toContain("aside { display: none }");
+    expect(() => rule.insertRule("@import url(example.css)", 0)).toThrow(
+      expect.objectContaining({ name: "HierarchyRequestError" }),
+    );
+
+    rule.deleteRule(0);
+
+    expect(rule.cssRules.length).toBe(1);
+    expect(rule.cssRules.item(0)?.cssText).toBe("main { display: block }");
+  });
+
+  test("updates media text through the stable MediaList", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("@media SCREEN { main { display: block } }");
+    const rule = sheet.cssRules.item(0);
+    if (!(rule instanceof CSSMediaRule)) {
+      throw new Error("Expected a CSSMediaRule fixture");
+    }
+    const media = rule.media;
+
+    media.mediaText = "print, SPEECH";
+
+    expect(rule.media).toBe(media);
+    expect(rule.conditionText).toBe("print, speech");
+    expect(rule.cssText).toBe(
+      "@media print, speech { main { display: block } }",
+    );
   });
 
   test("inserts a style rule at the requested index", () => {
