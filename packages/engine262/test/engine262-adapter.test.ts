@@ -1,8 +1,17 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
 import type { EngineRealm, JavaScriptEngineAdapter } from "@palim/scripting";
 import { FORWARD_PROXY_TRAP, normal, thrown } from "@palim/scripting";
 import { describe, expect, it } from "vitest";
 
 import { Engine262Adapter } from "../src/index.js";
+
+const fixtureDirectory = resolve(import.meta.dirname, "fixtures");
+
+function fixture(file: string): string {
+  return readFileSync(resolve(fixtureDirectory, file), "utf8");
+}
 
 function evaluate(
   engine: JavaScriptEngineAdapter,
@@ -16,6 +25,13 @@ function evaluate(
 }
 
 describe("Engine262Adapter", () => {
+  it("installs the Annex B String substr method in each realm", () => {
+    const engine = new Engine262Adapter();
+    const realm = engine.createRealm();
+
+    evaluate(engine, realm, fixture("string-substr.js"));
+  });
+
   it("evaluates source in separate realms", () => {
     const engine = new Engine262Adapter();
     const firstRealm = engine.createRealm();

@@ -1,0 +1,39 @@
+diff --git a/src/intrinsics/StringPrototype.mts b/src/intrinsics/StringPrototype.mts
+index 5daf123..f2ba566 100644
+--- a/src/intrinsics/StringPrototype.mts
++++ b/src/intrinsics/StringPrototype.mts
+@@ -621,6 +621,26 @@ function* StringProto_substring([start = Value.undefined, end = Value.undefined]
+   return Value(string.slice(from, to));
+ }
+ 
++/** https://tc39.es/ecma262/#sec-string.prototype.substr */
++function* StringProto_substr([start = Value.undefined, length = Value.undefined]: Arguments, { thisValue }: FunctionCallContext): ValueEvaluator {
++  const O = thisValue;
++  Q(RequireObjectCoercible(O));
++  const string = Q(yield* ToString(O));
++  const size = string.length;
++  let intStart = Q(yield* ToIntegerOrInfinity(start));
++  if (intStart === -Infinity) {
++    intStart = 0;
++  } else if (intStart < 0) {
++    intStart = Math.max(size + intStart, 0);
++  } else {
++    intStart = Math.min(intStart, size);
++  }
++  const convertedLength = length === Value.undefined ? size : Q(yield* ToIntegerOrInfinity(length));
++  const intLength = clamp(0, convertedLength, size);
++  const intEnd = Math.min(intStart + intLength, size);
++  return Value(string.slice(intStart, intEnd));
++}
++
+ /** https://tc39.es/ecma262/#sec-string.prototype.tolocalelowercase */
+ function* StringProto_toLocaleLowerCase(_args: Arguments, { thisValue }: FunctionCallContext): ValueEvaluator {
+   const O = thisValue;
+@@ -794,6 +814,7 @@ export function bootstrapStringPrototype(realmRec: Realm) {
+     ['split', StringProto_split, 2],
+     ['startsWith', StringProto_startsWith, 1],
+     ['substring', StringProto_substring, 2],
++    ['substr', StringProto_substr, 2],
+     ['toLocaleLowerCase', StringProto_toLocaleLowerCase, 0],
+     ['toLocaleUpperCase', StringProto_toLocaleUpperCase, 0],
+     ['toLowerCase', StringProto_toLowerCase, 0],
