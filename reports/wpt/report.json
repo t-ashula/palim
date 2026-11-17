@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261117t062131368z-3994363",
+    "id": "20261117t081020374z-269113",
     "state": "completed",
     "palim": {
-      "revision": "aadc78cec89513b4c3aa1058e3c3fc9ce2d5cac7",
+      "revision": "f3dd4ef2c11ebdd230cb51deb39eb51b6ec1f6b8",
       "dirty": false,
-      "imageId": "sha256:2196d3c95771806af413288d7b77139dd2b2bfe57cf4310c38eeb9b5e9f440ff"
+      "imageId": "sha256:4bd4cc2046a58d79dc641bed82a16c987388e760185aab823cbafcfd4b02bed6"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-17T07:01:43.390Z",
+    "snapshotAt": "2026-11-17T08:51:15.911Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,8 +52,8 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 992,
-    "fail": 765,
+    "pass": 993,
+    "fail": 764,
     "skip": 248,
     "error": 93,
     "timeout": 131,
@@ -78,8 +78,8 @@
       "totals": {
         "total": 273,
         "executed": 273,
-        "pass": 17,
-        "fail": 202,
+        "pass": 18,
+        "fail": 201,
         "skip": 0,
         "error": 26,
         "timeout": 28,
@@ -310,8 +310,8 @@
   ],
   "subtests": {
     "total": 105701,
-    "pass": 80032,
-    "fail": 25211,
+    "pass": 80045,
+    "fail": 25198,
     "skip": 248,
     "error": 79,
     "timeout": 131
@@ -320,8 +320,8 @@
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 991,
-      "fail": 714,
+      "pass": 992,
+      "fail": 713,
       "skip": 209,
       "error": 87,
       "timeout": 105,
@@ -346,8 +346,8 @@
         "totals": {
           "total": 264,
           "executed": 264,
-          "pass": 17,
-          "fail": 194,
+          "pass": 18,
+          "fail": 193,
           "skip": 0,
           "error": 25,
           "timeout": 28,
@@ -578,8 +578,8 @@
     ],
     "subtests": {
       "total": 105253,
-      "pass": 79980,
-      "fail": 24883,
+      "pass": 79993,
+      "fail": 24870,
       "skip": 209,
       "error": 76,
       "timeout": 105
@@ -923,7 +923,7 @@
       {
         "url": "/css/cssom/border-shorthand-serialization.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: border shorthand isn't serialized if border-image longhands are not initial expected (string) \"\" but got (undefined) undefined"
       },
       {
         "url": "/css/cssom/caretPositionFromPoint-audioVideo.html",
@@ -993,7 +993,7 @@
       {
         "url": "/css/cssom/css-style-declaration-modifications.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: expected \"margin-left: 10px; padding-left: 10px;\" but got \"\""
       },
       {
         "url": "/css/cssom/css-style-reparse.html",
@@ -1158,7 +1158,7 @@
       {
         "url": "/css/cssom/flex-serialization.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: expected \"flex: initial;\" but got \"\""
       },
       {
         "url": "/css/cssom/font-family-serialization-001.html",
@@ -1563,7 +1563,7 @@
       {
         "url": "/css/cssom/overflow-serialization.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: expected \"overflow: inherit;\" but got \"\""
       },
       {
         "url": "/css/cssom/page-descriptors.html",
@@ -1643,7 +1643,7 @@
       {
         "url": "/css/cssom/set-selector-text-attachment.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "\"getComputedStyle\" is not defined"
       },
       {
         "url": "/css/cssom/setproperty-custom-property-override-important.html",
@@ -1654,11 +1654,6 @@
         "url": "/css/cssom/setproperty-null-undefined.html",
         "status": "fail",
         "message": "assert_equals: expected \"\" but got \"white\""
-      },
-      {
-        "url": "/css/cssom/shadow-dom-style-sheet.html",
-        "status": "fail",
-        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/css/cssom/shorthand-serialization.html",
@@ -1748,7 +1743,7 @@
       {
         "url": "/css/cssom/style-set-cssText.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: expected \"color: green; background: blue;\" but got \"color: green;\""
       },
       {
         "url": "/css/cssom/style-set-custom-property-priority.html",
@@ -1758,7 +1753,7 @@
       {
         "url": "/css/cssom/style-set-property.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: expected \"\" but got \"purple\""
       },
       {
         "url": "/css/cssom/style-sheet-interfaces-001.html",
@@ -1788,7 +1783,7 @@
       {
         "url": "/css/cssom/stylesheets-in-non-rendered-document.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: the rule is readable expected \"rgb(1, 2, 3)\" but got \"\""
       },
       {
         "url": "/css/cssom/system-color-inherit.html",

@@ -34,7 +34,7 @@
 - [ ] external stylesheet の読み込みと `LinkStyle`
 - [ ] image loading と intrinsic size
 - [ ] `getComputedStyle` と残る layout-dependent API
-- [ ] `CSSStyleRule.style` の `CSSStyleDeclaration` と rule text・cascade の同期
+- [ ] `CSSStyleSheet.media` と `MediaList` の parsing、serialization、`appendMedium()`、`deleteMedium()`
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls

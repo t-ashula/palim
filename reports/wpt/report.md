@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261117t062131368z-3994363
+Campaign: 20261117t081020374z-269113
 
 Campaign state: completed
 
-Palim: aadc78cec89513b4c3aa1058e3c3fc9ce2d5cac7
+Palim: f3dd4ef2c11ebdd230cb51deb39eb51b6ec1f6b8
 
-Container image: sha256:2196d3c95771806af413288d7b77139dd2b2bfe57cf4310c38eeb9b5e9f440ff
+Container image: sha256:4bd4cc2046a58d79dc641bed82a16c987388e760185aab823cbafcfd4b02bed6
 
-Snapshot: 2026-11-17T07:01:43.390Z
+Snapshot: 2026-11-17T08:51:15.911Z
 
 Attempts: 2229; worker failures: 0; retries: 0
 
@@ -22,9 +22,9 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2229 | 2229 | 992 | 765 | 248 | 93 | 131 | 0 | 100.00% | 44.50% |
+| All | 2229 | 2229 | 993 | 764 | 248 | 93 | 131 | 0 | 100.00% | 44.55% |
 | /custom-elements/ | 209 | 209 | 74 | 116 | 5 | 11 | 3 | 0 | 100.00% | 35.41% |
-| /css/cssom/ | 273 | 273 | 17 | 202 | 0 | 26 | 28 | 0 | 100.00% | 6.23% |
+| /css/cssom/ | 273 | 273 | 18 | 201 | 0 | 26 | 28 | 0 | 100.00% | 6.59% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 61 | 101 | 4 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -49,9 +49,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2106 | 2106 | 991 | 714 | 209 | 87 | 105 | 0 | 100.00% | 47.06% |
+| All | 2106 | 2106 | 992 | 713 | 209 | 87 | 105 | 0 | 100.00% | 47.10% |
 | /custom-elements/ | 202 | 202 | 74 | 112 | 3 | 10 | 3 | 0 | 100.00% | 36.63% |
-| /css/cssom/ | 264 | 264 | 17 | 194 | 0 | 25 | 28 | 0 | 100.00% | 6.44% |
+| /css/cssom/ | 264 | 264 | 18 | 193 | 0 | 25 | 28 | 0 | 100.00% | 6.82% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 60 | 99 | 4 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -74,7 +74,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 105253 | 79980 | 24883 | 209 | 76 | 105 | 75.99% |
+| 105253 | 79993 | 24870 | 209 | 76 | 105 | 76.00% |
 
 ### Non-passing executed tests
 
@@ -147,7 +147,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/adoptedstylesheets-observablearray.html | fail | <code>window.getComputedStyle is not a function. (In "window.getComputedStyle(target)", it is undefined)</code> |
 | /css/cssom/at-namespace.html | fail | <code>assert_throws_dom: function "function() {<br>    s.sheet.insertRule('@namespace myhtml url("http://www.w3.org/1999/xhtml")', 0);<br>  }" threw object "[object DOMException]" that is not a DOMException InvalidStateError: property "code" is equal to 12, expected 11</code> |
 | /css/cssom/base-uri.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "getComputedStyle" is not defined"</code> |
-| /css/cssom/border-shorthand-serialization.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/border-shorthand-serialization.html | fail | <code>assert_equals: border shorthand isn't serialized if border-image longhands are not initial expected (string) "" but got (undefined) undefined</code> |
 | /css/cssom/caretPositionFromPoint-audioVideo.html | fail | <code>undefined is not a function</code> |
 | /css/cssom/caretPositionFromPoint-in-flex-container.html | fail | <code>document.caretPositionFromPoint is not a function. (In "document.caretPositionFromPoint(rect.left + 10, rect.top + 5)", it is undefined)</code> |
 | /css/cssom/caretPositionFromPoint-textarea.html | fail | <code>undefined is not a function</code> |
@@ -161,7 +161,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/computed-style-set-property.html | fail | <code>document.defaultView.getComputedStyle is not a function. (In "document.defaultView.getComputedStyle(document.body, null)", it is undefined)</code> |
 | /css/cssom/css-rule-selector-text.html | fail | <code>assert_equals: length should be 3 expected 3 but got 2</code> |
 | /css/cssom/css-style-attr-decl-block.html | fail | <code>assert_equals: expected "z-index: 10;" but got ""</code> |
-| /css/cssom/css-style-declaration-modifications.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/css-style-declaration-modifications.html | fail | <code>assert_equals: expected "margin-left: 10px; padding-left: 10px;" but got ""</code> |
 | /css/cssom/css-style-reparse.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/cssimportrule-parent.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/cssimportrule-sheet-identity.html | timeout | <code>palim execution timed out</code> |
@@ -194,7 +194,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/cssstyledeclaration-setter-logical.html | fail | <code>assert_equals: value of padding-top shouldn't be changed expected "0px" but got ""</code> |
 | /css/cssom/delete-namespace-rule-when-child-rule-exists.html | fail | <code>Rule index is outside the rule list</code> |
 | /css/cssom/escape.html | fail | <code>"CSS" is not defined</code> |
-| /css/cssom/flex-serialization.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/flex-serialization.html | fail | <code>assert_equals: expected "flex: initial;" but got ""</code> |
 | /css/cssom/font-family-serialization-001.html | fail | <code>window.getComputedStyle is not a function. (In "window.getComputedStyle(target)", it is undefined)</code> |
 | /css/cssom/font-shorthand-serialization.html | fail | <code>assert_equals: expected "font: 10px / 1 Ahem;" but got ""</code> |
 | /css/cssom/font-variant-shorthand-serialization.html | fail | <code>"CSS" is not defined</code> |
@@ -275,7 +275,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/medialist-mutation-after-owner-gc.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/mediaquery-sort-dedup.html | fail | <code>"matchMedia" is not defined</code> |
 | /css/cssom/nested-import-namespace-invalid.html | fail | <code>assert_equals: expected "CSSMediaRule" but got "CSSRule"</code> |
-| /css/cssom/overflow-serialization.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/overflow-serialization.html | fail | <code>assert_equals: expected "overflow: inherit;" but got ""</code> |
 | /css/cssom/page-descriptors.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/preferred-stylesheet-order.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/preferred-stylesheet-reversed-order.html | fail | <code>"getComputedStyle" is not defined</code> |
@@ -291,10 +291,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/serialize-values.html | fail | <code>assert_equals: alignment-baseline raw inline style declaration expected (string) "baseline" but got (undefined) undefined</code> |
 | /css/cssom/serialize-variable-reference-whitespace.html | fail | <code>assert_equals: expected "rgb(32, 47, 242)" but got "#202FF2"</code> |
 | /css/cssom/serialize-variable-reference.html | fail | <code>assert_equals: expected "font: var(--a);" but got ""</code> |
-| /css/cssom/set-selector-text-attachment.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/set-selector-text-attachment.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/setproperty-custom-property-override-important.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/setproperty-null-undefined.html | fail | <code>assert_equals: expected "" but got "white"</code> |
-| /css/cssom/shadow-dom-style-sheet.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/shorthand-serialization.html | fail | <code>assert_true: expected true got false</code> |
 | /css/cssom/shorthand-values.html | error | <code>ReferenceError: "CSS" is not defined</code> |
 | /css/cssom/style-attr-update-across-documents.html | fail | <code>window.getComputedStyle is not a function. (In "window.getComputedStyle(newDiv)", it is undefined)</code> |
@@ -312,15 +311,15 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/style-element-insertion-removal-computed.html | fail | <code>"getComputedStyle" is not defined</code> |
 | /css/cssom/style-font-shorthand.html | fail | <code>assert_equals: expected "bold 4px sans-serif" but got "normal bold 4px sans-serif"</code> |
 | /css/cssom/style-global-variable.html | fail | <code>assert_equals: Property value is "0px" expected "0px" but got ""</code> |
-| /css/cssom/style-set-cssText.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/style-set-cssText.html | fail | <code>assert_equals: expected "color: green; background: blue;" but got "color: green;"</code> |
 | /css/cssom/style-set-custom-property-priority.html | fail | <code>window.getComputedStyle is not a function. (In "window.getComputedStyle(document.documentElement)", it is undefined)</code> |
-| /css/cssom/style-set-property.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/style-set-property.html | fail | <code>assert_equals: expected "" but got "purple"</code> |
 | /css/cssom/style-sheet-interfaces-001.html | fail | <code>assert_idl_attribute: property "sheet" not found in prototype chain</code> |
 | /css/cssom/style-width-calc-vh-vw.html | fail | <code>assert_equals: Setting width to 'calc(10px + 20px)' should serialize to 'calc(30px)' expected "calc(30px)" but got "calc(10px + 20px)"</code> |
 | /css/cssom/stylesheet-cross-origin-redirect-quirks.sub.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/stylesheet-same-origin.sub.html | fail | <code>assert_throws_dom: stylesheet.cssRules should throw SecurityError. function "function () {<br>                    sheet.cssRules;<br>                }" threw object "TypeError: Cannot convert undefined to object" that is not a DOMException SecurityError: property "code" is equal to undefined, expected 18</code> |
 | /css/cssom/stylesheet-title.html | fail | <code>"getComputedStyle" is not defined</code> |
-| /css/cssom/stylesheets-in-non-rendered-document.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/stylesheets-in-non-rendered-document.html | fail | <code>assert_equals: the rule is readable expected "rgb(1, 2, 3)" but got ""</code> |
 | /css/cssom/system-color-inherit.html | fail | <code>window.getComputedStyle is not a function. (In "window.getComputedStyle(parentDiv)", it is undefined)</code> |
 | /css/cssom/system-color-lowercase.html | error | <code>TypeError: window.getComputedStyle is not a function. (In "window.getComputedStyle(ref)", it is undefined)</code> |
 | /css/cssom/ttwf-cssom-doc-ext-load-count.html | timeout | <code>palim execution timed out</code> |
