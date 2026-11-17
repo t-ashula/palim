@@ -107,6 +107,8 @@ interface CSSStyleDeclarationTarget {
   readonly read: () => string;
   readonly write: (value: string) => void;
   readonly parentRule: CSSRule | null;
+  readonly declarations?: () => readonly InlineStyleProperty[];
+  readonly readOnly?: boolean;
 }
 
 let htmlStyleSheetForElement: (
@@ -391,6 +393,7 @@ export class CSSStyleDeclaration {
   }
 
   set cssText(value: string) {
+    ensureStyleDeclarationMutable(this);
     setStyleDeclarations(
       this,
       parseInlineStyleDeclarations(legacyNullToEmptyString(value)),
@@ -422,6 +425,7 @@ export class CSSStyleDeclaration {
 
   setProperty(property: string, value: string, priority = ""): void {
     requireArguments(arguments.length, 2);
+    ensureStyleDeclarationMutable(this);
     const name = normalizedCSSPropertyName(domString(property));
     const convertedValue = domString(value);
     if (convertedValue === "") {
@@ -456,6 +460,7 @@ export class CSSStyleDeclaration {
 
   removeProperty(property: string): string {
     requireArguments(arguments.length, 1);
+    ensureStyleDeclarationMutable(this);
     const name = normalizedCSSPropertyName(domString(property));
     const declarations = styleDeclarations(this);
     const declaration = declarations.find((item) => item.name === name);
@@ -5626,8 +5631,31 @@ export function createCSSStyleProperties(
   write: (value: string) => void,
   parentRule: CSSRule | null = null,
 ): CSSStyleProperties {
+  return createCSSStylePropertiesForTarget({ read, write, parentRule });
+}
+
+export function createReadonlyCSSStyleProperties(
+  read: () => Readonly<Record<string, string>>,
+): CSSStyleProperties {
+  return createCSSStylePropertiesForTarget({
+    read: () => "",
+    write: () => undefined,
+    parentRule: null,
+    readOnly: true,
+    declarations: () =>
+      Object.entries(read()).map(([name, value]) => ({
+        name,
+        value,
+        important: false,
+      })),
+  });
+}
+
+function createCSSStylePropertiesForTarget(
+  declarationTarget: CSSStyleDeclarationTarget,
+): CSSStyleProperties {
   const target = new CSSStyleProperties(
-    { read, write, parentRule },
+    declarationTarget,
     CSS_STYLE_DECLARATION_CONSTRUCTION,
   );
   const declaration = new Proxy(target, {
@@ -5712,18 +5740,25 @@ function cssStyleDeclarationTarget(
 function styleDeclarations(
   declaration: CSSStyleDeclaration,
 ): InlineStyleProperty[] {
-  return parseInlineStyleDeclarations(
-    cssStyleDeclarationTarget(declaration).read(),
-  );
+  const target = cssStyleDeclarationTarget(declaration);
+  return target.declarations === undefined
+    ? parseInlineStyleDeclarations(target.read())
+    : [...target.declarations()];
+}
+
+function ensureStyleDeclarationMutable(declaration: CSSStyleDeclaration): void {
+  if (cssStyleDeclarationTarget(declaration).readOnly === true) {
+    throw new DOMException(
+      "The CSS declaration is read-only",
+      "NoModificationAllowedError",
+    );
+  }
 }
 
 function findStyleDeclaration(
   declaration: CSSStyleDeclaration,
   property: string,
 ): InlineStyleProperty | undefined {
-  if (!isSupportedCSSProperty(property)) {
-    return undefined;
-  }
   return styleDeclarations(declaration).find(
     (declaration) => declaration.name === property,
   );

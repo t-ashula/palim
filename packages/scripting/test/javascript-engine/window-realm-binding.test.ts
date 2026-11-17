@@ -83,6 +83,28 @@ describe("WindowRealmBinding", () => {
     );
   });
 
+  it("exposes computed styles in the page realm", () => {
+    const window = createWindow();
+    const element = window.document.createElement("div");
+    element.setAttribute("id", "target");
+    element.setAttribute("style", "display: none; width: 30px");
+    window.document.body?.append(element);
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, window);
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/computed-style.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("exposes the Window animation frame provider", () => {
     const window = createWindow();
     const engine = new Engine262Adapter();

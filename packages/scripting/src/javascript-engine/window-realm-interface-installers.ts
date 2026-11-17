@@ -1,6 +1,7 @@
 import type { WindowConsoleMethod } from "@palim/window";
 import {
   clearWindowTimeout,
+  Element,
   reportWindowConsole,
   scheduleWindowMicrotask,
   scheduleWindowTimeout,
@@ -133,6 +134,27 @@ export function installWindowMembers(binding: WindowRealmBindingContext): void {
     }
     binding.reportException(value);
     return binding.context.undefined();
+  });
+  binding.operation("getComputedStyle", 1, (_thisValue, argumentsList) => {
+    const element = binding.dom.interfaceObject(
+      argumentsList[0] ?? binding.engine.fromPrimitive(undefined),
+    );
+    if (!(element instanceof Element)) {
+      return binding.context.typeError(
+        "getComputedStyle requires an Element argument",
+      );
+    }
+    const pseudoElement =
+      argumentsList[1] === undefined
+        ? normal(null)
+        : binding.context.nullableString(argumentsList, 1, "getComputedStyle");
+    return pseudoElement.type === "throw"
+      ? pseudoElement
+      : normal(
+          binding.dom.platformObject(
+            binding.window.getComputedStyle(element, pseudoElement.value),
+          ),
+        );
   });
 }
 

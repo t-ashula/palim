@@ -1,5 +1,6 @@
 import type { EventTarget } from "./dom/events.js";
 import type { Document, Element } from "./dom/nodes.js";
+import type { CSSStyleDeclaration } from "./html-elements.js";
 
 export interface WindowErrorReport {
   readonly message: string;
@@ -57,6 +58,10 @@ export interface Window extends EventTarget {
   readonly frameElement: Element | null;
   readonly innerWidth: number;
   readonly innerHeight: number;
+  getComputedStyle(
+    element: Element,
+    pseudoElement?: string | null,
+  ): CSSStyleDeclaration;
   requestAnimationFrame(callback: FrameRequestCallback): number;
   cancelAnimationFrame(handle: number): void;
   onerror(handler: WindowErrorHandler): () => void;

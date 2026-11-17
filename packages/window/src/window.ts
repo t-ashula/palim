@@ -11,6 +11,7 @@ import type {
 } from "@palim/core";
 import {
   bindEventTarget,
+  createReadonlyCSSStyleProperties,
   documentImplementation,
   EventTarget,
   eventTargetImplementation,
@@ -18,6 +19,7 @@ import {
   parseHTML,
   URL,
 } from "@palim/core";
+import { computedStyle } from "@palim/css";
 
 import { TrustedTypePolicyFactory } from "./trusted-types.js";
 
@@ -193,6 +195,10 @@ class WindowPlatform extends EventTarget implements Window {
 
   get innerHeight(): number {
     return windowEnvironment(this).viewport.height;
+  }
+
+  getComputedStyle(element: Element, _pseudoElement: string | null = null) {
+    return createReadonlyCSSStyleProperties(() => computedStyle(element));
   }
 
   requestAnimationFrame(callback: FrameRequestCallback): number {

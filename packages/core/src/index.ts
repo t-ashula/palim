@@ -254,6 +254,7 @@ export {
 } from "./dom-exception.js";
 export { WINDOW_EVENT_HANDLER_NAMES } from "./event-handler-names.js";
 export {
+  createReadonlyCSSStyleProperties,
   createCustomHTMLElementBase,
   createHTMLElement,
   ElementInternals,

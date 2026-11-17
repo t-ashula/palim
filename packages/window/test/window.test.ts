@@ -1,5 +1,10 @@
 import type { Element, EventTarget } from "@palim/core";
-import { DOMParser, Event, setDocumentURL } from "@palim/core";
+import {
+  CSSStyleDeclaration,
+  DOMParser,
+  Event,
+  setDocumentURL,
+} from "@palim/core";
 import { describe, expect, it } from "vitest";
 
 import type { Window } from "../src/window.js";
@@ -107,6 +112,24 @@ describe("Window", () => {
     const window = createWindow({ viewport: { width: 640, height: 480 } });
     expect(window.innerWidth).toBe(640);
     expect(window.innerHeight).toBe(480);
+  });
+
+  it("returns the computed style of an element", () => {
+    const window = createWindow();
+    const element = window.document.createElement("div");
+    element.setAttribute("style", "display: none; width: 30px");
+    window.document.body?.append(element);
+
+    const style = window.getComputedStyle(element);
+
+    expect(style).toBeInstanceOf(CSSStyleDeclaration);
+    expect(style.getPropertyValue("display")).toBe("none");
+    expect(style.getPropertyValue("width")).toBe("30px");
+
+    expect(() => {
+      style.setProperty("width", "10px");
+    }).toThrow(expect.objectContaining({ name: "NoModificationAllowedError" }));
+    expect(style.getPropertyValue("width")).toBe("30px");
   });
 
   it("owns Location state in the Window runtime", () => {

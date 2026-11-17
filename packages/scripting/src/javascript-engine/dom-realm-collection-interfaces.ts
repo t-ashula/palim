@@ -432,15 +432,19 @@ export function installCSSStyleDeclarationMembers(
       }
       const argument = argumentsList[0];
       if (argument !== undefined && binding.engine.isNull(argument)) {
-        style.cssText = "";
-        return binding.undefined();
+        return binding.domOperationResult(() => {
+          style.cssText = "";
+          return binding.undefined();
+        });
       }
       const value = binding.stringArgument(argumentsList, 0, "cssText");
       if (value.type === "throw") {
         return value;
       }
-      style.cssText = value.value;
-      return binding.undefined();
+      return binding.domOperationResult(() => {
+        style.cssText = value.value;
+        return binding.undefined();
+      });
     },
   );
   binding.attribute(
@@ -520,8 +524,10 @@ export function installCSSStyleDeclarationMembers(
       if (priority.type === "throw") {
         return priority;
       }
-      style.setProperty(property.value, value.value, priority.value);
-      return binding.undefined();
+      return binding.domOperationResult(() => {
+        style.setProperty(property.value, value.value, priority.value);
+        return binding.undefined();
+      });
     },
   );
   binding.method(
@@ -540,7 +546,9 @@ export function installCSSStyleDeclarationMembers(
       );
       return property.type === "throw"
         ? property
-        : binding.primitive(style.removeProperty(property.value));
+        : binding.domOperationResult(() =>
+            binding.primitive(style.removeProperty(property.value)),
+          );
     },
   );
 }
