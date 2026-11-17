@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261116t120514014z-2769878
+Campaign: 20261116t173102184z-3265092
 
 Campaign state: completed
 
-Palim: a76947c811fdee174bb6cdbbb0166cf25f178920
+Palim: 7019e461e7e01443fbb2731f752c1cd5bea36be2
 
-Container image: sha256:b545b487bf40a46f0758ac4f813a4dee7f3667d56a413facb1bf74d00f3653c4
+Container image: sha256:3244987535b829342c176c4bf374dbe6e385193b28e01d3bfd6c9c0ca4bbb641
 
-Snapshot: 2026-11-16T12:40:09.853Z
+Snapshot: 2026-11-16T19:46:00.505Z
 
 Attempts: 1956; worker failures: 0; retries: 0
 
@@ -22,8 +22,8 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1956 | 1956 | 965 | 549 | 248 | 92 | 102 | 0 | 100.00% | 49.34% |
-| /custom-elements/ | 209 | 209 | 71 | 100 | 5 | 30 | 3 | 0 | 100.00% | 33.97% |
+| All | 1956 | 1956 | 969 | 565 | 248 | 72 | 102 | 0 | 100.00% | 49.54% |
+| /custom-elements/ | 209 | 209 | 74 | 116 | 5 | 11 | 3 | 0 | 100.00% | 35.41% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 57 | 101 | 8 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -36,8 +36,8 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/syntax/parsing/ | 236 | 236 | 155 | 72 | 0 | 2 | 7 | 0 | 100.00% | 65.68% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 20 | 23 | 0 | 0 | 7 | 0 | 100.00% | 40.00% |
-| /shadow-dom/ | 317 | 317 | 51 | 89 | 132 | 13 | 32 | 0 | 100.00% | 16.09% |
-| /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
+| /shadow-dom/ | 317 | 317 | 51 | 89 | 132 | 12 | 33 | 0 | 100.00% | 16.09% |
+| /streams/writable-streams/ | 64 | 64 | 44 | 4 | 0 | 16 | 0 | 0 | 100.00% | 68.75% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -48,8 +48,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 1842 | 1842 | 964 | 508 | 209 | 85 | 76 | 0 | 100.00% | 52.33% |
-| /custom-elements/ | 202 | 202 | 71 | 98 | 3 | 27 | 3 | 0 | 100.00% | 35.15% |
+| All | 1842 | 1842 | 968 | 522 | 209 | 67 | 76 | 0 | 100.00% | 52.55% |
+| /custom-elements/ | 202 | 202 | 74 | 112 | 3 | 10 | 3 | 0 | 100.00% | 36.63% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 56 | 99 | 8 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -62,8 +62,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/ | 234 | 234 | 155 | 72 | 0 | 1 | 6 | 0 | 100.00% | 66.24% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 19 | 23 | 0 | 0 | 7 | 0 | 100.00% | 38.78% |
-| /shadow-dom/ | 242 | 242 | 51 | 74 | 100 | 10 | 7 | 0 | 100.00% | 21.07% |
-| /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
+| /shadow-dom/ | 242 | 242 | 51 | 74 | 100 | 9 | 8 | 0 | 100.00% | 21.07% |
+| /streams/writable-streams/ | 64 | 64 | 44 | 4 | 0 | 16 | 0 | 0 | 100.00% | 68.75% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
 | /xml/ | 7 | 7 | 7 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -72,7 +72,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 103238 | 79717 | 23171 | 209 | 65 | 76 | 77.22% |
+| 103361 | 79741 | 23279 | 209 | 56 | 76 | 77.15% |
 
 ### Non-passing executed tests
 
@@ -81,10 +81,10 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/CustomElementRegistry-constructor-and-callbacks-are-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
 | /custom-elements/Document-createElement.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/Document-createElementNS-prefix-timing.html | error | <code>TypeError: Custom element is already constructed</code> |
-| /custom-elements/ElementInternals-accessibility-values.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/ElementInternals-accessibility.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/ElementInternals-accessibility-values.html | fail | <code>assert_equals: null default value expected (object) null but got (undefined) undefined</code> |
+| /custom-elements/ElementInternals-accessibility.html | fail | <code>assert_inherits: property "role" not found in prototype chain</code> |
 | /custom-elements/ElementInternals-role.html | skip | <code>Executor does not support testdriver.js</code> |
-| /custom-elements/HTMLElement-attachInternals.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals()", it is undefined)</code> |
+| /custom-elements/HTMLElement-attachInternals.html | fail | <code>assert_throws_dom: function "() =&gt; { customizedBuiltin.attachInternals() }" did not throw</code> |
 | /custom-elements/adopted-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopted", Document node with 2 children, Document node with 1 child, "connected"] length 4, got ["connected"] length 1</code> |
 | /custom-elements/builtin-coverage.html | fail | <code>assert_equals: Cloning a customized built-in element should succeed. expected function "class extends HTMLAnchorElement {}" but got function "function HTMLAnchorElement() { [native code] }"</code> |
 | /custom-elements/connected-callback-before-insertion-steps.html | fail | <code>assert_false: the insertion steps closed the inserted details element expected false got true</code> |
@@ -95,28 +95,25 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/customized-built-in-constructor-exceptions.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/disconnected-callbacks.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "XMLHttpRequest" is not defined"</code> |
 | /custom-elements/element-internals-aria-element-reflection.html | skip | <code>Executor does not support testdriver.js</code> |
-| /custom-elements/element-internals-shadowroot.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
 | /custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html | fail | <code>assert_array_equals: lengths differ, expected array ["begin", "connected", "adopted", "end"] length 4, got ["begin", "end", "connected"] length 3</code> |
-| /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-form.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-labels.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-setFormValue.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html | fail | <code>this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/ElementInternals-target-element-is-held-strongly.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: targetElement.attachInternals is not a function. (In "targetElement.attachInternals()", it is undefined)"</code> |
-| /custom-elements/form-associated/ElementInternals-validation.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/disabled-delegatesFocus.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/form-associated/ElementInternals-NotSupportedError.html | fail | <code>assert_throws_dom: function "() =&gt; i.setFormValue('')" threw object "TypeError: i.setFormValue is not a function. (In "i.setFormValue('')", it is undefined)" that is not a DOMException NotSupportedError: property "code" is equal to undefined, expected 9</code> |
+| /custom-elements/form-associated/ElementInternals-form.html | fail | <code>assert_equals: expected (object) Element node &lt;form id="custom-form"&gt;<br>  &lt;custom-input-parser id="custom... but got (undefined) undefined</code> |
+| /custom-elements/form-associated/ElementInternals-labels.html | fail | <code>assert_equals: expected (object) Element node &lt;my-control&gt;&lt;/my-control&gt; but got (undefined) undefined</code> |
+| /custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html | fail | <code>input.i.setFormValue is not a function. (In "input.i.setFormValue("fail")", it is undefined)</code> |
+| /custom-elements/form-associated/ElementInternals-setFormValue.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: $('form').submit is not a function. (In "$('form').submit()", it is undefined)"</code> |
+| /custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html | fail | <code>control.i.setValidity is not a function. (In "control.i.setValidity({customError: true}, message)", it is undefined)</code> |
+| /custom-elements/form-associated/ElementInternals-validation.html | fail | <code>assert_true: default value is true expected true got undefined</code> |
 | /custom-elements/form-associated/fieldset-elements-after-upgrade.html | fail | <code>Cannot convert undefined to object</code> |
-| /custom-elements/form-associated/fieldset-elements-during-construction.html | error | <code>Error: Maximum call stack size exceeded</code> |
+| /custom-elements/form-associated/fieldset-elements-during-construction.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/fieldset-elements.html | fail | <code>Cannot convert undefined to object</code> |
-| /custom-elements/form-associated/form-associated-callback-form-attribute-removal.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/form-associated/form-associated-callback-form-attribute-removal.html | fail | <code>assert_equals: precondition: the first form with the ID is the form owner expected (object) Element node &lt;form id="duplicate-id-1" data-label="first"&gt;&lt;/form&gt; but got (undefined) undefined</code> |
 | /custom-elements/form-associated/form-associated-callback-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["face: connected", "face: formAssociated(form)"] length 2, got ["face: connected"] length 1</code> |
-| /custom-elements/form-associated/form-associated-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/form-disabled-callback.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/form-associated/form-disabled-legend.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/form-associated/form-associated-callback.html | fail | <code>Cannot convert undefined to object</code> |
+| /custom-elements/form-associated/form-disabled-callback.html | error | <code>TypeError: this.internals_.setFormValue is not a function. (In "this.internals_.setFormValue('my-control-value')", it is undefined)</code> |
+| /custom-elements/form-associated/form-disabled-legend.html | fail | <code>assert_true: in legend :enabled expected true got false</code> |
 | /custom-elements/form-associated/form-elements-namedItem.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/form-associated/form-reset-callback.html | fail | <code>form.reset is not a function. (In "form.reset()", it is undefined)</code> |
-| /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>control.attachInternals is not a function. (In "control.attachInternals()", it is undefined)</code> |
+| /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>assert_equals: expected (object) Element node &lt;form&gt;&lt;upgrade-detached-enabled&gt;&lt;/upgrade-detached-enable... but got (undefined) undefined</code> |
 | /custom-elements/form-associated/label-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/microtasks-and-constructors.html | fail | <code>assert_array_equals: lengths differ, expected array ["promise microtask", "MutationObserver microtask"] length 2, got ["promise microtask"] length 1</code> |
 | /custom-elements/parser/parser-constructs-custom-element-in-document-write.html | error | <code>Error: The tokenizer input stream is closed</code> |
@@ -159,9 +156,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/reactions/Selection.html | fail | <code>window.getSelection is not a function. (In "window.getSelection()", it is undefined)</code> |
 | /custom-elements/reactions/ShadowRoot.html | fail | <code>assert_array_equals: lengths differ, expected array ["constructed"] length 1, got ["constructed", "disconnected"] length 2</code> |
 | /custom-elements/registries/CustomElementRegistry-initialize.html | fail | <code>Cannot convert null to object</code> |
-| /custom-elements/registries/CustomElementRegistry-upgrade.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/registries/CustomElementRegistry-upgrade.html | fail | <code>CustomElementRegistry.upgrade requires a Node</code> |
 | /custom-elements/registries/Document-importNode-cross-document.window.html | fail | <code>assert_equals: expected object "[object Object]" but got object "[object Object]"</code> |
-| /custom-elements/registries/Document-importNode.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/registries/Document-importNode.html | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/registries/Element-attachShadow-disabled-shadow.window.html | fail | <code>assert_throws_dom: function "() =&gt; element.attachShadow({ mode: "open" })" did not throw</code> |
 | /custom-elements/registries/Element-customElementRegistry-exceptions.html | fail | <code>Cannot convert null to object</code> |
 | /custom-elements/registries/Element-customElementRegistry.html | fail | <code>Cannot convert null to object</code> |
@@ -194,11 +191,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/registries/upgrade.html | fail | <code>assert_false: element 1 must still not be upgraded after upgrading the template contents expected false got true</code> |
 | /custom-elements/registries/valid-custom-element-names.html | fail | <code>assert_equals: code points: [97,45,127345], string: "a-🅱" expected object "[object Object]" but got object "[object Object]"</code> |
 | /custom-elements/shadow-descendant-lifecycle-order.html | fail | <code>assert_array_equals: lengths differ, expected array ["adopt:root", "adopt:shadow", "adopt:nested", "adopt:light", "adopt:leaf"] length 5, got [] length 0</code> |
-| /custom-elements/state/ElementInternals-states.html | fail | <code>this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/state/custom-state-set-strong-ref.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/state/state-css-selector-nth-of.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/state/state-css-selector-shadow-dom.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/state/state-css-selector.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /custom-elements/state/ElementInternals-states.html | fail | <code>"CustomStateSet" is not defined</code> |
+| /custom-elements/state/custom-state-set-strong-ref.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: Cannot convert undefined to object"</code> |
+| /custom-elements/state/state-css-selector-nth-of.html | error | <code>Test named 'state selector has influence on nth-of when state is applied' specified 2 'cleanup' functions, and 2 failed.</code> |
+| /custom-elements/state/state-css-selector-shadow-dom.html | error | <code>ReferenceError: "CSSStyleSheet" is not defined</code> |
+| /custom-elements/state/state-css-selector.html | fail | <code>Cannot convert undefined to object</code> |
 | /custom-elements/state/state-pseudo-class.html | fail | <code>The selector is invalid.</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct-xml-parser.xhtml | fail | <code>assert_equals: expected null but got object "[object DOMException]"</code> |
 | /custom-elements/throw-on-dynamic-markup-insertion-counter-construct.html | timeout | <code>palim execution timed out</code> |
@@ -454,7 +451,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/moveBefore/fire-focusin-focusout.html | fail | <code>assert_array_equals: lengths differ, expected array ["button.onfocusin", "button.onfocusout"] length 2, got ["button.onfocusin"] length 1</code> |
 | /dom/nodes/moveBefore/focus-preserve.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: input.setSelectionRange is not a function. (In "input.setSelectionRange(2, 7, "backward")", it is undefined)"</code> |
 | /dom/nodes/moveBefore/focus-within.html | fail | <code>assert_array_equals: lengths differ, expected array [] length 0, got ["HTML", "BODY", "inert_parent", "button"] length 4</code> |
-| /dom/nodes/moveBefore/form-associated-custom-element-reset.html | fail | <code>container.querySelector("form-control").attachInternals is not a function. (In "container.querySelector("form-control").attachInternals()", it is undefined)</code> |
+| /dom/nodes/moveBefore/form-associated-custom-element-reset.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |
 | /dom/nodes/moveBefore/fullscreen-preserve.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/hover-style-update.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/nodes/moveBefore/iframe-document-preserve.window.html | timeout | <code>palim execution timed out</code> |
@@ -732,7 +729,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/capturing-and-bubbling-event-listeners-across-shadow-trees.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/declarative/declarative-parser-interaction.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-attachment.html | fail | <code>A shadow root cannot be attached to this element</code> |
-| /shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
+| /shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-basic.html | fail | <code>assert_equals: No leftover template node expected null but got Element node &lt;template shadowrootmode="open"&gt;<br>    &lt;slot id="s1" name="...</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-opt-in.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/declarative/declarative-shadow-dom-repeats-2.html | fail | <code>assert_true: Remaining shadow root should be open expected true got false</code> |
@@ -915,7 +912,6 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
@@ -963,8 +959,8 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 114 | 114 | 1 | 41 | 39 | 7 | 26 | 0 | 100.00% | 0.88% |
-| /custom-elements/ | 7 | 7 | 0 | 2 | 2 | 3 | 0 | 0 | 100.00% | 0.00% |
+| All | 114 | 114 | 1 | 43 | 39 | 5 | 26 | 0 | 100.00% | 0.88% |
+| /custom-elements/ | 7 | 7 | 0 | 4 | 2 | 1 | 0 | 0 | 100.00% | 0.00% |
 | /dom/events/ | 3 | 3 | 0 | 1 | 2 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /dom/ranges/ | 23 | 23 | 0 | 20 | 3 | 0 | 0 | 0 | 100.00% | 0.00% |
 | /domparsing/ | 2 | 2 | 0 | 2 | 0 | 0 | 0 | 0 | 100.00% | 0.00% |
@@ -977,15 +973,15 @@ These tests track proposed behavior and do not determine current Living Standard
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 410 | 48 | 294 | 39 | 3 | 26 | 11.71% |
+| 412 | 47 | 298 | 39 | 2 | 26 | 11.41% |
 
 ### Non-passing executed tests
 
 | URL | Status | Message |
 | --- | --- | --- |
-| /custom-elements/ElementInternals-accessibility.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | error | <code>TypeError: this.attachInternals is not a function. (In "this.attachInternals()", it is undefined)</code> |
-| /custom-elements/element-internals-behaviors.tentative.html | fail | <code>element.attachInternals is not a function. (In "element.attachInternals({ behaviors: [] })", it is undefined)</code> |
+| /custom-elements/ElementInternals-accessibility.tentative.html | fail | <code>assert_inherits: property "ariaColIndexText" not found in prototype chain</code> |
+| /custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html | fail | <code>assert_equals: disconnected element is not returned expected null but got Element node &lt;div&gt;&lt;/div&gt;</code> |
+| /custom-elements/element-internals-behaviors.tentative.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
 | /custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html | skip | <code>Executor does not support testdriver.js</code> |
 | /custom-elements/form-associated/ElementInternals-submit-behavior-dialog.tentative.html | error | <code>ReferenceError: "HTMLSubmitButtonBehavior" is not defined</code> |
 | /custom-elements/form-associated/ElementInternals-submit-behavior.tentative.html | skip | <code>Executor does not support testdriver.js</code> |

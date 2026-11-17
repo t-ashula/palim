@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261116t120514014z-2769878",
+    "id": "20261116t173102184z-3265092",
     "state": "completed",
     "palim": {
-      "revision": "a76947c811fdee174bb6cdbbb0166cf25f178920",
+      "revision": "7019e461e7e01443fbb2731f752c1cd5bea36be2",
       "dirty": false,
-      "imageId": "sha256:b545b487bf40a46f0758ac4f813a4dee7f3667d56a413facb1bf74d00f3653c4"
+      "imageId": "sha256:3244987535b829342c176c4bf374dbe6e385193b28e01d3bfd6c9c0ca4bbb641"
     },
     "lastAttemptSequence": 1956,
-    "snapshotAt": "2026-11-16T12:40:09.853Z",
+    "snapshotAt": "2026-11-16T19:46:00.505Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -51,10 +51,10 @@
   "totals": {
     "total": 1956,
     "executed": 1956,
-    "pass": 965,
-    "fail": 549,
+    "pass": 969,
+    "fail": 565,
     "skip": 248,
-    "error": 92,
+    "error": 72,
     "timeout": 102,
     "pending": 0
   },
@@ -64,10 +64,10 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 71,
-        "fail": 100,
+        "pass": 74,
+        "fail": 116,
         "skip": 5,
-        "error": 30,
+        "error": 11,
         "timeout": 3,
         "pending": 0
       }
@@ -236,8 +236,8 @@
         "pass": 51,
         "fail": 89,
         "skip": 132,
-        "error": 13,
-        "timeout": 32,
+        "error": 12,
+        "timeout": 33,
         "pending": 0
       }
     },
@@ -246,11 +246,11 @@
       "totals": {
         "total": 64,
         "executed": 64,
-        "pass": 43,
+        "pass": 44,
         "fail": 4,
         "skip": 0,
         "error": 16,
-        "timeout": 1,
+        "timeout": 0,
         "pending": 0
       }
     },
@@ -295,21 +295,21 @@
     }
   ],
   "subtests": {
-    "total": 103648,
-    "pass": 79765,
-    "fail": 23465,
+    "total": 103773,
+    "pass": 79788,
+    "fail": 23577,
     "skip": 248,
-    "error": 68,
+    "error": 58,
     "timeout": 102
   },
   "nonTentative": {
     "totals": {
       "total": 1842,
       "executed": 1842,
-      "pass": 964,
-      "fail": 508,
+      "pass": 968,
+      "fail": 522,
       "skip": 209,
-      "error": 85,
+      "error": 67,
       "timeout": 76,
       "pending": 0
     },
@@ -319,10 +319,10 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 71,
-          "fail": 98,
+          "pass": 74,
+          "fail": 112,
           "skip": 3,
-          "error": 27,
+          "error": 10,
           "timeout": 3,
           "pending": 0
         }
@@ -491,8 +491,8 @@
           "pass": 51,
           "fail": 74,
           "skip": 100,
-          "error": 10,
-          "timeout": 7,
+          "error": 9,
+          "timeout": 8,
           "pending": 0
         }
       },
@@ -501,11 +501,11 @@
         "totals": {
           "total": 64,
           "executed": 64,
-          "pass": 43,
+          "pass": 44,
           "fail": 4,
           "skip": 0,
           "error": 16,
-          "timeout": 1,
+          "timeout": 0,
           "pending": 0
         }
       },
@@ -550,11 +550,11 @@
       }
     ],
     "subtests": {
-      "total": 103238,
-      "pass": 79717,
-      "fail": 23171,
+      "total": 103361,
+      "pass": 79741,
+      "fail": 23279,
       "skip": 209,
-      "error": 65,
+      "error": 56,
       "timeout": 76
     },
     "nonPassingTests": [
@@ -575,13 +575,13 @@
       },
       {
         "url": "/custom-elements/ElementInternals-accessibility-values.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_equals: null default value expected (object) null but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/ElementInternals-accessibility.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_inherits: property \"role\" not found in prototype chain"
       },
       {
         "url": "/custom-elements/ElementInternals-role.html",
@@ -591,7 +591,7 @@
       {
         "url": "/custom-elements/HTMLElement-attachInternals.html",
         "status": "fail",
-        "message": "element.attachInternals is not a function. (In \"element.attachInternals()\", it is undefined)"
+        "message": "assert_throws_dom: function \"() => { customizedBuiltin.attachInternals() }\" did not throw"
       },
       {
         "url": "/custom-elements/adopted-callback.html",
@@ -644,11 +644,6 @@
         "message": "Executor does not support testdriver.js"
       },
       {
-        "url": "/custom-elements/element-internals-shadowroot.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
-      },
-      {
         "url": "/custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html",
         "status": "fail",
         "message": "assert_array_equals: lengths differ, expected array [\"begin\", \"connected\", \"adopted\", \"end\"] length 4, got [\"begin\", \"end\", \"connected\"] length 3"
@@ -656,47 +651,37 @@
       {
         "url": "/custom-elements/form-associated/ElementInternals-NotSupportedError.html",
         "status": "fail",
-        "message": "element.attachInternals is not a function. (In \"element.attachInternals()\", it is undefined)"
+        "message": "assert_throws_dom: function \"() => i.setFormValue('')\" threw object \"TypeError: i.setFormValue is not a function. (In \"i.setFormValue('')\", it is undefined)\" that is not a DOMException NotSupportedError: property \"code\" is equal to undefined, expected 9"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-form.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_equals: expected (object) Element node <form id=\"custom-form\">\n  <custom-input-parser id=\"custom... but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-labels.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_equals: expected (object) Element node <my-control></my-control> but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setFormValue-nullish-value.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "input.i.setFormValue is not a function. (In \"input.i.setFormValue(\"fail\")\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setFormValue.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: $('form').submit is not a function. (In \"$('form').submit()\", it is undefined)\""
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-setValidity-normalize-newlines.html",
         "status": "fail",
-        "message": "this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
-      },
-      {
-        "url": "/custom-elements/form-associated/ElementInternals-target-element-is-held-strongly.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: targetElement.attachInternals is not a function. (In \"targetElement.attachInternals()\", it is undefined)\""
+        "message": "control.i.setValidity is not a function. (In \"control.i.setValidity({customError: true}, message)\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-validation.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
-      },
-      {
-        "url": "/custom-elements/form-associated/disabled-delegatesFocus.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_true: default value is true expected true got undefined"
       },
       {
         "url": "/custom-elements/form-associated/fieldset-elements-after-upgrade.html",
@@ -705,8 +690,8 @@
       },
       {
         "url": "/custom-elements/form-associated/fieldset-elements-during-construction.html",
-        "status": "error",
-        "message": "Error: Maximum call stack size exceeded"
+        "status": "fail",
+        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/custom-elements/form-associated/fieldset-elements.html",
@@ -715,8 +700,8 @@
       },
       {
         "url": "/custom-elements/form-associated/form-associated-callback-form-attribute-removal.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_equals: precondition: the first form with the ID is the form owner expected (object) Element node <form id=\"duplicate-id-1\" data-label=\"first\"></form> but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/form-associated/form-associated-callback-order.html",
@@ -725,18 +710,18 @@
       },
       {
         "url": "/custom-elements/form-associated/form-associated-callback.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/custom-elements/form-associated/form-disabled-callback.html",
         "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "message": "TypeError: this.internals_.setFormValue is not a function. (In \"this.internals_.setFormValue('my-control-value')\", it is undefined)"
       },
       {
         "url": "/custom-elements/form-associated/form-disabled-legend.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_true: in legend :enabled expected true got false"
       },
       {
         "url": "/custom-elements/form-associated/form-elements-namedItem.html",
@@ -751,7 +736,7 @@
       {
         "url": "/custom-elements/form-associated/form-upgrade-reactions.html",
         "status": "fail",
-        "message": "control.attachInternals is not a function. (In \"control.attachInternals()\", it is undefined)"
+        "message": "assert_equals: expected (object) Element node <form><upgrade-detached-enabled></upgrade-detached-enable... but got (undefined) undefined"
       },
       {
         "url": "/custom-elements/form-associated/label-delegatesFocus.html",
@@ -965,8 +950,8 @@
       },
       {
         "url": "/custom-elements/registries/CustomElementRegistry-upgrade.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "CustomElementRegistry.upgrade requires a Node"
       },
       {
         "url": "/custom-elements/registries/Document-importNode-cross-document.window.html",
@@ -975,8 +960,8 @@
       },
       {
         "url": "/custom-elements/registries/Document-importNode.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_true: expected true got false"
       },
       {
         "url": "/custom-elements/registries/Element-attachShadow-disabled-shadow.window.html",
@@ -1141,27 +1126,27 @@
       {
         "url": "/custom-elements/state/ElementInternals-states.html",
         "status": "fail",
-        "message": "this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "message": "\"CustomStateSet\" is not defined"
       },
       {
         "url": "/custom-elements/state/custom-state-set-strong-ref.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: Cannot convert undefined to object\""
       },
       {
         "url": "/custom-elements/state/state-css-selector-nth-of.html",
         "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "message": "Test named 'state selector has influence on nth-of when state is applied' specified 2 'cleanup' functions, and 2 failed."
       },
       {
         "url": "/custom-elements/state/state-css-selector-shadow-dom.html",
         "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "message": "ReferenceError: \"CSSStyleSheet\" is not defined"
       },
       {
         "url": "/custom-elements/state/state-css-selector.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/custom-elements/state/state-pseudo-class.html",
@@ -2441,7 +2426,7 @@
       {
         "url": "/dom/nodes/moveBefore/form-associated-custom-element-reset.html",
         "status": "fail",
-        "message": "container.querySelector(\"form-control\").attachInternals is not a function. (In \"container.querySelector(\"form-control\").attachInternals()\", it is undefined)"
+        "message": "assert_equals: expected (object) null but got (undefined) undefined"
       },
       {
         "url": "/dom/nodes/moveBefore/fullscreen-preserve.html",
@@ -3830,8 +3815,8 @@
       },
       {
         "url": "/shadow-dom/declarative/declarative-shadow-dom-available-to-element-internals.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/shadow-dom/declarative/declarative-shadow-dom-basic.html",
@@ -4744,11 +4729,6 @@
         "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
-        "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
-        "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
-      },
-      {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
         "status": "error",
         "message": "Unhandled rejection: \"navigator\" is not defined"
@@ -4955,9 +4935,9 @@
       "total": 114,
       "executed": 114,
       "pass": 1,
-      "fail": 41,
+      "fail": 43,
       "skip": 39,
-      "error": 7,
+      "error": 5,
       "timeout": 26,
       "pending": 0
     },
@@ -4968,9 +4948,9 @@
           "total": 7,
           "executed": 7,
           "pass": 0,
-          "fail": 2,
+          "fail": 4,
           "skip": 2,
-          "error": 3,
+          "error": 1,
           "timeout": 0,
           "pending": 0
         }
@@ -5198,28 +5178,28 @@
       }
     ],
     "subtests": {
-      "total": 410,
-      "pass": 48,
-      "fail": 294,
+      "total": 412,
+      "pass": 47,
+      "fail": 298,
       "skip": 39,
-      "error": 3,
+      "error": 2,
       "timeout": 26
     },
     "nonPassingTests": [
       {
         "url": "/custom-elements/ElementInternals-accessibility.tentative.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_inherits: property \"ariaColIndexText\" not found in prototype chain"
       },
       {
         "url": "/custom-elements/element-internals-aria-element-reflection-shadow-including-root.tentative.html",
-        "status": "error",
-        "message": "TypeError: this.attachInternals is not a function. (In \"this.attachInternals()\", it is undefined)"
+        "status": "fail",
+        "message": "assert_equals: disconnected element is not returned expected null but got Element node <div></div>"
       },
       {
         "url": "/custom-elements/element-internals-behaviors.tentative.html",
         "status": "fail",
-        "message": "element.attachInternals is not a function. (In \"element.attachInternals({ behaviors: [] })\", it is undefined)"
+        "message": "assert_not_equals: got disallowed value undefined"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-behavior-accessibility.tentative.html",

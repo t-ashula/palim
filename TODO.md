@@ -74,7 +74,7 @@
 - [ ] shadow root の attach 条件、mode、host、clonable / serializable state
 - [ ] slot assignment、manual slotting、`Element.slot`、`HTMLSlotElement.assign()`、`slotchange`
 - [ ] custom element reaction stack / backup queue、nested reaction の順序、adopted callback
-- [ ] `HTMLElement.attachInternals()` と `ElementInternals` object の生成、要素ごとの identity、呼び出し条件、`disabledFeatures`、`shadowRoot`
+- [ ] customized built-in element の `is` value を使った `HTMLElement.attachInternals()` の拒否条件
 - [ ] `ElementInternals.states` と custom state set
 - [ ] `ElementInternals` の ARIA reflection
 - [ ] form-associated custom element の form owner、labels、form value、validity、disabled state と lifecycle callback
