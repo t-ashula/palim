@@ -24,6 +24,7 @@ export {
   installForeignAnchorMembers,
   installDocumentNamedElementMembers,
   installElementInternalsMembers,
+  installFormElementMembers,
   installHTMLElementMembers,
   installHTMLAnchorElementMembers,
   installHTMLAreaElementMembers,

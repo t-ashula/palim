@@ -24,9 +24,12 @@ import {
   customElementConstructionFailed,
   customElementDefinitionForElement,
   customElementRegistryForNode,
+  formAssociatedCustomElementOwner,
+  isFormAssociatedCustomElement,
   setCustomElementIsValue,
   setCustomElementRegistryForNode,
   setFailedCustomElement,
+  setFormAssociatedCustomElementOwnerProvider,
 } from "./dom/custom-elements.js";
 import { EventTargetImplementation } from "./dom/event-implementation.js";
 import {
@@ -907,6 +910,11 @@ export class ElementInternals {
 
   get shadowRoot(): ShadowRoot | null {
     return shadowRootForElementInternals(this.target);
+  }
+
+  get form(): HTMLFormElement | null {
+    const owner = formAssociatedCustomElementOwner(this.target);
+    return owner instanceof HTMLFormElement ? owner : null;
   }
 }
 
@@ -4434,7 +4442,7 @@ export class HTMLFieldSetElement extends HTMLElement {
   readonly type = "fieldset";
 
   get elements(): HTMLCollection {
-    this.#elements ??= createHTMLCollection(() => formControls(this));
+    this.#elements ??= createHTMLCollection(() => fieldSetControls(this));
     return this.#elements;
   }
 
@@ -6689,16 +6697,29 @@ function isFormControl(element: Element): boolean {
     element instanceof HTMLObjectElement ||
     element instanceof HTMLOutputElement ||
     element instanceof HTMLSelectElement ||
-    element instanceof HTMLTextAreaElement
+    element instanceof HTMLTextAreaElement ||
+    isFormAssociatedCustomElement(element)
   );
 }
 
-function formControls(root: Element): Element[] {
-  return descendants(root).filter(
+function formControls(root: HTMLFormElement): Element[] {
+  const document = root.ownerDocument;
+  if (document === null) {
+    return [];
+  }
+  return descendants(document).filter(
     (element) =>
       isFormControl(element) && formOwner(element as HTMLElement) === root,
   );
 }
+
+function fieldSetControls(root: HTMLFieldSetElement): Element[] {
+  return descendants(root).filter(isFormControl);
+}
+
+setFormAssociatedCustomElementOwnerProvider((element) =>
+  element instanceof HTMLElement ? formOwner(element) : null,
+);
 
 function resetFormControl(element: Element): void {
   if (

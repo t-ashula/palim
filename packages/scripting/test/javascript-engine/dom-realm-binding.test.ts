@@ -331,6 +331,17 @@ describe("DOMRealmBinding", () => {
     evaluate(engine, realm, fixture("attaches-element-internals.js"));
   });
 
+  it("associates form-associated custom elements", () => {
+    const { engine, realm } = createTestRealm(`
+      <form id="form"><fieldset id="fieldset">
+        <x-control id="inside" name="control"></x-control>
+      </fieldset></form>
+      <x-control id="external" name="group" form="form"></x-control>
+    `);
+
+    evaluate(engine, realm, fixture("associates-form-custom-elements.js"));
+  });
+
   it("invokes attributeChangedCallback for observed attributes", () => {
     const { engine, realm } = createTestRealm("");
 

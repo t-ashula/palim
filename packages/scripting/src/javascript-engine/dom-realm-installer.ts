@@ -21,6 +21,7 @@ import {
   installEventMembers,
   installEventTargetMembers,
   installForeignAnchorMembers,
+  installFormElementMembers,
   installHTMLAnchorElementMembers,
   installHTMLAreaElementMembers,
   installHTMLBaseElementMembers,
@@ -68,6 +69,7 @@ export function installDOMRealmInterfaces(
   installHTMLStyleElementMembers(binding);
   installElementInternalsMembers(binding);
   installDocumentNamedElementMembers(binding);
+  installFormElementMembers(binding);
   installHTMLAnchorElementMembers(binding);
   installHTMLAreaElementMembers(binding);
   installHTMLBaseElementMembers(binding);

@@ -909,9 +909,39 @@ export class DOMRealmBindingContext {
     if (formAssociatedValue.type === "throw") {
       return formAssociatedValue;
     }
-    if (this.engine.toBoolean(formAssociatedValue.value)) {
-      for (const callbackName of [
+    const formAssociated = this.engine.toBoolean(formAssociatedValue.value);
+    let formAssociatedCallback:
+      ((element: Element, form: Element | null) => void) | null = null;
+    if (formAssociated) {
+      const callbackValue = this.engine.get(
+        this.realm,
+        prototype,
         "formAssociatedCallback",
+      );
+      if (callbackValue.type === "throw") {
+        return callbackValue;
+      }
+      if (!this.engine.isUndefined(callbackValue.value)) {
+        const callable = this.engine.asCallable(callbackValue.value);
+        if (callable === null) {
+          return thrown(
+            this.engine.createTypeError(
+              this.realm,
+              "formAssociatedCallback is not callable",
+            ),
+          );
+        }
+        const record = this.reportingCallback(callable);
+        if (record.type === "throw") {
+          return record;
+        }
+        formAssociatedCallback = (element, form) => {
+          this.context.invokeCallback(record.value, this.wrap(element), [
+            form === null ? this.engine.fromPrimitive(null) : this.wrap(form),
+          ]);
+        };
+      }
+      for (const callbackName of [
         "formResetCallback",
         "formDisabledCallback",
         "formStateRestoreCallback",
@@ -983,6 +1013,8 @@ export class DOMRealmBindingContext {
         connectedCallback: connectedCallback.value,
         disconnectedCallback: disconnectedCallback.value,
         connectedMoveCallback: connectedMoveCallback.value,
+        formAssociated,
+        formAssociatedCallback,
         disabledFeatures: disabledFeatures.value,
         observedAttributes,
         attributeChangedCallback,

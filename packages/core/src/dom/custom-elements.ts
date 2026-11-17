@@ -21,6 +21,9 @@ export interface CustomElementDefinition {
   readonly connectedCallback: ((element: Element) => void) | null;
   readonly disconnectedCallback: ((element: Element) => void) | null;
   readonly connectedMoveCallback: ((element: Element) => void) | null;
+  readonly formAssociated?: boolean;
+  readonly formAssociatedCallback?:
+    ((element: Element, form: Element | null) => void) | null;
   readonly disabledFeatures?: readonly string[];
   readonly observedAttributes: readonly string[];
   readonly attributeChangedCallback:
@@ -40,10 +43,14 @@ const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
   Element,
   CustomElementDefinition
 >();
+const CUSTOM_ELEMENTS = new WeakSet<Element>();
 const CUSTOM_ELEMENT_IS_VALUES = new WeakMap<Element, string>();
 const FAILED_CUSTOM_ELEMENTS = new WeakSet<Element>();
 const REACTION_QUEUES = new WeakMap<Element, (() => void)[]>();
+const FORM_OWNERS = new WeakMap<Element, Element>();
 const REACTIONS_STACK: Element[][] = [];
+let formOwnerForCustomElement: (element: Element) => Element | null = () =>
+  null;
 export class CustomElementRegistry {
   readonly #definitions = new Map<string, CustomElementDefinition>();
   readonly #initializedRoots = new Set<Node>();
@@ -224,6 +231,8 @@ export function createDefinedCustomElement(
   const result = definition.construct(document, localName, prefix);
   if (result.type === "success") {
     CUSTOM_ELEMENT_DEFINITIONS.set(result.value, definition);
+    CUSTOM_ELEMENTS.add(result.value);
+    updateFormAssociatedCustomElement(result.value);
     if (isValue !== null) {
       CUSTOM_ELEMENT_IS_VALUES.set(result.value, isValue);
     }
@@ -300,6 +309,8 @@ export function upgradeCustomElements(
     );
     if (result.type === "success") {
       CUSTOM_ELEMENT_DEFINITIONS.set(element, definition);
+      CUSTOM_ELEMENTS.add(element);
+      updateFormAssociatedCustomElement(element);
       for (const attribute of element.attributes) {
         enqueueCustomElementAttributeChangedReaction(
           element,
@@ -325,6 +336,11 @@ export function enqueueCustomElementAttributeChangedReaction(
   newValue: string | null,
   namespace: string | null,
 ): void {
+  if (localName === "form") {
+    updateFormAssociatedCustomElement(element);
+  } else if (localName === "id" && element.ownerDocument !== null) {
+    updateFormAssociatedCustomElements(element.ownerDocument);
+  }
   const definition = CUSTOM_ELEMENT_DEFINITIONS.get(element);
   if (
     definition?.attributeChangedCallback === null ||
@@ -345,6 +361,7 @@ export function enqueueCustomElementAttributeChangedReaction(
 }
 
 export function enqueueCustomElementConnectedReaction(element: Element): void {
+  updateFormAssociatedCustomElement(element);
   const callback = CUSTOM_ELEMENT_DEFINITIONS.get(element)?.connectedCallback;
   if (callback !== null && callback !== undefined) {
     enqueueReaction(element, () => {
@@ -356,11 +373,59 @@ export function enqueueCustomElementConnectedReaction(element: Element): void {
 export function enqueueCustomElementDisconnectedReaction(
   element: Element,
 ): void {
+  updateFormAssociatedCustomElement(element);
   const callback =
     CUSTOM_ELEMENT_DEFINITIONS.get(element)?.disconnectedCallback;
   if (callback !== null && callback !== undefined) {
     enqueueReaction(element, () => {
       callback(element);
+    });
+  }
+}
+
+export function setFormAssociatedCustomElementOwnerProvider(
+  provider: (element: Element) => Element | null,
+): void {
+  formOwnerForCustomElement = provider;
+}
+
+export function isFormAssociatedCustomElement(element: Element): boolean {
+  return (
+    CUSTOM_ELEMENTS.has(element) &&
+    CUSTOM_ELEMENT_DEFINITIONS.get(element)?.formAssociated === true
+  );
+}
+
+export function formAssociatedCustomElementOwner(
+  element: Element,
+): Element | null {
+  return FORM_OWNERS.get(element) ?? null;
+}
+
+export function updateFormAssociatedCustomElements(root: Node): void {
+  for (const element of shadowIncludingInclusiveDescendantElements(root)) {
+    updateFormAssociatedCustomElement(element);
+  }
+}
+
+function updateFormAssociatedCustomElement(element: Element): void {
+  const definition = CUSTOM_ELEMENT_DEFINITIONS.get(element);
+  if (!CUSTOM_ELEMENTS.has(element) || definition?.formAssociated !== true) {
+    return;
+  }
+  const previous = FORM_OWNERS.get(element) ?? null;
+  const current = formOwnerForCustomElement(element);
+  if (previous === current) {
+    return;
+  }
+  if (current === null) {
+    FORM_OWNERS.delete(element);
+  } else {
+    FORM_OWNERS.set(element, current);
+  }
+  if (definition.formAssociatedCallback != null) {
+    enqueueReaction(element, () => {
+      definition.formAssociatedCallback?.(element, current);
     });
   }
 }

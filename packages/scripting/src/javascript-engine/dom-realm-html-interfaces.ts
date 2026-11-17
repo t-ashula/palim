@@ -11,6 +11,7 @@ import {
   HTMLBaseElement,
   HTMLBodyElement,
   HTMLEmbedElement,
+  HTMLFieldSetElement,
   HTMLFormElement,
   HTMLIFrameElement,
   HTMLImageElement,
@@ -368,6 +369,12 @@ export function installHTMLStyleElementMembers(
 export function installElementInternalsMembers(
   binding: DOMRealmBindingContext,
 ): void {
+  binding.attribute(binding.elementInternalsPrototype, "form", (thisValue) => {
+    const internals = binding.elementInternals(thisValue);
+    return internals === null
+      ? binding.typeError("Invalid ElementInternals receiver")
+      : binding.platformValue(internals.form);
+  });
   binding.attribute(
     binding.elementInternalsPrototype,
     "shadowRoot",
@@ -414,6 +421,20 @@ export function installDocumentNamedElementMembers(
         return binding.undefined();
       },
     );
+  }
+}
+
+export function installFormElementMembers(
+  binding: DOMRealmBindingContext,
+): void {
+  for (const constructor of [HTMLFormElement, HTMLFieldSetElement] as const) {
+    const prototype = binding.htmlElementInterfacePrototype(constructor);
+    binding.attribute(prototype, "elements", (thisValue) => {
+      const element = binding.htmlElement(thisValue);
+      return !(element instanceof constructor)
+        ? binding.typeError(`Invalid ${constructor.name} receiver`)
+        : binding.platformValue(element.elements);
+    });
   }
 }
 
