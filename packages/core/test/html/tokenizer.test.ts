@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { tokenize } from "../../src/html/tokenizer.js";
+import { HTMLTokenizer, tokenize } from "../../src/html/tokenizer.js";
 
 describe("HTML tokenizer", () => {
   it("emits tags, merged character data, comments, and EOF", () => {
@@ -24,5 +24,18 @@ describe("HTML tokenizer", () => {
     expect(tokenize("&#0;").errors.map(({ code }) => code)).toContain(
       "null-character-reference",
     );
+  });
+
+  it("preserves the order of insertions made before tokenization resumes", () => {
+    const tokenizer = new HTMLTokenizer("", { streaming: true });
+
+    tokenizer.insert("B");
+    tokenizer.insert("A");
+    tokenizer.insert("R");
+    tokenizer.close();
+
+    expect(tokenizer.run().tokens).toEqual([
+      { type: "Character", data: "BAR" },
+    ]);
   });
 });

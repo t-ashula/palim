@@ -209,6 +209,7 @@ export class HTMLTokenizer {
   #waitingForInput = false;
   #state: State;
   #position = 0;
+  #insertionEnd: number | null = null;
   #lastConsumedLength = 1;
   #currentToken:
     | MutableTagToken
@@ -240,6 +241,7 @@ export class HTMLTokenizer {
   }
 
   nextToken(): Token | null {
+    this.#insertionEnd = null;
     while (
       this.#tokens.length === 0 &&
       !this.#waitingForInput &&
@@ -264,10 +266,12 @@ export class HTMLTokenizer {
       throw new TypeError("The tokenizer input stream is closed");
     }
     const inserted = this.#normalizeInput(input, false);
+    const insertionPosition = this.#insertionEnd ?? this.#position;
     this.#input =
-      this.#input.slice(0, this.#position) +
+      this.#input.slice(0, insertionPosition) +
       inserted +
-      this.#input.slice(this.#position);
+      this.#input.slice(insertionPosition);
+    this.#insertionEnd = insertionPosition + inserted.length;
     this.#waitingForInput = false;
   }
 
