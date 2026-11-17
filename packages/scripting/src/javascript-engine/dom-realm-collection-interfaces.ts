@@ -460,7 +460,7 @@ export function installCSSStyleDeclarationMembers(
       const style = binding.cssStyleDeclaration(thisValue);
       return style === null
         ? binding.typeError("Invalid CSSStyleDeclaration receiver")
-        : binding.primitive(style.parentRule);
+        : binding.platformValue(style.parentRule);
     },
   );
   binding.method(

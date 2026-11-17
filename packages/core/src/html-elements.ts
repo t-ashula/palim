@@ -1,7 +1,6 @@
 import type { CSSToken } from "./css-syntax.js";
 import { tokenizeCSS } from "./css-syntax.js";
-import type { CSSStyleSheet } from "./cssom.js";
-import { styleSheetForElement } from "./cssom.js";
+import type { CSSRule, CSSStyleSheet } from "./cssom.js";
 import type { Document, DocumentFragment, DOMTokenList, Node } from "./dom.js";
 import {
   Element,
@@ -95,8 +94,24 @@ const INLINE_STYLE_DECLARATIONS = new WeakMap<
   HTMLElement,
   CSSStyleProperties
 >();
-const INLINE_STYLE_CONSTRUCTION = Symbol("inline style construction");
+const CSS_STYLE_DECLARATION_CONSTRUCTION = Symbol(
+  "CSS style declaration construction",
+);
+const CSS_STYLE_DECLARATION_TARGETS = new WeakMap<
+  CSSStyleDeclaration,
+  CSSStyleDeclarationTarget
+>();
 const IFRAME_CONTENT_WINDOWS = new WeakMap<HTMLIFrameElement, Window>();
+
+interface CSSStyleDeclarationTarget {
+  readonly read: () => string;
+  readonly write: (value: string) => void;
+  readonly parentRule: CSSRule | null;
+}
+
+let htmlStyleSheetForElement: (
+  element: HTMLStyleElement,
+) => CSSStyleSheet | null = () => null;
 
 const DIRECT_HTML_ELEMENT_NAMES = new Set([
   "abbr",
@@ -364,49 +379,43 @@ export type EventHandler = ((event: Event) => unknown) | null;
 export class CSSStyleDeclaration {
   readonly [index: number]: string;
 
-  constructor(
-    readonly element: HTMLElement,
-    construction?: symbol,
-  ) {
-    if (construction !== INLINE_STYLE_CONSTRUCTION) {
+  constructor(target: CSSStyleDeclarationTarget, construction?: symbol) {
+    if (construction !== CSS_STYLE_DECLARATION_CONSTRUCTION) {
       throw new TypeError("Illegal constructor");
     }
+    CSS_STYLE_DECLARATION_TARGETS.set(this, target);
   }
 
   get cssText(): string {
-    return serializeInlineStyleDeclarations(
-      inlineStyleDeclarations(this.element),
-    );
+    return serializeInlineStyleDeclarations(styleDeclarations(this));
   }
 
   set cssText(value: string) {
-    setInlineStyleDeclarations(
-      this.element,
+    setStyleDeclarations(
+      this,
       parseInlineStyleDeclarations(legacyNullToEmptyString(value)),
     );
   }
 
   get length(): number {
-    return inlineStyleDeclarations(this.element).length;
+    return styleDeclarations(this).length;
   }
 
   item(index: number): string {
     requireArguments(arguments.length, 1);
-    return (
-      inlineStyleDeclarations(this.element)[toUnsignedLong(index)]?.name ?? ""
-    );
+    return styleDeclarations(this)[toUnsignedLong(index)]?.name ?? "";
   }
 
   getPropertyValue(property: string): string {
     requireArguments(arguments.length, 1);
     const name = normalizedCSSPropertyName(domString(property));
-    return findInlineStyleDeclaration(this.element, name)?.value ?? "";
+    return findStyleDeclaration(this, name)?.value ?? "";
   }
 
   getPropertyPriority(property: string): string {
     requireArguments(arguments.length, 1);
     const name = normalizedCSSPropertyName(domString(property));
-    return findInlineStyleDeclaration(this.element, name)?.important === true
+    return findStyleDeclaration(this, name)?.important === true
       ? "important"
       : "";
   }
@@ -430,7 +439,7 @@ export class CSSStyleDeclaration {
     if (parsedValue === null) {
       return;
     }
-    const declarations = inlineStyleDeclarations(this.element);
+    const declarations = styleDeclarations(this);
     const declaration = {
       name,
       value: parsedValue,
@@ -442,25 +451,27 @@ export class CSSStyleDeclaration {
     } else {
       declarations[index] = declaration;
     }
-    setInlineStyleDeclarations(this.element, declarations);
+    setStyleDeclarations(this, declarations);
   }
 
   removeProperty(property: string): string {
     requireArguments(arguments.length, 1);
     const name = normalizedCSSPropertyName(domString(property));
-    const declarations = inlineStyleDeclarations(this.element);
+    const declarations = styleDeclarations(this);
     const declaration = declarations.find((item) => item.name === name);
     if (declaration === undefined) {
       return "";
     }
-    setInlineStyleDeclarations(
-      this.element,
+    setStyleDeclarations(
+      this,
       declarations.filter((item) => item !== declaration),
     );
     return declaration.value;
   }
 
-  readonly parentRule = null;
+  get parentRule(): CSSRule | null {
+    return cssStyleDeclarationTarget(this).parentRule;
+  }
 }
 
 export class CSSStyleProperties extends CSSStyleDeclaration {
@@ -1462,7 +1473,7 @@ export class HTMLStyleElement extends HTMLElement {
   #disabled = false;
 
   get sheet(): CSSStyleSheet | null {
-    return styleSheetForElement(this);
+    return htmlStyleSheetForElement(this);
   }
 
   get disabled(): boolean {
@@ -1493,6 +1504,12 @@ export class HTMLStyleElement extends HTMLElement {
   set type(value: string) {
     this.setAttribute("type", value);
   }
+}
+
+export function setHTMLStyleSheetProvider(
+  provider: (element: HTMLStyleElement) => CSSStyleSheet | null,
+): void {
+  htmlStyleSheetForElement = provider;
 }
 
 export class HTMLBodyElement extends HTMLElement {
@@ -5596,7 +5613,23 @@ const DISPLAY_SINGLE_KEYWORDS = new Set([
 function createInlineStyleDeclaration(
   element: HTMLElement,
 ): CSSStyleProperties {
-  const target = new CSSStyleProperties(element, INLINE_STYLE_CONSTRUCTION);
+  return createCSSStyleProperties(
+    () => element.getAttribute("style") ?? "",
+    (value) => {
+      element.setAttribute("style", value);
+    },
+  );
+}
+
+export function createCSSStyleProperties(
+  read: () => string,
+  write: (value: string) => void,
+  parentRule: CSSRule | null = null,
+): CSSStyleProperties {
+  const target = new CSSStyleProperties(
+    { read, write, parentRule },
+    CSS_STYLE_DECLARATION_CONSTRUCTION,
+  );
   const declaration = new Proxy(target, {
     get(target, property, receiver): unknown {
       const index = cssDeclarationIndex(property);
@@ -5658,18 +5691,40 @@ function isSupportedCSSProperty(property: string): boolean {
   return property.startsWith("--") || SUPPORTED_CSS_PROPERTIES.has(property);
 }
 
-function inlineStyleDeclarations(element: Element): InlineStyleProperty[] {
-  return parseInlineStyleDeclarations(element.getAttribute("style") ?? "");
+function cssStyleDeclarationTarget(
+  declaration: CSSStyleDeclaration,
+): CSSStyleDeclarationTarget {
+  const direct = CSS_STYLE_DECLARATION_TARGETS.get(declaration);
+  if (direct !== undefined) {
+    return direct;
+  }
+  const implementation = implementationFor(declaration);
+  if (!(implementation instanceof CSSStyleDeclaration)) {
+    throw new TypeError("Invalid CSSStyleDeclaration");
+  }
+  const target = CSS_STYLE_DECLARATION_TARGETS.get(implementation);
+  if (target === undefined) {
+    throw new TypeError("CSSStyleDeclaration has no declaration target");
+  }
+  return target;
 }
 
-function findInlineStyleDeclaration(
-  element: Element,
+function styleDeclarations(
+  declaration: CSSStyleDeclaration,
+): InlineStyleProperty[] {
+  return parseInlineStyleDeclarations(
+    cssStyleDeclarationTarget(declaration).read(),
+  );
+}
+
+function findStyleDeclaration(
+  declaration: CSSStyleDeclaration,
   property: string,
 ): InlineStyleProperty | undefined {
   if (!isSupportedCSSProperty(property)) {
     return undefined;
   }
-  return inlineStyleDeclarations(element).find(
+  return styleDeclarations(declaration).find(
     (declaration) => declaration.name === property,
   );
 }
@@ -5975,11 +6030,13 @@ function serializeInlineStyleDeclarations(
     .join(" ");
 }
 
-function setInlineStyleDeclarations(
-  element: Element,
+function setStyleDeclarations(
+  declaration: CSSStyleDeclaration,
   declarations: readonly InlineStyleProperty[],
 ): void {
-  element.setAttribute("style", serializeInlineStyleDeclarations(declarations));
+  cssStyleDeclarationTarget(declaration).write(
+    serializeInlineStyleDeclarations(declarations),
+  );
 }
 
 function reflectedURL(element: Element, name: string): string {

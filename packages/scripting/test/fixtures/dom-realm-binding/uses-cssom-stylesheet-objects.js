@@ -15,9 +15,21 @@ if (
   !(rule instanceof CSSStyleRule) ||
   !(rule instanceof CSSRule) ||
   rule.selectorText !== "main" ||
-  rule.parentStyleSheet !== sheet
+  rule.parentStyleSheet !== sheet ||
+  !(rule.style instanceof CSSStyleDeclaration) ||
+  rule.style !== rule.style ||
+  rule.style.parentRule !== rule ||
+  rule.style.getPropertyValue("display") !== "block"
 ) {
   throw new Error("style rule binding is invalid");
+}
+
+rule.style.setProperty("display", "none");
+if (
+  rule.cssText !== "main { display: none; }" ||
+  !styleElement.textContent.includes("main { display: none; }")
+) {
+  throw new Error("style rule declaration binding is invalid");
 }
 
 const index = sheet.insertRule("aside { display: none }", 1);

@@ -67,6 +67,12 @@ function installRuleMembers(binding: DOMRealmBindingContext): void {
       return binding.undefined();
     },
   );
+  binding.attribute(binding.cssStyleRulePrototype, "style", (thisValue) => {
+    const rule = cssStyleRule(binding, thisValue);
+    return rule === null
+      ? binding.typeError("Invalid CSSStyleRule receiver")
+      : normal(binding.wrap(rule.style));
+  });
 }
 
 function installRuleListMembers(binding: DOMRealmBindingContext): void {

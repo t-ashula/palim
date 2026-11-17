@@ -1,5 +1,4 @@
 import type { StyleSheetList } from "../cssom.js";
-import { styleSheetsForRoot } from "../cssom.js";
 import { DOMException } from "../dom-exception.js";
 import type { DOMRectList } from "../geometry.js";
 import { createDOMRectList, DOMRect } from "../geometry.js";
@@ -111,6 +110,12 @@ import type {
   NodeIterator,
   TreeWalker,
 } from "./traversal.js";
+
+let styleSheetsForDocumentOrShadowRoot: (
+  root: Document | ShadowRoot,
+) => StyleSheetList = () => {
+  throw new TypeError("CSSOM stylesheet provider is not installed");
+};
 import {
   createNodeIterator,
   createTreeWalker,
@@ -852,6 +857,12 @@ function stripAndCollapseASCIIWhitespace(value: string): string {
     .replaceAll(/[\t\n\f\r ]+/gu, " ");
 }
 
+export function setStyleSheetsProvider(
+  provider: (root: Document | ShadowRoot) => StyleSheetList,
+): void {
+  styleSheetsForDocumentOrShadowRoot = provider;
+}
+
 export class Document extends Node {
   #forms: HTMLCollection | null = null;
   #images: HTMLCollection | null = null;
@@ -862,7 +873,7 @@ export class Document extends Node {
   readonly readyState = "complete";
 
   get styleSheets(): StyleSheetList {
-    return styleSheetsForRoot(this);
+    return styleSheetsForDocumentOrShadowRoot(this);
   }
 
   static parseHTML(html: string, options: HTMLParsingOptions = {}): Document {
@@ -3460,7 +3471,7 @@ export class ShadowRoot extends DocumentFragment {
   }
 
   get styleSheets(): StyleSheetList {
-    return styleSheetsForRoot(this);
+    return styleSheetsForDocumentOrShadowRoot(this);
   }
 
   get host(): Element {

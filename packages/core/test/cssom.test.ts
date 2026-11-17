@@ -34,6 +34,9 @@ describe("CSSStyleRule", () => {
     expect(rule).toBeInstanceOf(CSSRule);
     expect(rule.selectorText).toBe("main");
     expect(rule.cssText).toBe("main { display: block }");
+    expect(rule.style).toBe(rule.style);
+    expect(rule.style.parentRule).toBe(rule);
+    expect(rule.style.cssText).toBe("display: block;");
   });
 
   test("updates a valid selector", () => {
@@ -70,6 +73,26 @@ describe("CSSStyleRule", () => {
 
     expect(rule.selectorText).toBe("main");
     expect(rule.cssText).toBe("main { display: block }");
+  });
+
+  test("updates rule text through its declaration object", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+
+    rule.style.setProperty("display", "none");
+
+    expect(rule.style.getPropertyValue("display")).toBe("none");
+    expect(rule.cssText).toBe("main { display: none; }");
+  });
+
+  test("updates the same declaration object when rule text changes", () => {
+    const rule = new CSSStyleRule("main", "display: block");
+    const style = rule.style;
+
+    rule.cssText = "article { color: red }";
+
+    expect(rule.style).toBe(style);
+    expect(style.getPropertyValue("display")).toBe("");
+    expect(style.getPropertyValue("color")).toBe("red");
   });
 });
 
@@ -116,6 +139,20 @@ describe("CSSStyleSheet", () => {
     expect(first?.parentStyleSheet).toBe(sheet);
     expect(second?.cssText).toBe("main { display: block }");
     expect(second?.parentStyleSheet).toBe(sheet);
+  });
+
+  test("keeps an inserted rule attached when its declaration changes", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("main { display: block }");
+    const rule = sheet.cssRules.item(0);
+    if (!(rule instanceof CSSStyleRule)) {
+      throw new Error("Expected a CSSStyleRule fixture");
+    }
+
+    rule.style.setProperty("display", "none");
+
+    expect(sheet.cssRules.item(0)).toBe(rule);
+    expect(rule.cssText).toBe("main { display: none; }");
   });
 
   test("appends a rule when the index is omitted", () => {

@@ -1,6 +1,12 @@
 import { bindDOMInterface } from "./dom/binding.js";
 import type { Document, Element, ShadowRoot } from "./dom/nodes.js";
+import { setStyleSheetsProvider } from "./dom/nodes.js";
 import { DOMException } from "./dom-exception.js";
+import type { CSSStyleProperties } from "./html-elements.js";
+import {
+  createCSSStyleProperties,
+  setHTMLStyleSheetProvider,
+} from "./html-elements.js";
 
 const STYLE_SHEETS = new WeakMap<Element, CSSStyleSheet>();
 const STYLE_SHEET_LISTS = new WeakMap<Document | ShadowRoot, StyleSheetList>();
@@ -25,17 +31,27 @@ export class CSSRule {
 
   set cssText(value: string) {
     this.ruleText = value;
-    this.parentStyleSheet?.replaceRuleText(this, this.ruleText);
+    this.parentStyleSheet?.ruleChanged(this);
   }
 }
 
 export class CSSStyleRule extends CSSRule {
+  readonly style: CSSStyleProperties;
+
   constructor(
     private selector: string,
     private declarations: string,
     parentStyleSheet: CSSStyleSheet | null = null,
   ) {
     super(serializeStyleRule(selector, declarations), parentStyleSheet);
+    this.style = createCSSStyleProperties(
+      () => this.declarations,
+      (value) => {
+        this.declarations = value;
+        this.updateRuleText();
+      },
+      this,
+    );
   }
 
   get selectorText(): string {
@@ -138,17 +154,10 @@ export class CSSStyleSheet {
     this.updateOwnerNode();
   }
 
-  replaceRuleText(rule: CSSRule, ruleText: string): void {
-    const index = this.#rules.indexOf(rule);
-    if (index < 0) {
-      return;
+  ruleChanged(rule: CSSRule): void {
+    if (this.#rules.includes(rule)) {
+      this.updateOwnerNode();
     }
-    const replacement = createRule(ruleText, this);
-    if (replacement === null) {
-      return;
-    }
-    this.#rules[index] = replacement;
-    this.updateOwnerNode();
   }
 
   private replaceFromOwnerNodeIfChanged(): void {
@@ -236,6 +245,9 @@ export function styleSheetsForRoot(
   }
   return list;
 }
+
+setHTMLStyleSheetProvider(styleSheetForElement);
+setStyleSheetsProvider(styleSheetsForRoot);
 
 function parseRuleList(source: string, sheet: CSSStyleSheet): CSSRule[] {
   const rules: CSSRule[] = [];

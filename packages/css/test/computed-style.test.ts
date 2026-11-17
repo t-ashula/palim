@@ -1,5 +1,5 @@
 import type { Document, Element } from "@palim/core";
-import { DOMParser } from "@palim/core";
+import { CSSStyleRule, DOMParser } from "@palim/core";
 import { describe, expect, test } from "vitest";
 
 import { computedStyle, invalidateComputedStyles } from "../src/index.js";
@@ -55,6 +55,24 @@ describe("computedStyle", () => {
     }
 
     sheet.insertRule("div { display: none }", 0);
+    invalidateComputedStyles(document);
+
+    expect(computedStyle(requiredElement(document, "div")).display).toBe(
+      "none",
+    );
+  });
+
+  test("uses declaration changes made through a style rule", () => {
+    const document = new DOMParser().parseFromString(
+      "<style>div { display: block }</style><div></div>",
+      "text/html",
+    );
+    const rule = document.styleSheets.item(0)?.cssRules.item(0);
+    if (!(rule instanceof CSSStyleRule)) {
+      throw new Error("Expected a CSSStyleRule fixture");
+    }
+
+    rule.style.setProperty("display", "none");
     invalidateComputedStyles(document);
 
     expect(computedStyle(requiredElement(document, "div")).display).toBe(
