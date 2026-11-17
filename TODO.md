@@ -33,7 +33,6 @@
 - [ ] frame/object/embed の browsing context
 - [ ] external stylesheet の読み込みと `LinkStyle`
 - [ ] image loading と intrinsic size
-- [ ] `Window.getComputedStyle()` から要素の計算済み CSS declaration を page realm に返す
 - [ ] `getComputedStyle()` の layout-dependent resolved value と残る layout-dependent API
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
@@ -78,7 +77,8 @@
 - [ ] customized built-in element の `is` value を使った `HTMLElement.attachInternals()` の拒否条件
 - [ ] `ElementInternals.states` と custom state set
 - [ ] `ElementInternals` の ARIA reflection
-- [ ] form-associated custom element の form owner、labels、form value、validity、disabled state と lifecycle callback
+- [ ] form-associated custom element を `form.elements` / `fieldset.elements` に含め、upgrade、`name` / `form` の変更、接続・切断を live collection と `formAssociatedCallback` に反映する
+- [ ] form-associated custom element の labels、form value、validity、disabled state と各 lifecycle callback
 - [ ] shadow root を含む serialization と `getHTML()`
 
 ## Window and platform services
