@@ -34,6 +34,7 @@
 - [ ] external stylesheet の読み込みと `LinkStyle`
 - [ ] image loading と intrinsic size
 - [ ] `getComputedStyle()` の layout-dependent resolved value と残る layout-dependent API
+- [ ] CSSOM の `@namespace` parsing と `CSSNamespaceRule` の `prefix`、`namespaceURI`、`cssText`、`type`
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
@@ -134,7 +135,6 @@
 - [ ] external script loading
 - [ ] parser-blocking script
 - [ ] WPT が使用する ECMAScript 構文と engine262 parser の互換性
-- [ ] browser page realm の Annex B built-in（少なくとも `String.prototype.substr`）
 
 ## Conformance infrastructure
 

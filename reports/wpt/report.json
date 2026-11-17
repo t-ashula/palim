@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261117t123707820z-1671537",
+    "id": "20261117t141446326z-2137506",
     "state": "completed",
     "palim": {
-      "revision": "e859c5c9ab0f03c45cf91b404a7b8c136993b5d9",
-      "dirty": true,
-      "imageId": "sha256:6baa4cebcfc246d0077a726a5c0e83cd690dfdd15092b5fe7bf133e24dd5c0ac"
+      "revision": "5df0f0157b5ef5aa3d04bd73a6ed2f723d2bb503",
+      "dirty": false,
+      "imageId": "sha256:1cffe2fb010ca415142588cbb546670ce826435243e5f8d136bd5262b4faa6f9"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-17T13:17:29.806Z",
+    "snapshotAt": "2026-11-17T14:55:35.553Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,8 +52,8 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 1008,
-    "fail": 761,
+    "pass": 1011,
+    "fail": 758,
     "skip": 248,
     "error": 80,
     "timeout": 132,
@@ -78,8 +78,8 @@
       "totals": {
         "total": 273,
         "executed": 273,
-        "pass": 29,
-        "fail": 202,
+        "pass": 32,
+        "fail": 199,
         "skip": 0,
         "error": 14,
         "timeout": 28,
@@ -310,8 +310,8 @@
   ],
   "subtests": {
     "total": 105834,
-    "pass": 80111,
-    "fail": 25276,
+    "pass": 80140,
+    "fail": 25247,
     "skip": 248,
     "error": 67,
     "timeout": 132
@@ -320,8 +320,8 @@
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 1006,
-      "fail": 710,
+      "pass": 1009,
+      "fail": 707,
       "skip": 209,
       "error": 75,
       "timeout": 106,
@@ -346,8 +346,8 @@
         "totals": {
           "total": 264,
           "executed": 264,
-          "pass": 28,
-          "fail": 194,
+          "pass": 31,
+          "fail": 191,
           "skip": 0,
           "error": 14,
           "timeout": 28,
@@ -578,8 +578,8 @@
     ],
     "subtests": {
       "total": 105377,
-      "pass": 80058,
-      "fail": 24939,
+      "pass": 80087,
+      "fail": 24910,
       "skip": 209,
       "error": 65,
       "timeout": 106
@@ -601,11 +601,6 @@
         "message": "\"CSS\" is not defined"
       },
       {
-        "url": "/css/cssom/CSSConditionRule-conditionText.html",
-        "status": "fail",
-        "message": "\"CSSConditionRule\" is not defined"
-      },
-      {
         "url": "/css/cssom/CSSCounterStyleRule.html",
         "status": "fail",
         "message": "assert_false: expected false got true"
@@ -621,11 +616,6 @@
         "message": "assert_equals: expected 14 but got 1"
       },
       {
-        "url": "/css/cssom/CSSGroupingRule-cssRules.html",
-        "status": "fail",
-        "message": "Cannot convert undefined to object"
-      },
-      {
         "url": "/css/cssom/CSSGroupingRule-insertRule-computed.html",
         "status": "fail",
         "message": "assert_equals: The initial color should be blue expected \"rgb(0, 0, 255)\" but got \"\""
@@ -633,7 +623,7 @@
       {
         "url": "/css/cssom/CSSGroupingRule-insertRule.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_not_equals: got disallowed value \"* {  }\""
       },
       {
         "url": "/css/cssom/CSSImportRule-insertRule-styleSheet-parentStyleSheet.html",
@@ -733,7 +723,7 @@
       {
         "url": "/css/cssom/CSSStyleRule.html",
         "status": "fail",
-        "message": "assert_equals: expected (number) 1 but got (undefined) undefined"
+        "message": "assert_equals: expected (number) 3 but got (undefined) undefined"
       },
       {
         "url": "/css/cssom/CSSStyleSheet-constructable-baseURL.html",
@@ -866,14 +856,9 @@
         "message": "assert_equals: Load event should've fired for all nodes expected 3 but got 0"
       },
       {
-        "url": "/css/cssom/MediaList-parsing.html",
-        "status": "fail",
-        "message": "Cannot convert undefined to object"
-      },
-      {
         "url": "/css/cssom/MediaList.html",
         "status": "fail",
-        "message": "Cannot convert undefined to object"
+        "message": "assert_equals: MediaList mediaText attribute should be updated expected \"speech\" but got \"\""
       },
       {
         "url": "/css/cssom/MutationObserver-style.html",
@@ -1428,7 +1413,7 @@
       {
         "url": "/css/cssom/grouping-rule-no-nested-declarations.html",
         "status": "fail",
-        "message": "assert_equals: expected \"CSSMediaRule\" but got \"CSSRule\""
+        "message": "Cannot convert undefined to object"
       },
       {
         "url": "/css/cssom/idlharness.html",
@@ -1508,7 +1493,7 @@
       {
         "url": "/css/cssom/nested-import-namespace-invalid.html",
         "status": "fail",
-        "message": "assert_equals: expected \"CSSMediaRule\" but got \"CSSRule\""
+        "message": "assert_equals: expected \"CSSSupportsRule\" but got \"CSSRule\""
       },
       {
         "url": "/css/cssom/overflow-serialization.html",
@@ -1568,7 +1553,7 @@
       {
         "url": "/css/cssom/serialize-media-rule.html",
         "status": "fail",
-        "message": "assert_equals: expected \"@media  {\\n}\" but got \"@media {}\""
+        "message": "assert_equals: expected \"@media  {\\n}\" but got \"@media  {  }\""
       },
       {
         "url": "/css/cssom/serialize-namespaced-type-selectors.html",
@@ -5883,7 +5868,7 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",

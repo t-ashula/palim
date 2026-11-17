@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261117t123707820z-1671537
+Campaign: 20261117t141446326z-2137506
 
 Campaign state: completed
 
-Palim: e859c5c9ab0f03c45cf91b404a7b8c136993b5d9 (dirty)
+Palim: 5df0f0157b5ef5aa3d04bd73a6ed2f723d2bb503
 
-Container image: sha256:6baa4cebcfc246d0077a726a5c0e83cd690dfdd15092b5fe7bf133e24dd5c0ac
+Container image: sha256:1cffe2fb010ca415142588cbb546670ce826435243e5f8d136bd5262b4faa6f9
 
-Snapshot: 2026-11-17T13:17:29.806Z
+Snapshot: 2026-11-17T14:55:35.553Z
 
 Attempts: 2229; worker failures: 0; retries: 0
 
@@ -22,9 +22,9 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2229 | 2229 | 1008 | 761 | 248 | 80 | 132 | 0 | 100.00% | 45.22% |
+| All | 2229 | 2229 | 1011 | 758 | 248 | 80 | 132 | 0 | 100.00% | 45.36% |
 | /custom-elements/ | 209 | 209 | 77 | 113 | 5 | 11 | 3 | 0 | 100.00% | 36.84% |
-| /css/cssom/ | 273 | 273 | 29 | 202 | 0 | 14 | 28 | 0 | 100.00% | 10.62% |
+| /css/cssom/ | 273 | 273 | 32 | 199 | 0 | 14 | 28 | 0 | 100.00% | 11.72% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 61 | 101 | 4 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -49,9 +49,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2106 | 2106 | 1006 | 710 | 209 | 75 | 106 | 0 | 100.00% | 47.77% |
+| All | 2106 | 2106 | 1009 | 707 | 209 | 75 | 106 | 0 | 100.00% | 47.91% |
 | /custom-elements/ | 202 | 202 | 77 | 109 | 3 | 10 | 3 | 0 | 100.00% | 38.12% |
-| /css/cssom/ | 264 | 264 | 28 | 194 | 0 | 14 | 28 | 0 | 100.00% | 10.61% |
+| /css/cssom/ | 264 | 264 | 31 | 191 | 0 | 14 | 28 | 0 | 100.00% | 11.74% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 60 | 99 | 4 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
@@ -74,7 +74,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 105377 | 80058 | 24939 | 209 | 65 | 106 | 75.97% |
+| 105377 | 80087 | 24910 | 209 | 65 | 106 | 76.00% |
 
 ### Non-passing executed tests
 
@@ -83,13 +83,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/CSS-escape-numeric-id.html | fail | <code>"CSS" is not defined</code> |
 | /css/cssom/CSS-namespace-object-class-string.html | fail | <code>"CSS" is not defined</code> |
 | /css/cssom/CSS-supports.html | fail | <code>"CSS" is not defined</code> |
-| /css/cssom/CSSConditionRule-conditionText.html | fail | <code>"CSSConditionRule" is not defined</code> |
 | /css/cssom/CSSCounterStyleRule.html | fail | <code>assert_false: expected false got true</code> |
 | /css/cssom/CSSFontFaceRule.html | fail | <code>assert_false: expected false got true</code> |
 | /css/cssom/CSSFontFeatureValuesRule.html | fail | <code>assert_equals: expected 14 but got 1</code> |
-| /css/cssom/CSSGroupingRule-cssRules.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/CSSGroupingRule-insertRule-computed.html | fail | <code>assert_equals: The initial color should be blue expected "rgb(0, 0, 255)" but got ""</code> |
-| /css/cssom/CSSGroupingRule-insertRule.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/CSSGroupingRule-insertRule.html | fail | <code>assert_not_equals: got disallowed value "* {  }"</code> |
 | /css/cssom/CSSImportRule-insertRule-styleSheet-parentStyleSheet.html | fail | <code>The rule could not be parsed</code> |
 | /css/cssom/CSSImportRule-layer-false-positive.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/CSSImportRule-layer-media.html | timeout | <code>palim execution timed out</code> |
@@ -109,7 +107,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/CSSStyleRule-selectorText-setter.html | fail | <code>assert_equals: expected "p, .foo" but got "123invalid"</code> |
 | /css/cssom/CSSStyleRule-set-selectorText-namespace.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/CSSStyleRule-set-selectorText.html | fail | <code>assert_equals: expected ".style0" but got "!!"</code> |
-| /css/cssom/CSSStyleRule.html | fail | <code>assert_equals: expected (number) 1 but got (undefined) undefined</code> |
+| /css/cssom/CSSStyleRule.html | fail | <code>assert_equals: expected (number) 3 but got (undefined) undefined</code> |
 | /css/cssom/CSSStyleSheet-constructable-baseURL.html | fail | <code>sheet.replaceSync is not a function. (In "sheet.replaceSync(`* { background-image: url("${fileName}"); }`)", it is undefined)</code> |
 | /css/cssom/CSSStyleSheet-constructable-cssRules.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: sheet.replaceSync is not a function. (In "sheet.replaceSync('span {color:blue;}')", it is undefined)"</code> |
 | /css/cssom/CSSStyleSheet-constructable-disabled-regular-sheet-insertion.html | error | <code>SyntaxError: Unexpected token<br>http://web-platform.test:8000/css/cssom/CSSStyleSheet-constructable-disabled-regular-sheet-insertion.html:1:1<br>&lt;!doctype html&gt;<br>^<br>SyntaxError: Unexpected token<br>http://web-platform.test:8000/css/cssom/CSSStyleSheet-constructable-disabled-regular-sheet-insertion.html:1:1<br>&lt;!doctype html&gt;<br>^<br>ReferenceError: "test" is not defined<br>    at http://web-platform.test:8000/css/cssom/CSSStyleSheet-constructable-disabled-regular-sheet-insertion.html:2:1</code> |
@@ -136,8 +134,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/HTMLLinkElement-load-event-002.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/HTMLLinkElement-load-event.html | fail | <code>assert_equals: Should expose the sheet to the OM before running script expected 1 but got 0</code> |
 | /css/cssom/HTMLStyleElement-load-event.html | fail | <code>assert_equals: Load event should've fired for all nodes expected 3 but got 0</code> |
-| /css/cssom/MediaList-parsing.html | fail | <code>Cannot convert undefined to object</code> |
-| /css/cssom/MediaList.html | fail | <code>Cannot convert undefined to object</code> |
+| /css/cssom/MediaList.html | fail | <code>assert_equals: MediaList mediaText attribute should be updated expected "speech" but got ""</code> |
 | /css/cssom/MutationObserver-style.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
 | /css/cssom/StyleSheet-properties.html | fail | <code>assert_equals: expected (string) "text/css" but got (undefined) undefined</code> |
 | /css/cssom/adoptedstylesheets-cascade-order.html | fail | <code>red.replaceSync is not a function. (In "red.replaceSync("#target { color: red; }")", it is undefined)</code> |
@@ -248,7 +245,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/getComputedStyle-visibility-nominal-case.html | fail | <code>assert_equals: expected "visible" but got ""</code> |
 | /css/cssom/getComputedStyle-visibility-override.html | fail | <code>assert_equals: expected "hidden" but got ""</code> |
 | /css/cssom/getComputedStyle-visibility-unset.html | fail | <code>assert_equals: expected "hidden" but got ""</code> |
-| /css/cssom/grouping-rule-no-nested-declarations.html | fail | <code>assert_equals: expected "CSSMediaRule" but got "CSSRule"</code> |
+| /css/cssom/grouping-rule-no-nested-declarations.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/idlharness.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/import-namespace-invalid-prelude.html | fail | <code>assert_equals: Valid @namespace should produce one rule expected 1 but got 0</code> |
 | /css/cssom/inline-style-001.html | fail | <code>assert_equals: expected "margin-left: 5px;" but got ""</code> |
@@ -264,7 +261,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/link-element-stylesheet-title.html | fail | <code>assert_equals: expected 3 but got 0</code> |
 | /css/cssom/medialist-mutation-after-owner-gc.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/mediaquery-sort-dedup.html | fail | <code>"matchMedia" is not defined</code> |
-| /css/cssom/nested-import-namespace-invalid.html | fail | <code>assert_equals: expected "CSSMediaRule" but got "CSSRule"</code> |
+| /css/cssom/nested-import-namespace-invalid.html | fail | <code>assert_equals: expected "CSSSupportsRule" but got "CSSRule"</code> |
 | /css/cssom/overflow-serialization.html | fail | <code>assert_equals: expected "overflow: inherit;" but got ""</code> |
 | /css/cssom/page-descriptors.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/preferred-stylesheet-order.html | fail | <code>assert_equals: expected "rgb(0, 128, 0)" but got ""</code> |
@@ -276,7 +273,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/selectorText-modification-restyle-002.html | fail | <code>assert_equals: Color should initial be red. expected "rgb(255, 0, 0)" but got ""</code> |
 | /css/cssom/serialize-all-longhands.html | fail | <code>assert_greater_than: Should have longhands expected a number greater than 0 but got 0</code> |
 | /css/cssom/serialize-custom-props.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
-| /css/cssom/serialize-media-rule.html | fail | <code>assert_equals: expected "@media  {\n}" but got "@media {}"</code> |
+| /css/cssom/serialize-media-rule.html | fail | <code>assert_equals: expected "@media  {\n}" but got "@media  {  }"</code> |
 | /css/cssom/serialize-namespaced-type-selectors.html | fail | <code>assert_equals: expected (string) "e" but got (undefined) undefined</code> |
 | /css/cssom/serialize-values.html | fail | <code>assert_equals: alignment-baseline raw inline style declaration expected (string) "baseline" but got (undefined) undefined</code> |
 | /css/cssom/serialize-variable-reference-whitespace.html | fail | <code>assert_equals: expected "rgb(32, 47, 242)" but got "#202FF2"</code> |
@@ -1139,7 +1136,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
