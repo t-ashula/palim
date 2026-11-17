@@ -31,9 +31,10 @@
 - [ ] iframe の post-connection / removing steps、`load` event ordering、atomic move 時の child document 維持
 - [ ] iframe navigation で response MIME type を保持し、`data:` URL の body と fragment を分離して HTML / XML / text / image document を生成する
 - [ ] frame/object/embed の browsing context
-- [ ] stylesheet と `LinkStyle`
+- [ ] external stylesheet の読み込みと `LinkStyle`
 - [ ] image loading と intrinsic size
 - [ ] `getComputedStyle` と残る layout-dependent API
+- [ ] `CSSStyleRule.style` の `CSSStyleDeclaration` と rule text・cascade の同期
 - [ ] CSSOM の `CSS` global と Web Animations の `Element.animate`
 
 ### Forms and controls
