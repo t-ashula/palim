@@ -60,3 +60,4 @@
 - [ADR-0057: package 間 API と export/import の管理](./0057-package-export-import-policy.md)
 - [ADR-0058: Trusted Types の policy state と page realm 公開](./0058-trusted-types-window-policy-state.md)
 - [ADR-0059: CSSOM stylesheet API の追加](./0059-cssom-stylesheet-objects.md)
+- [ADR-0060: Service Worker execution environment](./0060-service-worker-execution-environment.md)
