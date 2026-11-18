@@ -135,13 +135,17 @@ export class MessagingRealm {
     }
   }
 
-  bindTarget(target: MessageEndpoint): void {
+  bindTarget(
+    target: MessageEndpoint,
+    source: EventTarget | null = null,
+    eventTarget: EventTarget = target,
+  ): void {
     target.setRecipient(() => {
       const message = target.shift();
       if (message === undefined) {
         return;
       }
-      this.#dispatch(target, message);
+      this.#dispatch(eventTarget, message, source);
     });
   }
 
@@ -179,7 +183,11 @@ export class MessagingRealm {
     return this.context.undefined();
   }
 
-  #dispatch(target: MessageEndpoint, message: StructuredValue): void {
+  #dispatch(
+    target: EventTarget,
+    message: StructuredValue,
+    source: EventTarget | null,
+  ): void {
     const value = deserializeEngineValue(
       this.context.engine,
       this.context.realm,
@@ -189,7 +197,7 @@ export class MessagingRealm {
       this.dom.dispatchEvent(target, new MessageEvent("messageerror"));
       return;
     }
-    const event = new MessageEvent("message");
+    const event = new MessageEvent("message", { source });
     this.dom.setMessageEventData(event, value.value);
     this.dom.dispatchEvent(target, event);
   }

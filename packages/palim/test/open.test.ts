@@ -177,6 +177,102 @@ describe("open", () => {
     }
   });
 
+  it("registers a classic Service Worker and exchanges messages", async () => {
+    const fetchMock = vi.fn((input: string | URL) => {
+      const url = input.toString();
+      if (url !== "https://example.test/service-worker.js") {
+        return Promise.reject(new TypeError(`Unexpected resource ${url}`));
+      }
+      return Promise.resolve(
+        new Response(
+          `
+            let installed = false;
+            let activated = false;
+            self.addEventListener("install", event => {
+              event.waitUntil(new Promise(resolve => {
+                setTimeout(() => {
+                  installed = true;
+                  resolve();
+                }, 0);
+              }));
+            });
+            self.addEventListener("activate", event => {
+              event.waitUntil(Promise.resolve().then(() => {
+                activated = true;
+              }));
+            });
+            self.addEventListener("message", event => {
+              event.source.postMessage({
+                value: event.data.value,
+                installed,
+                activated,
+              });
+            });
+          `,
+          {
+            headers: { "content-type": "text/javascript; charset=utf-8" },
+          },
+        ),
+      );
+    });
+    vi.stubGlobal("fetch", fetchMock);
+
+    try {
+      const context = await open(
+        {
+          html: `
+            <body><script>
+              navigator.serviceWorker.addEventListener("message", event => {
+                document.body.setAttribute(
+                  "data-service-worker",
+                  String(
+                    event.data.value === 42 &&
+                    event.data.installed &&
+                    event.data.activated,
+                  ),
+                );
+              });
+              (async () => {
+                const before = await navigator.serviceWorker.getRegistration("/scope/");
+                const registration = await navigator.serviceWorker.register(
+                  "/service-worker.js",
+                  { scope: "/scope/" },
+                );
+                const after = await navigator.serviceWorker.getRegistration("/scope/");
+                document.body.setAttribute(
+                  "data-service-worker-identity",
+                  String(
+                    before === undefined &&
+                    after === registration &&
+                    registration.installing === registration.installing,
+                  ),
+                );
+                registration.installing.postMessage({ value: 42 });
+              })();
+            </script></body>
+          `,
+          baseURL: "https://example.test/page.html",
+        },
+        { scripting: "enabled" },
+      );
+
+      await waitFor(
+        () =>
+          context.window.document.body?.getAttribute("data-service-worker") ===
+          "true",
+      );
+
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      expect(
+        context.window.document.body?.getAttribute(
+          "data-service-worker-identity",
+        ),
+      ).toBe("true");
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
+
   it.each([
     ["iso-8859-1", "windows-1252"],
     ["iso-2022-cn-ext", "replacement"],

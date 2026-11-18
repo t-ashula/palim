@@ -214,3 +214,15 @@ export {
   windowNamedPropertyNames,
   windowNamedPropertyValue,
 } from "./window-named-properties.js";
+export { Navigator, windowNavigator } from "./navigator.js";
+export {
+  navigatorServiceWorker,
+  ServiceWorkerContainer,
+  ServiceWorkerRecord,
+  ServiceWorkerRegistrationRecord,
+  ServiceWorkerRegistrationStore,
+  setWindowServiceWorkerStore,
+  windowServiceWorkerContainer,
+  windowServiceWorkerStore,
+} from "./service-worker.js";
+export type { ServiceWorkerState } from "./service-worker.js";

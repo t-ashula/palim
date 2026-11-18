@@ -1,4 +1,4 @@
-import { ErrorEvent, EventTarget, MessageEvent, URL } from "@palim/core";
+import { ErrorEvent, Event, EventTarget, MessageEvent, URL } from "@palim/core";
 import type {
   EngineObject,
   EngineRealm,
@@ -22,8 +22,17 @@ import {
   RealmExecutionRuntime,
   URLRealmBinding,
 } from "@palim/scripting";
-import type { Resource, ResourceLoader } from "@palim/window";
-import { loadResource } from "@palim/window";
+import type {
+  Resource,
+  ResourceLoader,
+  ServiceWorkerRecord,
+  ServiceWorkerRegistrationRecord,
+} from "@palim/window";
+import {
+  loadResource,
+  ServiceWorkerRegistrationStore,
+  setWindowServiceWorkerStore,
+} from "@palim/window";
 
 import { installWorkerDOMRealmInterfaces } from "./javascript-engine/worker-dom-realm-installer.js";
 import {
@@ -31,6 +40,8 @@ import {
   MessageEndpoint,
   MessagingRealm,
 } from "./javascript-engine/worker-messaging.js";
+import type { ServiceWorkerConnection } from "./service-worker-scripting.js";
+import { WindowServiceWorkerBinding } from "./service-worker-scripting.js";
 
 export type WorkerEngineFactory = () => JavaScriptEngineAdapter;
 
@@ -65,6 +76,8 @@ interface WorkerErrorTarget {
 
 class SharedWorkerTarget extends EventTarget {}
 
+class ServiceWorkerExtendableEvent extends Event {}
+
 class WorkerEnvironmentSettings {
   constructor(
     readonly realm: EngineRealm,
@@ -75,6 +88,11 @@ class WorkerEnvironmentSettings {
 
 export class WorkerScriptingManager implements WindowScriptingCapability {
   readonly #sharedWorkers = new Map<string, WorkerController>();
+  readonly #serviceWorkers = new WeakMap<
+    ServiceWorkerRegistrationRecord,
+    ServiceWorkerConnection
+  >();
+  readonly #serviceWorkerStore = new ServiceWorkerRegistrationStore();
   readonly #pendingStarts = new Set<Promise<void>>();
 
   constructor(readonly engineFactory: WorkerEngineFactory) {}
@@ -84,13 +102,24 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
     settings: WindowEnvironmentSettings,
     resourceLoader: ResourceLoader | null,
   ): void {
+    setWindowServiceWorkerStore(binding.window, this.#serviceWorkerStore);
     new WindowWorkerBinding(this, binding, settings, resourceLoader).install();
+    new WindowServiceWorkerBinding(
+      this,
+      binding,
+      settings,
+      resourceLoader,
+    ).install();
   }
 
   async waitForPendingTasks(): Promise<void> {
     while (this.#pendingStarts.size > 0) {
       await Promise.all(this.#pendingStarts);
     }
+  }
+
+  serviceWorkerStore(): ServiceWorkerRegistrationStore {
+    return this.#serviceWorkerStore;
   }
 
   createDedicated(
@@ -142,6 +171,41 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
     controller.addErrorTarget(owner);
     controller.connect(workerPort);
     return controller;
+  }
+
+  registerService(
+    registration: ServiceWorkerRegistrationRecord,
+    worker: ServiceWorkerRecord,
+    resourceLoader: ResourceLoader | null,
+    owner: WorkerErrorTarget,
+  ): ServiceWorkerConnection {
+    const existing = this.#serviceWorkers.get(registration);
+    if (existing !== undefined && !existing.controller.closed) {
+      return existing;
+    }
+    const [windowEndpoint, workerEndpoint] = createMessageEndpointPair(true);
+    const controller = new WorkerController(
+      () =>
+        new WorkerExecutionEnvironment(
+          this.engineFactory(),
+          "service",
+          worker.scriptURL,
+          "",
+          resourceLoader,
+          workerEndpoint,
+          (state) => {
+            worker.state = state;
+            if (state === "activated") {
+              registration.active = worker;
+            }
+          },
+        ),
+    );
+    controller.addErrorTarget(owner);
+    const connection = { controller, windowEndpoint, worker };
+    this.#serviceWorkers.set(registration, connection);
+    this.#track(controller.started);
+    return connection;
   }
 
   #track(start: Promise<void>): void {
@@ -426,6 +490,10 @@ class WorkerExecutionEnvironment {
   readonly #errorTargets = new Set<WorkerErrorTarget>();
   readonly #timers = new Map<number, unknown>();
   readonly #connections: MessageEndpoint[] = [];
+  readonly #extendableEventPromises = new WeakMap<
+    ServiceWorkerExtendableEvent,
+    EngineObject[]
+  >();
   #startPromise: Promise<void> | null = null;
   #performingCheckpoint = false;
   #reportingException = false;
@@ -434,11 +502,14 @@ class WorkerExecutionEnvironment {
 
   constructor(
     readonly engine: JavaScriptEngineAdapter,
-    readonly kind: "dedicated" | "shared",
+    readonly kind: "dedicated" | "shared" | "service",
     readonly url: URL,
     readonly name: string,
     readonly resourceLoader: ResourceLoader | null,
     readonly globalTarget: MessageEndpoint,
+    readonly serviceWorkerStateChanged: (
+      state: ServiceWorkerRecord["state"],
+    ) => void = () => undefined,
   ) {
     this.realm = this.engine.createRealm();
     this.runtime = new RealmExecutionRuntime(this.engine, () => {
@@ -487,7 +558,10 @@ class WorkerExecutionEnvironment {
     installFormDataInterface(this.context, formData);
     installWritableStreamRealm(this.context);
     this.#installGlobal();
-    this.messaging.bindTarget(this.globalTarget);
+    this.messaging.bindTarget(
+      this.globalTarget,
+      this.kind === "service" ? this.globalTarget : null,
+    );
   }
 
   addErrorTarget(target: WorkerErrorTarget): void {
@@ -573,6 +647,23 @@ class WorkerExecutionEnvironment {
       const result = this.#runScript(script);
       if (result.type === "throw") {
         this.reportException(result.value);
+        if (this.kind === "service") {
+          this.serviceWorkerStateChanged("redundant");
+        }
+        return;
+      }
+      if (this.kind === "service") {
+        if (!(await this.#dispatchExtendableEvent("install"))) {
+          this.serviceWorkerStateChanged("redundant");
+          return;
+        }
+        this.serviceWorkerStateChanged("installed");
+        this.serviceWorkerStateChanged("activating");
+        if (!(await this.#dispatchExtendableEvent("activate"))) {
+          this.serviceWorkerStateChanged("redundant");
+          return;
+        }
+        this.serviceWorkerStateChanged("activated");
       }
     } catch (error: unknown) {
       const value = this.engine.createTypeError(
@@ -580,6 +671,9 @@ class WorkerExecutionEnvironment {
         error instanceof Error ? error.message : "Failed to load worker script",
       );
       this.reportException(value);
+      if (this.kind === "service") {
+        this.serviceWorkerStateChanged("redundant");
+      }
     }
   }
 
@@ -661,10 +755,49 @@ class WorkerExecutionEnvironment {
       workerGlobalConstructor,
       workerGlobalPrototype,
     );
+    if (this.kind === "service") {
+      const extendableEventPrototype = this.engine.createObject(
+        this.realm,
+        this.dom.eventPrototype,
+      );
+      const extendableEventConstructor = this.context.function(
+        "ExtendableEvent",
+        1,
+        () => this.context.typeError("Illegal constructor"),
+      );
+      this.context.installInterface(
+        "ExtendableEvent",
+        extendableEventConstructor,
+        extendableEventPrototype,
+      );
+      this.context.method(
+        extendableEventPrototype,
+        "waitUntil",
+        1,
+        (thisValue, argumentsList) => {
+          const target = this.dom.interfaceObject(thisValue);
+          if (!(target instanceof ServiceWorkerExtendableEvent)) {
+            return this.context.invalidReceiver("ExtendableEvent", "waitUntil");
+          }
+          const value = argumentsList[0];
+          const promise =
+            value === undefined ? null : this.engine.asObject(value);
+          if (promise === null || !this.engine.isPromise(promise)) {
+            return this.context.typeError("waitUntil requires a Promise");
+          }
+          this.#extendableEventPromises.get(target)?.push(promise);
+          return this.context.undefined();
+        },
+      );
+      this.context.tag(extendableEventPrototype, "ExtendableEvent");
+      this.#extendableEventPrototype = extendableEventPrototype;
+    }
     const specificName =
       this.kind === "dedicated"
         ? "DedicatedWorkerGlobalScope"
-        : "SharedWorkerGlobalScope";
+        : this.kind === "shared"
+          ? "SharedWorkerGlobalScope"
+          : "ServiceWorkerGlobalScope";
     const specificConstructor = this.context.function(specificName, 0, () =>
       this.context.typeError("Illegal constructor"),
     );
@@ -701,6 +834,17 @@ class WorkerExecutionEnvironment {
       this.close();
       return this.context.undefined();
     });
+    if (this.kind === "service") {
+      this.context.method(this.#globalObject, "skipWaiting", 0, () => {
+        const promise = this.engine.evaluate(
+          this.realm,
+          "Promise.resolve(undefined)",
+        );
+        return promise;
+      });
+      const clients = this.engine.createObject(this.realm, objectPrototype);
+      this.context.interfaceProperty("clients", clients, this.#globalObject);
+    }
     this.context.method(
       this.#globalObject,
       "importScripts",
@@ -710,6 +854,54 @@ class WorkerExecutionEnvironment {
     this.#installTimers();
     this.#installLocation();
     this.#installNavigator(objectPrototype);
+  }
+
+  #extendableEventPrototype: EngineObject | null = null;
+
+  async #dispatchExtendableEvent(
+    type: "install" | "activate",
+  ): Promise<boolean> {
+    const event = new ServiceWorkerExtendableEvent(type);
+    const promises: EngineObject[] = [];
+    this.#extendableEventPromises.set(event, promises);
+    if (this.#extendableEventPrototype !== null) {
+      const object = this.engine.createObject(
+        this.realm,
+        this.#extendableEventPrototype,
+      );
+      this.dom.bindPlatformObject(event, object);
+    }
+    this.dom.dispatchEvent(this.globalTarget, event);
+    const results = await Promise.all(
+      promises.map((promise) => this.#awaitEnginePromise(promise)),
+    );
+    return results.every((result) => result);
+  }
+
+  #awaitEnginePromise(promise: EngineObject): Promise<boolean> {
+    return new Promise((resolve) => {
+      const thenValue = this.engine.get(this.realm, promise, "then");
+      const then =
+        thenValue.type === "normal"
+          ? this.engine.asCallable(thenValue.value)
+          : null;
+      if (then === null) {
+        resolve(false);
+        return;
+      }
+      const fulfilled = this.context.function("", 0, () => {
+        resolve(true);
+        return this.context.undefined();
+      });
+      const rejected = this.context.function("", 0, () => {
+        resolve(false);
+        return this.context.undefined();
+      });
+      const result = this.context.call(then, promise, [fulfilled, rejected]);
+      if (result.type === "throw") {
+        resolve(false);
+      }
+    });
   }
 
   #importScripts(

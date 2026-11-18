@@ -50,6 +50,10 @@ export class DOMRealmBinding {
     return this.#context.eventTargetPrototype;
   }
 
+  get eventPrototype(): EngineObject {
+    return this.#context.eventPrototype;
+  }
+
   platformObject(interfaceObject: object): EngineObject {
     return this.#context.platformObject(interfaceObject);
   }

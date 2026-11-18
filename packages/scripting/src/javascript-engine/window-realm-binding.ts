@@ -61,6 +61,10 @@ export class WindowRealmBinding {
     return this.#binding.context;
   }
 
+  get window(): Window {
+    return this.#binding.window;
+  }
+
   createFormData(entries: Iterable<readonly [string, string]>): EngineObject {
     return this.#binding.formData.create(entries);
   }
