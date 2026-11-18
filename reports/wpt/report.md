@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261118t034549078z-3421729
+Campaign: 20261118t062845391z-3953782
 
 Campaign state: completed
 
-Palim: 69ffc9c95f984e78f51da26b8f74409f06b3308c
+Palim: 70181dcc525302c3b8805ff1b0b9046d4a9ece2e
 
-Container image: sha256:b7c1efc67c9bfbd5f5be1579dab45cf723ad4d69263237515e08acfd639c875c
+Container image: sha256:8faeffa40689d710470ecce0e25c6147e8ab4c31c4cd36978b5e4dcacf740b38
 
-Snapshot: 2026-11-18T04:25:11.778Z
+Snapshot: 2026-11-18T07:09:04.399Z
 
 Attempts: 2229; worker failures: 0; retries: 0
 
@@ -22,11 +22,11 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2229 | 2229 | 1033 | 742 | 248 | 80 | 126 | 0 | 100.00% | 46.34% |
+| All | 2229 | 2229 | 1038 | 734 | 248 | 82 | 127 | 0 | 100.00% | 46.57% |
 | /custom-elements/ | 209 | 209 | 78 | 113 | 5 | 10 | 3 | 0 | 100.00% | 37.32% |
 | /css/cssom/ | 273 | 273 | 36 | 199 | 0 | 14 | 24 | 0 | 100.00% | 13.19% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 214 | 214 | 38 | 61 | 101 | 4 | 10 | 0 | 100.00% | 17.76% |
+| /dom/events/ | 214 | 214 | 40 | 57 | 101 | 5 | 11 | 0 | 100.00% | 18.69% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 415 | 415 | 321 | 61 | 5 | 1 | 27 | 0 | 100.00% | 77.35% |
 | /dom/ranges/ | 69 | 69 | 32 | 32 | 3 | 2 | 0 | 0 | 100.00% | 46.38% |
@@ -37,7 +37,7 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/syntax/parsing/ | 236 | 236 | 158 | 69 | 0 | 2 | 7 | 0 | 100.00% | 66.95% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 20 | 23 | 0 | 0 | 7 | 0 | 100.00% | 40.00% |
-| /shadow-dom/ | 317 | 317 | 56 | 83 | 132 | 13 | 33 | 0 | 100.00% | 17.67% |
+| /shadow-dom/ | 317 | 317 | 59 | 79 | 132 | 14 | 33 | 0 | 100.00% | 18.61% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -49,11 +49,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2106 | 2106 | 1031 | 691 | 209 | 75 | 100 | 0 | 100.00% | 48.96% |
+| All | 2106 | 2106 | 1036 | 683 | 209 | 77 | 101 | 0 | 100.00% | 49.19% |
 | /custom-elements/ | 202 | 202 | 78 | 109 | 3 | 9 | 3 | 0 | 100.00% | 38.61% |
 | /css/cssom/ | 264 | 264 | 35 | 191 | 0 | 14 | 24 | 0 | 100.00% | 13.26% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/events/ | 211 | 211 | 38 | 60 | 99 | 4 | 10 | 0 | 100.00% | 18.01% |
+| /dom/events/ | 211 | 211 | 40 | 56 | 99 | 5 | 11 | 0 | 100.00% | 18.96% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/nodes/ | 415 | 415 | 321 | 61 | 5 | 1 | 27 | 0 | 100.00% | 77.35% |
 | /dom/ranges/ | 46 | 46 | 32 | 12 | 0 | 2 | 0 | 0 | 100.00% | 69.57% |
@@ -64,7 +64,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/ | 234 | 234 | 158 | 69 | 0 | 1 | 6 | 0 | 100.00% | 67.52% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 19 | 23 | 0 | 0 | 7 | 0 | 100.00% | 38.78% |
-| /shadow-dom/ | 242 | 242 | 56 | 68 | 100 | 10 | 8 | 0 | 100.00% | 23.14% |
+| /shadow-dom/ | 242 | 242 | 59 | 64 | 100 | 11 | 8 | 0 | 100.00% | 24.38% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -74,7 +74,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 105449 | 85911 | 19165 | 209 | 64 | 100 | 81.47% |
+| 105417 | 86134 | 18909 | 209 | 64 | 101 | 81.71% |
 
 ### Non-passing executed tests
 
@@ -437,7 +437,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/Event-cancelBubble.html | fail | <code>assert_false: cancelBubble must be false after an event has been dispatched. expected false got true</code> |
 | /dom/events/Event-dispatch-bubbles-false.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 9, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...]] length 8</code> |
 | /dom/events/Event-dispatch-bubbles-true.html | fail | <code>assert_array_equals: targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...]] length 16, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Event.bubbles ..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br>&lt;table id="table" border="1" s..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
-| /dom/events/Event-dispatch-click.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
+| /dom/events/Event-dispatch-click.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/Event-dispatch-detached-input-and-change.html | fail | <code>input.click is not a function. (In "input.click()", it is undefined)</code> |
 | /dom/events/Event-dispatch-handlers-changed.html | fail | <code>assert_array_equals: actual_targets lengths differ, expected array [object "[object Object]", Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...], [...], [...]] length 17, got [Document node with 2 children, Element node &lt;html&gt;&lt;head&gt;&lt;meta charset="utf-8"&gt;<br>&lt;title&gt; Dispatch addit..., Element node &lt;body&gt;&lt;div id="log"&gt;&lt;/div&gt;<br><br>&lt;table id="table" border="1" ..., Element node &lt;table id="table" border="1" style="display: none"&gt;<br>    &lt;..., Element node &lt;tbody id="table-body"&gt;<br>    &lt;tr id="table-row"&gt;<br>        &lt;..., Element node &lt;tr id="parent"&gt;<br>        &lt;td id="target"&gt;Over the river, ..., Element node &lt;td id="target"&gt;Over the river, Charlie&lt;/td&gt;, [...], [...], [...], [...], [...], [...], [...]] length 14</code> |
 | /dom/events/Event-dispatch-listener-order.window.html | fail | <code>assert_array_equals: expected property 4 to be "capturing SPAN" but got "bubbling SPAN" (expected array ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "capturing SPAN", "bubbling SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"] got ["capturing SECTION", "capturing DIV", "capturing #document-fragment", "capturing P", "bubbling SPAN", "capturing SPAN", "bubbling P", "bubbling #document-fragment", "bubbling DIV", "bubbling SECTION"])</code> |
@@ -457,11 +457,10 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/Event-isTrusted.any.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
 | /dom/events/Event-isTrusted.any.worker.html | fail | <code>assert_not_equals: got disallowed value undefined</code> |
 | /dom/events/Event-propagation.html | fail | <code>assert_equals: Propagation flag after first dispatch expected true but got false</code> |
-| /dom/events/Event-stopPropagation-cancel-bubbling.html | fail | <code>"MouseEvent" is not defined</code> |
+| /dom/events/Event-stopPropagation-cancel-bubbling.html | error | <code>ReferenceError: "event" is not defined</code> |
 | /dom/events/Event-subclasses-constructors.html | fail | <code>undefined is not a constructor</code> |
 | /dom/events/Event-timestamp-high-resolution.html | fail | <code>"performance" is not defined</code> |
 | /dom/events/Event-timestamp-high-resolution.https.html | fail | <code>"performance" is not defined</code> |
-| /dom/events/Event-timestamp-safe-resolution.html | fail | <code>"MouseEvent" is not defined</code> |
 | /dom/events/EventListener-handleEvent-cross-realm.html | fail | <code>assert_equals: expected "object" but got "undefined"</code> |
 | /dom/events/EventListener-incumbent-global-1.sub.html | timeout | <code>palim execution timed out</code> |
 | /dom/events/EventListener-incumbent-global-2.sub.html | timeout | <code>palim execution timed out</code> |
@@ -491,8 +490,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/events/handler-count.html?element | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/handler-count.html?window | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/label-default-action.html | fail | <code>button.click is not a function. (In "button.click()", it is undefined)</code> |
-| /dom/events/legacy-pre-activation-behavior.window.html | fail | <code>"MouseEvent" is not defined</code> |
-| /dom/events/mouse-event-retarget.html | fail | <code>"MouseEvent" is not defined</code> |
+| /dom/events/mouse-event-retarget.html | fail | <code>assert_equals: expected (number) 42 but got (undefined) undefined</code> |
 | /dom/events/no-focus-events-at-clicking-editable-content-in-link.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-body.html | skip | <code>Executor does not support testdriver.js</code> |
 | /dom/events/non-cancelable-when-passive/non-passive-mousewheel-event-listener-on-div.html | skip | <code>Executor does not support testdriver.js</code> |
@@ -892,9 +890,9 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-CEReactions.html | fail | <code>assert_equals: myElement1.numDisconnectedCallback after first setHTMLUnsafe. expected 0 but got 1</code> |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/setHTMLUnsafe-runScripts.html | timeout | <code>palim execution timed out</code> |
 | /sanitizer-api/parsehtmlunsafe-with-trustedtypes.html | fail | <code>assert_equals: expected null but got Element node &lt;span id="forbidden"&gt;&lt;/span&gt;</code> |
-| /sanitizer-api/sanitizer-a-navigation.html?target=html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
-| /sanitizer-api/sanitizer-a-navigation.html?target=mathml | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
-| /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
+| /sanitizer-api/sanitizer-a-navigation.html?target=html | fail | <code>assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on HTML &lt;a&gt; with href expected true got false</code> |
+| /sanitizer-api/sanitizer-a-navigation.html?target=mathml | fail | <code>assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on MathML &lt;a&gt; with href only expected true got false</code> |
+| /sanitizer-api/sanitizer-a-navigation.html?target=svg | fail | <code>assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on SVG &lt;a&gt; with href only expected true got false</code> |
 | /sanitizer-api/sanitizer-custom-elements-constructor.html | fail | <code>assert_false: Constructor should not be called expected false got true</code> |
 | /sanitizer-api/sanitizer-custom-elements-is.html | fail | <code>assert_equals: expected "&lt;div&gt;hello&lt;/div&gt;" but got "&lt;div is=\"foo-bar\"&gt;hello&lt;/div&gt;"</code> |
 | /sanitizer-api/sanitizer-in-adoption-agency.html | fail | <code>assert_true: [object Object].isEqual([object Object]) fails. Path: &lt;DIV&gt; / &lt;DIV&gt;. expected true got false</code> |
@@ -928,7 +926,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/Element-interface-attachShadow.html | fail | <code>assert_throws_dom: Calling attachShadow({mode: "open"}) on a element must throw function "function () {<br>            document.createElement(elementName).attachShadow({mode: "open"});<br>        }" did not throw</code> |
 | /shadow-dom/Extensions-to-Event-Interface.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/HighlightRegistry-highlightsFromPoint.html | fail | <code>assert_throws_js: function "() =&gt; { CSS.highlights.highlightsFromPoint(10, 10, {shadowRoots: [container]}); }" threw object "ReferenceError: "CSS" is not defined" ("ReferenceError") expected instance of function "function TypeError() { [native code] }" ("TypeError")</code> |
-| /shadow-dom/MouseEvent-prototype-offsetX-offsetY.html | fail | <code>"MouseEvent" is not defined</code> |
+| /shadow-dom/MouseEvent-prototype-offsetX-offsetY.html | fail | <code>assert_equals: The host must be at (20px, 10px) expected (number) 20 but got (undefined) undefined</code> |
 | /shadow-dom/Node-prototype-cloneNode.html | fail | <code>assert_throws_dom: cloneNode(false) on a shadow root in open mode must throw a NotSupportedError function "function () {<br>            var element = document.createElement('div');<br>            var shadowRoot = element.attachShadow({mode: mode});<br>            shadowRoot.cloneNode(false);<br>        }" did not throw</code> |
 | /shadow-dom/Slottable-mixin.html | fail | <code>assert_true: assignedSlot must be defined on Element.prototype expected true got false</code> |
 | /shadow-dom/attachShadow-with-ShadowRoot.html | skip | <code>Executor does not support testdriver.js</code> |
@@ -960,7 +958,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/event-post-dispatch-listenerless.html | fail | <code>assert_equals: target is retargeted to the host expected Element node &lt;div&gt;&lt;/div&gt; but got Element node &lt;div&gt;&lt;/div&gt;</code> |
 | /shadow-dom/event-post-dispatch-no-listeners.html | fail | <code>assert_equals: event.target should be the shadow host (retargeted) after dispatch expected Element node &lt;div id="host"&gt;<br>    <br>  &lt;/div&gt; but got Element node &lt;div id="target"&gt;&lt;/div&gt;</code> |
 | /shadow-dom/event-post-dispatch.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
-| /shadow-dom/event-with-related-target.html | fail | <code>"MouseEvent" is not defined</code> |
+| /shadow-dom/event-with-related-target.html | error | <code>TypeError: event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
 | /shadow-dom/execcommand-insertList-in-shadow.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus-navigation/delegatesFocus-highlight-sibling.html | skip | <code>Executor does not support testdriver.js</code> |
 | /shadow-dom/focus-navigation/focus-navigation-slot-fallback-default-tabindex.html | skip | <code>Executor does not support testdriver.js</code> |
@@ -1090,11 +1088,8 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-006.html | fail | <code>s.elementFromPoint is not a function. (In "s.elementFromPoint(1, 1)", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-007.html | fail | <code>s.elementFromPoint is not a function. (In "s.elementFromPoint(-1, 1)", it is undefined)</code> |
 | /shadow-dom/untriaged/elements-and-dom-objects/shadowroot-object/shadowroot-methods/test-010.html | fail | <code>assert_equals: Wrong exception type expected (number) 9 but got (undefined) undefined</code> |
-| /shadow-dom/untriaged/events/event-dispatch/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
 | /shadow-dom/untriaged/events/event-dispatch/test-003.html | fail | <code>event.composedPath is not a function. (In "event.composedPath()", it is undefined)</code> |
-| /shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
-| /shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html | fail | <code>The event interface "MouseEvents" is not supported</code> |
-| /shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html | fail | <code>"MouseEvent" is not defined</code> |
+| /shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html | fail | <code>assert_equals: Wrong related target expected "host" but got "div1"</code> |
 | /shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html | fail | <code>form.submit is not a function. (In "form.submit()", it is undefined)</code> |
 | /shadow-dom/untriaged/html-elements-in-shadow-trees/inert-html-elements/test-001.html | fail | <code>link.click is not a function. (In "link.click()", it is undefined)</code> |
 | /shadow-dom/untriaged/shadow-trees/upper-boundary-encapsulation/dom-tree-accessors-001.html | fail | <code>Cannot convert undefined to object</code> |
@@ -1114,7 +1109,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /streams/writable-streams/close.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/constructor.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/count-queuing-strategy.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
-| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
+| /streams/writable-streams/crashtests/garbage-collection.any.html | timeout | <code>b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html | error | <code>Unhandled rejection: "navigator" is not defined</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
 | /streams/writable-streams/crashtests/garbage-collection.any.worker.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "console" is not defined"</code> |
@@ -1148,7 +1143,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /xhr/formdata.html | error | <code>TypeError: Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/append-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/constructor-formelement.html | fail | <code>assert_equals: input.value when type=text should not contain newlines expected "value" but got "value\n\r"</code> |
-| /xhr/formdata/constructor-submitter-coordinate.html | fail | <code>promise_test: Unhandled rejection with value: object "ReferenceError: "MouseEvent" is not defined"</code> |
+| /xhr/formdata/constructor-submitter-coordinate.html | fail | <code>assert_equals: expected (string) "23" but got (undefined) undefined</code> |
 | /xhr/formdata/constructor-submitter.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/delete-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |
 | /xhr/formdata/get-formelement.html | fail | <code>Constructing FormData from a form is not supported</code> |

@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261118t034549078z-3421729",
+    "id": "20261118t062845391z-3953782",
     "state": "completed",
     "palim": {
-      "revision": "69ffc9c95f984e78f51da26b8f74409f06b3308c",
+      "revision": "70181dcc525302c3b8805ff1b0b9046d4a9ece2e",
       "dirty": false,
-      "imageId": "sha256:b7c1efc67c9bfbd5f5be1579dab45cf723ad4d69263237515e08acfd639c875c"
+      "imageId": "sha256:8faeffa40689d710470ecce0e25c6147e8ab4c31c4cd36978b5e4dcacf740b38"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-18T04:25:11.778Z",
+    "snapshotAt": "2026-11-18T07:09:04.399Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,11 +52,11 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 1033,
-    "fail": 742,
+    "pass": 1038,
+    "fail": 734,
     "skip": 248,
-    "error": 80,
-    "timeout": 126,
+    "error": 82,
+    "timeout": 127,
     "pending": 0
   },
   "areas": [
@@ -104,11 +104,11 @@
       "totals": {
         "total": 214,
         "executed": 214,
-        "pass": 38,
-        "fail": 61,
+        "pass": 40,
+        "fail": 57,
         "skip": 101,
-        "error": 4,
-        "timeout": 10,
+        "error": 5,
+        "timeout": 11,
         "pending": 0
       }
     },
@@ -247,10 +247,10 @@
       "totals": {
         "total": 317,
         "executed": 317,
-        "pass": 56,
-        "fail": 83,
+        "pass": 59,
+        "fail": 79,
         "skip": 132,
-        "error": 13,
+        "error": 14,
         "timeout": 33,
         "pending": 0
       }
@@ -309,22 +309,22 @@
     }
   ],
   "subtests": {
-    "total": 105906,
-    "pass": 85964,
-    "fail": 19502,
+    "total": 105874,
+    "pass": 86187,
+    "fail": 19246,
     "skip": 248,
     "error": 66,
-    "timeout": 126
+    "timeout": 127
   },
   "nonTentative": {
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 1031,
-      "fail": 691,
+      "pass": 1036,
+      "fail": 683,
       "skip": 209,
-      "error": 75,
-      "timeout": 100,
+      "error": 77,
+      "timeout": 101,
       "pending": 0
     },
     "areas": [
@@ -372,11 +372,11 @@
         "totals": {
           "total": 211,
           "executed": 211,
-          "pass": 38,
-          "fail": 60,
+          "pass": 40,
+          "fail": 56,
           "skip": 99,
-          "error": 4,
-          "timeout": 10,
+          "error": 5,
+          "timeout": 11,
           "pending": 0
         }
       },
@@ -515,10 +515,10 @@
         "totals": {
           "total": 242,
           "executed": 242,
-          "pass": 56,
-          "fail": 68,
+          "pass": 59,
+          "fail": 64,
           "skip": 100,
-          "error": 10,
+          "error": 11,
           "timeout": 8,
           "pending": 0
         }
@@ -577,12 +577,12 @@
       }
     ],
     "subtests": {
-      "total": 105449,
-      "pass": 85911,
-      "fail": 19165,
+      "total": 105417,
+      "pass": 86134,
+      "fail": 18909,
       "skip": 209,
       "error": 64,
-      "timeout": 100
+      "timeout": 101
     },
     "nonPassingTests": [
       {
@@ -2372,8 +2372,8 @@
       },
       {
         "url": "/dom/events/Event-dispatch-click.html",
-        "status": "fail",
-        "message": "input.click is not a function. (In \"input.click()\", it is undefined)"
+        "status": "timeout",
+        "message": "palim execution timed out"
       },
       {
         "url": "/dom/events/Event-dispatch-detached-input-and-change.html",
@@ -2472,8 +2472,8 @@
       },
       {
         "url": "/dom/events/Event-stopPropagation-cancel-bubbling.html",
-        "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
+        "status": "error",
+        "message": "ReferenceError: \"event\" is not defined"
       },
       {
         "url": "/dom/events/Event-subclasses-constructors.html",
@@ -2489,11 +2489,6 @@
         "url": "/dom/events/Event-timestamp-high-resolution.https.html",
         "status": "fail",
         "message": "\"performance\" is not defined"
-      },
-      {
-        "url": "/dom/events/Event-timestamp-safe-resolution.html",
-        "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
       },
       {
         "url": "/dom/events/EventListener-handleEvent-cross-realm.html",
@@ -2641,14 +2636,9 @@
         "message": "button.click is not a function. (In \"button.click()\", it is undefined)"
       },
       {
-        "url": "/dom/events/legacy-pre-activation-behavior.window.html",
-        "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
-      },
-      {
         "url": "/dom/events/mouse-event-retarget.html",
         "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
+        "message": "assert_equals: expected (number) 42 but got (undefined) undefined"
       },
       {
         "url": "/dom/events/no-focus-events-at-clicking-editable-content-in-link.html",
@@ -4648,17 +4638,17 @@
       {
         "url": "/sanitizer-api/sanitizer-a-navigation.html?target=html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+        "message": "assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on HTML <a> with href expected true got false"
       },
       {
         "url": "/sanitizer-api/sanitizer-a-navigation.html?target=mathml",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+        "message": "assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on MathML <a> with href only expected true got false"
       },
       {
         "url": "/sanitizer-api/sanitizer-a-navigation.html?target=svg",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+        "message": "assert_true: Positive Control Failure: [setHTMLUnsafe] should have executed standard javascript: URL on SVG <a> with href only expected true got false"
       },
       {
         "url": "/sanitizer-api/sanitizer-custom-elements-constructor.html",
@@ -4828,7 +4818,7 @@
       {
         "url": "/shadow-dom/MouseEvent-prototype-offsetX-offsetY.html",
         "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
+        "message": "assert_equals: The host must be at (20px, 10px) expected (number) 20 but got (undefined) undefined"
       },
       {
         "url": "/shadow-dom/Node-prototype-cloneNode.html",
@@ -4987,8 +4977,8 @@
       },
       {
         "url": "/shadow-dom/event-with-related-target.html",
-        "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
+        "status": "error",
+        "message": "TypeError: event.composedPath is not a function. (In \"event.composedPath()\", it is undefined)"
       },
       {
         "url": "/shadow-dom/execcommand-insertList-in-shadow.html",
@@ -5636,29 +5626,14 @@
         "message": "assert_equals: Wrong exception type expected (number) 9 but got (undefined) undefined"
       },
       {
-        "url": "/shadow-dom/untriaged/events/event-dispatch/test-002.html",
-        "status": "fail",
-        "message": "The event interface \"MouseEvents\" is not supported"
-      },
-      {
         "url": "/shadow-dom/untriaged/events/event-dispatch/test-003.html",
         "status": "fail",
         "message": "event.composedPath is not a function. (In \"event.composedPath()\", it is undefined)"
       },
       {
-        "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-001.html",
-        "status": "fail",
-        "message": "The event interface \"MouseEvents\" is not supported"
-      },
-      {
         "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-002.html",
         "status": "fail",
-        "message": "The event interface \"MouseEvents\" is not supported"
-      },
-      {
-        "url": "/shadow-dom/untriaged/events/retargeting-relatedtarget/test-003.html",
-        "status": "fail",
-        "message": "\"MouseEvent\" is not defined"
+        "message": "assert_equals: Wrong related target expected \"host\" but got \"div1\""
       },
       {
         "url": "/shadow-dom/untriaged/html-elements-in-shadow-trees/html-forms/test-003.html",
@@ -5758,7 +5733,7 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
@@ -5928,7 +5903,7 @@
       {
         "url": "/xhr/formdata/constructor-submitter-coordinate.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"MouseEvent\" is not defined\""
+        "message": "assert_equals: expected (string) \"23\" but got (undefined) undefined"
       },
       {
         "url": "/xhr/formdata/constructor-submitter.html",

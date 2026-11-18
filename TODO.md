@@ -57,7 +57,7 @@
 - [ ] capture phase
 - [ ] `Event` / `CustomEvent` constructor と legacy initializer の required argument conversion
 - [ ] `Event` / `Node` の legacy constants と interface / instance property placement
-- [ ] `Event` subclass constructor、legacy factory alias と `MouseEvent` / `KeyboardEvent` の realm 公開
+- [ ] `UIEvent` / `KeyboardEvent` constructor、legacy factory alias と realm 公開
 - [ ] composed path と shadow boundary
 - [ ] event retargeting
 - [ ] `cancelBubble` / propagation flag / event phase の dispatch 前後と redispatch時の状態
