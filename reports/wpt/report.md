@@ -4,15 +4,15 @@ WPT runner status (includes tentative tests): failed
 
 Source: wpt/wpt@c477719ab30e47400d47bb6dc042a6161c85a1a3
 
-Campaign: 20261117t155702353z-2612947
+Campaign: 20261118t034549078z-3421729
 
 Campaign state: completed
 
-Palim: 0821a03d0acad071c743d94d86d785dd6d93e86a
+Palim: 69ffc9c95f984e78f51da26b8f74409f06b3308c
 
-Container image: sha256:1e03ec3116f6413bc17a40ca684b250a0be94ca819f11e10147cbcec5cc56092
+Container image: sha256:b7c1efc67c9bfbd5f5be1579dab45cf723ad4d69263237515e08acfd639c875c
 
-Snapshot: 2026-11-17T16:38:28.530Z
+Snapshot: 2026-11-18T04:25:11.778Z
 
 Attempts: 2229; worker failures: 0; retries: 0
 
@@ -22,13 +22,13 @@ This table includes every selected WPT URL, including tentative tests.
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2229 | 2229 | 1018 | 751 | 248 | 80 | 132 | 0 | 100.00% | 45.67% |
-| /custom-elements/ | 209 | 209 | 77 | 113 | 5 | 11 | 3 | 0 | 100.00% | 36.84% |
-| /css/cssom/ | 273 | 273 | 32 | 199 | 0 | 14 | 28 | 0 | 100.00% | 11.72% |
+| All | 2229 | 2229 | 1033 | 742 | 248 | 80 | 126 | 0 | 100.00% | 46.34% |
+| /custom-elements/ | 209 | 209 | 78 | 113 | 5 | 10 | 3 | 0 | 100.00% | 37.32% |
+| /css/cssom/ | 273 | 273 | 36 | 199 | 0 | 14 | 24 | 0 | 100.00% | 13.19% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 214 | 214 | 38 | 61 | 101 | 4 | 10 | 0 | 100.00% | 17.76% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 311 | 70 | 5 | 1 | 28 | 0 | 100.00% | 74.94% |
+| /dom/nodes/ | 415 | 415 | 321 | 61 | 5 | 1 | 27 | 0 | 100.00% | 77.35% |
 | /dom/ranges/ | 69 | 69 | 32 | 32 | 3 | 2 | 0 | 0 | 100.00% | 46.38% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 96 | 96 | 48 | 39 | 0 | 2 | 7 | 0 | 100.00% | 50.00% |
@@ -37,7 +37,7 @@ This table includes every selected WPT URL, including tentative tests.
 | /html/syntax/parsing/ | 236 | 236 | 158 | 69 | 0 | 2 | 7 | 0 | 100.00% | 66.95% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 50 | 50 | 20 | 23 | 0 | 0 | 7 | 0 | 100.00% | 40.00% |
-| /shadow-dom/ | 317 | 317 | 56 | 83 | 132 | 12 | 34 | 0 | 100.00% | 17.67% |
+| /shadow-dom/ | 317 | 317 | 56 | 83 | 132 | 13 | 33 | 0 | 100.00% | 17.67% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -49,13 +49,13 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Area | Total | Executed | Pass | Fail | Skip | Error | Timeout | Pending | Progress | Pass rate |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| All | 2106 | 2106 | 1016 | 700 | 209 | 75 | 106 | 0 | 100.00% | 48.24% |
-| /custom-elements/ | 202 | 202 | 77 | 109 | 3 | 10 | 3 | 0 | 100.00% | 38.12% |
-| /css/cssom/ | 264 | 264 | 31 | 191 | 0 | 14 | 28 | 0 | 100.00% | 11.74% |
+| All | 2106 | 2106 | 1031 | 691 | 209 | 75 | 100 | 0 | 100.00% | 48.96% |
+| /custom-elements/ | 202 | 202 | 78 | 109 | 3 | 9 | 3 | 0 | 100.00% | 38.61% |
+| /css/cssom/ | 264 | 264 | 35 | 191 | 0 | 14 | 24 | 0 | 100.00% | 13.26% |
 | /dom/collections/ | 12 | 12 | 12 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /dom/events/ | 211 | 211 | 38 | 60 | 99 | 4 | 10 | 0 | 100.00% | 18.01% |
 | /dom/lists/ | 5 | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
-| /dom/nodes/ | 415 | 415 | 311 | 70 | 5 | 1 | 28 | 0 | 100.00% | 74.94% |
+| /dom/nodes/ | 415 | 415 | 321 | 61 | 5 | 1 | 27 | 0 | 100.00% | 77.35% |
 | /dom/ranges/ | 46 | 46 | 32 | 12 | 0 | 2 | 0 | 0 | 100.00% | 69.57% |
 | /dom/traversal/ | 15 | 15 | 15 | 0 | 0 | 0 | 0 | 0 | 100.00% | 100.00% |
 | /domparsing/ | 94 | 94 | 48 | 37 | 0 | 2 | 7 | 0 | 100.00% | 51.06% |
@@ -64,7 +64,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /html/syntax/parsing/ | 234 | 234 | 158 | 69 | 0 | 1 | 6 | 0 | 100.00% | 67.52% |
 | /html/webappapis/dynamic-markup-insertion/html-unsafe-methods/ | 13 | 13 | 7 | 1 | 0 | 2 | 3 | 0 | 100.00% | 53.85% |
 | /sanitizer-api/ | 49 | 49 | 19 | 23 | 0 | 0 | 7 | 0 | 100.00% | 38.78% |
-| /shadow-dom/ | 242 | 242 | 56 | 68 | 100 | 9 | 9 | 0 | 100.00% | 23.14% |
+| /shadow-dom/ | 242 | 242 | 56 | 68 | 100 | 10 | 8 | 0 | 100.00% | 23.14% |
 | /streams/writable-streams/ | 64 | 64 | 43 | 4 | 0 | 16 | 1 | 0 | 100.00% | 67.19% |
 | /url/ | 79 | 79 | 62 | 16 | 0 | 0 | 1 | 0 | 100.00% | 78.48% |
 | /xhr/formdata | 28 | 28 | 18 | 8 | 1 | 1 | 0 | 0 | 100.00% | 64.29% |
@@ -74,7 +74,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 
 | Total | Pass | Fail | Skip | Error | Timeout | Pass rate |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 105377 | 84638 | 20359 | 209 | 65 | 106 | 80.32% |
+| 105449 | 85911 | 19165 | 209 | 64 | 100 | 81.47% |
 
 ### Non-passing executed tests
 
@@ -135,7 +135,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/HTMLLinkElement-load-event.html | fail | <code>assert_equals: Should expose the sheet to the OM before running script expected 1 but got 0</code> |
 | /css/cssom/HTMLStyleElement-load-event.html | fail | <code>assert_equals: Load event should've fired for all nodes expected 3 but got 0</code> |
 | /css/cssom/MediaList.html | fail | <code>assert_equals: MediaList mediaText attribute should be updated expected "speech" but got ""</code> |
-| /css/cssom/MutationObserver-style.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
+| /css/cssom/MutationObserver-style.html | fail | <code>assert_equals: times callback called expected 1 but got 0</code> |
 | /css/cssom/StyleSheet-properties.html | fail | <code>assert_equals: expected (string) "text/css" but got (undefined) undefined</code> |
 | /css/cssom/adoptedstylesheets-cascade-order.html | fail | <code>red.replaceSync is not a function. (In "red.replaceSync("#target { color: red; }")", it is undefined)</code> |
 | /css/cssom/adoptedstylesheets-modify-array-and-sheet.html | error | <code>TypeError: sheet_a.replaceSync is not a function. (In "sheet_a.replaceSync("#target { color: red; }")", it is undefined)</code> |
@@ -177,11 +177,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /css/cssom/cssstyledeclaration-csstext.html | fail | <code>assert_equals: expected "color: rgb(255, 0, 0);" but got ""</code> |
 | /css/cssom/cssstyledeclaration-custom-properties.html | fail | <code>assert_equals: Should be returned from getPropertyValue expected "bar" but got ""</code> |
 | /css/cssom/cssstyledeclaration-mutability.html | fail | <code>assert_equals: setting via cssText expected "10px" but got ""</code> |
-| /css/cssom/cssstyledeclaration-mutationrecord-001.html | timeout | <code>b'TypeError: The childList option must be true'</code> |
-| /css/cssom/cssstyledeclaration-mutationrecord-002.html | timeout | <code>b'TypeError: The childList option must be true'</code> |
-| /css/cssom/cssstyledeclaration-mutationrecord-003.html | timeout | <code>b'TypeError: The childList option must be true'</code> |
-| /css/cssom/cssstyledeclaration-mutationrecord-004.html | timeout | <code>b'TypeError: The childList option must be true'</code> |
-| /css/cssom/cssstyledeclaration-mutationrecord-005.html | timeout | <code>b'TypeError: The childList option must be true'</code> |
+| /css/cssom/cssstyledeclaration-mutationrecord-001.html | timeout | <code>palim execution timed out</code> |
 | /css/cssom/cssstyledeclaration-nested.html | fail | <code>Cannot convert undefined to object</code> |
 | /css/cssom/cssstyledeclaration-registered-custom-properties.html | fail | <code>assert_not_equals: got disallowed value -1</code> |
 | /css/cssom/cssstyledeclaration-removeProperty-all.html | fail | <code>assert_equals: setter should work as expected expected 1 but got 0</code> |
@@ -347,12 +343,11 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /custom-elements/form-associated/form-reset-callback.html | fail | <code>form.reset is not a function. (In "form.reset()", it is undefined)</code> |
 | /custom-elements/form-associated/form-upgrade-reactions.html | fail | <code>assert_array_equals: Upgrade reactions lengths differ, expected array ["attribute", "disabled", null, "", "associated", Element node &lt;form&gt;&lt;upgrade-detached-attribute disabled=""&gt;&lt;/upgrade-d..., "disabled", true] length 8, got ["associated", Element node &lt;form&gt;&lt;upgrade-detached-attribute disabled=""&gt;&lt;/upgrade-d..., "attribute", "disabled", null, ""] length 6</code> |
 | /custom-elements/form-associated/label-delegatesFocus.html | skip | <code>Executor does not support testdriver.js</code> |
-| /custom-elements/microtasks-and-constructors.html | fail | <code>assert_array_equals: lengths differ, expected array ["promise microtask", "MutationObserver microtask"] length 2, got ["promise microtask"] length 1</code> |
+| /custom-elements/microtasks-and-constructors.html | fail | <code>assert_false: The attribute must not be present expected false got true</code> |
 | /custom-elements/parser/parser-constructs-custom-element-in-document-write.html | error | <code>Error: The tokenizer input stream is closed</code> |
 | /custom-elements/parser/parser-custom-element-in-foreign-content.html | fail | <code>"SVGElement" is not defined</code> |
 | /custom-elements/parser/parser-fallsback-to-unknown-element.html | fail | <code>assert_true: The fallback element created by HTML parser must be an instance of HTMLUnknownElement expected true got false</code> |
-| /custom-elements/parser/parser-sets-attributes-after-autonomous-constructor.html | error | <code>TypeError: The childList option must be true</code> |
-| /custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html | error | <code>TypeError: The childList option must be true</code> |
+| /custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html | error | <code>TypeError: Cannot convert undefined to object</code> |
 | /custom-elements/parser/parser-uses-constructed-element.html | error | <code>TypeError: Custom element is already constructed</code> |
 | /custom-elements/parser/parser-uses-create-an-element-for-a-token-svg.svg | fail | <code>assert_true: expected true got false</code> |
 | /custom-elements/parser/parser-uses-registry-of-owner-document.html | error | <code>Error: The tokenizer input stream is closed</code> |
@@ -616,27 +611,17 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /dom/nodes/Document-contentType/contentType/xhr_responseType_document.html | fail | <code>"XMLHttpRequest" is not defined</code> |
 | /dom/nodes/Document-createEvent.https.html | error | <code>The event interface "BeforeUnloadEvent" is not supported</code> |
 | /dom/nodes/DocumentFragment-constructor.html | fail | <code>assert_equals: expected Document node with 2 children but got Document node with 0 children</code> |
-| /dom/nodes/Element-classlist.html | fail | <code>The childList option must be true</code> |
 | /dom/nodes/Element-closest.html | fail | <code>assert_equals: :invalid expected "test2" but got ""</code> |
 | /dom/nodes/Element-getElementsByTagName-change-document-HTMLNess.html | timeout | <code>palim execution timed out</code> |
 | /dom/nodes/Element-matches-namespaced-elements.html | fail | <code>document.createElementNS("", "element")[method] is not a function. (In "document.createElementNS("", "element")[method]("element")", it is undefined)</code> |
 | /dom/nodes/Element-matches.html | fail | <code>assert_true: The element #attr-presence-i1 should match the selector. expected true got false</code> |
 | /dom/nodes/Element-webkitMatchesSelector.html | fail | <code>assert_idl_attribute: Detached Element supports webkitMatchesSelector property "webkitMatchesSelector" not found in prototype chain</code> |
-| /dom/nodes/MutationObserver-attributes.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-callback-arguments.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-callback-order.window.html | fail | <code>promise_test: Unhandled rejection with value: object "TypeError: The childList option must be true"</code> |
-| /dom/nodes/MutationObserver-callback-tricky.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-characterData.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-childList.html | timeout | <code>palim execution timed out</code> |
+| /dom/nodes/MutationObserver-attributes.html | fail | <code>assert_equals: mutation records must match expected 2 but got 1</code> |
+| /dom/nodes/MutationObserver-childList.html | fail | <code>assert_equals: mutation records must match expected 1 but got 2</code> |
 | /dom/nodes/MutationObserver-cross-realm-callback-report-exception.html | timeout | <code>b'TypeError: Cannot convert undefined to object\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html:6:21'</code> |
-| /dom/nodes/MutationObserver-disconnect.html | fail | <code>The childList option must be true</code> |
 | /dom/nodes/MutationObserver-document.html | fail | <code>assert_unreached: document observer did not trigger Reached unreachable code</code> |
-| /dom/nodes/MutationObserver-inner-outer.html | fail | <code>assert_array_equals: addedNodes didn't match lengths differ, expected array [Text node "new text"] length 1, got object "[object NodeList]" length 0</code> |
-| /dom/nodes/MutationObserver-overlapping-registrations.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-sanity.html | fail | <code>The childList option must be true</code> |
-| /dom/nodes/MutationObserver-takeRecords.html | fail | <code>assert_equals: mutation records must match expected 5 but got 1</code> |
+| /dom/nodes/MutationObserver-inner-outer.html | fail | <code>assert_equals: mutation records must match expected 2 but got 3</code> |
 | /dom/nodes/MutationObserver-textContent.html | fail | <code>assert_equals: Should have one record expected 1 but got 2</code> |
-| /dom/nodes/MutationObserver-transient-registered-observers.window.html | fail | <code>assert_array_equals: expected property 0 to be "childList parent -child" but got "childList parent -child undefined" (expected array ["childList parent -child", "childList child +added"] got ["childList parent -child undefined", "childList child +added undefined"])</code> |
 | /dom/nodes/MutationObserver-xml-parser.xhtml | fail | <code>assert_equals: mutation records must match expected 6 but got 0</code> |
 | /dom/nodes/Node-appendChild.html | fail | <code>Cannot convert undefined to object</code> |
 | /dom/nodes/Node-cloneNode-document-allow-declarative-shadow-roots.window.html | fail | <code>assert_true: expected true got false</code> |
@@ -1093,7 +1078,7 @@ Tentative tests are excluded. A WPT result does not override a conflicting curre
 | /shadow-dom/scroll-to-the-fragment-in-shadow-tree.html | timeout | <code>b'TypeError: window.scrollTo is not a function. (In "window.scrollTo(0, 0)", it is undefined)\n    at executeNextTest (http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:34:24)\n    at http://web-platform.test:8000/shadow-dom/scroll-to-the-fragment-in-shadow-tree.html:110:1'</code> |
 | /shadow-dom/shadow-root-clonable.html | fail | <code>assert_true: clonable attribute expected true got undefined</code> |
 | /shadow-dom/slotchange-customelements.html | fail | <code>assert_true: expected true got false</code> |
-| /shadow-dom/slotchange-event.html | timeout | <code>b'TypeError: The childList option must be true\n    at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\n    at &lt;anonymous&gt; (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)'</code> |
+| /shadow-dom/slotchange-event.html | error | <code>Error: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0</code> |
 | /shadow-dom/slotchange.html | timeout | <code>palim execution timed out</code> |
 | /shadow-dom/slots-fallback-in-document.html | fail | <code>assert_array_equals: expected property 0 to be Element node &lt;slot id="slot"&gt;&lt;div id="fallback"&gt;This is fallback conte... but got Element node &lt;div id="fallback"&gt;This is fallback content&lt;/div&gt; (expected array [Element node &lt;slot id="slot"&gt;&lt;div id="fallback"&gt;This is fallback conte...] got [Element node &lt;div id="fallback"&gt;This is fallback content&lt;/div&gt;])</code> |
 | /shadow-dom/slots-fallback.html | fail | <code>assert_equals: expected (object) null but got (undefined) undefined</code> |

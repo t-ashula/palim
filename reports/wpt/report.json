@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261117t155702353z-2612947",
+    "id": "20261118t034549078z-3421729",
     "state": "completed",
     "palim": {
-      "revision": "0821a03d0acad071c743d94d86d785dd6d93e86a",
+      "revision": "69ffc9c95f984e78f51da26b8f74409f06b3308c",
       "dirty": false,
-      "imageId": "sha256:1e03ec3116f6413bc17a40ca684b250a0be94ca819f11e10147cbcec5cc56092"
+      "imageId": "sha256:b7c1efc67c9bfbd5f5be1579dab45cf723ad4d69263237515e08acfd639c875c"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-17T16:38:28.530Z",
+    "snapshotAt": "2026-11-18T04:25:11.778Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,11 +52,11 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 1018,
-    "fail": 751,
+    "pass": 1033,
+    "fail": 742,
     "skip": 248,
     "error": 80,
-    "timeout": 132,
+    "timeout": 126,
     "pending": 0
   },
   "areas": [
@@ -65,10 +65,10 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 77,
+        "pass": 78,
         "fail": 113,
         "skip": 5,
-        "error": 11,
+        "error": 10,
         "timeout": 3,
         "pending": 0
       }
@@ -78,11 +78,11 @@
       "totals": {
         "total": 273,
         "executed": 273,
-        "pass": 32,
+        "pass": 36,
         "fail": 199,
         "skip": 0,
         "error": 14,
-        "timeout": 28,
+        "timeout": 24,
         "pending": 0
       }
     },
@@ -130,11 +130,11 @@
       "totals": {
         "total": 415,
         "executed": 415,
-        "pass": 311,
-        "fail": 70,
+        "pass": 321,
+        "fail": 61,
         "skip": 5,
         "error": 1,
-        "timeout": 28,
+        "timeout": 27,
         "pending": 0
       }
     },
@@ -250,8 +250,8 @@
         "pass": 56,
         "fail": 83,
         "skip": 132,
-        "error": 12,
-        "timeout": 34,
+        "error": 13,
+        "timeout": 33,
         "pending": 0
       }
     },
@@ -309,22 +309,22 @@
     }
   ],
   "subtests": {
-    "total": 105834,
-    "pass": 84691,
-    "fail": 20696,
+    "total": 105906,
+    "pass": 85964,
+    "fail": 19502,
     "skip": 248,
-    "error": 67,
-    "timeout": 132
+    "error": 66,
+    "timeout": 126
   },
   "nonTentative": {
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 1016,
-      "fail": 700,
+      "pass": 1031,
+      "fail": 691,
       "skip": 209,
       "error": 75,
-      "timeout": 106,
+      "timeout": 100,
       "pending": 0
     },
     "areas": [
@@ -333,10 +333,10 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 77,
+          "pass": 78,
           "fail": 109,
           "skip": 3,
-          "error": 10,
+          "error": 9,
           "timeout": 3,
           "pending": 0
         }
@@ -346,11 +346,11 @@
         "totals": {
           "total": 264,
           "executed": 264,
-          "pass": 31,
+          "pass": 35,
           "fail": 191,
           "skip": 0,
           "error": 14,
-          "timeout": 28,
+          "timeout": 24,
           "pending": 0
         }
       },
@@ -398,11 +398,11 @@
         "totals": {
           "total": 415,
           "executed": 415,
-          "pass": 311,
-          "fail": 70,
+          "pass": 321,
+          "fail": 61,
           "skip": 5,
           "error": 1,
-          "timeout": 28,
+          "timeout": 27,
           "pending": 0
         }
       },
@@ -518,8 +518,8 @@
           "pass": 56,
           "fail": 68,
           "skip": 100,
-          "error": 9,
-          "timeout": 9,
+          "error": 10,
+          "timeout": 8,
           "pending": 0
         }
       },
@@ -577,12 +577,12 @@
       }
     ],
     "subtests": {
-      "total": 105377,
-      "pass": 84638,
-      "fail": 20359,
+      "total": 105449,
+      "pass": 85911,
+      "fail": 19165,
       "skip": 209,
-      "error": 65,
-      "timeout": 106
+      "error": 64,
+      "timeout": 100
     },
     "nonPassingTests": [
       {
@@ -863,7 +863,7 @@
       {
         "url": "/css/cssom/MutationObserver-style.html",
         "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: The childList option must be true\""
+        "message": "assert_equals: times callback called expected 1 but got 0"
       },
       {
         "url": "/css/cssom/StyleSheet-properties.html",
@@ -1073,27 +1073,7 @@
       {
         "url": "/css/cssom/cssstyledeclaration-mutationrecord-001.html",
         "status": "timeout",
-        "message": "b'TypeError: The childList option must be true'"
-      },
-      {
-        "url": "/css/cssom/cssstyledeclaration-mutationrecord-002.html",
-        "status": "timeout",
-        "message": "b'TypeError: The childList option must be true'"
-      },
-      {
-        "url": "/css/cssom/cssstyledeclaration-mutationrecord-003.html",
-        "status": "timeout",
-        "message": "b'TypeError: The childList option must be true'"
-      },
-      {
-        "url": "/css/cssom/cssstyledeclaration-mutationrecord-004.html",
-        "status": "timeout",
-        "message": "b'TypeError: The childList option must be true'"
-      },
-      {
-        "url": "/css/cssom/cssstyledeclaration-mutationrecord-005.html",
-        "status": "timeout",
-        "message": "b'TypeError: The childList option must be true'"
+        "message": "palim execution timed out"
       },
       {
         "url": "/css/cssom/cssstyledeclaration-nested.html",
@@ -1923,7 +1903,7 @@
       {
         "url": "/custom-elements/microtasks-and-constructors.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"promise microtask\", \"MutationObserver microtask\"] length 2, got [\"promise microtask\"] length 1"
+        "message": "assert_false: The attribute must not be present expected false got true"
       },
       {
         "url": "/custom-elements/parser/parser-constructs-custom-element-in-document-write.html",
@@ -1941,14 +1921,9 @@
         "message": "assert_true: The fallback element created by HTML parser must be an instance of HTMLUnknownElement expected true got false"
       },
       {
-        "url": "/custom-elements/parser/parser-sets-attributes-after-autonomous-constructor.html",
-        "status": "error",
-        "message": "TypeError: The childList option must be true"
-      },
-      {
         "url": "/custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html",
         "status": "error",
-        "message": "TypeError: The childList option must be true"
+        "message": "TypeError: Cannot convert undefined to object"
       },
       {
         "url": "/custom-elements/parser/parser-uses-constructed-element.html",
@@ -3266,11 +3241,6 @@
         "message": "assert_equals: expected Document node with 2 children but got Document node with 0 children"
       },
       {
-        "url": "/dom/nodes/Element-classlist.html",
-        "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
         "url": "/dom/nodes/Element-closest.html",
         "status": "fail",
         "message": "assert_equals: :invalid expected \"test2\" but got \"\""
@@ -3298,42 +3268,17 @@
       {
         "url": "/dom/nodes/MutationObserver-attributes.html",
         "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-callback-arguments.html",
-        "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-callback-order.window.html",
-        "status": "fail",
-        "message": "promise_test: Unhandled rejection with value: object \"TypeError: The childList option must be true\""
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-callback-tricky.html",
-        "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-characterData.html",
-        "status": "fail",
-        "message": "The childList option must be true"
+        "message": "assert_equals: mutation records must match expected 2 but got 1"
       },
       {
         "url": "/dom/nodes/MutationObserver-childList.html",
-        "status": "timeout",
-        "message": "palim execution timed out"
+        "status": "fail",
+        "message": "assert_equals: mutation records must match expected 1 but got 2"
       },
       {
         "url": "/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html",
         "status": "timeout",
         "message": "b'TypeError: Cannot convert undefined to object\\n    at http://web-platform.test:8000/dom/nodes/MutationObserver-cross-realm-callback-report-exception.html:6:21'"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-disconnect.html",
-        "status": "fail",
-        "message": "The childList option must be true"
       },
       {
         "url": "/dom/nodes/MutationObserver-document.html",
@@ -3343,32 +3288,12 @@
       {
         "url": "/dom/nodes/MutationObserver-inner-outer.html",
         "status": "fail",
-        "message": "assert_array_equals: addedNodes didn't match lengths differ, expected array [Text node \"new text\"] length 1, got object \"[object NodeList]\" length 0"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-overlapping-registrations.html",
-        "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-sanity.html",
-        "status": "fail",
-        "message": "The childList option must be true"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-takeRecords.html",
-        "status": "fail",
-        "message": "assert_equals: mutation records must match expected 5 but got 1"
+        "message": "assert_equals: mutation records must match expected 2 but got 3"
       },
       {
         "url": "/dom/nodes/MutationObserver-textContent.html",
         "status": "fail",
         "message": "assert_equals: Should have one record expected 1 but got 2"
-      },
-      {
-        "url": "/dom/nodes/MutationObserver-transient-registered-observers.window.html",
-        "status": "fail",
-        "message": "assert_array_equals: expected property 0 to be \"childList parent -child\" but got \"childList parent -child undefined\" (expected array [\"childList parent -child\", \"childList child +added\"] got [\"childList parent -child undefined\", \"childList child +added undefined\"])"
       },
       {
         "url": "/dom/nodes/MutationObserver-xml-parser.xhtml",
@@ -5652,8 +5577,8 @@
       },
       {
         "url": "/shadow-dom/slotchange-event.html",
-        "status": "timeout",
-        "message": "b'TypeError: The childList option must be true\\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)\\n    at <anonymous> (http://web-platform.test:8000/shadow-dom/slotchange-event.html:279:31)'"
+        "status": "error",
+        "message": "Error: assert_equals: slotchange must not be fired on a slot element if the assigned nodes changed after the slot was removed expected 2 but got 0"
       },
       {
         "url": "/shadow-dom/slotchange.html",
