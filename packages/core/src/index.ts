@@ -186,6 +186,7 @@ export {
   customElementConstructionFailed,
   customElementDefinitionForElement,
   customElementRegistryForNode,
+  customElementRegistryStateForNode,
   documentCustomElementRegistry,
   initializeCustomElementRegistry,
   isValidCustomElementName,

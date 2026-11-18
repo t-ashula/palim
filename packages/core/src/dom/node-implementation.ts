@@ -145,6 +145,7 @@ export class ShadowRootImplementation extends NodeImplementation {
     readonly host: ElementImplementation,
     readonly mode: "open" | "closed",
     readonly delegatesFocus: boolean,
+    readonly clonable: boolean,
     public availableToElementInternals = false,
   ) {
     super(11, "#document-fragment", document);

@@ -51,6 +51,7 @@ import {
   customElementDefinitionForElement,
   CustomElementRegistry,
   customElementRegistryForNode,
+  customElementRegistryStateForNode,
   enqueueCustomElementAttributeChangedReaction,
   enqueueCustomElementConnectedReaction,
   enqueueCustomElementDisconnectedReaction,
@@ -280,7 +281,7 @@ export interface ElementCreationOptions {
 }
 
 export interface ImportNodeOptions {
-  readonly customElementRegistry?: unknown;
+  readonly customElementRegistry?: CustomElementRegistry | null;
   readonly selfOnly?: boolean;
 }
 
@@ -291,6 +292,7 @@ export interface GetRootNodeOptions {
 export interface ShadowRootInit {
   readonly mode: "open" | "closed";
   readonly delegatesFocus?: boolean;
+  readonly clonable?: boolean;
   readonly customElementRegistry?: CustomElementRegistry | null;
 }
 
@@ -601,7 +603,12 @@ export class Node extends EventTarget {
     if (document === null) {
       throw new TypeError("Node has no owner document");
     }
-    return cloneNodeIntoDocument(this, document, subtree);
+    return cloneNodeIntoDocument(
+      this,
+      document,
+      subtree,
+      customElementRegistryForNode(this),
+    );
   }
 
   appendChild<T extends Node>(node: T): T {
@@ -1253,7 +1260,9 @@ export class Document extends Node {
       namespaceURI,
       null,
       convertedOptions.isValue,
-      convertedOptions.customElementRegistry,
+      convertedOptions.customElementRegistry === undefined
+        ? customElementRegistryForNode(this)
+        : convertedOptions.customElementRegistry,
     );
   }
 
@@ -1278,7 +1287,9 @@ export class Document extends Node {
       extracted.namespace,
       extracted.prefix,
       convertedOptions.isValue,
-      convertedOptions.customElementRegistry,
+      convertedOptions.customElementRegistry === undefined
+        ? customElementRegistryForNode(this)
+        : convertedOptions.customElementRegistry,
     );
   }
 
@@ -1387,7 +1398,15 @@ export class Document extends Node {
         "NotSupportedError",
       );
     }
-    return cloneNodeIntoDocument(node, this, importNodeSubtree(options)) as T;
+    const convertedOptions = convertImportNodeOptions(options);
+    return cloneNodeIntoDocument(
+      node,
+      this,
+      convertedOptions.subtree,
+      convertedOptions.customElementRegistry === undefined
+        ? effectiveGlobalCustomElementRegistry(this)
+        : convertedOptions.customElementRegistry,
+    ) as T;
   }
 
   adoptNode<T extends Node>(node: T): T {
@@ -2095,6 +2114,7 @@ export class Element extends Node {
         implementation,
         init.mode,
         Boolean(init.delegatesFocus),
+        Boolean(init.clonable),
         customElementDefinitionForElement(this) !== null,
       ),
     );
@@ -2632,9 +2652,7 @@ export class Element extends Node {
       context.namespaceURI === HTML_NAMESPACE &&
         context.localName === "template"
         ? {
-            customElementRegistry: customElementRegistryForNode(
-              this.#document(),
-            ),
+            customElementRegistry: null,
           }
         : undefined,
     );
@@ -3908,13 +3926,46 @@ export function cloneNodeIntoDocument(
   node: Node,
   document: Document,
   subtree: boolean,
+  fallbackCustomElementRegistry: CustomElementRegistry | null = customElementRegistryForNode(
+    document,
+  ),
+  isCloneRoot = true,
 ): Node {
-  const copy = cloneSingleNode(node, document);
+  const selectedRegistry = customElementRegistryForClone(
+    node,
+    document,
+    fallbackCustomElementRegistry,
+  );
+  const copy = cloneSingleNode(node, document, selectedRegistry);
   nodeImplementation(copy).scriptAlreadyStarted =
     nodeImplementation(node).scriptAlreadyStarted;
   nodeImplementation(copy).scriptForceAsync =
     nodeImplementation(node).scriptForceAsync;
   const childDocument = copy instanceof Document ? copy : document;
+
+  if (node instanceof Element && copy instanceof Element) {
+    const sourceShadow = elementImplementation(node).shadowRoot;
+    if (sourceShadow?.clonable === true) {
+      const sourceShadowRoot = nodeInterface(sourceShadow) as ShadowRoot;
+      const shadowRegistry = customElementRegistryForClone(
+        sourceShadowRoot,
+        document,
+        fallbackCustomElementRegistry,
+      );
+      const copyShadowRoot = copy.attachShadow({
+        mode: sourceShadow.mode,
+        delegatesFocus: sourceShadow.delegatesFocus,
+        clonable: true,
+        customElementRegistry: shadowRegistry,
+      });
+      for (const child of childNodes(sourceShadowRoot)) {
+        appendNode(
+          copyShadowRoot,
+          cloneNodeIntoDocument(child, document, true, shadowRegistry, false),
+        );
+      }
+    }
+  }
 
   if (
     subtree &&
@@ -3935,26 +3986,75 @@ export function cloneNodeIntoDocument(
     for (const child of childNodes(sourceContents)) {
       appendNode(
         copyContents,
-        cloneNodeIntoDocument(child, templateDocument, true),
+        cloneNodeIntoDocument(
+          child,
+          templateDocument,
+          true,
+          isCloneRoot ? fallbackCustomElementRegistry : null,
+          false,
+        ),
       );
     }
   }
 
   if (subtree) {
     for (const child of childNodes(node)) {
-      appendNode(copy, cloneNodeIntoDocument(child, childDocument, true));
+      appendNode(
+        copy,
+        cloneNodeIntoDocument(
+          child,
+          childDocument,
+          true,
+          fallbackCustomElementRegistry,
+          false,
+        ),
+      );
     }
   }
   return copy;
 }
 
-function cloneSingleNode(node: Node, document: Document): Node {
+function effectiveGlobalCustomElementRegistry(
+  document: Document,
+): CustomElementRegistry | null {
+  const registry = customElementRegistryForNode(document);
+  return registry?.scoped === true ? null : registry;
+}
+
+function customElementRegistryForClone(
+  node: Node,
+  document: Document,
+  fallback: CustomElementRegistry | null,
+): CustomElementRegistry | null {
+  const state = customElementRegistryStateForNode(node);
+  if (state !== undefined && state !== null) {
+    if (state.scoped || node.ownerDocument === document) {
+      return state;
+    }
+  }
+  const root = node.getRootNode();
+  if (
+    root instanceof ShadowRoot &&
+    customElementRegistryStateForNode(root) === null
+  ) {
+    return null;
+  }
+  return fallback;
+}
+
+function cloneSingleNode(
+  node: Node,
+  document: Document,
+  customElementRegistry: CustomElementRegistry | null,
+): Node {
   if (node instanceof Element) {
     const copy = createElementForDocument(
       document,
       node.localName,
       node.namespaceURI,
       node.prefix,
+      null,
+      customElementRegistry,
     );
     setAttributes(
       copy,
@@ -4091,14 +4191,38 @@ function convertElementCreationOptions(
   };
 }
 
-function importNodeSubtree(options: unknown): boolean {
+interface ConvertedImportNodeOptions {
+  readonly customElementRegistry: CustomElementRegistry | null | undefined;
+  readonly subtree: boolean;
+}
+
+function convertImportNodeOptions(
+  options: unknown,
+): ConvertedImportNodeOptions {
   if (
     (typeof options === "object" && options !== null) ||
     typeof options === "function"
   ) {
-    return !Boolean((options as ImportNodeOptions).selfOnly);
+    const converted = options as ImportNodeOptions;
+    const registry = converted.customElementRegistry;
+    if (
+      registry !== undefined &&
+      registry !== null &&
+      !(registry instanceof CustomElementRegistry)
+    ) {
+      throw new TypeError(
+        "customElementRegistry must be a CustomElementRegistry or null",
+      );
+    }
+    return {
+      customElementRegistry: registry,
+      subtree: !Boolean(converted.selfOnly),
+    };
   }
-  return Boolean(options);
+  return {
+    customElementRegistry: undefined,
+    subtree: Boolean(options),
+  };
 }
 
 function descendantText(node: Node): string {
@@ -5081,7 +5205,7 @@ function insertNodes(
   }
 }
 
-function shadowIncludingInclusiveDescendantNodes(node: Node): Node[] {
+export function shadowIncludingInclusiveDescendantNodes(node: Node): Node[] {
   const result = [node];
   if (node instanceof Element) {
     const shadowRoot = elementImplementation(node).shadowRoot;
@@ -5373,11 +5497,57 @@ function childNodeDocument(
 }
 
 function adopt(node: Node, document: Document): void {
+  const oldDocument = node.ownerDocument;
   removeNode(node);
   if (node.ownerDocument === document) {
     return;
   }
   updateNodeDocument(node, document);
+  updateAdoptedCustomElementRegistries(node, oldDocument, document);
+}
+
+function updateAdoptedCustomElementRegistries(
+  node: Node,
+  oldDocument: Document | null,
+  document: Document,
+): void {
+  const oldGlobalRegistry =
+    oldDocument === null ? null : customElementRegistryForNode(oldDocument);
+  const newGlobalRegistry = customElementRegistryForNode(document);
+  const newEffectiveGlobalRegistry =
+    newGlobalRegistry?.scoped === true ? null : newGlobalRegistry;
+  for (const descendant of shadowIncludingInclusiveDescendantNodes(node)) {
+    if (!(descendant instanceof Element || descendant instanceof ShadowRoot)) {
+      continue;
+    }
+    const state = customElementRegistryStateForNode(descendant);
+    if (state === undefined) {
+      continue;
+    }
+    if (state !== null) {
+      if (!state.scoped && state === oldGlobalRegistry) {
+        setCustomElementRegistryForNode(descendant, newEffectiveGlobalRegistry);
+      }
+      continue;
+    }
+    if (descendant instanceof ShadowRoot) {
+      setCustomElementRegistryForNode(descendant, newEffectiveGlobalRegistry);
+      continue;
+    }
+    const parent = descendant.parentNode;
+    if (
+      parent === null ||
+      (parent instanceof DocumentFragment && !(parent instanceof ShadowRoot))
+    ) {
+      setCustomElementRegistryForNode(descendant, newEffectiveGlobalRegistry);
+      continue;
+    }
+    const parentRegistry = customElementRegistryForNode(parent);
+    setCustomElementRegistryForNode(
+      descendant,
+      parentRegistry?.scoped === true ? null : parentRegistry,
+    );
+  }
 }
 
 function updateNodeDocument(node: Node, document: Document): void {
@@ -5392,6 +5562,10 @@ function updateNodeDocument(node: Node, document: Document): void {
     const contents = templateContents(node);
     if (contents !== null) {
       updateNodeDocument(contents, templateContentsDocument(document));
+    }
+    const shadowRoot = elementImplementation(node).shadowRoot;
+    if (shadowRoot !== null) {
+      updateNodeDocument(nodeInterface(shadowRoot), document);
     }
   }
   for (const child of childNodes(node)) {

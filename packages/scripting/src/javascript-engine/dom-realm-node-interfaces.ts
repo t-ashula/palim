@@ -770,6 +770,11 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
       const delegatesFocus = binding.engine.toBoolean(
         delegatesFocusValue.value,
       );
+      const clonableValue = binding.engine.get(binding.realm, init, "clonable");
+      if (clonableValue.type === "throw") {
+        return clonableValue;
+      }
+      const clonable = binding.engine.toBoolean(clonableValue.value);
       const registryValue = binding.engine.get(
         binding.realm,
         init,
@@ -802,6 +807,7 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
             element.attachShadow({
               mode: shadowMode,
               delegatesFocus,
+              clonable,
               ...(customElementRegistry === undefined
                 ? {}
                 : { customElementRegistry }),
@@ -1926,7 +1932,12 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
       }
 
       const optionsValue = argumentsList[1];
-      let options: boolean | { selfOnly: boolean } = false;
+      let options:
+        | boolean
+        | {
+            selfOnly: boolean;
+            customElementRegistry?: CustomElementRegistry | null;
+          } = false;
       if (
         optionsValue !== undefined &&
         !binding.engine.isUndefined(optionsValue)
@@ -1936,7 +1947,32 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
           options = binding.engine.toBoolean(optionsValue);
         } else {
           let selfOnly = false;
+          let customElementRegistry: CustomElementRegistry | null | undefined;
           if (object !== null) {
+            const registryValue = binding.engine.get(
+              binding.realm,
+              object,
+              "customElementRegistry",
+            );
+            if (registryValue.type === "throw") {
+              return registryValue;
+            }
+            if (!binding.engine.isUndefined(registryValue.value)) {
+              if (binding.engine.isNull(registryValue.value)) {
+                return binding.typeError(
+                  "customElementRegistry must be a CustomElementRegistry",
+                );
+              } else {
+                customElementRegistry = binding.customElementRegistryFor(
+                  registryValue.value,
+                );
+                if (customElementRegistry === null) {
+                  return binding.typeError(
+                    "customElementRegistry must be a CustomElementRegistry or null",
+                  );
+                }
+              }
+            }
             const selfOnlyValue = binding.engine.get(
               binding.realm,
               object,
@@ -1949,7 +1985,12 @@ export function installDocumentMembers(binding: DOMRealmBindingContext): void {
               selfOnly = binding.engine.toBoolean(selfOnlyValue.value);
             }
           }
-          options = { selfOnly };
+          options = {
+            selfOnly,
+            ...(customElementRegistry === undefined
+              ? {}
+              : { customElementRegistry }),
+          };
         }
       }
 

@@ -5,6 +5,7 @@ import {
   Document,
   Element,
   shadowIncludingInclusiveDescendantElements,
+  shadowIncludingInclusiveDescendantNodes,
   ShadowRoot,
 } from "./nodes.js";
 
@@ -37,8 +38,14 @@ export interface CustomElementDefinition {
     | null;
 }
 
-const DOCUMENT_REGISTRIES = new WeakMap<Document, CustomElementRegistry>();
-const NODE_REGISTRIES = new WeakMap<Node, CustomElementRegistry | null>();
+const DOCUMENT_CUSTOM_ELEMENT_REGISTRY = new WeakMap<
+  Document,
+  CustomElementRegistry
+>();
+const NODE_CUSTOM_ELEMENT_REGISTRY = new WeakMap<
+  Node,
+  CustomElementRegistry | null
+>();
 const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
   Element,
   CustomElementDefinition
@@ -124,10 +131,10 @@ export class CustomElementRegistry {
 export function documentCustomElementRegistry(
   document: Document,
 ): CustomElementRegistry {
-  let registry = DOCUMENT_REGISTRIES.get(document);
+  let registry = DOCUMENT_CUSTOM_ELEMENT_REGISTRY.get(document);
   if (registry === undefined) {
     registry = new CustomElementRegistry(false);
-    DOCUMENT_REGISTRIES.set(document, registry);
+    DOCUMENT_CUSTOM_ELEMENT_REGISTRY.set(document, registry);
   }
   return registry;
 }
@@ -136,17 +143,17 @@ export function setDocumentCustomElementRegistry(
   document: Document,
   registry: CustomElementRegistry,
 ): void {
-  DOCUMENT_REGISTRIES.set(document, registry);
+  DOCUMENT_CUSTOM_ELEMENT_REGISTRY.set(document, registry);
 }
 
 export function customElementRegistryForNode(
   node: Node,
 ): CustomElementRegistry | null {
-  if (NODE_REGISTRIES.has(node)) {
-    return NODE_REGISTRIES.get(node) ?? null;
+  if (NODE_CUSTOM_ELEMENT_REGISTRY.has(node)) {
+    return NODE_CUSTOM_ELEMENT_REGISTRY.get(node) ?? null;
   }
   if (node instanceof Document) {
-    return DOCUMENT_REGISTRIES.get(node) ?? null;
+    return DOCUMENT_CUSTOM_ELEMENT_REGISTRY.get(node) ?? null;
   }
   const root = node.getRootNode();
   if (
@@ -158,7 +165,7 @@ export function customElementRegistryForNode(
     return customElementRegistryForNode(root);
   }
   if (node instanceof Element && node.ownerDocument !== null) {
-    return DOCUMENT_REGISTRIES.get(node.ownerDocument) ?? null;
+    return DOCUMENT_CUSTOM_ELEMENT_REGISTRY.get(node.ownerDocument) ?? null;
   }
   if (node instanceof ShadowRoot) {
     return customElementRegistryForNode(node.host);
@@ -166,11 +173,20 @@ export function customElementRegistryForNode(
   return null;
 }
 
+export function customElementRegistryStateForNode(
+  node: Node,
+): CustomElementRegistry | null | undefined {
+  if (node instanceof Document) {
+    return DOCUMENT_CUSTOM_ELEMENT_REGISTRY.get(node);
+  }
+  return NODE_CUSTOM_ELEMENT_REGISTRY.get(node);
+}
+
 export function setCustomElementRegistryForNode(
   node: Node,
   registry: CustomElementRegistry | null,
 ): void {
-  NODE_REGISTRIES.set(node, registry);
+  NODE_CUSTOM_ELEMENT_REGISTRY.set(node, registry);
   if (node instanceof Element && registry !== null) {
     registry.associateElement(node);
   }
@@ -190,7 +206,7 @@ export function initializeCustomElementRegistry(
     );
   }
   registry.addInitializedRoot(root);
-  for (const node of lightTreeInclusiveDescendants(root)) {
+  for (const node of shadowIncludingInclusiveDescendantNodes(root)) {
     if (
       (node instanceof Document ||
         node instanceof Element ||
@@ -198,9 +214,9 @@ export function initializeCustomElementRegistry(
       customElementRegistryForNode(node) === null
     ) {
       if (node instanceof Document) {
-        DOCUMENT_REGISTRIES.set(node, registry);
+        DOCUMENT_CUSTOM_ELEMENT_REGISTRY.set(node, registry);
       } else {
-        NODE_REGISTRIES.set(node, registry);
+        NODE_CUSTOM_ELEMENT_REGISTRY.set(node, registry);
         if (node instanceof Element) {
           registry.associateElement(node);
         }
@@ -209,20 +225,14 @@ export function initializeCustomElementRegistry(
   }
 }
 
-function* lightTreeInclusiveDescendants(root: Node): Iterable<Node> {
-  yield root;
-  for (const child of root.childNodes) {
-    yield* lightTreeInclusiveDescendants(child);
-  }
-}
-
 export function createDefinedCustomElement(
   document: Document,
   localName: string,
   prefix: string | null,
   isValue: string | null = null,
-  registry: CustomElementRegistry | null = DOCUMENT_REGISTRIES.get(document) ??
-    null,
+  registry: CustomElementRegistry | null = DOCUMENT_CUSTOM_ELEMENT_REGISTRY.get(
+    document,
+  ) ?? null,
 ): CallbackResult<Element> | null {
   const definition = registry?.definitionForElement(localName, isValue);
   if (definition === null || definition === undefined) {

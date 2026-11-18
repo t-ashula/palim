@@ -30,10 +30,12 @@ case "${1:-}" in
     ;;
 esac
 
-docker build \
-  --file "$root/tools/wpt/Dockerfile" \
-  --tag "$image" \
-  "$root"
+if [ "${PALIM_WPT_SKIP_BUILD:-}" != 1 ]; then
+  docker build \
+    --file "$root/tools/wpt/Dockerfile" \
+    --tag "$image" \
+    "$root"
+fi
 mkdir -p "$raw_directory" "$report_directory"
 set +e
 docker run \
@@ -47,6 +49,7 @@ docker run \
   --env "PALIM_WPT_MANIFEST=/workspace/conformance/wpt/wpt/MANIFEST.json" \
   --env "PALIM_WPT_INCLUDE_FILE=/workspace/tools/wpt/include.txt" \
   --env "PALIM_WPT_EXCLUDE_FILE=/workspace/tools/wpt/exclude.txt" \
+  --env "PALIM_WPT_ENVIRONMENT_PREPARED=${PALIM_WPT_ENVIRONMENT_PREPARED:-}" \
   "$image" \
   "$@"
 status=$?

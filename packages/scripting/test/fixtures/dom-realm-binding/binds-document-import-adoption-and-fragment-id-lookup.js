@@ -35,6 +35,18 @@ if (
   throw new Error("Document.importNode binding is invalid");
 }
 
+const scopedRegistry = new CustomElementRegistry();
+const nullRegistryElement = sourceDocument.createElement("x-null", {
+  customElementRegistry: null,
+});
+const importedWithScopedRegistry = testDocument.importNode(
+  nullRegistryElement,
+  { customElementRegistry: scopedRegistry },
+);
+if (importedWithScopedRegistry.customElementRegistry !== scopedRegistry) {
+  throw new Error("Document.importNode did not use the selected registry");
+}
+
 const adopted = testDocument.adoptNode(source);
 if (
   adopted !== source ||
@@ -84,6 +96,10 @@ if (
 
 for (const callback of [
   () => testDocument.importNode(),
+  () =>
+    testDocument.importNode(first, {
+      customElementRegistry: null,
+    }),
   () => testDocument.adoptNode(null),
   () => Document.prototype.importNode.call(fragment, first),
   () => DocumentFragment.prototype.getElementById.call(testDocument, "target"),

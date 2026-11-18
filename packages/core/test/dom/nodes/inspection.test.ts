@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import {
+  CustomElementRegistry,
+  customElementRegistryForNode,
+  setDocumentCustomElementRegistry,
+} from "../../../src/dom/custom-elements.js";
 import { expectDOMException } from "../../helper/assertions.js";
 import {
   parseHTML as parse,
@@ -164,6 +169,107 @@ describe("Node cloning and adoption", () => {
     expect(content.querySelector("span")?.ownerDocument).toBe(
       content.ownerDocument,
     );
+  });
+
+  it("parses template innerHTML with a null registry", () => {
+    const document = parse("<template></template>");
+    setDocumentCustomElementRegistry(
+      document,
+      new CustomElementRegistry(false),
+    );
+    const template = document.querySelector("template");
+    if (!(template instanceof HTMLTemplateElement)) {
+      throw new Error("missing template element");
+    }
+
+    template.innerHTML = "<x-template></x-template>";
+    const templateChild = template.content.firstElementChild;
+    if (templateChild === null) {
+      throw new Error("missing template child");
+    }
+
+    expect(customElementRegistryForNode(templateChild)).toBeNull();
+  });
+
+  it("keeps nested template contents on a null registry during import", () => {
+    const sourceDocument = parse(
+      "<main><template><x-nested></x-nested></template></main>",
+    );
+    const targetDocument = parse("");
+    const targetRegistry = new CustomElementRegistry(false);
+    setDocumentCustomElementRegistry(targetDocument, targetRegistry);
+
+    const source = sourceDocument.querySelector("main");
+    if (source === null) {
+      throw new Error("missing source element");
+    }
+    const imported = targetDocument.importNode(source, true);
+    const template = imported.querySelector("template");
+    if (!(template instanceof HTMLTemplateElement)) {
+      throw new Error("missing imported template element");
+    }
+
+    const nested = template.content.firstElementChild;
+    if (nested === null) {
+      throw new Error("missing nested template child");
+    }
+    expect(customElementRegistryForNode(nested)).toBeNull();
+  });
+
+  it("selects a registry for imported elements", () => {
+    const sourceDocument = parse("");
+    const targetDocument = parse("");
+    const sourceGlobal = new CustomElementRegistry(false);
+    const targetGlobal = new CustomElementRegistry(false);
+    const scopedRegistry = new CustomElementRegistry();
+    setDocumentCustomElementRegistry(sourceDocument, sourceGlobal);
+    setDocumentCustomElementRegistry(targetDocument, targetGlobal);
+    const sourceGlobalElement = sourceDocument.createElement("x-source");
+    const nullElement = sourceDocument.createElement("x-null", {
+      customElementRegistry: null,
+    });
+
+    const importedGlobal = targetDocument.importNode(sourceGlobalElement, {
+      customElementRegistry: scopedRegistry,
+    });
+    const importedNull = targetDocument.importNode(nullElement, {
+      customElementRegistry: scopedRegistry,
+    });
+    const importedDefault = targetDocument.importNode(nullElement);
+    const sameDocumentGlobal = targetDocument.createElement("x-target");
+    const importedSameDocumentGlobal = targetDocument.importNode(
+      sameDocumentGlobal,
+      { customElementRegistry: scopedRegistry },
+    );
+
+    expect(customElementRegistryForNode(importedGlobal)).toBe(scopedRegistry);
+    expect(customElementRegistryForNode(importedNull)).toBe(scopedRegistry);
+    expect(customElementRegistryForNode(importedDefault)).toBe(targetGlobal);
+    expect(customElementRegistryForNode(importedSameDocumentGlobal)).toBe(
+      targetGlobal,
+    );
+  });
+
+  it("imports a clonable shadow root with the fallback registry", () => {
+    const sourceDocument = parse("");
+    const targetDocument = parse("");
+    const sourceGlobal = new CustomElementRegistry(false);
+    const targetGlobal = new CustomElementRegistry(false);
+    setDocumentCustomElementRegistry(sourceDocument, sourceGlobal);
+    setDocumentCustomElementRegistry(targetDocument, targetGlobal);
+    const host = sourceDocument.createElement("div");
+    const shadowRoot = host.attachShadow({ mode: "open", clonable: true });
+    shadowRoot.append(sourceDocument.createElement("span"));
+
+    const imported = targetDocument.importNode(host);
+    const importedShadowRoot = imported.shadowRoot;
+    if (importedShadowRoot === null) {
+      throw new Error("missing imported shadow root");
+    }
+
+    expect(importedShadowRoot.ownerDocument).toBe(targetDocument);
+    expect(importedShadowRoot.firstChild).not.toBeNull();
+    expect(customElementRegistryForNode(importedShadowRoot)).toBe(targetGlobal);
   });
 
   it("adopts a node, attributes, descendants, and template contents", () => {
