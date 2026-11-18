@@ -85,6 +85,7 @@ import {
   isTreeWalker,
   MediaList,
   MessageEvent,
+  MouseEvent,
   MutationObserver,
   MutationRecord,
   NamedNodeMap,
@@ -252,6 +253,7 @@ export class DOMRealmBindingContext {
   readonly platformObjects = new WeakMap<object, EngineObject>();
   readonly implementations = new WeakMap<EngineObject, object>();
   readonly customEventDetails = new WeakMap<CustomEvent, EngineValue>();
+  readonly mouseEventViews = new WeakMap<MouseEvent, EngineValue>();
   readonly abortSignalReasons = new WeakMap<AbortSignal, EngineValue>();
   readonly errorEventErrors = new WeakMap<ErrorEvent, EngineValue>();
   readonly promiseRejectionEventPromises = new WeakMap<
@@ -319,6 +321,7 @@ export class DOMRealmBindingContext {
   readonly xmlDocumentPrototype: EngineObject;
   readonly eventPrototype: EngineObject;
   readonly focusEventPrototype: EngineObject;
+  readonly mouseEventPrototype: EngineObject;
   readonly errorEventPrototype: EngineObject;
   readonly promiseRejectionEventPrototype: EngineObject;
   readonly messageEventPrototype: EngineObject;
@@ -544,6 +547,10 @@ export class DOMRealmBindingContext {
     );
     this.eventPrototype = this.engine.createObject(this.realm, objectPrototype);
     this.focusEventPrototype = this.engine.createObject(
+      this.realm,
+      this.eventPrototype,
+    );
+    this.mouseEventPrototype = this.engine.createObject(
       this.realm,
       this.eventPrototype,
     );
@@ -1319,6 +1326,29 @@ export class DOMRealmBindingContext {
     return converted.type === "throw"
       ? converted
       : normal(toLong(converted.value));
+  }
+
+  integer(
+    value: EngineValue | undefined,
+    bits: 16 | 32,
+    signed: boolean,
+  ): EngineResult<number> {
+    if (value === undefined || this.engine.isUndefined(value)) {
+      return normal(0);
+    }
+    const converted = this.engine.toNumber(this.realm, value);
+    if (converted.type === "throw") {
+      return converted;
+    }
+    if (!Number.isFinite(converted.value) || converted.value === 0) {
+      return normal(0);
+    }
+    const modulus = 2 ** bits;
+    const unsigned =
+      ((Math.trunc(converted.value) % modulus) + modulus) % modulus;
+    return normal(
+      signed && unsigned >= modulus / 2 ? unsigned - modulus : unsigned,
+    );
   }
 
   htmlParsingOptions(
@@ -2146,6 +2176,9 @@ export class DOMRealmBindingContext {
     if (interfaceObject instanceof FocusEvent) {
       return this.focusEventPrototype;
     }
+    if (interfaceObject instanceof MouseEvent) {
+      return this.mouseEventPrototype;
+    }
     if (interfaceObject instanceof ErrorEvent) {
       return this.errorEventPrototype;
     }
@@ -2728,6 +2761,161 @@ export class DOMRealmBindingContext {
       bubbles: values[0] ?? false,
       cancelable: values[1] ?? false,
       composed: values[2] ?? false,
+    });
+  }
+
+  mouseEventInit(value: EngineValue | undefined): EngineResult<{
+    bubbles: boolean;
+    cancelable: boolean;
+    composed: boolean;
+    view: EngineValue;
+    detail: number;
+    screenX: number;
+    screenY: number;
+    clientX: number;
+    clientY: number;
+    ctrlKey: boolean;
+    shiftKey: boolean;
+    altKey: boolean;
+    metaKey: boolean;
+    button: number;
+    buttons: number;
+    relatedTarget: EventTarget | null;
+  }> {
+    const eventInit = this.eventInit(value);
+    if (eventInit.type === "throw") {
+      return eventInit;
+    }
+    const defaultView = this.engine.fromPrimitive(null);
+    if (
+      value === undefined ||
+      this.engine.isUndefined(value) ||
+      this.engine.isNull(value)
+    ) {
+      return normal({
+        ...eventInit.value,
+        view: defaultView,
+        detail: 0,
+        screenX: 0,
+        screenY: 0,
+        clientX: 0,
+        clientY: 0,
+        ctrlKey: false,
+        shiftKey: false,
+        altKey: false,
+        metaKey: false,
+        button: 0,
+        buttons: 0,
+        relatedTarget: null,
+      });
+    }
+    const object = this.engine.asObject(value);
+    if (object === null) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "MouseEvent init is not an object",
+        ),
+      );
+    }
+    const property = (name: string): EngineResult<EngineValue> =>
+      this.engine.get(this.realm, object, name);
+    const number = (
+      name: string,
+      bits: 16 | 32,
+      signed: boolean,
+    ): EngineResult<number> => {
+      const result = property(name);
+      if (result.type === "throw") {
+        return result;
+      }
+      const converted = this.engine.toNumber(this.realm, result.value);
+      if (converted.type === "throw") {
+        return converted;
+      }
+      if (!Number.isFinite(converted.value) || converted.value === 0) {
+        return normal(0);
+      }
+      const modulus = 2 ** bits;
+      const unsigned =
+        ((Math.trunc(converted.value) % modulus) + modulus) % modulus;
+      return normal(
+        signed && unsigned >= modulus / 2 ? unsigned - modulus : unsigned,
+      );
+    };
+    const detail = number("detail", 32, true);
+    if (detail.type === "throw") {
+      return detail;
+    }
+    const view = property("view");
+    if (view.type === "throw") {
+      return view;
+    }
+    const booleans: boolean[] = [];
+    for (const name of ["altKey", "ctrlKey", "metaKey", "shiftKey"] as const) {
+      const result = property(name);
+      if (result.type === "throw") {
+        return result;
+      }
+      booleans.push(this.engine.toBoolean(result.value));
+    }
+    const numbers: number[] = [];
+    for (const [name, bits, signed] of [
+      ["button", 16, true],
+      ["buttons", 16, false],
+      ["clientX", 32, true],
+      ["clientY", 32, true],
+    ] as const) {
+      const result = number(name, bits, signed);
+      if (result.type === "throw") {
+        return result;
+      }
+      numbers.push(result.value);
+    }
+    const relatedTargetValue = property("relatedTarget");
+    if (relatedTargetValue.type === "throw") {
+      return relatedTargetValue;
+    }
+    const relatedTarget =
+      this.engine.isNull(relatedTargetValue.value) ||
+      this.engine.isUndefined(relatedTargetValue.value)
+        ? null
+        : this.eventTarget(relatedTargetValue.value);
+    if (
+      relatedTarget === null &&
+      !this.engine.isNull(relatedTargetValue.value) &&
+      !this.engine.isUndefined(relatedTargetValue.value)
+    ) {
+      return thrown(
+        this.engine.createTypeError(
+          this.realm,
+          "MouseEventInit.relatedTarget is not an EventTarget",
+        ),
+      );
+    }
+    const coordinates: number[] = [];
+    for (const name of ["screenX", "screenY"] as const) {
+      const result = number(name, 32, true);
+      if (result.type === "throw") {
+        return result;
+      }
+      coordinates.push(result.value);
+    }
+    return normal({
+      ...eventInit.value,
+      view: this.engine.isUndefined(view.value) ? defaultView : view.value,
+      detail: detail.value,
+      altKey: booleans[0] ?? false,
+      ctrlKey: booleans[1] ?? false,
+      metaKey: booleans[2] ?? false,
+      shiftKey: booleans[3] ?? false,
+      button: numbers[0] ?? 0,
+      buttons: numbers[1] ?? 0,
+      clientX: numbers[2] ?? 0,
+      clientY: numbers[3] ?? 0,
+      relatedTarget,
+      screenX: coordinates[0] ?? 0,
+      screenY: coordinates[1] ?? 0,
     });
   }
 

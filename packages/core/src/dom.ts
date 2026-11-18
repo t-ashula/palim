@@ -6,6 +6,7 @@ export {
   Event,
   EventTarget,
   FocusEvent,
+  MouseEvent,
   MessageEvent,
   PromiseRejectionEvent,
 } from "./dom/events.js";
@@ -17,6 +18,7 @@ export type {
   EventListener,
   EventListenerObject,
   FocusEventInit,
+  MouseEventInit,
   MessageEventInit,
   PromiseRejectionEventInit,
 } from "./dom/events.js";

@@ -28,6 +28,22 @@ export interface FocusEventInit extends EventInit {
   readonly relatedTarget?: EventTarget | null;
 }
 
+export interface MouseEventInit extends EventInit {
+  readonly view?: object | null;
+  readonly detail?: number;
+  readonly screenX?: number;
+  readonly screenY?: number;
+  readonly clientX?: number;
+  readonly clientY?: number;
+  readonly ctrlKey?: boolean;
+  readonly shiftKey?: boolean;
+  readonly altKey?: boolean;
+  readonly metaKey?: boolean;
+  readonly button?: number;
+  readonly buttons?: number;
+  readonly relatedTarget?: EventTarget | null;
+}
+
 export interface ErrorEventInit<T = unknown> extends EventInit {
   readonly message?: string;
   readonly filename?: string;
@@ -210,6 +226,142 @@ export class FocusEvent extends Event {
   }
 }
 
+export class MouseEvent extends Event {
+  #view: object | null;
+  #detail: number;
+  #screenX: number;
+  #screenY: number;
+  #clientX: number;
+  #clientY: number;
+  #ctrlKey: boolean;
+  #shiftKey: boolean;
+  #altKey: boolean;
+  #metaKey: boolean;
+  #button: number;
+  #buttons: number;
+  #relatedTarget: EventTarget | null;
+
+  constructor(type: string, eventInit: MouseEventInit = {}) {
+    super(type, eventInit);
+    this.#view = eventInit.view ?? null;
+    this.#detail = eventInit.detail ?? 0;
+    this.#screenX = eventInit.screenX ?? 0;
+    this.#screenY = eventInit.screenY ?? 0;
+    this.#clientX = eventInit.clientX ?? 0;
+    this.#clientY = eventInit.clientY ?? 0;
+    this.#ctrlKey = Boolean(eventInit.ctrlKey);
+    this.#shiftKey = Boolean(eventInit.shiftKey);
+    this.#altKey = Boolean(eventInit.altKey);
+    this.#metaKey = Boolean(eventInit.metaKey);
+    this.#button = eventInit.button ?? 0;
+    this.#buttons = eventInit.buttons ?? 0;
+    this.#relatedTarget = eventInit.relatedTarget ?? null;
+  }
+
+  get view(): object | null {
+    return this.#view;
+  }
+
+  get detail(): number {
+    return this.#detail;
+  }
+
+  get screenX(): number {
+    return this.#screenX;
+  }
+
+  get screenY(): number {
+    return this.#screenY;
+  }
+
+  get clientX(): number {
+    return this.#clientX;
+  }
+
+  get clientY(): number {
+    return this.#clientY;
+  }
+
+  get ctrlKey(): boolean {
+    return this.#ctrlKey;
+  }
+
+  get shiftKey(): boolean {
+    return this.#shiftKey;
+  }
+
+  get altKey(): boolean {
+    return this.#altKey;
+  }
+
+  get metaKey(): boolean {
+    return this.#metaKey;
+  }
+
+  get button(): number {
+    return this.#button;
+  }
+
+  get buttons(): number {
+    return this.#buttons;
+  }
+
+  get relatedTarget(): EventTarget | null {
+    return this.#relatedTarget;
+  }
+
+  getModifierState(keyArg: string): boolean {
+    switch (domString(keyArg)) {
+      case "Alt":
+        return this.#altKey;
+      case "Control":
+        return this.#ctrlKey;
+      case "Meta":
+        return this.#metaKey;
+      case "Shift":
+        return this.#shiftKey;
+      default:
+        return false;
+    }
+  }
+
+  initMouseEvent(
+    type: string,
+    bubbles = false,
+    cancelable = false,
+    view: object | null = null,
+    detail = 0,
+    screenX = 0,
+    screenY = 0,
+    clientX = 0,
+    clientY = 0,
+    ctrlKey = false,
+    altKey = false,
+    shiftKey = false,
+    metaKey = false,
+    button = 0,
+    relatedTarget: EventTarget | null = null,
+  ): void {
+    if (eventImplementation(this).dispatching) {
+      return;
+    }
+    this.initEvent(type, bubbles, cancelable);
+    this.#view = view;
+    this.#detail = detail;
+    this.#screenX = screenX;
+    this.#screenY = screenY;
+    this.#clientX = clientX;
+    this.#clientY = clientY;
+    this.#ctrlKey = ctrlKey;
+    this.#altKey = altKey;
+    this.#shiftKey = shiftKey;
+    this.#metaKey = metaKey;
+    this.#button = button;
+    this.#buttons = 0;
+    this.#relatedTarget = relatedTarget;
+  }
+}
+
 export class ErrorEvent<T = unknown> extends Event {
   readonly message: string;
   readonly filename: string;
@@ -262,26 +414,27 @@ export class MessageEvent<T = unknown> extends Event {
 }
 
 export function createLegacyEvent(interfaceName: string): Event {
-  let event: Event;
-  switch (asciiLowercase(domString(interfaceName))) {
-    case "event":
-    case "events":
-    case "htmlevents":
-    case "svgevents":
-      event = new Event("");
-      break;
-    case "customevent":
-      event = new CustomEvent("");
-      break;
-    case "focusevent":
-      event = new FocusEvent("");
-      break;
-    default:
-      throw new DOMException(
-        `The event interface "${interfaceName}" is not supported`,
-        "NotSupportedError",
-      );
-  }
+  const event = ((): Event => {
+    switch (asciiLowercase(domString(interfaceName))) {
+      case "event":
+      case "events":
+      case "htmlevents":
+      case "svgevents":
+        return new Event("");
+      case "customevent":
+        return new CustomEvent("");
+      case "focusevent":
+        return new FocusEvent("");
+      case "mouseevent":
+      case "mouseevents":
+        return new MouseEvent("");
+      default:
+        throw new DOMException(
+          `The event interface "${interfaceName}" is not supported`,
+          "NotSupportedError",
+        );
+    }
+  })();
   eventImplementation(event).initialized = false;
   return event;
 }

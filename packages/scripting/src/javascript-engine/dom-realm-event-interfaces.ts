@@ -1,4 +1,4 @@
-import { eventImplementation, FocusEvent } from "@palim/core";
+import { eventImplementation, FocusEvent, MouseEvent } from "@palim/core";
 
 import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
@@ -231,6 +231,151 @@ export function installEventMembers(binding: DOMRealmBindingContext): void {
       return !(event instanceof FocusEvent)
         ? binding.typeError("Invalid FocusEvent receiver")
         : binding.platformValue(event.relatedTarget);
+    },
+  );
+  binding.attribute(binding.mouseEventPrototype, "view", (thisValue) => {
+    const event = binding.event(thisValue);
+    if (!(event instanceof MouseEvent)) {
+      return binding.typeError("Invalid MouseEvent receiver");
+    }
+    return normal(
+      binding.mouseEventViews.get(event) ?? binding.engine.fromPrimitive(null),
+    );
+  });
+  for (const name of [
+    "detail",
+    "screenX",
+    "screenY",
+    "clientX",
+    "clientY",
+    "button",
+    "buttons",
+  ] as const) {
+    binding.attribute(binding.mouseEventPrototype, name, (thisValue) => {
+      const event = binding.event(thisValue);
+      return !(event instanceof MouseEvent)
+        ? binding.typeError("Invalid MouseEvent receiver")
+        : binding.primitive(event[name]);
+    });
+  }
+  for (const name of ["ctrlKey", "shiftKey", "altKey", "metaKey"] as const) {
+    binding.attribute(binding.mouseEventPrototype, name, (thisValue) => {
+      const event = binding.event(thisValue);
+      return !(event instanceof MouseEvent)
+        ? binding.typeError("Invalid MouseEvent receiver")
+        : binding.primitive(event[name]);
+    });
+  }
+  binding.attribute(
+    binding.mouseEventPrototype,
+    "relatedTarget",
+    (thisValue) => {
+      const event = binding.event(thisValue);
+      return !(event instanceof MouseEvent)
+        ? binding.typeError("Invalid MouseEvent receiver")
+        : binding.platformValue(event.relatedTarget);
+    },
+  );
+  binding.method(
+    binding.mouseEventPrototype,
+    "getModifierState",
+    1,
+    (thisValue, argumentsList) => {
+      const event = binding.event(thisValue);
+      if (!(event instanceof MouseEvent)) {
+        return binding.typeError("Invalid MouseEvent receiver");
+      }
+      const keyArg = binding.stringArgument(
+        argumentsList,
+        0,
+        "getModifierState",
+      );
+      return keyArg.type === "throw"
+        ? keyArg
+        : binding.primitive(event.getModifierState(keyArg.value));
+    },
+  );
+  binding.method(
+    binding.mouseEventPrototype,
+    "initMouseEvent",
+    1,
+    (thisValue, argumentsList) => {
+      const event = binding.event(thisValue);
+      if (!(event instanceof MouseEvent)) {
+        return binding.typeError("Invalid MouseEvent receiver");
+      }
+      const type = binding.stringArgument(argumentsList, 0, "initMouseEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      const numbers = [];
+      for (const [index, bits, signed] of [
+        [4, 32, true],
+        [5, 32, true],
+        [6, 32, true],
+        [7, 32, true],
+        [8, 32, true],
+        [13, 16, true],
+      ] as const) {
+        const converted = binding.integer(argumentsList[index], bits, signed);
+        if (converted.type === "throw") {
+          return converted;
+        }
+        numbers.push(converted.value);
+      }
+      const relatedTargetValue = argumentsList[14];
+      const relatedTarget =
+        relatedTargetValue === undefined ||
+        binding.engine.isNull(relatedTargetValue) ||
+        binding.engine.isUndefined(relatedTargetValue)
+          ? null
+          : binding.eventTarget(relatedTargetValue);
+      if (
+        relatedTarget === null &&
+        relatedTargetValue !== undefined &&
+        !binding.engine.isNull(relatedTargetValue) &&
+        !binding.engine.isUndefined(relatedTargetValue)
+      ) {
+        return binding.typeError(
+          "initMouseEvent relatedTarget is not an EventTarget",
+        );
+      }
+      const view =
+        argumentsList[3] === undefined ||
+        binding.engine.isUndefined(argumentsList[3])
+          ? binding.engine.fromPrimitive(null)
+          : argumentsList[3];
+      event.initMouseEvent(
+        type.value,
+        argumentsList[1] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[1]),
+        argumentsList[2] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[2]),
+        null,
+        numbers[0],
+        numbers[1],
+        numbers[2],
+        numbers[3],
+        numbers[4],
+        argumentsList[9] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[9]),
+        argumentsList[10] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[10]),
+        argumentsList[11] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[11]),
+        argumentsList[12] === undefined
+          ? false
+          : binding.engine.toBoolean(argumentsList[12]),
+        numbers[5],
+        relatedTarget,
+      );
+      binding.mouseEventViews.set(event, view);
+      return binding.undefined();
     },
   );
   for (const name of [

@@ -71,7 +71,7 @@ if (
   throw new Error("Legacy CustomEvent initialization is invalid");
 }
 
-for (const unsupported of ["foo", "U\u0130Event", "MouseEvent"]) {
+for (const unsupported of ["foo", "U\u0130Event"]) {
   let unsupportedError;
   try {
     testDocument.createEvent(unsupported);

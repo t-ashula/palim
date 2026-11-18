@@ -1463,6 +1463,16 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("exposes MouseEvent constructor state and legacy initialization", () => {
+    const { engine, realm } = createTestRealm("");
+
+    evaluate(
+      engine,
+      realm,
+      fixture("exposes-mouse-event-constructor-and-legacy-initializer.js"),
+    );
+  });
+
   it("supports Document.createEvent and legacy event initialization", () => {
     const { engine, realm } = createTestRealm("");
 

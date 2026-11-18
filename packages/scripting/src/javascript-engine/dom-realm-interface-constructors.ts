@@ -16,6 +16,7 @@ import {
   FocusEvent,
   HTMLElement,
   MessageEvent,
+  MouseEvent,
   MutationObserver,
   Node,
   NodeFilter,
@@ -355,6 +356,25 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
           }),
         ),
       );
+    },
+  );
+  binding.installInterface(
+    "MouseEvent",
+    binding.mouseEventPrototype,
+    1,
+    (_thisValue, argumentsList) => {
+      const type = binding.stringArgument(argumentsList, 0, "MouseEvent");
+      if (type.type === "throw") {
+        return type;
+      }
+      const eventInit = binding.mouseEventInit(argumentsList[1]);
+      if (eventInit.type === "throw") {
+        return eventInit;
+      }
+      const { view, ...hostInit } = eventInit.value;
+      const event = new MouseEvent(type.value, hostInit);
+      binding.mouseEventViews.set(event, view);
+      return normal(binding.wrap(event));
     },
   );
   binding.installInterface(

@@ -8,6 +8,7 @@ import {
   ErrorEvent,
   Event,
   EventTarget,
+  MouseEvent,
 } from "../public-test-api.js";
 
 describe("EventTarget", () => {
@@ -43,6 +44,44 @@ describe("EventTarget", () => {
     expect(event.bubbles).toBe(true);
     expect(event.cancelable).toBe(true);
     expect(event.detail).toEqual({ value: 54 });
+  });
+
+  it("constructs mouse events with mouse state", () => {
+    const relatedTarget = new EventTarget();
+    const event = new MouseEvent("mousedown", {
+      bubbles: true,
+      composed: true,
+      detail: 2,
+      screenX: 11,
+      screenY: 12,
+      clientX: 21,
+      clientY: 22,
+      ctrlKey: true,
+      shiftKey: true,
+      button: 1,
+      buttons: 4,
+      relatedTarget,
+    });
+
+    expect(event).toBeInstanceOf(Event);
+    expect(event.type).toBe("mousedown");
+    expect(event.bubbles).toBe(true);
+    expect(event.composed).toBe(true);
+    expect(event.detail).toBe(2);
+    expect(event.screenX).toBe(11);
+    expect(event.screenY).toBe(12);
+    expect(event.clientX).toBe(21);
+    expect(event.clientY).toBe(22);
+    expect(event.ctrlKey).toBe(true);
+    expect(event.shiftKey).toBe(true);
+    expect(event.altKey).toBe(false);
+    expect(event.metaKey).toBe(false);
+    expect(event.button).toBe(1);
+    expect(event.buttons).toBe(4);
+    expect(event.relatedTarget).toBe(relatedTarget);
+    expect(event.getModifierState("Control")).toBe(true);
+    expect(event.getModifierState("Shift")).toBe(true);
+    expect(event.getModifierState("AltGraph")).toBe(false);
   });
 
   it("creates and initializes legacy events", () => {
@@ -94,6 +133,48 @@ describe("EventTarget", () => {
     expect(event.bubbles).toBe(true);
     expect(event.cancelable).toBe(true);
     expect(event.detail).toBe(initialDetail);
+  });
+
+  it("initializes legacy mouse events and ignores initialization during dispatch", () => {
+    const document = parse("");
+    const event = document.createEvent("MouseEvents");
+    if (!(event instanceof MouseEvent)) {
+      throw new Error("Expected a MouseEvent");
+    }
+    const relatedTarget = new EventTarget();
+    const target = new EventTarget();
+    event.initMouseEvent(
+      "mousedown",
+      true,
+      true,
+      null,
+      2,
+      11,
+      12,
+      21,
+      22,
+      true,
+      false,
+      true,
+      false,
+      1,
+      relatedTarget,
+    );
+    target.addEventListener("mousedown", () => {
+      event.initMouseEvent("changed", false, false);
+    });
+
+    expect(event.type).toBe("mousedown");
+    expect(event.detail).toBe(2);
+    expect(event.screenX).toBe(11);
+    expect(event.clientY).toBe(22);
+    expect(event.ctrlKey).toBe(true);
+    expect(event.shiftKey).toBe(true);
+    expect(event.button).toBe(1);
+    expect(event.buttons).toBe(0);
+    expect(event.relatedTarget).toBe(relatedTarget);
+    expect(target.dispatchEvent(event)).toBe(true);
+    expect(event.type).toBe("mousedown");
   });
 
   it("ignores cancellation from passive listeners", () => {
