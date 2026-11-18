@@ -47,6 +47,7 @@ import {
   installNodeMembers,
   installRangeMembers,
   installSanitizerMembers,
+  installSelectionMembers,
   installTreeWalkerMembers,
   installXMLSerializerMembers,
 } from "./dom-realm-interface-installers.js";
@@ -121,6 +122,7 @@ export function installDOMRealmInterfaces(
   installNodeIteratorMembers(binding);
   installTreeWalkerMembers(binding);
   installRangeMembers(binding);
+  installSelectionMembers(binding);
   installMutationObserverMembers(binding);
   installCustomElementRegistryMembers(binding);
 }

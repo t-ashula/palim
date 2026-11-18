@@ -204,6 +204,8 @@ export type {
   ShadowRootInit,
   NodeIterator,
   Range,
+  Selection,
+  GetComposedRangesOptions,
   StaticRange,
   StaticRangeInit,
   TreeWalker,

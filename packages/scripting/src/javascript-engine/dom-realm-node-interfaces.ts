@@ -1590,6 +1590,12 @@ export function installElementMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installDocumentMembers(binding: DOMRealmBindingContext): void {
+  binding.method(binding.documentPrototype, "getSelection", 0, (thisValue) => {
+    const document = binding.document(thisValue);
+    return document === null
+      ? binding.typeError("Invalid Document receiver")
+      : binding.platformValue(document.getSelection());
+  });
   binding.attribute(binding.documentPrototype, "styleSheets", (thisValue) => {
     const document = binding.document(thisValue);
     return document === null

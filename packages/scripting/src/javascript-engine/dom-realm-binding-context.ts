@@ -11,6 +11,7 @@ import type {
   SanitizerElement,
   SanitizerElementInput,
   SanitizerPI,
+  Selection,
   StaticRange,
   TraversalFilterCallback,
   TraversalResult,
@@ -81,6 +82,7 @@ import {
   isForeignAnchorElement,
   isNodeIterator,
   isRange,
+  isSelection,
   isStaticRange,
   isTreeWalker,
   MediaList,
@@ -340,6 +342,7 @@ export class DOMRealmBindingContext {
   readonly customElementRegistryObject: EngineObject;
   readonly abstractRangePrototype: EngineObject;
   readonly rangePrototype: EngineObject;
+  readonly selectionPrototype: EngineObject;
   readonly staticRangePrototype: EngineObject;
   readonly nodeIteratorPrototype: EngineObject;
   readonly treeWalkerPrototype: EngineObject;
@@ -629,6 +632,10 @@ export class DOMRealmBindingContext {
     this.rangePrototype = this.engine.createObject(
       this.realm,
       this.abstractRangePrototype,
+    );
+    this.selectionPrototype = this.engine.createObject(
+      this.realm,
+      objectPrototype,
     );
     this.staticRangePrototype = this.engine.createObject(
       this.realm,
@@ -2311,6 +2318,9 @@ export class DOMRealmBindingContext {
     if (isRange(interfaceObject)) {
       return this.rangePrototype;
     }
+    if (isSelection(interfaceObject)) {
+      return this.selectionPrototype;
+    }
     if (isStaticRange(interfaceObject)) {
       return this.staticRangePrototype;
     }
@@ -2599,6 +2609,13 @@ export class DOMRealmBindingContext {
   range(value: EngineValue): Range | null {
     const interfaceObject = this.interfaceObject(value);
     return interfaceObject !== null && isRange(interfaceObject)
+      ? interfaceObject
+      : null;
+  }
+
+  selection(value: EngineValue): Selection | null {
+    const interfaceObject = this.interfaceObject(value);
+    return interfaceObject !== null && isSelection(interfaceObject)
       ? interfaceObject
       : null;
   }

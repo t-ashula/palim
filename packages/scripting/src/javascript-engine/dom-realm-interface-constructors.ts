@@ -284,6 +284,7 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     { configurable: true, enumerable: true, writable: true },
   );
   binding.installInterface("AbstractRange", binding.abstractRangePrototype);
+  binding.installInterface("Selection", binding.selectionPrototype);
   const rangeConstructor = binding.installInterface(
     "Range",
     binding.rangePrototype,

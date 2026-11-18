@@ -571,6 +571,31 @@ export function createRange(document: Document): Range {
   return new RangeImplementation(document);
 }
 
+export function compareBoundaryPointPositions(
+  firstNode: Node,
+  firstOffset: number,
+  secondNode: Node,
+  secondOffset: number,
+): number {
+  return compareBoundaryPoints(
+    requiredBoundaryPoint(firstNode, firstOffset),
+    requiredBoundaryPoint(secondNode, secondOffset),
+  );
+}
+
+export function setRangeBoundaryPoints(
+  range: Range,
+  startNode: Node,
+  startOffset: number,
+  endNode: Node,
+  endOffset: number,
+): void {
+  requireRange(range).setPoints(
+    requiredBoundaryPoint(startNode, startOffset),
+    requiredBoundaryPoint(endNode, endOffset),
+  );
+}
+
 class StaticRangeImplementation implements StaticRange {
   readonly startContainer: Node;
   readonly startOffset: number;

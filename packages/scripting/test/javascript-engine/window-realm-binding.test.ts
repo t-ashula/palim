@@ -29,6 +29,23 @@ function evaluate(
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes Document and Window Selection state", () => {
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, createWindow());
+
+    evaluate(
+      engine,
+      binding.realm,
+      readFileSync(
+        new URL(
+          "../fixtures/window-realm-binding/selection.js",
+          import.meta.url,
+        ),
+        "utf8",
+      ),
+    );
+  });
+
   it("exposes Window Trusted Types policy state", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, createWindow());

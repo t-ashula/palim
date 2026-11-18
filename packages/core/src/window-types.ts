@@ -1,5 +1,6 @@
 import type { EventTarget } from "./dom/events.js";
 import type { Document, Element } from "./dom/nodes.js";
+import type { Selection } from "./dom/selection.js";
 import type { CSSStyleDeclaration } from "./html-elements.js";
 
 export interface WindowErrorReport {
@@ -58,6 +59,7 @@ export interface Window extends EventTarget {
   readonly frameElement: Element | null;
   readonly innerWidth: number;
   readonly innerHeight: number;
+  getSelection(): Selection;
   getComputedStyle(
     element: Element,
     pseudoElement?: string | null,

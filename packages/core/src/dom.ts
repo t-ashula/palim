@@ -39,6 +39,11 @@ export type {
   StaticRange,
   StaticRangeInit,
 } from "./dom/range.js";
+export type { GetComposedRangesOptions, Selection } from "./dom/selection.js";
+export {
+  isSelection,
+  selectionForDocument,
+} from "./dom/selection-implementation.js";
 export { MutationObserver, MutationRecord } from "./dom/mutation-observer.js";
 export type {
   MutationCallback,

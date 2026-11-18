@@ -72,6 +72,8 @@ export type {
   MutationObserverInit,
   NodeIterator,
   Range,
+  Selection,
+  GetComposedRangesOptions,
   SanitizerAttribute,
   SanitizerConfig,
   SanitizerElement,
@@ -175,6 +177,10 @@ export type { EventHandler } from "./public-html-interfaces.js";
 
 export { callbackFailure, callbackSuccess } from "./callback-result.js";
 export { implementationFor, interfaceFor } from "./dom/binding.js";
+export {
+  isSelection,
+  selectionForDocument,
+} from "./dom/selection-implementation.js";
 export {
   createHTMLCollection,
   htmlCollectionSupportedPropertyNames,

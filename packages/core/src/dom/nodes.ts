@@ -109,6 +109,8 @@ import {
   sanitizerAllowsPI,
   sanitizerConfigForParsing,
 } from "./sanitizer.js";
+import type { Selection } from "./selection.js";
+import { selectionForDocument } from "./selection-implementation.js";
 import type { DOMTokenList } from "./token-list.js";
 import { createDOMTokenList } from "./token-list.js";
 import type {
@@ -1448,6 +1450,10 @@ export class Document extends Node {
 
   createRange(): Range {
     return createRange(this);
+  }
+
+  getSelection(): Selection | null {
+    return this.defaultView === null ? null : selectionForDocument(this);
   }
 
   prepend(...nodes: (Node | string)[]): void {

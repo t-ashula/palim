@@ -17,6 +17,7 @@ import {
   eventTargetImplementation,
   originFromURL,
   parseHTML,
+  selectionForDocument,
   URL,
 } from "@palim/core";
 import { computedStyle } from "@palim/css";
@@ -195,6 +196,10 @@ class WindowPlatform extends EventTarget implements Window {
 
   get innerHeight(): number {
     return windowEnvironment(this).viewport.height;
+  }
+
+  getSelection() {
+    return selectionForDocument(this.document);
   }
 
   getComputedStyle(element: Element, _pseudoElement: string | null = null) {

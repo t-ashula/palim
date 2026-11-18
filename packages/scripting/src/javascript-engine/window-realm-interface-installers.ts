@@ -47,6 +47,9 @@ export function installWindowInterface(
 }
 
 export function installWindowMembers(binding: WindowRealmBindingContext): void {
+  binding.operation("getSelection", 0, () =>
+    normal(binding.dom.platformObject(binding.window.getSelection())),
+  );
   binding.attribute(
     "window",
     () => binding.dom.platformObject(binding.window.window),
