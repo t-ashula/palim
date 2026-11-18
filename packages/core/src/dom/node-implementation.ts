@@ -1,4 +1,5 @@
 import type { PalimParseError } from "../html/parse-errors.js";
+import { HTML_NAMESPACE } from "../namespaces.js";
 import type { Origin } from "../origin.js";
 import { originFromURL } from "../origin.js";
 import { URL } from "../url/index.js";
@@ -32,6 +33,7 @@ export class NodeImplementation extends EventTargetImplementation {
   childNodes: NodeList | null = null;
   elementChildren: HTMLCollection | null = null;
   htmlInsertionHost: ElementImplementation | null = null;
+  assignedSlot: ElementImplementation | null = null;
   scriptAlreadyStarted = false;
   scriptForceAsync = true;
   readonly creationDocument: DocumentImplementation | null;
@@ -43,6 +45,10 @@ export class NodeImplementation extends EventTargetImplementation {
   ) {
     super();
     this.creationDocument = ownerDocument;
+  }
+
+  override eventParent(_composed: boolean): EventTargetImplementation | null {
+    return this.assignedSlot ?? this.parent ?? this.eventParentTarget;
   }
 }
 
@@ -137,6 +143,20 @@ export class ElementImplementation extends NodeImplementation {
   ) {
     super(1, prefix === null ? localName : `${prefix}:${localName}`, document);
   }
+
+  override eventSlotInClosedTree(): boolean {
+    if (this.namespaceURI !== HTML_NAMESPACE || this.localName !== "slot") {
+      return false;
+    }
+    let root = this.parent;
+    if (root === null) {
+      return false;
+    }
+    while (root.parent !== null) {
+      root = root.parent;
+    }
+    return root instanceof ShadowRootImplementation && root.mode === "closed";
+  }
 }
 
 export class ShadowRootImplementation extends NodeImplementation {
@@ -155,8 +175,8 @@ export class ShadowRootImplementation extends NodeImplementation {
     return composed ? this.host : null;
   }
 
-  override eventRetargetTarget(): EventTargetImplementation {
-    return this.host;
+  override eventRootOfClosedTree(): boolean {
+    return this.mode === "closed";
   }
 }
 

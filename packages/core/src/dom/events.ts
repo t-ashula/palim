@@ -13,6 +13,10 @@ import {
   eventTargetImplementation,
   eventTargetInterface,
 } from "./event-implementation.js";
+import {
+  NodeImplementation,
+  ShadowRootImplementation,
+} from "./node-implementation.js";
 
 export interface EventInit {
   readonly bubbles?: boolean;
@@ -155,7 +159,80 @@ export class Event {
   }
 
   composedPath(): EventTarget[] {
-    return eventImplementation(this).path.map(eventTargetInterface);
+    const implementation = eventImplementation(this);
+    const path = implementation.path;
+    const currentTarget = implementation.currentTarget;
+    if (path.length === 0 || currentTarget === null) {
+      return [];
+    }
+    const composedPath: EventTargetImplementation[] = [currentTarget];
+    let currentTargetIndex = 0;
+    let currentTargetHiddenSubtreeLevel = 0;
+    let index = path.length - 1;
+    while (index >= 0) {
+      const entry = path[index];
+      if (entry === undefined) {
+        break;
+      }
+      if (entry.rootOfClosedTree) {
+        currentTargetHiddenSubtreeLevel += 1;
+      }
+      if (entry.invocationTarget === currentTarget) {
+        currentTargetIndex = index;
+        break;
+      }
+      if (entry.slotInClosedTree) {
+        currentTargetHiddenSubtreeLevel -= 1;
+      }
+      index -= 1;
+    }
+    let currentHiddenSubtreeLevel = currentTargetHiddenSubtreeLevel;
+    let maxHiddenSubtreeLevel = currentTargetHiddenSubtreeLevel;
+    index = currentTargetIndex - 1;
+    while (index >= 0) {
+      const entry = path[index];
+      if (entry === undefined) {
+        break;
+      }
+      if (entry.rootOfClosedTree) {
+        currentHiddenSubtreeLevel += 1;
+      }
+      if (currentHiddenSubtreeLevel <= maxHiddenSubtreeLevel) {
+        composedPath.unshift(entry.invocationTarget);
+      }
+      if (entry.slotInClosedTree) {
+        currentHiddenSubtreeLevel -= 1;
+        maxHiddenSubtreeLevel = Math.min(
+          maxHiddenSubtreeLevel,
+          currentHiddenSubtreeLevel,
+        );
+      }
+      index -= 1;
+    }
+    currentHiddenSubtreeLevel = currentTargetHiddenSubtreeLevel;
+    maxHiddenSubtreeLevel = currentTargetHiddenSubtreeLevel;
+    index = currentTargetIndex + 1;
+    while (index < path.length) {
+      const entry = path[index];
+      if (entry === undefined) {
+        break;
+      }
+      if (entry.slotInClosedTree) {
+        currentHiddenSubtreeLevel += 1;
+      }
+      if (currentHiddenSubtreeLevel <= maxHiddenSubtreeLevel) {
+        composedPath.push(entry.invocationTarget);
+      }
+      if (entry.rootOfClosedTree) {
+        currentHiddenSubtreeLevel -= 1;
+        maxHiddenSubtreeLevel = Math.min(
+          maxHiddenSubtreeLevel,
+          currentHiddenSubtreeLevel,
+        );
+      }
+      index += 1;
+    }
+    return composedPath.map(eventTargetInterface);
   }
 
   stopPropagation(): void {
@@ -218,11 +295,18 @@ export class CustomEvent<T = unknown> extends Event {
 }
 
 export class FocusEvent extends Event {
-  readonly relatedTarget: EventTarget | null;
-
   constructor(type: string, eventInit: FocusEventInit = {}) {
     super(type, eventInit);
-    this.relatedTarget = eventInit.relatedTarget ?? null;
+    eventImplementation(this).relatedTarget = implementationOrNull(
+      eventInit.relatedTarget ?? null,
+    );
+  }
+
+  get relatedTarget(): EventTarget | null {
+    const implementation = eventImplementation(this).relatedTarget;
+    return implementation === null
+      ? null
+      : eventTargetInterface(implementation);
   }
 }
 
@@ -239,7 +323,6 @@ export class MouseEvent extends Event {
   #metaKey: boolean;
   #button: number;
   #buttons: number;
-  #relatedTarget: EventTarget | null;
 
   constructor(type: string, eventInit: MouseEventInit = {}) {
     super(type, eventInit);
@@ -255,7 +338,9 @@ export class MouseEvent extends Event {
     this.#metaKey = Boolean(eventInit.metaKey);
     this.#button = eventInit.button ?? 0;
     this.#buttons = eventInit.buttons ?? 0;
-    this.#relatedTarget = eventInit.relatedTarget ?? null;
+    eventImplementation(this).relatedTarget = implementationOrNull(
+      eventInit.relatedTarget ?? null,
+    );
   }
 
   get view(): object | null {
@@ -307,7 +392,10 @@ export class MouseEvent extends Event {
   }
 
   get relatedTarget(): EventTarget | null {
-    return this.#relatedTarget;
+    const implementation = eventImplementation(this).relatedTarget;
+    return implementation === null
+      ? null
+      : eventTargetInterface(implementation);
   }
 
   getModifierState(keyArg: string): boolean {
@@ -358,7 +446,8 @@ export class MouseEvent extends Event {
     this.#metaKey = metaKey;
     this.#button = button;
     this.#buttons = 0;
-    this.#relatedTarget = relatedTarget;
+    eventImplementation(this).relatedTarget =
+      implementationOrNull(relatedTarget);
   }
 }
 
@@ -565,33 +654,62 @@ export function dispatchEvent(
     );
   }
   const targetImplementation = eventTargetImplementation(target);
-  const path: {
-    readonly invocationTarget: EventTargetImplementation;
-    readonly adjustedTarget: EventTargetImplementation;
-  }[] = [
+  const originalRelatedTarget = implementation.relatedTarget;
+  const initialRelatedTarget = retarget(
+    originalRelatedTarget,
+    targetImplementation,
+  );
+  if (
+    originalRelatedTarget !== null &&
+    originalRelatedTarget !== targetImplementation &&
+    initialRelatedTarget === targetImplementation
+  ) {
+    return true;
+  }
+  const path = [
     {
       invocationTarget: targetImplementation,
       adjustedTarget: targetImplementation,
+      adjustedRelatedTarget: initialRelatedTarget,
+      rootOfClosedTree: targetImplementation.eventRootOfClosedTree(),
+      slotInClosedTree: targetImplementation.eventSlotInClosedTree(),
     },
   ];
   let current = targetImplementation;
-  let adjustedTarget = targetImplementation;
   for (;;) {
-    const retargetTarget = current.eventRetargetTarget();
-    if (retargetTarget !== null) {
-      adjustedTarget = retargetTarget;
-    }
     const parent = current.eventParent(event.composed);
     if (parent === null) {
       break;
     }
-    path.push({ invocationTarget: parent, adjustedTarget });
+    const adjustedTarget =
+      retarget(targetImplementation, parent) ?? targetImplementation;
+    const adjustedRelatedTarget = retarget(originalRelatedTarget, parent);
+    if (
+      adjustedRelatedTarget !== null &&
+      adjustedTarget === adjustedRelatedTarget &&
+      (adjustedTarget !== targetImplementation ||
+        adjustedRelatedTarget !== originalRelatedTarget)
+    ) {
+      break;
+    }
+    path.push({
+      invocationTarget: parent,
+      adjustedTarget,
+      adjustedRelatedTarget,
+      rootOfClosedTree: parent.eventRootOfClosedTree(),
+      slotInClosedTree: parent.eventSlotInClosedTree(),
+    });
     current = parent;
   }
+  const lastEntry = path.at(-1);
+  const clearTargets =
+    lastEntry !== undefined &&
+    (hasShadowRoot(lastEntry.adjustedTarget) ||
+      hasShadowRoot(lastEntry.adjustedRelatedTarget));
   implementation.dispatching = true;
   try {
     implementation.target = targetImplementation;
-    implementation.path = path.map(({ invocationTarget }) => invocationTarget);
+    implementation.path = path;
     for (let index = path.length - 1; index > 0; index -= 1) {
       if (implementation.stopPropagation) {
         break;
@@ -601,6 +719,7 @@ export function dispatchEvent(
         continue;
       }
       implementation.target = entry.adjustedTarget;
+      implementation.relatedTarget = entry.adjustedRelatedTarget;
       implementation.currentTarget = entry.invocationTarget;
       const atRetargetedTarget =
         entry.adjustedTarget === entry.invocationTarget;
@@ -616,9 +735,13 @@ export function dispatchEvent(
     }
     if (!implementation.stopPropagation) {
       implementation.target = targetImplementation;
+      implementation.relatedTarget = path[0]?.adjustedRelatedTarget ?? null;
       implementation.currentTarget = targetImplementation;
       implementation.eventPhase = Event.AT_TARGET;
-      invokeEventListeners(targetImplementation, event, eventHandler, null);
+      invokeEventListeners(targetImplementation, event, undefined, true);
+      if (!implementation.stopImmediatePropagation) {
+        invokeEventListeners(targetImplementation, event, eventHandler, false);
+      }
     }
     if (event.bubbles) {
       for (let index = 1; index < path.length; index += 1) {
@@ -630,6 +753,7 @@ export function dispatchEvent(
           continue;
         }
         implementation.target = entry.adjustedTarget;
+        implementation.relatedTarget = entry.adjustedRelatedTarget;
         implementation.currentTarget = entry.invocationTarget;
         implementation.eventPhase =
           entry.adjustedTarget === entry.invocationTarget
@@ -639,12 +763,77 @@ export function dispatchEvent(
       }
     }
   } finally {
-    implementation.target = targetImplementation;
+    implementation.target = clearTargets
+      ? null
+      : (lastEntry?.adjustedTarget ?? targetImplementation);
+    implementation.relatedTarget = clearTargets
+      ? null
+      : (lastEntry?.adjustedRelatedTarget ?? originalRelatedTarget);
     implementation.currentTarget = null;
     implementation.eventPhase = Event.NONE;
     implementation.dispatching = false;
+    implementation.path = [];
   }
   return !event.defaultPrevented;
+}
+
+function implementationOrNull(
+  target: EventTarget | null,
+): EventTargetImplementation | null {
+  return target === null ? null : eventTargetImplementation(target);
+}
+
+function retarget(
+  target: EventTargetImplementation | null,
+  against: EventTargetImplementation,
+): EventTargetImplementation | null {
+  let adjusted = target;
+  while (adjusted instanceof NodeImplementation) {
+    const root = treeRoot(adjusted);
+    if (
+      !(root instanceof ShadowRootImplementation) ||
+      shadowIncludingInclusiveAncestor(root, against)
+    ) {
+      return adjusted;
+    }
+    adjusted = root.host;
+  }
+  return adjusted;
+}
+
+function treeRoot(node: NodeImplementation): NodeImplementation {
+  let root = node;
+  while (root.parent !== null) {
+    root = root.parent;
+  }
+  return root;
+}
+
+function shadowIncludingInclusiveAncestor(
+  ancestor: NodeImplementation,
+  target: EventTargetImplementation,
+): boolean {
+  if (!(target instanceof NodeImplementation)) {
+    return false;
+  }
+  let current: NodeImplementation = target;
+  for (;;) {
+    const root = treeRoot(current);
+    if (root === ancestor) {
+      return true;
+    }
+    if (!(root instanceof ShadowRootImplementation)) {
+      return false;
+    }
+    current = root.host;
+  }
+}
+
+function hasShadowRoot(target: EventTargetImplementation | null): boolean {
+  return (
+    target instanceof NodeImplementation &&
+    treeRoot(target) instanceof ShadowRootImplementation
+  );
 }
 
 interface AbortSignalState {

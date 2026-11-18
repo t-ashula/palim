@@ -24,14 +24,27 @@ export interface RegisteredEventListener {
 export class EventTargetImplementation {
   readonly listeners = new Map<string, RegisteredEventListener[]>();
   parent: EventTargetImplementation | null = null;
+  eventParentTarget: EventTargetImplementation | null = null;
 
   eventParent(_composed: boolean): EventTargetImplementation | null {
     return this.parent;
   }
 
-  eventRetargetTarget(): EventTargetImplementation | null {
-    return null;
+  eventRootOfClosedTree(): boolean {
+    return false;
   }
+
+  eventSlotInClosedTree(): boolean {
+    return false;
+  }
+}
+
+export interface EventPathEntry {
+  readonly invocationTarget: EventTargetImplementation;
+  readonly adjustedTarget: EventTargetImplementation;
+  readonly adjustedRelatedTarget: EventTargetImplementation | null;
+  readonly rootOfClosedTree: boolean;
+  readonly slotInClosedTree: boolean;
 }
 
 export class AbortControllerImplementation {
@@ -42,13 +55,14 @@ export class EventImplementation {
   initialized = true;
   dispatching = false;
   target: EventTargetImplementation | null = null;
+  relatedTarget: EventTargetImplementation | null = null;
   currentTarget: EventTargetImplementation | null = null;
   eventPhase = 0;
   defaultPrevented = false;
   inPassiveListener = false;
   stopPropagation = false;
   stopImmediatePropagation = false;
-  path: EventTargetImplementation[] = [];
+  path: EventPathEntry[] = [];
 
   constructor(
     type: string,

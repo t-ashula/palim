@@ -189,6 +189,18 @@ export function installAbortMembers(binding: DOMRealmBindingContext): void {
 }
 
 export function installEventMembers(binding: DOMRealmBindingContext): void {
+  binding.method(binding.eventPrototype, "composedPath", 0, (thisValue) => {
+    const event = binding.event(thisValue);
+    if (event === null) {
+      return binding.typeError("Invalid Event receiver");
+    }
+    return normal(
+      binding.engine.createArray(
+        binding.realm,
+        event.composedPath().map((target) => binding.platformObject(target)),
+      ),
+    );
+  });
   binding.attribute(binding.eventPrototype, "type", (thisValue) => {
     const event = binding.event(thisValue);
     return event === null

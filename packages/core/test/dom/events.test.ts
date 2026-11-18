@@ -247,4 +247,128 @@ describe("EventTarget", () => {
 
     expect(laterCalls).toBe(0);
   });
+
+  it("exposes the event path only while dispatching", () => {
+    const document = parse("<main><button></button></main>");
+    const main = document.querySelector("main");
+    const button = document.querySelector("button");
+    if (main === null || button === null) {
+      throw new Error("Expected event path fixtures");
+    }
+    const event = new Event("path", { bubbles: true });
+    const paths: EventTarget[][] = [];
+    button.addEventListener("path", () => paths.push(event.composedPath()));
+    main.addEventListener("path", () => paths.push(event.composedPath()));
+
+    expect(event.composedPath()).toEqual([]);
+    button.dispatchEvent(event);
+
+    expect(paths).toEqual([
+      [button, main, document.body, document.documentElement, document],
+      [button, main, document.body, document.documentElement, document],
+    ]);
+    expect(event.composedPath()).toEqual([]);
+  });
+
+  it("hides a closed shadow tree from listeners outside it", () => {
+    const document = parse("<main></main>");
+    const host = document.querySelector("main");
+    if (host === null) {
+      throw new Error("Expected a shadow host");
+    }
+    const shadow = host.attachShadow({ mode: "closed" });
+    const target = document.createElement("button");
+    shadow.appendChild(target);
+    const event = new Event("path", { bubbles: true, composed: true });
+    let innerPath: EventTarget[] = [];
+    let outerPath: EventTarget[] = [];
+    target.addEventListener("path", () => {
+      innerPath = event.composedPath();
+    });
+    host.addEventListener("path", () => {
+      outerPath = event.composedPath();
+    });
+
+    target.dispatchEvent(event);
+
+    expect(innerPath).toEqual([
+      target,
+      shadow,
+      host,
+      document.body,
+      document.documentElement,
+      document,
+    ]);
+    expect(outerPath).toEqual([
+      host,
+      document.body,
+      document.documentElement,
+      document,
+    ]);
+  });
+
+  it("dispatches through an assigned slot", () => {
+    const document = parse("<main><button></button></main>");
+    const host = document.querySelector("main");
+    const target = document.querySelector("button");
+    if (host === null || target === null) {
+      throw new Error("Expected slot fixtures");
+    }
+    const shadow = host.attachShadow({ mode: "open" });
+    const slot = document.createElement("slot");
+    shadow.appendChild(slot);
+    const event = new Event("path", { bubbles: true, composed: true });
+    let path: EventTarget[] = [];
+    slot.addEventListener("path", () => {
+      path = event.composedPath();
+    });
+
+    target.dispatchEvent(event);
+
+    expect(path).toEqual([
+      target,
+      slot,
+      shadow,
+      host,
+      document.body,
+      document.documentElement,
+      document,
+    ]);
+  });
+
+  it("invokes capturing listeners before bubbling listeners at the target", () => {
+    const target = new EventTarget();
+    const calls: string[] = [];
+    target.addEventListener("order", () => calls.push("bubble"));
+    target.addEventListener("order", () => calls.push("capture"), true);
+
+    target.dispatchEvent(new Event("order"));
+
+    expect(calls).toEqual(["capture", "bubble"]);
+  });
+
+  it("uses the initial tree when clearing post-dispatch targets", () => {
+    const document = parse("<main><button></button></main>");
+    const host = document.querySelector("main");
+    const target = document.querySelector("button");
+    if (host === null || target === null) {
+      throw new Error("Expected post-dispatch fixtures");
+    }
+    const shadow = host.attachShadow({ mode: "open" });
+    const movedIntoShadow = new MouseEvent("move", { relatedTarget: host });
+    target.addEventListener("move", () => shadow.appendChild(target));
+
+    target.dispatchEvent(movedIntoShadow);
+
+    expect(movedIntoShadow.target).toBe(target);
+    expect(movedIntoShadow.relatedTarget).toBe(host);
+
+    const movedOutOfShadow = new MouseEvent("move", { relatedTarget: host });
+    target.addEventListener("move", () => host.appendChild(target));
+
+    target.dispatchEvent(movedOutOfShadow);
+
+    expect(movedOutOfShadow.target).toBeNull();
+    expect(movedOutOfShadow.relatedTarget).toBeNull();
+  });
 });

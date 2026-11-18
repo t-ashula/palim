@@ -154,6 +154,7 @@ class WindowPlatform extends EventTarget implements Window {
     WINDOW_ENVIRONMENTS.set(this, environment);
     WINDOW_ENVIRONMENTS.set(proxy, environment);
     implementation.defaultView = proxy;
+    implementation.eventParentTarget = eventTargetImplementation(proxy);
     return proxy;
   }
 
@@ -309,7 +310,9 @@ export function createChildWindow(
 }
 
 export function detachWindow(window: Window): void {
-  documentImplementation(window.document).defaultView = null;
+  const implementation = documentImplementation(window.document);
+  implementation.defaultView = null;
+  implementation.eventParentTarget = null;
 }
 
 export function replaceWindowDocument(
@@ -317,9 +320,15 @@ export function replaceWindowDocument(
   document: Document,
 ): void {
   const context = windowEnvironment(window).browsingContext;
-  documentImplementation(context.activeDocument).defaultView = null;
+  const previousImplementation = documentImplementation(context.activeDocument);
+  previousImplementation.defaultView = null;
+  previousImplementation.eventParentTarget = null;
   context.activeDocument = document;
-  documentImplementation(document).defaultView = context.windowProxy;
+  const implementation = documentImplementation(document);
+  implementation.defaultView = context.windowProxy;
+  implementation.eventParentTarget = eventTargetImplementation(
+    context.windowProxy,
+  );
 }
 
 export function windowViewport(window: Window): WindowViewport {

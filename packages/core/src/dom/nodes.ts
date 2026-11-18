@@ -4693,6 +4693,9 @@ function addRelevantShadowRoot(roots: Set<ShadowRoot>, node: Node): void {
 }
 
 function refreshSlotAssignments(root: ShadowRoot): void {
+  for (const child of childNodes(root.host)) {
+    nodeImplementation(child).assignedSlot = null;
+  }
   for (const slot of slotElements(root)) {
     refreshSlotAssignment(slot);
   }
@@ -4700,6 +4703,9 @@ function refreshSlotAssignments(root: ShadowRoot): void {
 
 function refreshSlotAssignment(slot: Element): void {
   const assigned = assignedSlotNodes(slot);
+  for (const node of assigned) {
+    nodeImplementation(node).assignedSlot = elementImplementation(slot);
+  }
   const previous = LAST_SLOT_ASSIGNMENTS.get(slot) ?? [];
   LAST_SLOT_ASSIGNMENTS.set(slot, assigned);
   if (

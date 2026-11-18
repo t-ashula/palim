@@ -553,6 +553,47 @@ describe("DOMRealmBinding", () => {
     expect(document.body?.getAttribute("data-host-dispatch")).toBe("continued");
   });
 
+  it("exposes Event composedPath in the engine realm", () => {
+    const { engine, realm } = createTestRealm("<main><button></button></main>");
+
+    evaluate(
+      engine,
+      realm,
+      `
+        const main = testDocument.querySelector("main");
+        const button = testDocument.querySelector("button");
+        const event = new Event("path", { bubbles: true });
+        if (event.composedPath.length !== 0 || event.composedPath().length !== 0) {
+          throw new Error("composedPath initial state is invalid");
+        }
+        button.addEventListener("path", () => {
+          const path = event.composedPath();
+          if (
+            !(path instanceof Array) ||
+            path[0] !== button ||
+            path[1] !== main ||
+            path[path.length - 1] !== testDocument
+          ) {
+            throw new Error("composedPath result is invalid");
+          }
+        });
+        button.dispatchEvent(event);
+        if (event.composedPath().length !== 0) {
+          throw new Error("composedPath retained the dispatched path");
+        }
+        let caught;
+        try {
+          Event.prototype.composedPath.call({});
+        } catch (error) {
+          caught = error;
+        }
+        if (!(caught instanceof TypeError)) {
+          throw new Error("composedPath accepted an invalid receiver");
+        }
+      `,
+    );
+  });
+
   it("separates custom element construction and reaction failures", () => {
     const reported: EngineValue[] = [];
     const { document, engine, realm } = createTestRealm("", (value) => {
