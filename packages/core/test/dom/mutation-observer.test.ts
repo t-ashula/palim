@@ -3,6 +3,138 @@ import { describe, expect, it } from "vitest";
 import { Document, MutationObserver } from "../public-test-api.js";
 
 describe("MutationObserver", () => {
+  it("normalizes observation options and rejects contradictory options", () => {
+    const document = new Document();
+    const target = document.createElement("div");
+    const observer = new MutationObserver(() => undefined);
+
+    observer.observe(target, { attributeOldValue: true });
+    target.setAttribute("data-value", "first");
+    expect(observer.takeRecords()).toHaveLength(1);
+
+    observer.observe(target, { characterDataOldValue: true });
+    expect(() => {
+      observer.observe(target, { attributes: false, attributeOldValue: true });
+    }).toThrow(TypeError);
+    expect(() => {
+      observer.observe(target, {
+        characterData: false,
+        characterDataOldValue: true,
+      });
+    }).toThrow(TypeError);
+    expect(() => {
+      observer.observe(target, {});
+    }).toThrow(TypeError);
+  });
+
+  it("queues filtered attribute records with observer-specific old values", () => {
+    const document = new Document();
+    const root = document.createElement("main");
+    const target = document.createElement("div");
+    root.append(target);
+    target.setAttribute("data-kept", "before");
+
+    const withOldValue = new MutationObserver(() => undefined);
+    const withoutOldValue = new MutationObserver(() => undefined);
+    withOldValue.observe(root, {
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ["data-kept"],
+      subtree: true,
+    });
+    withoutOldValue.observe(target, { attributes: true });
+
+    target.setAttribute("data-ignored", "value");
+    target.setAttribute("data-kept", "after");
+
+    const filtered = withOldValue.takeRecords();
+    expect(filtered).toHaveLength(1);
+    expect(filtered[0]).toMatchObject({
+      type: "attributes",
+      target,
+      attributeName: "data-kept",
+      attributeNamespace: null,
+      oldValue: "before",
+      previousSibling: null,
+      nextSibling: null,
+    });
+    expect(Array.from(filtered[0]?.addedNodes ?? [])).toEqual([]);
+    expect(Array.from(filtered[0]?.removedNodes ?? [])).toEqual([]);
+
+    const unfiltered = withoutOldValue.takeRecords();
+    expect(unfiltered).toHaveLength(2);
+    expect(unfiltered.map((record) => record.attributeName)).toEqual([
+      "data-ignored",
+      "data-kept",
+    ]);
+    expect(unfiltered.map((record) => record.oldValue)).toEqual([null, null]);
+  });
+
+  it("queues character data records and observes removed subtrees", async () => {
+    const document = new Document();
+    const root = document.createElement("main");
+    const target = document.createElement("span");
+    const text = document.createTextNode("before");
+    target.append(text);
+    root.append(target);
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(root, {
+      childList: true,
+      characterData: true,
+      characterDataOldValue: true,
+      subtree: true,
+    });
+
+    target.remove();
+    text.data = "during";
+
+    const records = observer.takeRecords();
+    expect(records).toHaveLength(2);
+    expect(records[1]).toMatchObject({
+      type: "characterData",
+      target: text,
+      oldValue: "before",
+      attributeName: null,
+      attributeNamespace: null,
+    });
+    await Promise.resolve();
+
+    text.data = "after";
+    expect(observer.takeRecords()).toHaveLength(0);
+  });
+
+  it("notifies observers in creation order", async () => {
+    const document = new Document();
+    const firstTarget = document.createElement("first");
+    const secondTarget = document.createElement("second");
+    const order: string[] = [];
+    const first = new MutationObserver(() => order.push("first"));
+    const second = new MutationObserver(() => order.push("second"));
+    first.observe(firstTarget, { attributes: true });
+    second.observe(secondTarget, { attributes: true });
+
+    secondTarget.setAttribute("data-value", "second");
+    firstTarget.setAttribute("data-value", "first");
+    await Promise.resolve();
+
+    expect(order).toEqual(["first", "second"]);
+  });
+
+  it("removes transient registrations when observe updates a target", () => {
+    const document = new Document();
+    const root = document.createElement("root");
+    const child = document.createElement("child");
+    root.append(child);
+    const observer = new MutationObserver(() => undefined);
+    observer.observe(root, { attributes: true, subtree: true });
+
+    child.remove();
+    observer.observe(root, { attributes: true, subtree: true });
+    child.setAttribute("data-value", "after-removal");
+
+    expect(observer.takeRecords()).toHaveLength(0);
+  });
+
   it("queues one combined record when replacing all children", () => {
     const document = new Document();
     const parent = document.createElement("main");

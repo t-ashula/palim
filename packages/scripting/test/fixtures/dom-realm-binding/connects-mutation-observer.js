@@ -68,3 +68,43 @@ if (
   replaceAllRecords[0].removedNodes[2] !== replaceAllLast
 )
   throw new Error("wrong replace-all removed nodes");
+
+const attributeTarget = testDocument.createElement("attribute-target");
+attributeTarget.setAttribute("data-kept", "before");
+const attributeObserver = new MutationObserver(() => {});
+attributeObserver.observe(attributeTarget, {
+  attributeOldValue: true,
+  attributeFilter: ["data-kept"],
+});
+attributeTarget.setAttribute("data-ignored", "ignored");
+attributeTarget.setAttribute("data-kept", "after");
+const attributeRecords = attributeObserver.takeRecords();
+if (attributeRecords.length !== 1)
+  throw new Error("expected one filtered attribute record");
+if (attributeRecords[0].type !== "attributes")
+  throw new Error("wrong attribute record type");
+if (attributeRecords[0].target !== attributeTarget)
+  throw new Error("wrong attribute target");
+if (attributeRecords[0].attributeName !== "data-kept")
+  throw new Error("wrong attribute name");
+if (attributeRecords[0].attributeNamespace !== null)
+  throw new Error("wrong attribute namespace");
+if (attributeRecords[0].oldValue !== "before")
+  throw new Error("wrong attribute old value");
+if (attributeRecords[0].addedNodes.length !== 0)
+  throw new Error("attribute record has added nodes");
+
+const text = testDocument.createTextNode("before");
+const characterObserver = new MutationObserver(() => {});
+characterObserver.observe(text, { characterDataOldValue: true });
+text.data = "after";
+const characterRecords = characterObserver.takeRecords();
+if (characterRecords.length !== 1)
+  throw new Error("expected one character data record");
+if (characterRecords[0].type !== "characterData")
+  throw new Error("wrong character data record type");
+if (characterRecords[0].target !== text)
+  throw new Error("wrong character data target");
+if (characterRecords[0].oldValue !== "before") {
+  throw new Error("wrong character data old value");
+}

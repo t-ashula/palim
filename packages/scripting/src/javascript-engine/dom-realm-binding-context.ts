@@ -273,6 +273,11 @@ export class DOMRealmBindingContext {
   ) => {
     void Promise.resolve().then(callback);
   };
+  readonly mutationObserverScheduler: MutationObserverMicrotaskScheduler = (
+    callback,
+  ) => {
+    this.mutationObserverMicrotaskScheduler(callback);
+  };
   readonly eventTargetPrototype: EngineObject;
   readonly abortSignalPrototype: EngineObject;
   readonly abortControllerPrototype: EngineObject;

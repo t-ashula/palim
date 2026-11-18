@@ -4,6 +4,11 @@ import { createNodeList } from "./collections.js";
 import type { Node } from "./nodes.js";
 
 export interface MutationObserverInit {
+  readonly attributes?: boolean;
+  readonly attributeOldValue?: boolean;
+  readonly attributeFilter?: readonly string[];
+  readonly characterData?: boolean;
+  readonly characterDataOldValue?: boolean;
   readonly childList?: boolean;
   readonly subtree?: boolean;
 }
@@ -21,6 +26,7 @@ interface RegisteredObserver {
   readonly target: Node;
   options: MutationObserverInit;
   readonly transient: boolean;
+  readonly source: RegisteredObserver | null;
 }
 
 const REGISTERED_OBSERVERS = new WeakMap<Node, Set<RegisteredObserver>>();
@@ -32,14 +38,18 @@ const PENDING_OBSERVERS = new WeakMap<
   Set<MutationObserver>
 >();
 const QUEUED_SCHEDULERS = new WeakSet<MicrotaskScheduler>();
+let nextObserverId = 0;
 
 export class MutationRecord {
-  readonly type = "childList";
   readonly addedNodes: NodeList;
   readonly removedNodes: NodeList;
 
   constructor(
+    readonly type: "attributes" | "characterData" | "childList",
     readonly target: Node,
+    readonly attributeName: string | null,
+    readonly attributeNamespace: string | null,
+    readonly oldValue: string | null,
     addedNodes: readonly Node[],
     removedNodes: readonly Node[],
     readonly previousSibling: Node | null,
@@ -53,9 +63,51 @@ export class MutationRecord {
   }
 }
 
+function normalizeOptions(options: MutationObserverInit): MutationObserverInit {
+  const attributes =
+    options.attributes ??
+    (options.attributeOldValue !== undefined ||
+    options.attributeFilter !== undefined
+      ? true
+      : undefined);
+  const characterData =
+    options.characterData ??
+    (options.characterDataOldValue !== undefined ? true : undefined);
+  if (
+    options.childList !== true &&
+    attributes !== true &&
+    characterData !== true
+  ) {
+    throw new TypeError(
+      "At least one of childList, attributes, or characterData must be true",
+    );
+  }
+  if (
+    (options.attributeOldValue === true ||
+      options.attributeFilter !== undefined) &&
+    attributes === false
+  ) {
+    throw new TypeError(
+      "attributeOldValue and attributeFilter require attributes",
+    );
+  }
+  if (options.characterDataOldValue === true && characterData === false) {
+    throw new TypeError("characterDataOldValue requires characterData");
+  }
+  return {
+    ...options,
+    ...(attributes === undefined ? {} : { attributes }),
+    ...(options.attributeFilter === undefined
+      ? {}
+      : { attributeFilter: [...options.attributeFilter] }),
+    ...(characterData === undefined ? {} : { characterData }),
+  };
+}
+
 export class MutationObserver {
   readonly #records: MutationRecord[] = [];
   readonly #registrations = new Set<RegisteredObserver>();
+  readonly id = nextObserverId++;
 
   constructor(
     readonly callback: MutationCallback,
@@ -65,23 +117,23 @@ export class MutationObserver {
   }
 
   observe(target: Node, options: MutationObserverInit): void {
-    if (options.childList !== true) {
-      throw new TypeError("The childList option must be true");
-    }
+    const normalized = normalizeOptions(options);
     const registrations = registrationsFor(target);
     const existing = Array.from(registrations).find(
       (registration) =>
         registration.observer === this && !registration.transient,
     );
     if (existing !== undefined) {
-      existing.options = { ...options };
+      this.removeTransientRegistrationsFor(existing);
+      existing.options = normalized;
       return;
     }
     const registration: RegisteredObserver = {
       observer: this,
       target,
-      options: { ...options },
+      options: normalized,
       transient: false,
+      source: null,
     };
     registrations.add(registration);
     this.#registrations.add(registration);
@@ -108,14 +160,26 @@ export class MutationObserver {
       target,
       options: source.options,
       transient: true,
+      source: source.source ?? source,
     };
     registrationsFor(target).add(registration);
     this.#registrations.add(registration);
+    pendingObservers(this.microtaskScheduler).add(this);
+    queueMutationObserverMicrotask(this.microtaskScheduler);
   }
 
   removeTransientRegistrations(): void {
     for (const registration of this.#registrations) {
       if (registration.transient) {
+        registrationsFor(registration.target).delete(registration);
+        this.#registrations.delete(registration);
+      }
+    }
+  }
+
+  private removeTransientRegistrationsFor(source: RegisteredObserver): void {
+    for (const registration of this.#registrations) {
+      if (registration.transient && registration.source === source) {
         registrationsFor(registration.target).delete(registration);
         this.#registrations.delete(registration);
       }
@@ -137,31 +201,124 @@ export function queueTreeMutationRecord(
   previousSibling: Node | null,
   nextSibling: Node | null,
 ): void {
-  const interestedObservers = new Set<MutationObserver>();
+  queueMutationRecord(
+    "childList",
+    target,
+    null,
+    null,
+    null,
+    addedNodes,
+    removedNodes,
+    previousSibling,
+    nextSibling,
+  );
+
+  for (const removedNode of removedNodes) {
+    addTransientRegisteredObservers(target, removedNode);
+  }
+}
+
+export function queueAttributeMutationRecord(
+  target: Node,
+  name: string,
+  namespace: string | null,
+  oldValue: string | null,
+): void {
+  queueMutationRecord(
+    "attributes",
+    target,
+    name,
+    namespace,
+    oldValue,
+    [],
+    [],
+    null,
+    null,
+  );
+}
+
+export function queueCharacterDataMutationRecord(
+  target: Node,
+  oldValue: string,
+): void {
+  queueMutationRecord(
+    "characterData",
+    target,
+    null,
+    null,
+    oldValue,
+    [],
+    [],
+    null,
+    null,
+  );
+}
+
+function queueMutationRecord(
+  type: "attributes" | "characterData" | "childList",
+  target: Node,
+  name: string | null,
+  namespace: string | null,
+  oldValue: string | null,
+  addedNodes: readonly Node[],
+  removedNodes: readonly Node[],
+  previousSibling: Node | null,
+  nextSibling: Node | null,
+): void {
+  const interestedObservers = new Map<MutationObserver, string | null>();
   let current: Node | null = target;
   while (current !== null) {
     for (const registration of REGISTERED_OBSERVERS.get(current) ?? []) {
-      if (current === target || registration.options.subtree === true) {
-        interestedObservers.add(registration.observer);
+      const { options, observer } = registration;
+      if (current !== target && options.subtree !== true) {
+        continue;
+      }
+      if (type === "attributes") {
+        if (options.attributes !== true) {
+          continue;
+        }
+        if (
+          options.attributeFilter !== undefined &&
+          (namespace !== null ||
+            name === null ||
+            !options.attributeFilter.includes(name))
+        ) {
+          continue;
+        }
+      } else if (type === "characterData") {
+        if (options.characterData !== true) {
+          continue;
+        }
+      } else if (options.childList !== true) {
+        continue;
+      }
+      if (!interestedObservers.has(observer)) {
+        interestedObservers.set(observer, null);
+      }
+      if (
+        (type === "attributes" && options.attributeOldValue === true) ||
+        (type === "characterData" && options.characterDataOldValue === true)
+      ) {
+        interestedObservers.set(observer, oldValue);
       }
     }
     current = current.parentNode;
   }
 
-  for (const observer of interestedObservers) {
+  for (const [observer, observerOldValue] of interestedObservers) {
     observer.enqueue(
       new MutationRecord(
+        type,
         target,
+        name,
+        namespace,
+        observerOldValue,
         addedNodes,
         removedNodes,
         previousSibling,
         nextSibling,
       ),
     );
-  }
-
-  for (const removedNode of removedNodes) {
-    addTransientRegisteredObservers(target, removedNode);
   }
 }
 
@@ -180,18 +337,13 @@ function addTransientRegisteredObservers(
   removedNode: Node,
 ): void {
   let current: Node | null = target;
-  const observers = new Set<MutationObserver>();
+  const sources = new Set<RegisteredObserver>();
   while (current !== null) {
     for (const registration of REGISTERED_OBSERVERS.get(current) ?? []) {
-      if (
-        registration.options.subtree === true &&
-        !observers.has(registration.observer)
-      ) {
-        registration.observer.addTransientRegistration(
-          removedNode,
-          registration,
-        );
-        observers.add(registration.observer);
+      const source = registration.source ?? registration;
+      if (registration.options.subtree === true && !sources.has(source)) {
+        registration.observer.addTransientRegistration(removedNode, source);
+        sources.add(source);
       }
     }
     current = current.parentNode;
@@ -222,7 +374,9 @@ function queueMutationObserverMicrotask(scheduler: MicrotaskScheduler): void {
 function notifyMutationObservers(scheduler: MicrotaskScheduler): void {
   QUEUED_SCHEDULERS.delete(scheduler);
   const pending = pendingObservers(scheduler);
-  const observers = Array.from(pending);
+  const observers = Array.from(pending).sort(
+    (left, right) => left.id - right.id,
+  );
   pending.clear();
   for (const observer of observers) {
     observer.removeTransientRegistrations();

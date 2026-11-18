@@ -59,7 +59,11 @@ import {
   upgradeCustomElements,
 } from "./custom-elements.js";
 import { createLegacyEvent, Event, EventTarget } from "./events.js";
-import { queueTreeMutationRecord } from "./mutation-observer.js";
+import {
+  queueAttributeMutationRecord,
+  queueCharacterDataMutationRecord,
+  queueTreeMutationRecord,
+} from "./mutation-observer.js";
 import {
   AttrImplementation,
   attrImplementation,
@@ -1727,6 +1731,7 @@ function notifyAttributeChange(
   newValue: string | null,
   namespace: string | null,
 ): void {
+  queueAttributeMutationRecord(element, localName, namespace, oldValue);
   enqueueCustomElementAttributeChangedReaction(
     element,
     localName,
@@ -3739,12 +3744,13 @@ export function replaceCharacterData(
     );
   }
   const removed = Math.min(count, node.length - offset);
-  adjustLiveRangesForData(node, offset, removed, data.length);
   const implementation = characterDataImplementation(node);
+  queueCharacterDataMutationRecord(node, implementation.data);
   implementation.data =
     implementation.data.slice(0, offset) +
     data +
     implementation.data.slice(offset + removed);
+  adjustLiveRangesForData(node, offset, removed, data.length);
   if (implementation.parent !== null) {
     invalidateDescendantText(implementation.parent);
   }
