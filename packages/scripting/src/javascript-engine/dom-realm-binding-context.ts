@@ -861,9 +861,41 @@ export class DOMRealmBindingContext {
     if (connectedMoveCallback.type === "throw") {
       return connectedMoveCallback;
     }
-    const adoptedCallback = callback("adoptedCallback");
-    if (adoptedCallback.type === "throw") {
-      return adoptedCallback;
+    const adoptedCallbackValue = this.engine.get(
+      this.realm,
+      prototype,
+      "adoptedCallback",
+    );
+    if (adoptedCallbackValue.type === "throw") {
+      return adoptedCallbackValue;
+    }
+    let adoptedCallback:
+      | ((
+          element: Element,
+          oldDocument: Document,
+          newDocument: Document,
+        ) => void)
+      | null = null;
+    if (!this.engine.isUndefined(adoptedCallbackValue.value)) {
+      const callable = this.engine.asCallable(adoptedCallbackValue.value);
+      if (callable === null) {
+        return thrown(
+          this.engine.createTypeError(
+            this.realm,
+            "adoptedCallback is not callable",
+          ),
+        );
+      }
+      const record = this.reportingCallback(callable);
+      if (record.type === "throw") {
+        return record;
+      }
+      adoptedCallback = (element, oldDocument, newDocument) => {
+        this.context.invokeCallback(record.value, this.wrap(element), [
+          this.wrap(oldDocument),
+          this.wrap(newDocument),
+        ]);
+      };
     }
     const attributeChangedCallbackValue = this.engine.get(
       this.realm,
@@ -1043,6 +1075,8 @@ export class DOMRealmBindingContext {
         connectedCallback: connectedCallback.value,
         disconnectedCallback: disconnectedCallback.value,
         connectedMoveCallback: connectedMoveCallback.value,
+        reactionScheduler: this.mutationObserverScheduler,
+        adoptedCallback,
         formAssociated,
         formAssociatedCallback,
         disabledFeatures: disabledFeatures.value,

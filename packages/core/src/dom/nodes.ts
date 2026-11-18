@@ -52,6 +52,7 @@ import {
   CustomElementRegistry,
   customElementRegistryForNode,
   customElementRegistryStateForNode,
+  enqueueCustomElementAdoptedReaction,
   enqueueCustomElementAttributeChangedReaction,
   enqueueCustomElementConnectedReaction,
   enqueueCustomElementDisconnectedReaction,
@@ -5504,6 +5505,11 @@ function adopt(node: Node, document: Document): void {
   }
   updateNodeDocument(node, document);
   updateAdoptedCustomElementRegistries(node, oldDocument, document);
+  if (oldDocument !== null) {
+    for (const element of shadowIncludingInclusiveDescendantElements(node)) {
+      enqueueCustomElementAdoptedReaction(element, oldDocument, document);
+    }
+  }
 }
 
 function updateAdoptedCustomElementRegistries(

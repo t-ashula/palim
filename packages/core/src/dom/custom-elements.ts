@@ -22,6 +22,10 @@ export interface CustomElementDefinition {
   readonly connectedCallback: ((element: Element) => void) | null;
   readonly disconnectedCallback: ((element: Element) => void) | null;
   readonly connectedMoveCallback: ((element: Element) => void) | null;
+  readonly reactionScheduler?: CustomElementReactionScheduler;
+  readonly adoptedCallback?:
+    | ((element: Element, oldDocument: Document, newDocument: Document) => void)
+    | null;
   readonly formAssociated?: boolean;
   readonly formAssociatedCallback?:
     ((element: Element, form: Element | null) => void) | null;
@@ -38,6 +42,8 @@ export interface CustomElementDefinition {
     | null;
 }
 
+export type CustomElementReactionScheduler = (callback: () => void) => void;
+
 const DOCUMENT_CUSTOM_ELEMENT_REGISTRY = new WeakMap<
   Document,
   CustomElementRegistry
@@ -53,7 +59,13 @@ const CUSTOM_ELEMENT_DEFINITIONS = new WeakMap<
 const CUSTOM_ELEMENTS = new WeakSet<Element>();
 const CUSTOM_ELEMENT_IS_VALUES = new WeakMap<Element, string>();
 const FAILED_CUSTOM_ELEMENTS = new WeakSet<Element>();
+const UPGRADING_CUSTOM_ELEMENTS = new WeakSet<Element>();
 const REACTION_QUEUES = new WeakMap<Element, (() => void)[]>();
+const BACKUP_ELEMENT_QUEUES = new WeakMap<
+  CustomElementReactionScheduler,
+  Element[]
+>();
+const QUEUED_BACKUP_REACTIONS = new WeakSet<CustomElementReactionScheduler>();
 const FORM_OWNERS = new WeakMap<Element, Element>();
 const REACTIONS_STACK: Element[][] = [];
 let formOwnerForCustomElement: (element: Element) => Element | null = () =>
@@ -311,16 +323,8 @@ export function upgradeCustomElements(
     ) {
       continue;
     }
-    const result = definition.construct(
-      document,
-      element.localName,
-      element.prefix,
-      element,
-    );
-    if (result.type === "success") {
+    runCustomElementReactions(() => {
       CUSTOM_ELEMENT_DEFINITIONS.set(element, definition);
-      CUSTOM_ELEMENTS.add(element);
-      updateFormAssociatedCustomElement(element);
       for (const attribute of element.attributes) {
         enqueueCustomElementAttributeChangedReaction(
           element,
@@ -333,9 +337,27 @@ export function upgradeCustomElements(
       if (enqueueConnected && element.isConnected) {
         enqueueCustomElementConnectedReaction(element);
       }
-    } else {
-      FAILED_CUSTOM_ELEMENTS.add(element);
-    }
+      UPGRADING_CUSTOM_ELEMENTS.add(element);
+      let result: CallbackResult<Element>;
+      try {
+        result = definition.construct(
+          document,
+          element.localName,
+          element.prefix,
+          element,
+        );
+      } finally {
+        UPGRADING_CUSTOM_ELEMENTS.delete(element);
+      }
+      if (result.type === "success") {
+        CUSTOM_ELEMENTS.add(element);
+        updateFormAssociatedCustomElement(element);
+      } else {
+        CUSTOM_ELEMENT_DEFINITIONS.delete(element);
+        REACTION_QUEUES.delete(element);
+        FAILED_CUSTOM_ELEMENTS.add(element);
+      }
+    });
   }
 }
 
@@ -346,6 +368,9 @@ export function enqueueCustomElementAttributeChangedReaction(
   newValue: string | null,
   namespace: string | null,
 ): void {
+  if (UPGRADING_CUSTOM_ELEMENTS.has(element)) {
+    return;
+  }
   if (localName === "form") {
     updateFormAssociatedCustomElement(element);
   } else if (localName === "id" && element.ownerDocument !== null) {
@@ -371,6 +396,9 @@ export function enqueueCustomElementAttributeChangedReaction(
 }
 
 export function enqueueCustomElementConnectedReaction(element: Element): void {
+  if (UPGRADING_CUSTOM_ELEMENTS.has(element)) {
+    return;
+  }
   updateFormAssociatedCustomElement(element);
   const callback = CUSTOM_ELEMENT_DEFINITIONS.get(element)?.connectedCallback;
   if (callback !== null && callback !== undefined) {
@@ -383,12 +411,31 @@ export function enqueueCustomElementConnectedReaction(element: Element): void {
 export function enqueueCustomElementDisconnectedReaction(
   element: Element,
 ): void {
+  if (UPGRADING_CUSTOM_ELEMENTS.has(element)) {
+    return;
+  }
   updateFormAssociatedCustomElement(element);
   const callback =
     CUSTOM_ELEMENT_DEFINITIONS.get(element)?.disconnectedCallback;
   if (callback !== null && callback !== undefined) {
     enqueueReaction(element, () => {
       callback(element);
+    });
+  }
+}
+
+export function enqueueCustomElementAdoptedReaction(
+  element: Element,
+  oldDocument: Document,
+  newDocument: Document,
+): void {
+  if (UPGRADING_CUSTOM_ELEMENTS.has(element)) {
+    return;
+  }
+  const callback = CUSTOM_ELEMENT_DEFINITIONS.get(element)?.adoptedCallback;
+  if (callback !== null && callback !== undefined) {
+    enqueueReaction(element, () => {
+      callback(element, oldDocument, newDocument);
     });
   }
 }
@@ -462,12 +509,53 @@ function enqueueReaction(element: Element, reaction: () => void): void {
   reactions.push(reaction);
   const queue = REACTIONS_STACK.at(-1);
   if (queue === undefined) {
-    invokeReactions([element]);
+    const scheduler =
+      CUSTOM_ELEMENT_DEFINITIONS.get(element)?.reactionScheduler;
+    if (scheduler === undefined) {
+      invokeReactions([element]);
+      return;
+    }
+    const backupQueue = backupElementQueue(scheduler);
+    if (!backupQueue.includes(element)) {
+      backupQueue.push(element);
+    }
+    queueBackupReactions(scheduler, backupQueue);
     return;
   }
   if (!queue.includes(element)) {
     queue.push(element);
   }
+}
+
+function backupElementQueue(
+  scheduler: CustomElementReactionScheduler,
+): Element[] {
+  const existing = BACKUP_ELEMENT_QUEUES.get(scheduler);
+  if (existing !== undefined) {
+    return existing;
+  }
+  const created: Element[] = [];
+  BACKUP_ELEMENT_QUEUES.set(scheduler, created);
+  return created;
+}
+
+function queueBackupReactions(
+  scheduler: CustomElementReactionScheduler,
+  queue: Element[],
+): void {
+  if (QUEUED_BACKUP_REACTIONS.has(scheduler)) {
+    return;
+  }
+  QUEUED_BACKUP_REACTIONS.add(scheduler);
+  scheduler(() => {
+    QUEUED_BACKUP_REACTIONS.delete(scheduler);
+    REACTIONS_STACK.push(queue);
+    try {
+      invokeReactions(queue);
+    } finally {
+      REACTIONS_STACK.pop();
+    }
+  });
 }
 
 function reactionQueue(element: Element): (() => void)[] {
@@ -503,8 +591,11 @@ export function runCustomElementReactions<T>(callback: () => T): T {
   try {
     return callback();
   } finally {
-    REACTIONS_STACK.pop();
-    invokeReactions(queue);
+    try {
+      invokeReactions(queue);
+    } finally {
+      REACTIONS_STACK.pop();
+    }
   }
 }
 

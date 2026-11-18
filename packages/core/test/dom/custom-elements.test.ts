@@ -6,13 +6,128 @@ import {
   customElementRegistryForNode,
   customElementRegistryStateForNode,
   initializeCustomElementRegistry,
+  runCustomElementReactions,
   setDocumentCustomElementRegistry,
+  upgradeCustomElements,
 } from "../../src/dom/custom-elements.js";
 import { createElementInterface } from "../../src/dom/nodes.js";
 import { createCustomHTMLElementBase } from "../../src/html-elements.js";
 import { parseHTML } from "../helper/dom.js";
 
 describe("custom element reactions", () => {
+  it("uses a backup queue outside operations and preserves nested order", () => {
+    const document = parseHTML();
+    const registry = new CustomElementRegistry();
+    const microtasks: (() => void)[] = [];
+    const reactions: string[] = [];
+    setDocumentCustomElementRegistry(document, registry);
+    registry.define({
+      name: "x-backup-reactions",
+      localName: "x-backup-reactions",
+      construct: (ownerDocument, localName, prefix) =>
+        callbackSuccess(
+          createCustomHTMLElementBase(ownerDocument, localName, prefix),
+        ),
+      connectedCallback: (element) => {
+        reactions.push("connected");
+        element.setAttribute("data-nested", "yes");
+      },
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      reactionScheduler: (callback) => microtasks.push(callback),
+      adoptedCallback: null,
+      observedAttributes: ["data-nested"],
+      attributeChangedCallback: () => reactions.push("attributeChanged"),
+    });
+    const element = document.createElement("x-backup-reactions");
+
+    document.body?.append(element);
+
+    expect(reactions).toEqual([]);
+    expect(microtasks).toHaveLength(1);
+    microtasks.shift()?.();
+    expect(reactions).toEqual(["connected", "attributeChanged"]);
+    expect(microtasks).toHaveLength(0);
+  });
+
+  it("invokes operation reactions before returning", () => {
+    const document = parseHTML();
+    const registry = new CustomElementRegistry();
+    const microtasks: (() => void)[] = [];
+    const reactions: string[] = [];
+    setDocumentCustomElementRegistry(document, registry);
+    registry.define({
+      name: "x-operation-reactions",
+      localName: "x-operation-reactions",
+      construct: (ownerDocument, localName, prefix) =>
+        callbackSuccess(
+          createCustomHTMLElementBase(ownerDocument, localName, prefix),
+        ),
+      connectedCallback: () => reactions.push("connected"),
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      reactionScheduler: (callback) => microtasks.push(callback),
+      adoptedCallback: null,
+      observedAttributes: [],
+      attributeChangedCallback: null,
+    });
+    const element = document.createElement("x-operation-reactions");
+
+    runCustomElementReactions(() => document.body?.append(element));
+
+    expect(reactions).toEqual(["connected"]);
+    expect(microtasks).toHaveLength(0);
+  });
+
+  it("finishes upgrade reactions before constructing the next element", () => {
+    const document = parseHTML();
+    const registry = new CustomElementRegistry();
+    const reactions: string[] = [];
+    setDocumentCustomElementRegistry(document, registry);
+    const first = document.createElement("x-upgrade-order");
+    first.id = "first";
+    first.setAttribute("data-value", "initial");
+    const second = document.createElement("x-upgrade-order");
+    second.id = "second";
+    second.setAttribute("data-value", "initial");
+    document.body?.append(first, second);
+    registry.define({
+      name: "x-upgrade-order",
+      localName: "x-upgrade-order",
+      construct: (_ownerDocument, _localName, _prefix, element) => {
+        if (element === undefined) {
+          return callbackFailure();
+        }
+        reactions.push(`constructed:${element.id}`);
+        element.setAttribute("data-value", "during-construction");
+        return callbackSuccess(element);
+      },
+      connectedCallback: (element) => {
+        reactions.push(`connected:${element.id}`);
+      },
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      adoptedCallback: null,
+      observedAttributes: ["data-value"],
+      attributeChangedCallback: (element, _name, oldValue, newValue) => {
+        reactions.push(
+          `attributeChanged:${element.id}:${String(oldValue)}:${String(newValue)}`,
+        );
+      },
+    });
+
+    upgradeCustomElements(document, registry, "x-upgrade-order");
+
+    expect(reactions).toEqual([
+      "constructed:first",
+      "attributeChanged:first:null:initial",
+      "connected:first",
+      "constructed:second",
+      "attributeChanged:second:null:initial",
+      "connected:second",
+    ]);
+  });
+
   it("initializes only null registries in a light-tree subtree", () => {
     const document = parseHTML();
     const root = document.createElement("div");
@@ -138,6 +253,43 @@ describe("custom element reactions", () => {
     expect(customElementRegistryForNode(explicitGlobal)).toBe(targetGlobal);
     expect(customElementRegistryForNode(withoutRegistry)).toBe(targetGlobal);
     expect(customElementRegistryForNode(scoped)).toBe(scopedRegistry);
+  });
+
+  it("enqueues adopted reactions in shadow-including tree order", () => {
+    const source = parseHTML();
+    const target = parseHTML();
+    const registry = new CustomElementRegistry(false);
+    const reactions: (readonly unknown[])[] = [];
+    setDocumentCustomElementRegistry(source, registry);
+    registry.define({
+      name: "x-adopted",
+      localName: "x-adopted",
+      construct: (ownerDocument, localName, prefix) =>
+        callbackSuccess(
+          createCustomHTMLElementBase(ownerDocument, localName, prefix),
+        ),
+      connectedCallback: null,
+      disconnectedCallback: null,
+      connectedMoveCallback: null,
+      adoptedCallback: (...argumentsList) => {
+        reactions.push(argumentsList);
+      },
+      observedAttributes: [],
+      attributeChangedCallback: null,
+    });
+    const host = source.createElement("x-adopted");
+    const shadowChild = source.createElement("x-adopted");
+    const lightChild = source.createElement("x-adopted");
+    host.attachShadow({ mode: "open" }).append(shadowChild);
+    host.append(lightChild);
+
+    target.adoptNode(host);
+
+    expect(reactions).toEqual([
+      [host, source, target],
+      [shadowChild, source, target],
+      [lightChild, source, target],
+    ]);
   });
 
   it("uses the adopted parent's effective global registry for null descendants", () => {
