@@ -9,7 +9,9 @@ describe("Selection", () => {
     const document = parse("<main>text</main>");
     const main = requireElement(document, "main");
     const data = main.firstChild;
-    if (!(data instanceof Text)) {throw new Error("missing text node");}
+    if (!(data instanceof Text)) {
+      throw new Error("missing text node");
+    }
     const selection = selectionForDocument(document);
 
     expect(selection.rangeCount).toBe(0);

@@ -264,7 +264,9 @@ export function installSelectionMembers(binding: DOMRealmBindingContext): void {
       const values: string[] = [];
       for (const value of argumentsList.slice(0, 3)) {
         const converted = binding.engine.toString(binding.realm, value);
-        if (converted.type === "throw") {return converted;}
+        if (converted.type === "throw") {
+          return converted;
+        }
         values.push(converted.value);
       }
       selection.modify(values[0] ?? "", values[1] ?? "", values[2] ?? "");

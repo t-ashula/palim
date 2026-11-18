@@ -28,39 +28,26 @@ function evaluate(
   }
 }
 
+function fixture(name: string): string {
+  return readFileSync(
+    new URL(`../fixtures/window-realm-binding/${name}`, import.meta.url),
+    "utf8",
+  );
+}
+
 describe("WindowRealmBinding", () => {
   it("exposes Document and Window Selection state", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, createWindow());
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/selection.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("selection.js"));
   });
 
   it("exposes Window Trusted Types policy state", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, createWindow());
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/trusted-types.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("trusted-types.js"));
   });
 
   it("exposes Blob, File, and binary FormData entries", () => {
@@ -68,17 +55,7 @@ describe("WindowRealmBinding", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/blob-file.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("blob-file.js"));
   });
 
   it("exposes Element geometry in the page realm", () => {
@@ -87,17 +64,7 @@ describe("WindowRealmBinding", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/element-geometry.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("element-geometry.js"));
   });
 
   it("exposes computed styles in the page realm", () => {
@@ -109,17 +76,7 @@ describe("WindowRealmBinding", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, window);
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/computed-style.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("computed-style.js"));
   });
 
   it("exposes the Window animation frame provider", () => {
@@ -138,13 +95,7 @@ describe("WindowRealmBinding", () => {
     evaluate(
       engine,
       environment.binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/animation-frame-provider.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
+      fixture("animation-frame-provider.js"),
     );
 
     expect(renderingOpportunities).toHaveLength(1);
@@ -170,13 +121,7 @@ describe("WindowRealmBinding", () => {
     evaluate(
       engine,
       binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/exposes-window-named-properties.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
+      fixture("exposes-window-named-properties.js"),
     );
   });
 
@@ -206,17 +151,7 @@ describe("WindowRealmBinding", () => {
       { configurable: true, enumerable: true, writable: true },
     );
 
-    evaluate(
-      engine,
-      binding.realm,
-      readFileSync(
-        new URL(
-          "../fixtures/window-realm-binding/document-constructor.js",
-          import.meta.url,
-        ),
-        "utf8",
-      ),
-    );
+    evaluate(engine, binding.realm, fixture("document-constructor.js"));
 
     expect(documents).toHaveLength(1);
     expect(documents[0]?.documentElement?.localName).toBe("root");
