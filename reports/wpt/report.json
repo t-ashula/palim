@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261117t141446326z-2137506",
+    "id": "20261117t155702353z-2612947",
     "state": "completed",
     "palim": {
-      "revision": "5df0f0157b5ef5aa3d04bd73a6ed2f723d2bb503",
+      "revision": "0821a03d0acad071c743d94d86d785dd6d93e86a",
       "dirty": false,
-      "imageId": "sha256:1cffe2fb010ca415142588cbb546670ce826435243e5f8d136bd5262b4faa6f9"
+      "imageId": "sha256:1e03ec3116f6413bc17a40ca684b250a0be94ca819f11e10147cbcec5cc56092"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-17T14:55:35.553Z",
+    "snapshotAt": "2026-11-17T16:38:28.530Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,8 +52,8 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 1011,
-    "fail": 758,
+    "pass": 1018,
+    "fail": 751,
     "skip": 248,
     "error": 80,
     "timeout": 132,
@@ -143,8 +143,8 @@
       "totals": {
         "total": 69,
         "executed": 69,
-        "pass": 28,
-        "fail": 36,
+        "pass": 32,
+        "fail": 32,
         "skip": 3,
         "error": 2,
         "timeout": 0,
@@ -208,8 +208,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 155,
-        "fail": 72,
+        "pass": 158,
+        "fail": 69,
         "skip": 0,
         "error": 2,
         "timeout": 7,
@@ -310,8 +310,8 @@
   ],
   "subtests": {
     "total": 105834,
-    "pass": 80140,
-    "fail": 25247,
+    "pass": 84691,
+    "fail": 20696,
     "skip": 248,
     "error": 67,
     "timeout": 132
@@ -320,8 +320,8 @@
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 1009,
-      "fail": 707,
+      "pass": 1016,
+      "fail": 700,
       "skip": 209,
       "error": 75,
       "timeout": 106,
@@ -411,8 +411,8 @@
         "totals": {
           "total": 46,
           "executed": 46,
-          "pass": 28,
-          "fail": 16,
+          "pass": 32,
+          "fail": 12,
           "skip": 0,
           "error": 2,
           "timeout": 0,
@@ -476,8 +476,8 @@
         "totals": {
           "total": 234,
           "executed": 234,
-          "pass": 155,
-          "fail": 72,
+          "pass": 158,
+          "fail": 69,
           "skip": 0,
           "error": 1,
           "timeout": 6,
@@ -578,8 +578,8 @@
     ],
     "subtests": {
       "total": 105377,
-      "pass": 80087,
-      "fail": 24910,
+      "pass": 84638,
+      "fail": 20359,
       "skip": 209,
       "error": 65,
       "timeout": 106
@@ -3761,24 +3761,9 @@
         "message": "Cannot convert undefined to object"
       },
       {
-        "url": "/dom/ranges/Range-cloneContents.html",
-        "status": "fail",
-        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
-      },
-      {
-        "url": "/dom/ranges/Range-deleteContents.html",
-        "status": "fail",
-        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
-      },
-      {
         "url": "/dom/ranges/Range-extractContents-dynamic-end.html",
         "status": "fail",
         "message": "Cannot convert undefined to object"
-      },
-      {
-        "url": "/dom/ranges/Range-extractContents.html",
-        "status": "fail",
-        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
         "url": "/dom/ranges/Range-in-shadow-after-the-shadow-removed.html?mode=closed",
@@ -3793,7 +3778,7 @@
       {
         "url": "/dom/ranges/Range-insertNode.html",
         "status": "fail",
-        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
+        "message": "assert_throws_dom: A HIERARCHY_REQUEST_ERR DOMException must be thrown in this case function \"function() {\n                try {\n                    actualRange.insertNode(actualNode);\n                } catch (e) {\n                    if (expectedDoctype != expectedIframe.contentDocument.firstChild) {\n                        expectedIframe.contentDocument.insertBefore(expectedDoctype, expectedIframe.contentDocument.firstChild);\n                    }\n                    if (actualDoctype != actualIframe.contentDocument.firstChild) {\n                        actualIframe.contentDocument.insertBefore(actualDoctype, actualIframe.contentDocument.firstChild);\n                    }\n                    throw e;\n                }\n            }\" did not throw"
       },
       {
         "url": "/dom/ranges/Range-mutations-appendChild.html",
@@ -3803,12 +3788,12 @@
       {
         "url": "/dom/ranges/Range-mutations-appendData.html",
         "status": "fail",
-        "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
+        "message": "\"getSelection\" is not defined"
       },
       {
         "url": "/dom/ranges/Range-mutations-dataChange.html",
         "status": "fail",
-        "message": "originalData.substr is not a function. (In \"originalData.substr(0, offset)\", it is undefined)"
+        "message": "\"getSelection\" is not defined"
       },
       {
         "url": "/dom/ranges/Range-mutations-deleteData.html",
@@ -3844,11 +3829,6 @@
         "url": "/dom/ranges/Range-mutations-splitText.html",
         "status": "fail",
         "message": "\"getSelection\" is not defined"
-      },
-      {
-        "url": "/dom/ranges/Range-surroundContents.html",
-        "status": "fail",
-        "message": "actual.substr is not a function. (In \"actual.substr(0, actual.length - 1)\", it is undefined)"
       },
       {
         "url": "/domparsing/DOMParser-parseFromString-url-base-pushstate.html",
@@ -4411,11 +4391,6 @@
         "message": "assert_equals: the script ran while the parser was foster parenting into it expected (string) \"foster-parent\" but got (undefined) undefined"
       },
       {
-        "url": "/html/syntax/parsing/html-integration-point.html",
-        "status": "fail",
-        "message": "rawTextElement.textContent.substr is not a function. (In \"rawTextElement.textContent.substr(0, 4)\", it is undefined)"
-      },
-      {
         "url": "/html/syntax/parsing/html5lib_url.html?file=scripted_adoption01",
         "status": "fail",
         "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"B\\\"\\n|       \\\"TEXT\\\"\""
@@ -4521,24 +4496,19 @@
         "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\" \\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\">\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|     <table>\" but got \"#document\\n| <!-- ODCTYPE html PUBLIC \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\"\\n\\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\" -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <table>\""
       },
       {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=scriptdata01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <script>\\n|       \\\"'Hello'\\\"\\n|     \\\"BAR\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <script>\\n|       \\\"'Hello'\\\"\\n|     \\\"RAB\\\"\""
-      },
-      {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|         \\\">b/\\\"\\n|         <txet>\\n|           \\\"p/<\\\"\""
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"B\\\"\\n|       \\\"TEXT\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_ark",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             \\\"X>p<>4=ezis tnof<\\\"\""
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"4\\\"\\n|           <font>\\n|             size=\\\"5\\\"\\n|             <script>\\n|               \\\"document.getElementsByTagName(\\\"font\\\")[2].setAttribute(\\\"size\\\", \\\"5\\\");\\\"\\n|             <font>\\n|               size=\\\"4\\\"\\n|     <p>\\n|       <font>\\n|         size=\\\"4\\\"\\n|         <font>\\n|           size=\\\"5\\\"\\n|           <font>\\n|             size=\\\"4\\\"\\n|             \\\"X\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_foster01",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\" but got \"#document\\n| \\\">b<\\\"\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\\n|   <head>\\n|   <body>\""
+        "message": "assert_equals: expected \"#document\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\" but got \"#document\\n| <b>\\n|   <head>\\n|   <body>\\n| <table>\\n|   <tbody>\\n|     <tr>\\n|       <script>\\n|         \\\"var t=document.querySelector('table');document.documentElement.remove();document.appendChild(t)\\\"\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01",
@@ -4558,7 +4528,7 @@
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=template",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <script>\\n|           \\\"var i = 1;\\\"\\n|         <td>\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <script>\\n|           \\\"var i = 1;\\\"\\n|         \\\">etalpmet/<>dt/<>dt<\\\"\""
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <!-- comment -->\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <!-- c--omment-- -->\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests1",
@@ -4648,7 +4618,7 @@
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests5",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <script>\\n|       \\\" <!-- \\\"\\n|     \\\" \\\"\\n|   <body>\\n|     \\\"--> x\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|     <script>\\n|       \\\" <!-- \\\"\\n|   <body>\\n|     \\\"x>tpircs/< >-- \\\"\""
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <title>\\n|       \\\"&\\\"\\n|   <body>\" but got \"#document\\n| <html>\\n|   <head>\\n|     <title>\\n|       \\\"amp;</title>&\\\"\\n|   <body>\""
       },
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests6",
@@ -4673,12 +4643,7 @@
       {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit01",
         "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       \\\"Hello\\\"\\n|     \\\"\\n\\\"\\n|     <script>\\n|       \\\"\\nconsole.log(\\\"PASS\\\");\\n\\\"\\n|     \\\"\\n\\\"\\n|     <div>\\n|       \\\"Bye\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       \\\"Hello\\\"\\n|     \\\"\\n\\\"\\n|     <script>\\n|       \\\"\\nconsole.log(\\\"PASS\\\");\\n\\\"\\n|     \\\">vid/\\\"\\n|     <eyb>\\n|       \\\"vid<\\n\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html_content_in_foreign_context.html",
-        "status": "fail",
-        "message": "e.substr is not a function. (In \"e.substr(1)\", it is undefined)"
+        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"<\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"lt;&\\\"\""
       },
       {
         "url": "/html/syntax/parsing/inhead-noscript-head.html",
@@ -5868,7 +5833,7 @@
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
