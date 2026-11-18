@@ -117,6 +117,8 @@ type State =
   | "after-doctype-system-identifier"
   | "bogus-doctype"
   | "cdata"
+  | "cdata-bracket"
+  | "cdata-end"
   | "processing-instruction-open"
   | "processing-instruction-target"
   | "after-processing-instruction-target"
@@ -949,13 +951,38 @@ export class HTMLTokenizer {
         }
         break;
       case "cdata":
-        if (this.#input.startsWith("]]>", this.#position - 1)) {
-          this.#position += 2;
-          this.#state = "data";
+        if (character === "]") {
+          this.#state = "cdata-bracket";
         } else if (character === null) {
           this.#error("eof-in-cdata");
         } else {
           this.#characters(character);
+        }
+        break;
+      case "cdata-bracket":
+        if (character === "]") {
+          this.#state = "cdata-end";
+        } else if (character === null) {
+          this.#characters("]");
+          this.#error("eof-in-cdata");
+        } else {
+          this.#characters("]");
+          this.#state = "cdata";
+          this.#reconsume();
+        }
+        break;
+      case "cdata-end":
+        if (character === ">") {
+          this.#state = "data";
+        } else if (character === "]") {
+          this.#characters("]");
+        } else if (character === null) {
+          this.#characters("]]");
+          this.#error("eof-in-cdata");
+        } else {
+          this.#characters("]]");
+          this.#state = "cdata";
+          this.#reconsume();
         }
         break;
       case "processing-instruction-open":
@@ -1473,7 +1500,9 @@ export class HTMLTokenizer {
     }
     this.#reconsume();
     const rest = this.#input.slice(this.#position);
-    if (rest.slice(0, 6).toLowerCase() === "public") {
+    if (!this.#closed && rest.length < 6) {
+      this.#waitForInput(this.#position);
+    } else if (rest.slice(0, 6).toLowerCase() === "public") {
       this.#position += 6;
       this.#state = "after-doctype-public-keyword";
     } else if (rest.slice(0, 6).toLowerCase() === "system") {

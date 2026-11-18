@@ -19,6 +19,26 @@ describe("Document dynamic markup insertion", () => {
     expect(document.querySelectorAll("p").item(1)?.textContent).toBe("two");
   });
 
+  it("appends one-character writes to the active parser input", () => {
+    const document = parse("<p>old</p>");
+    const input =
+      '<!doctype html public "identifier" "system"><!--note-->' +
+      "<main>A&amp;B</main><svg><![CDATA[C]]></svg>";
+
+    document.open();
+    for (const character of input) {
+      document.write(character);
+    }
+    document.close();
+
+    expect(document.doctype?.name).toBe("html");
+    expect(document.doctype?.publicId).toBe("identifier");
+    expect(document.doctype?.systemId).toBe("system");
+    expect(document.childNodes.item(1)?.nodeValue).toBe("note");
+    expect(document.querySelector("main")?.textContent).toBe("A&B");
+    expect(document.querySelector("svg")?.textContent).toBe("C");
+  });
+
   it("implicitly opens a closed document without executing scripts", () => {
     const document = parse("<p>old</p>");
 

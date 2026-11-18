@@ -945,6 +945,23 @@ describe("DOMRealmBinding", () => {
     );
   });
 
+  it("appends page writes to the active document parser input", () => {
+    const { document, engine, realm } = createTestRealm("<p>old</p>");
+
+    evaluate(
+      engine,
+      realm,
+      fixture("writes-document-one-character-at-a-time.js"),
+    );
+
+    expect(document.doctype?.name).toBe("html");
+    expect(document.doctype?.publicId).toBe("identifier");
+    expect(document.doctype?.systemId).toBe("system");
+    expect(document.childNodes.item(1)?.nodeValue).toBe("note");
+    expect(document.querySelector("main")?.textContent).toBe("A&B");
+    expect(document.querySelector("svg")?.textContent).toBe("C");
+  });
+
   it("exposes live DOMTokenList objects in the engine realm", () => {
     const { document, engine, realm } = createTestRealm(
       '<span class="   a  a b "></span>',

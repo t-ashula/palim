@@ -38,4 +38,32 @@ describe("HTML tokenizer", () => {
       { type: "Character", data: "BAR" },
     ]);
   });
+
+  it("preserves CDATA section states across appended input", () => {
+    const tokenizer = new HTMLTokenizer("", {
+      initialState: "CDATA section state",
+      streaming: true,
+    });
+    const tokens = [];
+
+    for (const character of "content]]>after") {
+      tokenizer.append(character);
+      for (let token = tokenizer.nextToken(); token !== null;) {
+        tokens.push(token);
+        token = tokenizer.nextToken();
+      }
+    }
+    tokenizer.close();
+    for (let token = tokenizer.nextToken(); token !== null;) {
+      tokens.push(token);
+      token = tokenizer.nextToken();
+    }
+
+    expect(tokens.every((token) => token.type === "Character")).toBe(true);
+    expect(
+      tokens
+        .map((token) => (token.type === "Character" ? token.data : ""))
+        .join(""),
+    ).toBe("contentafter");
+  });
 });

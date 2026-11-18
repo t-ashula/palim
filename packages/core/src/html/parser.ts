@@ -595,7 +595,11 @@ class TreeBuilder {
     ) {
       throw new TypeError("The document parser session is not writable");
     }
-    this.#tokenizer.insert(input);
+    if (this.#documentStreamingRunning) {
+      this.#tokenizer.insert(input);
+    } else {
+      this.#tokenizer.append(input);
+    }
     this.#runStreamingDocument();
   }
 
