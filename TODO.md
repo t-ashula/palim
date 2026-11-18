@@ -116,8 +116,12 @@
 
 ### Workers
 
-- [ ] `Worker` / `SharedWorker` の execution realm
+- [ ] module Worker、nested Worker、および Worker から生成する Worker の owner と lifecycle
 - [ ] polyfill capability の Worker exposure と Worker task queue 接続を追加し、`fetch` / `Headers` / `Request` / `Response` を Worker realm ごとに公開する
+- [ ] Service Worker の `fetch` event と resource interception
+- [ ] Service Worker の `clients.get()` / `clients.matchAll()` / `clients.claim()` と controlled client state
+- [ ] Service Worker registration の update、persistent storage、および process 再起動後の復元
+- [ ] module Service Worker、Cache Storage、push、background sync、および notification
 
 ## Runtime scheduling
 

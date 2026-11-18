@@ -6,15 +6,15 @@
     "revision": "c477719ab30e47400d47bb6dc042a6161c85a1a3"
   },
   "campaign": {
-    "id": "20261118t062845391z-3953782",
+    "id": "20261118t135823774z-1530795",
     "state": "completed",
     "palim": {
-      "revision": "70181dcc525302c3b8805ff1b0b9046d4a9ece2e",
+      "revision": "b487d93598fa3496081f84c3058b04dfe649e05d",
       "dirty": false,
-      "imageId": "sha256:8faeffa40689d710470ecce0e25c6147e8ab4c31c4cd36978b5e4dcacf740b38"
+      "imageId": "sha256:312dcd4fc4e248f1393f339c3f15982588a43c3c4331c3e6b5cdbbbafc0e99aa"
     },
     "lastAttemptSequence": 2229,
-    "snapshotAt": "2026-11-18T07:09:04.399Z",
+    "snapshotAt": "2026-11-18T14:38:09.146Z",
     "workerFailures": 0,
     "retries": 0
   },
@@ -52,10 +52,10 @@
   "totals": {
     "total": 2229,
     "executed": 2229,
-    "pass": 1038,
-    "fail": 734,
+    "pass": 1102,
+    "fail": 686,
     "skip": 248,
-    "error": 82,
+    "error": 66,
     "timeout": 127,
     "pending": 0
   },
@@ -65,8 +65,8 @@
       "totals": {
         "total": 209,
         "executed": 209,
-        "pass": 78,
-        "fail": 113,
+        "pass": 87,
+        "fail": 104,
         "skip": 5,
         "error": 10,
         "timeout": 3,
@@ -130,8 +130,8 @@
       "totals": {
         "total": 415,
         "executed": 415,
-        "pass": 321,
-        "fail": 61,
+        "pass": 322,
+        "fail": 60,
         "skip": 5,
         "error": 1,
         "timeout": 27,
@@ -208,8 +208,8 @@
       "totals": {
         "total": 236,
         "executed": 236,
-        "pass": 158,
-        "fail": 69,
+        "pass": 198,
+        "fail": 29,
         "skip": 0,
         "error": 2,
         "timeout": 7,
@@ -260,10 +260,10 @@
       "totals": {
         "total": 64,
         "executed": 64,
-        "pass": 43,
-        "fail": 4,
+        "pass": 57,
+        "fail": 6,
         "skip": 0,
-        "error": 16,
+        "error": 0,
         "timeout": 1,
         "pending": 0
       }
@@ -309,21 +309,21 @@
     }
   ],
   "subtests": {
-    "total": 105874,
-    "pass": 86187,
-    "fail": 19246,
+    "total": 106055,
+    "pass": 87446,
+    "fail": 18184,
     "skip": 248,
-    "error": 66,
+    "error": 50,
     "timeout": 127
   },
   "nonTentative": {
     "totals": {
       "total": 2106,
       "executed": 2106,
-      "pass": 1036,
-      "fail": 683,
+      "pass": 1100,
+      "fail": 635,
       "skip": 209,
-      "error": 77,
+      "error": 61,
       "timeout": 101,
       "pending": 0
     },
@@ -333,8 +333,8 @@
         "totals": {
           "total": 202,
           "executed": 202,
-          "pass": 78,
-          "fail": 109,
+          "pass": 87,
+          "fail": 100,
           "skip": 3,
           "error": 9,
           "timeout": 3,
@@ -398,8 +398,8 @@
         "totals": {
           "total": 415,
           "executed": 415,
-          "pass": 321,
-          "fail": 61,
+          "pass": 322,
+          "fail": 60,
           "skip": 5,
           "error": 1,
           "timeout": 27,
@@ -476,8 +476,8 @@
         "totals": {
           "total": 234,
           "executed": 234,
-          "pass": 158,
-          "fail": 69,
+          "pass": 198,
+          "fail": 29,
           "skip": 0,
           "error": 1,
           "timeout": 6,
@@ -528,10 +528,10 @@
         "totals": {
           "total": 64,
           "executed": 64,
-          "pass": 43,
-          "fail": 4,
+          "pass": 57,
+          "fail": 6,
           "skip": 0,
-          "error": 16,
+          "error": 0,
           "timeout": 1,
           "pending": 0
         }
@@ -577,11 +577,11 @@
       }
     ],
     "subtests": {
-      "total": 105417,
-      "pass": 86134,
-      "fail": 18909,
+      "total": 105598,
+      "pass": 87391,
+      "fail": 17849,
       "skip": 209,
-      "error": 64,
+      "error": 48,
       "timeout": 101
     },
     "nonPassingTests": [
@@ -1768,7 +1768,7 @@
       {
         "url": "/custom-elements/adopted-callback.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"adopted\", Document node with 2 children, Document node with 1 child, \"connected\"] length 4, got [\"connected\"] length 1"
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"XMLHttpRequest\" is not defined\""
       },
       {
         "url": "/custom-elements/builtin-coverage.html",
@@ -1796,11 +1796,6 @@
         "message": "b'ReferenceError: \"onerrorCalls\" is not defined\\n    at <anonymous> (http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:4:26)\\nTypeError: Cannot convert undefined to object\\n    at http://web-platform.test:8000/custom-elements/cross-realm-callback-report-exception.html:5:21'"
       },
       {
-        "url": "/custom-elements/custom-element-reaction-queue.html",
-        "status": "fail",
-        "message": "assert_equals: expected \"attributeChanged\" but got \"constructed\""
-      },
-      {
         "url": "/custom-elements/customized-built-in-constructor-exceptions.html",
         "status": "fail",
         "message": "assert_true: expected true got false"
@@ -1814,11 +1809,6 @@
         "url": "/custom-elements/element-internals-aria-element-reflection.html",
         "status": "skip",
         "message": "Executor does not support testdriver.js"
-      },
-      {
-        "url": "/custom-elements/enqueue-custom-element-callback-reactions-inside-another-callback.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"begin\", \"connected\", \"adopted\", \"end\"] length 4, got [\"begin\", \"end\", \"connected\"] length 3"
       },
       {
         "url": "/custom-elements/form-associated/ElementInternals-NotSupportedError.html",
@@ -1893,7 +1883,7 @@
       {
         "url": "/custom-elements/form-associated/form-upgrade-reactions.html",
         "status": "fail",
-        "message": "assert_array_equals: Upgrade reactions lengths differ, expected array [\"attribute\", \"disabled\", null, \"\", \"associated\", Element node <form><upgrade-detached-attribute disabled=\"\"></upgrade-d..., \"disabled\", true] length 8, got [\"associated\", Element node <form><upgrade-detached-attribute disabled=\"\"></upgrade-d..., \"attribute\", \"disabled\", null, \"\"] length 6"
+        "message": "assert_array_equals: Upgrade reactions lengths differ, expected array [\"attribute\", \"disabled\", null, \"\", \"associated\", Element node <form><upgrade-detached-attribute disabled=\"\"></upgrade-d..., \"disabled\", true] length 8, got [\"attribute\", \"disabled\", null, \"\", \"associated\", Element node <form><upgrade-detached-attribute disabled=\"\"></upgrade-d...] length 6"
       },
       {
         "url": "/custom-elements/form-associated/label-delegatesFocus.html",
@@ -1924,6 +1914,11 @@
         "url": "/custom-elements/parser/parser-sets-attributes-after-built-in-constructor.html",
         "status": "error",
         "message": "TypeError: Cannot convert undefined to object"
+      },
+      {
+        "url": "/custom-elements/parser/parser-sets-attributes-and-children.html",
+        "status": "fail",
+        "message": "assert_equals: expected 2 but got 0"
       },
       {
         "url": "/custom-elements/parser/parser-uses-constructed-element.html",
@@ -2001,19 +1996,19 @@
         "message": "assert_equals: expected (string) \"border-width: 2px;\" but got (object) null"
       },
       {
-        "url": "/custom-elements/reactions/ChildNode.html",
+        "url": "/custom-elements/reactions/DOMStringMap.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
+        "message": "assert_array_equals: lengths differ, expected array [\"attributeChanged\"] length 1, got [] length 0"
       },
       {
         "url": "/custom-elements/reactions/Document.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [] length 0, got [\"constructed\", \"disconnected\"] length 2"
+        "message": "promise_test: Unhandled rejection with value: object \"TypeError: contentDocument.getSelection is not a function. (In \"contentDocument.getSelection()\", it is undefined)\""
       },
       {
         "url": "/custom-elements/reactions/Element.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"adopted\", \"connected\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/ElementContentEditable.html",
@@ -2023,7 +2018,7 @@
       {
         "url": "/custom-elements/reactions/HTMLAnchorElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"connected\"] length 3"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"adopted\", \"connected\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/HTMLElement.html",
@@ -2043,7 +2038,7 @@
       {
         "url": "/custom-elements/reactions/HTMLOutputElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"connected\"] length 3"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"adopted\", \"connected\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/HTMLSelectElement.html",
@@ -2053,17 +2048,17 @@
       {
         "url": "/custom-elements/reactions/HTMLTableElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [\"constructed\", \"disconnected\"] length 2"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [\"constructed\", \"disconnected\", \"adopted\"] length 3"
       },
       {
         "url": "/custom-elements/reactions/HTMLTableRowElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"connected\"] length 3"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"adopted\", \"connected\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/HTMLTableSectionElement.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"connected\"] length 3"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"connected\"] length 2, got [\"constructed\", \"disconnected\", \"adopted\", \"connected\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/HTMLTitleElement.html",
@@ -2071,19 +2066,9 @@
         "message": "assert_equals: expected 1 but got 2"
       },
       {
-        "url": "/custom-elements/reactions/Node.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
-      },
-      {
-        "url": "/custom-elements/reactions/ParentNode.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
-      },
-      {
         "url": "/custom-elements/reactions/Range.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"disconnected\", \"adopted\", \"connected\"] length 3, got [\"disconnected\", \"connected\"] length 2"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\", \"attributeChanged\"] length 2, got [\"constructed\", \"attributeChanged\", \"disconnected\", \"adopted\"] length 4"
       },
       {
         "url": "/custom-elements/reactions/Selection.html",
@@ -2093,7 +2078,7 @@
       {
         "url": "/custom-elements/reactions/ShadowRoot.html",
         "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [\"constructed\", \"disconnected\"] length 2"
+        "message": "assert_array_equals: lengths differ, expected array [\"constructed\"] length 1, got [\"constructed\", \"disconnected\", \"adopted\"] length 3"
       },
       {
         "url": "/custom-elements/registries/CustomElementRegistry-initialize.html",
@@ -2106,14 +2091,9 @@
         "message": "CustomElementRegistry.upgrade requires a Node"
       },
       {
-        "url": "/custom-elements/registries/Document-importNode-cross-document.window.html",
-        "status": "fail",
-        "message": "assert_equals: expected object \"[object Object]\" but got object \"[object Object]\""
-      },
-      {
         "url": "/custom-elements/registries/Document-importNode.html",
         "status": "fail",
-        "message": "assert_true: expected true got false"
+        "message": "Cannot convert null to object"
       },
       {
         "url": "/custom-elements/registries/Element-attachShadow-disabled-shadow.window.html",
@@ -2151,24 +2131,14 @@
         "message": "assert_equals: reported exceptions expected 1 but got 0"
       },
       {
-        "url": "/custom-elements/registries/adoption-global-registry.window.html",
-        "status": "fail",
-        "message": "assert_equals: before adoption expected object \"[object Object]\" but got object \"[object Object]\""
-      },
-      {
         "url": "/custom-elements/registries/adoption-null-registry-element.window.html",
         "status": "fail",
-        "message": "assert_equals: parent registry expected object \"[object Object]\" but got object \"[object Object]\""
+        "message": "assert_equals: element whose parent was the shadow root expected null but got object \"[object Object]\""
       },
       {
         "url": "/custom-elements/registries/adoption-null-registry-shadow-root.window.html",
         "status": "fail",
-        "message": "assert_equals: after adoption expected null but got object \"[object Object]\""
-      },
-      {
-        "url": "/custom-elements/registries/adoption.window.html",
-        "status": "fail",
-        "message": "assert_equals: expected object \"[object Object]\" but got object \"[object Object]\""
+        "message": "assert_equals: shadow root registry in template contents expected null but got object \"[object Object]\""
       },
       {
         "url": "/custom-elements/registries/constructor-from-another-window.window.html",
@@ -2188,12 +2158,7 @@
       {
         "url": "/custom-elements/registries/element-mutation.html",
         "status": "fail",
-        "message": "assert_not_equals: got disallowed value object \"[object Object]\""
-      },
-      {
-        "url": "/custom-elements/registries/global-registry-access-timing.window.html",
-        "status": "fail",
-        "message": "assert_true: upgraded expected true got false"
+        "message": "Cannot convert null to object"
       },
       {
         "url": "/custom-elements/registries/global.window.html",
@@ -2243,7 +2208,7 @@
       {
         "url": "/custom-elements/registries/scoped-registry-effective-global-registry.html",
         "status": "fail",
-        "message": "assert_equals: expected object \"[object Object]\" but got null"
+        "message": "Cannot convert null to object"
       },
       {
         "url": "/custom-elements/registries/scoped-registry-initialize-upgrades.html",
@@ -2261,19 +2226,9 @@
         "message": "div.getHTML is not a function. (In \"div.getHTML({ serializableShadowRoots: true })\", it is undefined)"
       },
       {
-        "url": "/custom-elements/registries/upgrade.html",
-        "status": "fail",
-        "message": "assert_false: element 1 must still not be upgraded after upgrading the template contents expected false got true"
-      },
-      {
         "url": "/custom-elements/registries/valid-custom-element-names.html",
         "status": "fail",
         "message": "assert_equals: code points: [97,45,127345], string: \"a-🅱\" expected object \"[object Object]\" but got object \"[object Object]\""
-      },
-      {
-        "url": "/custom-elements/shadow-descendant-lifecycle-order.html",
-        "status": "fail",
-        "message": "assert_array_equals: lengths differ, expected array [\"adopt:root\", \"adopt:shadow\", \"adopt:nested\", \"adopt:light\", \"adopt:leaf\"] length 5, got [] length 0"
       },
       {
         "url": "/custom-elements/state/ElementInternals-states.html",
@@ -3546,11 +3501,6 @@
         "message": "assert_equals: expected \"rgb(0, 128, 0)\" but got \"\""
       },
       {
-        "url": "/dom/nodes/moveBefore/moveBefore-custom-element-registry.html",
-        "status": "fail",
-        "message": "assert_equals: the moved element keeps the global registry expected object \"[object Object]\" but got object \"[object Object]\""
-      },
-      {
         "url": "/dom/nodes/moveBefore/moveBefore-from-light-to-shadow.html",
         "status": "fail",
         "message": "assert_true: expected true got false"
@@ -4276,11 +4226,6 @@
         "message": "assert_equals: the html element no longer has a body child expected null but got Element node <body></body>"
       },
       {
-        "url": "/html/syntax/parsing/custom-element-reparenting.html",
-        "status": "fail",
-        "message": "assert_equals: the custom element stayed where the callback put it expected Element node <head><script>customElements.define('x-a', class extends ... but got Element node <body><x-a x=\"1\"><p>y</p></x-a></body>"
-      },
-      {
         "url": "/html/syntax/parsing/doctype-system-identifier-distinction.html",
         "status": "fail",
         "message": "assert_equals: compatMode should be BackCompat expected \"BackCompat\" but got \"CSS1Compat\""
@@ -4346,71 +4291,6 @@
         "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"23\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"3\\\"\""
       },
       {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=blocks",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <address>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=comments01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <!--  BAR  -->\\n|     \\\"BAZ\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\\"\\n|     <!--  --BAR -- -->\\n|     \\\"BAZ\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=doctype01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Hello\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=domjs-unsafe",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       \\\"foo\\nbar\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       <!-- C[DATA[foo\\nbar]] -->\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO>BAR\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOOgt;BAR&\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=entities02",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       bar=\\\"ZZ>YY\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <div>\\n|       &=\\\"\\\"\\n|       bar=\\\"ZZgt;YY\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=html5test-com",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=isindex",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <isindex>\\n|       \\\"x\\\"\\n|     \\\"x\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <isindex>\\n|       \\\"x\\\"\\n|     \\\"x\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=main-element",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <main>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <main>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=menuitem-element",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <menuitem>\\n|       \\\"A\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <menuitem>\\n|       \\\"A\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=pending-spec-changes",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <table>\\n|       <caption>\\n|         <svg svg>\\n|           \\\"foo\\\"\\n|     \\\"bar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <table>\\n|       <caption>\\n|         <svg svg>\\n|           \\\"foo\\\"\\n|     \\\"bar\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=plain-text-unsafe",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO\\rZOO\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"FOO#x000D;ZOO&\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=quirks01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\" \\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\">\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|     <table>\" but got \"#document\\n| <!-- ODCTYPE html PUBLIC \\\"-//W3C//DTD XHTML 1.0 Frameset//EN\\\"\\n\\\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd\\\" -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <table>\""
-      },
-      {
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_adoption01",
         "status": "fail",
         "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"A\\\"\\n|       \\\"TEXT\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         id=\\\"B\\\"\\n|         <script>\\n|           \\\"document.getElementById(\\\"A\\\").id = \\\"B\\\"\\\"\\n|     <b>\\n|       id=\\\"B\\\"\\n|       \\\"TEXT\\\"\""
@@ -4429,136 +4309,6 @@
         "url": "/html/syntax/parsing/html5lib_write_single.html?file=scripted_webkit01",
         "status": "fail",
         "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"23\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"1\\\"\\n|     <script>\\n|       \\\"document.write(\\\"2\\\")\\\"\\n|     \\\"3\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=search-element",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <search>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|     <search>\\n|       \\\"bar\\\"\\n|       <p>\\n|         \\\"baz\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tables01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"a\\\"\\n|     <table>\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"a\\\"\\n|     <table>\\n|       <!-- odctype html -->\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=template",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <!-- comment -->\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <template>\\n|       content\\n|         <!-- c--omment-- -->\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests1",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <span>\\n|       <button>\\n|         \\\"foobar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <span>\\n|       <button>\\n|         \\\"foobar\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests10",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests11",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       attributeName=\\\"\\\"\\n|       attributeType=\\\"\\\"\\n|       baseFrequency=\\\"\\\"\\n|       baseProfile=\\\"\\\"\\n|       calcMode=\\\"\\\"\\n|       clipPathUnits=\\\"\\\"\\n|       diffuseConstant=\\\"\\\"\\n|       edgeMode=\\\"\\\"\\n|       filterUnits=\\\"\\\"\\n|       glyphRef=\\\"\\\"\\n|       gradientTransform=\\\"\\\"\\n|       gradientUnits=\\\"\\\"\\n|       kernelMatrix=\\\"\\\"\\n|       kernelUnitLength=\\\"\\\"\\n|       keyPoints=\\\"\\\"\\n|       keySplines=\\\"\\\"\\n|       keyTimes=\\\"\\\"\\n|       lengthAdjust=\\\"\\\"\\n|       limitingConeAngle=\\\"\\\"\\n|       markerHeight=\\\"\\\"\\n|       markerUnits=\\\"\\\"\\n|       markerWidth=\\\"\\\"\\n|       maskContentUnits=\\\"\\\"\\n|       maskUnits=\\\"\\\"\\n|       numOctaves=\\\"\\\"\\n|       pathLength=\\\"\\\"\\n|       patternContentUnits=\\\"\\\"\\n|       patternTransform=\\\"\\\"\\n|       patternUnits=\\\"\\\"\\n|       pointsAtX=\\\"\\\"\\n|       pointsAtY=\\\"\\\"\\n|       pointsAtZ=\\\"\\\"\\n|       preserveAlpha=\\\"\\\"\\n|       preserveAspectRatio=\\\"\\\"\\n|       primitiveUnits=\\\"\\\"\\n|       refX=\\\"\\\"\\n|       refY=\\\"\\\"\\n|       repeatCount=\\\"\\\"\\n|       repeatDur=\\\"\\\"\\n|       requiredExtensions=\\\"\\\"\\n|       requiredFeatures=\\\"\\\"\\n|       specularConstant=\\\"\\\"\\n|       specularExponent=\\\"\\\"\\n|       spreadMethod=\\\"\\\"\\n|       startOffset=\\\"\\\"\\n|       stdDeviation=\\\"\\\"\\n|       stitchTiles=\\\"\\\"\\n|       surfaceScale=\\\"\\\"\\n|       systemLanguage=\\\"\\\"\\n|       tableValues=\\\"\\\"\\n|       targetX=\\\"\\\"\\n|       targetY=\\\"\\\"\\n|       textLength=\\\"\\\"\\n|       viewBox=\\\"\\\"\\n|       viewTarget=\\\"\\\"\\n|       xChannelSelector=\\\"\\\"\\n|       yChannelSelector=\\\"\\\"\\n|       zoomAndPan=\\\"\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       attributeName=\\\"\\\"\\n|       attributeType=\\\"\\\"\\n|       baseFrequency=\\\"\\\"\\n|       baseProfile=\\\"\\\"\\n|       calcMode=\\\"\\\"\\n|       clipPathUnits=\\\"\\\"\\n|       diffuseConstant=\\\"\\\"\\n|       edgeMode=\\\"\\\"\\n|       filterUnits=\\\"\\\"\\n|       glyphRef=\\\"\\\"\\n|       gradientTransform=\\\"\\\"\\n|       gradientUnits=\\\"\\\"\\n|       kernelMatrix=\\\"\\\"\\n|       kernelUnitLength=\\\"\\\"\\n|       keyPoints=\\\"\\\"\\n|       keySplines=\\\"\\\"\\n|       keyTimes=\\\"\\\"\\n|       lengthAdjust=\\\"\\\"\\n|       limitingConeAngle=\\\"\\\"\\n|       markerHeight=\\\"\\\"\\n|       markerUnits=\\\"\\\"\\n|       markerWidth=\\\"\\\"\\n|       maskContentUnits=\\\"\\\"\\n|       maskUnits=\\\"\\\"\\n|       numOctaves=\\\"\\\"\\n|       pathLength=\\\"\\\"\\n|       patternContentUnits=\\\"\\\"\\n|       patternTransform=\\\"\\\"\\n|       patternUnits=\\\"\\\"\\n|       pointsAtX=\\\"\\\"\\n|       pointsAtY=\\\"\\\"\\n|       pointsAtZ=\\\"\\\"\\n|       preserveAlpha=\\\"\\\"\\n|       preserveAspectRatio=\\\"\\\"\\n|       primitiveUnits=\\\"\\\"\\n|       refX=\\\"\\\"\\n|       refY=\\\"\\\"\\n|       repeatCount=\\\"\\\"\\n|       repeatDur=\\\"\\\"\\n|       requiredExtensions=\\\"\\\"\\n|       requiredFeatures=\\\"\\\"\\n|       specularConstant=\\\"\\\"\\n|       specularExponent=\\\"\\\"\\n|       spreadMethod=\\\"\\\"\\n|       startOffset=\\\"\\\"\\n|       stdDeviation=\\\"\\\"\\n|       stitchTiles=\\\"\\\"\\n|       surfaceScale=\\\"\\\"\\n|       systemLanguage=\\\"\\\"\\n|       tableValues=\\\"\\\"\\n|       targetX=\\\"\\\"\\n|       targetY=\\\"\\\"\\n|       textLength=\\\"\\\"\\n|       viewBox=\\\"\\\"\\n|       viewTarget=\\\"\\\"\\n|       xChannelSelector=\\\"\\\"\\n|       yChannelSelector=\\\"\\\"\\n|       zoomAndPan=\\\"\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests12",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|       <math math>\\n|         <math mtext>\\n|           <i>\\n|             \\\"baz\\\"\\n|         <math annotation-xml>\\n|           <svg svg>\\n|             <svg desc>\\n|               <b>\\n|                 \\\"eggs\\\"\\n|             <svg g>\\n|               <svg foreignObject>\\n|                 <p>\\n|                   \\\"spam\\\"\\n|                 <table>\\n|                   <tbody>\\n|                     <tr>\\n|                       <td>\\n|                         <img>\\n|             <svg g>\\n|               \\\"quux\\\"\\n|       \\\"bar\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       \\\"foo\\\"\\n|       <math math>\\n|         <math mtext>\\n|           <i>\\n|             \\\"baz\\\"\\n|         <math annotation-xml>\\n|           <svg svg>\\n|             <svg desc>\\n|               <b>\\n|                 \\\"eggs\\\"\\n|             <svg g>\\n|               <svg foreignObject>\\n|                 <p>\\n|                   \\\"spam\\\"\\n|                   <table>\\n|                     <tbody>\\n|                       <tr>\\n|                         <td>\\n|                           <img>\\n|                   <g>\\n|                     \\\"quux\\\"\\n|                   \\\"bar\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests14",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <xyz:abc>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <xyz:abc>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests15",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         <i>\\n|           <u>\\n|     <b>\\n|       <i>\\n|         <u>\\n|           \\\" \\\"\\n|           <p>\\n|             \\\"X\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <b>\\n|         <i>\\n|           <u>\\n|     <b>\\n|       <i>\\n|         <u>\\n|           \\\" \\\"\\n|           <p>\\n|             \\\"X\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests16",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|     <script>\\n|   <body>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|     <script>\\n|   <body>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests17",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <select>\\n|     <table>\\n|       <tbody>\\n|         <tr>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <select>\\n|     <table>\\n|       <tbody>\\n|         <tr>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests18",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <plaintext>\\n|       \\\"</plaintext>\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <plaintext>\\n|       \\\"</plaintext>\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests19",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\\n|       <math mn>\\n|         definitionURL=\\\"foo\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\\n|       <math mn>\\n|         definitionURL=\\\"foo\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests2",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Test\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"Test\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests20",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <button>\\n|       <button>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <button>\\n|       <button>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests21",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       \\\"foo\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     <svg svg>\\n|       <!-- C[DATA[foo]] -->\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests24",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"≂̸\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"NotEqualTilde;&\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests25",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <foo>\\n|       \\\"A\\\"\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <foo>\\n|       \\\"A\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests26",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <a>\\n|       href=\\\"#1\\\"\\n|       <nobr>\\n|         \\\"1\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#2\\\"\\n|     <a>\\n|       href=\\\"#2\\\"\\n|       <nobr>\\n|         \\\"2\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#3\\\"\\n|     <a>\\n|       href=\\\"#3\\\"\\n|       <nobr>\\n|         \\\"3\\\"\\n|       <nobr>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <a>\\n|       href=\\\"#1\\\"\\n|       <nobr>\\n|         \\\"1\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#2\\\"\\n|     <a>\\n|       href=\\\"#2\\\"\\n|       <nobr>\\n|         \\\"2\\\"\\n|       <nobr>\\n|     <nobr>\\n|       <br>\\n|       <a>\\n|         href=\\\"#3\\\"\\n|     <a>\\n|       href=\\\"#3\\\"\\n|       <nobr>\\n|         \\\"3\\\"\\n|       <nobr>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests3",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <style>\\n|     <script>\\n|   <!--   -->\\n|   <!--   -->\\n|   <body>\" but got \"#document\\n| <html>\\n|   <head>\\n|     <style>\\n|     <script>\\n|   <!--  ---- -->\\n|   <!--  ---- -->\\n|   <body>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests5",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|     <title>\\n|       \\\"&\\\"\\n|   <body>\" but got \"#document\\n| <html>\\n|   <head>\\n|     <title>\\n|       \\\"amp;</title>&\\\"\\n|   <body>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests6",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   \\\" \\\"\\n|   <body>\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   \\\" \\\"\\n|   <body>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests7",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <title>\\n|       \\\"X\\\"\" but got \"#document\\n| <!-- odctype html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <title>\\n|       \\\"X\\\"\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=tests9",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <math math>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=void-in-phrasing",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <!DOCTYPE html>\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <br>\" but got \"#document\\n| <!-- ODCTYPE html -->\\n| <html>\\n|   <head>\\n|   <body>\\n|     <p>\\n|       <br>\""
-      },
-      {
-        "url": "/html/syntax/parsing/html5lib_write_single.html?file=webkit01",
-        "status": "fail",
-        "message": "assert_equals: expected \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"<\\\"\" but got \"#document\\n| <html>\\n|   <head>\\n|   <body>\\n|     \\\"lt;&\\\"\""
       },
       {
         "url": "/html/syntax/parsing/inhead-noscript-head.html",
@@ -5696,49 +5446,14 @@
         "message": "Executor does not support testdriver.js"
       },
       {
-        "url": "/streams/writable-streams/aborting.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/bad-strategies.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/bad-underlying-sinks.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/byte-length-queuing-strategy.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/close.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/constructor.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/count-queuing-strategy.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.html",
         "status": "timeout",
-        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
+        "message": "b'Tests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.\\nTests are running without the ability to do manual garbage collection. They will still work, but coverage will be suboptimal.'"
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/crashtests/garbage-collection.any.sharedworker.html",
@@ -5751,19 +5466,9 @@
         "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
-        "url": "/streams/writable-streams/error.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/floating-point-total-queue-size.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
         "url": "/streams/writable-streams/garbage-collection.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
+        "status": "fail",
+        "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
       },
       {
         "url": "/streams/writable-streams/garbage-collection.any.sharedworker.html",
@@ -5774,31 +5479,6 @@
         "url": "/streams/writable-streams/garbage-collection.any.worker.html",
         "status": "fail",
         "message": "promise_test: Unhandled rejection with value: object \"ReferenceError: \"console\" is not defined\""
-      },
-      {
-        "url": "/streams/writable-streams/general.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/properties.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/reentrant-strategy.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/start.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
-      },
-      {
-        "url": "/streams/writable-streams/write.any.serviceworker.html",
-        "status": "error",
-        "message": "Unhandled rejection: \"navigator\" is not defined"
       },
       {
         "url": "/url/data-uri-fragment.html",
@@ -6199,8 +5879,8 @@
     ],
     "subtests": {
       "total": 457,
-      "pass": 53,
-      "fail": 337,
+      "pass": 55,
+      "fail": 335,
       "skip": 39,
       "error": 2,
       "timeout": 26
