@@ -221,6 +221,14 @@ describe("CSSStyleSheet", () => {
     expect(sheet.media.mediaText).toBe("screen, print");
   });
 
+  test("retains the constructor document and base URL", () => {
+    const sheet = new CSSStyleSheet(null, null, "https://example.test/css/");
+
+    expect(sheet.constructed).toBe(true);
+    expect(sheet.constructorDocument).toBeNull();
+    expect(sheet.baseURL).toBe("https://example.test/css/");
+  });
+
   test("parses a media rule with its child rules", () => {
     const sheet = new CSSStyleSheet();
 
@@ -347,6 +355,42 @@ describe("CSSStyleSheet", () => {
 
     expect(sheet.cssRules.length).toBe(1);
     expect(sheet.cssRules.item(0)?.cssText).toBe("aside { display: none }");
+  });
+
+  test("replaces the rule list while preserving its identity", () => {
+    const sheet = new CSSStyleSheet();
+    sheet.insertRule("main { display: block }");
+    const rules = sheet.cssRules;
+    const oldRule = rules.item(0);
+
+    sheet.replaceSync("aside { display: none } article { color: red }");
+
+    expect(sheet.cssRules).toBe(rules);
+    expect(rules.length).toBe(2);
+    expect(rules.item(0)?.cssText).toBe("aside { display: none }");
+    expect(rules.item(1)?.cssText).toBe("article { color: red }");
+    expect(rules.item(0)?.parentStyleSheet).toBe(sheet);
+    expect(oldRule?.parentStyleSheet).toBeNull();
+  });
+
+  test("removes import rules during replacement", () => {
+    const sheet = new CSSStyleSheet();
+
+    sheet.replaceSync(
+      '@import url("first.css"); main { display: block } @import url("second.css"); aside { display: none }',
+    );
+
+    expect(Array.from(sheet.cssRules, (rule) => rule.cssText)).toEqual([
+      "main { display: block }",
+      "aside { display: none }",
+    ]);
+  });
+
+  test("resolves asynchronous replacement with the same sheet", async () => {
+    const sheet = new CSSStyleSheet();
+
+    await expect(sheet.replace("main { display: block }")).resolves.toBe(sheet);
+    expect(sheet.cssRules.item(0)?.cssText).toBe("main { display: block }");
   });
 
   test("rejects a deletion index outside the list", () => {

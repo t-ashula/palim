@@ -10,7 +10,8 @@ import {
   StyleSheetList,
 } from "@palim/core";
 
-import { normal } from "./adapter.js";
+import type { EngineResult, EngineValue } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 
 export function installCSSOMMembers(binding: DOMRealmBindingContext): void {
@@ -350,6 +351,85 @@ function installStyleSheetMembers(binding: DOMRealmBindingContext): void {
       });
     },
   );
+  binding.method(
+    binding.cssStyleSheetPrototype,
+    "replaceSync",
+    1,
+    (thisValue, argumentsList) => {
+      const sheet = cssStyleSheet(binding, thisValue);
+      if (sheet === null) {
+        return binding.typeError("Invalid CSSStyleSheet receiver");
+      }
+      const text = binding.stringArgument(argumentsList, 0, "replaceSync");
+      if (text.type === "throw") {
+        return text;
+      }
+      return binding.domOperationResult(() => {
+        sheet.replaceSync(text.value);
+        return binding.undefined();
+      });
+    },
+  );
+  binding.method(
+    binding.cssStyleSheetPrototype,
+    "replace",
+    1,
+    (thisValue, argumentsList) => {
+      const sheet = cssStyleSheet(binding, thisValue);
+      if (sheet === null) {
+        return binding.typeError("Invalid CSSStyleSheet receiver");
+      }
+      const text = binding.stringArgument(argumentsList, 0, "replace");
+      if (text.type === "throw") {
+        return text;
+      }
+      const replacement = binding.domOperationResult(() => {
+        sheet.replaceSync(text.value);
+        return normal(binding.wrap(sheet));
+      });
+      return replacement.type === "throw"
+        ? realmPromise(binding, "reject", replacement.value)
+        : realmPromise(binding, "resolve", replacement.value);
+    },
+  );
+}
+
+function realmPromise(
+  binding: DOMRealmBindingContext,
+  methodName: "resolve" | "reject",
+  value: EngineValue,
+): EngineResult<EngineValue> {
+  const constructorResult = binding.engine.get(
+    binding.realm,
+    binding.engine.globalObject(binding.realm),
+    "Promise",
+  );
+  if (constructorResult.type === "throw") {
+    return constructorResult;
+  }
+  const constructor = binding.engine.asObject(constructorResult.value);
+  if (constructor === null) {
+    return thrown(
+      binding.engine.createTypeError(binding.realm, "Promise is unavailable"),
+    );
+  }
+  const methodResult = binding.engine.get(
+    binding.realm,
+    constructor,
+    methodName,
+  );
+  if (methodResult.type === "throw") {
+    return methodResult;
+  }
+  const method = binding.engine.asCallable(methodResult.value);
+  return method === null
+    ? thrown(
+        binding.engine.createTypeError(
+          binding.realm,
+          `Promise.${methodName} is not callable`,
+        ),
+      )
+    : binding.context.call(method, constructor, [value]);
 }
 
 function installStyleSheetListMembers(binding: DOMRealmBindingContext): void {

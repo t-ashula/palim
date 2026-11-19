@@ -24,9 +24,10 @@ import {
   PromiseRejectionEvent,
   Sanitizer,
   Text,
+  URL,
 } from "@palim/core";
 
-import { normal } from "./adapter.js";
+import { normal, thrown } from "./adapter.js";
 import type { DOMRealmBindingContext } from "./dom-realm-binding-context.js";
 import { htmlElementInterfaceConstructors } from "./html-element-interface-constructors.js";
 
@@ -536,7 +537,65 @@ export function installInterfaces(binding: DOMRealmBindingContext): void {
     "CSSStyleSheet",
     binding.cssStyleSheetPrototype,
     0,
-    () => normal(binding.wrap(new CSSStyleSheet())),
+    (_thisValue, argumentsList) => {
+      const constructorDocument = binding.associatedDocument;
+      let baseURL = constructorDocument?.baseURI ?? null;
+      const optionsValue = argumentsList[0];
+      if (
+        optionsValue !== undefined &&
+        !binding.engine.isUndefined(optionsValue) &&
+        !binding.engine.isNull(optionsValue)
+      ) {
+        const options = binding.engine.asObject(optionsValue);
+        if (options === null) {
+          return binding.typeError("CSSStyleSheet options must be an object");
+        }
+        const baseURLValue = binding.engine.get(
+          binding.realm,
+          options,
+          "baseURL",
+        );
+        if (baseURLValue.type === "throw") {
+          return baseURLValue;
+        }
+        if (!binding.engine.isUndefined(baseURLValue.value)) {
+          const converted = binding.engine.toString(
+            binding.realm,
+            baseURLValue.value,
+          );
+          if (converted.type === "throw") {
+            return converted;
+          }
+          try {
+            const parsed = new URL(
+              converted.value,
+              constructorDocument?.baseURI,
+            );
+            if (parsed.username !== "" || parsed.password !== "") {
+              return thrown(
+                binding.createDOMException(
+                  "The stylesheet base URL must not contain credentials",
+                  "NotAllowedError",
+                ),
+              );
+            }
+            baseURL = parsed.href;
+          } catch {
+            return thrown(
+              binding.createDOMException(
+                "The stylesheet base URL is invalid",
+                "NotAllowedError",
+              ),
+            );
+          }
+        }
+      }
+      return normal(
+        binding.wrap(
+          new CSSStyleSheet(null, binding.associatedDocument, baseURL),
+        ),
+      );
+    },
   );
   binding.interfaceTag(binding.mediaListPrototype, "MediaList");
   binding.installInterface("MediaList", binding.mediaListPrototype);

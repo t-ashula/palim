@@ -19,14 +19,20 @@ export class CSSRule {
   readonly MEDIA_RULE = 4;
   readonly parentRule: CSSRule | null = null;
   readonly type: number = CSSRule.STYLE_RULE;
+  #parentStyleSheet: CSSStyleSheet | null;
 
   constructor(
     private ruleText: string,
-    readonly parentStyleSheet: CSSStyleSheet | null = null,
+    parentStyleSheet: CSSStyleSheet | null = null,
     parentRule: CSSRule | null = null,
   ) {
+    this.#parentStyleSheet = parentStyleSheet;
     this.parentRule = parentRule;
     bindDOMInterface(this, this);
+  }
+
+  get parentStyleSheet(): CSSStyleSheet | null {
+    return this.#parentStyleSheet;
   }
 
   get cssText(): string {
@@ -36,6 +42,10 @@ export class CSSRule {
   set cssText(value: string) {
     this.ruleText = value;
     this.parentStyleSheet?.ruleChanged(this);
+  }
+
+  detachFromStyleSheet(): void {
+    this.#parentStyleSheet = null;
   }
 }
 
@@ -156,6 +166,13 @@ export class CSSGroupingRule extends CSSRule {
   override set cssText(value: string) {
     if (value === this.cssText) {
       return;
+    }
+  }
+
+  override detachFromStyleSheet(): void {
+    super.detachFromStyleSheet();
+    for (const rule of this.#rules) {
+      rule.detachFromStyleSheet();
     }
   }
 
@@ -318,8 +335,21 @@ export class CSSStyleSheet {
   readonly #media: MediaList;
   #constructedMedia = "";
 
-  constructor(readonly ownerNode: Element | null = null) {
+  readonly constructed: boolean;
+  readonly constructorDocument: Document | null;
+  readonly baseURL: string | null;
+
+  constructor(
+    readonly ownerNode: Element | null = null,
+    constructorDocument: Document | null = null,
+    baseURL: string | null = null,
+  ) {
     bindDOMInterface(this, this);
+    this.constructed = ownerNode === null;
+    this.constructorDocument = this.constructed ? constructorDocument : null;
+    this.baseURL = this.constructed
+      ? (baseURL ?? constructorDocument?.baseURI ?? null)
+      : (ownerNode?.baseURI ?? null);
     this.#media = new MediaList(
       () => this.ownerNode?.getAttribute("media") ?? this.#constructedMedia,
       (value) => {
@@ -372,8 +402,29 @@ export class CSSStyleSheet {
         "IndexSizeError",
       );
     }
-    this.#rules.splice(deletionIndex, 1);
+    this.#rules.splice(deletionIndex, 1)[0]?.detachFromStyleSheet();
     this.updateOwnerNode();
+  }
+
+  replaceSync(text: string): void {
+    if (!this.constructed) {
+      throw new DOMException(
+        "The stylesheet was not constructed by a CSSStyleSheet constructor",
+        "NotAllowedError",
+      );
+    }
+    const replacement = parseRuleList(text, this, null, true);
+    for (const rule of this.#rules) {
+      rule.detachFromStyleSheet();
+    }
+    this.#rules.splice(0, this.#rules.length, ...replacement);
+  }
+
+  replace(text: string): Promise<CSSStyleSheet> {
+    return Promise.resolve().then(() => {
+      this.replaceSync(text);
+      return this;
+    });
   }
 
   ruleChanged(_rule: CSSRule): void {
@@ -533,6 +584,7 @@ function parseRuleList(
   source: string,
   sheet: CSSStyleSheet | null,
   parentRule: CSSRule | null = null,
+  ignoreImportRules = false,
 ): CSSRule[] {
   const rules: CSSRule[] = [];
   let start = 0;
@@ -541,6 +593,15 @@ function parseRuleList(
     const character = source[index];
     if (character === "{") {
       depth += 1;
+    } else if (character === ";" && depth === 0) {
+      const statement = source.slice(start, index + 1).trim();
+      if (!ignoreImportRules || !/^@import\b/iu.test(statement)) {
+        const rule = createRule(statement, sheet, parentRule);
+        if (rule !== null) {
+          rules.push(rule);
+        }
+      }
+      start = index + 1;
     } else if (character === "}") {
       depth -= 1;
       if (depth === 0) {

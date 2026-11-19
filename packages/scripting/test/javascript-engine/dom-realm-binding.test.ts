@@ -111,6 +111,18 @@ describe("DOMRealmBinding", () => {
     }).not.toThrow();
   });
 
+  it("replaces constructable stylesheet rules", () => {
+    const { engine, realm } = createTestRealm("");
+
+    expect(() => {
+      evaluate(
+        engine,
+        realm,
+        fixture("uses-constructable-stylesheet-replacement.js"),
+      );
+    }).not.toThrow();
+  });
+
   it("constructs independent custom element registries", () => {
     const { engine, realm } = createTestRealm("");
 
