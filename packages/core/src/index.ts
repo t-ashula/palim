@@ -16,6 +16,7 @@ export {
   MediaList,
   StyleSheetList,
 } from "./cssom.js";
+export { CSS } from "./css.js";
 
 export {
   AbortController,

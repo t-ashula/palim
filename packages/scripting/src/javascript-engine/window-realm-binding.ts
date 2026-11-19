@@ -16,6 +16,7 @@ import type { RealmExecutionRuntime } from "./realm-execution-runtime.js";
 import { installTrustedTypesInterfaces } from "./trusted-types-realm-interface-installer.js";
 import type { URLRealmBinding } from "./url-realm-binding.js";
 import { WindowRealmBindingContext } from "./window-realm-binding-context.js";
+import { installCSS } from "./window-realm-css.js";
 import {
   installAnimationFrameProvider,
   installConsole,
@@ -37,6 +38,7 @@ export class WindowRealmBinding {
     this.#binding = new WindowRealmBindingContext(engine, window, runtime);
     installBlobInterfaces(this.#binding.context, this.#binding.blobs);
     installFormDataInterface(this.#binding.context, this.#binding.formData);
+    installCSS(this.#binding);
     installTrustedTypesInterfaces(this.#binding);
     installWindowInterface(this.#binding);
     installLocationInterface(this.#binding);

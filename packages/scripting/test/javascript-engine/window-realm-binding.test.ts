@@ -36,6 +36,20 @@ function fixture(name: string): string {
 }
 
 describe("WindowRealmBinding", () => {
+  it("exposes CSS in the page realm", () => {
+    const engine = new Engine262Adapter();
+    const binding = new WindowRealmBinding(engine, createWindow());
+    const otherBinding = new WindowRealmBinding(engine, createWindow());
+
+    evaluate(engine, binding.realm, fixture("css.js"));
+    evaluate(engine, binding.realm, "CSS.realmState = 1");
+    evaluate(
+      engine,
+      otherBinding.realm,
+      'if ("realmState" in CSS) throw new Error("CSS state was shared")',
+    );
+  });
+
   it("exposes Document and Window Selection state", () => {
     const engine = new Engine262Adapter();
     const binding = new WindowRealmBinding(engine, createWindow());

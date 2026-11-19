@@ -1,3 +1,7 @@
+import {
+  isSupportedCSSProperty,
+  parseCSSDeclarationValue,
+} from "./css-properties.js";
 import type { CSSToken } from "./css-syntax.js";
 import { tokenizeCSS } from "./css-syntax.js";
 import type { CSSRule, CSSStyleSheet } from "./cssom.js";
@@ -442,14 +446,14 @@ export class CSSStyleDeclaration {
     if (!isSupportedCSSProperty(name)) {
       return;
     }
-    const parsedValue = parseCSSPropertyValue(name, convertedValue);
-    if (parsedValue === null) {
+    const parsed = parseCSSDeclarationValue(name, tokenizeCSS(convertedValue));
+    if (parsed === null || parsed.important) {
       return;
     }
     const declarations = styleDeclarations(this);
     const declaration = {
       name,
-      value: parsedValue,
+      value: parsed.value,
       important: convertedPriority === "important",
     };
     const index = declarations.findIndex((item) => item.name === name);
@@ -5558,71 +5562,6 @@ interface InlineStyleProperty {
   readonly important: boolean;
 }
 
-const SUPPORTED_CSS_PROPERTIES = new Set([
-  "background-color",
-  "color",
-  "display",
-  "float",
-  "font-size",
-  "visibility",
-]);
-const CSS_BASIC_COLOR_KEYWORDS = new Set([
-  "aqua",
-  "black",
-  "blue",
-  "fuchsia",
-  "gray",
-  "green",
-  "lime",
-  "maroon",
-  "navy",
-  "olive",
-  "orange",
-  "purple",
-  "red",
-  "silver",
-  "teal",
-  "white",
-  "yellow",
-]);
-const CSS_WIDE_KEYWORDS = new Set([
-  "initial",
-  "inherit",
-  "unset",
-  "revert",
-  "revert-layer",
-]);
-const DISPLAY_SINGLE_KEYWORDS = new Set([
-  "none",
-  "contents",
-  "block",
-  "inline",
-  "run-in",
-  "flow",
-  "flow-root",
-  "table",
-  "flex",
-  "grid",
-  "ruby",
-  "list-item",
-  "inline-block",
-  "inline-table",
-  "inline-flex",
-  "inline-grid",
-  "table-row-group",
-  "table-header-group",
-  "table-footer-group",
-  "table-row",
-  "table-cell",
-  "table-column-group",
-  "table-column",
-  "table-caption",
-  "ruby-base",
-  "ruby-text",
-  "ruby-base-container",
-  "ruby-text-container",
-]);
-
 function createInlineStyleDeclaration(
   element: HTMLElement,
 ): CSSStyleProperties {
@@ -5723,10 +5662,6 @@ function legacyNullToEmptyString(value: unknown): string {
   return value === null ? "" : domString(value);
 }
 
-function isSupportedCSSProperty(property: string): boolean {
-  return property.startsWith("--") || SUPPORTED_CSS_PROPERTIES.has(property);
-}
-
 function cssStyleDeclarationTarget(
   declaration: CSSStyleDeclaration,
 ): CSSStyleDeclarationTarget {
@@ -5790,7 +5725,10 @@ function parseInlineStyleDeclarations(source: string): InlineStyleProperty[] {
     if (!isSupportedCSSProperty(name)) {
       continue;
     }
-    const parsed = parseDeclarationValue(name, component.slice(separator + 1));
+    const parsed = parseCSSDeclarationValue(
+      name,
+      component.slice(separator + 1),
+    );
     if (parsed === null) {
       continue;
     }
@@ -5865,201 +5803,6 @@ function trimCSSWhitespace(tokens: readonly CSSToken[]): CSSToken[] {
     end -= 1;
   }
   return tokens.slice(start, end);
-}
-
-function parseDeclarationValue(
-  name: string,
-  sourceTokens: readonly CSSToken[],
-): { readonly value: string; readonly important: boolean } | null {
-  let tokens = trimCSSWhitespace(sourceTokens);
-  if (!validCSSComponentValues(tokens)) {
-    return null;
-  }
-  let important = false;
-  let last = tokens.length - 1;
-  const lastToken = tokens[last];
-  if (
-    lastToken?.type === "ident" &&
-    asciiLowercase(lastToken.value) === "important"
-  ) {
-    last -= 1;
-    while (tokens[last]?.type === "whitespace") {
-      last -= 1;
-    }
-    const marker = tokens[last];
-    if (marker?.type === "delim" && marker.value === "!") {
-      important = true;
-      tokens = trimCSSWhitespace(tokens.slice(0, last));
-    }
-  }
-  const value = serializeCSSValue(tokens);
-  return isValidCSSPropertyValue(name, tokens, value)
-    ? { value, important }
-    : null;
-}
-
-function parseCSSPropertyValue(name: string, source: string): string | null {
-  const parsed = parseDeclarationValue(name, tokenizeCSS(source));
-  return parsed === null || parsed.important ? null : parsed.value;
-}
-
-function validCSSComponentValues(tokens: readonly CSSToken[]): boolean {
-  const stack: string[] = [];
-  for (const token of tokens) {
-    if (token.type === "bad-string") {
-      return false;
-    }
-    if (
-      token.type === "close-paren" ||
-      token.type === "close-square" ||
-      token.type === "close-curly"
-    ) {
-      if (stack.at(-1) !== token.type) {
-        return false;
-      }
-      stack.pop();
-      continue;
-    }
-    updateCSSNesting(stack, token);
-  }
-  return stack.length === 0;
-}
-
-function serializeCSSValue(tokens: readonly CSSToken[]): string {
-  return tokens.map((token) => token.raw).join("");
-}
-
-function isValidCSSPropertyValue(
-  name: string,
-  tokens: readonly CSSToken[],
-  value: string,
-): boolean {
-  if (name.startsWith("--")) {
-    return true;
-  }
-  if (value === "") {
-    return false;
-  }
-  if (
-    tokens.some(
-      (token) =>
-        token.type === "function" &&
-        (asciiLowercase(token.value) === "var" ||
-          asciiLowercase(token.value) === "env"),
-    )
-  ) {
-    return true;
-  }
-  const significantTokens = tokens.filter(
-    (token) => token.type !== "whitespace",
-  );
-  const keywords = significantTokens.map((token) =>
-    token.type === "ident" ? asciiLowercase(token.value) : null,
-  );
-  const onlyKeyword = keywords[0];
-  if (
-    keywords.length === 1 &&
-    typeof onlyKeyword === "string" &&
-    CSS_WIDE_KEYWORDS.has(onlyKeyword)
-  ) {
-    return true;
-  }
-  if (name === "color" || name === "background-color") {
-    return validCSSColor(significantTokens);
-  }
-  if (name === "font-size") {
-    if (significantTokens.length !== 1) {
-      return false;
-    }
-    const token = significantTokens[0];
-    return (
-      (token?.type === "dimension" && token.value >= 0) ||
-      (token?.type === "percentage" && token.value >= 0) ||
-      (token?.type === "number" && token.value === 0) ||
-      (token?.type === "ident" &&
-        [
-          "xx-small",
-          "x-small",
-          "small",
-          "medium",
-          "large",
-          "x-large",
-          "xx-large",
-          "xxx-large",
-          "larger",
-          "smaller",
-        ].includes(asciiLowercase(token.value)))
-    );
-  }
-  if (keywords.some((keyword) => keyword === null)) {
-    return false;
-  }
-  const values = keywords as string[];
-  if (name === "visibility") {
-    return (
-      values.length === 1 &&
-      ["visible", "hidden", "force-hidden", "collapse"].includes(
-        values[0] ?? "",
-      )
-    );
-  }
-  if (name === "float") {
-    return (
-      values.length === 1 &&
-      ["left", "right", "none", "inline-start", "inline-end"].includes(
-        values[0] ?? "",
-      )
-    );
-  }
-  return validDisplayValue(values);
-}
-
-function validCSSColor(tokens: readonly CSSToken[]): boolean {
-  if (tokens.length !== 1) {
-    return false;
-  }
-  const token = tokens[0];
-  if (token?.type === "ident") {
-    const keyword = asciiLowercase(token.value);
-    return (
-      keyword === "currentcolor" ||
-      keyword === "transparent" ||
-      CSS_BASIC_COLOR_KEYWORDS.has(keyword)
-    );
-  }
-  return (
-    token?.type === "hash" &&
-    /^(?:[\da-f]{3}|[\da-f]{4}|[\da-f]{6}|[\da-f]{8})$/iu.test(token.value)
-  );
-}
-
-function validDisplayValue(values: readonly string[]): boolean {
-  if (values.length === 1) {
-    return DISPLAY_SINGLE_KEYWORDS.has(values[0] ?? "");
-  }
-  if (
-    values.length < 2 ||
-    values.length > 3 ||
-    new Set(values).size !== values.length
-  ) {
-    return false;
-  }
-  const outside = values.filter((value) =>
-    ["block", "inline", "run-in"].includes(value),
-  );
-  const inside = values.filter((value) =>
-    ["flow", "flow-root", "table", "flex", "grid", "ruby"].includes(value),
-  );
-  const listItem = values.includes("list-item");
-  if (listItem) {
-    return (
-      outside.length <= 1 &&
-      inside.length <= 1 &&
-      inside.every((value) => value === "flow" || value === "flow-root") &&
-      outside.length + inside.length + 1 === values.length
-    );
-  }
-  return outside.length === 1 && inside.length === 1 && values.length === 2;
 }
 
 function serializeInlineStyleDeclarations(
