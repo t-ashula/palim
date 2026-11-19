@@ -2,12 +2,17 @@ import { TextEncoder } from "node:util";
 
 import type { URL } from "@palim/core";
 import { Engine262Adapter } from "@palim/engine262";
-import { createHostServices } from "@palim/polyfills";
+import {
+  createExtensionHostServices,
+  fetchPolyfill,
+  xmlHttpRequestPolyfill,
+} from "@palim/polyfills";
 import { WindowScriptingEnvironment } from "@palim/scripting";
 import type { Resource, ResourceLoader } from "@palim/window";
 import { WindowDocumentLoader } from "@palim/window";
-import { expect, it } from "vitest";
+import { afterEach, expect, it, vi } from "vitest";
 
+import type { WorkerExtensions } from "../src/index.js";
 import { WorkerScriptingManager } from "../src/index.js";
 
 class MemoryResourceLoader implements ResourceLoader {
@@ -33,7 +38,10 @@ class MemoryResourceLoader implements ResourceLoader {
   }
 }
 
-function createEnvironment(resources: Readonly<Record<string, string>>): {
+function createEnvironment(
+  resources: Readonly<Record<string, string>>,
+  extensions: WorkerExtensions = {},
+): {
   readonly environment: WindowScriptingEnvironment;
   readonly loader: WindowDocumentLoader;
   readonly resources: MemoryResourceLoader;
@@ -45,22 +53,36 @@ function createEnvironment(resources: Readonly<Record<string, string>>): {
     resourceLoader,
   });
   const workerEngines: Engine262Adapter[] = [];
-  const workerManager = new WorkerScriptingManager(() => {
-    const engine = new Engine262Adapter();
-    workerEngines.push(engine);
-    return engine;
-  });
+  const selectedExtensions = [
+    ...(extensions.dedicated ?? []),
+    ...(extensions.shared ?? []),
+    ...(extensions.service ?? []),
+  ];
+  const hostServices = createExtensionHostServices(selectedExtensions);
+  const workerManager = new WorkerScriptingManager(
+    () => {
+      const engine = new Engine262Adapter();
+      workerEngines.push(engine);
+      return engine;
+    },
+    extensions,
+    hostServices,
+  );
   const environment = new WindowScriptingEnvironment(
     new Engine262Adapter(),
     loader.window,
     resourceLoader,
     [],
-    createHostServices(),
+    hostServices,
     undefined,
     [workerManager],
   );
   return { environment, loader, resources: resourceLoader, workerEngines };
 }
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 async function waitFor(predicate: () => boolean): Promise<void> {
   const deadline = Date.now() + 1_000;
@@ -217,6 +239,133 @@ it("exposes Blob, File, and binary FormData entries in workers", async () => {
 
   expect(environment.window.document.body?.getAttribute("data-blob")).toBe(
     "true",
+  );
+});
+
+it("installs Fetch selected for a Dedicated Worker", async () => {
+  const hostFetch = vi.fn((input: string) =>
+    Promise.resolve({
+      url: input,
+      status: 200,
+      statusText: "OK",
+      headers: [["content-type", "text/plain"]],
+      arrayBuffer: () =>
+        Promise.resolve(new TextEncoder().encode("worker response").buffer),
+    }),
+  );
+  vi.stubGlobal("fetch", hostFetch);
+  const fetchExtension = fetchPolyfill();
+  const { environment, loader } = createEnvironment(
+    {
+      "https://example.test/workers/fetch.js": `
+        const result = fetch("./data.txt");
+        result.then(async response => {
+          postMessage({
+            globals: [fetch, Headers, Request, Response].every(
+              value => typeof value === "function"
+            ),
+            promise: result instanceof Promise,
+            response: response instanceof Response,
+            text: await response.text(),
+          });
+        });
+      `,
+    },
+    { dedicated: [fetchExtension] },
+  );
+
+  await loader.loadHTML(
+    `
+      <!doctype html><body>
+      <script>
+        const worker = new Worker("/workers/fetch.js");
+        worker.onmessage = event => {
+          document.body.dataset.fetch = JSON.stringify(event.data);
+        };
+      </script>
+    `,
+    environment,
+  );
+  await waitFor(
+    () => environment.window.document.body?.getAttribute("data-fetch") !== null,
+  );
+
+  expect(
+    JSON.parse(
+      environment.window.document.body?.getAttribute("data-fetch") ?? "null",
+    ),
+  ).toEqual({
+    globals: true,
+    promise: true,
+    response: true,
+    text: "worker response",
+  });
+  expect(hostFetch).toHaveBeenCalledWith(
+    "https://example.test/workers/data.txt",
+    expect.any(Object),
+  );
+});
+
+it("installs XMLHttpRequest selected for a Dedicated Worker", async () => {
+  const hostFetch = vi.fn((input: string) =>
+    Promise.resolve({
+      url: input,
+      status: 200,
+      statusText: "OK",
+      headers: [["content-type", "text/plain"]],
+      arrayBuffer: () =>
+        Promise.resolve(new TextEncoder().encode("xhr response").buffer),
+    }),
+  );
+  vi.stubGlobal("fetch", hostFetch);
+  const xhrExtension = xmlHttpRequestPolyfill();
+  const { environment, loader } = createEnvironment(
+    {
+      "https://example.test/workers/xhr.js": `
+        const request = new XMLHttpRequest();
+        request.open("GET", "./data.txt");
+        request.responseType = "document";
+        request.onload = () => {
+          postMessage({
+            response: request.responseText,
+            responseType: request.responseType,
+            responseXML: "responseXML" in request,
+          });
+        };
+        request.send();
+      `,
+    },
+    { dedicated: [xhrExtension] },
+  );
+
+  await loader.loadHTML(
+    `
+      <!doctype html><body>
+      <script>
+        const worker = new Worker("/workers/xhr.js");
+        worker.onmessage = event => {
+          document.body.dataset.xhr = JSON.stringify(event.data);
+        };
+      </script>
+    `,
+    environment,
+  );
+  await waitFor(
+    () => environment.window.document.body?.getAttribute("data-xhr") !== null,
+  );
+
+  expect(
+    JSON.parse(
+      environment.window.document.body?.getAttribute("data-xhr") ?? "null",
+    ),
+  ).toEqual({
+    response: "xhr response",
+    responseType: "",
+    responseXML: false,
+  });
+  expect(hostFetch).toHaveBeenCalledWith(
+    "https://example.test/workers/data.txt",
+    expect.any(Object),
   );
 });
 

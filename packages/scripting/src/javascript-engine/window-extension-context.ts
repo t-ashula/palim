@@ -10,6 +10,7 @@ import {
 import type {
   HostServices,
   RealmCallable,
+  RealmFormDataEntry,
   RealmHostFunction,
   RealmInterface,
   RealmObject,
@@ -65,13 +66,14 @@ function createExtensionContext(
   host: HostServices,
 ): WindowExtensionContext {
   const realm = new ScriptingWindowRealmInstaller(binding);
-  const window: WindowEnvironment = {
+  const environment: WindowEnvironment = {
     get url() {
       return settings.apiBaseURL.href;
     },
     get origin() {
       return settings.apiBaseURL.origin;
     },
+    hasDocument: true,
     isActive() {
       return settings.window.document.defaultView === settings.window;
     },
@@ -81,7 +83,7 @@ function createExtensionContext(
       scheduleWindowTimeout(
         settings.window,
         () => {
-          if (!window.isActive()) {
+          if (!environment.isActive()) {
             return;
           }
           const result = eventLoop.runScript(settings, () =>
@@ -95,13 +97,23 @@ function createExtensionContext(
       );
     },
   };
-  return Object.freeze({ realm, window, tasks, host });
+  return Object.freeze({ realm, environment, tasks, host });
 }
 
-class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
+export interface ExtensionRealmBinding {
+  readonly context: RealmBindingContext;
+  readonly dom: WindowRealmBinding["dom"];
+  createFormData(entries: Iterable<readonly [string, string]>): EngineObject;
+  formDataEntries(value: EngineValue): readonly RealmFormDataEntry[] | null;
+}
+
+export class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
   readonly context: RealmBindingContext;
 
-  constructor(readonly binding: WindowRealmBinding) {
+  constructor(
+    readonly binding: ExtensionRealmBinding,
+    readonly allowDocumentResponses = true,
+  ) {
     this.context = binding.context;
   }
 
@@ -376,6 +388,9 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     mimeType: string,
     url: string,
   ): RealmResult<RealmObject | null> {
+    if (!this.allowDocumentResponses) {
+      return { type: "normal", value: null };
+    }
     const text = new (
       globalThis as unknown as {
         TextDecoder: new () => { decode(input: Uint8Array): string };
@@ -657,7 +672,7 @@ function engineResultToRealm(
     : { type: "throw", value: toRealmValue(result.value) };
 }
 
-function realmResultToEngine(
+export function realmResultToEngine(
   result: RealmResult<RealmValue>,
 ): EngineResult<EngineValue> {
   return result.type === "normal"

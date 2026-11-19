@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 
 import { documentLayout } from "@palim/css";
+import { fetchPolyfill } from "@palim/polyfills";
 import { HTMLIFrameElement, open } from "palim";
 import { describe, expect, it, vi } from "vitest";
 
@@ -22,6 +23,17 @@ async function waitFor(predicate: () => boolean): Promise<void> {
 }
 
 describe("open", () => {
+  it("rejects worker extensions when scripting is disabled", async () => {
+    const extension = fetchPolyfill();
+
+    await expect(
+      open(
+        { html: "<body></body>" },
+        { workerExtensions: { dedicated: [extension] } },
+      ),
+    ).rejects.toThrow("Worker extensions require scripting to be enabled");
+  });
+
   it("associates CSS layout with the active Document", async () => {
     const context = await open(
       { html: '<main style="width: 120px; height: 20px"></main>' },

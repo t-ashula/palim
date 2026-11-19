@@ -44,6 +44,11 @@ export type { WindowRealmBinding } from "./javascript-engine/window-realm-bindin
 export { createWindowScripting } from "./window-scripting.js";
 export { installWritableStreamRealm } from "./javascript-engine/writable-stream-realm.js";
 export {
+  realmResultToEngine,
+  ScriptingWindowRealmInstaller,
+} from "./javascript-engine/window-extension-context.js";
+export type { ExtensionRealmBinding } from "./javascript-engine/window-extension-context.js";
+export {
   WindowScriptingEnvironment,
   type WindowScriptingCapability,
 } from "./window-scripting.js";

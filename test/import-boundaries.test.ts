@@ -150,6 +150,7 @@ describe("capability import boundaries", () => {
     });
     expect(packageDependencies("worker")).toEqual({
       "@palim/core": "0.0.0",
+      "@palim/polyfills": "0.0.0",
       "@palim/scripting": "0.0.0",
       "@palim/window": "0.0.0",
     });
@@ -157,6 +158,7 @@ describe("capability import boundaries", () => {
     expect(packageDependencies("palim")).toEqual({
       "@palim/core": "0.0.0",
       "@palim/engine262": "0.0.0",
+      "@palim/polyfills": "0.0.0",
       "@palim/scripting": "0.0.0",
       "@palim/window": "0.0.0",
       "@palim/worker": "0.0.0",

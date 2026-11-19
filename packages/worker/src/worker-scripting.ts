@@ -1,10 +1,19 @@
 import { ErrorEvent, Event, EventTarget, MessageEvent, URL } from "@palim/core";
 import type {
+  DedicatedWorkerExtension,
+  Extension,
+  HostServices,
+  ServiceWorkerExtension,
+  SharedWorkerExtension,
+} from "@palim/polyfills";
+import { createHostServices } from "@palim/polyfills";
+import type {
   EngineObject,
   EngineRealm,
   EngineResult,
   EngineScript,
   EngineValue,
+  ExtensionRealmBinding,
   JavaScriptEngineAdapter,
   WindowEnvironmentSettings,
   WindowRealmBinding,
@@ -20,6 +29,8 @@ import {
   normal,
   RealmBindingContext,
   RealmExecutionRuntime,
+  realmResultToEngine,
+  ScriptingWindowRealmInstaller,
   URLRealmBinding,
 } from "@palim/scripting";
 import type {
@@ -29,6 +40,8 @@ import type {
   ServiceWorkerRegistrationRecord,
 } from "@palim/window";
 import {
+  blobBytes,
+  FormData,
   loadResource,
   ServiceWorkerRegistrationStore,
   setWindowServiceWorkerStore,
@@ -44,6 +57,21 @@ import type { ServiceWorkerConnection } from "./service-worker-scripting.js";
 import { WindowServiceWorkerBinding } from "./service-worker-scripting.js";
 
 export type WorkerEngineFactory = () => JavaScriptEngineAdapter;
+
+export interface WorkerExtensions {
+  readonly dedicated?: readonly DedicatedWorkerExtension[];
+  readonly shared?: readonly SharedWorkerExtension[];
+  readonly service?: readonly ServiceWorkerExtension[];
+}
+
+type WorkerRealmFormDataEntry =
+  | { readonly name: string; readonly value: string }
+  | {
+      readonly name: string;
+      readonly filename: string;
+      readonly type: string;
+      readonly bytes: Uint8Array;
+    };
 
 interface TimerPlatform {
   clearTimeout(id: unknown): void;
@@ -95,7 +123,11 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
   readonly #serviceWorkerStore = new ServiceWorkerRegistrationStore();
   readonly #pendingStarts = new Set<Promise<void>>();
 
-  constructor(readonly engineFactory: WorkerEngineFactory) {}
+  constructor(
+    readonly engineFactory: WorkerEngineFactory,
+    readonly extensions: WorkerExtensions = {},
+    readonly hostServices: HostServices = createHostServices(),
+  ) {}
 
   installWindow(
     binding: WindowRealmBinding,
@@ -137,6 +169,8 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
           "",
           resourceLoader,
           workerEndpoint,
+          this.extensions.dedicated ?? [],
+          this.hostServices,
         ),
     );
     controller.addErrorTarget(owner);
@@ -163,6 +197,8 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
             name,
             resourceLoader,
             new MessageEndpoint(true),
+            this.extensions.shared ?? [],
+            this.hostServices,
           ),
       );
       this.#sharedWorkers.set(key, controller);
@@ -193,6 +229,8 @@ export class WorkerScriptingManager implements WindowScriptingCapability {
           "",
           resourceLoader,
           workerEndpoint,
+          this.extensions.service ?? [],
+          this.hostServices,
           (state) => {
             worker.state = state;
             if (state === "activated") {
@@ -507,6 +545,8 @@ class WorkerExecutionEnvironment {
     readonly name: string,
     readonly resourceLoader: ResourceLoader | null,
     readonly globalTarget: MessageEndpoint,
+    readonly extensions: readonly Extension[],
+    readonly hostServices: HostServices,
     readonly serviceWorkerStateChanged: (
       state: ServiceWorkerRecord["state"],
     ) => void = () => undefined,
@@ -558,10 +598,70 @@ class WorkerExecutionEnvironment {
     installFormDataInterface(this.context, formData);
     installWritableStreamRealm(this.context);
     this.#installGlobal();
+    this.#installExtensions(formData);
     this.messaging.bindTarget(
       this.globalTarget,
       this.kind === "service" ? this.globalTarget : null,
     );
+  }
+
+  #installExtensions(formData: FormDataRealmBindingContext): void {
+    if (this.extensions.length === 0) {
+      return;
+    }
+    const binding: ExtensionRealmBinding = {
+      context: this.context,
+      dom: this.dom,
+      createFormData: (entries) => formData.wrap(new FormData(entries)),
+      formDataEntries: (value) => workerFormDataEntries(formData, value),
+    };
+    const realm = new ScriptingWindowRealmInstaller(binding, false);
+    const settings = this.settings;
+    const environment = {
+      get url() {
+        return settings.apiBaseURL.href;
+      },
+      get origin() {
+        return settings.apiBaseURL.origin;
+      },
+      hasDocument: false,
+      isActive: () => !this.closed,
+    };
+    const extensionContext = Object.freeze({
+      realm,
+      environment,
+      tasks: {
+        enqueue: (
+          callback: () => Parameters<typeof realmResultToEngine>[0],
+        ) => {
+          const id = this.#nextTimerId;
+          this.#nextTimerId += 1;
+          const timer = platform.setTimeout(() => {
+            this.#timers.delete(id);
+            if (this.closed) {
+              return;
+            }
+            const result = this.runtime.run(this.settings, this.settings, () =>
+              realmResultToEngine(callback()),
+            );
+            if (result.type === "throw") {
+              this.reportException(result.value);
+            }
+          }, 0);
+          this.#timers.set(id, timer);
+        },
+      },
+      host: this.hostServices,
+    });
+    for (const extension of this.extensions) {
+      const result = this.runtime.run(this.settings, this.settings, () => {
+        extension(extensionContext);
+        return this.context.undefined();
+      });
+      if (result.type === "throw") {
+        this.reportException(result.value);
+      }
+    }
   }
 
   addErrorTarget(target: WorkerErrorTarget): void {
@@ -1074,6 +1174,26 @@ class WorkerExecutionEnvironment {
     );
     this.context.interfaceProperty("navigator", navigator, this.#globalObject);
   }
+}
+
+function workerFormDataEntries(
+  formDataBinding: FormDataRealmBindingContext,
+  value: EngineValue,
+): readonly WorkerRealmFormDataEntry[] | null {
+  const formData = formDataBinding.value(value);
+  if (formData === null) {
+    return null;
+  }
+  return Array.from(formData, ([name, entry]): WorkerRealmFormDataEntry =>
+    typeof entry === "string"
+      ? { name, value: entry }
+      : {
+          name,
+          filename: entry.name,
+          type: entry.type,
+          bytes: blobBytes(entry),
+        },
+  );
 }
 
 function decodeWorkerScript(resource: Resource): string {

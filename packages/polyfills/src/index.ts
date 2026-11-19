@@ -2,6 +2,10 @@ declare const SERVICE_TYPE: unique symbol;
 declare const REALM_VALUE: unique symbol;
 declare const REALM_CALLABLE: unique symbol;
 declare const REALM_OBJECT: unique symbol;
+declare const WINDOW_EXTENSION: unique symbol;
+declare const DEDICATED_WORKER_EXTENSION: unique symbol;
+declare const SHARED_WORKER_EXTENSION: unique symbol;
+declare const SERVICE_WORKER_EXTENSION: unique symbol;
 
 export interface HostServiceKey<T> {
   readonly name: string;
@@ -163,6 +167,7 @@ export interface WindowRealmInstaller {
 export interface WindowEnvironment {
   readonly url: string;
   readonly origin: string;
+  readonly hasDocument: boolean;
   isActive(): boolean;
 }
 
@@ -172,24 +177,40 @@ export interface WindowTaskScheduler {
 
 export interface WindowExtensionContext {
   readonly realm: WindowRealmInstaller;
-  readonly window: WindowEnvironment;
+  readonly environment: WindowEnvironment;
   readonly tasks: WindowTaskScheduler;
   readonly host: HostServices;
 }
 
-export type WindowExtension = ((context: WindowExtensionContext) => void) & {
+export type Extension = ((context: WindowExtensionContext) => void) & {
   readonly hostServices?: readonly HostServiceRegistration<unknown>[];
+};
+
+export type WindowExtension = Extension & {
+  readonly [WINDOW_EXTENSION]: true;
+};
+
+export type DedicatedWorkerExtension = Extension & {
+  readonly [DEDICATED_WORKER_EXTENSION]: true;
+};
+
+export type SharedWorkerExtension = Extension & {
+  readonly [SHARED_WORKER_EXTENSION]: true;
+};
+
+export type ServiceWorkerExtension = Extension & {
+  readonly [SERVICE_WORKER_EXTENSION]: true;
 };
 
 export function createWindowExtension(
   install: (context: WindowExtensionContext) => void,
   hostServices: readonly HostServiceRegistration<unknown>[] = [],
 ): WindowExtension {
-  return Object.assign(install, { hostServices });
+  return Object.assign(install, { hostServices }) as WindowExtension;
 }
 
 export function createExtensionHostServices(
-  extensions: readonly WindowExtension[],
+  extensions: readonly Extension[],
 ): HostServices {
   return createHostServices(
     extensions.flatMap((extension) => extension.hostServices ?? []),

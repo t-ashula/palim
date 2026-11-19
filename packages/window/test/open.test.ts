@@ -1,3 +1,4 @@
+import { createWindowExtension } from "@palim/polyfills";
 import { describe, expect, it, vi } from "vitest";
 
 import { Element, HTMLIFrameElement, open } from "../src/index.js";
@@ -115,12 +116,13 @@ describe("open", () => {
   });
 
   it("rejects a non-empty extension list when scripting is disabled", async () => {
-    const extension = vi.fn();
+    const install = vi.fn();
+    const extension = createWindowExtension(install);
 
     await expect(
       open({ html: "<body></body>" }, { extensions: [extension] }),
     ).rejects.toThrow("Window extensions require scripting to be enabled");
-    expect(extension).not.toHaveBeenCalled();
+    expect(install).not.toHaveBeenCalled();
   });
 
   it("allows an empty extension list when scripting is disabled", async () => {

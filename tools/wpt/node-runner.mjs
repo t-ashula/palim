@@ -20,9 +20,16 @@ console.log = (...data) => {
   }
 };
 
+const fetchExtension = fetchPolyfill();
+const xhrExtension = xmlHttpRequestPolyfill();
 const { window } = await open(url, {
   scripting: "enabled",
-  extensions: [fetchPolyfill(), xmlHttpRequestPolyfill()],
+  extensions: [fetchExtension, xhrExtension],
+  workerExtensions: {
+    dedicated: [fetchExtension, xhrExtension],
+    shared: [fetchExtension, xhrExtension],
+    service: [fetchExtension],
+  },
 });
 
 window.onerror((error) => {

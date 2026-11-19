@@ -5,6 +5,7 @@ import {
   resolveURL,
 } from "./fetch.js";
 import type {
+  DedicatedWorkerExtension,
   HostCancellation,
   HostNetwork,
   RealmCallable,
@@ -12,6 +13,7 @@ import type {
   RealmObject,
   RealmResult,
   RealmValue,
+  SharedWorkerExtension,
   WindowExtension,
   WindowExtensionContext,
 } from "./index.js";
@@ -42,13 +44,13 @@ const xhrMethods = new Set(["DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT"]);
 
 export function xmlHttpRequestPolyfill(
   network: HostNetwork = defaultHostNetwork,
-): WindowExtension {
+): WindowExtension & DedicatedWorkerExtension & SharedWorkerExtension {
   return createWindowExtension(
     (context) => {
       installXMLHttpRequest(context, context.host.require(hostNetworkService));
     },
     [hostService(hostNetworkService, network)],
-  );
+  ) as WindowExtension & DedicatedWorkerExtension & SharedWorkerExtension;
 }
 
 function installXMLHttpRequest(
@@ -89,7 +91,7 @@ function installXMLHttpRequest(
         handlers: new Map(),
         readyState: 0,
         method: "GET",
-        url: context.window.url,
+        url: context.environment.url,
         requestHeaders: new Map(),
         responseHeaders: [],
         responseBytes: new Uint8Array(),
@@ -120,7 +122,7 @@ function installXMLHttpRequest(
       const input = requiredString(context, args, 1, "open");
       let url: string;
       try {
-        url = resolveURL(input, context.window.url);
+        url = resolveURL(input, context.environment.url);
       } catch {
         throw new RealmThrown(
           realm.createDOMException("The URL is invalid", "SyntaxError"),
@@ -206,8 +208,9 @@ function installXMLHttpRequest(
                   ([name]) => name.toLowerCase() === "content-type",
                 )?.[1];
               if (
-                xhr.responseType === "document" ||
-                (xhr.responseType === "" && contentType !== undefined)
+                context.environment.hasDocument &&
+                (xhr.responseType === "document" ||
+                  (xhr.responseType === "" && contentType !== undefined))
               ) {
                 xhr.responseDocument = unwrap(
                   realm.documentResponse(
@@ -330,8 +333,11 @@ function installXMLHttpRequest(
     (thisValue, args) =>
       operation(context, () => {
         const xhr = state(thisValue, "responseType");
-        xhr.responseType =
+        const responseType =
           args[0] === undefined ? "" : unwrap(realm.string(args[0]));
+        if (responseType !== "document" || context.environment.hasDocument) {
+          xhr.responseType = responseType;
+        }
         return realm.primitive(undefined);
       }),
   );
@@ -352,12 +358,14 @@ function installXMLHttpRequest(
       return realm.primitive(xhr.responseText);
     }),
   );
-  xhrInterface.attribute("responseXML", (thisValue) =>
-    operation(context, () => {
-      const document = state(thisValue, "responseXML").responseDocument;
-      return document ?? realm.primitive(null);
-    }),
-  );
+  if (context.environment.hasDocument) {
+    xhrInterface.attribute("responseXML", (thisValue) =>
+      operation(context, () => {
+        const document = state(thisValue, "responseXML").responseDocument;
+        return document ?? realm.primitive(null);
+      }),
+    );
+  }
   for (const type of [
     "readystatechange",
     "load",

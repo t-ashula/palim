@@ -158,4 +158,10 @@ export {
 } from "@palim/core";
 export { decodeHTMLBytes } from "@palim/window";
 export { open } from "./open.js";
-export type { Open, OpenHTMLOptions, OpenOptions, OpenResult } from "./open.js";
+export type {
+  Open,
+  OpenHTMLOptions,
+  OpenOptions,
+  OpenResult,
+  WorkerExtensions,
+} from "./open.js";

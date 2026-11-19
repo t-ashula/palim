@@ -1,9 +1,12 @@
 import type {
+  DedicatedWorkerExtension,
   RealmInterface,
   RealmObject,
   RealmPromiseCapability,
   RealmResult,
   RealmValue,
+  ServiceWorkerExtension,
+  SharedWorkerExtension,
   WindowExtension,
   WindowExtensionContext,
 } from "./index.js";
@@ -72,13 +75,19 @@ interface ResponseState extends BodyState {
 
 const tokenPattern = /^[!#$%&'*+.^_|~0-9A-Za-z-]+$/;
 
-export function fetchPolyfill(): WindowExtension {
+export function fetchPolyfill(): WindowExtension &
+  DedicatedWorkerExtension &
+  SharedWorkerExtension &
+  ServiceWorkerExtension {
   return createWindowExtension(
     (context) => {
       installFetch(context, context.host.require(hostNetworkService));
     },
     [hostService(hostNetworkService, defaultHostNetwork)],
-  );
+  ) as WindowExtension &
+    DedicatedWorkerExtension &
+    SharedWorkerExtension &
+    ServiceWorkerExtension;
 }
 
 function installFetch(
@@ -277,7 +286,8 @@ function installFetch(
     const option = (name: string) =>
       initObject === null ? undefined : unwrap(realm.get(initObject, name));
     const url =
-      source?.url ?? resolveURL(string(context, input), context.window.url);
+      source?.url ??
+      resolveURL(string(context, input), context.environment.url);
     const method = normalizedMethod(
       optionalString(context, option("method"), source?.method ?? "GET"),
     );
@@ -556,7 +566,7 @@ function installFetch(
         "location",
         resolveURL(
           requiredString(context, args, 0, "redirect"),
-          context.window.url,
+          context.environment.url,
         ),
       );
       return createResponseObject({
@@ -608,7 +618,7 @@ function installFetch(
         })
         .then(
           (response) => {
-            if (!context.window.isActive()) {
+            if (!context.environment.isActive()) {
               cancellation.abort();
               return;
             }
@@ -640,7 +650,7 @@ function installFetch(
             );
           },
           (error: unknown) => {
-            if (!context.window.isActive()) {
+            if (!context.environment.isActive()) {
               cancellation.abort();
               return;
             }

@@ -1,7 +1,6 @@
 import type { URL } from "@palim/core";
 import { documentImplementation, parseXML } from "@palim/core";
-import type { HostServices, WindowExtension } from "@palim/polyfills";
-import { createExtensionHostServices } from "@palim/polyfills";
+import type { WindowExtension } from "@palim/polyfills";
 
 import type {
   Resource,
@@ -27,16 +26,16 @@ export interface OpenResult {
   readonly window: Window;
 }
 
-export type Open = (
+export type Open<Options extends OpenOptions = OpenOptions> = (
   input: string | OpenHTMLOptions,
-  options?: OpenOptions,
+  options?: Options,
 ) => Promise<OpenResult>;
 
-export type ScriptingFactory = (
+export type ScriptingFactory<Options extends OpenOptions = OpenOptions> = (
   window: Window,
   resourceLoader: ResourceLoader | null,
   extensions: readonly WindowExtension[],
-  hostServices: HostServices,
+  options: Options,
 ) => Promise<WindowScripting> | WindowScripting;
 
 interface HostResponse {
@@ -49,8 +48,11 @@ interface HostResponse {
   arrayBuffer(): Promise<ArrayBuffer>;
 }
 
-export function createOpen(scriptingFactory?: ScriptingFactory): Open {
-  return async (input, options = {}) => {
+export function createOpen<Options extends OpenOptions = OpenOptions>(
+  scriptingFactory?: ScriptingFactory<Options>,
+): Open<Options> {
+  return async (input, providedOptions) => {
+    const options = (providedOptions ?? {}) as Options;
     const scriptingEnabled = options.scripting === "enabled";
     const extensions = options.extensions ?? [];
     if (!scriptingEnabled && extensions.length > 0) {
@@ -98,7 +100,7 @@ export function createOpen(scriptingFactory?: ScriptingFactory): Open {
             environment.window,
             loader,
             extensions,
-            createExtensionHostServices(extensions),
+            options,
           )
         : null;
     if (xmlDocument === undefined) {
