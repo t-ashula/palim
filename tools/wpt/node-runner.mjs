@@ -1,5 +1,5 @@
-import { open } from "../../packages/palim/dist/index.js";
-import { fetchPolyfill } from "../../packages/polyfills/dist/fetch.js";
+import { fetchPolyfill, xmlHttpRequestPolyfill } from "@palim/polyfills";
+import { open } from "palim";
 
 const url = process.argv[2];
 const resultPrefix = "ALERT: RESULT: ";
@@ -22,7 +22,7 @@ console.log = (...data) => {
 
 const { window } = await open(url, {
   scripting: "enabled",
-  extensions: [fetchPolyfill()],
+  extensions: [fetchPolyfill(), xmlHttpRequestPolyfill()],
 });
 
 window.onerror((error) => {

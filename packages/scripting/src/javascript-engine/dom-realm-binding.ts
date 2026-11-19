@@ -58,6 +58,10 @@ export class DOMRealmBinding {
     return this.#context.platformObject(interfaceObject);
   }
 
+  createDOMException(message: string, name: string): EngineObject {
+    return this.#context.createDOMException(message, name);
+  }
+
   bindPlatformObject(
     interfaceObject: object,
     platformObject: EngineObject,

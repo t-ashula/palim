@@ -1,4 +1,4 @@
-import { parseFormUrlEncoded } from "@palim/core";
+import { Event, EventTarget, parseFormUrlEncoded } from "@palim/core";
 import type {
   HostServices,
   RealmCallable,
@@ -252,10 +252,15 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     name: string,
     length: number,
     construct: RealmHostFunction,
+    parent?: "EventTarget" | RealmInterface,
   ): RealmInterface {
     const prototype = this.context.engine.createObject(
       this.context.realm,
-      this.context.engine.objectPrototype(this.context.realm),
+      parent === "EventTarget"
+        ? this.binding.dom.eventTargetPrototype
+        : parent === undefined
+          ? this.context.engine.objectPrototype(this.context.realm)
+          : toEngineObject(parent.prototypeObject()),
     );
     const constructor = this.context.createConstructor(
       name,
@@ -270,6 +275,31 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     return new ScriptingRealmInterface(this.context, constructor, prototype);
   }
 
+  initializeEventTarget(object: RealmObject): void {
+    this.binding.dom.bindPlatformObject(
+      new EventTarget(),
+      toEngineObject(object),
+    );
+  }
+
+  dispatchEvent(target: RealmObject, type: string): RealmResult<RealmValue> {
+    const interfaceObject = this.binding.dom.interfaceObject(
+      toEngineObject(target),
+    );
+    if (!(interfaceObject instanceof EventTarget)) {
+      return {
+        type: "throw",
+        value: this.createTypeError("Target is not an EventTarget"),
+      };
+    }
+    const event = new Event(type);
+    this.binding.dom.dispatchEvent(interfaceObject, event);
+    return {
+      type: "normal",
+      value: toRealmValue(this.binding.dom.platformObject(event)),
+    };
+  }
+
   createTypeError(message: string): RealmValue {
     return toRealmValue(
       this.context.engine.createTypeError(this.context.realm, message),
@@ -280,6 +310,10 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     return toRealmValue(
       this.context.engine.createRangeError(this.context.realm, message),
     );
+  }
+
+  createDOMException(message: string, name: string): RealmValue {
+    return toRealmValue(this.binding.dom.createDOMException(message, name));
   }
 
   parseJSON(value: string): RealmResult<RealmValue> {
@@ -468,6 +502,10 @@ class ScriptingRealmInterface implements RealmInterface {
     readonly prototype: EngineObject,
   ) {}
 
+  prototypeObject(): RealmObject {
+    return toRealmObject(this.prototype);
+  }
+
   create(): RealmObject {
     return toRealmObject(
       this.context.engine.createObject(this.context.realm, this.prototype),
@@ -502,6 +540,17 @@ class ScriptingRealmInterface implements RealmInterface {
       length,
       realmCallback(callback),
     );
+  }
+
+  constant(name: string, value: number): void {
+    const realmValue = this.context.engine.fromPrimitive(value);
+    for (const object of [this.constructorValue, this.prototype]) {
+      this.context.engine.initializeDataProperty(object, name, realmValue, {
+        configurable: false,
+        enumerable: true,
+        writable: false,
+      });
+    }
   }
 
   iterator(callback: RealmHostFunction): void {

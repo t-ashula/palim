@@ -34,6 +34,9 @@ export function createHostServices(
   const services = new Map<HostServiceKey<unknown>, unknown>();
   for (const registration of registrations) {
     if (services.has(registration.key)) {
+      if (services.get(registration.key) === registration.service) {
+        continue;
+      }
       throw new TypeError(
         `Host service ${JSON.stringify(registration.key.name)} is registered twice`,
       );
@@ -83,6 +86,7 @@ export interface RealmPromiseCapability {
 }
 
 export interface RealmInterface {
+  prototypeObject(): RealmObject;
   create(): RealmObject;
   method(name: string, length: number, callback: RealmHostFunction): void;
   attribute(
@@ -91,6 +95,7 @@ export interface RealmInterface {
     setter?: RealmHostFunction,
   ): void;
   staticMethod(name: string, length: number, callback: RealmHostFunction): void;
+  constant(name: string, value: number): void;
   iterator(callback: RealmHostFunction): void;
 }
 
@@ -127,9 +132,13 @@ export interface WindowRealmInstaller {
     name: string,
     length: number,
     construct: RealmHostFunction,
+    parent?: "EventTarget" | RealmInterface,
   ): RealmInterface;
+  initializeEventTarget(object: RealmObject): void;
+  dispatchEvent(target: RealmObject, type: string): RealmResult<RealmValue>;
   createTypeError(message: string): RealmValue;
   createRangeError(message: string): RealmValue;
+  createDOMException(message: string, name: string): RealmValue;
   parseJSON(value: string): RealmResult<RealmValue>;
   stringifyJSON(value: RealmValue): RealmResult<string>;
   arrayBuffer(bytes: Uint8Array): RealmResult<RealmObject>;
@@ -181,6 +190,7 @@ export function realmThrow(value: RealmValue): RealmResult<never> {
 }
 
 export { fetchPolyfill } from "./fetch.js";
+export { xmlHttpRequestPolyfill } from "./xml-http-request.js";
 export { hostNetworkService } from "./network.js";
 export type {
   HostCancellation,

@@ -73,14 +73,11 @@ interface ResponseState extends BodyState {
 const tokenPattern = /^[!#$%&'*+.^_|~0-9A-Za-z-]+$/;
 
 export function fetchPolyfill(): WindowExtension {
-  const network = new HostFetchNetwork(
-    globalThis as unknown as HostFetchPlatform,
-  );
   return createWindowExtension(
     (context) => {
       installFetch(context, context.host.require(hostNetworkService));
     },
-    [hostService(hostNetworkService, network)],
+    [hostService(hostNetworkService, defaultHostNetwork)],
   );
 }
 
@@ -921,12 +918,12 @@ function copyBytes(input: Uint8Array | null): Uint8Array | null {
   return input === null ? null : new Uint8Array(input);
 }
 
-function resolveURL(input: string, base: string): string {
+export function resolveURL(input: string, base: string): string {
   const platform = globalThis as unknown as HostFetchPlatform;
   return new platform.URL(input, base).href;
 }
 
-function encodeUTF8(input: string): Uint8Array {
+export function encodeUTF8(input: string): Uint8Array {
   const bytes: number[] = [];
   for (const character of input) {
     const point = character.codePointAt(0);
@@ -955,7 +952,7 @@ function encodeUTF8(input: string): Uint8Array {
   return Uint8Array.from(bytes);
 }
 
-function decodeUTF8(bytes: Uint8Array): string {
+export function decodeUTF8(bytes: Uint8Array): string {
   let output = "";
   for (let index = 0; index < bytes.length;) {
     const first = bytes[index++];
@@ -1028,6 +1025,10 @@ class HostFetchNetwork implements HostNetwork {
     }
   }
 }
+
+export const defaultHostNetwork: HostNetwork = new HostFetchNetwork(
+  globalThis as unknown as HostFetchPlatform,
+);
 
 class FetchCancellation implements HostCancellation {
   readonly #callbacks = new Set<() => void>();
