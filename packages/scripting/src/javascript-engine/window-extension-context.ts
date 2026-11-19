@@ -1,4 +1,12 @@
-import { Event, EventTarget, parseFormUrlEncoded } from "@palim/core";
+import {
+  documentImplementation,
+  Event,
+  EventTarget,
+  parseFormUrlEncoded,
+  parseHTML,
+  parseXML,
+  setDocumentURL,
+} from "@palim/core";
 import type {
   HostServices,
   RealmCallable,
@@ -231,6 +239,10 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
     );
   }
 
+  formDataEntries(value: RealmValue) {
+    return this.binding.formDataEntries(toEngineValue(value));
+  }
+
   defineGlobalFunction(
     name: string,
     length: number,
@@ -357,6 +369,36 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
           value: this.createTypeError("Uint8Array buffer is not an object"),
         }
       : { type: "normal", value: toRealmObject(object) };
+  }
+
+  documentResponse(
+    bytes: Uint8Array,
+    mimeType: string,
+    url: string,
+  ): RealmResult<RealmObject | null> {
+    const text = new (
+      globalThis as unknown as {
+        TextDecoder: new () => { decode(input: Uint8Array): string };
+      }
+    ).TextDecoder().decode(bytes);
+    const essence = mimeType.split(";", 1)[0]?.trim().toLowerCase() ?? "";
+    if (essence !== "text/html" && !isXMLMIMEType(essence)) {
+      return { type: "normal", value: null };
+    }
+    try {
+      const document =
+        essence === "text/html"
+          ? parseHTML(text, "disabled")
+          : parseXML(text, essence);
+      setDocumentURL(document, url);
+      documentImplementation(document).scriptingMode = "disabled";
+      return {
+        type: "normal",
+        value: toRealmObject(this.binding.dom.platformObject(document)),
+      };
+    } catch {
+      return { type: "normal", value: null };
+    }
   }
 
   promise(): RealmPromiseCapability {
@@ -493,6 +535,14 @@ class ScriptingWindowRealmInstaller implements WindowRealmInstaller {
         }
       : { type: "normal", value: toRealmObject(object) };
   }
+}
+
+function isXMLMIMEType(value: string): boolean {
+  return (
+    value === "text/xml" ||
+    value === "application/xml" ||
+    value.endsWith("+xml")
+  );
 }
 
 class ScriptingRealmInterface implements RealmInterface {

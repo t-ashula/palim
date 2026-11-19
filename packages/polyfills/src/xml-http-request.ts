@@ -8,6 +8,7 @@ import type {
   HostCancellation,
   HostNetwork,
   RealmCallable,
+  RealmFormDataEntry,
   RealmObject,
   RealmResult,
   RealmValue,
@@ -31,6 +32,8 @@ interface XMLHttpRequestState {
   status: number;
   statusText: string;
   responseType: string;
+  responseDocument: RealmObject | null;
+  overrideMimeType: string | null;
   sendGeneration: number;
   cancellation: RequestCancellation | null;
 }
@@ -95,6 +98,8 @@ function installXMLHttpRequest(
         status: 0,
         statusText: "",
         responseType: "",
+        responseDocument: null,
+        overrideMimeType: null,
         sendGeneration: 0,
         cancellation: null,
       });
@@ -126,6 +131,7 @@ function installXMLHttpRequest(
       xhr.method = method;
       xhr.url = url;
       xhr.requestHeaders = new Map();
+      xhr.overrideMimeType = null;
       clearResponse(xhr);
       xhr.readyState = 1;
       dispatch(context, xhr, "readystatechange");
@@ -173,18 +179,13 @@ function installXMLHttpRequest(
       xhr.cancellation = cancellation;
       const generation = ++xhr.sendGeneration;
       const bodyValue = args[0];
-      const body =
-        bodyValue === undefined ||
-        realm.isNull(bodyValue) ||
-        realm.isUndefined(bodyValue)
-          ? null
-          : encodeUTF8(unwrap(realm.string(bodyValue)));
+      const body = requestBody(context, xhr, bodyValue);
       void network
         .request({
           url: xhr.url,
           method: xhr.method,
           headers: Array.from(xhr.requestHeaders),
-          body,
+          body: body.bytes,
           cancellation,
         })
         .then(
@@ -199,6 +200,23 @@ function installXMLHttpRequest(
               xhr.responseHeaders = response.headers;
               xhr.responseBytes = response.body;
               xhr.responseText = decodeUTF8(response.body);
+              const contentType =
+                xhr.overrideMimeType ??
+                response.headers.find(
+                  ([name]) => name.toLowerCase() === "content-type",
+                )?.[1];
+              if (
+                xhr.responseType === "document" ||
+                (xhr.responseType === "" && contentType !== undefined)
+              ) {
+                xhr.responseDocument = unwrap(
+                  realm.documentResponse(
+                    response.body,
+                    contentType ?? "",
+                    response.url,
+                  ),
+                );
+              }
               xhr.readyState = 2;
               dispatch(context, xhr, "readystatechange");
               xhr.readyState = 3;
@@ -271,6 +289,26 @@ function installXMLHttpRequest(
       );
     }),
   );
+  xhrInterface.method("overrideMimeType", 1, (thisValue, args) =>
+    operation(context, () => {
+      const xhr = state(thisValue, "overrideMimeType");
+      if (xhr.readyState === 3 || xhr.readyState === 4) {
+        throw new RealmThrown(
+          realm.createDOMException(
+            "The response is already being received",
+            "InvalidStateError",
+          ),
+        );
+      }
+      xhr.overrideMimeType = requiredString(
+        context,
+        args,
+        0,
+        "overrideMimeType",
+      );
+      return realm.primitive(undefined);
+    }),
+  );
 
   for (const [name, getter] of [
     ["readyState", (xhr: XMLHttpRequestState) => xhr.readyState],
@@ -308,11 +346,17 @@ function installXMLHttpRequest(
           ? realm.primitive(null)
           : unwrap(realm.parseJSON(xhr.responseText));
       }
+      if (xhr.responseType === "document") {
+        return xhr.responseDocument ?? realm.primitive(null);
+      }
       return realm.primitive(xhr.responseText);
     }),
   );
-  xhrInterface.attribute("responseXML", () =>
-    realmNormal(realm.primitive(null)),
+  xhrInterface.attribute("responseXML", (thisValue) =>
+    operation(context, () => {
+      const document = state(thisValue, "responseXML").responseDocument;
+      return document ?? realm.primitive(null);
+    }),
   );
   for (const type of [
     "readystatechange",
@@ -370,6 +414,67 @@ function clearResponse(xhr: XMLHttpRequestState): void {
   xhr.responseURL = "";
   xhr.status = 0;
   xhr.statusText = "";
+  xhr.responseDocument = null;
+}
+
+function requestBody(
+  context: WindowExtensionContext,
+  xhr: XMLHttpRequestState,
+  value: RealmValue | undefined,
+): { readonly bytes: Uint8Array | null } {
+  if (
+    xhr.method === "GET" ||
+    xhr.method === "HEAD" ||
+    value === undefined ||
+    context.realm.isNull(value) ||
+    context.realm.isUndefined(value)
+  ) {
+    return { bytes: null };
+  }
+  const entries = context.realm.formDataEntries(value);
+  if (entries === null) {
+    return { bytes: encodeUTF8(unwrap(context.realm.string(value))) };
+  }
+  const boundary = `----palim-form-data-${String(xhr.sendGeneration)}`;
+  if (!xhr.requestHeaders.has("content-type")) {
+    xhr.requestHeaders.set(
+      "content-type",
+      `multipart/form-data; boundary=${boundary}`,
+    );
+  }
+  return { bytes: serializeFormData(entries, boundary) };
+}
+
+function serializeFormData(
+  entries: readonly RealmFormDataEntry[],
+  boundary: string,
+): Uint8Array {
+  const parts: Uint8Array[] = [];
+  for (const entry of entries) {
+    const disposition =
+      "value" in entry
+        ? `Content-Disposition: form-data; name="${escapeQuoted(entry.name)}"\r\n\r\n`
+        : `Content-Disposition: form-data; name="${escapeQuoted(entry.name)}"; filename="${escapeQuoted(entry.filename)}"\r\nContent-Type: ${entry.type || "application/octet-stream"}\r\n\r\n`;
+    parts.push(encodeUTF8(`--${boundary}\r\n${disposition}`));
+    parts.push("value" in entry ? encodeUTF8(entry.value) : entry.bytes);
+    parts.push(encodeUTF8("\r\n"));
+  }
+  parts.push(encodeUTF8(`--${boundary}--\r\n`));
+  const length = parts.reduce((total, part) => total + part.byteLength, 0);
+  const result = new Uint8Array(length);
+  let offset = 0;
+  for (const part of parts) {
+    result.set(part, offset);
+    offset += part.byteLength;
+  }
+  return result;
+}
+
+function escapeQuoted(value: string): string {
+  return value
+    .replaceAll("\r", "%0D")
+    .replaceAll("\n", "%0A")
+    .replaceAll('"', "%22");
 }
 
 function requiredString(

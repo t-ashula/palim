@@ -85,6 +85,15 @@ export interface RealmPromiseCapability {
   reject(reason: RealmValue): RealmResult<RealmValue>;
 }
 
+export type RealmFormDataEntry =
+  | { readonly name: string; readonly value: string }
+  | {
+      readonly name: string;
+      readonly filename: string;
+      readonly type: string;
+      readonly bytes: Uint8Array;
+    };
+
 export interface RealmInterface {
   prototypeObject(): RealmObject;
   create(): RealmObject;
@@ -123,6 +132,7 @@ export interface WindowRealmInstaller {
     argumentsList: readonly RealmValue[],
   ): RealmResult<RealmValue>;
   formDataFromURLEncoded(bytes: Uint8Array): RealmObject;
+  formDataEntries(value: RealmValue): readonly RealmFormDataEntry[] | null;
   defineGlobalFunction(
     name: string,
     length: number,
@@ -142,6 +152,11 @@ export interface WindowRealmInstaller {
   parseJSON(value: string): RealmResult<RealmValue>;
   stringifyJSON(value: RealmValue): RealmResult<string>;
   arrayBuffer(bytes: Uint8Array): RealmResult<RealmObject>;
+  documentResponse(
+    bytes: Uint8Array,
+    mimeType: string,
+    url: string,
+  ): RealmResult<RealmObject | null>;
   promise(): RealmPromiseCapability;
 }
 
